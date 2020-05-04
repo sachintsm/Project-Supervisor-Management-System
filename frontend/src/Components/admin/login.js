@@ -8,6 +8,7 @@ import { Form } from "reactstrap";
 import "../../Css/Admin/login.css";
 import { setInStorage } from "../../utils/storage";
 import { MDBInput, MDBBtn } from "mdbreact";
+const backendURI = require("../../shared/backenduri");
 
 export default class login extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ export default class login extends Component {
   onSignIn() {
     const { email, password } = this.state;
 
-    fetch("http://localhost:4000/users/login", {
+    fetch(backendURI.url + "/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

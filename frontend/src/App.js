@@ -9,6 +9,7 @@ import Footer from "./Components/auth/footer";
 import Registration from "./Components/admin/registration";
 import Login from "./Components/admin/login";
 import Home from "./Components/basic/Home";
+require("dotenv").config();
 
 function App() {
   return (
