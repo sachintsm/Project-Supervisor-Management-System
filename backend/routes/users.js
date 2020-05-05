@@ -62,7 +62,6 @@ router.post("/register", async function (req, res) {
       }
     }
   );
-  // })
 });
 
 //User Login
@@ -102,4 +101,5 @@ router.get("/verify", verify, function (req, res, next) {
   res.send({ state: true, msg: "Successful..!" });
 });
 
+//testing merge
 module.exports = router;

@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "../../css/shared/sidebar.css";
 import { Link } from "react-router-dom";
 
-// import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
 export default class sidebar extends Component {
   render() {
     return (
