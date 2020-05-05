@@ -1,5 +1,5 @@
-import React, { Component } from "./node_modules/react";
-import Card from "./node_modules/@material-ui/core/Card";
+import React, { Component } from "react";
+import Card from "@material-ui/core/Card";
 
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
