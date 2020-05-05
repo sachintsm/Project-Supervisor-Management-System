@@ -5,8 +5,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Form } from "reactstrap";
-import "../css/admin/login.css";
-import { setInStorage } from "../utils/Storage";
+import "../Css/Admin/login.css";
+import { setInStorage } from "../utils/storage";
 import { MDBInput, MDBBtn } from "mdbreact";
 const backendURI = require("./shared/BackendURI");
 
@@ -96,7 +96,7 @@ export default class login extends Component {
                 {signInError ? <p>{signInError}</p> : null}
                 {/* eslint-disable-next-line */}
                 <img
-                  src={require("../assets/logo/Logo_reg.png")}
+                  src={require("../Assets/logo/Logo_reg.png")}
                   className="logo"
                 />
                 <CardContent

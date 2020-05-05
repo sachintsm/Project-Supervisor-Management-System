@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "../../css/shared/navbar.css";
-import { deleteStorage } from "../../utils/Storage";
+import "../../Css/shared/navbar.css";
+import { deleteStorage } from "../../utils/storage";
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -39,7 +39,7 @@ export default class navbar extends Component {
             {/* eslint-disable-next-line */}
             <img
               style={{ width: "12%" }}
-              src={require("../../assets/logo/Logo_white.png")}
+              src={require("../../Assets/logo/Logo_white.png")}
             />
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
