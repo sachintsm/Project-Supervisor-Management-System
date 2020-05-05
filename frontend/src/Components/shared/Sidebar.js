@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../Css/Auth/sidebar.css";
+import "../../css/shared/sidebar.css";
 import { Link } from "react-router-dom";
 
 // import PersonAddIcon from '@material-ui/icons/PersonAdd';

@@ -5,10 +5,10 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Form } from "reactstrap";
-import "../../Css/Admin/login.css";
-import { setInStorage } from "../../utils/storage";
+import "../css/admin/login.css";
+import { setInStorage } from "../utils/Storage";
 import { MDBInput, MDBBtn } from "mdbreact";
-const backendURI = require("../../shared/backenduri");
+const backendURI = require("./shared/BackendURI");
 
 export default class login extends Component {
   constructor(props) {
@@ -63,7 +63,16 @@ export default class login extends Component {
             userId: "",
             token: json.token,
           });
-          this.props.history.goBack();
+          console.log(json.userLevel);
+          if (json.userLevel === "admin") {
+            this.props.history.push("/adminHome");
+          } else if (json.userLevel === "coordinator") {
+            this.props.history.push("/coordinatorHome");
+          } else if (json.userLevel === "supervisor") {
+            this.props.history.push("/supervisorHome");
+          } else if (json.userLevel === "student") {
+            this.props.history.push("/studentHome");
+          }
         } else {
           this.setState({
             signInError: json.msg,
@@ -87,7 +96,7 @@ export default class login extends Component {
                 {signInError ? <p>{signInError}</p> : null}
                 {/* eslint-disable-next-line */}
                 <img
-                  src={require("../../Assets/logo/Logo_reg.png")}
+                  src={require("../assets/logo/Logo_reg.png")}
                   className="logo"
                 />
                 <CardContent
