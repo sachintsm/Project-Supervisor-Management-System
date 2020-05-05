@@ -3,10 +3,11 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../Css/Admin/registration.css";
+import "../../css/admin/registration.css";
 import axios from "axios";
 import Sidebar from "../auth/sidebar";
 import { verifyAuth } from "../../utils/authentication";
+const backendURI = require("../../shared/backenduri");
 
 const options = [
   { value: "Administartor", label: "Administrator" },
@@ -76,7 +77,7 @@ export default class registration extends Component {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/users/register", this.state.form)
+      .post(backendURI.url + "/users/register", this.state.form)
       .then((res) => {
         console.log(res);
       });

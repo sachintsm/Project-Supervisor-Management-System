@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { MDBCard, MDBCardTitle, MDBCol } from "mdbreact";
-import "../../Css/Admin/login.css";
-import "../../Css/Basic/home.css";
+import "../../css/admin/login.css";
+import "../../css/basic/home.css";
 import { Link } from "react-router-dom";
 import { verifyAuth } from "../../utils/authentication";
 export default class Home extends Component {

@@ -10,6 +10,8 @@ import Registration from "./components/admin/registration";
 import Login from "./components/admin/login";
 import Home from "./components/basic/home";
 
+require("dotenv").config();
+
 function App() {
   return (
     <React.Fragment>

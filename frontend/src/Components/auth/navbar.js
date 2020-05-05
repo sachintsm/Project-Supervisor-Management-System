@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../../Css/Auth/navbar.css'
+import '../../css/auth/navbar.css'
 import { deleteStorage } from '../../utils/storage';
 import {MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavbarToggler, MDBCollapse} from "mdbreact";
 import { BrowserRouter as Router } from 'react-router-dom';
