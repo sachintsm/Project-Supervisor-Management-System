@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../Css/Auth/footer.css";
+import "../../css/auth/footer.css";
 // import Iframe from 'react-iframe'
 
 export default class footer extends Component {

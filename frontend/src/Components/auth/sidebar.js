@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import "../../Css/Auth/sidebar.css";
+import "../../css/auth/sidebar.css";
 import { Link } from "react-router-dom";
-
-// import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 export default class sidebar extends Component {
   render() {
