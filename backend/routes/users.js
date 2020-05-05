@@ -9,8 +9,8 @@ const verify = require("../authentication");
 //User registration
 router.post("/register", async function (req, res) {
   //checking if the userId is already in the database
-  const userIdExist = await User.findOne({ userId: req.body.userId });
-  if (userIdExist)
+  const userEmailExists = await User.findOne({ email: req.body.email });
+  if (userEmailExists)
     return res
       .status(400)
       .send({ state: false, msg: "This userId already in use..!" });
@@ -27,34 +27,39 @@ router.post("/register", async function (req, res) {
     nic: req.body.nic,
     mobile: req.body.mobile,
     isDeleted: req.body.isDeleted,
+    userLevel: req.body.userLevel,
   });
 
   bcrypt.genSalt(
     10,
     await function (err, salt) {
-      bcrypt.hash(newUser.password, salt, function (err, hash) {
-        newUser.password = hash;
+      if (err) {
+        console.log(err);
+      } else {
+        bcrypt.hash(newUser.password, salt, function (err, hash) {
+          newUser.password = hash;
 
-        if (err) {
-          throw err;
-        } else {
-          newUser
-            .save()
-            .then((req) => {
-              res.json({
-                state: true,
-                msg: "User Registered Successfully..!",
+          if (err) {
+            throw err;
+          } else {
+            newUser
+              .save()
+              .then((req) => {
+                res.json({
+                  state: true,
+                  msg: "User Registered Successfully..!",
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.json({
+                  state: false,
+                  msg: "User Registration Unsuccessfull..!",
+                });
               });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.json({
-                state: false,
-                msg: "User Registration Unsuccessfull..!",
-              });
-            });
-        }
-      });
+          }
+        });
+      }
     }
   );
 });
@@ -79,9 +84,12 @@ router.post("/login", async function (req, res) {
         return res.send({ state: false, msg: "Error : Server error" });
       } else {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res
-          .header("auth-token", token)
-          .send({ state: true, msg: " Sign in Successfully..!", token: token });
+        res.header("auth-token", token).send({
+          state: true,
+          msg: "Sign in Successfully..!",
+          token: token,
+          userLevel: user.userLevel,
+        });
       }
     } else {
       res.json({ state: false, msg: "Password Incorrect..!" });

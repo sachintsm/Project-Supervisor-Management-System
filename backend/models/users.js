@@ -10,6 +10,7 @@ var userSchema = mongoose.Schema({
   nic: { type: String },
   mobile: { type: String },
   isDeleted: { type: Boolean },
+  userLevel: { type: String },
 });
 
 const Users = (module.exports = mongoose.model("Users", userSchema));

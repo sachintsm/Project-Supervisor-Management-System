@@ -3,7 +3,7 @@ import { MDBCard, MDBCardTitle, MDBCol } from "mdbreact";
 import "../../css/admin/login.css";
 import "../../css/basic/home.css";
 import { Link } from "react-router-dom";
-import { verifyAuth } from "../../utils/authentication";
+import { verifyAuth } from "../../utils/Authentication";
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ export default class Home extends Component {
   componentDidMount = async () => {
     const authState = await verifyAuth();
     this.setState({ authState: authState });
-    if (!authState) this.props.history.push("/login");
+    if (!authState) this.props.history.push("/");
   };
 
   render() {
