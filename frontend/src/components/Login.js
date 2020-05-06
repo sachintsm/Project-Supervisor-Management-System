@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
+import React, { Component } from "./node_modules/react";
+import Card from "./node_modules/@material-ui/core/Card";
 //
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Form } from "reactstrap";
+import CardActions from "./node_modules/@material-ui/core/CardActions";
+import CardContent from "./node_modules/@material-ui/core/CardContent";
+import Typography from "./node_modules/@material-ui/core/Typography";
+import { Form } from "./node_modules/reactstrap";
 import "../Css/Admin/login.css";
 import { setInStorage } from "../utils/storage";
-import { MDBInput, MDBBtn } from "mdbreact";
+import { MDBInput, MDBBtn } from "./node_modules/mdbreact";
 const backendURI = require("./shared/BackendURI");
 
 export default class login extends Component {
