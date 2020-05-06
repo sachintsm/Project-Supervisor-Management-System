@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { verifyAuth } from "../../utils/authentication";
+import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 
 class StudentHome extends Component {
@@ -11,7 +11,7 @@ class StudentHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar panel={"student"} />
         <h1>Student Home</h1>
       </React.Fragment>
     );
