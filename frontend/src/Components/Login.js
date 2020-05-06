@@ -54,7 +54,7 @@ export default class login extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log("josn", json);
+        // console.log("josn", json);
         if (json.state) {
           setInStorage("auth-token", { token: json.token });
           this.setState({
@@ -63,15 +63,28 @@ export default class login extends Component {
             userId: "",
             token: json.token,
           });
-          console.log(json.userLevel);
-          if (json.userLevel === "admin") {
-            this.props.history.push("/adminHome");
-          } else if (json.userLevel === "coordinator") {
-            this.props.history.push("/coordinatorHome");
-          } else if (json.userLevel === "supervisor") {
-            this.props.history.push("/supervisorHome");
-          } else if (json.userLevel === "student") {
-            this.props.history.push("/studentHome");
+
+          if (json.isAdmin) {
+            setInStorage("isAdmin", true);
+          }
+          if (json.isStudent) {
+            setInStorage("isStudent", true);
+          }
+          if (json.isSupervisor) {
+            setInStorage("isSupervisor", true);
+          }
+          if (json.isCoordinator) {
+            setInStorage("isCoordinator", true);
+          }
+
+          if (json.isAdmin) {
+            this.props.history.push("/adminhome");
+          } else if (json.isCoordinator) {
+            this.props.history.push("/coordinatorhome");
+          } else if (json.isSupervisor) {
+            this.props.history.push("/supervisorhome");
+          } else if (json.isStudent) {
+            this.props.history.push("/studenthome");
           }
         } else {
           this.setState({

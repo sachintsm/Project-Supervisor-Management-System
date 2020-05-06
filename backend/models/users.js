@@ -11,6 +11,10 @@ var userSchema = mongoose.Schema({
   mobile: { type: String },
   isDeleted: { type: Boolean },
   userLevel: { type: String },
+  isStudent: { type: Boolean },
+  isAdmin: { type: Boolean },
+  isCoordinator: { type: Boolean },
+  isSupervisor: { type: Boolean },
 });
 
 const Users = (module.exports = mongoose.model("Users", userSchema));

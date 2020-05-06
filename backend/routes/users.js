@@ -83,12 +83,16 @@ router.post("/login", async function (req, res) {
         console.log(err);
         return res.send({ state: false, msg: "Error : Server error" });
       } else {
+        console.log(user.isStudent);
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
         res.header("auth-token", token).send({
           state: true,
           msg: "Sign in Successfully..!",
           token: token,
-          userLevel: user.userLevel,
+          isStudent: user.isStudent,
+          isAdmin: user.isAdmin,
+          isSupervisor: user.isSupervisor,
+          isCoordinator: user.isCoordinator,
         });
       }
     } else {
