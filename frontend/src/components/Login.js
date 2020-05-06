@@ -14,6 +14,18 @@ export default class login extends Component {
   constructor(props) {
     super(props);
 
+    // if (localStorage.getItem("isAdmin")) {
+    //   this.props.history.push("/adminhome");
+    // } else if (localStorage.getItem("isCoordinator")) {
+    //   this.props.history.push("/coordinatorhome");
+    // } else if (localStorage.getItem("isSupervisor")) {
+    //   this.props.history.push("/supervisorhome");
+    // } else if (localStorage.getItem("isStudent")) {
+    //   this.props.history.push("/studenthome");
+    // } else {
+    //   this.props.history.push("/");
+    // }
+
     this.state = {
       token: "",
       signUpError: "",

@@ -6,7 +6,8 @@ class CoordinatorHome extends Component {
   componentDidMount = async () => {
     const authState = await verifyAuth();
     this.setState({ authState: authState });
-    if (!authState) this.props.history.push("/");
+    if (!authState || !localStorage.getItem("isCoordinator"))
+      this.props.history.push("/");
   };
   render() {
     return (

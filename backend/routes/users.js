@@ -27,7 +27,10 @@ router.post("/register", async function (req, res) {
     nic: req.body.nic,
     mobile: req.body.mobile,
     isDeleted: req.body.isDeleted,
-    userLevel: req.body.userLevel,
+    isSupervisor: req.body.isSupervisor,
+    isStudent: req.body.isStudent,
+    isAdmin: req.body.isAdmin,
+    isCoordinator: req.body.isCoordinator,
   });
 
   bcrypt.genSalt(
