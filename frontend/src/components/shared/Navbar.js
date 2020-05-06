@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../css/shared/Navbar.css";
-import { deleteStorage } from "../../utils/Storage";
+import { deleteStorage } from "../../utils/storage";
 import {
   MDBNavbar,
   MDBNavbarBrand,
