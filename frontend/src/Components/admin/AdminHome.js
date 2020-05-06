@@ -11,7 +11,7 @@ class AdminHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar panel={"admin"} />
         <h1>Admin Home</h1>
       </React.Fragment>
     );

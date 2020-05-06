@@ -11,7 +11,7 @@ class CoordinatorHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar panel={"coordinator"} />
         <h1>Coordinator Home</h1>
       </React.Fragment>
     );

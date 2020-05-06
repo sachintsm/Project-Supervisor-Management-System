@@ -15,12 +15,16 @@ import { Nav } from "react-bootstrap";
 export default class navbar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isOpen: false,
+      isAdmin: localStorage.getItem("isAdmin"),
+      isStudent: localStorage.getItem("isStudent"),
+      isCoordinator: localStorage.getItem("isCoordinator"),
+      isSupervisor: localStorage.getItem("isSupervisor"),
+      panel: this.props.panel,
+    };
     this.logout = this.logout.bind(this);
   }
-
-  state = {
-    isOpen: false,
-  };
 
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen });
@@ -46,8 +50,18 @@ export default class navbar extends Component {
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav right>
               <MDBNavItem>
-                {/* <div onClick={this.home}>Home</div> */}
-                <Nav.Link href="/">Home</Nav.Link>
+                {this.state.panel === "admin" ? (
+                  <Nav.Link href="/adminhome">Home</Nav.Link>
+                ) : null}
+                {this.state.panel === "student" ? (
+                  <Nav.Link href="/studenthome">Home</Nav.Link>
+                ) : null}
+                {this.state.panel === "coordinator" ? (
+                  <Nav.Link href="/coordinatorhome">Home</Nav.Link>
+                ) : null}
+                {this.state.panel === "supervisor" ? (
+                  <Nav.Link href="/supervisorhome">Home</Nav.Link>
+                ) : null}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
