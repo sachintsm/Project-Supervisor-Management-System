@@ -1,4 +1,4 @@
-import { getFromStorage } from "./storage";
+import { getFromStorage } from "./Storage";
 const backendURI = require("../components/shared/BackendURI");
 
 export const verifyAuth = async () => {
