@@ -3,10 +3,10 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../Css/Admin/registration.css";
+import "../css/admin/registration.css";
 import axios from "axios";
 import Sidebar from "./shared/Sidebar";
-import { verifyAuth } from "../utils/authentication";
+import { verifyAuth } from "../utils/Authentication";
 const backendURI = require("./shared/BackendURI");
 
 const options = [
