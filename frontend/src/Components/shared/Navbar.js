@@ -36,6 +36,10 @@ export default class navbar extends Component {
 
   logout() {
     deleteStorage("auth-token");
+    deleteStorage("isAdmin");
+    deleteStorage("isStudent");
+    deleteStorage("isCoordinator");
+    deleteStorage("isSupervisor");
     window.location.reload(false);
   }
 
