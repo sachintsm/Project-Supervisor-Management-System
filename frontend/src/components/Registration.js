@@ -3,7 +3,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../css/admin/registration.css";
+import "../css/admin/Registration.css";
 import axios from "axios";
 import Sidebar from "./shared/Sidebar";
 import { verifyAuth } from "../utils/Authentication";
