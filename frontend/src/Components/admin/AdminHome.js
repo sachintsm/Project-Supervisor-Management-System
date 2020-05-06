@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { verifyAuth } from "../../utils/Authentication";
+import { verifyAuth } from "../../utils/authentication";
 import Navbar from "../shared/Navbar";
 
 class AdminHome extends Component {
@@ -11,7 +11,7 @@ class AdminHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar panel={"admin"} />
+        <Navbar />
         <h1>Admin Home</h1>
       </React.Fragment>
     );

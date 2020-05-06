@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../css/shared/sidebar.css";
+import "../../Css/shared/sidebar.css";
 import { Link } from "react-router-dom";
 
 export default class sidebar extends Component {
