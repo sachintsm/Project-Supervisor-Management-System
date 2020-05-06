@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { verifyAuth } from "../../utils/authentication";
+import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 
 class CoordinatorHome extends Component {
