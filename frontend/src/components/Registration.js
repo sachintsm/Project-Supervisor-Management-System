@@ -6,7 +6,7 @@ import { Row, Col } from "reactstrap";
 import "../css/admin/Registration.css";
 import axios from "axios";
 import Sidebar from "./shared/Sidebar";
-import { verifyAuth } from "../utils/Authentication";
+import { verifyAuth } from "../utils/authentication";
 const backendURI = require("./shared/BackendURI");
 
 const options = [
