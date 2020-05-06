@@ -11,7 +11,7 @@ class SupervisorHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar panel={"supervisor"} />
         <h1>Supervisor Home</h1>
       </React.Fragment>
     );

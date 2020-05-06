@@ -11,7 +11,7 @@ class StudentHome extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar />
+        <Navbar panel={"student"} />
         <h1>Student Home</h1>
       </React.Fragment>
     );
