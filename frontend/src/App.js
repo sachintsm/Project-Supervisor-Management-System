@@ -3,7 +3,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import AdminHome from "./components/admin/AdminHome";
@@ -22,18 +21,18 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login}></Route>
           <Route exact path="/registration" component={Registration}></Route>
-          <Route exact path="/adminHome" component={AdminHome}></Route>
+          <Route exact path="/adminhome" component={AdminHome}></Route>
           <Route
             exact
-            path="/coordinatorHome"
+            path="/coordinatorhome"
             component={CoordinatorHome}
           ></Route>
           <Route
             exact
-            path="/supervisorHome"
+            path="/supervisorhome"
             component={SupervisorHome}
           ></Route>
-          <Route exact path="/studentHome" component={StudentHome}></Route>
+          <Route exact path="/studenthome" component={StudentHome}></Route>
         </Switch>
       </Router>
 
