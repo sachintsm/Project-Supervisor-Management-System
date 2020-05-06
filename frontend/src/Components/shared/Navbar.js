@@ -8,6 +8,10 @@ import {
   MDBNavItem,
   MDBNavbarToggler,
   MDBCollapse,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
 } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Nav } from "react-bootstrap";
@@ -38,7 +42,7 @@ export default class navbar extends Component {
   render() {
     return (
       <Router>
-        <MDBNavbar dark expand="md" className="navbar">
+        <MDBNavbar color="elegant-color" dark expand="md" className="navbar">
           <MDBNavbarBrand>
             {/* eslint-disable-next-line */}
             <img
@@ -65,7 +69,37 @@ export default class navbar extends Component {
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
-                <Nav.Link href="/profile">Profile</Nav.Link>
+                {this.state.isCoordinator || this.state.isSupervisor ? (
+                  <MDBDropdown style={{ backgroundColor: "red" }} dark>
+                    <MDBDropdownToggle nav caret>
+                      <span className="mr-2">Profile</span>
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                      <MDBDropdownItem href="/profile">
+                        Settings
+                      </MDBDropdownItem>
+                      {this.state.isSupervisor && this.state.isCoordinator ? (
+                        <MDBDropdownItem divider />
+                      ) : null}
+
+                      {this.state.panel === "supervisor" &&
+                      this.state.isCoordinator ? (
+                        <MDBDropdownItem href="/coordinatorhome">
+                          Switch to Coordinator
+                        </MDBDropdownItem>
+                      ) : null}
+
+                      {this.state.panel === "coordinator" &&
+                      this.state.isSupervisor ? (
+                        <MDBDropdownItem href="/supervisorhome">
+                          Switch to Supervisor
+                        </MDBDropdownItem>
+                      ) : null}
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                ) : (
+                  <Nav.Link href="/profile">Profile</Nav.Link>
+                )}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
