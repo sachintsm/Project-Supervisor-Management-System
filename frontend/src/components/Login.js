@@ -1,11 +1,11 @@
-import React, { Component } from "./node_modules/react";
-import Card from "./node_modules/@material-ui/core/Card";
+import React, { Component } from "react";
+import Card from "@material-ui/core/Card";
 //
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Form } from "reactstrap";
-import "../css/admin/login.css";
+import "../css/admin/Login.css";
 import { setInStorage } from "../utils/Storage";
 import { MDBInput, MDBBtn } from "mdbreact";
 const backendURI = require("./shared/BackendURI");

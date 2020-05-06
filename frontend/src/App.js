@@ -4,12 +4,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
-import Registration from "./Components/Registration";
-import Login from "./Components/Login";
-import AdminHome from "./Components/admin/AdminHome";
-import CoordinatorHome from "./Components/coordinator/CoordinatorHome";
-import SupervisorHome from "./Components/supervisor/SupervisorHome";
-import StudentHome from "./Components/student/StudentHome";
+import Registration from "./components/Registration";
+import Login from "./components/Login";
+import AdminHome from "./components/admin/AdminHome";
+import CoordinatorHome from "./components/coordinator/CoordinatorHome";
+import SupervisorHome from "./components/supervisor/SupervisorHome";
+import StudentHome from "./components/student/StudentHome";
 
 require("dotenv").config();
 
