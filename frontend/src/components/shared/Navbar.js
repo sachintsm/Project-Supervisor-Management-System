@@ -57,9 +57,14 @@ export default class navbar extends Component {
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav right>
+            <MDBNavItem>
+                  <Nav.Link href="/adminhome/viewusers">Users</Nav.Link>
+              </MDBNavItem>
+              &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 {this.state.panel === "admin" ? (
                   <Nav.Link href="/adminhome">Home</Nav.Link>
+
                 ) : null}
                 {this.state.panel === "student" ? (
                   <Nav.Link href="/studenthome">Home</Nav.Link>
@@ -103,9 +108,11 @@ export default class navbar extends Component {
                   </MDBDropdown>
                 ) : (
                   <Nav.Link href="/profile">Profile</Nav.Link>
+                  
                 )}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
+             
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
