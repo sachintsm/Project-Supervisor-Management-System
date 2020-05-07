@@ -72,18 +72,18 @@ router.post("/login", async function (req, res) {
   const password = req.body.password;
 
   //checking if the userId is already in the database
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email, isDeleted: false });
   if (!user)
     return res
       .status(400)
-      .send({ state: false, msg: "This is not valid userId!" });
+      .send({ state: false, msg: "This is not valid user!" });
 
   bcrypt.compare(password, user.password, function (err, match) {
     if (err) throw err;
 
     if (match) {
       if (err) {
-        console.log(err);
+        console.log(err); 1
         return res.send({ state: false, msg: "Error : Server error" });
       } else {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
