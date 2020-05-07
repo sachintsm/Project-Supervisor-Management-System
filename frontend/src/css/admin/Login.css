@@ -1,37 +1,62 @@
 .login-card {
-    width: 50%;
-    margin: auto;
+  width: 50%;
+  margin: auto;
 }
 .login-card-div {
-    margin-top: 70px;
+  margin-top: 70px;
 }
 
 .login-btn {
-    margin: auto;
-    width: 100%;
-    background-color: blue;
+  margin: auto;
+  width: 100%;
+  background-color: blue;
 }
 
 .forgot-password-btn {
-    margin: auto;
-    font-size: 15px;
+  margin: auto;
+  font-size: 15px;
 }
 .logo {
-    padding-top: 50px;
-    text-align: center;
-    margin-left: 175px;
-    width: 30%;
-    margin-bottom: 20px;
+  padding-top: 50px;
+  text-align: center;
+  margin-left: 175px;
+  width: 30%;
+  margin-bottom: 20px;
+}
+.logo {
+  padding-top: 50px;
+  text-align: center;
+  margin-left: 175px;
+  width: 30%;
+  margin-bottom: 20px;
 }
 
 .btnOne {
-    height: 45px;
-    border-radius: 4px;
-    width: 48%;
-    margin: auto;
+  background-color: rgb(43, 56, 80);
+  height: 45px;
+  /* margin-left: 40px; */
+  border-radius: 4px;
+  width: 95%;
+  margin: auto;
+  /* margin-right: -40px; */
 }
 .btnOne:hover {
-    background-color: rgb(151, 151, 151);
-    cursor: pointer;
+  background-color: rgb(151, 151, 151);
+  cursor: pointer;
 }
-
+.btnTwo {
+  background-color: #1c2331;
+  height: 45px;
+  width: 95%;
+  border-radius: 4px;
+  margin: auto;
+  margin: auto;
+}
+.btnTwo:hover {
+  background-color: rgb(151, 151, 151);
+  cursor: pointer;
+}
+.text-btn {
+  margin: auto;
+  color: white;
+}
