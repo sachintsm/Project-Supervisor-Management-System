@@ -1,6 +1,11 @@
+/* body {
+  background-image: require('../../assets/backgrounds/background.jpg');
+} */
+
 .login-card {
   width: 50%;
   margin: auto;
+  padding: 50px;
 }
 .login-card-div {
   margin-top: 70px;
@@ -17,18 +22,11 @@
   font-size: 15px;
 }
 .logo {
-  padding-top: 50px;
+  padding-top: 10px;
   text-align: center;
-  margin-left: 175px;
-  width: 30%;
-  margin-bottom: 20px;
-}
-.logo {
-  padding-top: 50px;
-  text-align: center;
-  margin-left: 175px;
-  width: 30%;
-  margin-bottom: 20px;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 10px;
 }
 
 .btnOne {
