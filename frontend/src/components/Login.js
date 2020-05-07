@@ -1,14 +1,16 @@
-import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
-//
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Form } from "reactstrap";
-import "../css/admin/Login.css";
-import { setInStorage } from "../utils/Storage";
-import { MDBInput, MDBBtn } from "mdbreact";
-const backendURI = require("./shared/BackendURI");
+import React, { Component } from 'react';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { Form } from 'reactstrap';
+import '../css/admin/Login.css';
+import { setInStorage } from '../utils/Storage';
+import { MDBInput, MDBBtn } from 'mdbreact';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import { Button } from 'react-bootstrap';
+
+const backendURI = require('./shared/BackendURI');
 
 export default class login extends Component {
   constructor(props) {
@@ -27,12 +29,12 @@ export default class login extends Component {
     // }
 
     this.state = {
-      token: "",
-      signUpError: "",
-      signInError: "",
-      masterError: "",
-      email: "",
-      password: "",
+      token: '',
+      signUpError: '',
+      // signInError: "",
+      masterError: '',
+      email: '',
+      password: '',
     };
 
     this.onSignIn = this.onSignIn.bind(this);
@@ -50,14 +52,20 @@ export default class login extends Component {
       password: e.target.value,
     });
   }
+  notify = (msg) => {
+    toast.error(msg, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 3000,
+    });
+  };
 
   onSignIn() {
     const { email, password } = this.state;
 
-    fetch(backendURI.url + "/users/login", {
-      method: "POST",
+    fetch(backendURI.url + '/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email: email,
@@ -68,109 +76,67 @@ export default class login extends Component {
       .then((json) => {
         // console.log("josn", json);
         if (json.state) {
-          setInStorage("auth-token", { token: json.token });
+          setInStorage('auth-token', { token: json.token });
           this.setState({
             signInError: json.msg,
-            password: "",
-            userId: "",
+            password: '',
+            userId: '',
             token: json.token,
           });
 
           if (json.isAdmin) {
-            setInStorage("isAdmin", true);
+            setInStorage('isAdmin', true);
           }
           if (json.isStudent) {
-            setInStorage("isStudent", true);
+            setInStorage('isStudent', true);
           }
           if (json.isSupervisor) {
-            setInStorage("isSupervisor", true);
+            setInStorage('isSupervisor', true);
           }
           if (json.isCoordinator) {
-            setInStorage("isCoordinator", true);
+            setInStorage('isCoordinator', true);
           }
 
           if (json.isAdmin) {
-            this.props.history.push("/adminhome");
+            this.props.history.push('/adminhome');
           } else if (json.isCoordinator) {
-            this.props.history.push("/coordinatorhome");
+            this.props.history.push('/coordinatorhome');
           } else if (json.isSupervisor) {
-            this.props.history.push("/supervisorhome");
+            this.props.history.push('/supervisorhome');
           } else if (json.isStudent) {
-            this.props.history.push("/studenthome");
+            this.props.history.push('/studenthome');
           }
         } else {
           this.setState({
             signInError: json.msg,
           });
+
+          this.notify('Invalid User Credentials');
         }
       });
   }
 
   render() {
-    const { email, password, signInError } = this.state;
+    const { email, password } = this.state;
 
     return (
       <div
-        className="container-fluid"
-        style={{ backgroundColor: "#F8F9FA", minHeight: "700px" }}
+        className='container-fluid'
+        style={{ backgroundColor: '#F8F9FA', minHeight: '900px' }}
       >
-        <div className="row">
-          <div className="container login-card-div">
-            <Card className="login-card">
+        <ToastContainer hideProgressBar={true} transition={Slide} />
+        <div className='row'>
+          <div className='container login-card-div col-md-11'>
+            <Card className='login-card'>
               <Form>
-                {signInError ? <p>{signInError}</p> : null}
-                {/* eslint-disable-next-line */}
                 <img
-                  src={require("../assets/logo/Logo_reg.png")}
-                  className="logo"
+                  src={require('../assets/logo/Logo_reg.png')}
+                  className='logo'
                 />
-                <CardContent
-                  style={{ marginLeft: "20px", marginRight: "20px" }}
-                >
-                  <Typography color="textSecondary" gutterBottom>
-                    Email
-                  </Typography>
-                  <MDBInput
-                    label="Email"
-                    outline
-                    icon="envelope"
-                    type="text"
-                    placeholder="userId"
-                    name="email"
-                    value={email}
-                    onChange={this.onChangeEmail}
-                  />
-                  <Typography color="textSecondary" gutterBottom>
-                    Password
-                  </Typography>
-                  <MDBInput
-                    label="Password"
-                    outline
-                    icon="key"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={this.onChangePassword}
-                  />
-                </CardContent>
-                <CardActions style={{ marginBottom: "20px" }}>
-                  <MDBBtn
-                    outline
-                    style={{ margin: "auto", width: "40%" }}
-                    color="info"
-                    size="small"
-                  >
-                    Forget Password
-                  </MDBBtn>
-                  <MDBBtn
-                    color="info"
-                    style={{ margin: "auto", width: "40%" }}
-                    onClick={this.onSignIn}
-                  >
-                    login
-                  </MDBBtn>
-                </CardActions>
+                <Button variant='outline-danger'>Danger</Button>
+                <Button variant='success' onClick={this.onSignIn}>
+                  Login
+                </Button>
               </Form>
             </Card>
           </div>

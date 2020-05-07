@@ -46,7 +46,13 @@ export default class navbar extends Component {
   render() {
     return (
       <Router>
-        <MDBNavbar color="elegant-color" dark expand="md" className="navbar">
+        <MDBNavbar
+          color="special-color-dark"
+          // #263238
+          dark
+          expand="md"
+          className="navbar"
+        >
           <MDBNavbarBrand>
             {/* eslint-disable-next-line */}
             <img
@@ -74,7 +80,7 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 {this.state.isCoordinator || this.state.isSupervisor ? (
-                  <MDBDropdown style={{ backgroundColor: "red" }} dark>
+                  <MDBDropdown style={{ backgroundColor: "#1C2331" }} dark>
                     <MDBDropdownToggle nav caret>
                       <span className="mr-2">Profile</span>
                     </MDBDropdownToggle>
