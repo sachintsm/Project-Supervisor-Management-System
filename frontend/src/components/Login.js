@@ -16,18 +16,6 @@ export default class login extends Component {
   constructor(props) {
     super(props);
 
-    // if (localStorage.getItem("isAdmin")) {
-    //   this.props.history.push("/adminhome");
-    // } else if (localStorage.getItem("isCoordinator")) {
-    //   this.props.history.push("/coordinatorhome");
-    // } else if (localStorage.getItem("isSupervisor")) {
-    //   this.props.history.push("/supervisorhome");
-    // } else if (localStorage.getItem("isStudent")) {
-    //   this.props.history.push("/studenthome");
-    // } else {
-    //   this.props.history.push("/");
-    // }
-
     this.state = {
       token: '',
       signUpError: '',
@@ -77,13 +65,14 @@ export default class login extends Component {
         // console.log("josn", json);
         if (json.state) {
           setInStorage('auth-token', { token: json.token });
+          setInStorage('auth-id', { id: json.userId });
           this.setState({
             signInError: json.msg,
             password: '',
             userId: '',
             token: json.token,
           });
-
+          console.log(json);
           if (json.isAdmin) {
             setInStorage('isAdmin', true);
           }
@@ -122,7 +111,7 @@ export default class login extends Component {
     return (
       <div
         className='container-fluid'
-        style={{ backgroundColor: '#F8F9FA', minHeight: '900px' }}
+        style={{ backgroundColor: '#F8F9FA', minHeight: '730px' }}
       >
         <ToastContainer hideProgressBar={true} transition={Slide} />
         <div className='row'>
@@ -133,10 +122,58 @@ export default class login extends Component {
                   src={require('../assets/logo/Logo_reg.png')}
                   className='logo'
                 />
-                <Button variant='outline-danger'>Danger</Button>
-                <Button variant='success' onClick={this.onSignIn}>
-                  Login
-                </Button>
+                <CardContent
+                  style={{ marginLeft: '20px', marginRight: '20px' }}
+                >
+                  <Typography color='textSecondary' gutterBottom>
+                    Email
+                  </Typography>
+                  <MDBInput
+                    label='Email'
+                    outline
+                    icon='envelope'
+                    type='text'
+                    placeholder='userId'
+                    name='email'
+                    value={email}
+                    onChange={this.onChangeEmail}
+                  />
+                  <Typography color='textSecondary' gutterBottom>
+                    Password
+                  </Typography>
+                  <MDBInput
+                    label='Password'
+                    outline
+                    icon='key'
+                    type='password'
+                    placeholder='Password'
+                    name='password'
+                    value={password}
+                    onChange={this.onChangePassword}
+                  />
+                </CardContent>
+                <CardActions
+                  style={{
+                    marginBottom: '20px',
+                    marginRight: '20px',
+                    marginLeft: '20px',
+                  }}
+                >
+                  <MDBBtn
+                    style={{ margin: 'auto', width: '45%' }}
+                    color='info'
+                    size='small'
+                  >
+                    Forget Password
+                  </MDBBtn>
+                  <MDBBtn
+                    color='primary'
+                    style={{ margin: 'auto', width: '45%' }}
+                    onClick={this.onSignIn}
+                  >
+                    login
+                  </MDBBtn>
+                </CardActions>
               </Form>
             </Card>
           </div>
