@@ -46,7 +46,7 @@ export default class navbar extends Component {
   render() {
     return (
       <Router>
-        <MDBNavbar color="elegant-color" dark expand="md" className="navbar">
+        <MDBNavbar dark expand="md" className="navbar">
           <MDBNavbarBrand>
             {/* eslint-disable-next-line */}
             <img

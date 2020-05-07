@@ -14,18 +14,6 @@ export default class login extends Component {
   constructor(props) {
     super(props);
 
-    // if (localStorage.getItem("isAdmin")) {
-    //   this.props.history.push("/adminhome");
-    // } else if (localStorage.getItem("isCoordinator")) {
-    //   this.props.history.push("/coordinatorhome");
-    // } else if (localStorage.getItem("isSupervisor")) {
-    //   this.props.history.push("/supervisorhome");
-    // } else if (localStorage.getItem("isStudent")) {
-    //   this.props.history.push("/studenthome");
-    // } else {
-    //   this.props.history.push("/");
-    // }
-
     this.state = {
       token: "",
       signUpError: "",
@@ -69,13 +57,14 @@ export default class login extends Component {
         // console.log("josn", json);
         if (json.state) {
           setInStorage("auth-token", { token: json.token });
+          setInStorage("auth-id", { id: json.userId });
           this.setState({
             signInError: json.msg,
             password: "",
             userId: "",
             token: json.token,
           });
-
+          console.log(json)
           if (json.isAdmin) {
             setInStorage("isAdmin", true);
           }
@@ -112,7 +101,7 @@ export default class login extends Component {
     return (
       <div
         className="container-fluid"
-        style={{ backgroundColor: "#F8F9FA", minHeight: "700px" }}
+        style={{ backgroundColor: "#F8F9FA", minHeight: "730px" }}
       >
         <div className="row">
           <div className="container login-card-div">
@@ -154,18 +143,17 @@ export default class login extends Component {
                     onChange={this.onChangePassword}
                   />
                 </CardContent>
-                <CardActions style={{ marginBottom: "20px" }}>
+                <CardActions style={{ marginBottom: "20px" , marginRight:"20px", marginLeft: "20px"}}>
                   <MDBBtn
-                    outline
-                    style={{ margin: "auto", width: "40%" }}
+                    style={{ margin: "auto", width: "45%" }}
                     color="info"
                     size="small"
                   >
                     Forget Password
                   </MDBBtn>
                   <MDBBtn
-                    color="info"
-                    style={{ margin: "auto", width: "40%" }}
+                    color="primary"
+                    style={{ margin: "auto", width: "45%" }}
                     onClick={this.onSignIn}
                   >
                     login
