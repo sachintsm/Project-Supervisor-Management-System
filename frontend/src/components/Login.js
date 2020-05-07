@@ -143,21 +143,9 @@ export default class login extends Component {
                     onChange={this.onChangePassword}
                   />
                 </CardContent>
-                <CardActions style={{ marginBottom: "20px" , marginRight:"20px", marginLeft: "20px"}}>
-                  <MDBBtn
-                    style={{ margin: "auto", width: "45%" }}
-                    color="info"
-                    size="small"
-                  >
-                    Forget Password
-                  </MDBBtn>
-                  <MDBBtn
-                    color="primary"
-                    style={{ margin: "auto", width: "45%" }}
-                    onClick={this.onSignIn}
-                  >
-                    login
-                  </MDBBtn>
+                <CardActions style={{ marginBottom: "20px", marginRight: "20px", marginLeft: "20px" }}>
+                  <button className="btn btnOne" style={{ backgroundColor: "#3f545e" , color: "#fff" }}>Forget Password</button>
+                  <button className="btn btnOne" style={{ backgroundColor: "#263238" , color: "#fff"}} onClick={this.onSignIn}>Sign In</button>
                 </CardActions>
               </Form>
             </Card>

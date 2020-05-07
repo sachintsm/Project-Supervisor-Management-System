@@ -1,22 +1,22 @@
-.login-card{
+.login-card {
     width: 50%;
     margin: auto;
 }
-.login-card-div{
+.login-card-div {
     margin-top: 70px;
 }
 
-.login-btn{
+.login-btn {
     margin: auto;
     width: 100%;
     background-color: blue;
 }
 
-.forgot-password-btn{
+.forgot-password-btn {
     margin: auto;
     font-size: 15px;
 }
-.logo{
+.logo {
     padding-top: 50px;
     text-align: center;
     margin-left: 175px;
@@ -24,34 +24,14 @@
     margin-bottom: 20px;
 }
 
-
-.btnOne{
-    background-color:  rgb(43, 56, 80);
+.btnOne {
     height: 45px;
-    /* margin-left: 40px; */
     border-radius: 4px;
-    width: 95%;
+    width: 48%;
     margin: auto;
-    /* margin-right: -40px; */
 }
-.btnOne:hover{
+.btnOne:hover {
     background-color: rgb(151, 151, 151);
     cursor: pointer;
 }
-.btnTwo{
-    background-color: #1C2331;
-    height: 45px;
-    width:95%;
-    border-radius: 4px;
-    margin: auto;
-    margin:auto;
 
-}
-.btnTwo:hover{
-    background-color: rgb(151, 151, 151);
-    cursor: pointer;
-}
-.text-btn{
-    margin: auto;
-    color: white;
-}
