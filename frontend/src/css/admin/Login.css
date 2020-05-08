@@ -1,25 +1,53 @@
-.login-card{
-    width: 50%;
-    margin: auto;
+/* body {
+  background-image: require('../../assets/backgrounds/background.jpg');
+} */
+
+.login-card {
+  width: 50%;
+  margin: auto;
+  padding: 50px;
 }
-.login-card-div{
+.login-card-div {
     margin-top: 70px;
 }
 
-.login-btn{
+.login-btn {
     margin: auto;
     width: 100%;
     background-color: blue;
 }
 
-.forgot-password-btn{
+.forgot-password-btn {
     margin: auto;
     font-size: 15px;
 }
-.logo{
-    padding-top: 50px;
-    text-align: center;
-    margin-left: 175px;
-    width: 30%;
-    margin-bottom: 20px;
+.logo {
+  padding-top: 10px;
+  text-align: center;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.btnOne {
+    background-color: rgb(29, 38, 54);
+    border: 4px solid;
+    border-radius: 4px;
+    width: 95%;
+    margin: auto;
+}
+.btnOne:hover {
+    background-color: #26323865;
+    cursor: pointer;
+}
+.btnTwo {
+    background-color: #1c2331;
+    /* height: 45px; */
+    width: 95%;
+    border-radius: 4px;
+    margin: auto;
+    margin: auto;
+}
+.btnTwo:hover {
+    cursor: pointer;
 }
