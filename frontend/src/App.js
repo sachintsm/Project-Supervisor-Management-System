@@ -7,9 +7,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import AdminHome from "./components/admin/AdminHome";
+import viewusers from "./components/admin/ViewUsers";
 import CoordinatorHome from "./components/coordinator/CoordinatorHome";
 import SupervisorHome from "./components/supervisor/SupervisorHome";
 import StudentHome from "./components/student/StudentHome";
+import ViewUsers from "./components/admin/ViewUsers";
 
 require("dotenv").config();
 
@@ -23,6 +25,8 @@ function App() {
           <Route exact path="/" component={Login}></Route>
           <Route exact path="/registration" component={Registration}></Route>
           <Route exact path="/adminhome" component={AdminHome}></Route>
+          <Route exact path="/adminhome/viewusers" component={ViewUsers}></Route>
+
           <Route
             exact
             path="/coordinatorhome"
