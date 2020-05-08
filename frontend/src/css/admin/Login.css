@@ -22,26 +22,11 @@
     font-size: 15px;
 }
 .logo {
-<<<<<<< HEAD
-    padding-top: 50px;
-    text-align: center;
-    margin-left: 175px;
-    width: 30%;
-    margin-bottom: 20px;
-}
-.logo {
-    padding-top: 50px;
-    text-align: center;
-    margin-left: 175px;
-    width: 30%;
-    margin-bottom: 20px;
-=======
   padding-top: 10px;
   text-align: center;
   align-items: center;
   width: 50%;
   margin-bottom: 10px;
->>>>>>> 4cab35c1a3795e7fd46c74d8616723acd6f931a9
 }
 
 .btnOne {

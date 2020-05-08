@@ -11,6 +11,8 @@ import CoordinatorHome from "./components/coordinator/CoordinatorHome";
 import SupervisorHome from "./components/supervisor/SupervisorHome";
 import StudentHome from "./components/student/StudentHome";
 
+import Footer from "./components/shared/Footer"
+
 require("dotenv").config();
 
 function App() {
@@ -37,7 +39,7 @@ function App() {
         </Switch>
       </Router>
 
-      {/* <Footer /> */}
+      <Footer />
     </React.Fragment>
   );
 }
