@@ -5,66 +5,96 @@ const UserSession = require("../models/userSession");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const verify = require("../authentication");
+const multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'local_storage/profile_Images/')    //user profile pictures saving destination folder
+  },
+  filename: function (req, file, cb) {
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+    cb(null, time + '-' + file.originalname)   //set the file neme
+  }
+});
+
+const upload = multer({ storage: storage }).single('profileImage');
 
 //User registration
-router.post("/register", async function (req, res) {
-  //checking if the userId is already in the database
-  const userEmailExists = await User.findOne({ email: req.body.email });
-  if (userEmailExists)
-    return res
-      .status(400)
-      .send({ state: false, msg: "This userId already in use..!" });
+router.post("/register", verify, async function (req, res) {
+  upload(req, res, (err) = async () => {
+    console.log(req.body)
+    // checking if the userId is already in the database
+    const userEmailExists = await User.findOne({ email: req.body.email });
+    if (userEmailExists)
+      return res
+        .status(400)
+        .send({ state: false, msg: "This userId already in use..!" });
 
-  console.log(req.body);
+    var student, admin, staff;
+    if (req.body.userType === 'Admin') admin = true
+    else if (req.body.userType === 'Staff') staff = true
+    else if (req.body.userType === 'Student') student = true
 
-  //create a new user
-  const newUser = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    birthday: req.body.birthday,
-    nic: req.body.nic,
-    mobile: req.body.mobile,
-    isDeleted: req.body.isDeleted,
-    isSupervisor: req.body.isSupervisor,
-    isStudent: req.body.isStudent,
-    isAdmin: req.body.isAdmin,
-    isCoordinator: req.body.isCoordinator,
-  });
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours() 
 
-  bcrypt.genSalt(
-    10,
-    await function (err, salt) {
-      if (err) {
-        console.log(err);
-      } else {
-        bcrypt.hash(newUser.password, salt, function (err, hash) {
-          newUser.password = hash;
+    var fullPath = time + '-' + req.file.originalname;
 
-          if (err) {
-            throw err;
-          } else {
-            newUser
-              .save()
-              .then((req) => {
-                res.json({
-                  state: true,
-                  msg: "User Registered Successfully..!",
+    //create a new user
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password.toLowerCase(),
+      birthday: req.body.birthday,
+      nic: req.body.nic.toLowerCase(),
+      mobile: req.body.mobileNumber,
+      imageName : fullPath,
+      isStudent: student,
+      isAdmin: admin,
+      isStaff: staff,
+      isSupervisor: false,
+      isCoordinator: false,
+      isDeleted: false,
+    });
+
+    bcrypt.genSalt(
+      10,
+      await function (err, salt) {
+        if (err) {
+          console.log(err);
+        } else {
+          bcrypt.hash(newUser.password, salt, function (err, hash) {
+            newUser.password = hash;
+
+            if (err) {
+              throw err;
+            } else {
+              newUser
+                .save()
+                .then((req) => {
+                  res.json({
+                    state: true,
+                    msg: "User Registered Successfully..!",
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.json({
+                    state: false,
+                    msg: "User Registration Unsuccessfull..!",
+                  });
                 });
-              })
-              .catch((err) => {
-                console.log(err);
-                res.json({
-                  state: false,
-                  msg: "User Registration Unsuccessfull..!",
-                });
-              });
-          }
-        });
+            }
+          });
+        }
       }
-    }
-  );
+    );
+
+  });
 });
 
 //User Login
@@ -89,7 +119,7 @@ router.post("/login", async function (req, res) {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
         res.header("auth-token", token).send({
           state: true,
-          userId : user._id,
+          userId: user._id,
           msg: "Sign in Successfully..!",
           token: token,
           isStudent: user.isStudent,
