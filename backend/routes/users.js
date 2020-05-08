@@ -1,162 +1,114 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
 const User = require('../models/users');
 const Staff = require('../models/staff');
 const UserSession = require('../models/userSession');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
-
-//User registration
-router.post('/register', async function (req, res) {
-  //checking if the userId is already in the database
-  const userEmailExists = await User.findOne({ email: req.body.email });
-  if (userEmailExists)
-    return res
-      .status(400)
-      .send({ state: false, msg: 'This userId already in use..!' });
-
-  console.log(req.body);
-
-  //create a new user
-  const newUser = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    birthday: req.body.birthday,
-    nic: req.body.nic,
-    mobile: req.body.mobile,
-    isDeleted: req.body.isDeleted,
-    isSupervisor: req.body.isSupervisor,
-    isStudent: req.body.isStudent,
-    isAdmin: req.body.isAdmin,
-    isCoordinator: req.body.isCoordinator,
-  });
-
-  bcrypt.genSalt(
-    10,
-    await function (err, salt) {
-      if (err) {
-        console.log(err);
-      } else {
-        bcrypt.hash(newUser.password, salt, function (err, hash) {
-          newUser.password = hash;
-
-          if (err) {
-            throw err;
-          } else {
-            newUser
-              .save()
-              .then((req) => {
-                res.json({
-                  state: true,
-                  msg: 'User Registered Successfully..!',
-                });
-              })
-              .catch((err) => {
-                console.log(err);
-                res.json({
-                  state: false,
-                  msg: 'User Registration Unsuccessfull..!',
-=======
-const User = require("../models/users");
-const UserSession = require("../models/userSession");
-const bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-const verify = require("../authentication");
 const multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'local_storage/profile_Images/')    //user profile pictures saving destination folder
+    cb(null, 'local_storage/profile_Images/'); //user profile pictures saving destination folder
   },
   filename: function (req, file, cb) {
     let ts = Date.now();
     let date_ob = new Date(ts);
-    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
-    cb(null, time + '-' + file.originalname)   //set the file neme
-  }
+    const time =
+      date_ob.getDate() +
+      date_ob.getMonth() +
+      1 +
+      date_ob.getFullYear() +
+      date_ob.getHours();
+    cb(null, time + '-' + file.originalname); //set the file neme
+  },
 });
 
 const upload = multer({ storage: storage }).single('profileImage');
 
 //User registration
-router.post("/register", verify, async function (req, res) {
-  upload(req, res, (err) = async () => {
-    console.log(req.body)
-    // checking if the userId is already in the database
-    const userEmailExists = await User.findOne({ email: req.body.email });
-    if (userEmailExists)
-      return res
-        .status(400)
-        .send({ state: false, msg: "This userId already in use..!" });
+router.post('/register', verify, async function (req, res) {
+  upload(
+    req,
+    res,
+    (err = async () => {
+      console.log(req.body);
+      // checking if the userId is already in the database
+      const userEmailExists = await User.findOne({ email: req.body.email });
+      if (userEmailExists)
+        return res
+          .status(400)
+          .send({ state: false, msg: 'This userId already in use..!' });
 
-    var student, admin, staff;
-    if (req.body.userType === 'Admin') admin = true
-    else if (req.body.userType === 'Staff') staff = true
-    else if (req.body.userType === 'Student') student = true
+      var student, admin, staff;
+      if (req.body.userType === 'Admin') admin = true;
+      else if (req.body.userType === 'Staff') staff = true;
+      else if (req.body.userType === 'Student') student = true;
 
-    let ts = Date.now();
-    let date_ob = new Date(ts);
-    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours() 
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      const time =
+        date_ob.getDate() +
+        date_ob.getMonth() +
+        1 +
+        date_ob.getFullYear() +
+        date_ob.getHours();
 
-    var fullPath = time + '-' + req.file.originalname;
+      var fullPath = time + '-' + req.file.originalname;
 
-    //create a new user
-    const newUser = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password.toLowerCase(),
-      birthday: req.body.birthday,
-      nic: req.body.nic.toLowerCase(),
-      mobile: req.body.mobileNumber,
-      imageName : fullPath,
-      isStudent: student,
-      isAdmin: admin,
-      isStaff: staff,
-      isSupervisor: false,
-      isCoordinator: false,
-      isDeleted: false,
-    });
+      //create a new user
+      const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password.toLowerCase(),
+        birthday: req.body.birthday,
+        nic: req.body.nic.toLowerCase(),
+        mobile: req.body.mobileNumber,
+        imageName: fullPath,
+        isStudent: student,
+        isAdmin: admin,
+        isStaff: staff,
+        isSupervisor: false,
+        isCoordinator: false,
+        isDeleted: false,
+      });
 
-    bcrypt.genSalt(
-      10,
-      await function (err, salt) {
-        if (err) {
-          console.log(err);
-        } else {
-          bcrypt.hash(newUser.password, salt, function (err, hash) {
-            newUser.password = hash;
+      bcrypt.genSalt(
+        10,
+        await function (err, salt) {
+          if (err) {
+            console.log(err);
+          } else {
+            bcrypt.hash(newUser.password, salt, function (err, hash) {
+              newUser.password = hash;
 
-            if (err) {
-              throw err;
-            } else {
-              newUser
-                .save()
-                .then((req) => {
-                  res.json({
-                    state: true,
-                    msg: "User Registered Successfully..!",
+              if (err) {
+                throw err;
+              } else {
+                newUser
+                  .save()
+                  .then((req) => {
+                    res.json({
+                      state: true,
+                      msg: 'User Registered Successfully..!',
+                    });
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    res.json({
+                      state: false,
+                      msg: 'User Registration Unsuccessfull..!',
+                    });
                   });
-                })
-                .catch((err) => {
-                  console.log(err);
-                  res.json({
-                    state: false,
-                    msg: "User Registration Unsuccessfull..!",
-                  });
->>>>>>> 7bd5b229ec7ee7f2bcc5d09aae03ede112d35e5f
-                });
-            }
-          });
+              }
+            });
+          }
         }
-      }
-    );
-
-  });
+      );
+    })
+  );
 });
 
 //User Login
@@ -183,11 +135,7 @@ router.post('/login', async function (req, res) {
         res.header('auth-token', token).send({
           state: true,
           userId: user._id,
-<<<<<<< HEAD
           msg: 'Sign in Successfully..!',
-=======
-          msg: "Sign in Successfully..!",
->>>>>>> 7bd5b229ec7ee7f2bcc5d09aae03ede112d35e5f
           token: token,
           isStudent: user.isStudent,
           isAdmin: user.isAdmin,
