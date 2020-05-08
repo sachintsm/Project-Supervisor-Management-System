@@ -5,8 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../css/admin/Registration.css";
 import axios from "axios";
-import Sidebar from "./shared/Sidebar";
 import { verifyAuth } from "../utils/Authentication";
+import Navbar from "../components/shared/Navbar";
+
+
 const backendURI = require("./shared/BackendURI");
 
 const options = [
@@ -88,11 +90,12 @@ export default class registration extends Component {
     const { selectedOption, form } = this.state;
 
     return (
+      <div>
+      <Navbar panel={"admin"} />
+
       <Col className="row">
-        <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
-          <Sidebar />
-        </div>
-        <div className="col-md-10">
+        
+        <div className="col-md-12">
           <React.Fragment>
             <h3 style={{ textAlign: "center", marginTop: "50px" }}>
               User Registration
@@ -271,6 +274,7 @@ export default class registration extends Component {
           </React.Fragment>
         </div>
       </Col>
+      </div>
     );
   }
 }
