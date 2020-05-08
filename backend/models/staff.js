@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.schema;
 
-var userSchema = mongoose.Schema({
+var staffSchema = mongoose.Schema({
   firstName: { type: String },
   lastName: { type: String },
   email: { type: String },
@@ -15,7 +15,6 @@ var userSchema = mongoose.Schema({
   isAdmin: { type: Boolean },
   isCoordinator: { type: Boolean },
   isSupervisor: { type: Boolean },
-  imageName: { type: String },
 });
 
-const Users = (module.exports = mongoose.model('Users', userSchema));
+const Staff = (module.exports = mongoose.model('users', staffSchema));
