@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
-import { ToastContainer, toast, Slide } from 'react-toastify';
+// import { ToastContainer, toast, Slide } from 'react-toastify';
 import {
   Button,
   FormControl,
@@ -20,12 +20,12 @@ export default class login extends Component {
     super(props);
 
     this.state = {
-      token: '',
-      signUpError: '',
-      // signInError: "",
-      masterError: '',
-      email: '',
-      password: '',
+      token: "",
+      signUpError: "",
+      signInError: "",
+      masterError: "",
+      email: "",
+      password: "",
     };
 
     this.onSignIn = this.onSignIn.bind(this);
@@ -43,20 +43,14 @@ export default class login extends Component {
       password: e.target.value,
     });
   }
-  notify = (msg) => {
-    toast.error(msg, {
-      position: toast.POSITION.BOTTOM_CENTER,
-      autoClose: 3000,
-    });
-  };
 
   onSignIn() {
     const { email, password } = this.state;
 
-    fetch(backendURI.url + '/users/login', {
-      method: 'POST',
+    fetch(backendURI.url + "/users/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: email,
@@ -67,43 +61,41 @@ export default class login extends Component {
       .then((json) => {
         // console.log("josn", json);
         if (json.state) {
-          setInStorage('auth-token', { token: json.token });
-          setInStorage('auth-id', { id: json.userId });
+          setInStorage("auth-token", { token: json.token });
+          setInStorage("auth-id", { id: json.userId });
           this.setState({
             signInError: json.msg,
-            password: '',
-            userId: '',
+            password: "",
+            userId: "",
             token: json.token,
           });
-          console.log(json);
+          console.log(json)
           if (json.isAdmin) {
-            setInStorage('isAdmin', true);
+            setInStorage("isAdmin", true);
           }
           if (json.isStudent) {
-            setInStorage('isStudent', true);
+            setInStorage("isStudent", true);
           }
           if (json.isSupervisor) {
-            setInStorage('isSupervisor', true);
+            setInStorage("isSupervisor", true);
           }
           if (json.isCoordinator) {
-            setInStorage('isCoordinator', true);
+            setInStorage("isCoordinator", true);
           }
 
           if (json.isAdmin) {
-            this.props.history.push('/adminhome');
+            this.props.history.push("/adminhome");
           } else if (json.isCoordinator) {
-            this.props.history.push('/coordinatorhome');
+            this.props.history.push("/coordinatorhome");
           } else if (json.isSupervisor) {
-            this.props.history.push('/supervisorhome');
+            this.props.history.push("/supervisorhome");
           } else if (json.isStudent) {
-            this.props.history.push('/studenthome');
+            this.props.history.push("/studenthome");
           }
         } else {
           this.setState({
             signInError: json.msg,
           });
-
-          this.notify('Invalid User Credentials');
         }
       });
   }
@@ -121,7 +113,7 @@ export default class login extends Component {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <ToastContainer hideProgressBar={true} transition={Slide} />
+        {/* <ToastContainer hideProgressBar={true} transition={Slide} /> */}
         <div className='row'>
           <div className='container login-card-div col-md-9'>
             <Card className='login-card'>
