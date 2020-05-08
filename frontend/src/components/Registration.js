@@ -133,15 +133,12 @@ export default class registration extends Component {
       })
     }
     else {
-      console.log("good")
       fetch(backendURI.url + "/users/register", requestOptions)
-        .then(response => {
-          response.text()
-        })
-        .then(res => {
+        .then((res) => res.json())
+        .then((json) => {
           this.setState({
             snackbaropen: true,
-            snackbarmsg: res
+            snackbarmsg: json.msg
           })
         })
         .catch(error => {
@@ -269,7 +266,6 @@ export default class registration extends Component {
                                   className="form-control"
                                   name="nic"
                                   value={form.nic}
-
                                   onChange={this.onChange}
                                 ></input>
                               </div>

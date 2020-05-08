@@ -13,6 +13,7 @@ var userSchema = mongoose.Schema({
   userLevel: { type: String },
   isStudent: { type: Boolean },
   isAdmin: { type: Boolean },
+  isStaff : { type: Boolean},
   isCoordinator: { type: Boolean },
   isSupervisor: { type: Boolean },
   imageName: { type: String },

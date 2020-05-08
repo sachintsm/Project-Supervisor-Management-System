@@ -63,16 +63,18 @@ export default class navbar extends Component {
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav right>
-            <MDBNavItem>
-                  <Nav.Link href="/adminhome/viewusers">Users</Nav.Link>
+              <MDBNavItem>
+                <Nav.Link href="/adminhome/viewusers">Users</Nav.Link>
+              </MDBNavItem>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              <MDBNavItem>
+                <Nav.Link href="/adminhome/registration">Registration</Nav.Link>
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
 
                 {this.state.panel === "admin" ? (
                   <Nav.Link href="/adminhome">Home</Nav.Link>
-
-
                 ) : null}
                 {this.state.panel === 'student' ? (
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
@@ -100,29 +102,29 @@ export default class navbar extends Component {
                       ) : null}
 
                       {this.state.panel === 'supervisor' &&
-                      this.state.isCoordinator ? (
-                        <MDBDropdownItem href='/coordinatorhome'>
-                          Switch to Coordinator
-                        </MDBDropdownItem>
-                      ) : null}
+                        this.state.isCoordinator ? (
+                          <MDBDropdownItem href='/coordinatorhome'>
+                            Switch to Coordinator
+                          </MDBDropdownItem>
+                        ) : null}
 
                       {this.state.panel === 'coordinator' &&
-                      this.state.isSupervisor ? (
-                        <MDBDropdownItem href='/supervisorhome'>
-                          Switch to Supervisor
-                        </MDBDropdownItem>
-                      ) : null}
+                        this.state.isSupervisor ? (
+                          <MDBDropdownItem href='/supervisorhome'>
+                            Switch to Supervisor
+                          </MDBDropdownItem>
+                        ) : null}
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 ) : (
 
-                  <Nav.Link href="/profile">Profile</Nav.Link>
-                  
+                    <Nav.Link href="/profile">Profile</Nav.Link>
 
-                )}
+
+                  )}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
-             
+
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>

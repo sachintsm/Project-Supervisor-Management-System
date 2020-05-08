@@ -28,10 +28,14 @@ router.post("/register", verify, async function (req, res) {
     console.log(req.body)
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
-    if (userEmailExists)
-      return res.json({ state: false, msg: "This userId already in use..!" })
+    if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
 
-    var student, admin, staff;
+    //check file empty
+    if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
+    
+    var student
+    var admin
+    var staff
 
     if (req.body.userType === 'Admin') {
       admin = true
