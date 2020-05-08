@@ -23,23 +23,35 @@ const upload = multer({ storage: storage }).single('profileImage');
 
 //User registration
 router.post("/register", verify, async function (req, res) {
+  console.log("sachin")
   upload(req, res, (err) = async () => {
     console.log(req.body)
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists)
-      return res
-        .status(400)
-        .send({ state: false, msg: "This userId already in use..!" });
+      return res.json({ state: false, msg: "This userId already in use..!" })
 
     var student, admin, staff;
-    if (req.body.userType === 'Admin') admin = true
-    else if (req.body.userType === 'Staff') staff = true
-    else if (req.body.userType === 'Student') student = true
+
+    if (req.body.userType === 'Admin') {
+      admin = true
+      student = false
+      staff = false
+    }
+    else if (req.body.userType === 'Staff') {
+      staff = true
+      admin = false
+      student = false
+    }
+    else if (req.body.userType === 'Student') {
+      student = true
+      staff = false
+      admin = false
+    }
 
     let ts = Date.now();
     let date_ob = new Date(ts);
-    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours() 
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
 
     var fullPath = time + '-' + req.file.originalname;
 
@@ -52,7 +64,7 @@ router.post("/register", verify, async function (req, res) {
       birthday: req.body.birthday,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
-      imageName : fullPath,
+      imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
       isStaff: staff,
@@ -106,7 +118,7 @@ router.post("/login", async function (req, res) {
   if (!user)
     return res
       .status(400)
-      .send({ state: false, msg: "This is not valid user!" });
+      .send({ state: false, Error: "This is not valid user!" });
 
   bcrypt.compare(password, user.password, function (err, match) {
     if (err) throw err;

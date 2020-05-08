@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import AdminHome from "./components/admin/AdminHome";
-import viewusers from "./components/admin/ViewUsers";
+// import viewusers from "./components/admin/ViewUsers";
 import CoordinatorHome from "./components/coordinator/CoordinatorHome";
 import SupervisorHome from "./components/supervisor/SupervisorHome";
 import StudentHome from "./components/student/StudentHome";

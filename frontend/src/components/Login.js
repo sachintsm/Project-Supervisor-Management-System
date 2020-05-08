@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
-import { Form, Toast } from 'reactstrap';
+import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { ToastContainer, toast, Slide } from 'react-toastify';
