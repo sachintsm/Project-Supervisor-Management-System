@@ -1,71 +1,68 @@
 import React, { Component } from "react";
-import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../css/admin/Registration.css";
-import axios from "axios";
 import { verifyAuth } from "../utils/Authentication";
 import Navbar from "../components/shared/Navbar";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { getFromStorage } from '../utils/Storage';
+import Snackbar from '@material-ui/core/Snackbar'
+import IconButton from '@material-ui/core/IconButton'
 
-import { FileInput, SVGIcon } from 'react-md';
-const backendURI = require("./shared/BackendURI");
+const backendURI = require('./shared/BackendURI');
 
-const options = [
-  { value: "Administartor", label: "Administrator" },
-  { value: "Manager", label: "Manager" },
-  { value: "Pumper", label: "Pumper" },
-];
 
 export default class registration extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleChangeUsertype = this.handleChangeUsertype.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
 
     this.state = {
+      snackbaropen: false,
+      snackbarmsg: '',
       form: {
-        fullName: "",
-        password: "",
-        userId: "",
-        userType: "",
-        birthday: "",
-        email: "",
-        nic: "",
-        mobileOne: "",
-        mobileTwo: "",
-        epf: "",
-        etf: "",
-        address: "",
-        other: "",
+        firstName: '',
+        lastName: '',
+        userType: '',
+        email: '',
+        nic: '',
+        mobileNumber: '',
+
 
         imgName: '',
       },
+      startDate: new Date(),
     };
+  }
+  snackbarClose = (event) => {
+    this.setState({ snackbaropen: false })
   }
   async componentDidMount() {
     const authState = await verifyAuth();
+    console.log(authState);
+
     console.log(authState);
     this.setState({
       authState: authState,
     });
     if (!authState) {
-      this.props.history.push("/login");
+      this.props.history.push("/");
     }
   }
 
-  state = {
-    selectedOption: null,
-    startDate: new Date(),
-  };
 
-  handleChangeBirthday = (date) => {
-    this.setState({
-      startDate: date,
-    });
-  };
+  onChangeDate = date => {
+    this.setState(prevState => ({
+      startDate: date
+    }))
+  }
 
   handleChangeUsertype = (selectedOption) => {
     this.setState({ selectedOption });
@@ -78,6 +75,7 @@ export default class registration extends Component {
     store.form[e.target.name] = e.target.value;
     this.setState(store);
   };
+
   handleImageChange = (e) => {
     const Val = e.target.files[0]
     this.setState({
@@ -90,24 +88,92 @@ export default class registration extends Component {
       }
     }))
   }
+  handleDropdownChange = (e) => {
+    const Val = e.target.value
+    console.log(Val)
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        userType: Val
+      }
+    }))
+  }
+
   onSubmit(event) {
     event.preventDefault();
 
-    axios
-      .post(backendURI.url + "/users/register", this.state.form)
-      .then((res) => {
-        console.log(res);
-      });
-    console.log(this.state.form);
+    const obj = getFromStorage('auth-token');
+
+    const formData = new FormData();
+
+    formData.append('profileImage', this.state.form.file);
+    formData.append('firstName', this.state.form.firstName);
+    formData.append('lastName', this.state.form.lastName);
+    formData.append('password', this.state.form.nic);
+    formData.append('nic', this.state.form.nic);
+    formData.append('email', this.state.form.email);
+    formData.append('userType', this.state.form.userType);
+    formData.append('birthday', this.state.startDate);
+    formData.append('mobileNumber', this.state.form.mobileNumber);
+
+    var myHeaders = new Headers();
+    myHeaders.append("auth-token", obj.token);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formData,
+      redirect: 'follow'
+    };
+
+    if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
+      this.setState({
+        snackbaropen: true,
+        snackbarmsg: "Please Fill the Form..!"
+      })
+    }
+    else {
+      console.log("good")
+      fetch("http://localhost:4000/users/register", requestOptions)
+        .then(response => response.text())
+        .then(res => {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: JSON.stringify(res.msg)
+          })
+        })
+        .catch(error => {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: error
+          })
+          console.log('error', error)
+        });
+    }
   }
 
   render() {
-    const { selectedOption, form } = this.state;
+    const { form } = this.state;
 
     return (
       <div>
-        <Navbar panel={"admin"} />
+          <Navbar panel={"admin"} />
         <div className="container-fluid">
+          <Snackbar
+            open={this.state.snackbaropen}
+            autoHideDuration={2000}
+            onClose={this.snackbarClose}
+            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="secondary"
+                onClick={this.snackbarClose}
+              > x </IconButton>
+            ]}
+          />
+
 
           <Row>
             <Col xs="4">
@@ -118,6 +184,8 @@ export default class registration extends Component {
               />
             </Col>
             <Col xs="8" className="main-div">
+
+
               <div className="container">
 
                 <div >
@@ -133,8 +201,8 @@ export default class registration extends Component {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name="email"
-                                  value={form.email}
+                                  name="firstName"
+                                  value={form.firstName}
                                   onChange={this.onChange}
                                 ></input>
                               </div>
@@ -145,23 +213,48 @@ export default class registration extends Component {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name="nic"
-                                  value={form.nic}
+                                  name="lastName"
+                                  value={form.lastName}
+
                                   onChange={this.onChange}
                                 ></input>
                               </div>
                             </Col>
                           </Row>
 
+                          <div className="form-group">
+                            <label className="text-label">Choose Profile Image : </label>
+                          </div>
                           <Row>
+                            <Col>
+                              {/* File input */}
+                              <div className="input-group">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text"> Upload </span>
+                                </div>
+                                <div className="custom-file">
+                                  <input
+                                    type="file"
+                                    className="custom-file-input"
+                                    id="inputGroupFile01"
+                                    onChange={this.handleImageChange}
+                                  />
+                                  <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgName}</label>
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          <Row style={{ marginTop: "20px" }}>
                             <Col>
                               <div className="form-group">
                                 <label className="text-label">E-mail : </label>
                                 <input
-                                  type="text"
+                                  type="email"
                                   className="form-control"
                                   name="email"
                                   value={form.email}
+
                                   onChange={this.onChange}
                                 ></input>
                               </div>
@@ -174,6 +267,7 @@ export default class registration extends Component {
                                   className="form-control"
                                   name="nic"
                                   value={form.nic}
+
                                   onChange={this.onChange}
                                 ></input>
                               </div>
@@ -183,18 +277,22 @@ export default class registration extends Component {
                             <Col>
                               <div className="form-group">
                                 <label className="text-label">Usertype : </label>
-                                <Select
-                                  value={selectedOption}
-                                  options={options}
-                                  onChange={this.onChange}
-                                // name="userType"
-                                />
+                                <div className="form-group">
+                                  <select className="form-control" id="dropdown" value={form.userType} onChange={this.handleDropdownChange}>
+                                    <option>Select User Type</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Admin">Administrator</option>
+
+                                  </select>
+                                </div>
                               </div>
                             </Col>
                             <Col>
                               <div className="form-group">
                                 <label className="text-label">Mobile Number : </label>
-                                <input type="text" className="form-control" name="userId" value={form.userId} onChange={this.onChange}
+                                <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
+                                  value={form.mobileNumber}
                                 ></input>
                               </div>
                             </Col>
@@ -204,36 +302,19 @@ export default class registration extends Component {
                                 <DatePicker
                                   className="form-control"
                                   selected={this.state.startDate}
-                                  onChange={this.onChange}
-                                  // name="birthday"
-                                  value={form.birthday}
+                                  onChange={this.onChangeDate}
+                                  dateFormat="yyyy-MM-dd"
                                 />
                               </div>
                             </Col>
                           </Row>
-                          <div className="form-group">
-                            <label className="text-label">Choose Profile Image : </label>
-                          </div>
 
 
-                          <div className="input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text"> Upload </span>
-                            </div>
-                            <div className="custom-file">
-                              <input
-                                type="file"
-                                className="custom-file-input"
-                                id="inputGroupFile01"
-                                onChange={this.handleImageChange}
-                              />
-                              <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgName}</label>
-                            </div>
-                          </div>
+
 
                           <div className="form-group">
                             <button
-                              className="btn btn-info my-4 btn-block "
+                              className="btn btn-info my-4  "
                               type="submit"
                             >Register Now </button>
                           </div>

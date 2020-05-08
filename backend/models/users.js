@@ -15,6 +15,7 @@ var userSchema = mongoose.Schema({
   isAdmin: { type: Boolean },
   isCoordinator: { type: Boolean },
   isSupervisor: { type: Boolean },
+  imageName: { type: String },
 });
 
 const Users = (module.exports = mongoose.model("Users", userSchema));
