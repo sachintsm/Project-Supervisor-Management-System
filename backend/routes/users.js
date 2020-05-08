@@ -1,19 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/users");
-const UserSession = require("../models/userSession");
-const bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-const verify = require("../authentication");
+const User = require('../models/users');
+const Staff = require('../models/staff');
+const UserSession = require('../models/userSession');
+const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+const verify = require('../authentication');
 
 //User registration
-router.post("/register", async function (req, res) {
+router.post('/register', async function (req, res) {
   //checking if the userId is already in the database
   const userEmailExists = await User.findOne({ email: req.body.email });
   if (userEmailExists)
     return res
       .status(400)
-      .send({ state: false, msg: "This userId already in use..!" });
+      .send({ state: false, msg: 'This userId already in use..!' });
 
   console.log(req.body);
 
@@ -50,14 +51,14 @@ router.post("/register", async function (req, res) {
               .then((req) => {
                 res.json({
                   state: true,
-                  msg: "User Registered Successfully..!",
+                  msg: 'User Registered Successfully..!',
                 });
               })
               .catch((err) => {
                 console.log(err);
                 res.json({
                   state: false,
-                  msg: "User Registration Unsuccessfull..!",
+                  msg: 'User Registration Unsuccessfull..!',
                 });
               });
           }
@@ -68,7 +69,7 @@ router.post("/register", async function (req, res) {
 });
 
 //User Login
-router.post("/login", async function (req, res) {
+router.post('/login', async function (req, res) {
   const password = req.body.password;
 
   //checking if the userId is already in the database
@@ -76,21 +77,22 @@ router.post("/login", async function (req, res) {
   if (!user)
     return res
       .status(400)
-      .send({ state: false, msg: "This is not valid user!" });
+      .send({ state: false, msg: 'This is not valid user!' });
 
   bcrypt.compare(password, user.password, function (err, match) {
     if (err) throw err;
 
     if (match) {
       if (err) {
-        console.log(err); 1
-        return res.send({ state: false, msg: "Error : Server error" });
+        console.log(err);
+        1;
+        return res.send({ state: false, msg: 'Error : Server error' });
       } else {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res.header("auth-token", token).send({
+        res.header('auth-token', token).send({
           state: true,
-          userId : user._id,
-          msg: "Sign in Successfully..!",
+          userId: user._id,
+          msg: 'Sign in Successfully..!',
           token: token,
           isStudent: user.isStudent,
           isAdmin: user.isAdmin,
@@ -99,13 +101,22 @@ router.post("/login", async function (req, res) {
         });
       }
     } else {
-      res.json({ state: false, msg: "Password Incorrect..!" });
+      res.json({ state: false, msg: 'Password Incorrect..!' });
     }
   });
 });
 
-router.get("/verify", verify, function (req, res, next) {
-  res.send({ state: true, msg: "Successful..!" });
+router.get('/stafflist', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isStudent: false, isDeleted: false });
+    res.send(results);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get('/verify', verify, function (req, res, next) {
+  res.send({ state: true, msg: 'Successful..!' });
 });
 
 //testing merge
