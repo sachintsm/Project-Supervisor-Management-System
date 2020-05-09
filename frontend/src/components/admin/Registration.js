@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../css/admin/Registration.css";
-import { verifyAuth } from "../utils/Authentication";
-import Navbar from "../components/shared/Navbar";
+import "../../css/admin/Registration.css";
+import { verifyAuth } from "../../utils/Authentication";
+import Navbar from "../shared/Navbar";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { getFromStorage } from '../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 
-const backendURI = require('./shared/BackendURI');
+const backendURI = require('../shared/BackendURI');
 
 
 export default class registration extends Component {
@@ -178,7 +178,7 @@ export default class registration extends Component {
             <Col xs="4">
               <img
                 alt='background'
-                src={require('../assets/backgrounds/pngguru.png')}
+                src={require('../../assets/backgrounds/pngguru.png')}
                 className='image'
               />
             </Col>
