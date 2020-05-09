@@ -1,29 +1,34 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const User = require("../models/users");
-const UserSession = require("../models/userSession");
-const bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-const verify = require("../authentication");
+const User = require('../models/users');
+const Staff = require('../models/staff');
+const UserSession = require('../models/userSession');
+const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+const verify = require('../authentication');
 const multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'local_storage/profile_Images/')    //user profile pictures saving destination folder
+    cb(null, 'local_storage/profile_Images/'); //user profile pictures saving destination folder
   },
   filename: function (req, file, cb) {
     let ts = Date.now();
     let date_ob = new Date(ts);
-    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
-    cb(null, time + '-' + file.originalname)   //set the file neme
-  }
+    const time =
+      date_ob.getDate() +
+      date_ob.getMonth() +
+      1 +
+      date_ob.getFullYear() +
+      date_ob.getHours();
+    cb(null, time + '-' + file.originalname); //set the file neme
+  },
 });
 
 const upload = multer({ storage: storage }).single('profileImage');
 
 //User registration
 router.post("/register", verify, async function (req, res) {
-  console.log("sachin")
   upload(req, res, (err) = async () => {
     console.log(req.body)
     // checking if the userId is already in the database
@@ -32,7 +37,7 @@ router.post("/register", verify, async function (req, res) {
 
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
-    
+
     var student
     var admin
     var staff
@@ -109,12 +114,11 @@ router.post("/register", verify, async function (req, res) {
         }
       }
     );
-
-  });
+  })
 });
 
 //User Login
-router.post("/login", async function (req, res) {
+router.post('/login', async function (req, res) {
   const password = req.body.password;
 
   //checking if the userId is already in the database
@@ -129,14 +133,15 @@ router.post("/login", async function (req, res) {
 
     if (match) {
       if (err) {
-        console.log(err); 1
-        return res.send({ state: false, msg: "Error : Server error" });
+        console.log(err);
+        1;
+        return res.send({ state: false, msg: 'Error : Server error' });
       } else {
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-        res.header("auth-token", token).send({
+        res.header('auth-token', token).send({
           state: true,
           userId: user._id,
-          msg: "Sign in Successfully..!",
+          msg: 'Sign in Successfully..!',
           token: token,
           isStudent: user.isStudent,
           isAdmin: user.isAdmin,
@@ -145,13 +150,23 @@ router.post("/login", async function (req, res) {
         });
       }
     } else {
-      res.json({ state: false, msg: "Password Incorrect..!" });
+      res.json({ state: false, msg: 'Password Incorrect..!' });
     }
   });
 });
 
-router.get("/verify", verify, function (req, res, next) {
-  res.send({ state: true, msg: "Successful..!" });
+router.get('/stafflist', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isStudent: false, isDeleted: false });
+    res.send(results);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//authentication token verification
+router.get('/verify', verify, function (req, res, next) {
+  res.send({ state: true, msg: 'Successful..!' });
 });
 
 //testing merge

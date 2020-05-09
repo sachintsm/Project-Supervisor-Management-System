@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/shared/Navbar.css';
+import { Redirect } from 'react-router';
+
 import { deleteStorage } from '../../utils/Storage';
 import {
   MDBNavbar,
@@ -15,6 +17,8 @@ import {
 } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import { FiSettings } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
 
 export default class navbar extends Component {
   constructor(props) {
@@ -26,6 +30,7 @@ export default class navbar extends Component {
       isCoordinator: localStorage.getItem('isCoordinator'),
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
+      logout: false,
     };
     this.logout = this.logout.bind(this);
   }
@@ -40,10 +45,20 @@ export default class navbar extends Component {
     deleteStorage('isStudent');
     deleteStorage('isCoordinator');
     deleteStorage('isSupervisor');
-    window.location.reload(false);
+    this.setState({
+      logout: true,
+    });
+    // this.context.router.push('/');
+    // window.location.reload(false);
+
+    // let history = useHistory();
+    // history.push('/');
   }
 
   render() {
+    if (this.state.logout) {
+      return <Redirect to='/' push={true} />;
+    }
     return (
       <Router>
         <MDBNavbar
@@ -64,17 +79,8 @@ export default class navbar extends Component {
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav right>
               <MDBNavItem>
-                <Nav.Link href="/adminhome/viewusers">Users</Nav.Link>
-              </MDBNavItem>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <MDBNavItem>
-                <Nav.Link href="/adminhome/registration">Registration</Nav.Link>
-              </MDBNavItem>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <MDBNavItem>
-
-                {this.state.panel === "admin" ? (
-                  <Nav.Link href="/adminhome">Home</Nav.Link>
+                {this.state.panel === 'admin' ? (
+                  <Nav.Link href='/adminhome'>Home</Nav.Link>
                 ) : null}
                 {this.state.panel === 'student' ? (
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
@@ -87,44 +93,107 @@ export default class navbar extends Component {
                 ) : null}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
+              {/* =============================== Admin Panel================================ */}
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
+                </MDBNavItem>
+              )}
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/createproject'>
+                    Create Project
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/projecttypes'>
+                    Project Categories
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+              {/* ========================================================================= */}
+              &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
-                {this.state.isCoordinator || this.state.isSupervisor ? (
+                {this.state.isCoordinator ||
+                this.state.isSupervisor ||
+                this.state.isAdmin ? (
                   <MDBDropdown style={{ backgroundColor: '#1C2331' }} dark>
                     <MDBDropdownToggle nav caret>
                       <span className='mr-2'>Profile</span>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       <MDBDropdownItem href='/profile'>
-                        Settings
+                        <IconContext.Provider
+                          value={{
+                            color: '#263238',
+                            className: 'global-class-name',
+                            style: {
+                              verticalAlign: 'middle',
+                            },
+                          }}
+                        >
+                          <div>
+                            <FiSettings />
+                            &nbsp; &nbsp; &nbsp;
+                            <span>Settings</span>
+                          </div>
+                        </IconContext.Provider>
                       </MDBDropdownItem>
-                      {this.state.isSupervisor && this.state.isCoordinator ? (
+                      {((this.state.isSupervisor && this.state.isCoordinator) ||
+                        (this.state.isSupervisor && this.state.isAdmin) ||
+                        (this.state.isAdmin && this.state.isCoordinator)) && (
                         <MDBDropdownItem divider />
-                      ) : null}
+                      )}
 
                       {this.state.panel === 'supervisor' &&
-                        this.state.isCoordinator ? (
+                        this.state.isAdmin && (
+                          <MDBDropdownItem href='/adminhome'>
+                            Switch to Admin
+                          </MDBDropdownItem>
+                        )}
+                      {this.state.panel === 'supervisor' &&
+                        this.state.isCoordinator && (
                           <MDBDropdownItem href='/coordinatorhome'>
                             Switch to Coordinator
                           </MDBDropdownItem>
-                        ) : null}
+                        )}
 
                       {this.state.panel === 'coordinator' &&
-                        this.state.isSupervisor ? (
+                        this.state.isAdmin && (
+                          <MDBDropdownItem href='/adminHome'>
+                            Switch to Admin
+                          </MDBDropdownItem>
+                        )}
+                      {this.state.panel === 'coordinator' &&
+                        this.state.isSupervisor && (
                           <MDBDropdownItem href='/supervisorhome'>
                             Switch to Supervisor
                           </MDBDropdownItem>
-                        ) : null}
+                        )}
+
+                      {this.state.panel === 'admin' &&
+                        this.state.isCoordinator && (
+                          <MDBDropdownItem href='/coordinatorhome'>
+                            Switch to Coordinator
+                          </MDBDropdownItem>
+                        )}
+                      {this.state.panel === 'admin' &&
+                        this.state.isSupervisor && (
+                          <MDBDropdownItem href='/supervisorhome'>
+                            Switch to Supervisor
+                          </MDBDropdownItem>
+                        )}
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 ) : (
-
-                    <Nav.Link href="/profile">Profile</Nav.Link>
-
-
-                  )}
+                  <Nav.Link href='/profile'>Profile</Nav.Link>
+                )}
               </MDBNavItem>
               &nbsp; &nbsp; &nbsp; &nbsp;
-
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
