@@ -188,8 +188,8 @@ export default class registration extends Component {
               <div className="container">
 
                 <div >
-                  <h3 className="topic"> User Registration</h3>
-                  <Tabs className="topic" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                  <p className="reg-head">User Registration</p>
+                  <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                     <Tab eventKey="single" title="Registration">
                       <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                         <form onSubmit={this.onSubmit}>
