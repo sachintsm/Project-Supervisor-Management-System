@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
 import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
+import Footer from '../shared/Footer';
 // import Snackbar from '@material-ui/core/Snackbar';
 // import YearPicker from 'react-year-picker';
 import {
@@ -226,7 +227,7 @@ class CreateProject extends Component {
                     <Col md={3}></Col>
                     <Col md={6}>
                       <Button
-                        variant='secondary'
+                        variant='info'
                         style={{ width: '90%' }}
                         onClick={this.onSignIn}
                       >
@@ -240,6 +241,7 @@ class CreateProject extends Component {
             </Col>
           </Row>
         </div>
+        <Footer />
       </React.Fragment>
     );
   }
