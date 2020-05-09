@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Registration from './components/Registration';
+import Registration from './components/admin/Registration'
 import Login from './components/Login';
 import AdminHome from './components/admin/AdminHome';
 import viewusers from './components/admin/ViewUsers';
@@ -27,9 +27,9 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Login}></Route>
-          <Route exact path='/registration' component={Registration}></Route>
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
+          <Route exact path='/adminhome/registration' component={Registration}></Route>
           <Route
             exact
             path='/admin/viewusers'

@@ -1,0 +1,30 @@
+.notice-card{
+    width: 60%;
+    margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    
+}
+.notice-card-div{
+    margin-top: 30px;
+
+}
+
+.topic {
+    color: rgb(0, 140, 255);
+    font-weight: 300;
+    padding-top: 50px;
+    font-family: roboto,sens-serif;
+    font-weight: 300;
+    text-align: center;
+  }
+
+
+.btn-style{
+    
+text-align: center;
+width: 30%;
+margin-left: 230px;
+
+  }
