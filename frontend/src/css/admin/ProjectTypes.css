@@ -1,0 +1,31 @@
+.container-fluid-div {
+  background-color: #f5f5f5;
+  width: 60%;
+}
+
+.card-div {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 80%;
+  padding-top: 30px;
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-bottom: 30px;
+}
+
+.verticle-align-middle {
+  vertical-align: middle;
+}
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 10px;
+}
+
+.form-control-label {
+  font-size: 5px;
+}

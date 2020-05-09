@@ -13,6 +13,7 @@ import SupervisorHome from './components/supervisor/SupervisorHome';
 import StudentHome from './components/student/StudentHome';
 import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
+import ProjectTypes from './components/admin/ProjectTypes';
 
 import Footer from './components/shared/Footer';
 
@@ -38,6 +39,11 @@ function App() {
             exact
             path='/adminhome/createproject'
             component={CreateProject}
+          ></Route>
+          <Route
+            exact
+            path='/adminhome/projecttypes'
+            component={ProjectTypes}
           ></Route>
 
           {/* ==================================================================== */}
