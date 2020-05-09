@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import '../../css/admin/AdminHome.css'
-
 import Notice from "../shared/Notice";
 
 class AdminHome extends Component {
