@@ -28,87 +28,93 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('profileImage');
 
 //User registration
-router.post('/register', verify, async function (req, res) {
-  upload(
-    req,
-    res,
-    (err = async () => {
-      console.log(req.body);
-      // checking if the userId is already in the database
-      const userEmailExists = await User.findOne({ email: req.body.email });
-      if (userEmailExists)
-        return res
-          .status(400)
-          .send({ state: false, msg: 'This userId already in use..!' });
+router.post("/register", verify, async function (req, res) {
+  upload(req, res, (err) = async () => {
+    console.log(req.body)
+    // checking if the userId is already in the database
+    const userEmailExists = await User.findOne({ email: req.body.email });
+    if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
 
-      var student, admin, staff;
-      if (req.body.userType === 'Admin') admin = true;
-      else if (req.body.userType === 'Staff') staff = true;
-      else if (req.body.userType === 'Student') student = true;
+    //check file empty
+    if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
 
-      let ts = Date.now();
-      let date_ob = new Date(ts);
-      const time =
-        date_ob.getDate() +
-        date_ob.getMonth() +
-        1 +
-        date_ob.getFullYear() +
-        date_ob.getHours();
+    var student
+    var admin
+    var staff
 
-      var fullPath = time + '-' + req.file.originalname;
+    if (req.body.userType === 'Admin') {
+      admin = true
+      student = false
+      staff = false
+    }
+    else if (req.body.userType === 'Staff') {
+      staff = true
+      admin = false
+      student = false
+    }
+    else if (req.body.userType === 'Student') {
+      student = true
+      staff = false
+      admin = false
+    }
 
-      //create a new user
-      const newUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password.toLowerCase(),
-        birthday: req.body.birthday,
-        nic: req.body.nic.toLowerCase(),
-        mobile: req.body.mobileNumber,
-        imageName: fullPath,
-        isStudent: student,
-        isAdmin: admin,
-        isStaff: staff,
-        isSupervisor: false,
-        isCoordinator: false,
-        isDeleted: false,
-      });
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
 
-      bcrypt.genSalt(
-        10,
-        await function (err, salt) {
-          if (err) {
-            console.log(err);
-          } else {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
-              newUser.password = hash;
+    var fullPath = time + '-' + req.file.originalname;
 
-              if (err) {
-                throw err;
-              } else {
-                newUser
-                  .save()
-                  .then((req) => {
-                    res.json({
-                      state: true,
-                      msg: 'User Registered Successfully..!',
-                    });
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    res.json({
-                      state: false,
-                      msg: 'User Registration Unsuccessfull..!',
-                    });
+    //create a new user
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password.toLowerCase(),
+      birthday: req.body.birthday,
+      nic: req.body.nic.toLowerCase(),
+      mobile: req.body.mobileNumber,
+      imageName: fullPath,
+      isStudent: student,
+      isAdmin: admin,
+      isStaff: staff,
+      isSupervisor: false,
+      isCoordinator: false,
+      isDeleted: false,
+    });
+
+    bcrypt.genSalt(
+      10,
+      await function (err, salt) {
+        if (err) {
+          console.log(err);
+        } else {
+          bcrypt.hash(newUser.password, salt, function (err, hash) {
+            newUser.password = hash;
+
+            if (err) {
+              throw err;
+            } else {
+              newUser
+                .save()
+                .then((req) => {
+                  res.json({
+                    state: true,
+                    msg: "User Registered Successfully..!",
                   });
-              }
-            });
-          }
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.json({
+                    state: false,
+                    msg: "User Registration Unsuccessfull..!",
+                  });
+                });
+            }
+          });
         }
-      );
-    })
-  );
+      }
+    );
+  })
 });
 
 //User Login
@@ -120,7 +126,7 @@ router.post('/login', async function (req, res) {
   if (!user)
     return res
       .status(400)
-      .send({ state: false, msg: 'This is not valid user!' });
+      .send({ state: false, Error: "This is not valid user!" });
 
   bcrypt.compare(password, user.password, function (err, match) {
     if (err) throw err;
@@ -158,6 +164,7 @@ router.get('/stafflist', async (req, res, next) => {
   }
 });
 
+//authentication token verification
 router.get('/verify', verify, function (req, res, next) {
   res.send({ state: true, msg: 'Successful..!' });
 });

@@ -133,13 +133,12 @@ export default class registration extends Component {
       })
     }
     else {
-      console.log("good")
-      fetch("http://localhost:4000/users/register", requestOptions)
-        .then(response => response.text())
-        .then(res => {
+      fetch(backendURI.url + "/users/register", requestOptions)
+        .then((res) => res.json())
+        .then((json) => {
           this.setState({
             snackbaropen: true,
-            snackbarmsg: JSON.stringify(res.msg)
+            snackbarmsg: json.msg
           })
         })
         .catch(error => {
@@ -157,7 +156,7 @@ export default class registration extends Component {
 
     return (
       <div>
-          <Navbar panel={"admin"} />
+        <Navbar panel={"admin"} />
         <div className="container-fluid">
           <Snackbar
             open={this.state.snackbaropen}
@@ -179,7 +178,7 @@ export default class registration extends Component {
             <Col xs="4">
               <img
                 alt='background'
-                src={require('../assets/backgrounds/reg-wallpaper.png')}
+                src={require('../assets/backgrounds/pngguru.png')}
                 className='image'
               />
             </Col>
@@ -267,7 +266,6 @@ export default class registration extends Component {
                                   className="form-control"
                                   name="nic"
                                   value={form.nic}
-
                                   onChange={this.onChange}
                                 ></input>
                               </div>

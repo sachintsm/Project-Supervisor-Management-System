@@ -1,7 +1,7 @@
 .image {
-    margin-left: -20px;
-    width: 107%;
-    min-height: 50%;
+    margin-top: 100px;
+    width: 100%;
+    margin-bottom: 100px;
 }
 .topic {
     margin-left: 20px;
@@ -10,8 +10,8 @@
 }
 
 .main-div{
-    background-color: rgb(252, 252, 252);
-    height: 500px;
+    /* background-color: rgb(252, 252, 252); */
+    height: 100%;
 }
 
 .text-label{
