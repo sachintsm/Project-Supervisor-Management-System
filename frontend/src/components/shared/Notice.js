@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { verifyAuth } from "../../utils/Authentication";
 import Card from "@material-ui/core/Card";
 import "../../css/shared/Notice.css";
-
+import Navbar from '../shared/Navbar';
+import Snackpop from '../shared/Snackpop';
 import axios from 'axios';
 const backendURI = require("./BackendURI");
 
@@ -25,8 +26,9 @@ const backendURI = require("./BackendURI");
           //userType:"",
           noticeTittle:"",
           notice:"",
-          noticeAttachment: ""
-         
+          noticeAttachment: "",
+          succesAlert: false,
+          warnAlert: false,
       }
 
       this.onChangeTittle = this.onChangeTittle.bind(this)
@@ -66,7 +68,12 @@ const backendURI = require("./BackendURI");
 
       axios.post(backendURI.url + "/notice/addNotice",formData)
       .then(res=>{
-        console.log(res)
+        this.setState({
+          succesAlert: true,
+        
+        });
+        console.log(res.data)
+
       }).catch(error=>{
         console.log(error)
       })
@@ -77,20 +84,35 @@ const backendURI = require("./BackendURI");
         noticeAttachment:''
       })
 
-
-
-
     }
+
+    closeAlert = () => {
+      this.setState({
+        succesAlert: false,
+        warnAlert: false,
+      });
+    };
 
   render() {
     return (
-       
-      <div className="container-fluid" style={{ backgroundColor: "#F8F9FA", minHeight: "700px" }}>
+      <React.Fragment>
+      <Snackpop
+      msg={'Successfully Added'}
+      color={'success'}
+      time={3000}
+      status={this.state.succesAlert}
+      closeAlert={this.closeAlert}
+    />
+ 
+
+      <Navbar panel={'admin'} />
+
+      <div className="container-fluid" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="row">
           <div className="container notice-card-div">
             <Card className="notice-card">
           
-            <h2 class="topic">Add Notice</h2>
+            <h3 >Add New Notice</h3>
             <br></br>
 
             <form onSubmit={this.onSubmit}>
@@ -113,15 +135,19 @@ const backendURI = require("./BackendURI");
             <input type="file" name="noticeAttachment" className="form-control"   onChange={this.onChangeFile}/>
             </div>
             
-
-            <button type="submit" className="btn btn-primary btn-sm btn-style ">Uploard</button>
             
+            <div className="form-group">
+            <button type="submit" className="btn btn-info my-4 btn-style ">Uploard</button>
+            </div>
+
             </form>
              
             </Card>
           </div>
         </div>
       </div>
+
+      </React.Fragment>
     )
   }
 }

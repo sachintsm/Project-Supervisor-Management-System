@@ -121,6 +121,15 @@ export default class navbar extends Component {
                   </Nav.Link>
                 </MDBNavItem>
               )}
+
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/shared/notice'>
+                    Create Notice
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
               {/* ========================================================================= */}
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
