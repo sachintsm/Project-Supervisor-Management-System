@@ -1,7 +1,20 @@
-.card{
-    margin: auto;
+.image {
+    margin-top: 100px;
+    width: 100%;
+    margin-bottom: 100px;
+}
+.topic {
+    margin-left: 20px;
+    text-align: left;
     margin-top: 50px;
-    margin-bottom: 50px;
-    width: 80%;
+}
+
+.main-div{
+    /* background-color: rgb(252, 252, 252); */
+    height: 100%;
+}
+
+.text-label{
+    color: #6d6d6d;
 }
 

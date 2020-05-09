@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../css/shared/footer.css";
+import "../../css/shared/Footer.css";
 // import Iframe from 'react-iframe'
 
 export default class footer extends Component {

@@ -1,65 +1,68 @@
 import React, { Component } from "react";
-import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../css/admin/Registration.css";
-import axios from "axios";
-import Sidebar from "./shared/Sidebar";
 import { verifyAuth } from "../utils/Authentication";
-const backendURI = require("./shared/BackendURI");
+import Navbar from "../components/shared/Navbar";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { getFromStorage } from '../utils/Storage';
+import Snackbar from '@material-ui/core/Snackbar'
+import IconButton from '@material-ui/core/IconButton'
 
-const options = [
-  { value: "Administartor", label: "Administrator" },
-  { value: "Manager", label: "Manager" },
-  { value: "Pumper", label: "Pumper" },
-];
+const backendURI = require('./shared/BackendURI');
+
 
 export default class registration extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleChangeUsertype = this.handleChangeUsertype.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
 
     this.state = {
+      snackbaropen: false,
+      snackbarmsg: '',
       form: {
-        fullName: "",
-        password: "",
-        userId: "",
-        userType: "",
-        birthday: "",
-        email: "",
-        nic: "",
-        mobileOne: "",
-        mobileTwo: "",
-        epf: "",
-        etf: "",
-        address: "",
-        other: "",
+        firstName: '',
+        lastName: '',
+        userType: '',
+        email: '',
+        nic: '',
+        mobileNumber: '',
+
+
+        imgName: '',
       },
+      startDate: new Date(),
     };
+  }
+  snackbarClose = (event) => {
+    this.setState({ snackbaropen: false })
   }
   async componentDidMount() {
     const authState = await verifyAuth();
+    console.log(authState);
+
     console.log(authState);
     this.setState({
       authState: authState,
     });
     if (!authState) {
-      this.props.history.push("/login");
+      this.props.history.push("/");
     }
   }
 
-  state = {
-    selectedOption: null,
-    startDate: new Date(),
-  };
 
-  handleChangeBirthday = (date) => {
-    this.setState({
-      startDate: date,
-    });
-  };
+  onChangeDate = date => {
+    this.setState(prevState => ({
+      startDate: date
+    }))
+  }
 
   handleChangeUsertype = (selectedOption) => {
     this.setState({ selectedOption });
@@ -67,210 +70,267 @@ export default class registration extends Component {
   };
 
   onChange = (e) => {
-    e.persist = () => {};
+    e.persist = () => { };
     let store = this.state;
     store.form[e.target.name] = e.target.value;
     this.setState(store);
   };
 
+  handleImageChange = (e) => {
+    const Val = e.target.files[0]
+    this.setState({
+      imgName: Val.name
+    })
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        file: Val
+      }
+    }))
+  }
+  handleDropdownChange = (e) => {
+    const Val = e.target.value
+    console.log(Val)
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        userType: Val
+      }
+    }))
+  }
+
   onSubmit(event) {
     event.preventDefault();
 
-    axios
-      .post(backendURI.url + "/users/register", this.state.form)
-      .then((res) => {
-        console.log(res);
-      });
-    console.log(this.state.form);
+    const obj = getFromStorage('auth-token');
+
+    const formData = new FormData();
+
+    formData.append('profileImage', this.state.form.file);
+    formData.append('firstName', this.state.form.firstName);
+    formData.append('lastName', this.state.form.lastName);
+    formData.append('password', this.state.form.nic);
+    formData.append('nic', this.state.form.nic);
+    formData.append('email', this.state.form.email);
+    formData.append('userType', this.state.form.userType);
+    formData.append('birthday', this.state.startDate);
+    formData.append('mobileNumber', this.state.form.mobileNumber);
+
+    var myHeaders = new Headers();
+    myHeaders.append("auth-token", obj.token);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formData,
+      redirect: 'follow'
+    };
+
+    if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
+      this.setState({
+        snackbaropen: true,
+        snackbarmsg: "Please Fill the Form..!"
+      })
+    }
+    else {
+      fetch(backendURI.url + "/users/register", requestOptions)
+        .then((res) => res.json())
+        .then((json) => {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: json.msg
+          })
+        })
+        .catch(error => {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: error
+          })
+          console.log('error', error)
+        });
+    }
   }
 
   render() {
-    const { selectedOption, form } = this.state;
+    const { form } = this.state;
 
     return (
-      <Col className="row">
-        <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
-          <Sidebar />
-        </div>
-        <div className="col-md-10">
-          <React.Fragment>
-            <h3 style={{ textAlign: "center", marginTop: "50px" }}>
-              User Registration
-            </h3>
+      <div>
+        <Navbar panel={"admin"} />
+        <div className="container-fluid">
+          <Snackbar
+            open={this.state.snackbaropen}
+            autoHideDuration={2000}
+            onClose={this.snackbarClose}
+            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="secondary"
+                onClick={this.snackbarClose}
+              > x </IconButton>
+            ]}
+          />
 
-            <div className="card">
-              <div style={{ width: "90%", margin: "auto" }}>
-                <form onSubmit={this.onSubmit}>
-                  <div className="form-group" style={{ marginTop: "50px" }}>
-                    <label>Full Name : </label>
-                    <input
-                      name="fullName"
-                      type="text"
-                      className="form-control"
-                      value={form.fullName}
-                      onChange={this.onChange}
-                    ></input>
-                  </div>
-                  <div className="form-group">
-                    <label>Password : </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="password"
-                      value={form.password}
-                      onChange={this.onChange}
-                    ></input>
-                  </div>
 
-                  <Row>
-                    <Col>
-                      <div className="form-group">
-                        <label>User ID : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="userId"
-                          value={form.userId}
-                          onChange={this.onChange}
-                        ></input>
+          <Row>
+            <Col xs="4">
+              <img
+                alt='background'
+                src={require('../assets/backgrounds/pngguru.png')}
+                className='image'
+              />
+            </Col>
+            <Col xs="8" className="main-div">
+
+
+              <div className="container">
+
+                <div >
+                  <h3 className="topic"> User Registration</h3>
+                  <Tabs className="topic" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                    <Tab eventKey="single" title="Registration">
+                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+                        <form onSubmit={this.onSubmit}>
+                          <Row>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">First Name: </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="firstName"
+                                  value={form.firstName}
+                                  onChange={this.onChange}
+                                ></input>
+                              </div>
+                            </Col>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">Last Name : </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="lastName"
+                                  value={form.lastName}
+
+                                  onChange={this.onChange}
+                                ></input>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          <div className="form-group">
+                            <label className="text-label">Choose Profile Image : </label>
+                          </div>
+                          <Row>
+                            <Col>
+                              {/* File input */}
+                              <div className="input-group">
+                                <div className="input-group-prepend">
+                                  <span className="input-group-text"> Upload </span>
+                                </div>
+                                <div className="custom-file">
+                                  <input
+                                    type="file"
+                                    className="custom-file-input"
+                                    id="inputGroupFile01"
+                                    onChange={this.handleImageChange}
+                                  />
+                                  <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgName}</label>
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          <Row style={{ marginTop: "20px" }}>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">E-mail : </label>
+                                <input
+                                  type="email"
+                                  className="form-control"
+                                  name="email"
+                                  value={form.email}
+
+                                  onChange={this.onChange}
+                                ></input>
+                              </div>
+                            </Col>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">NIC Number : </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  name="nic"
+                                  value={form.nic}
+                                  onChange={this.onChange}
+                                ></input>
+                              </div>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">Usertype : </label>
+                                <div className="form-group">
+                                  <select className="form-control" id="dropdown" value={form.userType} onChange={this.handleDropdownChange}>
+                                    <option>Select User Type</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Admin">Administrator</option>
+
+                                  </select>
+                                </div>
+                              </div>
+                            </Col>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">Mobile Number : </label>
+                                <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
+                                  value={form.mobileNumber}
+                                ></input>
+                              </div>
+                            </Col>
+                            <Col>
+                              <label className="text-label">Birthday : </label>
+                              <div className="form-group">
+                                <DatePicker
+                                  className="form-control"
+                                  selected={this.state.startDate}
+                                  onChange={this.onChangeDate}
+                                  dateFormat="yyyy-MM-dd"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+
+
+
+
+                          <div className="form-group">
+                            <button
+                              className="btn btn-info my-4  "
+                              type="submit"
+                            >Register Now </button>
+                          </div>
+                        </form>
                       </div>
-                    </Col>
-                    <Col>
-                      <div className="form-group">
-                        <label>Usertype : </label>
-                        <Select
-                          value={selectedOption}
-                          options={options}
-                          onChange={this.onChange}
-                          // name="userType"
-                        />
-                      </div>
-                    </Col>
-                    <Col>
-                      <label>Birthday : </label>
-                      <div className="form-group">
-                        <DatePicker
-                          className="form-control"
-                          selected={this.state.startDate}
-                          onChange={this.onChange}
-                          // name="birthday"
-                          value={form.birthday}
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="form-group">
-                        <label>E-mail : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="email"
-                          value={form.email}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div className="form-group">
-                        <label>NIC Number : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="nic"
-                          value={form.nic}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="form-group">
-                        <label>Mobile Number 1 : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="mobileOne"
-                          value={form.mobileOne}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div className="form-group">
-                        <label>Mobile Number 2 : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="mobileTwo"
-                          value={form.mobileTwo}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div className="form-group">
-                        <label>EPF Number : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="epf"
-                          value={form.epf}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div className="form-group">
-                        <label>ETF Number : </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="etf"
-                          value={form.etf}
-                          onChange={this.onChange}
-                        ></input>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="form-group">
-                    <label>Address : </label>
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      name="address"
-                      value={form.address}
-                      onChange={this.onChange}
-                    ></textarea>
-                  </div>
-                  <div className="form-group">
-                    <label>Others : </label>
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      name="other"
-                      value={form.other}
-                      onChange={this.onChange}
-                    ></textarea>
-                  </div>
-                  <div className="form-group">
-                    <button
-                      className="btn btn-info my-4 btn-block "
-                      type="submit"
-                    >
-                      Register Now
-                    </button>
-                  </div>
-                </form>
+                    </Tab>
+                    <Tab eventKey="bulk" title="Bulk Registration">
+
+                    </Tab>
+                  </Tabs>
+
+                </div>
               </div>
-            </div>
-          </React.Fragment>
+
+            </Col>
+          </Row>
         </div>
-      </Col>
+      </div>
     );
   }
 }
