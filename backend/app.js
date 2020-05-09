@@ -57,6 +57,9 @@ app.use(bodyParser.json());
 const users = require("./routes/users");
 app.use("/users", users);
 
+const notice =  require("./routes/Notice");
+app.use("/notice",notice);
+
 app.get("/", function (req, res) {
   res.send("Hello world");
 });
