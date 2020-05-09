@@ -7,6 +7,7 @@ import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
 import Snackpop from '../shared/Snackpop';
 import MuiAlert from '@material-ui/lab/Alert';
+import Footer from '../shared/Footer';
 // import YearPicker from 'react-year-picker';
 import {
   Button,
@@ -121,7 +122,7 @@ class ProjectTypes extends Component {
                       <FormControl
                         type='text'
                         style={{ width: '100%' }}
-                        placeholder='Undergraduate / BIT / Master / ...'
+                        placeholder='Undergraduate / BIT / Master / etc'
                         onChange={(e) => {
                           this.setState({ projectType: e.target.value });
                         }}
@@ -267,6 +268,7 @@ class ProjectTypes extends Component {
             </Col>
           </Row>
         </div>
+        <Footer />
       </React.Fragment>
     );
   }

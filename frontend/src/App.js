@@ -33,17 +33,17 @@ function App() {
           <Route exact path='/adminhome/registration' component={Registration}></Route>
           <Route
             exact
-            path='/adminhome/viewusers'
+            path='/admin/viewusers'
             component={ViewUsers}
           ></Route>
           <Route
             exact
-            path='/adminhome/createproject'
+            path='/admin/createproject'
             component={CreateProject}
           ></Route>
           <Route
             exact
-            path='/adminhome/projecttypes'
+            path='/admin/projecttypes'
             component={ProjectTypes}
           ></Route>
           <Route
@@ -66,8 +66,6 @@ function App() {
           <Route exact path='/studenthome' component={StudentHome}></Route>
         </Switch>
       </Router>
-
-      <Footer />
     </React.Fragment>
   );
 }
