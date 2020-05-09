@@ -117,6 +117,80 @@ router.post("/register", verify, async function (req, res) {
   })
 });
 
+router.post('/bulkRegister', async (req, res, next) => {
+
+  var student
+  var admin
+  var staff
+
+  if (req.body.userType === 'Admin') {
+    admin = true
+    student = false
+    staff = false
+  }
+  else if (req.body.userType === 'Staff') {
+    staff = true
+    admin = false
+    student = false
+  }
+  else if (req.body.userType === 'Student') {
+    student = true
+    staff = false
+    admin = false
+  }
+  //create a new user
+  const newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password.toLowerCase(),
+    birthday: req.body.birthday,
+    nic: req.body.nic.toLowerCase(),
+    mobile: req.body.mobileNumber,
+    imageName: '',
+    isStudent: student,
+    isAdmin: admin,
+    isStaff: staff,
+    isSupervisor: false,
+    isCoordinator: false,
+    isDeleted: false,
+  });
+  
+  bcrypt.genSalt(
+    10,
+    await function (err, salt) {
+      if (err) {
+        console.log(err);
+      } else {
+        bcrypt.hash(newUser.password, salt, function (err, hash) {
+          newUser.password = hash;
+
+          if (err) {
+            throw err;
+          } else {
+            newUser
+              .save()
+              .then((req) => {
+                res.json({
+                  state: true,
+                  msg: "User Registered Successfully..!",
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                res.json({
+                  state: false,
+                  msg: "User Registration Unsuccessfull..!",
+                });
+              });
+          }
+        });
+      }
+    }
+  );
+
+});
+
 //User Login
 router.post('/login', async function (req, res) {
   const password = req.body.password;
