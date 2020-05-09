@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import '../../css/shared/Navbar.css';
 import { Redirect } from 'react-router';
 
-import { useHistory } from 'react-router-dom';
-
 import { deleteStorage } from '../../utils/Storage';
 import {
   MDBNavbar,
@@ -80,22 +78,6 @@ export default class navbar extends Component {
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav right>
-              {/* =============================== Admin Panel================================ */}
-              {this.state.panel === 'admin' && (
-                <MDBNavItem>
-                  <Nav.Link href='/adminhome/createproject'>
-                    Create Project
-                  </Nav.Link>
-                </MDBNavItem>
-              )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              {this.state.panel === 'admin' && (
-                <MDBNavItem>
-                  <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
-                </MDBNavItem>
-              )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              {/* ========================================================================= */}
               <MDBNavItem>
                 {this.state.panel === 'admin' ? (
                   <Nav.Link href='/adminhome'>Home</Nav.Link>
@@ -110,6 +92,30 @@ export default class navbar extends Component {
                   <Nav.Link href='/supervisorhome'>Home</Nav.Link>
                 ) : null}
               </MDBNavItem>
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {/* =============================== Admin Panel================================ */}
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
+                </MDBNavItem>
+              )}
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/createproject'>
+                    Create Project
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+              &nbsp; &nbsp; &nbsp; &nbsp;
+              {this.state.panel === 'admin' && (
+                <MDBNavItem>
+                  <Nav.Link href='/adminhome/projecttypes'>
+                    Project Categories
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+              {/* ========================================================================= */}
               &nbsp; &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 {this.state.isCoordinator ||
