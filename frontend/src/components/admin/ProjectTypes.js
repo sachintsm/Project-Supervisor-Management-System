@@ -4,7 +4,6 @@ import '../../css/admin/ProjectTypes.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
-import { FiEdit } from 'react-icons/fi';
 // import MultiSelect from 'react-multi-select-component';
 import Snackpop from '../shared/Snackpop';
 // import MuiAlert from '@material-ui/lab/Alert';

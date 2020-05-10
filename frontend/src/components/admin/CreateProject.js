@@ -3,20 +3,19 @@ import Navbar from '../shared/Navbar';
 import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
 import Footer from '../shared/Footer';
-// import Snackbar from '@material-ui/core/Snackbar';
-// import YearPicker from 'react-year-picker';
+import '../../css/admin/CreateProject.css';
 import {
   Button,
-  Container,
   Col,
   Row,
   Dropdown,
   DropdownButton,
   ButtonGroup,
-  FormControl,
 } from 'react-bootstrap';
 
 const backendURI = require('../shared/BackendURI');
+const date_ob = new Date();
+const year = date_ob.getFullYear()
 
 class CreateProject extends Component {
   constructor(props) {
@@ -27,12 +26,13 @@ class CreateProject extends Component {
     this.setSelected = this.setSelected.bind(this);
 
     this.state = {
-      year: '',
       academicYear: '1st Year',
       type: 'Undergraduate Project',
+      year: year,
       staffList: [],
       selectedStaffList: [],
       staffOptionList: [],
+      yearsArray: [],
     };
   }
   //   const [selected, setSelected] = useState([]);
@@ -62,6 +62,16 @@ class CreateProject extends Component {
       .catch((err) => {
         console.log(err);
       });
+
+    /***************************************************************************** */
+    let date_ob = new Date();
+    const year = date_ob.getFullYear();
+    var startYear = year - 2;
+    for (var i = 0; i < 6; i++) {
+      this.state.yearsArray.push(startYear);
+      startYear += 1;
+    }
+
   }
 
   componentDidUpdate() {
@@ -101,149 +111,137 @@ class CreateProject extends Component {
     });
   }
   render() {
+
+    const { yearsArray } = this.state;
+
+    let yearList = yearsArray.length > 0
+      && yearsArray.map((item, i) => {
+        return (
+          <Dropdown.Item key={i} eventKey={item}>{item}</Dropdown.Item>
+        )
+      }, this);
+
     return (
       <React.Fragment>
         <Navbar panel={'admin'} />
 
-        <div className='container-fluid' style={{ backgroundColor: '#F5F5F5' }}>
-          <Row>
-            <Col>
-              <Container>
-                <div
-                  className='card'
-                  style={{
-                    margin: 'auto',
-                    marginTop: '50px',
-                    marginBottom: '50px',
-                    width: '100%',
-                    paddingTop: '30px',
-                    paddingLeft: '60px',
-                    paddingRight: '60px',
-                    paddingBottom: '30px',
-                  }}
-                >
-                  <h3>Creating New Project</h3>
-                  <Row style={{ marginTop: '30px' }}>
-                    <Col>
-                      <Row style={{ marginBottom: '40px' }}>
-                        <Col md={2}>
-                          <span style={{ verticalAlign: 'middle' }}>
-                            Year of the Project
-                          </span>
-                        </Col>
-                        <Col md={10}>
-                          {/* <YearPicker onChange={this.onYearHandle} /> */}
-                          <FormControl
-                            type='text'
-                            style={{ width: '100%' }}
-                            placeholder='Ex:- 2020'
-                            onChange={this.onYearHandle}
-                          ></FormControl>
-                        </Col>
-                      </Row>
+        <div className="container-fluid" style={{ backgroundColor: "rgb(252, 252, 252)" }}>
+          <Row >
 
-                      <Row style={{ marginBottom: '40px' }}>
-                        <Col>
-                          <Row>
-                            <Col md={4}>
-                              <span style={{ verticalAlign: 'middle' }}>
-                                Project Type{' '}
-                              </span>
-                            </Col>
-                            <Col md={8}>
-                              <DropdownButton
-                                as={ButtonGroup}
-                                variant={'secondary'}
-                                title={this.state.type}
-                                onSelect={this.onChangeType}
-                              >
-                                <Dropdown.Item eventKey='Undergraduate Project'>
-                                  Undergraduate Project
+            <div className="card" style={{ width: '80%', margin: "auto", marginTop: "40px", marginBottom: "40px" }}>
+              <div className="container">
+
+                <h3 className='cp-head'>Creating New Project</h3>
+                <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+                  <Col xs="4">
+                    <Row>
+                      <p className="cp-text">
+                        Year of the Project
+                          </p>
+                    </Row>
+                    <Row>
+                      <DropdownButton
+                        as={ButtonGroup}
+                        variant={'secondary'}
+                        title={this.state.year}
+                        onSelect={this.onChangeAcademicYear}
+                        style={{ width: "90%" }}>
+                        {yearList}
+                      </DropdownButton>{' '}
+                    </Row>
+
+                  </Col>
+                  <Col xs="4">
+                    <Row>
+                      <p className="cp-text">
+                        Project Type
+                          </p>
+                    </Row>
+                    <Row >
+                      <DropdownButton
+                        as={ButtonGroup}
+                        variant={'secondary'}
+                        title={this.state.type}
+                        onSelect={this.onChangeType}
+                        style={{ width: "90%" }}
+                      >
+                        <Dropdown.Item eventKey='Undergraduate Project'>
+                          Undergraduate Project
                                 </Dropdown.Item>
-                                <Dropdown.Item eventKey='BIT Project'>
-                                  BIT Project
+                        <Dropdown.Item eventKey='BIT Project'>
+                          BIT Project
                                 </Dropdown.Item>
-                              </DropdownButton>{' '}
-                            </Col>
-                          </Row>
-                        </Col>
-                        <Col>
-                          <Row>
-                            <Col md={4}>
-                              <span style={{ verticalAlign: 'middle' }}>
-                                Academic Year{' '}
-                              </span>
-                            </Col>
-                            <Col md={8}>
-                              <DropdownButton
-                                as={ButtonGroup}
-                                variant={'secondary'}
-                                title={this.state.academicYear}
-                                onSelect={this.onChangeAcademicYear}
-                              >
-                                <Dropdown.Item eventKey='1st Year'>
-                                  1st Year
+                      </DropdownButton>{' '}
+
+                    </Row>
+                  </Col>
+                  <Col xs="4">
+                    <Row>
+                      <p className="cp-text">
+                        Academic Year
+                          </p>
+                    </Row>
+                    <Row>
+                      <DropdownButton
+                        as={ButtonGroup}
+                        variant={'secondary'}
+                        title={this.state.academicYear}
+                        onSelect={this.onChangeAcademicYear}
+                        style={{ width: "90%" }}
+                      >
+                        <Dropdown.Item eventKey='1st Year'>
+                          1st Year
                                 </Dropdown.Item>
-                                <Dropdown.Item eventKey='2nd Year'>
-                                  2nd Year
+                        <Dropdown.Item eventKey='2nd Year'>
+                          2nd Year
                                 </Dropdown.Item>
-                                <Dropdown.Item eventKey='3rd Year'>
-                                  3rd Year
+                        <Dropdown.Item eventKey='3rd Year'>
+                          3rd Year
                                 </Dropdown.Item>
-                                <Dropdown.Item eventKey='4th Year'>
-                                  4th Year
+                        <Dropdown.Item eventKey='4th Year'>
+                          4th Year
                                 </Dropdown.Item>
-                              </DropdownButton>{' '}
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  {/* ***** */}
+                      </DropdownButton>{' '}
+                    </Row>
+                  </Col>
+
+                </Row>
+
+                <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
                   <Row>
-                    <Col md={4}>
-                      <span
-                        style={{
-                          marginBottom: '20px',
-                          verticalAlign: 'middle',
-                        }}
-                      >
-                        Assign Supervisors into the Project
-                      </span>
-                    </Col>
-                    <Col md={8}>
-                      <div>
-                        <MultiSelect
-                          options={this.state.staffOptionList}
-                          value={this.state.selectedStaffList}
-                          onChange={this.setSelected}
-                          labelledBy={'Select'}
-                          hasSelectAll={false}
-                        />
-                      </div>
-                    </Col>
+                    <p className="cp-text">
+                      Assign Supervisors into the Project
+                      </p>
                   </Row>
-                  <Row style={{ marginTop: '50px' }}>
-                    <Col md={3}></Col>
-                    <Col md={6}>
-                      <Button
-                        variant='info'
-                        style={{ width: '90%' }}
-                        onClick={this.onSignIn}
-                      >
-                        Create Project
+                  <Col md={12}>
+                    <MultiSelect
+                      options={this.state.staffOptionList}
+                      value={this.state.selectedStaffList}
+                      onChange={this.setSelected}
+                      labelledBy={'Select'}
+                      hasSelectAll={false}
+                      className="cp-coordinator"
+                    />
+                  </Col>
+                </Row>
+
+                <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
+                  <Button
+                    className='cp-btn'
+                    variant='info'
+                    onClick={this.onSignIn}
+                  >
+                    Create Project
                       </Button>
-                    </Col>
-                    <Col md={3}></Col>
-                  </Row>
-                </div>
-              </Container>
-            </Col>
+                </Row>
+              </div>
+            </div>
+
           </Row>
         </div>
+
         <Footer />
-      </React.Fragment>
+      </React.Fragment >
     );
   }
 }
