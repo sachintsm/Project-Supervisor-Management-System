@@ -56,6 +56,7 @@ class CreateProject extends Component {
           this.setState({
             staffOptionList: [...this.state.staffOptionList, option],
           });
+          return null;
         });
       })
       .catch((err) => {

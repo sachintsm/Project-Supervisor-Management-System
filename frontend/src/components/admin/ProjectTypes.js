@@ -4,9 +4,10 @@ import '../../css/admin/ProjectTypes.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
-import MultiSelect from 'react-multi-select-component';
+import { FiEdit } from 'react-icons/fi';
+// import MultiSelect from 'react-multi-select-component';
 import Snackpop from '../shared/Snackpop';
-import MuiAlert from '@material-ui/lab/Alert';
+// import MuiAlert from '@material-ui/lab/Alert';
 import Footer from '../shared/Footer';
 // import YearPicker from 'react-year-picker';
 import {
@@ -18,6 +19,7 @@ import {
   //   DropdownButton,
   //   ButtonGroup,
   FormControl,
+  Table,
 } from 'react-bootstrap';
 const backendURI = require('../shared/BackendURI');
 
@@ -36,7 +38,18 @@ class ProjectTypes extends Component {
       isThirdYear: false,
       isFourthYear: false,
       projectType: '',
+      projectTypeList: []
     };
+  }
+
+  componentDidMount() {
+    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+      if (result.data.length > 0) {
+        this.setState({
+          projectTypeList: result.data.map((type) => type)
+        })
+      }
+    }))
   }
 
   submit() {
@@ -105,20 +118,17 @@ class ProjectTypes extends Component {
         </Snackbar> */}
 
         <Navbar panel={'admin'} />
-
         <div className='container-fluid container-fluid-div'>
           <Row>
             <Col>
               <Container>
-                <div className='card card-div'>
+                <div className='card card-div-1'>
                   <h3>{this.state.title}</h3>
                   <Row className='margin-top-30'>
-                    <Col md={3}>
-                      <span className='verticle-align-middle'>
+                    <Col >
+                      <label className='verticle-align-middle'>
                         Project Type{' '}
-                      </span>
-                    </Col>
-                    <Col md={9}>
+                      </label>
                       <FormControl
                         type='text'
                         style={{ width: '100%' }}
@@ -130,7 +140,7 @@ class ProjectTypes extends Component {
                     </Col>
                   </Row>
                   <Row className='margin-top-30'>
-                    <Col md={4} className='form-control-label'>
+                    <Col md={4} className='form-control-label '>
                       <FormControlLabel
                         className='form-control-label'
                         control={
@@ -153,7 +163,7 @@ class ProjectTypes extends Component {
                         }
                       />
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -176,7 +186,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -199,7 +209,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -222,7 +232,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -252,7 +262,6 @@ class ProjectTypes extends Component {
                     <Col md={6}>
                       <Button
                         variant='info'
-                        style={{ width: '90%' }}
                         onClick={this.submit}
                       >
                         {this.state.componentType === 'add' &&
@@ -264,12 +273,50 @@ class ProjectTypes extends Component {
                     <Col md={3}></Col>
                   </Row>
                 </div>
+
+                <div className="card card-div-2">
+                  <h3>Project Categories</h3>
+
+
+                  <div>
+                    <Table hover style={{ marginTop: 20 }} >
+                      <thead>
+                        <tr>
+                          <th>Project Type</th>
+                          <th>Academic Years</th>
+                          <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.projectTypeList.map((type) => {
+                          return (<tr key={type._id}>
+                            <td style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
+                            <td style={{ verticalAlign: 'middle' }} className="td-font-14" >
+                              {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "Not Defined"}
+                              {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
+                              {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
+                              {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
+                              {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
+                            <td style={{ verticalAlign: 'middle' }}><Row>
+                              <Col><Button style={{ width: '100%' }} variant="outline-info">Edit</Button></Col>
+                              <Col><Button style={{ width: '100%' }} variant="outline-danger">Delete</Button></Col>
+                            </Row>
+                            </td>
+                          </tr>
+
+
+                          )
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
               </Container>
             </Col>
           </Row>
         </div>
         <Footer />
-      </React.Fragment>
+      </React.Fragment >
     );
   }
 }

@@ -14,4 +14,13 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
+router.get('/projecttype', async (req, res, next) => {
+  try {
+    const types = await ProjectType.find({});
+    res.send(types);
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router;

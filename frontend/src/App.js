@@ -7,15 +7,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Registration from './components/admin/Registration'
 import Login from './components/Login';
 import AdminHome from './components/admin/AdminHome';
-import viewusers from './components/admin/ViewUsers';
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import StudentHome from './components/student/StudentHome';
 import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
-
-import Footer from './components/shared/Footer';
 
 require('dotenv').config();
 
