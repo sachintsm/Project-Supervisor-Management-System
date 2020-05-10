@@ -244,4 +244,41 @@ router.get('/verify', verify, function (req, res, next) {
 });
 
 //testing merge
+
+
+//get details to user profile
+router.get('/get/:id', function (req, res) {
+  let id = req.params.id;
+  User.find({ _id: id })
+      .exec()
+      .then(result => {
+          res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+      })
+      .catch(error => {
+          res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+});
+
+//update user profile 
+
+router.post('/update/:id',function(req,res){
+  let id = req.params.id;
+  User.findById({id}, function(err,user){
+      if(!user)
+          res.status(404).send("data is not found");
+      else{
+          user.email = req.body.email;
+          user.mobile = req.body.mobile;
+
+          user.save().then(user => {
+              res.json('Update Complete');
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
+
+
 module.exports = router;

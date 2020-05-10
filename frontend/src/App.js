@@ -15,6 +15,7 @@ import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
 
 import Footer from "./components/shared/Footer"
+import Profile from "./components/shared/Profile";
 
 
 require("dotenv").config();
@@ -30,6 +31,8 @@ function App() {
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
+          <Route exact path="/profile" component={Profile}></Route>
+
           <Route
             exact
             path='/admin/viewusers'
