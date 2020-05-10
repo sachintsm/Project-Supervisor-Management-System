@@ -33,6 +33,7 @@ class ProjectTypes extends Component {
       id: '',
       succesAlert: false,
       warnAlert: false,
+      editAlert: false,
       componentType: 'add',
       title: 'Add New Project Category',
       isAcademicYear: true,
@@ -69,19 +70,20 @@ class ProjectTypes extends Component {
 
   submit() {
 
+
     if (this.state.componentType === 'add') {
       if (this.state.projectType === '') {
         this.setState({
           warnAlert: true,
         });
       } else {
+
         axios
           .post(backendURI.url + '/projects/projecttype', this.state)
           .then((res) => {
             this.setState({
               succesAlert: true,
             });
-            console.log(res.data);
           }).catch(err => console.log(err));
       }
     }
@@ -89,7 +91,7 @@ class ProjectTypes extends Component {
     if (this.state.componentType === 'edit') {
       axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
         this.setState({
-          succesAlert: true,
+          editAlert: true,
           componentType: "add"
         })
       })
@@ -98,10 +100,8 @@ class ProjectTypes extends Component {
   }
 
   onDeleteHandler = (id) => {
-    console.log(id)
     axios.patch(backendURI.url + '/projects/projecttype/delete/' + id).then(res => {
       this.getCategoryList()
-      console.log(res.data)
     }).catch(err => console.log(err))
   }
 
@@ -124,6 +124,7 @@ class ProjectTypes extends Component {
     this.setState({
       succesAlert: false,
       warnAlert: false,
+      editAlert: false,
     });
   };
 
@@ -135,6 +136,14 @@ class ProjectTypes extends Component {
           color={'success'}
           time={3000}
           status={this.state.succesAlert}
+          closeAlert={this.closeAlert}
+        />
+
+        <Snackpop
+          msg={'Successfully Edited'}
+          color={'success'}
+          time={3000}
+          status={this.state.editAlert}
           closeAlert={this.closeAlert}
         />
 
