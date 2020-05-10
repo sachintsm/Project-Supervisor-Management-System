@@ -11,7 +11,7 @@ import { getFromStorage } from '../../utils/Storage';
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CSVReader from "react-csv-reader";
-import axios from 'axios';
+import Footer from '../shared/Footer'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -424,6 +424,8 @@ export default class registration extends Component {
             </Col>
           </Row>
         </div>
+        <Footer/>
+
       </div>
     );
   }
