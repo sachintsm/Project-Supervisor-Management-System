@@ -96,7 +96,7 @@ export default class navbar extends Component {
               {/* =============================== Admin Panel================================ */}
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/viewusers'>Users</Nav.Link>
+                  <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
                 </MDBNavItem>
               )}
               &nbsp; &nbsp; &nbsp; &nbsp;
@@ -108,7 +108,7 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/createproject'>
+                  <Nav.Link href='/adminhome/createproject'>
                     Create Project
                   </Nav.Link>
                 </MDBNavItem>
@@ -116,7 +116,7 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/projecttypes'>
+                  <Nav.Link href='/adminhome/projecttypes'>
                     Project Categories
                   </Nav.Link>
                 </MDBNavItem>

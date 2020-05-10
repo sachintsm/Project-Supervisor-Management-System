@@ -397,12 +397,12 @@ export default class registration extends Component {
                           <label className="text-label">Choose CSV File : </label>
                         </div>
 
-                        
+
                         <div className="container">
                           <CSVReader
                             cssClass="react-csv-input"
                             onFileLoaded={handleForce}
-                            inputStyle={{color: 'grey'}}
+                            inputStyle={{ color: 'grey' }}
                           />
                         </div>
 
@@ -424,7 +424,7 @@ export default class registration extends Component {
             </Col>
           </Row>
         </div>
-        <Footer/>
+        <Footer />
 
       </div>
     );
