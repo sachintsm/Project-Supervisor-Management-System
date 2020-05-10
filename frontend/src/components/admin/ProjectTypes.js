@@ -29,6 +29,7 @@ class ProjectTypes extends Component {
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onEditHandler = this.onEditHandler.bind(this);
     this.getCategoryList = this.getCategoryList.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.state = {
       id: '',
       succesAlert: false,
@@ -70,14 +71,12 @@ class ProjectTypes extends Component {
 
   submit() {
 
-
-    if (this.state.componentType === 'add') {
-      if (this.state.projectType === '') {
-        this.setState({
-          warnAlert: true,
-        });
-      } else {
-
+    if (this.state.projectType === '') {
+      this.setState({
+        warnAlert: true,
+      });
+    } else {
+      if (this.state.componentType === 'add') {
         axios
           .post(backendURI.url + '/projects/projecttype', this.state)
           .then((res) => {
@@ -86,17 +85,33 @@ class ProjectTypes extends Component {
             });
           }).catch(err => console.log(err));
       }
-    }
 
-    if (this.state.componentType === 'edit') {
-      axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
+      if (this.state.componentType === 'edit') {
+        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
+        }).catch(err => {
+          console.log(err)
+        })
+
         this.setState({
           editAlert: true,
-          componentType: "add"
+          componentType: "add",
+          title: 'Add New Project Category',
         })
-      })
-
+      }
     }
+
+
+
+    this.setState({
+      projectType: ''
+    })
+  }
+
+  goBack() {
+    this.setState({
+      componentType: "add",
+      title: 'Add New Project Category',
+    })
   }
 
   onDeleteHandler = (id) => {
@@ -320,10 +335,21 @@ class ProjectTypes extends Component {
 
                   <Row className='margin-top-30 margin-bottom-20'>
                     <Col md={3}></Col>
-                    <Col md={6}>
+                    {this.state.componentType === 'edit' &&
+                      <Col>
+                        <Button
+                          variant='outline-danger'
+                          onClick={this.goBack}
+                          style={{ width: '100%' }}
+                        >
+                          Go Back
+                        </Button>
+                      </Col>}
+                    <Col>
                       <Button
                         variant='info'
                         onClick={this.submit}
+                        style={{ width: '100%' }}
                       >
                         {this.state.componentType === 'add' &&
                           'Add New Project Category'}
