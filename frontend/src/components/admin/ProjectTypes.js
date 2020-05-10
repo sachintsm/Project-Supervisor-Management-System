@@ -26,7 +26,11 @@ class ProjectTypes extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
+    this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onEditHandler = this.onEditHandler.bind(this);
+    this.getCategoryList = this.getCategoryList.bind(this);
     this.state = {
+      id: '',
       succesAlert: false,
       warnAlert: false,
       componentType: 'add',
@@ -42,38 +46,78 @@ class ProjectTypes extends Component {
   }
 
   componentDidMount() {
-    axios.get(backendURI.url + '/projects/projecttype').then((result => {
-      if (result.data.length > 0) {
-        this.setState({
-          projectTypeList: result.data.map((type) => type)
-        })
-      }
-    }))
+    this.getCategoryList()
   }
   componentDidUpdate() {
+    this.getCategoryList()
+  }
+
+  getCategoryList() {
     axios.get(backendURI.url + '/projects/projecttype').then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
         })
       }
+      else {
+        this.setState({
+          projectTypeList: []
+        })
+      }
     }))
   }
+
   submit() {
-    if (this.state.projectType === '') {
-      this.setState({
-        warnAlert: true,
-      });
-    } else {
-      axios
-        .post(backendURI.url + '/projects/projecttype', this.state)
-        .then((res) => {
-          this.setState({
-            succesAlert: true,
-          });
-          console.log(res.data);
+
+    if (this.state.componentType === 'add') {
+      if (this.state.projectType === '') {
+        this.setState({
+          warnAlert: true,
         });
+      } else {
+        axios
+          .post(backendURI.url + '/projects/projecttype', this.state)
+          .then((res) => {
+            this.setState({
+              succesAlert: true,
+            });
+            console.log(res.data);
+          }).catch(err => console.log(err));
+      }
     }
+
+    if (this.state.componentType === 'edit') {
+      axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
+        this.setState({
+          succesAlert: true,
+          componentType: "add"
+        })
+      })
+
+    }
+  }
+
+  onDeleteHandler = (id) => {
+    console.log(id)
+    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id).then(res => {
+      this.getCategoryList()
+      console.log(res.data)
+    }).catch(err => console.log(err))
+  }
+
+  onEditHandler = (type) => {
+    // console.log(type)
+    this.setState({
+      componentType: 'edit',
+      title: 'Edit Category',
+      isAcademicYear: type.isAcademicYear,
+      isFirstYear: type.isFirstYear,
+      isSecondYear: type.isSecondYear,
+      isThirdYear: type.isThirdYear,
+      isFourthYear: type.isFourthYear,
+      projectType: type.projectType,
+      id: type._id,
+    }, () => { window.scrollTo(0, 0) })
   }
 
   closeAlert = () => {
@@ -140,6 +184,7 @@ class ProjectTypes extends Component {
                         type='text'
                         style={{ width: '100%' }}
                         placeholder='Undergraduate / BIT / Master / etc'
+                        value={this.state.projectType}
                         onChange={(e) => {
                           this.setState({ projectType: e.target.value });
                         }}
@@ -272,52 +317,54 @@ class ProjectTypes extends Component {
                         onClick={this.submit}
                       >
                         {this.state.componentType === 'add' &&
-                          'Add Project Category'}
+                          'Add New Project Category'}
                         {this.state.componentType === 'edit' &&
-                          'Edit Project Category'}
+                          'Edit Now'}
                       </Button>
                     </Col>
                     <Col md={3}></Col>
                   </Row>
                 </div>
+                {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
-                <div className="card card-div-2">
-                  <h3>Project Categories</h3>
+                  <div className="card card-div-2">
+                    <h3>Project Categories</h3>
 
 
-                  <div>
-                    <Table hover style={{ marginTop: 20 }} >
-                      <thead>
-                        <tr>
-                          <th>Project Type</th>
-                          <th>Academic Years</th>
-                          <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.projectTypeList.map((type) => {
-                          return (<tr key={type._id}>
-                            <td style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
-                            <td style={{ verticalAlign: 'middle' }} className="td-font-14" >
-                              {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "Not Defined"}
-                              {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
-                              {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
-                              {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
-                              {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
-                            <td style={{ verticalAlign: 'middle' }}><Row>
-                              <Col><Button style={{ width: '100%' }} variant="outline-info">Edit</Button></Col>
-                              <Col><Button style={{ width: '100%' }} variant="outline-danger">Delete</Button></Col>
-                            </Row>
-                            </td>
+                    <div>
+                      <Table hover style={{ marginTop: 20 }} >
+                        <thead>
+                          <tr>
+                            <th>Project Type</th>
+                            <th>Academic Years</th>
+                            <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
                           </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.projectTypeList.map((type) => {
+                            return (<tr key={type._id}>
+                              <td style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
+                              <td style={{ verticalAlign: 'middle' }} className="td-font-14" >
+                                {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "None"}
+                                {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
+                                {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
+                                {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
+                                {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
+                              <td style={{ verticalAlign: 'middle' }}><Row>
+                                <Col><Button style={{ width: '100%' }} onClick={() => this.onEditHandler(type)} variant="outline-info">Edit</Button></Col>
+                                <Col><Button style={{ width: '100%' }} onClick={() => this.onDeleteHandler(type._id)} variant="outline-danger">Delete</Button></Col>
+                              </Row>
+                              </td>
+                            </tr>
 
 
-                          )
-                        })}
-                      </tbody>
-                    </Table>
+                            )
+                          })}
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
-                </div>
+                )}
               </Container>
             </Col>
           </Row>
