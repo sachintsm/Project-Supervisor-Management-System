@@ -50,7 +50,15 @@ class ProjectTypes extends Component {
       }
     }))
   }
-
+  componentDidUpdate() {
+    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+      if (result.data.length > 0) {
+        this.setState({
+          projectTypeList: result.data.map((type) => type)
+        })
+      }
+    }))
+  }
   submit() {
     if (this.state.projectType === '') {
       this.setState({
@@ -125,7 +133,7 @@ class ProjectTypes extends Component {
                   <h3>{this.state.title}</h3>
                   <Row className='margin-top-30'>
                     <Col >
-                      <label className='verticle-align-middle'>
+                      <label className='verticle-align-middle cp-text'>
                         Project Type{' '}
                       </label>
                       <FormControl

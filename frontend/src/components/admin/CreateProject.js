@@ -128,10 +128,10 @@ class CreateProject extends Component {
         <div className="container-fluid" style={{ backgroundColor: "rgb(252, 252, 252)" }}>
           <Row >
 
-            <div className="card" style={{ width: '80%', margin: "auto", marginTop: "40px", marginBottom: "40px" }}>
+            <div className="card" style={{ width: '60%', margin: "auto", marginTop: "40px", marginBottom: "40px", paddingLeft: "2%", paddingRight: "2%" }}>
               <div className="container">
 
-                <h3 className='cp-head'>Creating New Project</h3>
+                <h3 style={{ marginTop: "30px" }}>Creating New Project</h3>
                 <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
                   <Col xs="4">
                     <Row>
