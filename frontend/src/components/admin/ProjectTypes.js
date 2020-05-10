@@ -4,9 +4,9 @@ import '../../css/admin/ProjectTypes.css';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
-import MultiSelect from 'react-multi-select-component';
+// import MultiSelect from 'react-multi-select-component';
 import Snackpop from '../shared/Snackpop';
-import MuiAlert from '@material-ui/lab/Alert';
+// import MuiAlert from '@material-ui/lab/Alert';
 import Footer from '../shared/Footer';
 // import YearPicker from 'react-year-picker';
 import {
@@ -18,6 +18,7 @@ import {
   //   DropdownButton,
   //   ButtonGroup,
   FormControl,
+  Table,
 } from 'react-bootstrap';
 const backendURI = require('../shared/BackendURI');
 
@@ -25,9 +26,15 @@ class ProjectTypes extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
+    this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onEditHandler = this.onEditHandler.bind(this);
+    this.getCategoryList = this.getCategoryList.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.state = {
+      id: '',
       succesAlert: false,
       warnAlert: false,
+      editAlert: false,
       componentType: 'add',
       title: 'Add New Project Category',
       isAcademicYear: true,
@@ -36,30 +43,103 @@ class ProjectTypes extends Component {
       isThirdYear: false,
       isFourthYear: false,
       projectType: '',
+      projectTypeList: []
     };
   }
 
+  componentDidMount() {
+    this.getCategoryList()
+  }
+  componentDidUpdate() {
+    this.getCategoryList()
+  }
+
+  getCategoryList() {
+    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+      if (result.data.length > 0) {
+        this.setState({
+          projectTypeList: result.data.map((type) => type)
+        })
+      }
+      else {
+        this.setState({
+          projectTypeList: []
+        })
+      }
+    }))
+  }
+
   submit() {
+
     if (this.state.projectType === '') {
       this.setState({
         warnAlert: true,
       });
     } else {
-      axios
-        .post(backendURI.url + '/projects/projecttype', this.state)
-        .then((res) => {
-          this.setState({
-            succesAlert: true,
-          });
-          console.log(res.data);
-        });
+      if (this.state.componentType === 'add') {
+        axios
+          .post(backendURI.url + '/projects/projecttype', this.state)
+          .then((res) => {
+            this.setState({
+              succesAlert: true,
+            });
+          }).catch(err => console.log(err));
+      }
+
+      if (this.state.componentType === 'edit') {
+        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
+        }).catch(err => {
+          console.log(err)
+        })
+
+        this.setState({
+          editAlert: true,
+          componentType: "add",
+          title: 'Add New Project Category',
+        })
+      }
     }
+
+
+
+    this.setState({
+      projectType: ''
+    })
+  }
+
+  goBack() {
+    this.setState({
+      componentType: "add",
+      title: 'Add New Project Category',
+    })
+  }
+
+  onDeleteHandler = (id) => {
+    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id).then(res => {
+      this.getCategoryList()
+    }).catch(err => console.log(err))
+  }
+
+  onEditHandler = (type) => {
+    // console.log(type)
+    this.setState({
+      componentType: 'edit',
+      title: 'Edit Category',
+      isAcademicYear: type.isAcademicYear,
+      isFirstYear: type.isFirstYear,
+      isSecondYear: type.isSecondYear,
+      isThirdYear: type.isThirdYear,
+      isFourthYear: type.isFourthYear,
+      projectType: type.projectType,
+      id: type._id,
+    }, () => { window.scrollTo(0, 0) })
   }
 
   closeAlert = () => {
     this.setState({
       succesAlert: false,
       warnAlert: false,
+      editAlert: false,
     });
   };
 
@@ -71,6 +151,14 @@ class ProjectTypes extends Component {
           color={'success'}
           time={3000}
           status={this.state.succesAlert}
+          closeAlert={this.closeAlert}
+        />
+
+        <Snackpop
+          msg={'Successfully Edited'}
+          color={'success'}
+          time={3000}
+          status={this.state.editAlert}
           closeAlert={this.closeAlert}
         />
 
@@ -105,24 +193,22 @@ class ProjectTypes extends Component {
         </Snackbar> */}
 
         <Navbar panel={'admin'} />
-
         <div className='container-fluid container-fluid-div'>
           <Row>
             <Col>
               <Container>
-                <div className='card card-div'>
+                <div className='card card-div-1'>
                   <h3>{this.state.title}</h3>
                   <Row className='margin-top-30'>
-                    <Col md={3}>
-                      <span className='verticle-align-middle'>
+                    <Col >
+                      <label className='verticle-align-middle cp-text'>
                         Project Type{' '}
-                      </span>
-                    </Col>
-                    <Col md={9}>
+                      </label>
                       <FormControl
                         type='text'
                         style={{ width: '100%' }}
                         placeholder='Undergraduate / BIT / Master / etc'
+                        value={this.state.projectType}
                         onChange={(e) => {
                           this.setState({ projectType: e.target.value });
                         }}
@@ -130,7 +216,7 @@ class ProjectTypes extends Component {
                     </Col>
                   </Row>
                   <Row className='margin-top-30'>
-                    <Col md={4} className='form-control-label'>
+                    <Col md={4} className='form-control-label '>
                       <FormControlLabel
                         className='form-control-label'
                         control={
@@ -153,7 +239,7 @@ class ProjectTypes extends Component {
                         }
                       />
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -176,7 +262,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -199,7 +285,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -222,7 +308,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col>
+                    <Col className="col-padding-5">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -249,27 +335,77 @@ class ProjectTypes extends Component {
 
                   <Row className='margin-top-30 margin-bottom-20'>
                     <Col md={3}></Col>
-                    <Col md={6}>
+                    {this.state.componentType === 'edit' &&
+                      <Col>
+                        <Button
+                          variant='outline-danger'
+                          onClick={this.goBack}
+                          style={{ width: '100%' }}
+                        >
+                          Go Back
+                        </Button>
+                      </Col>}
+                    <Col>
                       <Button
                         variant='info'
-                        style={{ width: '90%' }}
                         onClick={this.submit}
+                        style={{ width: '100%' }}
                       >
                         {this.state.componentType === 'add' &&
-                          'Add Project Category'}
+                          'Add New Project Category'}
                         {this.state.componentType === 'edit' &&
-                          'Edit Project Category'}
+                          'Edit Now'}
                       </Button>
                     </Col>
                     <Col md={3}></Col>
                   </Row>
                 </div>
+                {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
+
+                  <div className="card card-div-2">
+                    <h3>Project Categories</h3>
+
+
+                    <div>
+                      <Table hover style={{ marginTop: 20 }} >
+                        <thead>
+                          <tr>
+                            <th>Project Type</th>
+                            <th>Academic Years</th>
+                            <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.projectTypeList.map((type) => {
+                            return (<tr key={type._id}>
+                              <td style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
+                              <td style={{ verticalAlign: 'middle' }} className="td-font-14" >
+                                {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "None"}
+                                {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
+                                {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
+                                {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
+                                {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
+                              <td style={{ verticalAlign: 'middle' }}><Row>
+                                <Col><Button style={{ width: '100%' }} onClick={() => this.onEditHandler(type)} variant="outline-info">Edit</Button></Col>
+                                <Col><Button style={{ width: '100%' }} onClick={() => this.onDeleteHandler(type._id)} variant="outline-danger">Delete</Button></Col>
+                              </Row>
+                              </td>
+                            </tr>
+
+
+                            )
+                          })}
+                        </tbody>
+                      </Table>
+                    </div>
+                  </div>
+                )}
               </Container>
             </Col>
           </Row>
         </div>
         <Footer />
-      </React.Fragment>
+      </React.Fragment >
     );
   }
 }

@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Registration from './components/admin/Registration'
 import Login from './components/Login';
 import AdminHome from './components/admin/AdminHome';
-import viewusers from './components/admin/ViewUsers';
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import StudentHome from './components/student/StudentHome';
@@ -15,8 +14,6 @@ import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
 import Notice from './components/shared/Notice'
-
-import Footer from './components/shared/Footer';
 
 require('dotenv').config();
 
@@ -33,17 +30,17 @@ function App() {
           <Route exact path='/adminhome/registration' component={Registration}></Route>
           <Route
             exact
-            path='/admin/viewusers'
+            path='/adminhome/viewusers'
             component={ViewUsers}
           ></Route>
           <Route
             exact
-            path='/admin/createproject'
+            path='/adminhome/createproject'
             component={CreateProject}
           ></Route>
           <Route
             exact
-            path='/admin/projecttypes'
+            path='/adminhome/projecttypes'
             component={ProjectTypes}
           ></Route>
           <Route

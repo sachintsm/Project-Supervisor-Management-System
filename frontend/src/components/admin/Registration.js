@@ -10,9 +10,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
+import CSVReader from "react-csv-reader";
+import Footer from '../shared/Footer'
 
 const backendURI = require('../shared/BackendURI');
-
 
 export default class registration extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class registration extends Component {
     this.handleChangeUsertype = this.handleChangeUsertype.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
-
+    this.fileUpload = this.fileUpload.bind(this);
     this.state = {
       snackbaropen: false,
       snackbarmsg: '',
@@ -38,12 +39,16 @@ export default class registration extends Component {
 
         imgName: '',
       },
+
+      csvData: [],
       startDate: new Date(),
     };
   }
   snackbarClose = (event) => {
     this.setState({ snackbaropen: false })
   }
+
+
   async componentDidMount() {
     const authState = await verifyAuth();
     console.log(authState);
@@ -57,6 +62,58 @@ export default class registration extends Component {
     }
   }
 
+  fileUpload = async (e) => {
+    e.preventDefault();
+    const obj = getFromStorage('auth-token');
+
+    var myHeaders = new Headers();
+    myHeaders.append("auth-token", obj.token);
+
+    for (var i = 0; i < this.state.csvData.length - 1; i++) {
+      var firstName = this.state.csvData[i][0];
+      var lastName = this.state.csvData[i][1];
+      var email = this.state.csvData[i][2];
+      var password = this.state.csvData[i][3];
+      var nic = this.state.csvData[i][3];
+      var userType = this.state.csvData[i][4];
+      var mobileNumber = this.state.csvData[i][5];
+      var birthday = this.state.csvData[i][6];
+
+      var data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        nic: nic,
+        userType: userType,
+        mobileNumber: mobileNumber,
+        birthday: birthday
+      }
+
+      await fetch(backendURI.url + "/users/bulkRegister", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': obj.token
+        },
+        body: JSON.stringify(data),
+      })
+        .then(res => res.json())
+        .then(json => {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: json.msg
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: err
+          })
+        })
+    }
+  }
 
   onChangeDate = date => {
     this.setState(prevState => ({
@@ -150,9 +207,20 @@ export default class registration extends Component {
         });
     }
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
   render() {
     const { form } = this.state;
+
+    const handleForce = data => {
+      console.log(data);
+      this.setState({
+        csvData: data
+      })
+    };
 
     return (
       <div>
@@ -189,7 +257,7 @@ export default class registration extends Component {
 
                 <div >
                   <p className="reg-head">User Registration</p>
-                  <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                  <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                     <Tab eventKey="single" title="Registration">
                       <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                         <form onSubmit={this.onSubmit}>
@@ -224,7 +292,7 @@ export default class registration extends Component {
                           <div className="form-group">
                             <label className="text-label">Choose Profile Image : </label>
                           </div>
-                          <Row>
+                          <Row className="input-div">
                             <Col>
                               {/* File input */}
                               <div className="input-group">
@@ -319,7 +387,33 @@ export default class registration extends Component {
                         </form>
                       </div>
                     </Tab>
+
+
                     <Tab eventKey="bulk" title="Bulk Registration">
+                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+
+
+                        <div className="form-group">
+                          <label className="text-label">Choose CSV File : </label>
+                        </div>
+
+
+                        <div className="container">
+                          <CSVReader
+                            cssClass="react-csv-input"
+                            onFileLoaded={handleForce}
+                            inputStyle={{ color: 'grey' }}
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <button
+                            className="btn btn-info my-4  "
+                            onClick={this.fileUpload}
+                          >Register Now </button>
+                        </div>
+
+                      </div>
 
                     </Tab>
                   </Tabs>
@@ -330,6 +424,8 @@ export default class registration extends Component {
             </Col>
           </Row>
         </div>
+        <Footer />
+
       </div>
     );
   }

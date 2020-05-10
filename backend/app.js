@@ -20,7 +20,7 @@ mongoose
     pass: process.env.DB_PASS,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log('mongoDB Connected ...');
@@ -57,8 +57,8 @@ app.use(bodyParser.json());
 const users = require('./routes/users');
 app.use('/users', users);
 
-const notice =  require("./routes/Notice");
-app.use("/notice",notice);
+const notice = require("./routes/Notice");
+app.use("/notice", notice);
 
 const projects = require('./routes/projects');
 app.use('/projects', projects);
