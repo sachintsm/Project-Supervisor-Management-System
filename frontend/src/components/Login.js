@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
-import { Form, Toast } from 'reactstrap';
+import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { ToastContainer, toast, Slide } from 'react-toastify';
@@ -65,7 +65,7 @@ export default class login extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        // console.log("josn", json);
+        console.log(json.token);
         if (json.state) {
           setInStorage('auth-token', { token: json.token });
           setInStorage('auth-id', { id: json.userId });
@@ -75,7 +75,6 @@ export default class login extends Component {
             userId: '',
             token: json.token,
           });
-          console.log(json);
           if (json.isAdmin) {
             setInStorage('isAdmin', true);
           }

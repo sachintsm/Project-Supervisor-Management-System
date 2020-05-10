@@ -1,7 +1,39 @@
-.card{
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 80%;
+.image {
+    margin-top: 100px;
+    width: 100%;
+    margin-bottom: 100px;
+}
+.reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color : #3a3a3a;
+    font-weight:500;
 }
 
+.tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+}
+
+.main-div{
+    height: 100%;
+}
+
+.text-label{
+    color: #6d6d6d;
+}
+
+.input-div{
+    margin-top: -15px;
+}
+
+.csv-input {
+    padding: 10px;
+    display: block;
+    margin: 15px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
