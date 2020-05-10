@@ -35,17 +35,17 @@ function App() {
 
           <Route
             exact
-            path='/admin/viewusers'
+            path='/adminhome/viewusers'
             component={ViewUsers}
           ></Route>
           <Route
             exact
-            path='/admin/createproject'
+            path='/adminhome/createproject'
             component={CreateProject}
           ></Route>
           <Route
             exact
-            path='/admin/projecttypes'
+            path='/adminhome/projecttypes'
             component={ProjectTypes}
           ></Route>
 

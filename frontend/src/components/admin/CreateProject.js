@@ -12,7 +12,6 @@ import {
   DropdownButton,
   ButtonGroup,
 } from 'react-bootstrap';
-import Card from '@material-ui/core/Card';
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -27,7 +26,6 @@ class CreateProject extends Component {
     this.setSelected = this.setSelected.bind(this);
 
     this.state = {
-      year: '',
       academicYear: '1st Year',
       type: 'Undergraduate Project',
       year: year,
@@ -58,6 +56,7 @@ class CreateProject extends Component {
           this.setState({
             staffOptionList: [...this.state.staffOptionList, option],
           });
+          return null;
         });
       })
       .catch((err) => {
@@ -129,10 +128,10 @@ class CreateProject extends Component {
         <div className="container-fluid" style={{ backgroundColor: "rgb(252, 252, 252)" }}>
           <Row >
 
-            <div className="card" style={{ width: '80%', margin: "auto", marginTop: "40px", marginBottom: "40px" }}>
+            <div className="card" style={{ width: '60%', margin: "auto", marginTop: "40px", marginBottom: "40px", paddingLeft: "2%", paddingRight: "2%" }}>
               <div className="container">
 
-                <h3 className='cp-head'>Creating New Project</h3>
+                <h3 style={{ marginTop: "30px" }}>Creating New Project</h3>
                 <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
                   <Col xs="4">
                     <Row>
@@ -214,16 +213,16 @@ class CreateProject extends Component {
                       Assign Supervisors into the Project
                       </p>
                   </Row>
-                    <Col md={12}>
-                        <MultiSelect
-                          options={this.state.staffOptionList}
-                          value={this.state.selectedStaffList}
-                          onChange={this.setSelected}
-                          labelledBy={'Select'}
-                          hasSelectAll={false}
-                          className="cp-coordinator"
-                        />
-                    </Col>
+                  <Col md={12}>
+                    <MultiSelect
+                      options={this.state.staffOptionList}
+                      value={this.state.selectedStaffList}
+                      onChange={this.setSelected}
+                      labelledBy={'Select'}
+                      hasSelectAll={false}
+                      className="cp-coordinator"
+                    />
+                  </Col>
                 </Row>
 
                 <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
