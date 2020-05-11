@@ -6,6 +6,7 @@ import Footer from '../shared/Footer';
 import '../../css/admin/CreateProject.css';
 import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, } from 'react-bootstrap';
 import Snackpop from "../shared/Snackpop";
+import {getFromStorage} from "../../utils/Storage";
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -40,9 +41,13 @@ class CreateProject extends Component {
 
   componentDidMount() {
 
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+
     this.getCategoryList()
     axios
-      .get(backendURI.url + '/users/stafflist')
+      .get(backendURI.url + '/users/stafflist',{headers: headers})
       .then((result) => {
         if (result.data.length > 0) {
           this.setState({
@@ -77,8 +82,12 @@ class CreateProject extends Component {
   }
 
   componentDidUpdate() {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
     axios
-      .get(backendURI.url + '/users/stafflist')
+      .get(backendURI.url + '/users/stafflist',{headers: headers})
       .then((result) => {
         if (result.data.length > 0) {
           this.setState({
@@ -93,6 +102,9 @@ class CreateProject extends Component {
 
   onCreateProject(){
 
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
     if(this.state.selectedStaffList.length>0 && this.state.type!==''){
       const supervisors = this.state.selectedStaffList.map(item=>{
         return item.value
@@ -106,7 +118,7 @@ class CreateProject extends Component {
         coordinatorList: supervisors
       }
 
-      axios.post(backendURI.url + '/projects',project).then(result=>{
+      axios.post(backendURI.url + '/projects',project,{headers: headers}).then(result=>{
         this.setState({
           successAlert: true
         })
@@ -128,7 +140,11 @@ class CreateProject extends Component {
   }
 
   getCategoryList() {
-    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
@@ -396,7 +412,7 @@ class CreateProject extends Component {
                     variant='info'
                     onClick={this.onCreateProject}
                   >
-                    Create Project
+                    Create Project Now
                       </Button>
                 </Row>
               </div>

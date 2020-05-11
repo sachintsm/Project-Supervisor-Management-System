@@ -20,6 +20,7 @@ import {
   FormControl,
   Table,
 } from 'react-bootstrap';
+import {getFromStorage} from "../../utils/Storage";
 const backendURI = require('../shared/BackendURI');
 
 class ProjectTypes extends Component {
@@ -50,12 +51,14 @@ class ProjectTypes extends Component {
   componentDidMount() {
     this.getCategoryList()
   }
-  componentDidUpdate() {
-    this.getCategoryList()
-  }
 
   getCategoryList() {
-    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+
+    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
@@ -70,6 +73,9 @@ class ProjectTypes extends Component {
   }
 
   submit() {
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
 
     if (this.state.projectType === '') {
       this.setState({
@@ -78,16 +84,17 @@ class ProjectTypes extends Component {
     } else {
       if (this.state.componentType === 'add') {
         axios
-          .post(backendURI.url + '/projects/projecttype', this.state)
+          .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
           .then((res) => {
             this.setState({
               succesAlert: true,
             });
+            this.getCategoryList()
           }).catch(err => console.log(err));
       }
 
       if (this.state.componentType === 'edit') {
-        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
+        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state,{headers: headers}).then(res => {
         }).catch(err => {
           console.log(err)
         })
@@ -115,7 +122,10 @@ class ProjectTypes extends Component {
   }
 
   onDeleteHandler = (id) => {
-    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id).then(res => {
+    const headers = {
+    'auth-token':getFromStorage('auth-token').token,
+  }
+    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id,{headers: headers}).then(res => {
       this.getCategoryList()
     }).catch(err => console.log(err))
   }

@@ -28,7 +28,7 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
-router.get('/projecttype', async (req, res, next) => {
+router.get('/projecttype', verify, async (req, res, next) => {
   try {
     const types = await ProjectType.find({ "isDeleted": false });
     res.send(types);
