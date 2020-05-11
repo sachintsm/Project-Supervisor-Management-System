@@ -245,7 +245,6 @@ router.get('/verify', verify, function (req, res, next) {
 
 //testing merge
 
-
 //get details to user profile
 router.get('/get/:id', function (req, res) {
   let id = req.params.id;
@@ -263,8 +262,8 @@ router.get('/get/:id', function (req, res) {
 
 router.post('/update/:id',function(req,res){
   let id = req.params.id;
-  User.findById({id}, function(err,user){
-      if(!user)
+  User.findById({_id:id}, function(err,user){
+      if(err)
           res.status(404).send("data is not found");
       else{
           user.email = req.body.email;
