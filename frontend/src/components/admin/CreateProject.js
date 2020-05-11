@@ -4,14 +4,7 @@ import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
 import Footer from '../shared/Footer';
 import '../../css/admin/CreateProject.css';
-import {
-  Button,
-  Col,
-  Row,
-  Dropdown,
-  DropdownButton,
-  ButtonGroup,
-} from 'react-bootstrap';
+import {  Button,  Col,  Row,  Dropdown,  DropdownButton,  ButtonGroup, } from 'react-bootstrap';
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -62,7 +55,6 @@ class CreateProject extends Component {
       .catch((err) => {
         console.log(err);
       });
-
     /***************************************************************************** */
     let date_ob = new Date();
     const year = date_ob.getFullYear();
