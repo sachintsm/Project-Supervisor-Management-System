@@ -12,7 +12,6 @@ import {
   DropdownButton,
   ButtonGroup,
 } from 'react-bootstrap';
-import Card from '@material-ui/core/Card';
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -27,7 +26,6 @@ class CreateProject extends Component {
     this.setSelected = this.setSelected.bind(this);
 
     this.state = {
-      year: '',
       academicYear: '1st Year',
       type: 'Undergraduate Project',
       year: year,

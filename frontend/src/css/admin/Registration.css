@@ -3,12 +3,16 @@
     width: 100%;
     margin-bottom: 100px;
 }
+.image2 {
+    width: 100%;
+    margin-bottom: 100px;
+}
 .reg-head {
     margin-left: 20px;
     margin-top: 30px;
     font-size: 30px;
-    color : #3a3a3a;
-    font-weight:500;
+    color: #3a3a3a;
+    font-weight: 500;
 }
 
 .tab {
@@ -18,15 +22,15 @@
     margin-top: 50px;
 }
 
-.main-div{
+.main-div {
     height: 100%;
 }
 
-.text-label{
+.text-label {
     color: #6d6d6d;
 }
 
-.input-div{
+.input-div {
     margin-top: -15px;
 }
 
@@ -36,4 +40,8 @@
     margin: 15px auto;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
+}
+
+.reg-csv-topic{
+    margin-top: -70px;
+}

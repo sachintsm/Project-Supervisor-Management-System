@@ -257,7 +257,7 @@ export default class registration extends Component {
 
                 <div >
                   <p className="reg-head">User Registration</p>
-                  <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                  <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                     <Tab eventKey="single" title="Registration">
                       <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                         <form onSubmit={this.onSubmit}>
@@ -394,15 +394,28 @@ export default class registration extends Component {
 
 
                         <div className="form-group">
+                          <label className="text-label">CSV File Format : </label>
+                        </div>
+
+                        <img
+                          alt='background'
+                          src={require('../../assets/images/Reg-CSV-Format.png')}
+                          className='image2'
+                        />
+
+
+
+
+                        <div className="form-group reg-csv-topic">
                           <label className="text-label">Choose CSV File : </label>
                         </div>
 
-                        
+
                         <div className="container">
                           <CSVReader
                             cssClass="react-csv-input"
                             onFileLoaded={handleForce}
-                            inputStyle={{color: 'grey'}}
+                            inputStyle={{ color: 'grey' }}
                           />
                         </div>
 
@@ -424,7 +437,7 @@ export default class registration extends Component {
             </Col>
           </Row>
         </div>
-        <Footer/>
+        <Footer />
 
       </div>
     );
