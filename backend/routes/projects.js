@@ -3,6 +3,7 @@ const router = express.Router();
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
 const ProjectType = require('../models/projectType');
+const Projects = require('../models/projects');
 
 router.post('/projecttype', async (req, res, next) => {
   try {
@@ -27,7 +28,7 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
-router.get('/projecttype', async (req, res, next) => {
+router.get('/projecttype', verify, async (req, res, next) => {
   try {
     const types = await ProjectType.find({ "isDeleted": false });
     res.send(types);
@@ -77,6 +78,19 @@ router.patch("/projecttype/:id", async (req, res, next) => {
     const result = await ProjectType.findByIdAndUpdate(id, update, { new: true })
     res.send(result)
   } catch (err) {
+    console.log(err)
+  }
+})
+
+router.post('/', async (req,res,next)=>{
+  try {
+    console.log(req.body)
+    const project = new Projects(req.body);
+    project.isDeleted = false;
+    const result = await project.save();
+    res.send(result);
+  }
+  catch (err) {
     console.log(err)
   }
 })

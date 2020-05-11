@@ -22,6 +22,6 @@ class AdminHome extends Component {
       </React.Fragment>
     );
   }
-}
+} 
 
 export default AdminHome;
