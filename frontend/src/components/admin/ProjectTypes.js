@@ -360,6 +360,7 @@ class ProjectTypes extends Component {
                     <Col md={3}></Col>
                   </Row>
                 </div>
+                
                 {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
                   <div className="card card-div-2">
