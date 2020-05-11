@@ -60,6 +60,7 @@ function App() {
             path='/supervisorhome'
             component={SupervisorHome}
           ></Route>
+
           <Route exact path='/studenthome' component={StudentHome}></Route>
         </Switch>
       </Router>
