@@ -14,6 +14,7 @@ import CSVReader from "react-csv-reader";
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import Snackpop from "../shared/Snackpop";
 
 const backendURI = require('../shared/BackendURI');
 
@@ -30,6 +31,7 @@ export default class registration extends Component {
     this.state = {
       snackbaropen: false,
       snackbarmsg: '',
+      snackbarcolor: '',
       form: {
         firstName: '',
         lastName: '',
@@ -46,10 +48,9 @@ export default class registration extends Component {
       startDate: new Date(),
     };
   }
-  snackbarClose = (event) => {
-    this.setState({ snackbaropen: false })
-  }
-
+  closeAlert = () => {
+    this.setState({ snackbaropen: false });
+  };
 
   async componentDidMount() {
     const authState = await verifyAuth();
@@ -64,57 +65,76 @@ export default class registration extends Component {
     }
   }
 
-  fileUpload = async (e) => {
+  fileUpload = (e) => {
     e.preventDefault();
-    const obj = getFromStorage('auth-token');
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+            const obj = getFromStorage('auth-token');
 
-    var myHeaders = new Headers();
-    myHeaders.append("auth-token", obj.token);
+            var myHeaders = new Headers();
+            myHeaders.append("auth-token", obj.token);
 
-    for (var i = 0; i < this.state.csvData.length - 1; i++) {
-      var firstName = this.state.csvData[i][0];
-      var lastName = this.state.csvData[i][1];
-      var email = this.state.csvData[i][2];
-      var password = this.state.csvData[i][3];
-      var nic = this.state.csvData[i][3];
-      var userType = this.state.csvData[i][4];
-      var mobileNumber = this.state.csvData[i][5];
-      var birthday = this.state.csvData[i][6];
+            for (var i = 0; i < this.state.csvData.length - 1; i++) {
+              var firstName = this.state.csvData[i][0];
+              var lastName = this.state.csvData[i][1];
+              var email = this.state.csvData[i][2];
+              var password = this.state.csvData[i][3];
+              var nic = this.state.csvData[i][3];
+              var userType = this.state.csvData[i][4];
+              var mobileNumber = this.state.csvData[i][5];
+              var birthday = this.state.csvData[i][6];
 
-      var data = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        nic: nic,
-        userType: userType,
-        mobileNumber: mobileNumber,
-        birthday: birthday
-      }
+              var data = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                nic: nic,
+                userType: userType,
+                mobileNumber: mobileNumber,
+                birthday: birthday
+              }
 
-      await fetch(backendURI.url + "/users/bulkRegister", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth-token': obj.token
+              await fetch(backendURI.url + "/users/bulkRegister", {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'auth-token': obj.token
+                },
+                body: JSON.stringify(data),
+              })
+                .then(res => res.json())
+                .then(json => {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: json.msg,
+                    snackbarcolor: 'success',
+                  })
+                })
+                .catch(err => {
+                  console.log(err)
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: err,
+                    snackbarcolor: 'error',
+                  })
+                })
+            }
+          }
         },
-        body: JSON.stringify(data),
-      })
-        .then(res => res.json())
-        .then(json => {
-          this.setState({
-            snackbaropen: true,
-            snackbarmsg: json.msg
-          })
-        })
-        .catch(err => {
-          console.log(err)
-          this.setState({
-            snackbaropen: true,
-            snackbarmsg: err
-          })
-        })
-    }
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        }
+      ]
+    })
   }
 
   onChangeDate = date => {
@@ -195,22 +215,35 @@ export default class registration extends Component {
             if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
               this.setState({
                 snackbaropen: true,
-                snackbarmsg: "Please Fill the Form..!"
+                snackbarmsg: "Please Fill the Form..!",
+                snackbarcolor: 'error',
               })
             }
             else {
               fetch(backendURI.url + "/users/register", requestOptions)
                 .then((res) => res.json())
                 .then((json) => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: json.msg
-                  })
+                  if (json.state === true) {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: json.msg,
+                      snackbarcolor: 'success',
+                    })
+                    window.location.reload();
+                  }
+                  else {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: json.msg,
+                      snackbarcolor: 'error',
+                    })
+                  }
                 })
                 .catch(error => {
                   this.setState({
                     snackbaropen: true,
-                    snackbarmsg: error
+                    snackbarmsg: error,
+                    snackbarcolor: 'error',
                   })
                   console.log('error', error)
                 });
@@ -220,7 +253,7 @@ export default class registration extends Component {
         {
           label: 'No',
           onClick: () => {
-            
+
           }
         }
       ]
@@ -228,8 +261,6 @@ export default class registration extends Component {
 
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
   render() {
@@ -246,21 +277,14 @@ export default class registration extends Component {
       <div>
         <Navbar panel={"admin"} />
         <div className="container-fluid">
-          <Snackbar
-            open={this.state.snackbaropen}
-            autoHideDuration={2000}
-            onClose={this.snackbarClose}
-            message={<span id="message-id">{this.state.snackbarmsg}</span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="secondary"
-                onClick={this.snackbarClose}
-              > x </IconButton>
-            ]}
-          />
 
+          <Snackpop
+            msg={this.state.snackbarmsg}
+            color={this.state.snackbarcolor}
+            time={3000}
+            status={this.state.snackbaropen}
+            closeAlert={this.closeAlert}
+          />
 
           <Row>
             <Col xs="4">
