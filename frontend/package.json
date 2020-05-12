@@ -20,8 +20,14 @@
     "mdbootstrap": "^4.17.0",
     "mdbreact": "^4.26.0",
     "multiselect-react-dropdown": "^1.4.10",
+<<<<<<< HEAD
     "react": "^16.13.1",
+=======
+    "react": "^16.13.0",
+    "react-animated-css": "^1.2.1",
+>>>>>>> 1e432268ebbd233435629e0702119af8cf955961
     "react-bootstrap": "^1.0.1",
+    "react-confirm-alert": "^2.6.1",
     "react-csv-reader": "^3.0.6",
     "react-datepicker": "^2.15.0",
     "react-dom": "^16.13.1",

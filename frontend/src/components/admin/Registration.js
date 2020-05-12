@@ -12,6 +12,8 @@ import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CSVReader from "react-csv-reader";
 import Footer from '../shared/Footer'
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -159,53 +161,71 @@ export default class registration extends Component {
   onSubmit(event) {
     event.preventDefault();
 
-    const obj = getFromStorage('auth-token');
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            const obj = getFromStorage('auth-token');
 
-    const formData = new FormData();
+            const formData = new FormData();
 
-    formData.append('profileImage', this.state.form.file);
-    formData.append('firstName', this.state.form.firstName);
-    formData.append('lastName', this.state.form.lastName);
-    formData.append('password', this.state.form.nic);
-    formData.append('nic', this.state.form.nic);
-    formData.append('email', this.state.form.email);
-    formData.append('userType', this.state.form.userType);
-    formData.append('birthday', this.state.startDate);
-    formData.append('mobileNumber', this.state.form.mobileNumber);
+            formData.append('profileImage', this.state.form.file);
+            formData.append('firstName', this.state.form.firstName);
+            formData.append('lastName', this.state.form.lastName);
+            formData.append('password', this.state.form.nic);
+            formData.append('nic', this.state.form.nic);
+            formData.append('email', this.state.form.email);
+            formData.append('userType', this.state.form.userType);
+            formData.append('birthday', this.state.startDate);
+            formData.append('mobileNumber', this.state.form.mobileNumber);
 
-    var myHeaders = new Headers();
-    myHeaders.append("auth-token", obj.token);
+            var myHeaders = new Headers();
+            myHeaders.append("auth-token", obj.token);
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: formData,
-      redirect: 'follow'
-    };
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: formData,
+              redirect: 'follow'
+            };
 
-    if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
-      this.setState({
-        snackbaropen: true,
-        snackbarmsg: "Please Fill the Form..!"
-      })
-    }
-    else {
-      fetch(backendURI.url + "/users/register", requestOptions)
-        .then((res) => res.json())
-        .then((json) => {
-          this.setState({
-            snackbaropen: true,
-            snackbarmsg: json.msg
-          })
-        })
-        .catch(error => {
-          this.setState({
-            snackbaropen: true,
-            snackbarmsg: error
-          })
-          console.log('error', error)
-        });
-    }
+            if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
+              this.setState({
+                snackbaropen: true,
+                snackbarmsg: "Please Fill the Form..!"
+              })
+            }
+            else {
+              fetch(backendURI.url + "/users/register", requestOptions)
+                .then((res) => res.json())
+                .then((json) => {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: json.msg
+                  })
+                })
+                .catch(error => {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: error
+                  })
+                  console.log('error', error)
+                });
+            }
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+            
+          }
+        }
+      ]
+    })
+
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
