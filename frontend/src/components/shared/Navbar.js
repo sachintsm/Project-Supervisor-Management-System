@@ -212,6 +212,9 @@ export default class navbar extends Component {
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
+
+              
+
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBNavbar>
