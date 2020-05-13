@@ -33,7 +33,7 @@ router.post("/addNotice" , (req,res)=>{
         let date_ob = new Date(ts);
         const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours() +date_ob.getSeconds()
     if(req.file){
-        var filePath = "NOTICE_FILE - "+ time + req.file.originalname; 
+        var filePath = "NOTICE_FILE -"+ time + req.file.originalname; 
     }
 
     const newNotice = new Notice ({
@@ -71,12 +71,52 @@ router.get("/viewNotice", (req, res, next) => { // notice get methord
             });
         });
 }); 
-//Get news attchment  
+//Get notice attchment  
 router.get("/noticeAttachment/:filename", function (req, res) {
     const filename = req.params.filename;
     // console.log(filename)
     res.sendFile(path.join(__dirname, '../local_storage/notice_Attachment/' + filename));
 });
+
+//delte notice
+
+router.delete("/delteNotice/:_id",(req,res)=>{
+    const id = req.params._id;
+    console.log(req.params._id)
+
+    Notice.remove({_id : id})
+        .exec()
+        .then(result=>{
+            res.status(200).json({
+                message: "Deleted Successfully.."
+            })
+        }).catch(error=>{
+            res.status(500).json({
+                massage : "Deleted Unsuccessfull"
+            })
+        })
+})
+
+
+//FilleAttachment Delete from Localstorage
+
+router.delete("/noticeAttachment/:filename",(req,res)=>{
+    const filename = req.params.filename;
+    console.log(filename)
+    const path = 'local_storage/notice_Attachment/' + filename;
+
+    try{
+        fs.unlinkSync(path)
+        res.status(200).json({
+            message : 'Delete the file successfully..'
+        })
+    }catch(err){
+        res.status(500).json({
+            message : 'Delete Unsuccsessfull..'
+        })
+    }
+
+})
 
 module.exports = router;
 

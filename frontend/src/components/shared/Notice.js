@@ -9,6 +9,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+
+//import { confirmAlert } from 'react-confirm-alert';
+//import 'react-confirm-alert/src/react-confirm-alert.css'
+
+
 //import Button from '@material-ui/core/Button';
 
 import "../../css/shared/Notice.css";
@@ -54,6 +61,8 @@ const backendURI = require("./BackendURI");
           date:"",
           succesAlert: false,
           warnAlert: false,
+          snackbaropen: false,
+          snackbarmsg: '',
           noticeType:'',
           noticeList: []
       };
@@ -66,6 +75,11 @@ const backendURI = require("./BackendURI");
 
 
     }
+
+
+    snackbarClose = (event) => {
+      this.setState({ snackbaropen: false })
+    } 
 
     componentDidMount() {
       this.getNoticeList();
@@ -123,6 +137,14 @@ const backendURI = require("./BackendURI");
       formData.append('date',this.state.date);
       formData.append('noticeAttachment', this.state.noticeAttachment);
 
+      if(this.state.noticeTittle === '' || this.state.notice === '' || this.state.noticeAttachment === '' ) {
+        this.setState({
+          snackbaropen: true,
+          snackbarmsg: "Please Fill the Form..!"
+        })
+      
+      }else{
+
       axios.post(backendURI.url + "/notice/addNotice",formData)
       .then(res=>{
 
@@ -135,14 +157,14 @@ const backendURI = require("./BackendURI");
       
 
       }).catch(error=>{
+        this.setState({
+          snackbaropen: true,
+          snackbarmsg: error
+        })
         console.log(error);
       });
-
-      this.setState({
-        noticeTittle:'',
-        notice:'',
-        noticeAttachment:null
-      });
+    }
+     
 
     }
 
@@ -167,7 +189,22 @@ const backendURI = require("./BackendURI");
 
       <Navbar panel={'admin'} />
 
-      <div className="container-fluid" style={{ backgroundColor: "rgb(252, 252, 252)" }}>
+      <div className="container-fluid container-fluid-div" style={{ backgroundColor: "rgb(252, 252, 252)" }}>
+
+      <Snackbar
+            open={this.state.snackbaropen}
+            autoHideDuration={2000}
+            onClose={this.snackbarClose}
+            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="secondary"
+                onClick={this.snackbarClose}
+              > x </IconButton>
+            ]}
+          />
       
       <Row >
       <Col>
@@ -240,17 +277,19 @@ const backendURI = require("./BackendURI");
         
             {this.state.noticeList.map((type)=>{
           return (
-            <Card key={type._id}  style={{marginTop:'15px', marginBottom:'20px'}}>
+            
+            <Card key={type._id}  style={{marginTop:'10px', marginBottom:'10px',width:"80"}}>
 
-            <CardHeader  title= {type.noticeTittle } subheader={type.date} />
+            <h6 style={{paddingLeft:"10px",paddingTop:"10px",fontWeight:"700"}}> {type.noticeTittle }</h6>
+            <h10 style={{paddingLeft:"8px", paddingTop:"2px" , color:" #6d6d6d"}}>{type.date}</h10>
 
-            <CardContent>
+            <CardContent style={{paddingTop:"4px"}}>
            
             <Typography variant="body1" component="p">{type.notice}</Typography>
             
             </CardContent>
 
-            <a href="http://localhost:4000/notice/noticeAtachment/{type.noticeAtachment}">&nbsp;&nbsp;Attachment</a>
+            <a style={{paddingTop:"2px"}} href="http://localhost:4000/notice/noticeAtachment/{type.noticeAtachment}">&nbsp;&nbsp;Attachment</a>
 
             <CardActions>
             <Button size="small" variant="outline-danger"style={{width:'20%'}}>Delete</Button>

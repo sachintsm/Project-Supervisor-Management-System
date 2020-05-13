@@ -215,6 +215,7 @@ export default class registration extends Component {
                   console.log('error', error)
                 });
             }
+            
           }
         },
         {
