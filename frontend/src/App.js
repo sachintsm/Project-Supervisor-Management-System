@@ -42,7 +42,7 @@ function App() {
 
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
-          <Route exact path='/coordinatorhome/createGroup' component={CreateGroup}></Route>
+          <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
           
 
           {/* ==================================================================== */}

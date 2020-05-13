@@ -13,7 +13,6 @@ import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
-import TextField from '@material-ui/core/TextField';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -38,10 +37,12 @@ export default class registration extends Component {
         email: '',
         nic: '',
         mobileNumber: '',
+        indexNumber: '',
+        regNumber: '',
 
         imgName: '',
       },
-      
+
       //!decalaring error state variables
       firstNameError: '',
       lastNameError: '',
@@ -49,6 +50,8 @@ export default class registration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      indexNumberError: '',
+      regNumberError: '',
 
       csvData: [],
       startDate: new Date(),
@@ -102,6 +105,8 @@ export default class registration extends Component {
                 var userType = this.state.csvData[i][4];
                 var mobileNumber = this.state.csvData[i][5];
                 var birthday = this.state.csvData[i][6];
+                var indexNumber = this.state.csvData[i][7];
+                var regNumber = this.state.csvData[i][8];
 
                 var data = {
                   firstName: firstName,
@@ -111,7 +116,9 @@ export default class registration extends Component {
                   nic: nic,
                   userType: userType,
                   mobileNumber: mobileNumber,
-                  birthday: birthday
+                  birthday: birthday,
+                  indexNumber: indexNumber,
+                  regNumber: regNumber,
                 }
 
                 await fetch(backendURI.url + "/users/bulkRegister", {
@@ -200,6 +207,7 @@ export default class registration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      indexNumber: '',
     };
 
     if (this.state.form.firstName.length < 1) {
@@ -227,6 +235,11 @@ export default class registration extends Component {
       isError = true;
       errors.userTypeError = 'User type must be specified *'
     }
+    if (this.state.form.indexNumber.length === 0) {
+      isError = true;
+      errors.indexNumberError = 'Index number must be specified *'
+    }
+
     this.setState({
       ...this.state,
       ...errors
@@ -247,6 +260,7 @@ export default class registration extends Component {
         emailError: '',
         nicError: '',
         mobileNumberError: '',
+        indexNumberError: '',
       })
 
       confirmAlert({
@@ -269,6 +283,8 @@ export default class registration extends Component {
               formData.append('userType', this.state.form.userType);
               formData.append('birthday', this.state.startDate);
               formData.append('mobileNumber', this.state.form.mobileNumber);
+              formData.append('indexNumber', this.state.form.indexNumber)
+              formData.append('regNumber', this.state.form.regNumber)
 
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);
@@ -280,42 +296,33 @@ export default class registration extends Component {
                 redirect: 'follow'
               };
 
-              if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
-                this.setState({
-                  snackbaropen: true,
-                  snackbarmsg: "Please Fill the Form..!",
-                  snackbarcolor: 'error',
-                })
-              }
-              else {
-                fetch(backendURI.url + "/users/register", requestOptions)
-                  .then((res) => res.json())
-                  .then((json) => {
-                    if (json.state === true) {
-                      this.setState({
-                        snackbaropen: true,
-                        snackbarmsg: json.msg,
-                        snackbarcolor: 'success',
-                      })
-                      window.location.reload();
-                    }
-                    else {
-                      this.setState({
-                        snackbaropen: true,
-                        snackbarmsg: json.msg,
-                        snackbarcolor: 'error',
-                      })
-                    }
-                  })
-                  .catch(error => {
+              fetch(backendURI.url + "/users/register", requestOptions)
+                .then((res) => res.json())
+                .then((json) => {
+                  if (json.state === true) {
                     this.setState({
                       snackbaropen: true,
-                      snackbarmsg: error,
+                      snackbarmsg: json.msg,
+                      snackbarcolor: 'success',
+                    })
+                    window.location.reload();
+                  }
+                  else {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: json.msg,
                       snackbarcolor: 'error',
                     })
-                    console.log('error', error)
-                  });
-              }
+                  }
+                })
+                .catch(error => {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: error,
+                    snackbarcolor: 'error',
+                  })
+                  console.log('error', error)
+                });
             }
           },
           {
@@ -459,7 +466,18 @@ export default class registration extends Component {
 
                               </div>
                             </Col>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">Mobile Number : </label>
+                                <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
+                                  value={form.mobileNumber}
+                                ></input>
+                                <p className="reg-error">{this.state.mobileNumberError}</p>
+
+                              </div>
+                            </Col>
                           </Row>
+
                           <Row>
                             <Col>
                               <div className="form-group">
@@ -478,11 +496,21 @@ export default class registration extends Component {
                             </Col>
                             <Col>
                               <div className="form-group">
-                                <label className="text-label">Mobile Number : </label>
-                                <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
-                                  value={form.mobileNumber}
+                                <label className="text-label">Index Number : </label>
+                                <input type="text" className="form-control" name="indexNumber" onChange={this.onChange}
+                                  value={form.indexNumber}
                                 ></input>
-                                <p className="reg-error">{this.state.mobileNumberError}</p>
+                                <p className="reg-error">{this.state.indexNumberError}</p>
+
+                              </div>
+                            </Col>
+                            <Col>
+                              <div className="form-group">
+                                <label className="text-label">Registration Number : </label>
+                                <input type="text" className="form-control" name="regNumber" onChange={this.onChange}
+                                  value={form.regNumber}
+                                ></input>
+                                <p className="reg-error">{this.state.regNumberError}</p>
 
                               </div>
                             </Col>
