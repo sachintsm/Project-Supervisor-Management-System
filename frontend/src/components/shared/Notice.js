@@ -76,10 +76,11 @@ const backendURI = require("./BackendURI");
       this.onChangeFile = this.onChangeFile.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.getNoticeList = this.getNoticeList.bind(this);
+      this.onDeleteHandler = this.onDeleteHandler.bind(this);
 
 
+    
     }
-
 
     snackbarClose = (event) => {
       this.setState({ snackbaropen: false })
@@ -183,12 +184,38 @@ const backendURI = require("./BackendURI");
 
     }
 
+    // onDeleteHandler = (filePath)=>{
+
+    //   console.log(filePath);
+
+    //   axios.delete(backendURI.url + '/notice/noticeAttachment/'+filePath)
+    //     .then(res=>{
+    //       this.getNoticeList()
+    //     }).catch(err=>{
+    //       console.log(err)
+    //     })
+    // }
+
+    onDeleteHandler = (id)=>{
+
+      console.log(id);
+
+      axios.delete(backendURI.url + '/notice/delteNotice/'+id)
+        .then(res=>{
+          this.getNoticeList()
+        }).catch(err=>{
+          console.log(err)
+        })
+    }
+
     closeAlert = () => {
       this.setState({
         succesAlert: false,
         warnAlert: false,
       });
     };
+
+
 
   render() {
     return (
@@ -403,7 +430,7 @@ const backendURI = require("./BackendURI");
             <a style={{paddingTop:"2px"}} href="http://localhost:4000/notice/noticeAtachment/{type.noticeAtachment}">&nbsp;&nbsp;Attachment</a>
 
             <CardActions>
-            <Button size="small" variant="outline-danger"style={{width:'20%'  , marginLeft:"850px"}}>Delete</Button>
+            <Button size="small" variant="outline-danger"style={{width:'20%'  , marginLeft:"850px"}}  onClick={() => this.onDeleteHandler(type._id , type.noticeAttachment)}>Delete</Button>
             </CardActions>
 
 
