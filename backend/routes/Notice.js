@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Notice = require('../models/Notice');
+const Notice = require('../models/notice');
 const multer = require('multer');
 var path = require('path');
 const fs = require('fs');

@@ -389,7 +389,7 @@ const backendURI = require("./BackendURI");
             {this.state.noticeList.map((type)=>{
           return (
             
-            <Card key={type._id}  style={{marginTop:'10px', marginBottom:'10px',width:"80"}}>
+            <Card key={type._id}  style={{marginTop:'10px', marginBottom:'10px'}}>
 
             <h6 style={{paddingLeft:"10px",paddingTop:"10px",fontWeight:"700"}}> {type.noticeTittle }</h6>
             <h10 style={{paddingLeft:"8px", paddingTop:"2px" , color:" #6d6d6d"}}>{type.date}</h10>
