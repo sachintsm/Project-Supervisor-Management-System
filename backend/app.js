@@ -1,10 +1,10 @@
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-var cors = require("cors");
-const dotenv = require("dotenv").config();
-const jwt = require("jsonwebtoken");
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+var cors = require('cors');
+const dotenv = require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -20,30 +20,30 @@ mongoose
     pass: process.env.DB_PASS,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
   })
   .then(() => {
-    console.log("mongoDB Connected ...");
+    console.log('mongoDB Connected ...');
   })
   .catch((err) => {
     console.log(err.message);
   });
 
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected to db ....");
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected to db ....');
 });
 
-mongoose.connection.on("error", (err) => {
-  console.log("Error: ", err.message);
+mongoose.connection.on('error', (err) => {
+  console.log('Error: ', err.message);
 });
 
-mongoose.connection.on("disconnected", () => {
-  console.log("mongoose connection is disconnected ....");
+mongoose.connection.on('disconnected', () => {
+  console.log('mongoose connection is disconnected ....');
 });
 
-process.on("SIGNIT", () => {
+process.on('SIGNIT', () => {
   mongoose.connection.close(() => {
-    console.log("mongoose connection is terminated due to app termination");
+    console.log('mongoose connection is terminated due to app termination');
     process.exit(0);
   });
 });
@@ -54,16 +54,22 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const users = require("./routes/users");
-app.use("/users", users);
+const users = require('./routes/users');
+app.use('/users', users);
 
-app.get("/", function (req, res) {
-  res.send("Hello world");
+const notice = require("./routes/Notice");
+app.use("/notice", notice);
+
+const projects = require('./routes/projects');
+app.use('/projects', projects);
+
+app.get('/', function (req, res) {
+  res.send('Hello world');
 });
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, function () {
-  console.log("listening to port " + PORT);
+  console.log('listening to port ' + PORT);
 });
 
 module.exports = app;

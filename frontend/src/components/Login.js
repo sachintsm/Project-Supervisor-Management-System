@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
-import { Form, Toast } from 'reactstrap';
+import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { ToastContainer, toast, Slide } from 'react-toastify';
@@ -49,7 +49,7 @@ export default class login extends Component {
       password: e.target.value,
     });
   }
-
+  
   onSignIn() {
     const { email, password } = this.state;
 
@@ -65,7 +65,7 @@ export default class login extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        // console.log("josn", json);
+        console.log(json.token);
         if (json.state) {
           setInStorage('auth-token', { token: json.token });
           setInStorage('auth-id', { id: json.userId });
@@ -75,7 +75,6 @@ export default class login extends Component {
             userId: '',
             token: json.token,
           });
-          console.log(json);
           if (json.isAdmin) {
             setInStorage('isAdmin', true);
           }
@@ -91,9 +90,12 @@ export default class login extends Component {
 
           if (json.isAdmin) {
             this.props.history.push('/adminhome');
+            console.log("admin")
+
           } else if (json.isCoordinator) {
             this.props.history.push('/coordinatorhome');
           } else if (json.isSupervisor) {
+            console.log("supervisor")
             this.props.history.push('/supervisorhome');
           } else if (json.isStudent) {
             this.props.history.push('/studenthome');

@@ -3,27 +3,27 @@
     background-color: #232f3f;
 }
 
-.companey-name{
-    color: #eaf3ff;
-    font-size: 1.7em;
-    font-weight: 400;
+.companey-name {
+  color: #eaf3ff;
+  font-size: 1.7em;
+  font-weight: 400;
 }
 
-.address{
-    color: #eaf3ff;
-    font-size: 1em;
-    font-weight: 300;
-    margin-top: -18px;
+.address {
+  color: #eaf3ff;
+  font-size: 1em;
+  font-weight: 300;
+  margin-top: -18px;
 }
 
-hr{
-    background-color: #eaf3ff;
-    width: 101%;
-    margin-left: -15px;
+hr {
+  background-color: #eaf3ff;
+  width: 101%;
+  margin-left: -15px;
 }
-.copyright{
-    font-size: 14px;
-    color: #eaf3ff;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
+.copyright {
+  font-size: 14px;
+  color: #eaf3ff;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
 }
