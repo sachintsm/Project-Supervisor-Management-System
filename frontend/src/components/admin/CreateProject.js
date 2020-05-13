@@ -6,7 +6,7 @@ import Footer from '../shared/Footer';
 import '../../css/admin/CreateProject.css';
 import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, } from 'react-bootstrap';
 import Snackpop from "../shared/Snackpop";
-import {getFromStorage} from "../../utils/Storage";
+import { getFromStorage } from "../../utils/Storage";
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -23,7 +23,7 @@ class CreateProject extends Component {
     this.onCreateProject = this.onCreateProject.bind(this)
 
     this.state = {
-      selectedTypeIndex: 0 ,
+      selectedTypeIndex: 0,
       academicYear: '',
       type: '',
       year: year,
@@ -42,12 +42,12 @@ class CreateProject extends Component {
   componentDidMount() {
 
     const headers = {
-      'auth-token':getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
 
     this.getCategoryList()
     axios
-      .get(backendURI.url + '/users/stafflist',{headers: headers})
+      .get(backendURI.url + '/users/stafflist', { headers: headers })
       .then((result) => {
         if (result.data.length > 0) {
           this.setState({
@@ -84,10 +84,10 @@ class CreateProject extends Component {
   componentDidUpdate() {
 
     const headers = {
-      'auth-token':getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
     axios
-      .get(backendURI.url + '/users/stafflist',{headers: headers})
+      .get(backendURI.url + '/users/stafflist', { headers: headers })
       .then((result) => {
         if (result.data.length > 0) {
           this.setState({
@@ -100,13 +100,13 @@ class CreateProject extends Component {
       });
   }
 
-  onCreateProject(){
+  onCreateProject() {
 
     const headers = {
-      'auth-token':getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
-    if(this.state.selectedStaffList.length>0 && this.state.type!==''){
-      const supervisors = this.state.selectedStaffList.map(item=>{
+    if (this.state.selectedStaffList.length > 0 && this.state.type !== '') {
+      const supervisors = this.state.selectedStaffList.map(item => {
         return item.value
       })
 
@@ -118,20 +118,20 @@ class CreateProject extends Component {
         coordinatorList: supervisors
       }
 
-      axios.post(backendURI.url + '/projects',project,{headers: headers}).then(result=>{
+      axios.post(backendURI.url + '/projects', project, { headers: headers }).then(result => {
         this.setState({
           successAlert: true
         })
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err)
       })
     }
-    else if(this.state.type===''){
+    else if (this.state.type === '') {
       this.setState({
         typeWarnAlert: true
       })
     }
-    else if(this.state.selectedStaffList.length===0){
+    else if (this.state.selectedStaffList.length === 0) {
       this.setState(({
         warnAlert: true,
       }))
@@ -142,37 +142,37 @@ class CreateProject extends Component {
   getCategoryList() {
 
     const headers = {
-      'auth-token':getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
-    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
+    axios.get(backendURI.url + '/projects/projecttype', { headers: headers }).then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
-        },()=>{
+        }, () => {
           this.setState({
-            type :  this.state.projectTypeList[0].projectType
+            type: this.state.projectTypeList[0].projectType
           })
-          if(this.state.projectTypeList[0].isFirstYear){
+          if (this.state.projectTypeList[0].isFirstYear) {
             this.setState(({
               academicYear: "1st Year"
             }))
           }
-          else if(this.state.projectTypeList[0].isSecondYear){
+          else if (this.state.projectTypeList[0].isSecondYear) {
             this.setState(({
               academicYear: "2nd Year"
             }))
           }
-          else if(this.state.projectTypeList[0].isThirdYear){
+          else if (this.state.projectTypeList[0].isThirdYear) {
             this.setState(({
               academicYear: "3rd Year"
             }))
           }
-          else if(this.state.projectTypeList[0].isFourthYear){
+          else if (this.state.projectTypeList[0].isFourthYear) {
             this.setState(({
               academicYear: "4th Year"
             }))
           }
-          else{
+          else {
             this.setState(({
               academicYear: ''
             }))
@@ -208,27 +208,27 @@ class CreateProject extends Component {
       type: this.state.projectTypeList[typeIndex].projectType,
       selectedTypeIndex: typeIndex
     });
-    if(this.state.projectTypeList[typeIndex].isFirstYear){
+    if (this.state.projectTypeList[typeIndex].isFirstYear) {
       this.setState(({
         academicYear: "1st Year"
       }))
     }
-    else if(this.state.projectTypeList[typeIndex].isSecondYear){
+    else if (this.state.projectTypeList[typeIndex].isSecondYear) {
       this.setState(({
         academicYear: "2nd Year"
       }))
     }
-    else if(this.state.projectTypeList[typeIndex].isThirdYear){
+    else if (this.state.projectTypeList[typeIndex].isThirdYear) {
       this.setState(({
         academicYear: "3rd Year"
       }))
     }
-    else if(this.state.projectTypeList[typeIndex].isFourthYear){
+    else if (this.state.projectTypeList[typeIndex].isFourthYear) {
       this.setState(({
         academicYear: "4th Year"
       }))
     }
-    else{
+    else {
       this.setState(({
         academicYear: ''
       }))
@@ -256,27 +256,27 @@ class CreateProject extends Component {
     return (
       <React.Fragment>
         <Snackpop
-            msg={'Project Created Successfully'}
-            color={'success'}
-            time={3000}
-            status={this.state.successAlert}
-            closeAlert={this.closeAlert}
+          msg={'Project Created Successfully'}
+          color={'success'}
+          time={3000}
+          status={this.state.successAlert}
+          closeAlert={this.closeAlert}
         />
 
         <Snackpop
-            msg={'Please Assign Coordinators'}
-            color={'error'}
-            time={3000}
-            status={this.state.warnAlert}
-            closeAlert={this.closeAlert}
+          msg={'Please Assign Coordinators'}
+          color={'error'}
+          time={3000}
+          status={this.state.warnAlert}
+          closeAlert={this.closeAlert}
         />
 
         <Snackpop
-            msg={'Please define a Project Type'}
-            color={'error'}
-            time={3000}
-            status={this.state.typeWarnAlert}
-            closeAlert={this.closeAlert}
+          msg={'Please define a Project Type'}
+          color={'error'}
+          time={3000}
+          status={this.state.typeWarnAlert}
+          closeAlert={this.closeAlert}
         />
         <Navbar panel={'admin'} />
 
@@ -301,11 +301,11 @@ class CreateProject extends Component {
                         title={this.state.year}
                         onSelect={this.onChangeYear}
                         style={{ width: "90%" }}>
-                        {this.state.yearsArray.map((item,index) => {
-                          return(
-                              <Dropdown.Item key={index} eventKey={item}>
-                                {item}
-                              </Dropdown.Item>)
+                        {this.state.yearsArray.map((item, index) => {
+                          return (
+                            <Dropdown.Item key={index} eventKey={item}>
+                              {item}
+                            </Dropdown.Item>)
                         })}
                       </DropdownButton>{' '}
                     </Row>
@@ -337,52 +337,52 @@ class CreateProject extends Component {
                               onSelect={this.onChangeType}
                               style={{ width: "90%" }}
                             >
-                              {this.state.projectTypeList.map((item,index) => {
-                              return(
+                              {this.state.projectTypeList.map((item, index) => {
+                                return (
                                   <Dropdown.Item key={item._id} eventKey={index}>
                                     {item.projectType}
                                   </Dropdown.Item>)
-                            })}
+                              })}
                             </DropdownButton>)
                       }
 
                     </Row>
                   </Col>
-                  {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                      <Col xs="4">
-                        <Row>
-                          <p className="cp-text">
-                            Academic Year
+                  {(this.state.projectTypeList.length > 0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear) ?
+                    <Col xs="4">
+                      <Row>
+                        <p className="cp-text">
+                          Academic Year
                           </p>
-                        </Row>
-                        <Row>
+                      </Row>
+                      <Row>
 
-                          <DropdownButton
-                              as={ButtonGroup}
-                              variant={'secondary'}
-                              title={this.state.academicYear}
-                              onSelect={this.onChangeAcademicYear}
-                              style={{ width: "90%" }}
-                          >
-                            {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
+                        <DropdownButton
+                          as={ButtonGroup}
+                          variant={'secondary'}
+                          title={this.state.academicYear}
+                          onSelect={this.onChangeAcademicYear}
+                          style={{ width: "90%" }}
+                        >
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
                             <Dropdown.Item eventKey='1st Year'>
                               1st Year
                             </Dropdown.Item>}
-                            {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
                             <Dropdown.Item eventKey='2nd Year'>
                               2nd Year
                             </Dropdown.Item>}
-                            {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
                             <Dropdown.Item eventKey='3rd Year'>
                               3rd Year
                             </Dropdown.Item>}
-                            {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
                             <Dropdown.Item eventKey='4th Year'>
                               4th Year
                             </Dropdown.Item>}
-                          </DropdownButton>{' '}
-                        </Row>
-                      </Col> :  null
+                        </DropdownButton>{' '}
+                      </Row>
+                    </Col> : null
                   }
 
 
