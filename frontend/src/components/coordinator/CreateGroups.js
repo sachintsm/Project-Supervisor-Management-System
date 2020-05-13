@@ -395,7 +395,7 @@ export default class CreateGroups extends Component {
                                                     <img
                                                         alt='background'
                                                         src={require('../../assets/images/Group Registration - CSV- Format.png')}
-                                                        className='image2'
+                                                        className='image3'
                                                     />
                                                 </div>
 
