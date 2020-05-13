@@ -62,6 +62,10 @@ const backendURI = require("./BackendURI");
           succesAlert: false,
           warnAlert: false,
           snackbaropen: false,
+          isViewType:true,
+          isCordinator:false,
+          isSupervisor:false,
+          isStudent:false,
           snackbarmsg: '',
           noticeType:'',
           noticeList: []
@@ -136,6 +140,12 @@ const backendURI = require("./BackendURI");
       formData.append('notice', this.state.notice);
       formData.append('date',this.state.date);
       formData.append('noticeAttachment', this.state.noticeAttachment);
+      formData.append('isViewType' , this.state.isViewType);
+      formData.append('isCordinator' , this.state.isCordinator);
+      formData.append('isSupervisor', this.state.isSupervisor);
+      formData.append('isStudent',this.state.isStudent);
+
+
 
       if(this.state.noticeTittle === '' || this.state.notice === '' || this.state.noticeAttachment === '' ) {
         this.setState({
@@ -147,12 +157,11 @@ const backendURI = require("./BackendURI");
 
       axios.post(backendURI.url + "/notice/addNotice",formData)
       .then(res=>{
-
-        window.location.reload();
         this.setState({
           succesAlert: true,
         
         });
+        this.getNoticeList()
         console.log(res.data);
       
 
@@ -164,6 +173,12 @@ const backendURI = require("./BackendURI");
         console.log(error);
       });
     }
+
+    this.setState({
+      noticeTittle:"",
+      notice:"",
+      noticeAttachment: "",
+    })
      
 
     }
@@ -243,6 +258,100 @@ const backendURI = require("./BackendURI");
             </Row>
 
             <Row className='margin-top-30'>
+                    <Col md={4} className='form-control-label '>
+                      <FormControlLabel
+                        className='form-control-label'
+                        control={
+                          <Checkbox
+                            fontSize='5px'
+                            checked={this.state.isViewType}
+                            onChange={() => {
+                              this.setState({
+                                isViewType: !this.state.isViewType,
+                              });
+                            }}
+                            name='checkedB'
+                            color='default'
+                          />
+                        }
+                        label={
+                          <span style={{ fontSize: '14px' , color:"#6d6d6d"}}>
+                           To View
+                          </span>
+                        }
+                      />
+                    </Col>
+                    <Col className="col-padding-5">
+                      {this.state.isViewType && (
+                        <FormControlLabel
+                          className='form-control-label'
+                          control={
+                            <Checkbox
+                              fontSize='5px'
+                              checked={this.state.isCordinator}
+                              onChange={() => {
+                                this.setState({
+                                  isCordinator: !this.state.isCordinator,
+                                });
+                              }}
+                              name='checkedB'
+                              color='default'
+                            />
+                          }
+                          label={
+                            <span style={{ fontSize: '12px' }}>Cordinators</span>
+                          }
+                        />
+                      )}
+                    </Col>
+                    <Col className="col-padding-5">
+                      {this.state.isViewType && (
+                        <FormControlLabel
+                          className='form-control-label'
+                          control={
+                            <Checkbox
+                              fontSize='5px'
+                              checked={this.state.isSupervisor}
+                              onChange={() => {
+                                this.setState({
+                                  isSupervisor: !this.state.isSupervisor,
+                                });
+                              }}
+                              name='checkedB'
+                              color='default'
+                            />
+                          }
+                          label={
+                            <span style={{ fontSize: '12px' }}>Supervisors</span>
+                          }
+                        />
+                      )}
+                    </Col>
+                    <Col className="col-padding-5">
+                      {this.state.isViewType && (
+                        <FormControlLabel
+                          className='form-control-label'
+                          control={
+                            <Checkbox
+                              fontSize='5px'
+                              checked={this.state.isStudent}
+                              onChange={() => {
+                                this.setState({
+                                  isStudent: !this.state.isStudent,
+                                });
+                              }}
+                              name='checkedB'
+                              color='default'
+                            />
+                          }
+                          label={
+                            <span style={{ fontSize: '12px' }}>Studentd</span>
+                          }
+                        />
+                      )}
+                    </Col>
+                  </Row>
+            <Row className='margin-top-30'>
               <Col >
 
               <label className='verticle-align-middle cp-text'>
@@ -253,6 +362,8 @@ const backendURI = require("./BackendURI");
               </FormGroup>
               </Col>
             </Row>
+
+            
 
             <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
             <Button
@@ -292,7 +403,7 @@ const backendURI = require("./BackendURI");
             <a style={{paddingTop:"2px"}} href="http://localhost:4000/notice/noticeAtachment/{type.noticeAtachment}">&nbsp;&nbsp;Attachment</a>
 
             <CardActions>
-            <Button size="small" variant="outline-danger"style={{width:'20%'}}>Delete</Button>
+            <Button size="small" variant="outline-danger"style={{width:'20%'  , marginLeft:"850px"}}>Delete</Button>
             </CardActions>
 
 

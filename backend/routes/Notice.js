@@ -26,7 +26,20 @@ const upload = multer({storage : storage}).single('noticeAttachment');
 
 
 // data send to database and save
-router.post("/addNotice" , (req,res)=>{
+router.post("/addNotice" , async(req,res)=>{
+
+try{
+    if(!req.body.isViewType){
+        req.body.isCordinator=false;
+        req.body.isSupervisor=false;
+        req.body.isStudent=false;
+
+
+    }
+
+    if(!(req.body.isCordinator||req.body.isSupervisor||req.body.isStudent)){
+        req.body.isViewType=false;
+    }
 
     upload(req,res,(err)=>{
         let ts = Date.now();
@@ -40,7 +53,11 @@ router.post("/addNotice" , (req,res)=>{
         noticeTittle : req.body.noticeTittle,
         notice : req.body.notice,
         date: req.body.date,
-        filePath : filePath
+        filePath : filePath,
+        isViewType:req.body.isViewType,
+        isCordinator:req.body.isCordinator,
+        isSupervisor:req.body.isSupervisor,
+        isStudent:req.body.isStudent,
     });
 
     newNotice.save()
@@ -53,6 +70,13 @@ router.post("/addNotice" , (req,res)=>{
         })
 
     })
+
+} catch(err){
+    console.log(err)
+}
+
+
+
 });
 
 
