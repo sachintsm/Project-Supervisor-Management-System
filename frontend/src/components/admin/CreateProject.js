@@ -7,6 +7,7 @@ import '../../css/admin/CreateProject.css';
 import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, } from 'react-bootstrap';
 import Snackpop from "../shared/Snackpop";
 import {getFromStorage} from "../../utils/Storage";
+import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -102,41 +103,59 @@ class CreateProject extends Component {
 
   onCreateProject(){
 
-    const headers = {
-      'auth-token':getFromStorage('auth-token').token,
-    }
-    if(this.state.selectedStaffList.length>0 && this.state.type!==''){
-      const supervisors = this.state.selectedStaffList.map(item=>{
-        return item.value
-      })
+    confirmAlert({
+      title: 'Project Creation',
+      message: 'Are you sure you want to create this Project?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+            if(this.state.selectedStaffList.length>0 && this.state.type!==''){
+              const supervisors = this.state.selectedStaffList.map(item=>{
+                return item.value
+              })
 
 
-      const project = {
-        projectYear: this.state.year,
-        projectType: this.state.type,
-        academicYear: this.state.academicYear,
-        coordinatorList: supervisors
-      }
+              const project = {
+                projectYear: this.state.year,
+                projectType: this.state.type,
+                academicYear: this.state.academicYear,
+                coordinatorList: supervisors
+              }
 
-      axios.post(backendURI.url + '/projects',project,{headers: headers}).then(result=>{
-        this.setState({
-          successAlert: true
-        })
-      }).catch(err=>{
-        console.log(err)
-      })
-    }
-    else if(this.state.type===''){
-      this.setState({
-        typeWarnAlert: true
-      })
-    }
-    else if(this.state.selectedStaffList.length===0){
-      this.setState(({
-        warnAlert: true,
-      }))
-    }
+              axios.post(backendURI.url + '/projects',project,{headers: headers}).then(result=>{
+                this.setState({
+                  successAlert: true
+                })
+              }).catch(err=>{
+                console.log(err)
+              })
+            }
+            else if(this.state.type===''){
+              this.setState({
+                typeWarnAlert: true
+              })
+            }
+            else if(this.state.selectedStaffList.length===0){
+              this.setState(({
+                warnAlert: true,
+              }))
+            }
 
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        }
+      ]
+    })
   }
 
   getCategoryList() {

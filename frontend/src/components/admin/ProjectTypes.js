@@ -21,6 +21,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import {getFromStorage} from "../../utils/Storage";
+import {confirmAlert} from "react-confirm-alert";
 const backendURI = require('../shared/BackendURI');
 
 class ProjectTypes extends Component {
@@ -73,45 +74,65 @@ class ProjectTypes extends Component {
   }
 
   submit() {
-    const headers = {
-      'auth-token':getFromStorage('auth-token').token,
-    }
 
-    if (this.state.projectType === '') {
-      this.setState({
-        warnAlert: true,
-      });
-    } else {
-      if (this.state.componentType === 'add') {
-        axios
-          .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
-          .then((res) => {
+    confirmAlert({
+      title: 'Project Category',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+
+            if (this.state.projectType === '') {
+              this.setState({
+                warnAlert: true,
+              });
+            } else {
+              if (this.state.componentType === 'add') {
+                axios
+                    .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
+                    .then((res) => {
+                      this.setState({
+                        succesAlert: true,
+                      });
+                      this.getCategoryList()
+                    }).catch(err => console.log(err));
+              }
+
+              if (this.state.componentType === 'edit') {
+                axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state,{headers: headers}).then(res => {
+                }).catch(err => {
+                  console.log(err)
+                })
+
+                this.setState({
+                  editAlert: true,
+                  componentType: "add",
+                  title: 'Add New Project Category',
+                })
+              }
+            }
+
+
+
             this.setState({
-              succesAlert: true,
-            });
-            this.getCategoryList()
-          }).catch(err => console.log(err));
-      }
+              projectType: ''
+            })
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
 
-      if (this.state.componentType === 'edit') {
-        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state,{headers: headers}).then(res => {
-        }).catch(err => {
-          console.log(err)
-        })
-
-        this.setState({
-          editAlert: true,
-          componentType: "add",
-          title: 'Add New Project Category',
-        })
-      }
-    }
-
-
-
-    this.setState({
-      projectType: ''
+          }
+        }
+      ]
     })
+
   }
 
   goBack() {
@@ -122,12 +143,30 @@ class ProjectTypes extends Component {
   }
 
   onDeleteHandler = (id) => {
-    const headers = {
-    'auth-token':getFromStorage('auth-token').token,
-  }
-    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id,{headers: headers}).then(res => {
-      this.getCategoryList()
-    }).catch(err => console.log(err))
+    confirmAlert({
+      title: 'Delete Category',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+            axios.patch(backendURI.url + '/projects/projecttype/delete/' + id,{headers: headers}).then(res => {
+              this.getCategoryList()
+            }).catch(err => console.log(err))
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        }
+      ]
+    })
   }
 
   onEditHandler = (type) => {

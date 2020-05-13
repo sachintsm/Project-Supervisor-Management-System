@@ -87,6 +87,7 @@ router.post('/', async (req,res,next)=>{
     console.log(req.body)
     const project = new Projects(req.body);
     project.isDeleted = false;
+    project.projectState = true;
     const result = await project.save();
     res.send(result);
   }
