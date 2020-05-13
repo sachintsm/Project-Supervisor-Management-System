@@ -97,10 +97,12 @@ router.post('/', async (req, res, next) => {
 })
 
 // ?get all the active projects
-router.get('/active&projects', (req, res) => {
-  Project
-    .find({ projectState: true })
+router.get('/active&projects/:coordinatorId', (req, res) => {
+  const coordinatorId = req.params.coordinatorId;
+  Projects
+    .find({ projectState: true, coordinatorList: coordinatorId })
     .then(data => {
+      // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {

@@ -30,10 +30,15 @@ export default class CreateGroups extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
+            activeProjects: [],
+
             csvData: [],
 
             projectId: '',
             grpMembers: [],
+
+            selectProjectError: '',
+
         };
     }
 
@@ -47,100 +52,100 @@ export default class CreateGroups extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState) {  //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) {  //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
 
-        //? load all the active project names from
-        axios.get(backendURI.url + '/projects/')
-        .then((result => { 
+        const coId = JSON.parse(localStorage.getItem("auth-id"))
 
-        }))
+        //? load all the active project names from
+        axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
+            .then((res => {
+                this.setState({
+                    activeProjects: res.data.data
+                })
+            }))
     }
 
     //? Bulk user registration function reading csv file
     fileUpload = (e) => {
         e.preventDefault();
-        if (this.state.csvData.length === 0) {
+        const err = this.validate();  //?calling validation function
+
+        if (!err) {
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Please select the CSV file..!',
-                snackbarcolor: 'error',
+                selectProjectError: '',
             })
-        }
-        else {
-            confirmAlert({
-                title: 'Confirm to submit',
-                message: 'Are you sure to do this.',
-                buttons: [
-                    {
-                        label: 'Yes',
-                        onClick: async () => {
-                            const obj = getFromStorage('auth-token');
 
-                            var myHeaders = new Headers();
-                            myHeaders.append("auth-token", obj.token);
+            if (this.state.csvData.length === 0) {
+                this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: 'Please select the CSV file..!',
+                    snackbarcolor: 'error',
+                })
+            }
+            else {
+                confirmAlert({
+                    title: 'Confirm to submit',
+                    message: 'Are you sure to do this.',
+                    buttons: [
+                        {
+                            label: 'Yes',
+                            onClick: async () => {
+                                const obj = getFromStorage('auth-token');
 
-                            for (var i = 0; i < this.state.csvData.length - 1; i++) {
-                                var firstName = this.state.csvData[i][0];
-                                var lastName = this.state.csvData[i][1];
-                                var email = this.state.csvData[i][2];
-                                var password = this.state.csvData[i][3];
-                                var nic = this.state.csvData[i][3];
-                                var userType = this.state.csvData[i][4];
-                                var mobileNumber = this.state.csvData[i][5];
-                                var birthday = this.state.csvData[i][6];
-                                var indexNumber = this.state.csvData[i][7];
-                                var regNumber = this.state.csvData[i][8];
+                                var myHeaders = new Headers();
+                                myHeaders.append("auth-token", obj.token);
 
-                                var data = {
-                                    firstName: firstName,
-                                    lastName: lastName,
-                                    email: email,
-                                    password: password,
-                                    nic: nic,
-                                    userType: userType,
-                                    mobileNumber: mobileNumber,
-                                    birthday: birthday,
-                                    indexNumber: indexNumber,
-                                    regNumber: regNumber,
+                                for (var i = 0; i < this.state.csvData.length - 1; i++) {
+                                    var j = 0;
+                                    this.state.grpMembers = []
+                                    while (this.state.csvData[i][j] != null) {
+                                        this.state.grpMembers.push(this.state.csvData[i][j])
+                                        console.log(this.state.csvData[i][j]);
+                                        j++;
+                                    }
+                                    var data = {
+                                        projectId: this.state.projectId,
+                                        groupMembers: this.state.grpMembers
+                                    }
+
+                                    await fetch(backendURI.url + "/createGroups/add", {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'auth-token': obj.token
+                                        },
+                                        body: JSON.stringify(data),
+                                    })
+                                        .then(res => res.json())
+                                        .then(json => {
+                                            this.setState({
+                                                snackbaropen: true,
+                                                snackbarmsg: json.msg,
+                                                snackbarcolor: 'success',
+                                            })
+                                        })
+                                        .catch(err => {
+                                            console.log(err)
+                                            this.setState({
+                                                snackbaropen: true,
+                                                snackbarmsg: err,
+                                                snackbarcolor: 'error',
+                                            })
+                                        })
                                 }
+                            }
+                        },
+                        {
+                            label: 'No',
+                            onClick: () => {
 
-                                await fetch(backendURI.url + "/users/bulkRegister", {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'auth-token': obj.token
-                                    },
-                                    body: JSON.stringify(data),
-                                })
-                                    .then(res => res.json())
-                                    .then(json => {
-                                        this.setState({
-                                            snackbaropen: true,
-                                            snackbarmsg: json.msg,
-                                            snackbarcolor: 'success',
-                                        })
-                                    })
-                                    .catch(err => {
-                                        console.log(err)
-                                        this.setState({
-                                            snackbaropen: true,
-                                            snackbarmsg: err,
-                                            snackbarcolor: 'error',
-                                        })
-                                    })
                             }
                         }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => {
-
-                        }
-                    }
-                ]
-            })
+                    ]
+                })
+            }
         }
     }
 
@@ -153,33 +158,98 @@ export default class CreateGroups extends Component {
         })
     }
 
+    validate = () => {
+        let isError = false;
+        const errors = {
+            selectProjectError: ''
+        };
+        if (this.state.projectId.length === 0) {
+            isError = true;
+            errors.selectProjectError = 'Please select a project *'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isError;  //! is not error return state 'false'
+    }
 
 
     onSubmit(e) {
         e.preventDefault();
+        const err = this.validate();  //?calling validation function
         console.log(this.state.grpMembers, "$$$$")
-        confirmAlert({
-            title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        const obj = getFromStorage('auth-token');
 
+        if (!err) {
+            this.setState({
+                selectProjectError: '',
+            })
+            confirmAlert({
+                title: 'Confirm to submit',
+                message: 'Are you sure to do this.',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            const obj = getFromStorage('auth-token');
 
+                            const data = {
+                                projectId: this.state.projectId,
+                                groupMembers: this.state.grpMembers
+                            }
 
+                            var myHeaders = new Headers();
+                            myHeaders.append("auth-token", obj.token);
+                            myHeaders.append("Content-Type", "application/json");
+
+                            var raw = JSON.stringify(data);
+
+                            var requestOptions = {
+                                method: 'POST',
+                                headers: myHeaders,
+                                body: raw,
+                                redirect: 'follow'
+                            };
+                            fetch("http://localhost:4000/createGroups/add", requestOptions)
+                                .then(response => response.json())
+                                .then(json => {
+                                    console.log(json.state)
+                                    if (json.state === true) {
+                                        this.setState({
+                                            snackbaropen: true,
+                                            snackbarmsg: json.msg,
+                                            snackbarcolor: 'success',
+                                        })
+                                        window.location.reload();
+                                    }
+                                    else {
+                                        this.setState({
+                                            snackbaropen: true,
+                                            snackbarmsg: json.msg,
+                                            snackbarcolor: 'error',
+                                        })
+                                    }
+                                })
+                                .catch(err => {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: err,
+                                        snackbarcolor: 'error',
+                                    })
+                                });
+
+                        }
+
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
                     }
-
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
-                }
-            ]
-        })
+                ]
+            })
+        }
     }
 
     addMember() {
@@ -211,6 +281,14 @@ export default class CreateGroups extends Component {
             })
         };
 
+        const { activeProjects } = this.state;   // ?load projects to dropdown menu this coordinator
+
+        let activeProjectsList = activeProjects.length > 0
+            && activeProjects.map((item, i) => {
+                return (
+                    <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
+                )
+            }, this)
         return (
             <div>
                 <Navbar panel={"admin"} />
@@ -245,13 +323,11 @@ export default class CreateGroups extends Component {
                                                 <Row>
                                                     <Col>
                                                         <div className="form-group">
-                                                            <select className="form-control" id="dropdown" value={this.projectId} onChange={this.handleDropdownChange}>
+                                                            <select className="form-control" id="dropdown" onChange={this.handleDropdownChange}>
                                                                 <option>Select the project</option>
-                                                                <option value="Student">Student</option>
-                                                                <option value="Staff">Staff</option>
-                                                                <option value="Admin">Administrator</option>
+                                                                {activeProjectsList}
                                                             </select>
-                                                            <p className="reg-error">{this.state.firstNameError}</p>
+                                                            <p className="reg-error">{this.state.selectProjectError}</p>
                                                         </div>
                                                     </Col>
 
@@ -280,11 +356,10 @@ export default class CreateGroups extends Component {
                                                                 </Row>
                                                             </div>
                                                         )
-                                                    })}
-
-
+                                                    })
+                                                }
                                                 <div className="form-group">
-                                                    <button className="btn btn-secondary my-4 add-member" onClick={(e) => this.addMember(e)}>Add Group Member </button>
+                                                    <button className="btn btn-secondary my-4 add-member" onClick={(e) => this.addMember(e)}>Add New Group Member </button>
                                                 </div>
 
                                                 <div className="form-group">
@@ -299,17 +374,30 @@ export default class CreateGroups extends Component {
 
                                         <Tab eventKey="bulk" title="Bulk Registration">
                                             <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+                                                <Row>
+                                                    <Col>
+                                                        <div className="form-group">
+                                                            <select className="form-control" id="dropdown" onChange={this.handleDropdownChange}>
+                                                                <option>Select the project</option>
+                                                                {activeProjectsList}
+                                                            </select>
+                                                            <p className="reg-error">{this.state.selectProjectError}</p>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
 
 
                                                 <div className="form-group">
                                                     <label className="text-label">CSV File Format : </label>
                                                 </div>
+                                                <div style={{ textAlign: 'center' }}>
 
-                                                <img
-                                                    alt='background'
-                                                    src={require('../../assets/images/Reg-CSV-Format.png')}
-                                                    className='image2'
-                                                />
+                                                    <img
+                                                        alt='background'
+                                                        src={require('../../assets/images/Group Registration - CSV- Format.png')}
+                                                        className='image2'
+                                                    />
+                                                </div>
 
 
 
