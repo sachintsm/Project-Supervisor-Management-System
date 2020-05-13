@@ -45,3 +45,8 @@
 .reg-csv-topic{
     margin-top: -70px;
 }
+
+.reg-error{
+    color : red ;
+    font-size: 10px;
+}

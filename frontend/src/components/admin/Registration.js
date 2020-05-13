@@ -8,13 +8,12 @@ import Navbar from "../shared/Navbar";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
-import Snackbar from '@material-ui/core/Snackbar'
-import IconButton from '@material-ui/core/IconButton'
 import CSVReader from "react-csv-reader";
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
+import TextField from '@material-ui/core/TextField';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -24,10 +23,10 @@ export default class registration extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.handleChangeUsertype = this.handleChangeUsertype.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
+
     this.state = {
       snackbaropen: false,
       snackbarmsg: '',
@@ -40,101 +39,117 @@ export default class registration extends Component {
         nic: '',
         mobileNumber: '',
 
-
         imgName: '',
       },
+      
+      //!decalaring error state variables
+      firstNameError: '',
+      lastNameError: '',
+      userTypeError: '',
+      emailError: '',
+      nicError: '',
+      mobileNumberError: '',
 
       csvData: [],
       startDate: new Date(),
     };
   }
+
   closeAlert = () => {
     this.setState({ snackbaropen: false });
   };
 
   async componentDidMount() {
     const authState = await verifyAuth();
-    console.log(authState);
 
-    console.log(authState);
     this.setState({
       authState: authState,
     });
-    if (!authState) {
+    if (!authState) {  //!check user is logged in or not if not re-directed to the login form
       this.props.history.push("/");
     }
   }
 
+  //? Bulk user registration function reading csv file
   fileUpload = (e) => {
     e.preventDefault();
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to do this.',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: async () => {
-            const obj = getFromStorage('auth-token');
+    if (this.state.csvData.length === 0) {
+      this.setState({
+        snackbaropen: true,
+        snackbarmsg: 'Please select the CSV file..!',
+        snackbarcolor: 'error',
+      })
+    }
+    else {
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to do this.',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: async () => {
+              const obj = getFromStorage('auth-token');
 
-            var myHeaders = new Headers();
-            myHeaders.append("auth-token", obj.token);
+              var myHeaders = new Headers();
+              myHeaders.append("auth-token", obj.token);
 
-            for (var i = 0; i < this.state.csvData.length - 1; i++) {
-              var firstName = this.state.csvData[i][0];
-              var lastName = this.state.csvData[i][1];
-              var email = this.state.csvData[i][2];
-              var password = this.state.csvData[i][3];
-              var nic = this.state.csvData[i][3];
-              var userType = this.state.csvData[i][4];
-              var mobileNumber = this.state.csvData[i][5];
-              var birthday = this.state.csvData[i][6];
+              for (var i = 0; i < this.state.csvData.length - 1; i++) {
+                var firstName = this.state.csvData[i][0];
+                var lastName = this.state.csvData[i][1];
+                var email = this.state.csvData[i][2];
+                var password = this.state.csvData[i][3];
+                var nic = this.state.csvData[i][3];
+                var userType = this.state.csvData[i][4];
+                var mobileNumber = this.state.csvData[i][5];
+                var birthday = this.state.csvData[i][6];
 
-              var data = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password,
-                nic: nic,
-                userType: userType,
-                mobileNumber: mobileNumber,
-                birthday: birthday
+                var data = {
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  password: password,
+                  nic: nic,
+                  userType: userType,
+                  mobileNumber: mobileNumber,
+                  birthday: birthday
+                }
+
+                await fetch(backendURI.url + "/users/bulkRegister", {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': obj.token
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then(res => res.json())
+                  .then(json => {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: json.msg,
+                      snackbarcolor: 'success',
+                    })
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: err,
+                      snackbarcolor: 'error',
+                    })
+                  })
               }
+            }
+          },
+          {
+            label: 'No',
+            onClick: () => {
 
-              await fetch(backendURI.url + "/users/bulkRegister", {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'auth-token': obj.token
-                },
-                body: JSON.stringify(data),
-              })
-                .then(res => res.json())
-                .then(json => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: json.msg,
-                    snackbarcolor: 'success',
-                  })
-                })
-                .catch(err => {
-                  console.log(err)
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: err,
-                    snackbarcolor: 'error',
-                  })
-                })
             }
           }
-        },
-        {
-          label: 'No',
-          onClick: () => {
-
-          }
-        }
-      ]
-    })
+        ]
+      })
+    }
   }
 
   onChangeDate = date => {
@@ -143,11 +158,6 @@ export default class registration extends Component {
     }))
   }
 
-  handleChangeUsertype = (selectedOption) => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-
   onChange = (e) => {
     e.persist = () => { };
     let store = this.state;
@@ -155,6 +165,7 @@ export default class registration extends Component {
     this.setState(store);
   };
 
+  //? image file onchange 
   handleImageChange = (e) => {
     const Val = e.target.files[0]
     this.setState({
@@ -167,6 +178,7 @@ export default class registration extends Component {
       }
     }))
   }
+  //? user type drop down change
   handleDropdownChange = (e) => {
     const Val = e.target.value
     console.log(Val)
@@ -178,86 +190,143 @@ export default class registration extends Component {
     }))
   }
 
-  onSubmit(event) {
-    event.preventDefault();
+  //? validation function
+  validate = () => {
+    let isError = false;
+    const errors = {
+      firstNameError: '',
+      lastNameError: '',
+      userTypeError: '',
+      emailError: '',
+      nicError: '',
+      mobileNumberError: '',
+    };
 
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to do this.',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {
-            const obj = getFromStorage('auth-token');
+    if (this.state.form.firstName.length < 1) {
+      isError = true;
+      errors.firstNameError = 'First name required *'
+    }
+    if (this.state.form.lastName.length < 1) {
+      isError = true;
+      errors.lastNameError = 'Last name required *'
+    }
+    if (this.state.form.email.indexOf('@') === -1) {
+      isError = true;
+      errors.emailError = 'Invalied email address!'
+    }
 
-            const formData = new FormData();
+    if (this.state.form.nic.length === 0 || this.state.form.nic.length > 12) {
+      isError = true;
+      errors.nicError = 'Invalid NIC number!'
+    }
+    if (this.state.form.mobileNumber.length != 10) {
+      isError = true;
+      errors.mobileNumberError = 'Invalied mobile number!'
+    }
+    if (this.state.form.userType.length === 0) {
+      isError = true;
+      errors.userTypeError = 'User type must be specified *'
+    }
+    this.setState({
+      ...this.state,
+      ...errors
+    })
+    return isError;  //! is not error return state 'false'
+  }
 
-            formData.append('profileImage', this.state.form.file);
-            formData.append('firstName', this.state.form.firstName);
-            formData.append('lastName', this.state.form.lastName);
-            formData.append('password', this.state.form.nic);
-            formData.append('nic', this.state.form.nic);
-            formData.append('email', this.state.form.email);
-            formData.append('userType', this.state.form.userType);
-            formData.append('birthday', this.state.startDate);
-            formData.append('mobileNumber', this.state.form.mobileNumber);
+  onSubmit(e) {
+    e.preventDefault();
 
-            var myHeaders = new Headers();
-            myHeaders.append("auth-token", obj.token);
+    const err = this.validate();  //?calling validation function
 
-            var requestOptions = {
-              method: 'POST',
-              headers: myHeaders,
-              body: formData,
-              redirect: 'follow'
-            };
+    if (!err) {
+      this.setState({
+        firstNameError: '',
+        lastNameError: '',
+        userTypeError: '',
+        emailError: '',
+        nicError: '',
+        mobileNumberError: '',
+      })
 
-            if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
-              this.setState({
-                snackbaropen: true,
-                snackbarmsg: "Please Fill the Form..!",
-                snackbarcolor: 'error',
-              })
-            }
-            else {
-              fetch(backendURI.url + "/users/register", requestOptions)
-                .then((res) => res.json())
-                .then((json) => {
-                  if (json.state === true) {
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: 'Are you sure to do this.',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => {
+              const obj = getFromStorage('auth-token');
+
+              const formData = new FormData();
+
+              formData.append('profileImage', this.state.form.file);
+              formData.append('firstName', this.state.form.firstName);
+              formData.append('lastName', this.state.form.lastName);
+              formData.append('password', this.state.form.nic);
+              formData.append('nic', this.state.form.nic);
+              formData.append('email', this.state.form.email);
+              formData.append('userType', this.state.form.userType);
+              formData.append('birthday', this.state.startDate);
+              formData.append('mobileNumber', this.state.form.mobileNumber);
+
+              var myHeaders = new Headers();
+              myHeaders.append("auth-token", obj.token);
+
+              var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow'
+              };
+
+              if (this.state.form.firstName === '' || this.state.form.lastName === '' || this.state.form.nic === '' || this.state.form.email === '' || this.state.form.userType === '' || this.state.form.mobileNumber === '' || this.state.form.lastName === '') {
+                this.setState({
+                  snackbaropen: true,
+                  snackbarmsg: "Please Fill the Form..!",
+                  snackbarcolor: 'error',
+                })
+              }
+              else {
+                fetch(backendURI.url + "/users/register", requestOptions)
+                  .then((res) => res.json())
+                  .then((json) => {
+                    if (json.state === true) {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'success',
+                      })
+                      window.location.reload();
+                    }
+                    else {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'error',
+                      })
+                    }
+                  })
+                  .catch(error => {
                     this.setState({
                       snackbaropen: true,
-                      snackbarmsg: json.msg,
-                      snackbarcolor: 'success',
-                    })
-                    window.location.reload();
-                  }
-                  else {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: json.msg,
+                      snackbarmsg: error,
                       snackbarcolor: 'error',
                     })
-                  }
-                })
-                .catch(error => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: error,
-                    snackbarcolor: 'error',
-                  })
-                  console.log('error', error)
-                });
+                    console.log('error', error)
+                  });
+              }
+            }
+          },
+          {
+            label: 'No',
+            onClick: () => {
+
             }
           }
-        },
-        {
-          label: 'No',
-          onClick: () => {
-
-          }
-        }
-      ]
-    })
+        ]
+      })
+    }
 
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +335,7 @@ export default class registration extends Component {
   render() {
     const { form } = this.state;
 
+    //? loading csv file data into csvData array ...
     const handleForce = data => {
       console.log(data);
       this.setState({
@@ -315,7 +385,9 @@ export default class registration extends Component {
                                   name="firstName"
                                   value={form.firstName}
                                   onChange={this.onChange}
+                                  errortext={form.firstNameError}
                                 ></input>
+                                <p className="reg-error">{this.state.firstNameError}</p>
                               </div>
                             </Col>
                             <Col>
@@ -329,6 +401,8 @@ export default class registration extends Component {
 
                                   onChange={this.onChange}
                                 ></input>
+                                <p className="reg-error">{this.state.lastNameError}</p>
+
                               </div>
                             </Col>
                           </Row>
@@ -361,13 +435,14 @@ export default class registration extends Component {
                               <div className="form-group">
                                 <label className="text-label">E-mail : </label>
                                 <input
-                                  type="email"
+                                  type="text"
                                   className="form-control"
                                   name="email"
                                   value={form.email}
-
                                   onChange={this.onChange}
                                 ></input>
+                                <p className="reg-error">{this.state.emailError}</p>
+
                               </div>
                             </Col>
                             <Col>
@@ -380,6 +455,8 @@ export default class registration extends Component {
                                   value={form.nic}
                                   onChange={this.onChange}
                                 ></input>
+                                <p className="reg-error">{this.state.nicError}</p>
+
                               </div>
                             </Col>
                           </Row>
@@ -393,8 +470,9 @@ export default class registration extends Component {
                                     <option value="Student">Student</option>
                                     <option value="Staff">Staff</option>
                                     <option value="Admin">Administrator</option>
-
                                   </select>
+                                  <p className="reg-error">{this.state.userTypeError}</p>
+
                                 </div>
                               </div>
                             </Col>
@@ -404,6 +482,8 @@ export default class registration extends Component {
                                 <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
                                   value={form.mobileNumber}
                                 ></input>
+                                <p className="reg-error">{this.state.mobileNumberError}</p>
+
                               </div>
                             </Col>
                             <Col>
