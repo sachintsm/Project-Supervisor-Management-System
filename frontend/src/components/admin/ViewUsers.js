@@ -26,7 +26,7 @@ const Staff = React.memo(props => (
         <td>{props.staff.nic}</td>
         <td>{props.staff.mobile}</td>
         <td>
-            <Create className="edit-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
+            <Create className="edit-btn" fontSize="large"  />
         </td>
         <td>
             <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
