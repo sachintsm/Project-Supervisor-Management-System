@@ -120,7 +120,6 @@ export default class navbar extends Component {
                   <Nav.Link  className="padding-zero"   href='/adminhome/createproject'>
                     Create Project
                   </Nav.Link>
-                  <Nav.Link href='/shared/notice'> Create Notice </Nav.Link>
                 </MDBNavItem>
               )}
               &nbsp; &nbsp; &nbsp;
