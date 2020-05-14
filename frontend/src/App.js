@@ -22,9 +22,9 @@ import SupervisorHome from './components/supervisor/SupervisorHome';
 
 /*********************************************************************************** */
 import StudentHome from './components/student/StudentHome';
-import ViewUsers from './components/admin/ViewUsers';
-import CreateProject from './components/admin/CreateProject';
-import ProjectTypes from './components/admin/ProjectTypes';
+//import ViewUsers from './components/admin/ViewUsers';
+//import CreateProject from './components/admin/CreateProject';
+//import ProjectTypes from './components/admin/ProjectTypes';
 import Notice from './components/shared/Notice'
 
 require('dotenv').config();
