@@ -85,14 +85,23 @@ export default class navbar extends Component {
                 {this.state.panel === 'student' ? (
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
                 ) : null}
-                {this.state.panel === 'coordinator' ? (
-                  <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
-                ) : null}
                 {this.state.panel === 'supervisor' ? (
                   <Nav.Link href='/supervisorhome'>Home</Nav.Link>
                 ) : null}
+                {this.state.panel === 'coordinator' ? (
+                  <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
+                ) : null}
               </MDBNavItem>
+
+              {/* =============================== Coordinator Panel================================ */}
+              {this.state.panel === 'coordinator' && (
+                <MDBNavItem>
+                  <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
+                </MDBNavItem>
+              )}
               &nbsp; &nbsp; &nbsp; &nbsp;
+
+              
               {/* =============================== Admin Panel================================ */}
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
@@ -212,6 +221,9 @@ export default class navbar extends Component {
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
+
+              
+
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBNavbar>
