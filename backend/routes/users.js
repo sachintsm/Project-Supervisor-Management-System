@@ -241,6 +241,16 @@ router.get('/stafflist', async (req, res, next) => {
   }
 });
 
+
+router.get('/stafflist/:id', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isStudent: false, isDeleted: false, _id:req.params.id });
+    res.send(results[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //get all users details
 router.get('/get', function (req, res) {
 
