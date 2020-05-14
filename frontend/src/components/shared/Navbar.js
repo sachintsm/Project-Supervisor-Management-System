@@ -99,48 +99,41 @@ export default class navbar extends Component {
                   <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
 
-              
+
               {/* =============================== Admin Panel================================ */}
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; 
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link href='/adminhome/registration'>Registration</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/adminhome/createproject'>
-                    Create Project
-                  </Nav.Link>
+                  <Nav.Link href='/shared/notice'> Create Notice </Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; 
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/adminhome/projecttypes'>
-                    Project Categories
-                  </Nav.Link>
+                  <Nav.Link href='/adminhome/createproject'> Create Project </Nav.Link>
                 </MDBNavItem>
               )}
-
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/shared/notice'>
-                    Create Notice
-                  </Nav.Link>
+                  <Nav.Link href='/adminhome/projecttypes'>Project Categories</Nav.Link>
                 </MDBNavItem>
               )}
               {/* ========================================================================= */}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; 
               <MDBNavItem>
                 {this.state.isCoordinator ||
                   this.state.isSupervisor ||
@@ -217,12 +210,12 @@ export default class navbar extends Component {
                     <Nav.Link href='/profile'>Profile</Nav.Link>
                   )}
               </MDBNavItem>
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; 
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
 
-              
+
 
             </MDBNavbarNav>
           </MDBCollapse>
