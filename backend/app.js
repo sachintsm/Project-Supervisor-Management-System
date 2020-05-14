@@ -56,8 +56,8 @@ app.use(bodyParser.json());
 
 //? requireing routing files
 const users = require('./routes/users');
+const notice = require("./routes/notice");
 const projects = require('./routes/projects');
-const notice = require("./routes/Notice");
 const createGroups =  require('./routes/createGroups')
 
 //routing path in routers
