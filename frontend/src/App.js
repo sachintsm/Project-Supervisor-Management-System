@@ -40,29 +40,10 @@ function App() {
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
-          <Route
-            exact
-            path='/adminhome/viewusers'
-            component={ViewUsers}
-          ></Route>
-          <Route
-            exact
-            path='/adminhome/createproject'
-            component={CreateProject}
-          ></Route>
-          <Route
-            exact
-            path='/adminhome/projecttypes'
-            component={ProjectTypes}
-          ></Route>
-          <Route
-            exact
-            path='/shared/notice'
-            component={Notice}
-          ></Route>
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}> </Route>
+          <Route exact path='/shared/notice' component={Notice}></Route>
 
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
