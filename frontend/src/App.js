@@ -22,6 +22,10 @@ import SupervisorHome from './components/supervisor/SupervisorHome';
 
 /*********************************************************************************** */
 import StudentHome from './components/student/StudentHome';
+//import ViewUsers from './components/admin/ViewUsers';
+//import CreateProject from './components/admin/CreateProject';
+//import ProjectTypes from './components/admin/ProjectTypes';
+import Notice from './components/shared/Notice'
 
 require('dotenv').config();
 
@@ -39,6 +43,7 @@ function App() {
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}> </Route>
+          <Route exact path='/shared/notice' component={Notice}></Route>
 
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
