@@ -24,9 +24,10 @@ router.post('/add', (req, res) => {
 })
 
 //? get all the groups on spesific project
-router.get('/group/:groupId', (req, res) => {
+router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
-
+    console.log(projectId);
+    
 })
 
 module.exports = router

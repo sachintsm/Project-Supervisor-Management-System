@@ -77,14 +77,14 @@ export default class CreateGroups extends Component {
     fileUpload = (e) => {
         e.preventDefault();
 
-        if (this.state.csvData.length === 0) {
+        if (this.state.csvData.length === 0) {  //! check csv file is empty or not
             this.setState({
                 snackbaropen: true,
                 snackbarmsg: 'Please select the CSV file..!',
                 snackbarcolor: 'error',
             })
         }
-        else if(this.state.projectId.length === 0){
+        else if(this.state.projectId.length === 0){  // ! check user select project or not
             this.setState({
                 snackbaropen: true,
                 snackbarmsg: 'Please select the project..!',
@@ -158,7 +158,7 @@ export default class CreateGroups extends Component {
 
     }
 
-    //? user type drop down change
+    //? select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
         console.log(val)

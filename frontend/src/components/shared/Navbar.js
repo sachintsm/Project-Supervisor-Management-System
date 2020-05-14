@@ -92,6 +92,7 @@ export default class navbar extends Component {
                   <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
                 ) : null}
               </MDBNavItem>
+              &nbsp; &nbsp; &nbsp;
 
               {/* =============================== Coordinator Panel================================ */}
               {this.state.panel === 'coordinator' && (
@@ -100,7 +101,12 @@ export default class navbar extends Component {
                 </MDBNavItem>
               )}
               &nbsp; &nbsp; &nbsp;
-
+              {this.state.panel === 'coordinator' && (
+                <MDBNavItem>
+                  <Nav.Link href='/coordinatorhome/projectGroups'>Project Groups</Nav.Link>
+                </MDBNavItem>
+              )}
+              &nbsp; &nbsp; &nbsp;
 
               {/* =============================== Admin Panel================================ */}
               {this.state.panel === 'admin' && (
@@ -108,7 +114,7 @@ export default class navbar extends Component {
                   <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link href='/adminhome/registration'>Registration</Nav.Link>
@@ -120,7 +126,7 @@ export default class navbar extends Component {
                   <Nav.Link href='/shared/notice'> Create Notice </Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link href='/adminhome/createproject'> Create Project </Nav.Link>
@@ -133,7 +139,7 @@ export default class navbar extends Component {
                 </MDBNavItem>
               )}
               {/* ========================================================================= */}
-              &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 {this.state.isCoordinator ||
                   this.state.isSupervisor ||
@@ -210,7 +216,7 @@ export default class navbar extends Component {
                     <Nav.Link href='/profile'>Profile</Nav.Link>
                   )}
               </MDBNavItem>
-              &nbsp; &nbsp; &nbsp; 
+              &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
