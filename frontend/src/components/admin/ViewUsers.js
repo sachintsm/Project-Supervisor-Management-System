@@ -1,7 +1,7 @@
 // import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
-// import axios from 'axios';
+import axios from 'axios';
 // import { MDBInput } from "mdbreact";
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
@@ -10,8 +10,28 @@ import Tabs from 'react-bootstrap/Tabs';
 import Navbar from "../shared/Navbar";
 import '../../css/admin/ViewUsers.css';
 import { verifyAuth } from "../../utils/Authentication";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Create from '@material-ui/icons/Create';
 
 
+const backendURI = require('../shared/BackendURI');
+
+
+const Staff = React.memo(props => (
+    <tr>
+        <td>{props.staff.firstName} {props.staff.lastName}</td>
+        <td>{props.staff.email}</td>
+        {/* <td>{props.staff.birthday}</td> */}
+        <td>{props.staff.nic}</td>
+        <td>{props.staff.mobile}</td>
+        <td>
+        <Create className="edit-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} /> 
+        </td>
+        <td>
+        <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
+        </td>
+    </tr>
+));
 
 
 
@@ -24,9 +44,24 @@ export default class ViewUsers extends Component {
             authState: '',
             snackbaropen: false,
             snackbarmsg: '',
+            firstName:'',
+            lastName:'',
+            email:'',
+            birthday:'',
+            nic:'',
+            mobile:'',
+            isStudent:'',
+            isAdmin:'',
+            isStaff:'',
+            isSupervisor:'',
+            isCoordinator:'',
+            isDeleted:'',
+            userS:[],
         }
 
-        // this.onLocalChange = this.onLocalChange.bind(this)
+        this.onChange = this.onChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        // this.deleteDebtor = this.deleteDebtor.bind(this);
 
     }
     snackbarClose = (event) => {
@@ -34,12 +69,76 @@ export default class ViewUsers extends Component {
     }
 
 
-    componentDidMount = async () => {
+    async componentDidMount() {
         const authState = await verifyAuth();
         this.setState({ authState: authState });
         if (!authState || !localStorage.getItem("isAdmin"))
           this.props.history.push("/");
+
+          axios.get(backendURI.url + "/users/get")
+          .then(response => {
+              console.log(response.data.data);
+              
+              this.setState({ userS: response.data.data });
+            //   console.log(userStaff);
+              
+          })
+          .catch(function (error) {
+              console.log(error);
+          })
       };
+
+      handleSearch = e => {
+        this.setState({ nic: e.target.value });
+    };
+
+    onChange = (e) => {
+        e.persist = () => { };
+        let store = this.state;
+        store[e.target.name] = e.target.value
+        this.setState(store);
+    }
+
+    UserList() {
+        const local = this.state.nic;
+        if (local == null || local === "") {
+
+            // console.log(this.state.users);
+            return this.state.userS.map((currentStaff, i) => {
+                if(currentStaff.isStaff === true && currentStaff.isDeleted === false ){
+                return <Staff delete={this.deleteDebtor} staff={currentStaff} key={i} />;
+                }
+            })
+        }
+        else {
+            return this.state.userS.map((currentStaff, i) => {
+                if (currentStaff.nic === local && currentStaff.isStaff === true && currentStaff.isDeleted === false) {
+                    return <Staff delete={this.deleteDebtor} staff={currentStaff} key={i} />;
+                }
+                return null;
+            })
+        }
+    }
+
+    deleteDebtor(data) {
+        axios.delete('http://localhost:4000/debtors/deleteDebtor/' + data)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.message
+                })
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: err
+                })
+            })
+    }
+
 
     render() {
         return (
@@ -66,7 +165,7 @@ export default class ViewUsers extends Component {
                         {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
                             <Sidebar />
                         </div> */}
-                        <div className="col-md-12" style={{ backgroundColor: "#f5f5f5", minHeight: "1000px" }}>
+                        <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
                             <div className="container">
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
@@ -88,13 +187,13 @@ export default class ViewUsers extends Component {
                                                             <tr>
                                                                 <th>Name</th>
                                                                 <th>Email</th>
-                                                                <th>Birthday</th>
+                                                                {/* <th>Birthday</th> */}
                                                                 <th>Nic</th>
                                                                 <th>Mobile</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {/* {this.UserList()} */}
+                                                            {this.UserList()}
                                                         </tbody>
                                                     </table>
                                                 </div>
