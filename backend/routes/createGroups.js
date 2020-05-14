@@ -27,7 +27,15 @@ router.post('/add', (req, res) => {
 router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
     console.log(projectId);
-    
+    CreateGroups
+        .find({ projectId : projectId })
+        .exec()
+        .then(data => {
+            res.json({state : true, data : data , msg : 'Data successfully sent..!'})
+        })
+        .catch(err =>{
+            res.send({ state : false, msg : err.message})
+        })
 })
 
 module.exports = router

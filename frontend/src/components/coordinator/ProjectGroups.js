@@ -3,26 +3,34 @@ import '../../css/coordinator/ProjectGroups.css';
 import Navbar from '../shared/Navbar';
 import { verifyAuth } from "../../utils/Authentication";
 import { Row, Col } from "reactstrap";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
 import Footer from '../shared/Footer'
 import axios from 'axios';
 
 const backendURI = require('../shared/BackendURI');
 
+class groupDataBlock {
+    constructor(groupId, projectId, groupMembers, supervisors) {
+        this.groupId = groupId;
+        this.projectId = projectId;
+        this.groupMembers = groupMembers;
+        this.supervisors = supervisors;
+    }
+}
 class ProjectGroups extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            activeProjects: [],
-            groupData: [],
-
             projectId: '',
 
+            activeProjects: [],
+            groupData: [],
+            groupDataBlock: [],
+            supervisorsNames: [],
         }
+        this.searchGroups = this.searchGroups.bind(this);
     }
 
     async componentDidMount() {
@@ -49,7 +57,6 @@ class ProjectGroups extends Component {
     //? select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
-        console.log(val)
         this.setState({
             projectId: val
         })
@@ -58,8 +65,43 @@ class ProjectGroups extends Component {
     async searchGroups() {
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
-                
+                this.setState({
+                    groupData: res.data.data
+                })
             })
+        for (let i = 0; i < this.state.groupData.length; i++) {
+            if (this.state.groupData[i].supervisors.length !== 0) {
+                var array1 = [];
+                for (let j = 0; j < this.state.groupData[i].supervisors.length; j++) {
+                    await axios.get(backendURI.url + '/users/getUserName/' + this.state.groupData[i].supervisors[j])
+                        .then(res => {
+                            var supervisorName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
+                            array1.push(supervisorName)
+                        })
+
+                }
+                var block = new groupDataBlock(
+                    this.state.groupData[i].groupId,
+                    this.state.groupData[i].projectId,
+                    this.state.groupData[i].groupMembers,
+                    array1
+                )
+                this.state.groupDataBlock.push(block)
+            }
+            else {
+                var block = new groupDataBlock(
+                    this.state.groupData[i].groupId,
+                    this.state.groupData[i].projectId,
+                    this.state.groupData[i].groupMembers,
+                    ''
+                )
+                this.state.groupDataBlock.push(block)
+            }
+
+        }
+        for (let i = 0; i < this.state.groupDataBlock.length; i++) {
+            console.log(this.state.groupDataBlock[i])
+            }
     }
 
     render() {
@@ -87,11 +129,10 @@ class ProjectGroups extends Component {
                                             <option>Select the project</option>
                                             {activeProjectsList}
                                         </select>
-                                        <p className="reg-error">{this.state.selectProjectError}</p>
                                     </div>
                                 </Col>
                                 <Col xs="2">
-                                    <button className="btn btn-info" style={{ marginTop: "18px" }} onClick={this.searchGroups}>Search</button>
+                                    <button className="btn btn-info" style={{ marginTop: "18px", width: "100%" }} onClick={this.searchGroups}>Search</button>
                                 </Col>
                             </Row>
                         </div>
@@ -109,7 +150,16 @@ class ProjectGroups extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {this.UserList()} */}
+                                    {this.state.groupDataBlock.map((item) => {
+                                        return (
+                                            <tr key={item.groupId}>
+                                                <td>{item.groupId}</td>
+                                                <td>{item.groupMembers}</td>
+                                                <td>{item.supervisors}</td>
+                                                <td>Actions</td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
