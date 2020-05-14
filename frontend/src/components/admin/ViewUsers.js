@@ -12,6 +12,17 @@ import '../../css/admin/ViewUsers.css';
 import { verifyAuth } from "../../utils/Authentication";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
+import {
+    Button,
+    Container,
+    Col,
+    Row,
+    //   Dropdown,
+    //   DropdownButton,
+    //   ButtonGroup,
+    FormControl,
+    Table,
+} from 'react-bootstrap';
 // import SearchField from "react-search-field";
 
 
@@ -26,7 +37,7 @@ const Staff = React.memo(props => (
         <td>{props.staff.nic}</td>
         <td>{props.staff.mobile}</td>
         <td>
-            <Create className="edit-btn" fontSize="large"  />
+            <Create className="edit-btn" fontSize="large" />
         </td>
         <td>
             <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
@@ -57,7 +68,7 @@ export default class ViewUsers extends Component {
             isSupervisor: '',
             isCoordinator: '',
             isDeleted: '',
-            search:'',
+            search: '',
             userS: [],
         }
 
@@ -91,7 +102,7 @@ export default class ViewUsers extends Component {
     };
 
     handleSearch = e => {
-        this.setState({ search: e.target.value.substr(0,20) });
+        this.setState({ search: e.target.value.substr(0, 20) });
     };
 
     onChange = (e) => {
@@ -104,86 +115,76 @@ export default class ViewUsers extends Component {
     UserList1() {
 
         let filteredUsers = this.state.userS.filter(
-           (currentStaff)=>{
-               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-           } 
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
         );
 
-            return filteredUsers.map((currentStaff, i) => {
-                if (currentStaff.isStaff === true && currentStaff.isDeleted === false) {
-                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
-                }
-            })
-       
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
     }
 
     UserList2() {
 
         let filteredUsers = this.state.userS.filter(
-           (currentStaff)=>{
-               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-           } 
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
         );
 
-            return filteredUsers.map((currentStaff, i) => {
-                if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
-                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
-                }
-            })
-       
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
     }
 
     UserList3() {
 
         let filteredUsers = this.state.userS.filter(
-           (currentStaff)=>{
-               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-           } 
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
         );
 
-            return filteredUsers.map((currentStaff, i) => {
-                if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
-                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
-                }
-            })
-       
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
     }
 
     UserList4() {
 
         let filteredUsers = this.state.userS.filter(
-           (currentStaff)=>{
-               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-           } 
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
         );
 
-            return filteredUsers.map((currentStaff, i) => {
-                if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
-                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
-                }
-            })
-       
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
     }
 
     deleteUser(data) {
-        axios.delete(backendURI.url + "/users/deleteUser/" + data)
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: res.data.message
-                })
-                window.location.reload();
-            })
-            .catch(err => {
-                console.log(err);
-                this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: err
-                })
-            })
-    }
 
+        axios.post(backendURI.url + "/users/deleteUser/" + data)
+            .then(res => console.log(res.data));
+
+        // this.props.history.push('adminhome/viewusers/');
+        window.location.reload();
+
+    }
 
     render() {
         return (
@@ -223,24 +224,25 @@ export default class ViewUsers extends Component {
                                                     <h3 className="sp_head">List of Staff</h3>
                                                     <form>
                                                         <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                            <input className="form-control" type="text"  value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
+                                                            <input className="form-control" type="text" value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="sp_table">
-                                                        <table className="table table-striped" style={{ marginTop: 20 }} >
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
                                                             <thead>
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {this.UserList1()}
+
                                                             </tbody>
-                                                        </table>
+                                                        </Table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,21 +259,22 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="sp_table">
-                                                        <table className="table table-striped" style={{ marginTop: 20 }} >
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
                                                             <thead>
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {this.UserList2()}
+
                                                             </tbody>
-                                                        </table>
+                                                        </Table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -291,21 +294,22 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="sp_table">
-                                                        <table className="table table-striped" style={{ marginTop: 20 }} >
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
                                                             <thead>
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {this.UserList3()}
+
                                                             </tbody>
-                                                        </table>
+                                                        </Table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,21 +327,21 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="sp_table">
-                                                        <table className="table table-striped" style={{ marginTop: 20 }} >
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
                                                             <thead>
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 {this.UserList4()}
+
                                                             </tbody>
-                                                        </table>
+                                                        </Table>
                                                     </div>
                                                 </div>
                                             </div>
