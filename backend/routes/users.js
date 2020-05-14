@@ -241,6 +241,48 @@ router.get('/stafflist', async (req, res, next) => {
   }
 });
 
+
+router.get('/stafflist/:id', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isStudent: false, isDeleted: false, _id:req.params.id });
+    res.send(results[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//get all users details
+router.get('/get', function (req, res) {
+
+  User.find()
+      .exec()
+      .then(result => {
+          res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+      })
+      .catch(error => {
+          res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+})
+
+//delete product
+router.delete('/deleteUser/:id', function (req, res) {
+  const _id = req.params.id
+
+  User.remove({ _id: _id })
+      .exec()
+      .then(result => {
+          res.status(200).json({
+              message: 'Deleted Successfully'
+          });
+      })
+      .catch(error => {
+          console.log(error);
+          res.status(500).json({
+              error: error
+          });
+      });
+})
+
 //authentication token verification
 router.get('/verify', verify, function (req, res, next) {
   res.send({ state: true, msg: 'Successful..!' });
