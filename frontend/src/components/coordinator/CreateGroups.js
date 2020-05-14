@@ -237,9 +237,7 @@ export default class CreateGroups extends Component {
                                         snackbarcolor: 'error',
                                     })
                                 });
-
                         }
-
                     },
                     {
                         label: 'No',
@@ -266,13 +264,11 @@ export default class CreateGroups extends Component {
         this.state.grpMembers.splice(index, 1);
         console.log(this.state.grpMembers, "$$$$");
         this.setState({ grpMembers: this.state.grpMembers })
-
     }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
     render() {
-
         //? loading csv file data into csvData array ...
         const handleForce = data => {
             console.log(data);
@@ -291,7 +287,7 @@ export default class CreateGroups extends Component {
             }, this)
         return (
             <div>
-                <Navbar panel={"admin"} />
+                <Navbar panel={"coordinator"}/>
                 <div className="container-fluid">
 
                     <Snackpop
@@ -311,10 +307,7 @@ export default class CreateGroups extends Component {
                             />
                         </Col>
                         <Col xs="8" className="main-div">
-
-
                             <div className="container">
-
                                 <div >
                                     <p className="reg-head">Group Registration</p>
                                     <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
@@ -399,9 +392,6 @@ export default class CreateGroups extends Component {
                                                     />
                                                 </div>
 
-
-
-
                                                 <div className="form-group reg-csv-topic">
                                                     <label className="text-label">Choose CSV File : </label>
                                                 </div>
@@ -421,20 +411,15 @@ export default class CreateGroups extends Component {
                                                         onClick={this.fileUpload}
                                                     >Register Now </button>
                                                 </div>
-
                                             </div>
-
                                         </Tab>
                                     </Tabs>
-
                                 </div>
                             </div>
-
                         </Col>
                     </Row>
                 </div>
                 <Footer />
-
             </div >
         );
     }

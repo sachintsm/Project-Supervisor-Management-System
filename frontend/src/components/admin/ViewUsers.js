@@ -66,7 +66,7 @@ export default class ViewUsers extends Component {
                         {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
                             <Sidebar />
                         </div> */}
-                        <div className="col-md-12" style={{ backgroundColor: "#f5f5f5", minHeight: "1000px" }}>
+                        <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
                             <div className="container">
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
