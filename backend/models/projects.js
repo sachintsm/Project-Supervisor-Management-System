@@ -7,7 +7,7 @@ var projects = Schema({
     academicYear: {type: String},
     coordinatorList: [{type: String}],
     isDeleted: {type: Boolean},
-    projectState: {type: Boolean}
+    projectState: {type: Boolean    }
 });
 
 const Projects = mongoose.model('projects', projects);

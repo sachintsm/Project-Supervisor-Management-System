@@ -401,7 +401,7 @@ class ProjectTypes extends Component {
                         style={{ width: '100%' }}
                       >
                         {this.state.componentType === 'add' &&
-                          'Add New Project Category'}
+                          'Add Category Now'}
                         {this.state.componentType === 'edit' &&
                           'Edit Now'}
                       </Button>

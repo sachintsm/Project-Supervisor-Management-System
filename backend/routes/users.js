@@ -241,6 +241,16 @@ router.get('/stafflist', async (req, res, next) => {
   }
 });
 
+
+router.get('/stafflist/:id', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isStudent: false, isDeleted: false, _id:req.params.id });
+    res.send(results[0]);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //authentication token verification
 router.get('/verify', verify, function (req, res, next) {
   res.send({ state: true, msg: 'Successful..!' });
