@@ -9,22 +9,17 @@ import Login from './components/Login';
 
 /*********************************************************************************** */
 import AdminHome from './components/admin/AdminHome';
-import CreateProject from './components/admin/CreateProject';
 import ViewUsers from './components/admin/ViewUsers';
+import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
 
-/*********************************************************************************** */
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
 
-/*********************************************************************************** */
 import SupervisorHome from './components/supervisor/SupervisorHome';
 
-/*********************************************************************************** */
 import StudentHome from './components/student/StudentHome';
-import ViewUsers from './components/admin/ViewUsers';
-import CreateProject from './components/admin/CreateProject';
-import ProjectTypes from './components/admin/ProjectTypes';
+
 import Notice from './components/shared/Notice'
 
 require('dotenv').config();
