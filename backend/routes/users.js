@@ -251,6 +251,19 @@ router.get('/stafflist/:id', async (req, res, next) => {
   }
 });
 
+//get all users details
+router.get('/get', function (req, res) {
+
+  User.find()
+      .exec()
+      .then(result => {
+          res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+      })
+      .catch(error => {
+          res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+})
+
 //authentication token verification
 router.get('/verify', verify, function (req, res, next) {
   res.send({ state: true, msg: 'Successful..!' });
