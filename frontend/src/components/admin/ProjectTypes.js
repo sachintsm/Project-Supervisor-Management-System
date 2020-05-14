@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
 import '../../css/admin/ProjectTypes.css';
 import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
 // import MultiSelect from 'react-multi-select-component';
@@ -23,6 +25,16 @@ import {
 import {getFromStorage} from "../../utils/Storage";
 import {confirmAlert} from "react-confirm-alert";
 const backendURI = require('../shared/BackendURI');
+
+const CustomCheckbox = withStyles({
+  root: {
+    color: grey,
+    '&$checked': {
+      color: '#17A2BB',
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 class ProjectTypes extends Component {
   constructor(props) {
@@ -269,7 +281,7 @@ class ProjectTypes extends Component {
                       <FormControlLabel
                         className='form-control-label'
                         control={
-                          <Checkbox
+                          <CustomCheckbox
                             fontSize='5px'
                             checked={this.state.isAcademicYear}
                             onChange={() => {
@@ -278,7 +290,6 @@ class ProjectTypes extends Component {
                               });
                             }}
                             name='checkedB'
-                            color='default'
                           />
                         }
                         label={
@@ -293,7 +304,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isFirstYear}
                               onChange={() => {
@@ -316,7 +327,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isSecondYear}
                               onChange={() => {
@@ -339,7 +350,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isThirdYear}
                               onChange={() => {
@@ -362,7 +373,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isFourthYear}
                               onChange={() => {
