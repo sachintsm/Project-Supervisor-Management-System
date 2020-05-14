@@ -85,18 +85,27 @@ export default class navbar extends Component {
                 {this.state.panel === 'student' ? (
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
                 ) : null}
-                {this.state.panel === 'coordinator' ? (
-                  <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
-                ) : null}
                 {this.state.panel === 'supervisor' ? (
                   <Nav.Link href='/supervisorhome'>Home</Nav.Link>
                 ) : null}
+                {this.state.panel === 'coordinator' ? (
+                  <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
+                ) : null}
               </MDBNavItem>
+
+              {/* =============================== Coordinator Panel================================ */}
+              {this.state.panel === 'coordinator' && (
+                <MDBNavItem>
+                  <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
+                </MDBNavItem>
+              )}
               &nbsp; &nbsp; &nbsp; &nbsp;
+
+              
               {/* =============================== Admin Panel================================ */}
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/viewusers'>Users</Nav.Link>
+                  <Nav.Link href='/adminhome/viewusers'>Users</Nav.Link>
                 </MDBNavItem>
               )}
               &nbsp; &nbsp; &nbsp; &nbsp;
@@ -108,7 +117,7 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/createproject'>
+                  <Nav.Link href='/adminhome/createproject'>
                     Create Project
                   </Nav.Link>
                 </MDBNavItem>
@@ -116,7 +125,7 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
-                  <Nav.Link href='/admin/projecttypes'>
+                  <Nav.Link href='/adminhome/projecttypes'>
                     Project Categories
                   </Nav.Link>
                 </MDBNavItem>
@@ -203,6 +212,9 @@ export default class navbar extends Component {
               <MDBNavItem>
                 <Nav.Link onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
+
+              
+
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBNavbar>

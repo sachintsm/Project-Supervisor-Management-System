@@ -9,6 +9,7 @@ const projectType = new Schema({
   isSecondYear: { type: Boolean },
   isThirdYear: { type: Boolean },
   isFourthYear: { type: Boolean },
+  isDeleted: { type: Boolean }
 });
 
 const ProjectType = mongoose.model('projectType', projectType);

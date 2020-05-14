@@ -30,7 +30,7 @@ const upload = multer({ storage: storage }).single('profileImage');
 //User registration
 router.post("/register", verify, async function (req, res) {
   upload(req, res, (err) = async () => {
-    console.log(req.body)
+    // console.log(req.body)
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
@@ -41,7 +41,6 @@ router.post("/register", verify, async function (req, res) {
     var student
     var admin
     var staff
-
     if (req.body.userType === 'Admin') {
       admin = true
       student = false
@@ -68,11 +67,13 @@ router.post("/register", verify, async function (req, res) {
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: req.body.password.toLowerCase(),
       birthday: req.body.birthday,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
+      indexNumber : req.body.indexNumber.toLowerCase(),
+      regNumber : req.body.regNumber.toLowerCase(),
       imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
@@ -142,11 +143,13 @@ router.post('/bulkRegister', async (req, res, next) => {
   const newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     password: req.body.password.toLowerCase(),
     birthday: req.body.birthday,
     nic: req.body.nic.toLowerCase(),
     mobile: req.body.mobileNumber,
+    indexNumber : req.body.indexNumber.toLowerCase(),
+    regNumber: req.body.regNumber.toLowerCase(),
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -194,7 +197,7 @@ router.post('/bulkRegister', async (req, res, next) => {
 //User Login
 router.post('/login', async function (req, res) {
   const password = req.body.password;
-
+  console.log(req.body)
   //checking if the userId is already in the database
   const user = await User.findOne({ email: req.body.email, isDeleted: false });
   if (!user)
