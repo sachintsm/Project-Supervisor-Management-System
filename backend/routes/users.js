@@ -264,6 +264,25 @@ router.get('/get', function (req, res) {
       })
 })
 
+//delete product
+router.delete('/deleteUser/:id', function (req, res) {
+  const _id = req.params.id
+
+  User.remove({ _id: _id })
+      .exec()
+      .then(result => {
+          res.status(200).json({
+              message: 'Deleted Successfully'
+          });
+      })
+      .catch(error => {
+          console.log(error);
+          res.status(500).json({
+              error: error
+          });
+      });
+})
+
 //authentication token verification
 router.get('/verify', verify, function (req, res, next) {
   res.send({ state: true, msg: 'Successful..!' });

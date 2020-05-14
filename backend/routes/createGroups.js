@@ -7,6 +7,7 @@ const CreateGroups = require('../models/createGroups');
 router.post('/add', (req, res) => {
     console.log(req.body);
     const newGroup = new CreateGroups({
+        groupId : req.body.groupId,
         projectId: req.body.projectId,
         groupMembers: req.body.groupMembers
     })

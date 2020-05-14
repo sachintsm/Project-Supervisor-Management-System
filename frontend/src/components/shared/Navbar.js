@@ -99,7 +99,7 @@ export default class navbar extends Component {
                   <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
 
               
               {/* =============================== Admin Panel================================ */}
@@ -108,21 +108,22 @@ export default class navbar extends Component {
                   <Nav.Link  className="padding-zero"  href='/adminhome/viewusers'>Users</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link  className="padding-zero"   href='/adminhome/registration'>Registration</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link  className="padding-zero"   href='/adminhome/createproject'>
                     Create Project
                   </Nav.Link>
+                  <Nav.Link href='/shared/notice'> Create Notice </Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem >
                   <Nav.Link  className="padding-zero"   href='/adminhome/projecttypes'>
@@ -130,8 +131,7 @@ export default class navbar extends Component {
                   </Nav.Link>
                 </MDBNavItem>
               )}
-
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link  className="padding-zero"   href='/shared/notice'>
@@ -140,7 +140,7 @@ export default class navbar extends Component {
                 </MDBNavItem>
               )}
               {/* ========================================================================= */}
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 {this.state.isCoordinator ||
                   this.state.isSupervisor ||
@@ -217,7 +217,7 @@ export default class navbar extends Component {
                     <Nav.Link   className="padding-zero"   href='/profile'>Profile</Nav.Link>
                   )}
               </MDBNavItem>
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 <Nav.Link   className="padding-zero"  onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
