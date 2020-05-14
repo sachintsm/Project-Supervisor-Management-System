@@ -98,12 +98,11 @@ router.get("/viewNotice", (req, res, next) => { // notice get methord
 //Get notice attchment  
 router.get("/noticeAttachment/:filename", function (req, res) {
     const filename = req.params.filename;
-    // console.log(filename)
+    console.log(filename)
     res.sendFile(path.join(__dirname, '../local_storage/notice_Attachment/' + filename));
 });
 
 //delte notice
-
 router.delete("/delteNotice/:_id",(req,res)=>{
     const id = req.params._id;
     console.log(req.params._id)

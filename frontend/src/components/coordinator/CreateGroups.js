@@ -34,11 +34,12 @@ export default class CreateGroups extends Component {
 
             csvData: [],
 
+            groupId: '',
             projectId: '',
             grpMembers: [],
 
             selectProjectError: '',
-
+            groupIdError: '',
         };
     }
 
@@ -66,87 +67,95 @@ export default class CreateGroups extends Component {
                 })
             }))
     }
+    onChangeGroupId = (e) => {
+        this.setState({
+            groupId: e.target.value
+        })
+    }
 
     //? Bulk user registration function reading csv file
     fileUpload = (e) => {
         e.preventDefault();
-        const err = this.validate();  //?calling validation function
 
-        if (!err) {
+        if (this.state.csvData.length === 0) {
             this.setState({
-                selectProjectError: '',
+                snackbaropen: true,
+                snackbarmsg: 'Please select the CSV file..!',
+                snackbarcolor: 'error',
             })
+        }
+        else if(this.state.projectId.length === 0){
+            this.setState({
+                snackbaropen: true,
+                snackbarmsg: 'Please select the project..!',
+                snackbarcolor: 'error',
+            })
+        }
+        else {
+            confirmAlert({
+                title: 'Confirm to submit',
+                message: 'Are you sure to do this.',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            const obj = getFromStorage('auth-token');
 
-            if (this.state.csvData.length === 0) {
-                this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: 'Please select the CSV file..!',
-                    snackbarcolor: 'error',
-                })
-            }
-            else {
-                confirmAlert({
-                    title: 'Confirm to submit',
-                    message: 'Are you sure to do this.',
-                    buttons: [
-                        {
-                            label: 'Yes',
-                            onClick: async () => {
-                                const obj = getFromStorage('auth-token');
+                            var myHeaders = new Headers();
+                            myHeaders.append("auth-token", obj.token);
 
-                                var myHeaders = new Headers();
-                                myHeaders.append("auth-token", obj.token);
-
-                                for (var i = 0; i < this.state.csvData.length - 1; i++) {
-                                    var j = 0;
-                                    this.state.grpMembers = []
-                                    while (this.state.csvData[i][j] != null) {
-                                        this.state.grpMembers.push(this.state.csvData[i][j])
-                                        console.log(this.state.csvData[i][j]);
-                                        j++;
-                                    }
-                                    var data = {
-                                        projectId: this.state.projectId,
-                                        groupMembers: this.state.grpMembers
-                                    }
-
-                                    await fetch(backendURI.url + "/createGroups/add", {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'auth-token': obj.token
-                                        },
-                                        body: JSON.stringify(data),
-                                    })
-                                        .then(res => res.json())
-                                        .then(json => {
-                                            this.setState({
-                                                snackbaropen: true,
-                                                snackbarmsg: json.msg,
-                                                snackbarcolor: 'success',
-                                            })
-                                        })
-                                        .catch(err => {
-                                            console.log(err)
-                                            this.setState({
-                                                snackbaropen: true,
-                                                snackbarmsg: err,
-                                                snackbarcolor: 'error',
-                                            })
-                                        })
+                            for (var i = 0; i < this.state.csvData.length - 1; i++) {
+                                var j = 1;
+                                this.state.grpMembers = []
+                                while (this.state.csvData[i][j] != null) {
+                                    this.state.grpMembers.push(this.state.csvData[i][j])
+                                    console.log(this.state.csvData[i][j]);
+                                    j++;
                                 }
-                            }
-                        },
-                        {
-                            label: 'No',
-                            onClick: () => {
+                                var data = {
+                                    projectId: this.state.projectId,
+                                    groupId: this.state.csvData[i][0],
+                                    groupMembers: this.state.grpMembers
+                                }
 
+                                await fetch(backendURI.url + "/createGroups/add", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'auth-token': obj.token
+                                    },
+                                    body: JSON.stringify(data),
+                                })
+                                    .then(res => res.json())
+                                    .then(json => {
+                                        this.setState({
+                                            snackbaropen: true,
+                                            snackbarmsg: json.msg,
+                                            snackbarcolor: 'success',
+                                        })
+                                    })
+                                    .catch(err => {
+                                        console.log(err)
+                                        this.setState({
+                                            snackbaropen: true,
+                                            snackbarmsg: err,
+                                            snackbarcolor: 'error',
+                                        })
+                                    })
                             }
                         }
-                    ]
-                })
-            }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    }
+                ]
+            })
         }
+
+
     }
 
     //? user type drop down change
@@ -161,11 +170,17 @@ export default class CreateGroups extends Component {
     validate = () => {
         let isError = false;
         const errors = {
-            selectProjectError: ''
+            selectProjectError: '',
+            groupIdError: '',
         };
         if (this.state.projectId.length === 0) {
+            console.log('Error: key is missing..!')
             isError = true;
             errors.selectProjectError = 'Please select a project *'
+        }
+        if (this.state.groupId.length === 0) {
+            isError = true;
+            errors.groupIdError = 'Please specify group ID *'
         }
         this.setState({
             ...this.state,
@@ -173,7 +188,6 @@ export default class CreateGroups extends Component {
         })
         return isError;  //! is not error return state 'false'
     }
-
 
     onSubmit(e) {
         e.preventDefault();
@@ -183,6 +197,7 @@ export default class CreateGroups extends Component {
         if (!err) {
             this.setState({
                 selectProjectError: '',
+                groupIdError: '',
             })
             confirmAlert({
                 title: 'Confirm to submit',
@@ -195,6 +210,7 @@ export default class CreateGroups extends Component {
 
                             const data = {
                                 projectId: this.state.projectId,
+                                groupId: this.state.groupId,
                                 groupMembers: this.state.grpMembers
                             }
 
@@ -250,6 +266,7 @@ export default class CreateGroups extends Component {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
     addMember() {
         this.setState({ grpMembers: [...this.state.grpMembers, ""] })
     }
@@ -287,7 +304,7 @@ export default class CreateGroups extends Component {
             }, this)
         return (
             <div>
-                <Navbar panel={"coordinator"}/>
+                <Navbar panel={"coordinator"} />
                 <div className="container-fluid">
 
                     <Snackpop
@@ -323,7 +340,16 @@ export default class CreateGroups extends Component {
                                                             <p className="reg-error">{this.state.selectProjectError}</p>
                                                         </div>
                                                     </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        <div className="form-group">
+                                                            <input className="form-control" type="text" name="groupId" placeholder="Enter group id ..."
+                                                                onChange={this.onChangeGroupId} />
 
+                                                            <p className="reg-error">{this.state.groupIdError}</p>
+                                                        </div>
+                                                    </Col>
                                                 </Row>
 
                                                 <label className="text-label">Group Member Index: </label>
@@ -374,7 +400,6 @@ export default class CreateGroups extends Component {
                                                                 <option>Select the project</option>
                                                                 {activeProjectsList}
                                                             </select>
-                                                            <p className="reg-error">{this.state.selectProjectError}</p>
                                                         </div>
                                                     </Col>
                                                 </Row>
