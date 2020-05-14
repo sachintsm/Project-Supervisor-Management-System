@@ -56,6 +56,10 @@ app.use(bodyParser.json());
 
 //? requireing routing files
 const users = require('./routes/users');
+app.use('/users', users);
+
+const notice = require("./routes/notice");
+app.use("/notice", notice);
 const projects = require('./routes/projects');
 const notice = require("./routes/Notice");
 const createGroups =  require('./routes/createGroups')
