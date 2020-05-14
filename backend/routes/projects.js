@@ -6,6 +6,7 @@ const ProjectType = require('../models/projectType');
 const Projects = require('../models/projects');
 
 router.post('/projecttype', async (req, res, next) => {
+  console.log(req.body)
   try {
 
     if (!req.body.isAcademicYear) {
@@ -82,7 +83,7 @@ router.patch("/projecttype/:id", async (req, res, next) => {
   }
 })
 
-router.post('/', async (req,res,next)=>{
+router.post('/', async (req, res, next) => {
   try {
     console.log(req.body)
     const project = new Projects(req.body);
@@ -93,6 +94,21 @@ router.post('/', async (req,res,next)=>{
   catch (err) {
     console.log(err)
   }
+})
+
+// ?get all the active projects
+router.get('/active&projects/:coordinatorId', (req, res) => {
+  const coordinatorId = req.params.coordinatorId;
+  Projects
+    .find({ projectState: true, coordinatorList: coordinatorId })
+    .then(data => {
+      // console.log(data)
+      res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+      console.log(err)
+    })
 })
 
 module.exports = router;
