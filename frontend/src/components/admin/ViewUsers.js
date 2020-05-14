@@ -26,7 +26,7 @@ const Staff = React.memo(props => (
         <td>{props.staff.nic}</td>
         <td>{props.staff.mobile}</td>
         <td>
-            <Create className="edit-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
+            <Create className="edit-btn" fontSize="large"  />
         </td>
         <td>
             <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
@@ -63,7 +63,7 @@ export default class ViewUsers extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        // this.deleteDebtor = this.deleteDebtor.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
 
     }
     snackbarClose = (event) => {
@@ -101,7 +101,7 @@ export default class ViewUsers extends Component {
         this.setState(store);
     }
 
-    UserList() {
+    UserList1() {
 
         let filteredUsers = this.state.userS.filter(
            (currentStaff)=>{
@@ -111,14 +111,62 @@ export default class ViewUsers extends Component {
 
             return filteredUsers.map((currentStaff, i) => {
                 if (currentStaff.isStaff === true && currentStaff.isDeleted === false) {
-                    return <Staff delete={this.deleteDebtor} staff={currentStaff} key={i} />;
+                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
                 }
             })
        
     }
 
-    deleteDebtor(data) {
-        axios.delete('http://localhost:4000/debtors/deleteDebtor/' + data)
+    UserList2() {
+
+        let filteredUsers = this.state.userS.filter(
+           (currentStaff)=>{
+               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+           } 
+        );
+
+            return filteredUsers.map((currentStaff, i) => {
+                if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
+                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+                }
+            })
+       
+    }
+
+    UserList3() {
+
+        let filteredUsers = this.state.userS.filter(
+           (currentStaff)=>{
+               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+           } 
+        );
+
+            return filteredUsers.map((currentStaff, i) => {
+                if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+                }
+            })
+       
+    }
+
+    UserList4() {
+
+        let filteredUsers = this.state.userS.filter(
+           (currentStaff)=>{
+               return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+           } 
+        );
+
+            return filteredUsers.map((currentStaff, i) => {
+                if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
+                    return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+                }
+            })
+       
+    }
+
+    deleteUser(data) {
+        axios.delete(backendURI.url + "/users/deleteUser/" + data)
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -190,7 +238,7 @@ export default class ViewUsers extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.UserList()}
+                                                                {this.UserList1()}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -215,13 +263,13 @@ export default class ViewUsers extends Component {
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    <th>Birthday</th>
+                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {/* {this.UserList()} */}
+                                                                {this.UserList2()}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -249,13 +297,13 @@ export default class ViewUsers extends Component {
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    <th>Birthday</th>
+                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {/* {this.UserList()} */}
+                                                                {this.UserList3()}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -281,13 +329,13 @@ export default class ViewUsers extends Component {
                                                                 <tr>
                                                                     <th>Name</th>
                                                                     <th>Email</th>
-                                                                    <th>Birthday</th>
+                                                                    {/* <th>Birthday</th> */}
                                                                     <th>Nic</th>
                                                                     <th>Mobile</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {/* {this.UserList()} */}
+                                                                {this.UserList4()}
                                                             </tbody>
                                                         </table>
                                                     </div>
