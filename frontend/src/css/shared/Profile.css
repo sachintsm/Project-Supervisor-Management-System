@@ -8,3 +8,6 @@
     float: none; 
     margin-bottom: 10px;  
 }
+.password-icon{
+    cursor:pointer;
+}

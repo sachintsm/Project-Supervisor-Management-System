@@ -17,7 +17,7 @@ import ProjectTypes from './components/admin/ProjectTypes';
 import Footer from "./components/shared/Footer"
 import Profile from "./components/shared/Profile";
 
-
+//app.use('../../backend/local_storage/profile_Images',express.static('uploads'));
 require("dotenv").config();
 
 function App() {

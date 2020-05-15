@@ -7,7 +7,7 @@ import axios from 'axios';
 import '../../css/shared/Profile.css';
 import Navbar from './Navbar';
 import Profilepic from './Profilepic';
-
+import Resetpw from './Resetpw';
 
 
 const backendURI = require("./BackendURI");
@@ -64,8 +64,8 @@ export default class Profile extends Component {
             email: '',
             nic: '',
             mobile:'',
-            birthday:''
-            //emailError:'',
+            birthday:'',
+            emailError:'',
            // mobileError:''
 
         }
@@ -110,36 +110,35 @@ export default class Profile extends Component {
 
     
 
-   /* validate = () => {
+    validate = () => {
         let emailError= "";
-        let mobileError= "";
         if (! this.state.email.includes('@')){
             emailError = 'invalid email';
         }
-        if (!this.state.mobile.match('/^\d{10}$/')){
-            mobileError = 'invalid mobile number';
-        }
 
-        if (emailError || mobileError){
-            this.setState({emailError,mobileError});
+        if (emailError){
+            this.setState({emailError});
             return false;
         }
         return true;
-    }*/
+    }
     onSubmit(e){
         e.preventDefault();
         const userData = getFromStorage('auth-id');
         console.log(userData.id);
-      //  const isValid = this.validate();
-       // if(isValid){
+       const isValid = this.validate();
+        if(isValid){
         const obj = {
             email: this.state.email,
             mobile: this.state.mobile
          };
         console.log(obj);
+        this.setState({
+            emailError:''
+        });
        axios.post(backendURI.url + '/users/update/'+userData.id, obj).then(res => console.log(res.data));
        // this.props.history.push('/profile');
-   // }
+    }
     }
     
 
@@ -192,8 +191,8 @@ export default class Profile extends Component {
                 <input type="text" className="form-control" 
                 value={this.state.email || ""}
                 onChange={this.onChangeEmail}
-                />
-                <div style={{fontSize:12,color:"red"}}></div> 
+                required/>
+                <div style={{fontSize:12,color:"red"}}>{this.state.emailError}</div> 
             </div>
                
 
@@ -213,7 +212,7 @@ export default class Profile extends Component {
                     <input type="text" className="form-control" 
                     value={this.state.mobile || ""}
                     onChange={this.onChangeMobile}
-                    />
+                    required/>
                     <div style={{fontSize:12,color:"red"}}></div> 
                 </div>
             </div> 
@@ -234,6 +233,7 @@ export default class Profile extends Component {
         </div>
     </div>
 </div>
+<Resetpw/>
 </div>
         )
     }

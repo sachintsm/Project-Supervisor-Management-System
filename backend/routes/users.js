@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
 const Staff = require('../models/staff');
+const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
@@ -279,5 +280,103 @@ router.post('/update/:id',function(req,res){
   });
 });
 
+////////////////get user profile
+router.get("/profileImage/:filename", function (req, res) {
+  const filename = req.params.filename;
+  console.log(filename)
+  res.sendFile(path.join(__dirname, 'local_storage/profile_Images/' + filename));
+});
+
+////update user profile
+router.post('/uploadmulter/:id',function(req,res){
+  let id = req.params.id;
+  console.log(id);
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+        user.imageName = req.body.name;
+        user.save().then(user => {
+          res.json('Update Complete');
+      })
+          .catch(err => {
+              res.status(400).send("unable to update database");
+          });
+     /* upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            return res.status(500).json(err)
+        } else if (err) {
+            return res.status(500).json(err)
+        }
+   return res.status(200).send(req.file)
+
+      })*/
+      /*upload(req, res, (err) = async () => {
+          console.log(req.body);
+          const newImage = new Img({
+              imageName: req.body.imageName,
+              imageData: req.file.path
+          });
+          newImage.save().then((result)=>{
+              console.log(result);
+              res.status(200).json({
+                  success:true,
+                  document:result
+              });
+          })
+          .catch((err) => next(err));
+      })*/
+      }
+  });
+});
+
+//reset password
+router.post('/reset/:id', function (req, res) {
+  const oldPassword = req.body.currentPw
+  var newPassword = req.body.newPw
+  let id = req.params.id;
+  User.findById({_id:id}, function (err, user) {    //find the user with respect to the userid
+      if (err) throw err;
+      bcrypt.compare(oldPassword, user.password, function (err, match) {  //check the old password with database password
+          if (err) {
+              throw err;
+          }
+          if (match) {    //if userid and password mached
+              console.log("Userid and Password match...!");
+              bcrypt.genSalt(10, function (err, salt) {
+                  bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
+                      newPassword = hash;
+                      if (err) {
+                          throw err;
+                      }
+                      else {
+                          User.update({ _id:id }, {   //save the new password to the database
+                              $set: {
+                                  password: newPassword
+                              }
+                          })
+                              .exec()
+                              .then(data => {
+                                  console.log("Data Update Success..!")
+                                  res.json({ state: true, msg: "Data Update Success..!" });
+
+                              })
+                              .catch(error => {
+                                  console.log("Data Updating Unsuccessfull..!")
+                                  res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
+                              })
+                      }
+                  });
+              });
+          }
+          else {
+              res.json({
+                  state: false,
+                  msg: "Password Incorrect..!"
+              });
+          }
+      });
+  });
+})
 
 module.exports = router;
