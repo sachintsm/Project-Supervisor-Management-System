@@ -269,24 +269,27 @@ router.get('/get', function (req, res) {
     })
 })
 
-//delete product
-router.delete('/deleteUser/:id', function (req, res) {
-  const _id = req.params.id
 
-  User.remove({ _id: _id })
-    .exec()
-    .then(result => {
-      res.status(200).json({
-        message: 'Deleted Successfully'
-      });
+//delete user
+router.route('/deleteUser/:id').post(function (req, res) {
+  console.log('zxcvbn');
+
+  
+  User.findById(req.params.id, function (err, user) {
+    if (!user) {
+      res.status(404).send("data is not found");
+    }
+    else
+      user.isDeleted = true;
+
+      user.save().then(user => {
+
     })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        error: error
+      .catch(err => {
+        res.status(400).send("Delete not possible");
       });
-    });
-})
+  });
+});
 
 //get User name
 router.get('/getUserName/:id', async (req, res) => {
