@@ -17,6 +17,8 @@ class SupervisorHome extends Component {
   }
 
   componentDidMount = async () => {
+    localStorage.setItem("user-level","supervisor")
+
     const authState = await verifyAuth();
     this.setState({ authState: authState });
     if (!authState || !localStorage.getItem("isSupervisor"))
@@ -25,6 +27,7 @@ class SupervisorHome extends Component {
 
 
   render() {
+    console.log(localStorage)
     return (
       <React.Fragment>
         <Navbar panel={"supervisor"} />
