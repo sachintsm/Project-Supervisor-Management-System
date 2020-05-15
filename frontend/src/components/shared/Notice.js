@@ -4,13 +4,14 @@ import React, { Component } from 'react';
 import Card from "@material-ui/core/Card";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
+//import CardHeader from '@material-ui/core/CardHeader';
+//import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
+
 
 //import { confirmAlert } from 'react-confirm-alert';
 //import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -30,7 +31,6 @@ import {
   Col,
   Row,
   FormControl,
-  Table,
   FormGroup,
 
 } from 'react-bootstrap';
@@ -98,6 +98,7 @@ class Notice extends Component {
         this.setState({
           noticeList: result.data.map((type) => type)
         });
+       
       }
       else {
         this.setState({
@@ -198,9 +199,9 @@ class Notice extends Component {
   //     })
   // }
 
-  onDeleteHandler = (id) => {
+  onDeleteHandler = (id , filePath) => {
 
-    console.log(id);
+    console.log(filePath);
 
     axios.delete(backendURI.url + '/notice/delteNotice/' + id)
       .then(res => {
@@ -419,20 +420,23 @@ class Notice extends Component {
                         return (
 
                           <Card key={type._id} style={{ marginTop: '10px', marginBottom: '10px' }}>
-
-                            <h6 style={{ paddingLeft: "10px", paddingTop: "10px", fontWeight: "700" }}> {type.noticeTittle}</h6>
-                            <h10 style={{ paddingLeft: "8px", paddingTop: "2px", color: " #6d6d6d" }}>{type.date}</h10>
-
-                            <CardContent style={{ paddingTop: "4px" }}>
+ 
+                          
+                           <CardContent style={{paddingBottom:"2px"}}><h6>{type.noticeTittle}</h6></CardContent>
+                          <h8 style={{color:"#6d6d6d", paddingLeft:"8px"}}>{type.date}</h8>
+                            <CardContent style={{ paddingTop: "2px"}}>
 
                               <Typography variant="body1" component="p">{type.notice}</Typography>
 
                             </CardContent>
-
-                            <a style={{ paddingTop: "2px" }} href={('http://localhost:4000/notice/noticeAttachment/'+type.filePath)}>Attachment</a>
+                            
+                            
+                            <CardContent style={{paddingBottom:"2px",paddingTop:"1px"}}>
+                            <a  href={('http://localhost:4000/notice/noticeAttachment/'+type.filePath)}>Attachment</a>
+                            </CardContent>
 
                             <CardActions>
-                              <Button size="small" variant="outline-danger" style={{ width: '20%', marginLeft: "850px" }} onClick={() => this.onDeleteHandler(type._id, type.noticeAttachment)}>Delete</Button>
+                              <Button size="small" variant="outline-danger" style={{width:"20%"}}  onClick={() => this.onDeleteHandler(type._id, type.filepath)}>Delete</Button>
                             </CardActions>
 
 
