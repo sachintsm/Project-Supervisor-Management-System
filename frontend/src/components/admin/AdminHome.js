@@ -7,6 +7,7 @@ import Notice from "../shared/Notice";
 class AdminHome extends Component {
   
   componentDidMount = async () => {
+    localStorage.setItem("user-level","admin")
     const authState = await verifyAuth();
     this.setState({ authState: authState });
     if (!authState || !localStorage.getItem("isAdmin")){
@@ -15,6 +16,7 @@ class AdminHome extends Component {
   };
 
   render() {
+    console.log(localStorage)
     return (
       <React.Fragment>
         <Navbar panel={"admin"} />

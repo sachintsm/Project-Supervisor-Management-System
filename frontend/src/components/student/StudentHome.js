@@ -4,6 +4,8 @@ import Navbar from "../shared/Navbar";
 
 class StudentHome extends Component {
   componentDidMount = async () => {
+    localStorage.setItem("user-level","student")
+
     const authState = await verifyAuth();
     this.setState({ authState: authState });
     if (!authState || !localStorage.getItem("isStudent"))
