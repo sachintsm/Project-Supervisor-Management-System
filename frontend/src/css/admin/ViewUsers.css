@@ -19,10 +19,30 @@
 
 .btn-info{
     height: 40px;
-    width: 100%;
+    width: 100px;
     background-color: blue;
 }
 
 .tit{
    color: #263238;
+}
+.del-btn{
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+}
+
+.del-btn:hover{
+    color: rgb(214, 0, 0);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.edit-btn{
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+}
+
+.edit-btn:hover{
+    color:#17A2B8;
+    transition: 0.5s;
+    cursor: pointer;
 }

@@ -3,8 +3,10 @@ const router = express.Router();
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
 const ProjectType = require('../models/projectType');
+const Projects = require('../models/projects');
 
 router.post('/projecttype', async (req, res, next) => {
+  console.log(req.body)
   try {
 
     if (!req.body.isAcademicYear) {
@@ -27,7 +29,7 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
-router.get('/projecttype', async (req, res, next) => {
+router.get('/projecttype', verify, async (req, res, next) => {
   try {
     const types = await ProjectType.find({ "isDeleted": false });
     res.send(types);
@@ -57,6 +59,38 @@ router.patch("/projecttype/delete/:id", async (req, res, next) => {
   }
 })
 
+router.patch("/delete/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const result = await Projects.findByIdAndUpdate(id, { isDeleted: true }, { new: true })
+    res.send(result)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+router.patch("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const idList=[]
+    req.body.selectedStaffList.map(item=>{
+      idList.push(item.value)
+    })
+
+    const update = {
+      projectYear: req.body.year,
+      projectType: req.body.type,
+      academicYear: req.body.academicYear,
+      coordinatorList: idList,
+    };
+    const result = await Projects.findByIdAndUpdate(id, update, { new: true })
+    res.send(result)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+
 router.patch("/projecttype/:id", async (req, res, next) => {
   try {
 
@@ -77,6 +111,46 @@ router.patch("/projecttype/:id", async (req, res, next) => {
     const result = await ProjectType.findByIdAndUpdate(id, update, { new: true })
     res.send(result)
   } catch (err) {
+    console.log(err)
+  }
+})
+
+
+
+router.post('/', async (req, res, next) => {
+  try {
+    const project = new Projects(req.body);
+    project.isDeleted = false;
+    project.projectState = true;
+    const result = await project.save();
+    res.send(result);
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
+
+// ?get all the active projects
+router.get('/active&projects/:coordinatorId', (req, res) => {
+  const coordinatorId = req.params.coordinatorId;
+  Projects
+    .find({ projectState: true, coordinatorList: coordinatorId })
+    .then(data => {
+      // console.log(data)
+      res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+      console.log(err)
+    })
+})
+
+router.get('/', async (req,res,next)=>{
+  try{
+    const projects = await Projects.find({ "isDeleted": false }).sort({projectYear: -1});
+    res.send(projects);
+  }
+  catch(err){
     console.log(err)
   }
 })

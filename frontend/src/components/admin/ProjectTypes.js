@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
 import '../../css/admin/ProjectTypes.css';
 import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
 // import MultiSelect from 'react-multi-select-component';
@@ -20,7 +22,19 @@ import {
   FormControl,
   Table,
 } from 'react-bootstrap';
+import {getFromStorage} from "../../utils/Storage";
+import {confirmAlert} from "react-confirm-alert";
 const backendURI = require('../shared/BackendURI');
+
+const CustomCheckbox = withStyles({
+  root: {
+    color: grey,
+    '&$checked': {
+      color: '#17A2BB',
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 class ProjectTypes extends Component {
   constructor(props) {
@@ -50,12 +64,14 @@ class ProjectTypes extends Component {
   componentDidMount() {
     this.getCategoryList()
   }
-  componentDidUpdate() {
-    this.getCategoryList()
-  }
 
   getCategoryList() {
-    axios.get(backendURI.url + '/projects/projecttype').then((result => {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+
+    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
@@ -71,40 +87,64 @@ class ProjectTypes extends Component {
 
   submit() {
 
-    if (this.state.projectType === '') {
-      this.setState({
-        warnAlert: true,
-      });
-    } else {
-      if (this.state.componentType === 'add') {
-        axios
-          .post(backendURI.url + '/projects/projecttype', this.state)
-          .then((res) => {
+    confirmAlert({
+      title: 'Project Category',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+
+            if (this.state.projectType === '') {
+              this.setState({
+                warnAlert: true,
+              });
+            } else {
+              if (this.state.componentType === 'add') {
+                axios
+                    .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
+                    .then((res) => {
+                      this.setState({
+                        succesAlert: true,
+                      });
+                      this.getCategoryList()
+                    }).catch(err => console.log(err));
+              }
+
+              if (this.state.componentType === 'edit') {
+                axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state,{headers: headers}).then(res => {
+                }).catch(err => {
+                  console.log(err)
+                })
+
+                this.setState({
+                  editAlert: true,
+                  componentType: "add",
+                  title: 'Add New Project Category',
+                })
+              }
+            }
+
+
+
             this.setState({
-              succesAlert: true,
-            });
-          }).catch(err => console.log(err));
-      }
+              projectType: ''
+            })
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
 
-      if (this.state.componentType === 'edit') {
-        axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state).then(res => {
-        }).catch(err => {
-          console.log(err)
-        })
-
-        this.setState({
-          editAlert: true,
-          componentType: "add",
-          title: 'Add New Project Category',
-        })
-      }
-    }
-
-
-
-    this.setState({
-      projectType: ''
+          }
+        }
+      ]
     })
+
   }
 
   goBack() {
@@ -115,9 +155,30 @@ class ProjectTypes extends Component {
   }
 
   onDeleteHandler = (id) => {
-    axios.patch(backendURI.url + '/projects/projecttype/delete/' + id).then(res => {
-      this.getCategoryList()
-    }).catch(err => console.log(err))
+    confirmAlert({
+      title: 'Delete Category',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+            axios.patch(backendURI.url + '/projects/projecttype/delete/' + id,{headers: headers}).then(res => {
+              this.getCategoryList()
+            }).catch(err => console.log(err))
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        }
+      ]
+    })
   }
 
   onEditHandler = (type) => {
@@ -220,7 +281,7 @@ class ProjectTypes extends Component {
                       <FormControlLabel
                         className='form-control-label'
                         control={
-                          <Checkbox
+                          <CustomCheckbox
                             fontSize='5px'
                             checked={this.state.isAcademicYear}
                             onChange={() => {
@@ -229,7 +290,6 @@ class ProjectTypes extends Component {
                               });
                             }}
                             name='checkedB'
-                            color='default'
                           />
                         }
                         label={
@@ -244,7 +304,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isFirstYear}
                               onChange={() => {
@@ -267,7 +327,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isSecondYear}
                               onChange={() => {
@@ -290,7 +350,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isThirdYear}
                               onChange={() => {
@@ -313,7 +373,7 @@ class ProjectTypes extends Component {
                         <FormControlLabel
                           className='form-control-label'
                           control={
-                            <Checkbox
+                            <CustomCheckbox
                               fontSize='5px'
                               checked={this.state.isFourthYear}
                               onChange={() => {
@@ -352,7 +412,7 @@ class ProjectTypes extends Component {
                         style={{ width: '100%' }}
                       >
                         {this.state.componentType === 'add' &&
-                          'Add New Project Category'}
+                          'Add Category Now'}
                         {this.state.componentType === 'edit' &&
                           'Edit Now'}
                       </Button>
@@ -360,6 +420,7 @@ class ProjectTypes extends Component {
                     <Col md={3}></Col>
                   </Row>
                 </div>
+                
                 {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
                   <div className="card card-div-2">
