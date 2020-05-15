@@ -38,4 +38,18 @@ router.get('/get/:projectId', (req, res) => {
         })
 })
 
+//? delete a group by idList
+router.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id
+
+    CreateGroups
+        .remove({ _id : id })
+        .exec()
+        .then(result =>{
+            res.send({ state :true, msg : 'Group successfully deleted..!'})
+        })
+        .catch(err =>{
+            res.send({ state : false, msg : 'Group does not delete successfully..!'})
+        })
+})
 module.exports = router

@@ -26,3 +26,11 @@
     font-size: 1.5em;
     margin-top: 10px;   
 }
+.pg-table-row:hover{
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.spinner{
+    margin : auto;
+}
