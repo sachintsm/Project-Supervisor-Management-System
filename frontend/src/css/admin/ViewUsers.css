@@ -42,7 +42,7 @@
 }
 
 .edit-btn:hover{
-    color: rgb(0, 0, 214);
+    color:#17A2B8;
     transition: 0.5s;
     cursor: pointer;
 }
