@@ -532,7 +532,7 @@ export default class registration extends Component {
 
                           <div className="form-group">
                             <button
-                              className="btn btn-info my-4  "
+                              className="btn btn-info my-4 " style={{width : "100%"}}
                               type="submit"
                             >Register Now </button>
                           </div>
@@ -575,6 +575,7 @@ export default class registration extends Component {
                           <button
                             className="btn btn-info my-4  "
                             onClick={this.fileUpload}
+                            style={{width : "100%"}}
                           >Register Now </button>
                         </div>
 

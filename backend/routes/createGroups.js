@@ -24,9 +24,32 @@ router.post('/add', (req, res) => {
 })
 
 //? get all the groups on spesific project
-router.get('/group/:groupId', (req, res) => {
+router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
-
+    console.log(projectId);
+    CreateGroups
+        .find({ projectId : projectId })
+        .exec()
+        .then(data => {
+            res.json({state : true, data : data , msg : 'Data successfully sent..!'})
+        })
+        .catch(err =>{
+            res.send({ state : false, msg : err.message})
+        })
 })
 
+//? delete a group by idList
+router.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id
+
+    CreateGroups
+        .remove({ _id : id })
+        .exec()
+        .then(result =>{
+            res.send({ state :true, msg : 'Group successfully deleted..!'})
+        })
+        .catch(err =>{
+            res.send({ state : false, msg : 'Group does not delete successfully..!'})
+        })
+})
 module.exports = router

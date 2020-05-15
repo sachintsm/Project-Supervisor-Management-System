@@ -27,6 +27,11 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('profileImage');
 
+//authentication token verification
+router.get('/verify', verify, function (req, res, next) {
+  res.send({ state: true, msg: 'Successful..!' });
+});
+
 //User registration
 router.post("/register", verify, async function (req, res) {
   upload(req, res, (err) = async () => {
@@ -72,8 +77,8 @@ router.post("/register", verify, async function (req, res) {
       birthday: req.body.birthday,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
-      indexNumber : req.body.indexNumber.toLowerCase(),
-      regNumber : req.body.regNumber.toLowerCase(),
+      indexNumber: req.body.indexNumber.toLowerCase(),
+      regNumber: req.body.regNumber.toLowerCase(),
       imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
@@ -148,7 +153,7 @@ router.post('/bulkRegister', async (req, res, next) => {
     birthday: req.body.birthday,
     nic: req.body.nic.toLowerCase(),
     mobile: req.body.mobileNumber,
-    indexNumber : req.body.indexNumber.toLowerCase(),
+    indexNumber: req.body.indexNumber.toLowerCase(),
     regNumber: req.body.regNumber.toLowerCase(),
     imageName: '',
     isStudent: student,
@@ -158,7 +163,7 @@ router.post('/bulkRegister', async (req, res, next) => {
     isCoordinator: false,
     isDeleted: false,
   });
-  
+
   bcrypt.genSalt(
     10,
     await function (err, salt) {
@@ -244,7 +249,7 @@ router.get('/stafflist', async (req, res, next) => {
 
 router.get('/stafflist/:id', async (req, res, next) => {
   try {
-    const results = await Staff.find({ isStudent: false, isDeleted: false, _id:req.params.id });
+    const results = await Staff.find({ isStudent: false, isDeleted: false, _id: req.params.id });
     res.send(results[0]);
   } catch (error) {
     console.log(error);
@@ -255,13 +260,13 @@ router.get('/stafflist/:id', async (req, res, next) => {
 router.get('/get', function (req, res) {
 
   User.find()
-      .exec()
-      .then(result => {
-          res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
-      })
-      .catch(error => {
-          res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-      })
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 })
 
 
@@ -286,10 +291,23 @@ router.route('/deleteUser/:id').post(function (req, res) {
   });
 });
 
-//authentication token verification
-router.get('/verify', verify, function (req, res, next) {
-  res.send({ state: true, msg: 'Successful..!' });
-});
+//get User name
+router.get('/getUserName/:id', async (req, res) => {
+  const id = req.params.id;
 
-//testing merge
+  User
+    .find({ _id: id })
+    .select('firstName lastName')
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+})
+
+
+
 module.exports = router;

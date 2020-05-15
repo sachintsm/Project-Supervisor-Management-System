@@ -1,0 +1,36 @@
+.pg-fullpage {
+    background-color: #f8f8f8;
+}
+
+.pg-container-div {
+    margin-bottom: 40px;
+}
+
+.pg-dropdown-select {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.pg-reg-head{
+    color: rgb(75, 75, 75);
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 2em;
+    margin-top: 40px;
+}
+
+.pg-details-head{
+    color: rgb(75, 75, 75);
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 1.5em;
+    margin-top: 10px;   
+}
+.pg-table-row:hover{
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.spinner{
+    margin : auto;
+}
