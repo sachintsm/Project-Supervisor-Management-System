@@ -452,8 +452,6 @@ class ProjectTypes extends Component {
                               </Row>
                               </td>
                             </tr>
-
-
                             )
                           })}
                         </tbody>
