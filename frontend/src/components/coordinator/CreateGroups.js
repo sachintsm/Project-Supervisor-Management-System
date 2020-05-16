@@ -77,14 +77,14 @@ export default class CreateGroups extends Component {
     fileUpload = (e) => {
         e.preventDefault();
 
-        if (this.state.csvData.length === 0) {
+        if (this.state.csvData.length === 0) {  //! check csv file is empty or not
             this.setState({
                 snackbaropen: true,
                 snackbarmsg: 'Please select the CSV file..!',
                 snackbarcolor: 'error',
             })
         }
-        else if(this.state.projectId.length === 0){
+        else if (this.state.projectId.length === 0) {  // ! check user select project or not
             this.setState({
                 snackbaropen: true,
                 snackbarmsg: 'Please select the project..!',
@@ -128,11 +128,21 @@ export default class CreateGroups extends Component {
                                 })
                                     .then(res => res.json())
                                     .then(json => {
-                                        this.setState({
-                                            snackbaropen: true,
-                                            snackbarmsg: json.msg,
-                                            snackbarcolor: 'success',
-                                        })
+                                        if (json.state === true) {
+                                            this.setState({
+                                                snackbaropen: true,
+                                                snackbarmsg: json.msg,
+                                                snackbarcolor: 'success',
+                                            })
+                                            window.location.reload();
+                                        }
+                                        else {
+                                            this.setState({
+                                                snackbaropen: true,
+                                                snackbarmsg: json.msg,
+                                                snackbarcolor: 'error',
+                                            })
+                                        }
                                     })
                                     .catch(err => {
                                         console.log(err)
@@ -158,7 +168,7 @@ export default class CreateGroups extends Component {
 
     }
 
-    //? user type drop down change
+    //? select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
         console.log(val)
@@ -226,7 +236,7 @@ export default class CreateGroups extends Component {
                                 body: raw,
                                 redirect: 'follow'
                             };
-                            fetch("http://localhost:4000/createGroups/add", requestOptions)
+                            fetch(backendURI.url + "/createGroups/add", requestOptions)
                                 .then(response => response.json())
                                 .then(json => {
                                     console.log(json.state)
@@ -383,7 +393,7 @@ export default class CreateGroups extends Component {
 
                                                 <div className="form-group">
                                                     <button
-                                                        className="btn btn-info my-4  "
+                                                        className="btn btn-info full-width-btn"
                                                         onClick={(e) => this.onSubmit(e)}
                                                     >Register Now </button>
                                                 </div>
@@ -432,7 +442,7 @@ export default class CreateGroups extends Component {
 
                                                 <div className="form-group">
                                                     <button
-                                                        className="btn btn-info my-4  "
+                                                        className="btn btn-info full-width-btn"
                                                         onClick={this.fileUpload}
                                                     >Register Now </button>
                                                 </div>
