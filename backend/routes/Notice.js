@@ -31,16 +31,16 @@ const upload = multer({ storage: storage }).single("noticeAttachment");
 // data send to database and save
 router.post("/addNotice", async (req, res) => {
   try {
-    if (!req.body.isViewType) {
-      req.body.isCordinator = false;
-      req.body.isSupervisor = false;
-      req.body.isStudent = false;
+    if (!req.body.toViewType) {
+      req.body.toCordinator = false;
+      req.body.toSupervisor = false;
+      req.body.toStudent = false;
     }
 
     if (
-      !(req.body.isCordinator || req.body.isSupervisor || req.body.isStudent)
+      !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
     ) {
-      req.body.isViewType = false;
+      req.body.toViewType = false;
     }
 
     upload(req, res, (err) => {
@@ -58,14 +58,16 @@ router.post("/addNotice", async (req, res) => {
       }
 
       const newNotice = new Notice({
+        userType: req.body.userType,
+        userId: req.body.userId,
         noticeTittle: req.body.noticeTittle,
         notice: req.body.notice,
         date: req.body.date,
         filePath: filePath,
-        isViewType: req.body.isViewType,
-        isCordinator: req.body.isCordinator,
-        isSupervisor: req.body.isSupervisor,
-        isStudent: req.body.isStudent,
+        toViewType: req.body.toViewType,
+        toCordinator: req.body.toCordinator,
+        toSupervisor: req.body.toSupervisor,
+        toStudent: req.body.toStudent,
       });
 
       newNotice

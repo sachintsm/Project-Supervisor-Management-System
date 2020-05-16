@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 
+import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -45,10 +46,10 @@ class Notice extends Component {
       deleteSuccesAlert: false,
       warnAlert: false,
       snackbaropen: false,
-      isViewType: true,
-      isCordinator: false,
-      isSupervisor: false,
-      isStudent: false,
+      toViewType: true,
+      toCordinator: false,
+      toSupervisor: false,
+      toStudent: false,
       snackbarmsg: "",
       noticeType: "",
       noticeList: [],
@@ -68,6 +69,8 @@ class Notice extends Component {
 
   componentDidMount() {
     this.getNoticeList();
+
+    //console.log(localStorage)
   }
 
   // Notice get from database and map to the array
@@ -116,15 +119,23 @@ class Notice extends Component {
           onClick: async () => {
             this.state.date = Date();
 
+            const userType = localStorage.getItem("user-level");
+            const userId = localStorage.getItem("auth-id");
+
+          
+
+
             const formData = new FormData();
+            formData.append("userId",userId);
+            formData.append("userType",userType);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
             formData.append("date", this.state.date);
             formData.append("noticeAttachment", this.state.noticeAttachment);
-            formData.append("isViewType", this.state.isViewType);
-            formData.append("isCordinator", this.state.isCordinator);
-            formData.append("isSupervisor", this.state.isSupervisor);
-            formData.append("isStudent", this.state.isStudent);
+            formData.append("toViewType", this.state.toViewType);
+            formData.append("toCordinator", this.state.toCordinator);
+            formData.append("toSupervisor", this.state.toSupervisor);
+            formData.append("toStudent", this.state.toStudent);
 
             // form required set
             if (
@@ -306,10 +317,10 @@ class Notice extends Component {
                           control={
                             <Checkbox
                               fontSize="5px"
-                              checked={this.state.isViewType}
+                              checked={this.state.toViewType}
                               onChange={() => {
                                 this.setState({
-                                  isViewType: !this.state.isViewType,
+                                  toViewType: !this.state.toViewType,
                                 });
                               }}
                               name="checkedB"
@@ -326,16 +337,16 @@ class Notice extends Component {
                         />
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.isViewType && (
+                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
                               <Checkbox
                                 fontSize="5px"
-                                checked={this.state.isCordinator}
+                                checked={this.state.toCordinator}
                                 onChange={() => {
                                   this.setState({
-                                    isCordinator: !this.state.isCordinator,
+                                    toCordinator: !this.state.toCordinator,
                                   });
                                 }}
                                 name="checkedB"
@@ -351,16 +362,16 @@ class Notice extends Component {
                         )}
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.isViewType && (
+                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
                               <Checkbox
                                 fontSize="5px"
-                                checked={this.state.isSupervisor}
+                                checked={this.state.toSupervisor}
                                 onChange={() => {
                                   this.setState({
-                                    isSupervisor: !this.state.isSupervisor,
+                                    toSupervisor: !this.state.toSupervisor,
                                   });
                                 }}
                                 name="checkedB"
@@ -376,16 +387,16 @@ class Notice extends Component {
                         )}
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.isViewType && (
+                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
                               <Checkbox
                                 fontSize="5px"
-                                checked={this.state.isStudent}
+                                checked={this.state.toStudent}
                                 onChange={() => {
                                   this.setState({
-                                    isStudent: !this.state.isStudent,
+                                    toStudent: !this.state.toStudent,
                                   });
                                 }}
                                 name="checkedB"
