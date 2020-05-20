@@ -9,6 +9,7 @@ import Tabs from 'react-bootstrap/Tabs';
 // import { Button, Col, Row } from 'react-bootstrap';
 import Navbar from "../shared/Navbar";
 import '../../css/admin/ViewUsers.css';
+import Footer from '../shared/Footer'
 import { verifyAuth } from "../../utils/Authentication";
 
 
@@ -206,6 +207,8 @@ export default class ViewUsers extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Footer />
             </React.Fragment >
         )
     }
