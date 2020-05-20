@@ -1,5 +1,5 @@
 body.react-confirm-alert-body-element {
-  overflow: hidden;
+  overflow: auto !important;
 }
 
 .react-confirm-alert-blur {
@@ -69,7 +69,7 @@ body.react-confirm-alert-body-element {
 
 .react-confirm-alert-button-group > button {
   outline: none;
-  background: rgb(18, 132, 199);
+  background: #17A2BB;
   border: none;
   display: inline-block;
   padding: 6px 18px;

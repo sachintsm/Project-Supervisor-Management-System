@@ -1,7 +1,7 @@
 // import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
-// import axios from 'axios';
+import axios from 'axios';
 // import { MDBInput } from "mdbreact";
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
@@ -11,8 +11,40 @@ import Navbar from "../shared/Navbar";
 import '../../css/admin/ViewUsers.css';
 import Footer from '../shared/Footer'
 import { verifyAuth } from "../../utils/Authentication";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Create from '@material-ui/icons/Create';
+import {
+    Button,
+    Container,
+    Col,
+    Row,
+    //   Dropdown,
+    //   DropdownButton,
+    //   ButtonGroup,
+    FormControl,
+    Table,
+} from 'react-bootstrap';
+// import SearchField from "react-search-field";
 
 
+const backendURI = require('../shared/BackendURI');
+
+
+const Staff = React.memo(props => (
+    <tr>
+        <td>{props.staff.firstName} {props.staff.lastName}</td>
+        <td>{props.staff.email}</td>
+        {/* <td>{props.staff.birthday}</td> */}
+        <td>{props.staff.nic}</td>
+        <td>{props.staff.mobile}</td>
+        <td>
+            <Create className="edit-btn" fontSize="large" />
+        </td>
+        <td>
+            <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
+        </td>
+    </tr>
+));
 
 
 
@@ -25,9 +57,25 @@ export default class ViewUsers extends Component {
             authState: '',
             snackbaropen: false,
             snackbarmsg: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            birthday: '',
+            nic: '',
+            mobile: '',
+            isStudent: '',
+            isAdmin: '',
+            isStaff: '',
+            isSupervisor: '',
+            isCoordinator: '',
+            isDeleted: '',
+            search: '',
+            userS: [],
         }
 
-        // this.onLocalChange = this.onLocalChange.bind(this)
+        this.onChange = this.onChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
 
     }
     snackbarClose = (event) => {
@@ -35,12 +83,109 @@ export default class ViewUsers extends Component {
     }
 
 
-    componentDidMount = async () => {
+    async componentDidMount() {
         const authState = await verifyAuth();
         this.setState({ authState: authState });
         if (!authState || !localStorage.getItem("isAdmin"))
-          this.props.history.push("/");
-      };
+            this.props.history.push("/");
+
+        axios.get(backendURI.url + "/users/get")
+            .then(response => {
+                console.log(response.data.data);
+
+                this.setState({ userS: response.data.data });
+                //   console.log(userStaff);
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    };
+
+    handleSearch = e => {
+        this.setState({ search: e.target.value.substr(0, 20) });
+    };
+
+    onChange = (e) => {
+        e.persist = () => { };
+        let store = this.state;
+        store[e.target.name] = e.target.value
+        this.setState(store);
+    }
+
+    UserList1() {
+
+        let filteredUsers = this.state.userS.filter(
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
+    }
+
+    UserList2() {
+
+        let filteredUsers = this.state.userS.filter(
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
+    }
+
+    UserList3() {
+
+        let filteredUsers = this.state.userS.filter(
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
+    }
+
+    UserList4() {
+
+        let filteredUsers = this.state.userS.filter(
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
+    }
+
+    deleteUser(data) {
+
+        axios.post(backendURI.url + "/users/deleteUser/" + data)
+            .then(res => console.log(res.data));
+
+        // this.props.history.push('adminhome/viewusers/');
+        window.location.reload();
+
+    }
 
     render() {
         return (
@@ -67,141 +212,144 @@ export default class ViewUsers extends Component {
                         {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
                             <Sidebar />
                         </div> */}
-                        <div className="col-md-12" style={{ backgroundColor: "#f5f5f5", minHeight: "1000px" }}>
+                        <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
                             <div className="container">
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
 
                                     <Tab eventKey="staff" title="Staff" className="tit">
-                                    <div className="row" style={{ marginTop: "20px" }}>
+                                        <div className="row" style={{ marginTop: "20px" }}>
 
-                                        <div className="card">
-                                            <div>
-                                                <h3 className="sp_head">List of Staff</h3>
-                                                <form>
-                                                    <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                        <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">List of Staff</h3>
+                                                    <form>
+                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                            <input className="form-control" type="text" value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Nic</th>
+                                                                    <th>Mobile</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.UserList1()}
+
+                                                            </tbody>
+                                                        </Table>
                                                     </div>
-                                                </form>
-                                                <div className="sp_table">
-                                                    <table className="table table-striped" style={{ marginTop: 20 }} >
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Birthday</th>
-                                                                <th>Nic</th>
-                                                                <th>Mobile</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {/* {this.UserList()} */}
-                                                        </tbody>
-                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
                                     </Tab>
                                     <Tab eventKey="co-ordinators" title="Co-ordinators">
                                         <div className="row" style={{ marginTop: "20px" }}>
-                                        <div className="card">
-                                            <div>
-                                                <h3 className="sp_head">List of Co-ordinators</h3>
-                                                <form>
-                                                    <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                        <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">List of Co-ordinators</h3>
+                                                    <form>
+                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Nic</th>
+                                                                    <th>Mobile</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.UserList2()}
+
+                                                            </tbody>
+                                                        </Table>
                                                     </div>
-                                                </form>
-                                                <div className="sp_table">
-                                                    <table className="table table-striped" style={{ marginTop: 20 }} >
-                                                        <thead>
-                                                        <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Birthday</th>
-                                                                <th>Nic</th>
-                                                                <th>Mobile</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {/* {this.UserList()} */}
-                                                        </tbody>
-                                                    </table>
                                                 </div>
                                             </div>
-                                        </div>
 
 
                                         </div>
                                     </Tab>
 
                                     <Tab eventKey="supervisors" title="Supervisors">
-                                    <div className="row" style={{ marginTop: "20px" }}>
-                                        
-                                        <div className="card">
-                                            <div>
-                                                <h3 className="sp_head">List of Supervisors</h3>
-                                                <form>
-                                                    <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                        <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                        <div className="row" style={{ marginTop: "20px" }}>
+
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">List of Supervisors</h3>
+                                                    <form>
+                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Nic</th>
+                                                                    <th>Mobile</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.UserList3()}
+
+                                                            </tbody>
+                                                        </Table>
                                                     </div>
-                                                </form>
-                                                <div className="sp_table">
-                                                    <table className="table table-striped" style={{ marginTop: 20 }} >
-                                                        <thead>
-                                                        <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Birthday</th>
-                                                                <th>Nic</th>
-                                                                <th>Mobile</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {/* {this.UserList()} */}
-                                                        </tbody>
-                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
 
                                     </Tab>
-                                  
+
                                     <Tab eventKey="students" title="Students">
                                         <div className="row" style={{ marginTop: "20px" }}>
-                                        <div className="card">
-                                            <div>
-                                                <h3 className="sp_head">List of Students</h3>
-                                                <form>
-                                                    <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                        <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">List of Students</h3>
+                                                    <form>
+                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Nic</th>
+                                                                    <th>Mobile</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.UserList4()}
+
+                                                            </tbody>
+                                                        </Table>
                                                     </div>
-                                                </form>
-                                                <div className="sp_table">
-                                                    <table className="table table-striped" style={{ marginTop: 20 }} >
-                                                        <thead>
-                                                        <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Birthday</th>
-                                                                <th>Nic</th>
-                                                                <th>Mobile</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {/* {this.UserList()} */}
-                                                        </tbody>
-                                                    </table>
                                                 </div>
                                             </div>
-                                        </div>
 
                                         </div>
                                     </Tab>
-                                    
+
                                 </Tabs>
                             </div>
                         </div>

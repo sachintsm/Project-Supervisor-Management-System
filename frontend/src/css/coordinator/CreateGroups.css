@@ -3,9 +3,10 @@
     width: 100%;
     margin-bottom: 100px;
 }
-.image2 {
-    width: 100%;
+.image3 {
+    width: 50%;
     margin-bottom: 100px;
+    margin-top:-50px;
 }
 .reg-head {
     margin-left: 20px;
@@ -49,4 +50,22 @@
 .reg-error{
     color : red ;
     font-size: 10px;
+}
+
+.add-member{
+    width: 100%;
+}
+.del-btn{
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+}
+
+.del-btn:hover{
+    color: rgb(214, 0, 0);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.full-width-btn{
+    width: 100%;
 }

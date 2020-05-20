@@ -54,18 +54,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//? requireing routing files
 const users = require('./routes/users');
-app.use('/users', users);
-
-const notice = require("./routes/Notice");
-app.use("/notice", notice);
-
+const notice = require("./routes/notice");
 const projects = require('./routes/projects');
-app.use('/projects', projects);
+const createGroups =  require('./routes/createGroups')
 
-app.get('/', function (req, res) {
-  res.send('Hello world');
-});
+//routing path in routers
+app.get('/', function (req, res) { res.send('Hello world') });
+app.use('/users', users);
+app.use('/projects', projects);
+app.use("/notice", notice);
+app.use('/createGroups', createGroups);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, function () {

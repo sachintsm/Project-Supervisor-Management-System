@@ -1,129 +1,510 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 //import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { verifyAuth } from "../../utils/Authentication";
+//import { verifyAuth } from "../../utils/Authentication";
 import Card from "@material-ui/core/Card";
-import "../../css/shared/Notice.css";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Typography from "@material-ui/core/Typography";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
 
-import axios from 'axios';
+import {getFromStorage} from "../../utils/Storage";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
+
+import "../../css/shared/Notice.css";
+import Footer from "../shared/Footer";
+import Navbar from "../shared/Navbar";
+import Snackpop from "../shared/Snackpop";
+import axios from "axios";
+
+import {
+  Button,
+  Container,
+  Col,
+  Row,
+  FormControl,
+  FormGroup,
+} from "react-bootstrap";
+
 const backendURI = require("./BackendURI");
 
- class Notice extends Component {
+class Notice extends Component {
+  constructor(props) {
+    super(props);
 
-    // componentDidMount = async () => {
-    //     const authState = await verifyAuth();
-    //     this.setState({ authState: authState });
-    //     if (!authState || !localStorage.getItem("isAdmin"))
-    //       this.props.history.push("/");
-    //   };
+    this.state = {
+      //userType:"",
+      noticeTittle: "",
+      notice: "",
+      noticeAttachment: "",
+      date: "",
+      succesAlert: false,
+      deleteSuccesAlert: false,
+      warnAlert: false,
+      snackbaropen: false,
+      toViewType: true,
+      toCordinator: false,
+      toSupervisor: false,
+      toStudent: false,
+      snackbarmsg: "",
+      noticeType: "",
+      noticeList: [],
+    };
 
-    constructor(props) {
-      super(props)
+    this.onChangeTittle = this.onChangeTittle.bind(this);
+    this.onChangeNotice = this.onChangeNotice.bind(this);
+    this.onChangeFile = this.onChangeFile.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.getNoticeList = this.getNoticeList.bind(this);
+    this.onDeleteHandler = this.onDeleteHandler.bind(this);
+  }
 
-    
-      this.state = {
-          
-          //userType:"",
-          noticeTittle:"",
-          notice:"",
-          noticeAttachment: ""
-         
+  snackbarClose = (event) => {
+    this.setState({ snackbaropen: false });
+  };
+
+  componentDidMount() {
+    this.getNoticeList();
+
+    //console.log(localStorage)
+  }
+
+  // Notice get from database and map to the array
+  getNoticeList() {
+    axios.get(backendURI.url + "/notice/viewNotice").then((result) => {
+      if (result.data.length > 0) {
+        console.log(result.data);
+        this.setState({
+          noticeList: result.data.map((type) => type),
+        });
+      } else {
+        this.setState({
+          noticeList: [],
+        });
       }
+    });
+  }
 
-      this.onChangeTittle = this.onChangeTittle.bind(this)
-      this.onChangeNotice = this.onChangeNotice.bind(this)
-      this.onChangeFile = this.onChangeFile.bind(this)
-      this.onSubmit = this.onSubmit.bind(this)
-    }
+  onChangeTittle(e) {
+    this.setState({
+      noticeTittle: e.target.value,
+    });
+  }
 
-    onChangeTittle(e) {
-      this.setState({
-        noticeTittle: e.target.value,
-      });
-    }
+  onChangeNotice(e) {
+    this.setState({
+      notice: e.target.value,
+    });
+  }
 
-    onChangeNotice(e) {
-      this.setState({
-        notice: e.target.value,
-      });
-    }
+  onChangeFile(e) {
+    this.setState({
+      noticeAttachment: e.target.files[0],
+    });
+  }
 
-    onChangeFile(e) {
-      this.setState({
-        noticeAttachment: e.target.files[0],
-      });
-    }
+  // when press add notice button call this function then save data in database
+  onSubmit(e) {
+    e.preventDefault();
+    confirmAlert({
+      title: "Create Notice",
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            this.state.date = Date();
 
-    onSubmit(e){
-      e.preventDefault()
+            const userType = localStorage.getItem("user-level");
+            const userId = localStorage.getItem("auth-id");
 
-      const formData = new FormData()
-      formData.append('noticeTittle', this.state.noticeTittle);
-      formData.append('notice', this.state.notice);
-      formData.append('noticeAttachment', this.state.noticeAttachment);
-
-        
-      
-
-      axios.post(backendURI.url + "/notice/addNotice",formData)
-      .then(res=>{
-        console.log(res)
-      }).catch(error=>{
-        console.log(error)
-      })
-
-      this.setState({
-        noticeTittle:'',
-        notice:'',
-        noticeAttachment:''
-      })
+          
 
 
+            const formData = new FormData();
+            formData.append("userId",userId);
+            formData.append("userType",userType);
+            formData.append("noticeTittle", this.state.noticeTittle);
+            formData.append("notice", this.state.notice);
+            formData.append("date", this.state.date);
+            formData.append("noticeAttachment", this.state.noticeAttachment);
+            formData.append("toViewType", this.state.toViewType);
+            formData.append("toCordinator", this.state.toCordinator);
+            formData.append("toSupervisor", this.state.toSupervisor);
+            formData.append("toStudent", this.state.toStudent);
 
+            // form required set
+            if (
+              this.state.noticeTittle === "" ||
+              this.state.notice === "" ||
+              this.state.noticeAttachment === ""
+            ) {
+              this.setState({
+                snackbaropen: true,
+                snackbarmsg: "Please Fill the Form..!",
+              });
+            } else {
+              axios
+                .post(backendURI.url + "/notice/addNotice", formData)
+                .then((res) => {
+                  this.setState({
+                    succesAlert: true,
+                  });
+                  this.getNoticeList();
+                  console.log(res.data);
+                })
+                .catch((error) => {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: error,
+                  });
+                  console.log(error);
+                });
+            }
 
-    }
+            this.setState({
+              noticeTittle: "",
+              notice: "",
+              noticeAttachment: "",
+            });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  }
+
+  onDeleteHandler = (id, filePath) => {
+    console.log(filePath);
+    confirmAlert({
+      title: "Delete Notice",
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            axios
+              .delete(backendURI.url + "/notice/delteNotice/" + id)
+              .then((res) => {
+                this.setState({
+                  deleteSuccesAlert: true,
+                });
+                this.getNoticeList();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
+
+  closeAlert = () => {
+    this.setState({
+      succesAlert: false,
+      warnAlert: false,
+    });
+  };
 
   render() {
     return (
-       
-      <div className="container-fluid" style={{ backgroundColor: "#F8F9FA", minHeight: "700px" }}>
-        <div className="row">
-          <div className="container notice-card-div">
-            <Card className="notice-card">
-          
-            <h2 class="topic">Add Notice</h2>
-            <br></br>
+      <React.Fragment>
+        <Snackpop
+          msg={"Successfully Added"}
+          color={"success"}
+          time={3000}
+          status={this.state.succesAlert}
+          closeAlert={this.closeAlert}
+        />
 
-            <form onSubmit={this.onSubmit}>
+        <Snackpop
+          msg={"Deleted Successfully.."}
+          color={"success"}
+          time={1000}
+          status={this.state.deleteSuccesAlert}
+          closeAlert={this.closeAlert}
+        />
 
-            <div className="form-group">
-            <p style={{textalign: "left"}}>Notice Tittle :</p>
-            <input type="text" className="form-control"   placeholder="Enter Notice Tittle" value={this.state.noticeTittle} onChange={this.onChangeTittle}>
-            </input>
-            </div>
+        <Navbar panel={"admin"} />
 
-            <div className="form-group">
-            <p style={{textalign: "left"}}>Notice :</p>
-            <textarea type="text" className="form-control"   placeholder="Enter Notice" value={this.state.notice} onChange={this.onChangeNotice}>
-            </textarea>
-            </div>
+        <div
+          className="container-fluid container-fluid-div"
+          style={{ backgroundColor: "rgb(252, 252, 252)" }}
+        >
+          <Snackbar
+            open={this.state.snackbaropen}
+            autoHideDuration={2000}
+            onClose={this.snackbarClose}
+            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="secondary"
+                onClick={this.snackbarClose}
+              >
+                {" "}
+                x{" "}
+              </IconButton>,
+            ]}
+          />
 
-            
-            <div className="form-group">
-            <p style={{textalign: "left"}}>File Attach :</p>
-            <input type="file" name="noticeAttachment" className="form-control"   onChange={this.onChangeFile}/>
-            </div>
-            
+          <Row>
+            <Col>
+              <Container>
+                <div
+                  className="card"
+                  style={{
+                    width: "80%",
+                    margin: "auto",
+                    marginTop: "40px",
+                    marginBottom: "40px",
+                    paddingLeft: "2%",
+                    paddingRight: "2%",
+                  }}
+                >
+                  <div className="container">
+                    <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
 
-            <button type="submit" className="btn btn-primary btn-sm btn-style ">Uploard</button>
-            
-            </form>
-             
-            </Card>
-          </div>
+                    <Row className="margin-top-30">
+                      <Col>
+                        <label className="verticle-align-middle cp-text">
+                          Notice Tittle :{" "}
+                        </label>
+                        <FormControl
+                          type="text"
+                          style={{ width: "100%" }}
+                          placeholder="Notice Tittle"
+                          value={this.state.noticeTittle}
+                          onChange={this.onChangeTittle}
+                        ></FormControl>
+                      </Col>
+                    </Row>
+
+                    <Row className="margin-top-30">
+                      <Col>
+                        <div className="form-group">
+                          <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                            Notice :
+                          </p>
+                          <textarea
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Notice"
+                            value={this.state.notice}
+                            onChange={this.onChangeNotice}
+                          ></textarea>
+                        </div>
+                      </Col>
+                    </Row>
+
+                    <Row className="margin-top-30">
+                      <Col md={4} className="form-control-label ">
+                        <FormControlLabel
+                          className="form-control-label"
+                          control={
+                            <Checkbox
+                              fontSize="5px"
+                              checked={this.state.toViewType}
+                              onChange={() => {
+                                this.setState({
+                                  toViewType: !this.state.toViewType,
+                                });
+                              }}
+                              name="checkedB"
+                              color="default"
+                            />
+                          }
+                          label={
+                            <span
+                              style={{ fontSize: "14px", color: "#6d6d6d" }}
+                            >
+                              To View
+                            </span>
+                          }
+                        />
+                      </Col>
+                      <Col className="col-padding-5">
+                        {this.state.toViewType && (
+                          <FormControlLabel
+                            className="form-control-label"
+                            control={
+                              <Checkbox
+                                fontSize="5px"
+                                checked={this.state.toCordinator}
+                                onChange={() => {
+                                  this.setState({
+                                    toCordinator: !this.state.toCordinator,
+                                  });
+                                }}
+                                name="checkedB"
+                                color="default"
+                              />
+                            }
+                            label={
+                              <span style={{ fontSize: "12px" }}>
+                                Cordinators
+                              </span>
+                            }
+                          />
+                        )}
+                      </Col>
+                      <Col className="col-padding-5">
+                        {this.state.toViewType && (
+                          <FormControlLabel
+                            className="form-control-label"
+                            control={
+                              <Checkbox
+                                fontSize="5px"
+                                checked={this.state.toSupervisor}
+                                onChange={() => {
+                                  this.setState({
+                                    toSupervisor: !this.state.toSupervisor,
+                                  });
+                                }}
+                                name="checkedB"
+                                color="default"
+                              />
+                            }
+                            label={
+                              <span style={{ fontSize: "12px" }}>
+                                Supervisors
+                              </span>
+                            }
+                          />
+                        )}
+                      </Col>
+                      <Col className="col-padding-5">
+                        {this.state.toViewType && (
+                          <FormControlLabel
+                            className="form-control-label"
+                            control={
+                              <Checkbox
+                                fontSize="5px"
+                                checked={this.state.toStudent}
+                                onChange={() => {
+                                  this.setState({
+                                    toStudent: !this.state.toStudent,
+                                  });
+                                }}
+                                name="checkedB"
+                                color="default"
+                              />
+                            }
+                            label={
+                              <span style={{ fontSize: "12px" }}>Studentd</span>
+                            }
+                          />
+                        )}
+                      </Col>
+                    </Row>
+                    <Row className="margin-top-30">
+                      <Col>
+                        <label className="verticle-align-middle cp-text">
+                          File Attach :{" "}
+                        </label>
+                        <FormGroup>
+                          <input
+                            type="file"
+                            name="noticeAttachment"
+                            id="exampleFile"
+                            onChange={this.onChangeFile}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+
+                    <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
+                      <Button
+                        type="submit"
+                        className="cp-btn"
+                        variant="info"
+                        onClick={this.onSubmit}
+                      >
+                        Add Notice
+                      </Button>
+                    </Row>
+                  </div>
+                </div>
+
+                {this.state.noticeList.length > 0 && (
+                  <div>
+                    <h3>Notice View </h3>
+                    <div>
+                      {this.state.noticeList.map((type) => {
+                        return (
+                          <Card
+                            key={type._id}
+                            style={{ marginTop: "10px", marginBottom: "10px" }}
+                          >
+                            <CardContent style={{ paddingBottom: "2px" }}>
+                              <h6>{type.noticeTittle}</h6>
+                            </CardContent>
+                            <h8
+                              style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                            >
+                              {type.date}
+                            </h8>
+                            <CardContent style={{ paddingTop: "2px" }}>
+                              <Typography variant="body1" component="p">
+                                {type.notice}
+                              </Typography>
+                            </CardContent>
+
+                            <CardContent
+                              style={{
+                                paddingBottom: "2px",
+                                paddingTop: "1px",
+                              }}
+                            >
+                              <a
+                                href={
+                                  "http://localhost:4000/notice/noticeAttachment/" +
+                                  type.filePath
+                                }
+                              >
+                                Attachment
+                              </a>
+                            </CardContent>
+
+                            <CardActions>
+                              <Button
+                                size="small"
+                                variant="outline-danger"
+                                style={{ width: "20%" }}
+                                onClick={() =>
+                                  this.onDeleteHandler(type._id, type.filepath)
+                                }
+                              >
+                                Delete
+                              </Button>
+                            </CardActions>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </Container>
+            </Col>
+          </Row>
         </div>
-      </div>
-    )
+        <Footer />
+      </React.Fragment>
+    );
   }
 }
 
-export default Notice
+export default Notice;
