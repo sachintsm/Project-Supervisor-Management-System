@@ -16,8 +16,6 @@ import ProjectTypes from './components/admin/ProjectTypes';
 import Footer from "./components/shared/Footer"
 import Profile from "./components/shared/Profile";
 
-//app.use('../../backend/local_storage/profile_Images',express.static('uploads'));
-
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
 
@@ -28,6 +26,7 @@ import StudentHome from './components/student/StudentHome';
 import Notice from './components/shared/Notice'
 
 require('dotenv').config();
+
 
 function App() {
   return (

@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
 const multer = require('multer');
+var path = require('path');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -328,57 +329,60 @@ router.post('/update/:id',function(req,res){
   });
 });
 
-////////////////get user profile
+////////////////get user profile pic
 router.get("/profileImage/:filename", function (req, res) {
-  const filename = req.params.filename;
+  console.log(req.params.filename)
+   const filename = req.params.filename;
   console.log(filename)
-  res.sendFile(path.join(__dirname, 'local_storage/profile_Images/' + filename));
+  res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
+
 });
 
-////update user profile
-router.post('/uploadmulter/:id',function(req,res){
+
+////update user profile pic
+router.post('/uploadmulter/:id',async function(req,res){
   let id = req.params.id;
   console.log(id);
-  User.findById({_id:id}, function(err,user){
-      if(err)
-          res.status(404).send("data is not found");
-      else{
-        user.imageName = req.body.name;
-        user.save().then(user => {
-          res.json('Update Complete');
-      })
-          .catch(err => {
-              res.status(400).send("unable to update database");
-          });
-     /* upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json(err)
-        } else if (err) {
-            return res.status(500).json(err)
-        }
-   return res.status(200).send(req.file)
 
-      })*/
-      /*upload(req, res, (err) = async () => {
-          console.log(req.body);
-          const newImage = new Img({
-              imageName: req.body.imageName,
-              imageData: req.file.path
-          });
-          newImage.save().then((result)=>{
-              console.log(result);
-              res.status(200).json({
-                  success:true,
-                  document:result
-              });
-          })
-          .catch((err) => next(err));
-      })*/
+  const userIdExists = await User.findOne({ _id: id });
+    console.log(userIdExists);
+  if (userIdExists) {console.log("true")
+  upload(req, res, (err) = async () => {
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+
+    var fullPath = time + '-' + req.file.originalname;
+    console.log(fullPath);
+    User.findById({_id:id}, function(err,user){
+      if(err){
+      res.status(404).send("data is not found");
       }
-  });
+      else{
+      user.imageName= fullPath
+      user.save()
+        .then((req) => {
+          res.json({
+            state: true,
+            msg: "Update profile picture!",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            state: false,
+            msg: "Update Unsuccessfull..!",
+          });
+        });
+      }
+    })   
+    
+  })
+  }
+
 });
 
-//reset password
+//reset password using profile
 router.post('/reset/:id', function (req, res) {
   const oldPassword = req.body.currentPw
   var newPassword = req.body.newPw
