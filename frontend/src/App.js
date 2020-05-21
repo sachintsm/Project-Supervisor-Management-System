@@ -18,6 +18,7 @@ import Profile from "./components/shared/Profile";
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
+import ProjectGroups from './components/coordinator/ProjectGroups'
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 
@@ -49,7 +50,7 @@ function App() {
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
-          
+          <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>          
 
           {/* ==================================================================== */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
