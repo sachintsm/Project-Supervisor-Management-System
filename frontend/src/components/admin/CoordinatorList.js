@@ -7,15 +7,26 @@ class CoordinatorList extends Component {
 
     constructor(props){
         super(props);
-
         this.state = {
-            supervisorIdList: this.props.idList,
-            supervisorNameList: []
+            supervisorIdList: this.props.idList.coordinatorList,
+            supervisorNameList: [],
+            props: props
         }
 
     }
+
+
     componentDidMount() {
 
+        this.getSupervisorList()
+    }
+
+    getSupervisorList() {
+
+        this.setState({
+            supervisorIdList: this.props.idList,
+            supervisorNameList: []
+        })
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
         }
@@ -30,6 +41,7 @@ class CoordinatorList extends Component {
             })
         })
     }
+
 
     render() {
         return (
