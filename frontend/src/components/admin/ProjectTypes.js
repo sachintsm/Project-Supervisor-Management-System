@@ -10,6 +10,8 @@ import axios from 'axios';
 import Snackpop from '../shared/Snackpop';
 // import MuiAlert from '@material-ui/lab/Alert';
 import Footer from '../shared/Footer';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Create from '@material-ui/icons/Create';
 // import YearPicker from 'react-year-picker';
 import {
   Button,
@@ -126,6 +128,7 @@ class ProjectTypes extends Component {
                   componentType: "add",
                   title: 'Add New Project Category',
                 })
+                this.getCategoryList()
               }
             }
 
@@ -447,13 +450,11 @@ class ProjectTypes extends Component {
                                 {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
                                 {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
                               <td style={{ verticalAlign: 'middle' }}><Row>
-                                <Col><Button style={{ width: '100%' }} onClick={() => this.onEditHandler(type)} variant="outline-info">Edit</Button></Col>
-                                <Col><Button style={{ width: '100%' }} onClick={() => this.onDeleteHandler(type._id)} variant="outline-danger">Delete</Button></Col>
+                                <Col><Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(type)}/></Col>
+                                <Col><DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} /></Col>
                               </Row>
                               </td>
                             </tr>
-
-
                             )
                           })}
                         </tbody>

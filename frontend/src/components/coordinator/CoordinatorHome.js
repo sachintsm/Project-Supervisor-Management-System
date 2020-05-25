@@ -4,12 +4,15 @@ import Navbar from "../shared/Navbar";
 
 class CoordinatorHome extends Component {
   componentDidMount = async () => {
+    localStorage.setItem("user-level","coordinator")
+
     const authState = await verifyAuth();
     this.setState({ authState: authState });
     if (!authState || !localStorage.getItem("isCoordinator"))
       this.props.history.push("/");
   };
   render() {
+    console.log(localStorage)
     return (
       <React.Fragment>
         <Navbar panel={"coordinator"} />
