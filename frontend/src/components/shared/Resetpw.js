@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
+import { confirmAlert } from 'react-confirm-alert';
 import '../../css/shared/Profile.css';
 
 const backendURI = require("./BackendURI");
@@ -64,40 +65,65 @@ export default class Resetpw extends Component {
         console.log(userData.id);
         const isValid = this.validate();
         if(isValid){
-        const obj = {
-            currentPw: this.state.currentPw,
-            newPw: this.state.newPw
-         };
-        console.log(obj);
-        this.setState({
-            conError:'',
-            newPw:'',
-            currentPw:'',
-            conNewPw:''
-        });
-        axios.post(backendURI.url + '/users/reset/'+userData.id, obj)
-        .then(res => {
-            console.log(res.data);
-            if(! res.data.state){
-            alert("Your current password is invalid");
-            }
-            else{
-                alert("Password change successfully");
-            }
-        }
-        )
-        .catch(error => {
-            console.log(error)
-            alert("Your Current Password is invalid");
-        })
+            confirmAlert({
+                title: 'Confirm to submit',
+                message: 'Are you sure to do this.',
+                buttons: [
+                  {
+                    label: 'Yes',
+                    onClick: () => {
+                       
+                        const obj = {
+                            currentPw: this.state.currentPw,
+                            newPw: this.state.newPw
+                         };
+                        console.log(obj);
+                        this.setState({
+                            conError:'',
+                            newPw:'',
+                            currentPw:'',
+                            conNewPw:''
+                        });
+                        axios.post(backendURI.url + '/users/reset/'+userData.id, obj)
+                        .then(res => {
+                            console.log(res.data);
+                            if(! res.data.state){
+                            alert("Your current password is invalid");
+                            }
+                            else{
+                                alert("Password change successfully");
+                            }
+                        }
+                        )
+                        .catch(error => {
+                            console.log(error)
+                            alert("Your Current Password is invalid");
+                        })
+                      
+                       
+                    }
+                  },
+                  {
+                    label: 'No',
+                    onClick: () => {
+                        this.setState({
+                            newPw:'',
+                            currentPw:'',
+                            conNewPw:''
+                        });
+                    }
+                  }
+                ]
+              })
+        
         }
        
     }
 
 
-    render() {
+render() {
         const {isPasswordShown}= this.state;
-        return(
+    return(
         <div>
             <div className="card" style={{width: 550}}>
                 <div className="card-body px-lg-5">
@@ -140,12 +166,5 @@ export default class Resetpw extends Component {
             </div>
         </div>
 
-        )}
-
-
-
-
-
-
-
+    )}
 }
