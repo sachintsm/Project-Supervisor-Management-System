@@ -46,6 +46,9 @@ export default class Profile extends Component {
                     mobile: response.data.data[0].mobile,
                     birthday: response.data.data[0].birthday,
                     stu:response.data.data[0].isStudent,
+                    admin:response.data.data[0].isAdmin,
+                    sup:response.data.data[0].isSupervisor,       
+                    cor:response.data.data[0].isCoordinator,                
                     indexNum:response.data.data[0].indexNumber,
                     regNum:response.data.data[0].regNumber
                 })
@@ -78,6 +81,9 @@ export default class Profile extends Component {
             indexNum:'',
             regNum:'',
             stu:false,
+            admin:false,
+            sup:false,       
+            cor:false, 
             emailError:'',
             mobileError:''
 
@@ -195,7 +201,11 @@ export default class Profile extends Component {
     render() {
         return(
             <div style={{ backgroundColor: "#f5f5f5"}}>
-                <Navbar/>
+            {this.state.admin === true ? 
+                (<Navbar panel={"admin"}/>):(this.state.stu === true ?
+                    (<Navbar panel={"student"}/>):(this.state.sup === true ?
+                        (<Navbar panel={"supervisor"}/>):(<Navbar panel={"coordinator"}/>)))}
+               
                     <div>
                         <Row>
                             <Col xs="4" style={{ marginTop: "190px" }}><Profilepic/></Col>

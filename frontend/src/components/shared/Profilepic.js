@@ -50,6 +50,10 @@ export default class Profilepic extends Component {
 
     onFormSubmit(e){
         e.preventDefault();
+        if(!this.state.form.file){
+            alert("Please select a picture.");
+        }
+        else{
         const userData = getFromStorage('auth-id')
         let formData= new FormData();
         formData.append('profileImage', this.state.form.file);
@@ -59,6 +63,7 @@ export default class Profilepic extends Component {
                console.log(response);
             }).catch((error) => {
         });
+        }
     }
     onChangeP(e) {
         console.log(e.target.files[0].name);
