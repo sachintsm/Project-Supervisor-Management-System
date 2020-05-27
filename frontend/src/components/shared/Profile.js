@@ -204,7 +204,8 @@ export default class Profile extends Component {
             {this.state.admin === true ? 
                 (<Navbar panel={"admin"}/>):(this.state.stu === true ?
                     (<Navbar panel={"student"}/>):(this.state.sup === true ?
-                        (<Navbar panel={"supervisor"}/>):(<Navbar panel={"coordinator"}/>)))}
+                        (<Navbar panel={"supervisor"}/>):(this.state.cor === true ?
+                            (<Navbar panel={"coordinator"}/>):null)))}
                
                     <div>
                         <Row>
