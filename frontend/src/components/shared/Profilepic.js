@@ -3,6 +3,7 @@ import { verifyAuth } from "../../utils/Authentication";
 import '../../css/shared/Profile.css';
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
+import { confirmAlert } from 'react-confirm-alert';
 
 
 const backendURI = require("./BackendURI");
@@ -23,7 +24,7 @@ export default class Profilepic extends Component {
                 console.log(response);
                 console.log(response.data.data[0].imageName);
                 this.setState({
-                    multerImage:response.data.data[0].imageName,
+                    mulImage:response.data.data[0].imageName,
                     username:response.data.data[0].firstName
                 })
             })
@@ -42,7 +43,8 @@ export default class Profilepic extends Component {
             form:{
             multerImage:'',
             },
-            username:''  
+            username:'',
+            mulImage:'' 
         }
     }
 
@@ -54,15 +56,34 @@ export default class Profilepic extends Component {
             alert("Please select a picture.");
         }
         else{
-        const userData = getFromStorage('auth-id')
-        let formData= new FormData();
-        formData.append('profileImage', this.state.form.file);
-       console.log( formData);
-        axios.post(backendURI.url +'/users/uploadmulter/'+ userData.id , formData)
-            .then((response) => {
-               console.log(response);
-            }).catch((error) => {
-        });
+            confirmAlert({
+                title: 'Confirm to submit',
+                message: 'Are you sure to do this.',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: () => {
+                            const userData = getFromStorage('auth-id')
+                            let formData= new FormData();
+                            formData.append('profileImage', this.state.form.file);
+                            console.log( formData);
+                            axios.post(backendURI.url +'/users/uploadmulter/'+ userData.id , formData)
+                                .then((response) => {
+                                console.log(response);
+                                }).catch((error) => {
+                            });
+                            window.location.reload(false);
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+                            window.location.reload(false);
+                        }
+                    }
+                ]
+            })
+        
         }
     }
     onChangeP(e) {
@@ -82,7 +103,7 @@ export default class Profilepic extends Component {
                 <div>
                     <div className="card testimonial-card"  style={{width: 420,height:250,backgroundColor: '#263238'}}>
                     <div className="card-body" style={{height:200}}>
-                        <img src={("http://localhost:4000/users/profileImage/"+this.state.multerImage)} className="avatar"alt="" />
+                        <img src={("http://localhost:4000/users/profileImage/"+this.state.mulImage)} className="avatar"alt="" />
                         <br></br>
                         <h3 className="card-title" style={{ color: 'white' }}>{this.state.username}</h3>
                         </div>
@@ -92,7 +113,7 @@ export default class Profilepic extends Component {
                             <div className="form-group">
                                 <form onSubmit={this.onFormSubmit}>
                                     <input type="file" className="myImage" name="Image" onChange= {this.onChangeP} />
-                                    <button type="submit"  onClick={() => window.location.reload(false)} className="btn btn-primary">Upload</button>
+                                    <button type="submit"  className="btn btn-primary">Upload</button>
                                 </form>
                             </div>
                         </div>
