@@ -436,7 +436,7 @@ class ProjectTypes extends Component {
                           <tr>
                             <th>Project Type</th>
                             <th>Academic Years</th>
-                            <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
+                            <th style={{ width: '20%', }}>Operations</th>
                           </tr>
                         </thead>
                         <tbody>

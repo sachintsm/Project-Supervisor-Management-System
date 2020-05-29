@@ -109,38 +109,41 @@ export default class navbar extends Component {
               &nbsp; &nbsp; &nbsp;
 
               {/* =============================== Admin Panel================================ */}
-              {this.state.panel === 'admin' && (
-                <MDBNavItem>
-                  <Nav.Link  className="padding-zero"  href='/adminhome/viewusers'>Users</Nav.Link>
-                </MDBNavItem>
+              {this.state.panel==='admin' && (
+
+                  <MDBDropdown>
+                    <MDBDropdownToggle nav caret>
+                      <span className='mr-2'>Users</span>
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                      <MDBDropdownItem href='/adminhome/viewusers'>Manage Users</MDBDropdownItem>
+                      <MDBDropdownItem href='/adminhome/registration'>User Registrations</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
               )}
               &nbsp; &nbsp; &nbsp;
-              {this.state.panel === 'admin' && (
-                <MDBNavItem>
-                  <Nav.Link  className="padding-zero"   href='/adminhome/registration'>Registration</Nav.Link>
-                </MDBNavItem>
+
+              {this.state.panel==='admin' && (
+
+                  <MDBDropdown>
+                    <MDBDropdownToggle nav caret>
+                      <span className='mr-2'>Projects</span>
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+
+                      <MDBDropdownItem href='/adminhome/projecttypes'>Project Categories</MDBDropdownItem>
+                      <MDBDropdownItem href='/adminhome/createproject'>Projects</MDBDropdownItem>
+
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
               )}
+
               &nbsp; &nbsp; &nbsp;
-              {this.state.panel === 'admin' && (
-                <MDBNavItem>
-                  <Nav.Link  className="padding-zero"   href='/adminhome/createproject'>
-                    Create Project
-                  </Nav.Link>
-                </MDBNavItem>
-              )}
-              &nbsp; &nbsp; &nbsp;
-              {this.state.panel === 'admin' && (
-                <MDBNavItem >
-                  <Nav.Link  className="padding-zero"   href='/adminhome/projecttypes'>
-                    Project Categories
-                  </Nav.Link>
-                </MDBNavItem>
-              )}
-              &nbsp; &nbsp; &nbsp;
+
               {this.state.panel === 'admin' && (
                 <MDBNavItem>
                   <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                    Create Notice
+                    Notices
                   </Nav.Link>
                 </MDBNavItem>
               )}

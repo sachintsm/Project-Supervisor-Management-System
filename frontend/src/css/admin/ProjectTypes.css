@@ -7,24 +7,17 @@
 }
 .card-div-1 {
   margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 50px !important;
+  margin-bottom: 50px  !important;
   width: 70%;
-  padding-top: 30px;
-  padding-left: 60px;
-  padding-right: 60px;
-  padding-bottom: 30px;
+  padding: 30px 60px;
 }
 
 .card-div-2 {
   margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 50px  !important;
   width: 90%;
-  padding-top: 30px;
-  padding-left: 60px;
-  padding-right: 60px;
-  padding-bottom: 30px;
+  padding: 30px 60px;
 }
 
 .verticle-align-middle {

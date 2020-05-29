@@ -554,7 +554,7 @@ class CreateProject extends Component {
                     <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
                       <Row>
                         <p className="cp-text">
-                          Assign Supervisors into the Project
+                          Assign Coordinators into the Project
                         </p>
                       </Row>
                       <Col md={12}>
@@ -613,7 +613,7 @@ class CreateProject extends Component {
                               <th >Project Year</th>
                               <th >Project Type</th>
                               <th >Academic Year</th>
-                              <th >Supervisors</th>
+                              <th >Coordinators</th>
                               <th >State</th>
                               <th style={{ width: '20%', textAlign: "center" }}>Operations</th>
                             </tr>
