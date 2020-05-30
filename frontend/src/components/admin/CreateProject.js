@@ -8,6 +8,8 @@ import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, Table, Contain
 import Snackpop from "../shared/Snackpop";
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from 'react-confirm-alert';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Create from '@material-ui/icons/Create';
 import CoordinatorList from "./CoordinatorList";
 
 const backendURI = require('../shared/BackendURI');
@@ -88,25 +90,24 @@ class CreateProject extends Component {
 
   }
 
-  componentDidUpdate() {
-
-    const headers = {
-      'auth-token':getFromStorage('auth-token').token,
-    }
-    axios
-        .get(backendURI.url + '/users/stafflist',{headers: headers})
-        .then((result) => {
-          if (result.data.length > 0) {
-            this.setState({
-              staffList: result.data.map((user) => user),
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  }
-
+  // componentDidUpdate() {
+  //
+  //   const headers = {
+  //     'auth-token':getFromStorage('auth-token').token,
+  //   }
+  //   axios
+  //       .get(backendURI.url + '/users/stafflist',{headers: headers})
+  //       .then((result) => {
+  //         if (result.data.length > 0) {
+  //           this.setState({
+  //             staffList: result.data.map((user) => user),
+  //           });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  // }
 
   onCreateProject(){
 
@@ -148,17 +149,15 @@ class CreateProject extends Component {
               }
 
               if(this.state.componentType==='edit'){
-                console.log(this.state)
                 axios.patch(backendURI.url + '/projects/' + this.state.id, this.state,{headers: headers}).then(res => {
                 }).catch(err => {
                   console.log(err)
                 })
+
                 window.location.reload(false);
 
                 this.setState({
                   editAlert: true,
-                  componentType: "add",
-                  title: 'Creating New Project',
                 })
               }
 
@@ -258,7 +257,7 @@ class CreateProject extends Component {
   }
 
   setSelected(obj) {
-    console.log(obj)
+    // console.log(obj)
     this.setState({
       selectedStaffList: obj,
     });
@@ -274,7 +273,7 @@ class CreateProject extends Component {
     });
   }
   onChangeType(typeIndex) {
-    console.log(typeIndex)
+    // console.log(typeIndex)
     this.setState({
       type: this.state.projectTypeList[typeIndex].projectType,
       selectedTypeIndex: typeIndex
@@ -334,13 +333,17 @@ class CreateProject extends Component {
   }
 
   onEditHandler = (project) => {
-    console.log(project)
+    // console.log(project)
     this.state.projectTypeList.map((type,index)=>{
       if(type.projectType===project.projectType){
         this.setState({
           selectedTypeIndex: index
         })
       }
+    })
+
+    this.setState({
+      selectedStaffList: []
     })
 
     project.coordinatorList.map(id=>{
@@ -350,7 +353,7 @@ class CreateProject extends Component {
         'auth-token':getFromStorage('auth-token').token,
       }
       axios.get(backendURI.url+'/users/stafflist/'+id, {headers: headers}).then(res=>{
-        console.log(res)
+        // console.log(res)
         if(res.data){
           const name = res.data.firstName+" "+res.data.lastName
           const array = {
@@ -388,6 +391,7 @@ class CreateProject extends Component {
   closeAlert = () => {
     this.setState({
       successAlert: false,
+      editAlert: false,
       warnAlert: false,
       typeWarnAlert: false
     });
@@ -414,6 +418,14 @@ class CreateProject extends Component {
           />
 
           <Snackpop
+              msg={'Edited Successfully'}
+              color={'success'}
+              time={3000}
+              status={this.state.editAlert}
+              closeAlert={this.closeAlert}
+          />
+
+          <Snackpop
               msg={'Please Assign Coordinators'}
               color={'error'}
               time={3000}
@@ -433,13 +445,13 @@ class CreateProject extends Component {
           <div className="container-fluid container-fluid-di">
             <Row >
               <Col>
-                <Container>
+                <Container className="zero-margin zero-padding">
 
                   <div className="card card-1" >
 
                     <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="12" xs="12">
                         <Row>
                           <p className="cp-text">
                             Year of the Project
@@ -462,9 +474,9 @@ class CreateProject extends Component {
                         </Row>
 
                       </Col>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="12" xs="12">
                         <Row>
-                          <p className="cp-text">
+                          <p className="cp-text cp-text2">
                             Project Type
                           </p>
                         </Row>
@@ -500,9 +512,9 @@ class CreateProject extends Component {
                         </Row>
                       </Col>
                       {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                          <Col xs="4">
+                          <Col  lg="4" md="4" sm="12" xs="12" >
                             <Row>
-                              <p className="cp-text">
+                              <p className="cp-text cp-text2">
                                 Academic Year
                               </p>
                             </Row>
@@ -542,7 +554,7 @@ class CreateProject extends Component {
                     <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
                       <Row>
                         <p className="cp-text">
-                          Assign Supervisors into the Project
+                          Assign Coordinators into the Project
                         </p>
                       </Row>
                       <Col md={12}>
@@ -601,7 +613,7 @@ class CreateProject extends Component {
                               <th >Project Year</th>
                               <th >Project Type</th>
                               <th >Academic Year</th>
-                              <th >Supervisors</th>
+                              <th >Coordinators</th>
                               <th >State</th>
                               <th style={{ width: '20%', textAlign: "center" }}>Operations</th>
                             </tr>
@@ -612,13 +624,17 @@ class CreateProject extends Component {
                                     <td style={{ verticalAlign: 'middle' }}>{project.projectYear}</td>
                                     <td style={{ verticalAlign: 'middle' }}>{project.projectType}</td>
                                     <td style={{ verticalAlign: 'middle' }}>{project.academicYear?project.academicYear: '-'}</td>
-                                    <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project.coordinatorList}/></td>
+                                    <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project}/></td>
                                     {project.projectState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Active</td>}
                                     {!project.projectState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Ended</td>}
 
                                     <td style={{ verticalAlign: 'middle' }}><Row>
-                                      <Col style={{  textAlign:"end"}}><Button style={{ width: '80%' }} onClick={() => this.onEditHandler(project)} variant="outline-info">Edit</Button></Col>
-                                      <Col><Button style={{ width: '80%' }} onClick={() => this.onDeleteHandler(project._id)} variant="outline-danger">Delete</Button></Col>
+                                      <Col style={{  textAlign:"end"}}>
+                                        <Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(project)} />
+                                      </Col>
+                                      <Col>
+                                        <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() =>this.onDeleteHandler(project._id)} />
+                                      </Col>
                                     </Row></td>
                                   </tr>
 

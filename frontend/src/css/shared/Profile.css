@@ -1,0 +1,36 @@
+
+.form-group{
+    margin: 0 auto; 
+    float: none; 
+    margin-bottom: 10px;  
+}
+.password-icon{
+    cursor:pointer;
+}
+.card-body{
+    margin: 0 auto; 
+    float: none; 
+    margin-bottom: 10px;
+}
+.avatar {
+    vertical-align: middle;
+    width: 110px;
+    height: 120px;
+    border-radius: 50%;
+  }
+  .tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+}
+.main-div {
+    height: 100%;
+}
+.reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+}

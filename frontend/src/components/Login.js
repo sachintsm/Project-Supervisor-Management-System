@@ -113,19 +113,17 @@ export default class login extends Component {
   render() {
     return (
       <div
-        className='container-fluid'
+        className='container-fluid login-page'
         style={{
           backgroundColor: '#F8F9FA',
-          minHeight: '900px',
+
+          verticalAlign: 'middle',
           backgroundImage: `url(${require('../assets/backgrounds/background.jpg')})`,
-          backgroundPosition: 'fixed',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
         }}
       >
         <ToastContainer hideProgressBar={true} transition={Slide} />
-        <div className='row'>
-          <div className='container login-card-div col-md-9'>
+        <div className='row vertical-center'>
+          <div className='container login-card-div col-md-5 col-sm-11 col-xs-11 col-lg-5'>
             <Card className='login-card'>
               <div style={{ textAlign: 'center' }}>
                 <img
@@ -168,16 +166,16 @@ export default class login extends Component {
                   </InputGroup>
                 </FormGroup>
                 <div className='row' style={{ marginTop: '50px' }}>
-                  <div className='col-md-6' style={{ textAlign: 'center' }}>
-                    <Button variant='outline-dark' style={{ width: '90%' }}>
-                      Forget Password
-                    </Button>
-                  </div>
-                  <div className='col-md-6' style={{ textAlign: 'center' }}>
+                  {/*<div className='col-md-6 col-sm-12' style={{ textAlign: 'center' }}>*/}
+                  {/*  <Button variant='outline-dark' style={{ width: '90%' }}>*/}
+                  {/*    Forget Password*/}
+                  {/*  </Button>*/}
+                  {/*</div>*/}
+                  <div className='col-md-12 col-sm-12' style={{ textAlign: 'center' }}>
                     <Button
                       variant='dark'
-                      style={{ width: '90%' }}
-                      onClick={this.onSignIn}
+                      style={{ width: '90%' , cursor: 'pointer'}}
+                      onClick={() => this.onSignIn()}
                     >
                       Login
                     </Button>
