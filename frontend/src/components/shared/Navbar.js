@@ -61,24 +61,15 @@ export default class navbar extends Component {
     }
     return (
       <Router>
-        <MDBNavbar
-          color='special-color-dark'
-          // #263238
-          dark
-          expand='md'
-          className='navbar'
-        >
+        {/*#263238 => NAVBAR color*/ }
+        <MDBNavbar color='special-color-dark' dark  expand='md' className='navbar'   >
           <MDBNavbarBrand>
-            {/* eslint-disable-next-line */}
-            <img
-              style={{ width: '12%' }}
-              src={require('../../assets/logo/Logo_white.png')}
-            />
+            <img style={{ width: '5rem' }}  src={require('../../assets/logo/Logo_white.png')} />
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
-            <MDBNavbarNav right>
-              <MDBNavItem>
+            <MDBNavbarNav className='navbar-nav' right>
+              <MDBNavItem className="mr-4">
                 {this.state.panel === 'admin' ? (
                   <Nav.Link href='/adminhome'>Home</Nav.Link>
                 ) : null}
@@ -92,26 +83,24 @@ export default class navbar extends Component {
                   <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
                 ) : null}
               </MDBNavItem>
-              &nbsp; &nbsp; &nbsp;
 
               {/* =============================== Coordinator Panel================================ */}
               {this.state.panel === 'coordinator' && (
-                <MDBNavItem>
+                <MDBNavItem className="mr-4">
                   <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp;
+              {/*&nbsp; &nbsp; &nbsp;*/}
               {this.state.panel === 'coordinator' && (
-                <MDBNavItem>
+                <MDBNavItem className="mr-4">
                   <Nav.Link href='/coordinatorhome/projectGroups'>Project Groups</Nav.Link>
                 </MDBNavItem>
               )}
-              &nbsp; &nbsp; &nbsp;
 
               {/* =============================== Admin Panel================================ */}
               {this.state.panel==='admin' && (
 
-                  <MDBDropdown>
+                  <MDBDropdown className="mr-4">
                     <MDBDropdownToggle nav caret>
                       <span className='mr-2'>Users</span>
                     </MDBDropdownToggle>
@@ -121,11 +110,10 @@ export default class navbar extends Component {
                     </MDBDropdownMenu>
                   </MDBDropdown>
               )}
-              &nbsp; &nbsp; &nbsp;
 
               {this.state.panel==='admin' && (
 
-                  <MDBDropdown>
+                  <MDBDropdown className="mr-4">
                     <MDBDropdownToggle nav caret>
                       <span className='mr-2'>Projects</span>
                     </MDBDropdownToggle>
@@ -138,18 +126,17 @@ export default class navbar extends Component {
                   </MDBDropdown>
               )}
 
-              &nbsp; &nbsp; &nbsp;
 
               {this.state.panel === 'admin' && (
-                <MDBNavItem>
+                <MDBNavItem className="mr-4">
                   <Nav.Link  className="padding-zero"   href='/shared/notice'>
                     Notices
                   </Nav.Link>
                 </MDBNavItem>
               )}
               {/* ========================================================================= */}
-              &nbsp; &nbsp; &nbsp;
-              <MDBNavItem>
+
+              <MDBNavItem className="mr-4">
                 {this.state.isCoordinator ||
                   this.state.isSupervisor ||
                   this.state.isAdmin ? (
@@ -225,12 +212,9 @@ export default class navbar extends Component {
                     <Nav.Link   className="padding-zero"   href='/profile'>Profile</Nav.Link>
                   )}
               </MDBNavItem>
-              &nbsp; &nbsp; &nbsp;
               <MDBNavItem>
                 <Nav.Link   className="padding-zero"  onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
-
-              
 
             </MDBNavbarNav>
           </MDBCollapse>

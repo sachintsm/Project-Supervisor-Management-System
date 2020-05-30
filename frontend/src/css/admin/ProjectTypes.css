@@ -2,6 +2,7 @@
   background-color: #f5f5f5;
 }
 
+
 .cp-text {
   color: rgb(129, 129, 129);
 }
@@ -11,6 +12,10 @@
   margin-bottom: 50px  !important;
   width: 70%;
   padding: 30px 60px;
+}
+
+.mt-30{
+  margin-top: 30px;
 }
 
 .card-div-2 {
@@ -52,3 +57,72 @@
 .col-padding-5{
   padding: 0px 5px !important;
 }
+
+@media only screen and (max-width: 1200px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 80%;
+    padding: 30px 60px;
+  }
+
+  .title{
+    font-size: 24px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 30px;
+
+  }
+
+  .title{
+    font-size: 20px;
+  }
+
+  .cp-text{
+    font-size: 14px;
+  }
+
+  .placeholder-text{
+    width: 100%;
+    font-size: 14px !important
+  }
+
+  .mt-30{
+    margin-top: 15px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 20px;
+  }
+
+  .title{
+    font-size: 17px;
+  }
+  .cp-text{
+    font-size: 12px;
+  }
+  .placeholder-text{
+    width: 100%;
+    font-size: 12px !important
+  }
+  .mt-30{
+    margin-top: 5px;
+  }
+}
+
+

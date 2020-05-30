@@ -5,3 +5,22 @@
 .navbar{
     background-color: #263238;
 }
+.navbar-nav{
+    justify-content: center;
+}
+
+.mr-2{
+    margin-right: 2rem;
+}
+
+.mr-3{
+    margin-right: 3rem;
+}
+
+.mr-4{
+    margin-right: 4rem;
+}
+
+.mr-5{
+    margin-right: 5rem;
+}
