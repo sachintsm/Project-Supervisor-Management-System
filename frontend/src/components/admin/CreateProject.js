@@ -445,13 +445,13 @@ class CreateProject extends Component {
           <div className="container-fluid container-fluid-di">
             <Row >
               <Col>
-                <Container>
+                <Container className="zero-margin zero-padding">
 
                   <div className="card card-1" >
 
                     <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="12" xs="12">
                         <Row>
                           <p className="cp-text">
                             Year of the Project
@@ -474,9 +474,9 @@ class CreateProject extends Component {
                         </Row>
 
                       </Col>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="12" xs="12">
                         <Row>
-                          <p className="cp-text">
+                          <p className="cp-text cp-text2">
                             Project Type
                           </p>
                         </Row>
@@ -512,9 +512,9 @@ class CreateProject extends Component {
                         </Row>
                       </Col>
                       {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                          <Col xs="4">
+                          <Col  lg="4" md="4" sm="12" xs="12" >
                             <Row>
-                              <p className="cp-text">
+                              <p className="cp-text cp-text2">
                                 Academic Year
                               </p>
                             </Row>
