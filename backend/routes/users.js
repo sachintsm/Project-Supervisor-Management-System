@@ -9,6 +9,7 @@ var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
 const multer = require('multer');
 var path = require('path');
+var fs = require('fs');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -339,7 +340,7 @@ router.post('/update/:id',function(req,res){
           user.mobile = req.body.mobile;
 
           user.save().then(user => {
-              res.json('Update Complete');
+              res.json({state:true,msg:'Update Complete'});
           })
               .catch(err => {
                   res.status(400).send("unable to update database");
@@ -366,6 +367,14 @@ router.post('/uploadmulter/:id',async function(req,res){
   const userIdExists = await User.findOne({ _id: id });
     console.log(userIdExists);
   if (userIdExists) {console.log("true")
+  var p=userIdExists.imageName;
+  console.log(p);
+  fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+  }); 
+
   upload(req, res, (err) = async () => {
     let ts = Date.now();
     let date_ob = new Date(ts);
@@ -373,6 +382,7 @@ router.post('/uploadmulter/:id',async function(req,res){
 
     var fullPath = time + '-' + req.file.originalname;
     console.log(fullPath);
+  
     User.findById({_id:id}, function(err,user){
       if(err){
       res.status(404).send("data is not found");
