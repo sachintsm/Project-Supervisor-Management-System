@@ -12,6 +12,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Profilepic from './Profilepic';
 import Resetpw from './Resetpw';
+import Academic from './Academic';
 import { confirmAlert } from 'react-confirm-alert';
 
 
@@ -308,6 +309,11 @@ export default class Profile extends Component {
                                     <Tab eventKey="pw" title="Reset Password">
                                         <Resetpw/>
                                     </Tab>
+                                    {this.state.sup === true ?(
+                                        <Tab eventKey="aca" title="Academic">
+                                            <Academic/>
+                                        </Tab>
+                                    ):null}
                                 </Tabs>
                             </Col>
                         </Row>
