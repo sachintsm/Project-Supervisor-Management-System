@@ -15,9 +15,9 @@
 
 .card-1 {
     margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 70%;
+    margin-top: 50px !important;
+    margin-bottom: 50px  !important;
+    width: 80%;
     padding-top: 30px;
     padding-left: 60px;
     padding-right: 60px;
@@ -27,7 +27,7 @@
 .card-2 {
     margin: auto;
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 50px !important;
     width: 100%;
     padding-top: 30px;
     padding-left: 60px;

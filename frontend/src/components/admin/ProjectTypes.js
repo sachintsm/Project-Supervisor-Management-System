@@ -234,43 +234,22 @@ class ProjectTypes extends Component {
           closeAlert={this.closeAlert}
         />
 
-        {/* 
-        <Snackbar
-          anchorOrigin={'top'}
-          open={this.state.succesAlert}
-          autoHideDuration={3000}
-          onClose={this.handleClose}
-        >
-          <this.Alert severity='success' onClose={this.handleClose}>
-            Success
-          </this.Alert>
-        </Snackbar>
-
-        <Snackbar
-          open={this.state.warnAlert}
-          autoHideDuration={3000}
-          onClose={this.handleClose}
-        >
-          <this.Alert severity='error' onClose={this.handleClose}>
-            Please define Project Type
-          </this.Alert>
-        </Snackbar> */}
-
         <Navbar panel={'admin'} />
+
         <div className='container-fluid container-fluid-div'>
           <Row>
             <Col>
               <Container>
                 <div className='card card-div-1'>
-                  <h3>{this.state.title}</h3>
-                  <Row className='margin-top-30'>
+                  <h3 className="title">{this.state.title}</h3>
+                  <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
                         Project Type{' '}
                       </label>
                       <FormControl
                         type='text'
-                        style={{ width: '100%' }}
+                        className="placeholder-text"
                         placeholder='Undergraduate / BIT / Master / etc'
                         value={this.state.projectType}
                         onChange={(e) => {
@@ -279,8 +258,8 @@ class ProjectTypes extends Component {
                       ></FormControl>
                     </Col>
                   </Row>
-                  <Row className='margin-top-30'>
-                    <Col md={4} className='form-control-label '>
+                  <Row className='mt-30'>
+                    <Col md={4} sm={12} xs={12} className='form-control-label '>
                       <FormControlLabel
                         className='form-control-label'
                         control={
@@ -436,7 +415,7 @@ class ProjectTypes extends Component {
                           <tr>
                             <th>Project Type</th>
                             <th>Academic Years</th>
-                            <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
+                            <th style={{ width: '20%', }}>Operations</th>
                           </tr>
                         </thead>
                         <tbody>
