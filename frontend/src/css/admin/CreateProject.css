@@ -50,3 +50,133 @@
     background-color:#F5F5F5;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+    .container-fluid-di {
+        background-color: #f5f5f5;
+        width: 100% !important;
+    }
+    .zero-margin{
+        margin: 0px 0px !important;
+    }
+    .zero-padding{
+        padding: 0px 0px !important;
+    }
+    .card-1 {
+        margin: auto;
+        margin-top: 20px !important;
+        margin-bottom: 20px  !important;
+        width: 100%;
+        padding: 20px 30px  !important;
+    }
+
+    .card-2 {
+        margin: auto;
+        margin-bottom: 20px  !important;
+        width: 100%;
+        padding: 20px 0px  !important;
+    }
+
+    .form-control-label {
+        font-size: 5px;
+        padding: 0px 15px !important
+    }
+
+    .title{
+        font-size: 20px;
+    }
+    .title2{
+        font-size: 20px;
+        padding: 0px 30px
+    }
+
+    .cp-text{
+        font-size: 14px;
+        margin: 0px 0px 5px !important;
+    }
+
+    .cp-text2{
+        margin-top: 20px !important;
+    }
+    .placeholder-text{
+        width: 100%;
+        font-size: 14px !important
+    }
+
+    .mt-30{
+        margin-top: 15px;
+    }
+    .middle{
+        text-align: center;
+    }
+    .table-heading{
+        font-size: 13px;
+    }
+    .operation-column{
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    .container-fluid-di {
+        background-color: #f5f5f5;
+        width: 100% !important;
+    }
+
+    .zero-margin{
+        margin: 0px 0px !important;
+    }
+    .zero-padding{
+        padding: 0px 0px !important;
+    }
+    .card-1 {
+        margin: auto;
+        margin-top: 20px !important;
+        margin-bottom: 20px  !important;
+        width: 100%;
+        padding: 20px 20px;
+    }
+
+
+    .card-2 {
+        margin: auto;
+        margin-bottom: 20px  !important;
+        width: 100%;
+        padding: 20px 0px;
+    }
+    .form-control-label {
+        font-size: 5px;
+        padding: 0px 15px !important
+    }
+    .title{
+        font-size: 17px;
+    }
+    .title2{
+        font-size: 20px;
+        padding: 0px 20px
+    }
+    .cp-text{
+        font-size: 12px;
+        margin: 0px 0px 5px !important;
+    }
+    .cp-text2{
+        margin-top: 20px !important;
+    }
+    .placeholder-text{
+        width: 100%;
+        font-size: 12px !important
+    }
+    .mt-30{
+        margin-top: 5px;
+    }
+    .middle{
+        text-align: center;
+    }
+    .table-heading{
+        font-size: 10px;
+    }
+    .operation-column{
+        width: 35%;
+    }
+}
