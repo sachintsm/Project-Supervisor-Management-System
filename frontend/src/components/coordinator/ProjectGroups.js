@@ -57,7 +57,7 @@ class ProjectGroups extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState || !localStorage.getItem("isCoordinator")) {  //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) { //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
 
@@ -118,8 +118,7 @@ class ProjectGroups extends Component {
                     array1
                 )
                 this.state.groupDataBlock.push(block)
-            }
-            else {
+            } else {
                 var array3 = [];
                 for (let k = 0; k < this.state.groupData[i].groupMembers.length; k++) {
                     var newMember = this.state.groupData[i].groupMembers[k] + ', '
@@ -147,18 +146,17 @@ class ProjectGroups extends Component {
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Are you sure to do this ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        const obj = getFromStorage('auth-token');
-                        fetch(backendURI.url + '/createGroups/delete/' + id, { 
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'auth-token': obj.token
-                            },
-                        })
+            buttons: [{
+                label: 'Yes',
+                onClick: () => {
+                    const obj = getFromStorage('auth-token');
+                    fetch(backendURI.url + '/createGroups/delete/' + id, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth-token': obj.token
+                        },
+                    })
                         .then(res => res.json())
                         .then(json => {
                             if (json.state === true) {
@@ -168,8 +166,7 @@ class ProjectGroups extends Component {
                                     snackbarcolor: 'success',
                                 })
                                 window.location.reload();
-                            }
-                            else {
+                            } else {
                                 this.setState({
                                     snackbaropen: true,
                                     snackbarmsg: json.msg,
@@ -185,14 +182,14 @@ class ProjectGroups extends Component {
                                 snackbarcolor: 'error',
                             })
                         })
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
                 }
+            },
+            {
+                label: 'No',
+                onClick: () => {
+
+                }
+            }
             ]
         })
     }
@@ -223,16 +220,16 @@ class ProjectGroups extends Component {
                             <p className="pg-reg-head">Project Group Details</p>
 
                             <Row >
-                                <Col xs="10">
-                                    <div className="form-group">
+                                <Col md="10" xs="12">
+                                    <div className="form-group pg-dropdown-select">
                                         <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
                                             <option>Select the project</option>
                                             {activeProjectsList}
                                         </select>
                                     </div>
                                 </Col>
-                                <Col xs="2">
-                                    <button className="btn btn-info" style={{ marginTop: "18px", width: "100%" }} onClick={this.searchGroups}>Search</button>
+                                <Col md="2" xs="12">
+                                    <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
                                 </Col>
 
                             </Row>
@@ -247,7 +244,7 @@ class ProjectGroups extends Component {
                                 <p className="pg-details-head">Project Groups</p>
 
                                 {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                <Table hover style={{ marginTop: 20 }} >
+                                <Table hover className="pg-table" >
 
                                     <thead>
                                         <tr>

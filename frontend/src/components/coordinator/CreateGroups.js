@@ -326,18 +326,18 @@ export default class CreateGroups extends Component {
                     />
 
                     <Row>
-                        <Col xs="4">
+                        <Col md="4">
                             <img
                                 alt='background'
                                 src={require('../../assets/backgrounds/group discussion.png')}
                                 className='image'
                             />
                         </Col>
-                        <Col xs="8" className="main-div">
-                            <div className="container">
+                        <Col md="8" className="main-div">
+                            <div>
                                 <div >
                                     <p className="reg-head">Group Registration</p>
-                                    <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                                    <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                                         <Tab eventKey="single" title="Registration">
                                             <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                                                 <Row>
@@ -368,7 +368,7 @@ export default class CreateGroups extends Component {
                                                         return (
                                                             <div key={index}>
                                                                 <Row style={{ marginTop: "10px" }}>
-                                                                    <Col xs="11">
+                                                                    <Col md="11" xs="10">
                                                                         <input
                                                                             type="text"
                                                                             className="form-control"
@@ -377,7 +377,7 @@ export default class CreateGroups extends Component {
                                                                             onChange={(e) => this.handleChange(e, index)}
                                                                         ></input>
                                                                     </Col>
-                                                                    <Col xs={1} style={{ marginTop: "3px" }}>
+                                                                    <Col md="1" xs="2" style={{ marginTop: "3px" }}>
 
                                                                         <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.handleDelete(index)} />
 
@@ -415,10 +415,10 @@ export default class CreateGroups extends Component {
                                                 </Row>
 
 
-                                                <div className="form-group">
+                                                <div xs="12" className="form-group">
                                                     <label className="text-label">CSV File Format : </label>
                                                 </div>
-                                                <div style={{ textAlign: 'center' }}>
+                                                <div xs="12" style={{ textAlign: 'center' }}>
 
                                                     <img
                                                         alt='background'
@@ -432,12 +432,16 @@ export default class CreateGroups extends Component {
                                                 </div>
 
 
-                                                <div className="container">
-                                                    <CSVReader
-                                                        cssClass="react-csv-input"
-                                                        onFileLoaded={handleForce}
-                                                        inputStyle={{ color: 'grey' }}
-                                                    />
+                                                <div xs="12" className="container cg-file-input">
+                                                    <Row>
+
+                                                        <CSVReader
+                                                            // className="cg-file-input"
+                                                            cssClass="react-csv-input"
+                                                            onFileLoaded={handleForce}
+                                                            inputStyle={{ color: 'grey' }}
+                                                        />
+                                                    </Row>
                                                 </div>
 
                                                 <div className="form-group">
