@@ -21,6 +21,7 @@ import CreateGroup from './components/coordinator/CreateGroups'
 import ProjectGroups from './components/coordinator/ProjectGroups'
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
+import NoticeView from './components/shared/NoticeView';
 
 import StudentHome from './components/student/StudentHome';
 
@@ -54,10 +55,12 @@ function App() {
 
           {/* ==================================================================== */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
+          <Route exact path='/shared/noticeView' component={NoticeView}></Route>
 
 
           {/* ==================================================================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>
+          <Route exact path='/shared/notice' component={NoticeView}></Route>
 
 
 

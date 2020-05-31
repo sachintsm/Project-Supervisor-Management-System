@@ -9,6 +9,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 //import Navbar from "../shared/Navbar";
 import axios from "axios";
 
+import Footer from "../shared/Footer";
+import Navbar from "../shared/Navbar";
+
 import {
      Button,
      Container,
@@ -29,7 +32,7 @@ class NoticeView extends Component {
           noticeList: [],
           noticeView : [],
           notice:'',
-          userType:'',
+          userType: '',
           // toStudent:'',
           // toSupervisor:'',
           
@@ -42,11 +45,14 @@ class NoticeView extends Component {
           this.getNoticeList();
           this.getNoticeViewList();
       
-          //console.log(localStorage)
+         
 
           this.userType = localStorage.getItem("user-level");
+          console.log(this.userType)
         }
      
+        
+
      getNoticeList() {
           axios.get(backendURI.url + "/notice/viewNotice").then((result) => {
             if (result.data.length > 0) {
@@ -81,68 +87,30 @@ class NoticeView extends Component {
   render() {
 
     
+    if(this.state.noticeList.length > 0 && this.userType == 'student'){
 
-    
-    return (
-      <React.Fragment>
-      <div>
-      <Row>
-      <Col>
+      return (
+
+        <React.Fragment>
+        <Navbar panel={"student"} />
         <Container>
-        {this.state.noticeList.length > 0 && (
-          <div>
-            <h3>Notice View </h3>
-            <div>
-              {this.state.noticeList.map((type) => {
-                return (
-                  <Card
-                    key={type._id}
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
-                  >
-                    <CardContent style={{ paddingBottom: "2px" }}>
-                      <h6>{type.noticeTittle}</h6>
-                    </CardContent>
-                    <h8
-                      style={{ color: "#6d6d6d", paddingLeft: "13px" }}
-                    >
-                      {type.date}
-                    </h8>
-                    <CardContent style={{ paddingTop: "2px" }}>
-                      <Typography variant="body1" component="p">
-                        {type.notice}
-                      </Typography>
-                    </CardContent>
 
-                    <CardContent
-                      style={{
-                        paddingBottom: "2px",
-                        paddingTop: "1px",
-                      }}
-                    >
-                      <a
-                        href={
-                          "http://localhost:4000/notice/noticeAttachment/" +
-                          type.filePath
-                        }
-                      >
-                        Attachment
-                      </a>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
+           <h2>Ashan</h2>
+
+           </Container>
+           </React.Fragment>
+        );   
         
-        )}
+    }else{
+      return(
+        <React.Fragment>
+        <Navbar panel={"supervisor"} />
+        <Container>
+        <h2>No Notice</h2>
         </Container>
-        </Col>
-        </Row>
-      </div>
-     
-      </React.Fragment>
-      );     
-  }
+        </React.Fragment>
+      )
+    } }   
 }
 
 export default NoticeView
