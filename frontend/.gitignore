@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/src/components/shared/BackendURI.js
+src/components/shared/BackendURI.js
 /.pnp
 .pnp.js
 
