@@ -125,7 +125,7 @@ class CreateProject extends Component {
 
 
             if(this.state.selectedStaffList.length>0 && this.state.type!==''){
-              const supervisors = this.state.selectedStaffList.map(item=>{
+              const coordinators = this.state.selectedStaffList.map(item=>{
                 return item.value
               })
 
@@ -134,7 +134,7 @@ class CreateProject extends Component {
                 projectYear: this.state.year,
                 projectType: this.state.type,
                 academicYear: this.state.academicYear,
-                coordinatorList: supervisors
+                coordinatorList: coordinators
               }
               if(this.state.componentType==='add'){
 
