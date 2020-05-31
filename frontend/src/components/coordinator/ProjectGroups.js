@@ -88,10 +88,7 @@ class ProjectGroups extends Component {
         // this.state.groupDataBlock = [];
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
-                console.log(res.data.data);
-
                 this.setState({
-
                     groupData: res.data.data
                 })
             })
@@ -121,27 +118,30 @@ class ProjectGroups extends Component {
             } else {
                 var array3 = [];
                 for (let k = 0; k < this.state.groupData[i].groupMembers.length; k++) {
-                    var newMember = this.state.groupData[i].groupMembers[k] + ', '
-                    array3.push(newMember)
+                    var newMemberA = this.state.groupData[i].groupMembers[k] + ', '
+                    array3.push(newMemberA)
                 }
-                var block = new groupDataBlock(
+                var blockA = new groupDataBlock(
                     this.state.groupData[i]._id,
                     this.state.groupData[i].groupId,
                     this.state.groupData[i].projectId,
                     array3,
                     ''
                 )
-                this.state.groupDataBlock.push(block)
+                this.state.groupDataBlock.push(blockA)
             }
 
-        }
-        for (let i = 0; i < this.state.groupDataBlock.length; i++) {
-            console.log(this.state.groupDataBlock[i])
         }
         this.setState({ dataDiv: true, spinnerDiv: false });
 
     }
 
+    //? opent the gropuData window
+    groupDataHandler(data){
+        this.props.history.push('/coordinatorhome/groupData/' + data);
+    }
+
+    //?delete the group
     deleteGroup(id) {
         confirmAlert({
             title: 'Confirm to Delete?',
@@ -257,7 +257,7 @@ class ProjectGroups extends Component {
                                     <tbody>
                                         {this.state.groupDataBlock.map((item) => {
                                             return (
-                                                <tr className="pg-table-row" key={item.groupId}>
+                                                <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
                                                     <td className="table-body">{item.groupId}</td>
                                                     <td className="table-body">{item.groupMembers}</td>
                                                     <td className="table-body">{item.supervisors}</td>

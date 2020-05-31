@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const CreateGroups = require('../models/createGroups');
+const verify = require('../authentication');
 
 
 // ?create new group
-router.post('/add', (req, res) => {
+router.post('/add', verify,(req, res) => {
     console.log(req.body);
     const newGroup = new CreateGroups({
         groupId : req.body.groupId,
@@ -39,7 +40,7 @@ router.get('/get/:projectId', (req, res) => {
 })
 
 //? delete a group by idList
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id',verify, async (req, res) => {
     const id = req.params.id
 
     CreateGroups
@@ -50,6 +51,23 @@ router.delete('/delete/:id', async (req, res) => {
         })
         .catch(err =>{
             res.send({ state : false, msg : 'Group does not delete successfully..!'})
+        })
+})
+
+//? get group data by id
+router.get('/getGroupData/:id', verify,(req, res) =>{
+    const id = req.params.id;
+    console.log(id);
+    
+    CreateGroups
+        .find({_id : id})
+        .exec()
+        .then(data => {
+            console.log(data[0])
+            res.json({state : true, data : data[0] , msg : 'Data successfully sent..!'})
+        })
+        .catch(err =>{
+            res.send({ state : false, msg : err.message})
         })
 })
 module.exports = router
