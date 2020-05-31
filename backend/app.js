@@ -58,6 +58,7 @@ app.use(bodyParser.json());
 const users = require('./routes/users');
 const notice = require("./routes/notice");
 const projects = require('./routes/projects');
+// const contactUs = require('./routes/contactUs');
 const createGroups =  require('./routes/createGroups')
 
 //routing path in routers
@@ -65,6 +66,7 @@ app.get('/', function (req, res) { res.send('Hello world') });
 app.use('/users', users);
 app.use('/projects', projects);
 app.use("/notice", notice);
+// app.use("/contactUs", contactUs);
 app.use('/createGroups', createGroups);
 
 

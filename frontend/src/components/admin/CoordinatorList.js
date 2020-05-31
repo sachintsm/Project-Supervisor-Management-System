@@ -8,8 +8,8 @@ class CoordinatorList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            supervisorIdList: this.props.idList.coordinatorList,
-            supervisorNameList: [],
+            coordinatorIDList: this.props.idList.coordinatorList,
+            coordinatorNameList: [],
             props: props
         }
 
@@ -18,24 +18,24 @@ class CoordinatorList extends Component {
 
     componentDidMount() {
 
-        this.getSupervisorList()
+        this.getCoordinatorList()
     }
 
-    getSupervisorList() {
+    getCoordinatorList() {
 
         this.setState({
-            supervisorIdList: this.props.idList,
-            supervisorNameList: []
+            coordinatorIDList: this.props.idList,
+            coordinatorNameList: []
         })
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
         }
-        this.state.supervisorIdList.map(id=>{
+        this.state.coordinatorIDList.map(id=>{
             axios.get(backendURI.url+'/users/stafflist/'+id, {headers: headers}).then(res=>{
                 if(res.data){
                     const name = res.data.firstName+" "+res.data.lastName
                     this.setState({
-                        supervisorNameList: [...this.state.supervisorNameList, name]
+                        coordinatorNameList: [...this.state.coordinatorNameList, name]
                     })
                 }
             })
@@ -46,7 +46,7 @@ class CoordinatorList extends Component {
     render() {
         return (
             <div>
-                {this.state.supervisorNameList.map((user,index)=>{
+                {this.state.coordinatorNameList.map((user,index)=>{
                     return <p key={index}>{user}</p>
                 })}
             </div>

@@ -125,7 +125,7 @@ class CreateProject extends Component {
 
 
             if(this.state.selectedStaffList.length>0 && this.state.type!==''){
-              const supervisors = this.state.selectedStaffList.map(item=>{
+              const coordinators = this.state.selectedStaffList.map(item=>{
                 return item.value
               })
 
@@ -134,7 +134,7 @@ class CreateProject extends Component {
                 projectYear: this.state.year,
                 projectType: this.state.type,
                 academicYear: this.state.academicYear,
-                coordinatorList: supervisors
+                coordinatorList: coordinators
               }
               if(this.state.componentType==='add'){
 
@@ -445,13 +445,13 @@ class CreateProject extends Component {
           <div className="container-fluid container-fluid-di">
             <Row >
               <Col>
-                <Container>
+                <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
                   <div className="card card-1" >
 
                     <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
                             Year of the Project
@@ -460,6 +460,7 @@ class CreateProject extends Component {
                         <Row>
                           <DropdownButton
                               as={ButtonGroup}
+                              // className="full-width"
                               variant={'secondary'}
                               title={this.state.year}
                               onSelect={this.onChangeYear}
@@ -474,7 +475,7 @@ class CreateProject extends Component {
                         </Row>
 
                       </Col>
-                      <Col xs="4">
+                      <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
                             Project Type
@@ -486,6 +487,7 @@ class CreateProject extends Component {
                           {
                             this.state.projectTypeList.length == 0 ? (
                                 <DropdownButton
+                                    // className="full-width"
                                     as={ButtonGroup}
                                     variant={'secondary'}
                                     title={"No Items"}
@@ -494,6 +496,7 @@ class CreateProject extends Component {
                                 >
                                 </DropdownButton>) : (
                                 <DropdownButton
+                                    // className="full-width"
                                     as={ButtonGroup}
                                     variant={'secondary'}
                                     title={this.state.type}
@@ -512,9 +515,9 @@ class CreateProject extends Component {
                         </Row>
                       </Col>
                       {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                          <Col xs="4">
+                          <Col  lg="4" md="4" sm="12" xs="12" >
                             <Row>
-                              <p className="cp-text">
+                              <p className="cp-text cp-text2">
                                 Academic Year
                               </p>
                             </Row>
@@ -526,6 +529,7 @@ class CreateProject extends Component {
                                   title={this.state.academicYear}
                                   onSelect={this.onChangeAcademicYear}
                                   style={{ width: "90%" }}
+                                  className="full-width"
                               >
                                 {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
                                 <Dropdown.Item eventKey='1st Year'>
@@ -554,10 +558,10 @@ class CreateProject extends Component {
                     <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
                       <Row>
                         <p className="cp-text">
-                          Assign Supervisors into the Project
+                          Assign Coordinators into the Project
                         </p>
                       </Row>
-                      <Col md={12}>
+                      <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
                         <MultiSelect
                             options={this.state.staffOptionList}
                             value={this.state.selectedStaffList}
@@ -598,7 +602,7 @@ class CreateProject extends Component {
 
                   </div>
                   </Container>
-                  <Container fluid style={{paddingLeft: '3%', paddingRight: '3%'}}>
+                  <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
                   {this.state.projects.length > 0 && this.state.componentType === "add" && (
 
@@ -613,7 +617,7 @@ class CreateProject extends Component {
                               <th >Project Year</th>
                               <th >Project Type</th>
                               <th >Academic Year</th>
-                              <th >Supervisors</th>
+                              <th >Coordinators</th>
                               <th >State</th>
                               <th style={{ width: '20%', textAlign: "center" }}>Operations</th>
                             </tr>

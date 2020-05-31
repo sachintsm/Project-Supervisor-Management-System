@@ -234,43 +234,23 @@ class ProjectTypes extends Component {
           closeAlert={this.closeAlert}
         />
 
-        {/* 
-        <Snackbar
-          anchorOrigin={'top'}
-          open={this.state.succesAlert}
-          autoHideDuration={3000}
-          onClose={this.handleClose}
-        >
-          <this.Alert severity='success' onClose={this.handleClose}>
-            Success
-          </this.Alert>
-        </Snackbar>
-
-        <Snackbar
-          open={this.state.warnAlert}
-          autoHideDuration={3000}
-          onClose={this.handleClose}
-        >
-          <this.Alert severity='error' onClose={this.handleClose}>
-            Please define Project Type
-          </this.Alert>
-        </Snackbar> */}
-
         <Navbar panel={'admin'} />
+
         <div className='container-fluid container-fluid-div'>
           <Row>
             <Col>
               <Container>
                 <div className='card card-div-1'>
-                  <h3>{this.state.title}</h3>
-                  <Row className='margin-top-30'>
+                  <h3 className="title">{this.state.title}</h3>
+                  <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
                         Project Type{' '}
                       </label>
                       <FormControl
                         type='text'
-                        style={{ width: '100%' }}
+                        className="placeholder-text"
+                        className="placeholder-text"
                         placeholder='Undergraduate / BIT / Master / etc'
                         value={this.state.projectType}
                         onChange={(e) => {
@@ -279,13 +259,13 @@ class ProjectTypes extends Component {
                       ></FormControl>
                     </Col>
                   </Row>
-                  <Row className='margin-top-30'>
-                    <Col md={4} className='form-control-label '>
+                  <Row className='mt-30'>
+                    <Col md={4} sm={12} xs={12} className='form-control-label middle'>
                       <FormControlLabel
-                        className='form-control-label'
+                        className='form-control-label middle'
                         control={
                           <CustomCheckbox
-                            fontSize='5px'
+                            fontSize='5em'
                             checked={this.state.isAcademicYear}
                             onChange={() => {
                               this.setState({
@@ -302,7 +282,7 @@ class ProjectTypes extends Component {
                         }
                       />
                     </Col>
-                    <Col className="col-padding-5">
+                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -325,7 +305,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col className="col-padding-5">
+                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -348,7 +328,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col className="col-padding-5">
+                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -371,7 +351,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col className="col-padding-5">
+                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -427,29 +407,29 @@ class ProjectTypes extends Component {
                 {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
                   <div className="card card-div-2">
-                    <h3>Project Categories</h3>
+                    <h3 className='title2'>Project Categories</h3>
 
 
                     <div>
                       <Table hover style={{ marginTop: 20 }} >
                         <thead>
                           <tr>
-                            <th>Project Type</th>
-                            <th>Academic Years</th>
-                            <th style={{ width: '30%', textAlign: "center" }}>Operations</th>
+                            <th className="table-heading">Project Type</th>
+                            <th className="table-heading">Academic Years</th>
+                            <th className="table-heading" style={{ width: '20%', }}>Operations</th>
                           </tr>
                         </thead>
                         <tbody>
                           {this.state.projectTypeList.map((type) => {
                             return (<tr key={type._id}>
-                              <td style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
-                              <td style={{ verticalAlign: 'middle' }} className="td-font-14" >
+                              <td className="table-heading" style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
+                              <td className="table-heading"  style={{ verticalAlign: 'middle' }} className="td-font-14" >
                                 {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "None"}
                                 {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
                                 {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
                                 {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
                                 {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
-                              <td style={{ verticalAlign: 'middle' }}><Row>
+                              <td className="operation-column" style={{ verticalAlign: 'middle'}}><Row>
                                 <Col><Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(type)}/></Col>
                                 <Col><DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} /></Col>
                               </Row>
