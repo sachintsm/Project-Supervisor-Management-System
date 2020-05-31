@@ -4,6 +4,8 @@ import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { ToastContainer, toast, Slide } from 'react-toastify';
+import Snackpop from "./shared/Snackpop";
+
 import {
   Button,
   FormControl,
@@ -26,6 +28,9 @@ export default class login extends Component {
       masterError: '',
       email: '',
       password: '',
+      loginError: false,
+      emailChange:false,
+      passwordChange: false
     };
 
     this.onSignIn = this.onSignIn.bind(this);
@@ -35,6 +40,7 @@ export default class login extends Component {
   onChangeEmail(e) {
     this.setState({
       email: e.target.value,
+      emailChange: true
     });
   }
 
@@ -47,8 +53,14 @@ export default class login extends Component {
   onChangePassword(e) {
     this.setState({
       password: e.target.value,
+      passwordChange: true
     });
   }
+  closeAlert = () => {
+    this.setState({
+      loginError: false,
+    });
+  };
   
   onSignIn() {
     const { email, password } = this.state;
@@ -105,7 +117,10 @@ export default class login extends Component {
             signInError: json.msg,
           });
 
-          this.notify('Invalid User Credentials');
+          this.setState({
+            loginError: true,
+          });
+          // this.notify('Invalid User Credentials');
         }
       });
   }
@@ -121,7 +136,15 @@ export default class login extends Component {
           backgroundImage: `url(${require('../assets/backgrounds/background.jpg')})`,
         }}
       >
-        <ToastContainer hideProgressBar={true} transition={Slide} />
+
+        <Snackpop
+            msg={'Invalid Credentials'}
+            color={'error'}
+            time={3000}
+            status={this.state.loginError}
+            closeAlert={this.closeAlert}
+        />
+        {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
         <div className='row vertical-center'>
           <div className='container login-card-div col-md-5 col-sm-11 col-xs-11 col-lg-5'>
             <Card className='login-card'>
@@ -135,7 +158,7 @@ export default class login extends Component {
 
               <Form>
                 <FormGroup>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="cp-text">Email</FormLabel>
                   <InputGroup className='mb-3'>
                     <InputGroup.Prepend>
                       <InputGroup.Text id='basic-addon1'>
@@ -143,15 +166,17 @@ export default class login extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                      style={{borderColor: this.state.emailChange ?  this.state.email==='' ? 'red': null:null}}
                       type='email'
                       onChange={this.onChangeEmail}
                       aria-describedby='basic-addon1'
+                      placeholder={this.state.emailChange && this.state.email==='' ?"Please enter an Email":null}
                     />
                   </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel  className="cp-text">Password</FormLabel>
 
                   <InputGroup className='mb-3'>
                     <InputGroup.Prepend>
@@ -160,8 +185,10 @@ export default class login extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                      style={{borderColor: this.state.passwordChange ? this.state.password==='' ? 'red': null:null}}
                       type='password'
                       onChange={this.onChangePassword}
+                      placeholder={this.state.passwordChange && this.state.password==='' ?"Please enter a Password":null}
                     />
                   </InputGroup>
                 </FormGroup>
