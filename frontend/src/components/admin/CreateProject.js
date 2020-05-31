@@ -445,13 +445,13 @@ class CreateProject extends Component {
           <div className="container-fluid container-fluid-di">
             <Row >
               <Col>
-                <Container className="zero-margin zero-padding">
+                <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
                   <div className="card card-1" >
 
                     <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-                      <Col lg="4" md="4" sm="12" xs="12">
+                      <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
                             Year of the Project
@@ -460,6 +460,7 @@ class CreateProject extends Component {
                         <Row>
                           <DropdownButton
                               as={ButtonGroup}
+                              // className="full-width"
                               variant={'secondary'}
                               title={this.state.year}
                               onSelect={this.onChangeYear}
@@ -474,9 +475,9 @@ class CreateProject extends Component {
                         </Row>
 
                       </Col>
-                      <Col lg="4" md="4" sm="12" xs="12">
+                      <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
-                          <p className="cp-text cp-text2">
+                          <p className="cp-text">
                             Project Type
                           </p>
                         </Row>
@@ -486,6 +487,7 @@ class CreateProject extends Component {
                           {
                             this.state.projectTypeList.length == 0 ? (
                                 <DropdownButton
+                                    // className="full-width"
                                     as={ButtonGroup}
                                     variant={'secondary'}
                                     title={"No Items"}
@@ -494,6 +496,7 @@ class CreateProject extends Component {
                                 >
                                 </DropdownButton>) : (
                                 <DropdownButton
+                                    // className="full-width"
                                     as={ButtonGroup}
                                     variant={'secondary'}
                                     title={this.state.type}
@@ -526,6 +529,7 @@ class CreateProject extends Component {
                                   title={this.state.academicYear}
                                   onSelect={this.onChangeAcademicYear}
                                   style={{ width: "90%" }}
+                                  className="full-width"
                               >
                                 {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
                                 <Dropdown.Item eventKey='1st Year'>
@@ -557,7 +561,7 @@ class CreateProject extends Component {
                           Assign Coordinators into the Project
                         </p>
                       </Row>
-                      <Col md={12}>
+                      <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
                         <MultiSelect
                             options={this.state.staffOptionList}
                             value={this.state.selectedStaffList}
@@ -598,7 +602,7 @@ class CreateProject extends Component {
 
                   </div>
                   </Container>
-                  <Container fluid style={{paddingLeft: '3%', paddingRight: '3%'}}>
+                  <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
                   {this.state.projects.length > 0 && this.state.componentType === "add" && (
 
