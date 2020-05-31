@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 
 import {
     Input,
@@ -11,6 +11,8 @@ import {
   } from 'reactstrap';
   import { Row, Col } from "reactstrap";
 
+  const backendURI = require("./BackendURI");
+
 export default class Contactus extends Component {
 
     constructor(props) {
@@ -18,37 +20,52 @@ export default class Contactus extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            //profileImg: '',
-            //upload: ''
-         }
+            firstName: "",
+            lastName: "",
+            contactNumber: "",
+            email: "",
+            message: "",
+         };
     }
 
     toggle = () => {
-        
         this.setState({
           modal: !this.state.modal,
-        
-        //   upload: ''
         });
     };
 
-    
     onChange = e => {
         this.setState({ [e.target.name]: e.target.value});
     };
 
     onSubmit(e) {
-        e.preventDefault()
-        // const formData = new FormData()
-        // formData.append('profileImg', this.state.profileImg)
-        // axios.post("http://localhost:4000/mazzevents/addprofileimg/"+this.props.id, formData, {
-        // }).then(res => {
-        //     console.log(res)
-        // })
-        //this.setState({ upload: 1 })
-    }
-
-
+        e.preventDefault()    
+        const obj = {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          contactNumber: this.state.contactNumber,
+          email: this.state.email,
+          message: this.state.message
+      };
+         console.log("Gon");
+         console.log(obj);
+         axios.post(backendURI.url + "/contactUs/add", obj)
+                .then((res) => {
+                  this.setState({
+                    succesAlert: true,
+                });
+                // this.getNoticeList();
+                console.log(res.data);
+              })
+              .catch((error) => {
+                this.setState({
+                  snackbaropen: true,
+                  snackbarmsg: error,
+                });
+                console.log(error);
+              });
+          }
+        
     render() {
         return (
             <div>
@@ -78,17 +95,17 @@ export default class Contactus extends Component {
                             </Col>
                           </Row>
                             
-                            <div className="form-group">
+                          <div className="form-group">
                                 <Label for="avatar">Contact Number</Label>
-                                <Input type="number" id="number" onChange={this.onChange}/>
+                                <Input type="number" className="form-control" name="contactNumber"  onChange={this.onChange}/>
                             </div>
                             <div className="form-group">
                                 <Label for="avatar">Email</Label>
-                                <Input type="text" id="email" onChange={this.onChange}/>
+                                <Input type="text" className="form-control" name="email"  onChange={this.onChange}/>
                             </div>
                             <div className="form-group">
                                 <Label for="avatar">Message</Label>
-                                <Input type="textarea" id="message" onChange={this.onChange}/>
+                                <Input type="textarea" className="form-control" name="message"  onChange={this.onChange}/>
                             </div>
                             <div className="form-group">
                                 <Button className="btn btn-info my-4"  type="submit">Send</Button>
