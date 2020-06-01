@@ -423,7 +423,7 @@ class ProjectTypes extends Component {
                           {this.state.projectTypeList.map((type) => {
                             return (<tr key={type._id}>
                               <td className="table-heading" style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
-                              <td className="table-heading"  style={{ verticalAlign: 'middle' }} className="td-font-14" >
+                              <td className="table-heading"  style={{ verticalAlign: 'middle' }} >
                                 {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "None"}
                                 {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
                                 {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}

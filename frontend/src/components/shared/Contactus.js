@@ -52,8 +52,8 @@ export default class Contactus extends Component {
     render() {
         return (
             <div>
-                <Button className="btn btn-info my-4" onClick={this.toggle} href="#">
-                     Message
+                <Button className="btn btn-info" style={{width: '40%', paddingLeft: '0px',paddingRight: '0px'}} onClick={this.toggle} href="#">
+                    Send a Message
                 </Button>
                  <Modal isOpen={this.state.modal} toggle={this.toggle}> 
                 <ModalHeader toggle={this.toggle}>Send your Message</ModalHeader>
