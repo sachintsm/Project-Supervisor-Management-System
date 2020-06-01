@@ -23,22 +23,22 @@ export default class footer extends Component {
                 <p className="companey-name">Team Members</p>
               </div>
               <div className="row">
-                <p className="address"> > S.T.S. Muthumala</p>
+                <p className="address"> S.T.S. Muthumala</p>
               </div>
               <div className="row">
-                <p className="address"> > S.M.W. Arachchi</p>
+                <p className="address"> S.M.W. Arachchi</p>
               </div>
               <div className="row">
-                <p className="address"> > P.A.G. Rajapaksha</p>
+                <p className="address"> P.A.G. Rajapaksha</p>
               </div>
               <div className="row">
-                <p className="address"> > H.I.D.D. Galappaththi</p>
+                <p className="address"> H.I.D.D. Galappaththi</p>
               </div>
               <div className="row">
-                <p className="address"> > K.A.B.S. Kumaranayake</p>
+                <p className="address"> K.A.B.S. Kumaranayake</p>
               </div>
               <div className="row">
-                <p className="address"> > M.S. Mushtaq</p>
+                <p className="address"> M.S. Mushtaq</p>
               </div>
             </div>
             <div className="col-md-4" style={{ marginTop: " 30px" }}>

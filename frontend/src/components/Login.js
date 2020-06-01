@@ -4,6 +4,8 @@ import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { ToastContainer, toast, Slide } from 'react-toastify';
+import Snackpop from "./shared/Snackpop";
+
 import {
   Button,
   FormControl,
@@ -26,6 +28,9 @@ export default class login extends Component {
       masterError: '',
       email: '',
       password: '',
+      loginError: false,
+      emailChange:false,
+      passwordChange: false
     };
 
     this.onSignIn = this.onSignIn.bind(this);
@@ -35,6 +40,7 @@ export default class login extends Component {
   onChangeEmail(e) {
     this.setState({
       email: e.target.value,
+      emailChange: true
     });
   }
 
@@ -47,8 +53,14 @@ export default class login extends Component {
   onChangePassword(e) {
     this.setState({
       password: e.target.value,
+      passwordChange: true
     });
   }
+  closeAlert = () => {
+    this.setState({
+      loginError: false,
+    });
+  };
   
   onSignIn() {
     const { email, password } = this.state;
@@ -65,7 +77,7 @@ export default class login extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.token);
+        console.log(json);
         if (json.state) {
           setInStorage('auth-token', { token: json.token });
           setInStorage('auth-id', { id: json.userId });
@@ -105,7 +117,10 @@ export default class login extends Component {
             signInError: json.msg,
           });
 
-          this.notify('Invalid User Credentials');
+          this.setState({
+            loginError: true,
+          });
+          // this.notify('Invalid User Credentials');
         }
       });
   }
@@ -113,19 +128,25 @@ export default class login extends Component {
   render() {
     return (
       <div
-        className='container-fluid'
+        className='container-fluid login-page'
         style={{
           backgroundColor: '#F8F9FA',
-          minHeight: '900px',
+
+          verticalAlign: 'middle',
           backgroundImage: `url(${require('../assets/backgrounds/background.jpg')})`,
-          backgroundPosition: 'fixed',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
         }}
       >
-        <ToastContainer hideProgressBar={true} transition={Slide} />
-        <div className='row'>
-          <div className='container login-card-div col-md-9'>
+
+        <Snackpop
+            msg={'Invalid Credentials'}
+            color={'error'}
+            time={3000}
+            status={this.state.loginError}
+            closeAlert={this.closeAlert}
+        />
+        {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
+        <div className='row vertical-center'>
+          <div className='container login-card-div col-md-5 col-sm-11 col-xs-11 col-lg-5'>
             <Card className='login-card'>
               <div style={{ textAlign: 'center' }}>
                 <img
@@ -137,7 +158,7 @@ export default class login extends Component {
 
               <Form>
                 <FormGroup>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="cp-text">Email</FormLabel>
                   <InputGroup className='mb-3'>
                     <InputGroup.Prepend>
                       <InputGroup.Text id='basic-addon1'>
@@ -145,15 +166,17 @@ export default class login extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                      style={{borderColor: this.state.emailChange ?  this.state.email==='' ? 'red': null:null}}
                       type='email'
                       onChange={this.onChangeEmail}
                       aria-describedby='basic-addon1'
+                      placeholder={this.state.emailChange && this.state.email==='' ?"Please enter an Email":null}
                     />
                   </InputGroup>
                 </FormGroup>
 
                 <FormGroup>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel  className="cp-text">Password</FormLabel>
 
                   <InputGroup className='mb-3'>
                     <InputGroup.Prepend>
@@ -162,22 +185,24 @@ export default class login extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                      style={{borderColor: this.state.passwordChange ? this.state.password==='' ? 'red': null:null}}
                       type='password'
                       onChange={this.onChangePassword}
+                      placeholder={this.state.passwordChange && this.state.password==='' ?"Please enter a Password":null}
                     />
                   </InputGroup>
                 </FormGroup>
                 <div className='row' style={{ marginTop: '50px' }}>
-                  <div className='col-md-6' style={{ textAlign: 'center' }}>
-                    <Button variant='outline-dark' style={{ width: '90%' }}>
-                      Forget Password
-                    </Button>
-                  </div>
-                  <div className='col-md-6' style={{ textAlign: 'center' }}>
+                  {/*<div className='col-md-6 col-sm-12' style={{ textAlign: 'center' }}>*/}
+                  {/*  <Button variant='outline-dark' style={{ width: '90%' }}>*/}
+                  {/*    Forget Password*/}
+                  {/*  </Button>*/}
+                  {/*</div>*/}
+                  <div className='col-md-12 col-sm-12' style={{ textAlign: 'center' }}>
                     <Button
                       variant='dark'
-                      style={{ width: '90%' }}
-                      onClick={this.onSignIn}
+                      style={{ width: '90%' , cursor: 'pointer'}}
+                      onClick={() => this.onSignIn()}
                     >
                       Login
                     </Button>

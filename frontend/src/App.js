@@ -13,8 +13,12 @@ import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
 
+import Footer from "./components/shared/Footer"
+import Profile from "./components/shared/Profile";
+
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
+import ProjectGroups from './components/coordinator/ProjectGroups'
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 
@@ -23,6 +27,7 @@ import StudentHome from './components/student/StudentHome';
 import Notice from './components/shared/Notice'
 
 require('dotenv').config();
+
 
 function App() {
   return (
@@ -35,6 +40,8 @@ function App() {
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
+          <Route exact path="/profile" component={Profile}></Route>
+
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}></Route>
@@ -43,7 +50,7 @@ function App() {
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
-          
+          <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>          
 
           {/* ==================================================================== */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>

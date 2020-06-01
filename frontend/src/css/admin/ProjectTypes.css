@@ -2,29 +2,27 @@
   background-color: #f5f5f5;
 }
 
+
 .cp-text {
   color: rgb(129, 129, 129);
 }
 .card-div-1 {
   margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 50px !important;
+  margin-bottom: 50px  !important;
   width: 70%;
-  padding-top: 30px;
-  padding-left: 60px;
-  padding-right: 60px;
-  padding-bottom: 30px;
+  padding: 30px 60px;
+}
+
+.mt-30{
+  margin-top: 30px;
 }
 
 .card-div-2 {
   margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 50px  !important;
   width: 90%;
-  padding-top: 30px;
-  padding-left: 60px;
-  padding-right: 60px;
-  padding-bottom: 30px;
+  padding: 30px 60px;
 }
 
 .verticle-align-middle {
@@ -59,3 +57,120 @@
 .col-padding-5{
   padding: 0px 5px !important;
 }
+
+@media only screen and (max-width: 1200px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 80%;
+    padding: 30px 60px;
+  }
+
+  .title{
+    font-size: 24px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 30px;
+  }
+
+  .card-div-2 {
+    margin: auto;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 0px;
+  }
+
+  .form-control-label {
+    font-size: 5px;
+    padding: 0px 15px !important
+  }
+
+  .title{
+    font-size: 20px;
+  }
+  .title2{
+    font-size: 20px;
+    padding: 0px 30px
+  }
+
+  .cp-text{
+    font-size: 14px;
+  }
+
+  .placeholder-text{
+    width: 100%;
+    font-size: 14px !important
+  }
+
+  .mt-30{
+    margin-top: 15px;
+  }
+  .middle{
+    text-align: center;
+  }
+  .table-heading{
+    font-size: 13px;
+  }
+  .operation-column{
+    width: 35%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card-div-1 {
+    margin: auto;
+    margin-top: 20px !important;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 20px;
+  }
+
+
+  .card-div-2 {
+    margin: auto;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 0px;
+  }
+  .form-control-label {
+    font-size: 5px;
+    padding: 0px 15px !important
+  }
+  .title{
+    font-size: 17px;
+  }
+  .title2{
+     font-size: 20px;
+     padding: 0px 20px
+   }
+  .cp-text{
+    font-size: 12px;
+  }
+  .placeholder-text{
+    width: 100%;
+    font-size: 12px !important
+  }
+  .mt-30{
+    margin-top: 5px;
+  }
+  .middle{
+    text-align: center;
+  }
+  .table-heading{
+    font-size: 10px;
+  }
+  .operation-column{
+    width: 35%;
+  }
+}
+
+
