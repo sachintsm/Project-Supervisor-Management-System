@@ -1,7 +1,104 @@
+.gd-fullpage{
+    background-color: #f8f8f8;
+    min-height: 730px;
+}
 .gd-reg-head{
-    margin-left: 20px;
+    /* margin-left: 20px; */
     margin-top: 20px;
     font-size: 30px;
     color: #444444;
     font-weight: 500;
+}
+.gd-topic{
+    font-size: 23px;
+    color: #444444;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+.gd-topic-2{
+    font-size: 23px;
+    color: #444444;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.gd-del-btn{
+    color: #444444;
+    margin-right: 10px;
+    margin-left: -10px;
+    margin-top: 7px;
+}
+
+/*************************Student List ****************/
+.sl-text{
+    font-size: 18px;
+    padding-top: 5px;
+    padding-left: 10px;
+    color: #444444;
+
+}
+
+.sl-card{
+    margin-top: -35px;
+    height: 40px;
+}
+.sl-card-super{
+    margin-top: -35px;
+    height: 40px;
+}
+.sl-card:hover{
+    background-color: rgb(248, 248, 248);
+    cursor: pointer;
+    transition: 0.5s;
+}
+.sl-card-super:hover{
+    background-color: rgb(248, 248, 248);
+    cursor: pointer;
+    transition: 0.5s;
+}
+@media screen and (max-width: 500px){
+    .sl-text{
+        font-size: 16px;
+        padding-top: 5px;
+        padding-left: 10px;
+        color: #444444;
+    
+    }
+    .sl-card{
+        margin-top: -35px;
+        height: 70px;
+    } 
+    .sl-card-super{
+        margin-top: -35px;
+        height: 40px;
+    } 
+    .gd-topic{
+        font-size: 18px;
+        color: #444444;
+        font-weight: 500;
+    }
+    .gd-topic-2{
+        font-size: 18px;
+        color: #444444;
+        font-weight: 500;        
+    }
+    .gd-reg-head{
+        margin-bottom: 20px;
+        padding-top: 20px;
+        font-size: 25px;
+        color: #444444;
+        font-weight: 500;
+    }
+    .gd-stu-list{
+        margin-top: 50px;
+    }
+    .gd-del-btn{
+        color: #444444;
+        margin-right: 10px;
+        margin-left: -10px;
+    }
+    .gd-add-div{
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 }

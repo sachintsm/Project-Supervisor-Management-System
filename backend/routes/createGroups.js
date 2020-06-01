@@ -5,17 +5,15 @@ const verify = require('../authentication');
 
 
 // ?create new group
-router.post('/add', verify,(req, res) => {
-    console.log(req.body);
+router.post('/add', verify, (req, res) => {
     const newGroup = new CreateGroups({
-        groupId : req.body.groupId,
+        groupId: req.body.groupId,
         projectId: req.body.projectId,
         groupMembers: req.body.groupMembers
     })
 
     newGroup.save()
         .then(result => {
-            console.log(result)
             res.json({ state: true, msg: "Data Inserted Successfully..!" });
         })
         .catch(error => {
@@ -27,47 +25,131 @@ router.post('/add', verify,(req, res) => {
 //? get all the groups on spesific project
 router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
-    console.log(projectId);
     CreateGroups
-        .find({ projectId : projectId })
+        .find({ projectId: projectId })
         .exec()
         .then(data => {
-            res.json({state : true, data : data , msg : 'Data successfully sent..!'})
+            res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
         })
-        .catch(err =>{
-            res.send({ state : false, msg : err.message})
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
         })
 })
 
 //? delete a group by idList
-router.delete('/delete/:id',verify, async (req, res) => {
+router.delete('/delete/:id', verify, async (req, res) => {
     const id = req.params.id
 
     CreateGroups
-        .remove({ _id : id })
+        .remove({ _id: id })
         .exec()
-        .then(result =>{
-            res.send({ state :true, msg : 'Group successfully deleted..!'})
+        .then(result => {
+            res.send({ state: true, msg: 'Group successfully deleted..!' })
         })
-        .catch(err =>{
-            res.send({ state : false, msg : 'Group does not delete successfully..!'})
+        .catch(err => {
+            res.send({ state: false, msg: 'Group does not delete successfully..!' })
         })
 })
 
 //? get group data by id
-router.get('/getGroupData/:id', verify,(req, res) =>{
+router.get('/getGroupData/:id', verify, (req, res) => {
     const id = req.params.id;
-    console.log(id);
-    
+
     CreateGroups
-        .find({_id : id})
+        .find({ _id: id })
         .exec()
         .then(data => {
-            console.log(data[0])
-            res.json({state : true, data : data[0] , msg : 'Data successfully sent..!'})
+            res.json({ state: true, data: data[0], msg: 'Data successfully sent..!' })
         })
-        .catch(err =>{
-            res.send({ state : false, msg : err.message})
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
         })
 })
+
+//? add student index to a group
+router.post('/addStudentIndex', async (req, res) => {
+    const id = req.body._id
+    const index = req.body.index
+
+    const existing = await CreateGroups.findOne({ _id: id, groupMembers: index });
+    if (existing) return res.json({ state: false, msg: "This Index is already added..!" })
+    else {
+        CreateGroups
+            .find({ _id: id })
+            .update(
+                { $push: { groupMembers: index } }
+            )
+            .exec()
+            .then(data => {
+                res.json({ state: true, msg: 'Data successfully updated..!' })
+            })
+            .catch(err => {
+                res.send({ state: false, msg: err.message })
+            })
+    }
+})
+//? add supervisor index to a group
+router.post('/addSupervisorIndex', async (req, res) => {
+    console.log(req.body)
+    const id = req.body._id
+    const index = req.body.index
+
+    const existing = await CreateGroups.findOne({ _id: id, supervisors: index });
+    if (existing) return res.json({ state: false, msg: "This Index is already added..!" })
+    else {
+        CreateGroups
+            .find({ _id: id })
+            .update(
+                { $push: { supervisors: index } }
+            )
+            .exec()
+            .then(data => {
+                res.json({ state: true, msg: 'Data successfully updated..!' })
+            })
+            .catch(err => {
+                res.send({ state: false, msg: err.message })
+            })
+    }
+})
+
+
+//? delete index from the groupMembers
+router.post('/removeStudentIndex', async (req, res) => {
+    const id = req.body._id
+    const index = req.body.index
+
+    CreateGroups
+        .find({ _id: id })
+        .update(
+            { $pull: { groupMembers: index } }
+        )
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Index successfully deleted..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+
+})
+
+//? delete supervisor from the project
+router.post('/removeSupervisorIndex', (req, res) => {
+    const id = req.body._id
+    const index = req.body.index
+
+    CreateGroups
+        .find({ _id: id })
+        .update(
+            { $pull: { supervisors: index } }
+        )
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Index successfully deleted..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+})
+
 module.exports = router

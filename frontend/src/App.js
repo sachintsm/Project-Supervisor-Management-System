@@ -18,7 +18,7 @@ import Profile from "./components/shared/Profile";
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
 import ProjectGroups from './components/coordinator/ProjectGroups'
-import GroupData from './components/coordinator/GroupData';
+import GroupData from './components/coordinator/GroupData/GroupData';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 

@@ -22,7 +22,7 @@ class CoordinatorList extends Component {
     }
 
     getCoordinatorList() {
-
+        
         this.setState({
             coordinatorIDList: this.props.idList,
             coordinatorNameList: []
