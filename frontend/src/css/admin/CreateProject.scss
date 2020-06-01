@@ -150,60 +150,63 @@
         width: 35%;
     }
 
-    table, thead, tbody, th, td, tr {
-        display: block;
-        font-size: 13px;
+    .create-project{
+        table, thead, tbody, th, td, tr {
+            display: block;
+            font-size: 13px;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        tr {
+            border: 1.1px solid #555;
+            border-radius: 10px;
+            padding: 3% 5%;
+            margin-bottom: 10px;
+        }
+
+        p{
+            margin: 0px !important;
+        }
+
+        td {
+            /* Behave  like a "row" */
+            /*border-bottom: 1px solid #eee;*/
+            position: relative;
+            padding: 0px !important;
+            padding-left: 50%;
+        }
+
+        td:before {
+            /*position: relative;*/
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            color: black;
+            font-weight: bold;
+        }
+        /*.edit-btn{*/
+        /*    color:#17A2B8;*/
+        /*    cursor: pointer;*/
+        /*}*/
+        /*.del-btn{*/
+        /*    color: rgb(214, 0, 0) !important;*/
+        /*    cursor: pointer;*/
+        /*}*/
+        td:nth-of-type(1):before { content: "Project Year"; }
+        td:nth-of-type(2):before { content: "Project Type"; }
+        td:nth-of-type(3):before { content: "Academic Year"; }
+        td:nth-of-type(4):before { content: "Coordinators"; }
+        td:nth-of-type(5):before { content: "State"; }
     }
 
-    /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-
-    tr {
-        border: 1.1px solid #555;
-        border-radius: 10px;
-        padding: 3% 5%;
-        margin-bottom: 10px;
-    }
-
-    p{
-        margin: 0px !important;
-    }
-
-    td {
-        /* Behave  like a "row" */
-        /*border-bottom: 1px solid #eee;*/
-        position: relative;
-        padding: 0px !important;
-        padding-left: 50%;
-    }
-
-    td:before {
-        /*position: relative;*/
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        color: black;
-        font-weight: bold;
-    }
-    /*.edit-btn{*/
-    /*    color:#17A2B8;*/
-    /*    cursor: pointer;*/
-    /*}*/
-    /*.del-btn{*/
-    /*    color: rgb(214, 0, 0) !important;*/
-    /*    cursor: pointer;*/
-    /*}*/
-    td:nth-of-type(1):before { content: "Project Year"; }
-    td:nth-of-type(2):before { content: "Project Type"; }
-    td:nth-of-type(3):before { content: "Academic Year"; }
-    td:nth-of-type(4):before { content: "Coordinators"; }
-    td:nth-of-type(5):before { content: "State"; }
     /*td:nth-of-type(6):before { content: "Opeations"; }*/
 }
 

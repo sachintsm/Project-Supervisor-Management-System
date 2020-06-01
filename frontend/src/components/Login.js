@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import { Form } from 'reactstrap';
 import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
-import { ToastContainer, toast, Slide } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
 
 import {
@@ -62,7 +62,9 @@ export default class login extends Component {
     });
   };
   
-  onSignIn() {
+  onSignIn(e) {
+
+    e.preventDefault();
     const { email, password } = this.state;
 
     fetch(backendURI.url + '/users/login', {
@@ -156,16 +158,20 @@ export default class login extends Component {
                 />
               </div>
 
-              <Form>
-                <FormGroup>
+              <div className="title-div">
+                <h3 className="title">E-Supervision</h3>
+              </div>
+              <Form onSubmit={this.onSignIn}>
+                <FormGroup className="form-group-1">
                   <FormLabel className="cp-text">Email</FormLabel>
                   <InputGroup className='mb-3'>
-                    <InputGroup.Prepend>
+                    <InputGroup.Prepend className="email-icon">
                       <InputGroup.Text id='basic-addon1'>
-                        <FiMail size='1.5rem'></FiMail>
+                        <FiMail className="email-icon2" size='1.5rem'></FiMail>
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                        className="email-formcontrol"
                       style={{borderColor: this.state.emailChange ?  this.state.email==='' ? 'red': null:null}}
                       type='email'
                       onChange={this.onChangeEmail}
@@ -175,16 +181,17 @@ export default class login extends Component {
                   </InputGroup>
                 </FormGroup>
 
-                <FormGroup>
+                <FormGroup className="form-group-2">
                   <FormLabel  className="cp-text">Password</FormLabel>
 
                   <InputGroup className='mb-3'>
-                    <InputGroup.Prepend>
+                    <InputGroup.Prepend className="password-icon">
                       <InputGroup.Text id='basic-addon1'>
-                        <FiLock size='1.5rem'></FiLock>
+                        <FiLock size='1.5rem'  className="password-icon2"></FiLock>
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                        className="password-formcontrol"
                       style={{borderColor: this.state.passwordChange ? this.state.password==='' ? 'red': null:null}}
                       type='password'
                       onChange={this.onChangePassword}
@@ -192,7 +199,7 @@ export default class login extends Component {
                     />
                   </InputGroup>
                 </FormGroup>
-                <div className='row' style={{ marginTop: '50px' }}>
+                <div className='row' className="btn-div">
                   {/*<div className='col-md-6 col-sm-12' style={{ textAlign: 'center' }}>*/}
                   {/*  <Button variant='outline-dark' style={{ width: '90%' }}>*/}
                   {/*    Forget Password*/}
@@ -200,11 +207,12 @@ export default class login extends Component {
                   {/*</div>*/}
                   <div className='col-md-12 col-sm-12' style={{ textAlign: 'center' }}>
                     <Button
+                        type="submit"
+                        className="login-btn"
                       variant='dark'
-                      style={{ width: '90%' , cursor: 'pointer'}}
-                      onClick={() => this.onSignIn()}
+                      // onClick={() => this.onSignIn()}
                     >
-                      Login
+                      LOGIN
                     </Button>
                   </div>
                 </div>
