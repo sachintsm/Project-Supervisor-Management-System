@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/admin/CreateProject.css';
+import '../../css/admin/CreateProject.scss';
 import Navbar from '../shared/Navbar';
 import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
@@ -654,6 +654,9 @@ class CreateProject extends Component {
             </Col>
 
 
+
+                      <div className="card card-2 create-project">
+                        <h3>Current Projects</h3>
 
           </Row>
         </div>
