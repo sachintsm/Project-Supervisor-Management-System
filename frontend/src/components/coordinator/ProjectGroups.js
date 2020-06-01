@@ -57,7 +57,7 @@ class ProjectGroups extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState || !localStorage.getItem("isCoordinator")) {  //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) { //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
 
@@ -88,10 +88,7 @@ class ProjectGroups extends Component {
         // this.state.groupDataBlock = [];
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
-                console.log(res.data.data);
-
                 this.setState({
-
                     groupData: res.data.data
                 })
             })
@@ -118,47 +115,48 @@ class ProjectGroups extends Component {
                     array1
                 )
                 this.state.groupDataBlock.push(block)
-            }
-            else {
+            } else {
                 var array3 = [];
                 for (let k = 0; k < this.state.groupData[i].groupMembers.length; k++) {
-                    var newMember = this.state.groupData[i].groupMembers[k] + ', '
-                    array3.push(newMember)
+                    var newMemberA = this.state.groupData[i].groupMembers[k] + ', '
+                    array3.push(newMemberA)
                 }
-                var block = new groupDataBlock(
+                var blockA = new groupDataBlock(
                     this.state.groupData[i]._id,
                     this.state.groupData[i].groupId,
                     this.state.groupData[i].projectId,
                     array3,
                     ''
                 )
-                this.state.groupDataBlock.push(block)
+                this.state.groupDataBlock.push(blockA)
             }
 
-        }
-        for (let i = 0; i < this.state.groupDataBlock.length; i++) {
-            console.log(this.state.groupDataBlock[i])
         }
         this.setState({ dataDiv: true, spinnerDiv: false });
 
     }
 
+    //? opent the gropuData window
+    groupDataHandler(data){
+        this.props.history.push('/coordinatorhome/groupData/' + data);
+    }
+
+    //?delete the group
     deleteGroup(id) {
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Are you sure to do this ?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        const obj = getFromStorage('auth-token');
-                        fetch(backendURI.url + '/createGroups/delete/' + id, { 
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'auth-token': obj.token
-                            },
-                        })
+            buttons: [{
+                label: 'Yes',
+                onClick: () => {
+                    const obj = getFromStorage('auth-token');
+                    fetch(backendURI.url + '/createGroups/delete/' + id, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth-token': obj.token
+                        },
+                    })
                         .then(res => res.json())
                         .then(json => {
                             if (json.state === true) {
@@ -168,8 +166,7 @@ class ProjectGroups extends Component {
                                     snackbarcolor: 'success',
                                 })
                                 window.location.reload();
-                            }
-                            else {
+                            } else {
                                 this.setState({
                                     snackbaropen: true,
                                     snackbarmsg: json.msg,
@@ -185,14 +182,14 @@ class ProjectGroups extends Component {
                                 snackbarcolor: 'error',
                             })
                         })
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
                 }
+            },
+            {
+                label: 'No',
+                onClick: () => {
+
+                }
+            }
             ]
         })
     }
@@ -223,16 +220,16 @@ class ProjectGroups extends Component {
                             <p className="pg-reg-head">Project Group Details</p>
 
                             <Row >
-                                <Col xs="10">
-                                    <div className="form-group">
+                                <Col md="10" xs="12">
+                                    <div className="form-group pg-dropdown-select">
                                         <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
                                             <option>Select the project</option>
                                             {activeProjectsList}
                                         </select>
                                     </div>
                                 </Col>
-                                <Col xs="2">
-                                    <button className="btn btn-info" style={{ marginTop: "18px", width: "100%" }} onClick={this.searchGroups}>Search</button>
+                                <Col md="2" xs="12">
+                                    <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
                                 </Col>
 
                             </Row>
@@ -247,7 +244,7 @@ class ProjectGroups extends Component {
                                 <p className="pg-details-head">Project Groups</p>
 
                                 {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                <Table hover style={{ marginTop: 20 }} >
+                                <Table hover className="pg-table" >
 
                                     <thead>
                                         <tr>
@@ -260,7 +257,7 @@ class ProjectGroups extends Component {
                                     <tbody>
                                         {this.state.groupDataBlock.map((item) => {
                                             return (
-                                                <tr className="pg-table-row" key={item.groupId}>
+                                                <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
                                                     <td className="table-body">{item.groupId}</td>
                                                     <td className="table-body">{item.groupMembers}</td>
                                                     <td className="table-body">{item.supervisors}</td>
