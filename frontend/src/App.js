@@ -13,12 +13,12 @@ import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
 
-import Footer from "./components/shared/Footer"
 import Profile from "./components/shared/Profile";
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
 import ProjectGroups from './components/coordinator/ProjectGroups'
+import GroupData from './components/coordinator/GroupData/GroupData';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 
@@ -50,7 +50,8 @@ function App() {
           {/* ==================================================================== */}
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
-          <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>          
+          <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
+          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
 
           {/* ==================================================================== */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
