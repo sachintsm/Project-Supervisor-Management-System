@@ -206,7 +206,6 @@ router.post('/bulkRegister', async (req, res, next) => {
 
 //User Login
 router.post('/login', async function (req, res) {
-  console.log('ddddddddddddddddddddddddddddddddddd')
   const password = req.body.password;
   console.log(req.body)
   //checking if the userId is already in the database
