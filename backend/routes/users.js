@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
 const Staff = require('../models/staff');
+const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const bcrypt = require('bcryptjs');
@@ -205,7 +206,6 @@ router.post('/bulkRegister', async (req, res, next) => {
 
 //User Login
 router.post('/login', async function (req, res) {
-  console.log('ddddddddddddddddddddddddddddddddddd')
   const password = req.body.password;
   console.log(req.body)
   //checking if the userId is already in the database
@@ -395,6 +395,7 @@ router.get("/profileImage/:filename", function (req, res) {
 });
 
 
+
 ////update user profile pic
 router.post('/uploadmulter/:id', async function (req, res) {
   let id = req.params.id;
@@ -514,6 +515,24 @@ router.get('/studentindex/:id', async(req,res)=>{
   }
   catch(err){
     console.log(err)
+  }
+})
+
+
+//get all group members by userId of one student
+router.post("/getgroupmembers/:id", async(req,res,next)=>{
+  try{
+    const userId = req.params.id;
+    const projectId = req.body.projectId;
+    const result = await User.findOne({ _id: userId }).select('indexNumber');
+    const index = result.indexNumber
+
+    const group = await CreateGroups.findOne({projectId:projectId,groupMembers:index}).select("groupMembers")
+    res.send(group.groupMembers)
+
+  }
+  catch (e) {
+    console.log(e)
   }
 })
 

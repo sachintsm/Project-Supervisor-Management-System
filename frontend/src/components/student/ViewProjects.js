@@ -5,6 +5,8 @@ import Footer from '../shared/Footer';
 import axios from 'axios';
 import {getFromStorage} from "../../utils/Storage";
 import CoordinatorList from "../admin/CoordinatorList";
+import { withRouter } from "react-router-dom";
+import ProjectDetailsCard from "./ProjectDetailsCard";
 
 const backendURI = require('../shared/BackendURI');
 
@@ -13,6 +15,7 @@ class ViewProjects extends Component {
     constructor(props) {
         super(props);
         this.getProjectList = this.getProjectList.bind(this)
+        this.openProject = this.openProject.bind(this)
         this.state = {
             activeList: [],
             endedList: [],
@@ -22,6 +25,11 @@ class ViewProjects extends Component {
 
     componentDidMount() {
         this.getProjectList();
+    }
+
+    openProject(item){
+
+        this.props.history.push('/studenthome/viewproject',{projectDetails:item})
     }
 
     getProjectList(){
@@ -59,38 +67,19 @@ class ViewProjects extends Component {
                             <h3 className="title">Ongoing Projects <span className="dot"></span></h3>
                             <div className="project-list-div">
 
-                                {this.state.loading && <Spinner animation="border" />}
+                                {this.state.loading &&
+                                <Col style={{textAlign:'center'}}>
+                                    <Spinner animation="border" className="spinner" style={{alignContent:'center'}}/>
+                                </Col>}
+
                                 {this.state.activeList.length==0 && !this.state.loading  && <p className="no-project">No Projects</p>}
                                 <Row className="project-row">
                                     {
                                         this.state.activeList.map(item=>{
                                             return <Col lg={6} md={12} sm={12} xs={12} key={item._id} className="item-div">
-                                                <div  className="card zero-margin projects-card">
-
-                                                    <Row>
-                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Project Year </span></Col>
-                                                        {/*<Col lg={1} md={1} sm={0} xs={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text">{item.projectYear}</span></Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Project Type</span></Col>
-                                                        {/*<Col lg={1} md={1} sm={0} XS={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text">{item.projectType}</span></Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Academic Year</span></Col>
-                                                        {/*<Col lg={1} md={1} sm={0} xs={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="normal-text">{item.academicYear}</span></Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Coordinators</span></Col>
-                                                        {/*<Col lg={1} md={1} sm={0} XS={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text"><CoordinatorList component={"viewProject"} idList={item}/></span></Col>
-                                                    </Row>
+                                                <div  className="card zero-margin projects-card" onClick={()=>this.openProject(item)}>
+                                                    <ProjectDetailsCard project={item}/>
                                                 </div>
-
-
-
                                             </Col>
                                         })
                                     }
@@ -101,8 +90,25 @@ class ViewProjects extends Component {
                         <div className="card card-div ended-card">
                             <h3 className="title">Ended Projecs</h3>
                             <div className="project-list-div">
-                                {this.state.loading && <Spinner animation="border" />}
+
+                                {this.state.loading &&
+                                <Col style={{textAlign:'center'}}>
+                                    <Spinner animation="border" className="spinner" style={{alignContent:'center'}}/>
+                                </Col>}
+
                                 {this.state.endedList.length==0 && !this.state.loading && <p className="no-project">No Projects</p>}
+                                <Row className="project-row">
+                                    {
+                                        this.state.endedList.map(item=>{
+                                            return <Col lg={6} md={12} sm={12} xs={12} key={item._id} className="item-div">
+                                                <div  className="card zero-margin projects-card"  onClick={()=>this.openProject(item)}>
+                                                    <ProjectDetailsCard project={item}/>
+                                                </div>
+                                            </Col>
+                                        })
+                                    }
+
+                                </Row>
                             </div>
                         </div>
                     </Container>
@@ -113,4 +119,4 @@ class ViewProjects extends Component {
     }
 }
 
-export default ViewProjects;
+export default withRouter(ViewProjects);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../../App.css"
 import { getFromStorage } from "../../utils/Storage";
+import { Spinner,Col } from 'react-bootstrap';
 const backendURI = require('../shared/BackendURI');
 
 class CoordinatorList extends Component {
@@ -11,7 +13,8 @@ class CoordinatorList extends Component {
             coordinatorIDList: this.props.idList.coordinatorList,
             component: this.props.component,
             coordinatorNameList: [],
-            props: props
+            props: props,
+            loading: true
         }
 
     }
@@ -36,7 +39,8 @@ class CoordinatorList extends Component {
                 if (res.data) {
                     const name = res.data.firstName + " " + res.data.lastName
                     this.setState({
-                        coordinatorNameList: [...this.state.coordinatorNameList, name]
+                        coordinatorNameList: [...this.state.coordinatorNameList, name],
+                        loading: false
                     })
                 }
             })
@@ -47,8 +51,10 @@ class CoordinatorList extends Component {
     render() {
         return (
             <div>
+                {this.state.loading && <Spinner animation="border" className="spinner" style={{alignContent:'center'}}/>}
+
                 {this.state.coordinatorNameList.map((user, index) => {
-                    return <div><span key={index}>{user}</span><br/></div>
+                    return <div  key={index}><span>{user}</span><br/></div>
                 })}
             </div>
         );
