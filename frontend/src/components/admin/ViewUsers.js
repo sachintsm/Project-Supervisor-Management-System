@@ -12,11 +12,25 @@ import Footer from '../shared/Footer'
 import { verifyAuth } from "../../utils/Authentication";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
-import { Table } from 'react-bootstrap';
+import {
+    Button,
+    Container,
+    Col,
+    Row,
+    //   Dropdown,
+    //   DropdownButton,
+    //   ButtonGroup,
+    FormControl,
+    Table,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
 // import SearchField from "react-search-field";
 
 
 const backendURI = require('../shared/BackendURI');
+// const userId = localStorage.getItem("auth-id");
+
 
 
 const Staff = React.memo(props => (
@@ -27,7 +41,10 @@ const Staff = React.memo(props => (
         <td>{props.staff.nic}</td>
         <td>{props.staff.mobile}</td>
         <td>
-            <Create className="edit-btn" fontSize="large" />
+            <Create className="edit-btn" fontSize="large" href={"/editprofile/" +props.staff._id}/>
+        </td>
+            <Link to={"/editprofile/" +props.staff._id}>Edit</Link>
+        <td>
         </td>
         <td>
             <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
@@ -118,7 +135,6 @@ export default class ViewUsers extends Component {
         })
 
     }
-
     UserList2() {
 
         let filteredUsers = this.state.userS.filter(
@@ -128,7 +144,7 @@ export default class ViewUsers extends Component {
         );
 
         return filteredUsers.map((currentStaff, i) => {
-            if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
+            if (currentStaff.isStaff === true && currentStaff.isAdmin === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
             else return null
@@ -146,7 +162,7 @@ export default class ViewUsers extends Component {
         );
 
         return filteredUsers.map((currentStaff, i) => {
-            if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+            if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
             else return null
@@ -155,6 +171,22 @@ export default class ViewUsers extends Component {
     }
 
     UserList4() {
+
+        let filteredUsers = this.state.userS.filter(
+            (currentStaff) => {
+                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        return filteredUsers.map((currentStaff, i) => {
+            if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+        })
+
+    }
+
+    UserList5() {
 
         let filteredUsers = this.state.userS.filter(
             (currentStaff) => {
@@ -172,6 +204,7 @@ export default class ViewUsers extends Component {
 
     }
 
+
     deleteUser(data) {
 
         axios.post(backendURI.url + "/users/deleteUser/" + data)
@@ -181,6 +214,8 @@ export default class ViewUsers extends Component {
         window.location.reload();
 
     }
+
+
 
     render() {
         return (
@@ -245,6 +280,37 @@ export default class ViewUsers extends Component {
                                         </div>
 
                                     </Tab>
+                                    <Tab eventKey="admins" title="Admins">
+                                        <div className="row" style={{ marginTop: "20px" }}>
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">List of Admins</h3>
+                                                    <form>
+                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                        </div>
+                                                    </form>
+                                                    <div>
+                                                        <Table hover style={{ marginTop: 20 }} >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Nic</th>
+                                                                    <th>Mobile</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.UserList2()}
+
+                                                            </tbody>
+                                                        </Table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </Tab>
                                     <Tab eventKey="co-ordinators" title="Co-ordinators">
                                         <div className="row" style={{ marginTop: "20px" }}>
                                             <div className="card">
@@ -267,7 +333,7 @@ export default class ViewUsers extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.UserList2()}
+                                                                {this.UserList3()}
 
                                                             </tbody>
                                                         </Table>
@@ -302,7 +368,7 @@ export default class ViewUsers extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.UserList3()}
+                                                                {this.UserList4()}
 
                                                             </tbody>
                                                         </Table>
@@ -334,7 +400,7 @@ export default class ViewUsers extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.UserList4()}
+                                                                {this.UserList5()}
 
                                                             </tbody>
                                                         </Table>
@@ -344,6 +410,7 @@ export default class ViewUsers extends Component {
 
                                         </div>
                                     </Tab>
+                                    
 
                                 </Tabs>
                             </div>
