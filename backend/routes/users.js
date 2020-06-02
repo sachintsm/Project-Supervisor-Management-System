@@ -460,5 +460,26 @@ router.post('/reset/:id', function (req, res) {
       });
   });
 })
+///// update no of projects
 
+router.post('/academic/:id',function(req,res){
+  let id = req.params.id;
+  console.log(id);
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+        console.log(req.body.pro);
+          user.noProject = req.body.pro;
+
+          user.save().then(user => {
+              res.json({state:true,msg:'Update Complete', data:user.noProject});
+              
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
 module.exports = router;

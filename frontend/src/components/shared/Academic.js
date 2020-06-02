@@ -25,7 +25,7 @@ export default class Academic extends Component {
                 console.log(response);
                 console.log(response.data);
                 this.setState({
-                    pro:response.data.data[0].pro,
+                    pro:response.data.data[0].noProject,
                 })
             })
             .catch(error => {
@@ -43,13 +43,6 @@ export default class Academic extends Component {
             pro:'',
 
         }
-    }
-
-    onChangeFirstName(e){
-        this.setState({
-            firstName:e.target.value
-        });
-       
     }
 
     onChangePro(e){
@@ -71,10 +64,10 @@ export default class Academic extends Component {
                     label: 'Yes',
                     onClick: () => {
                         const obj = {
-                            pro: this.state.pro,
+                            pro: this.state.pro
                         };
                         console.log(obj);
-                       axios.post(backendURI.url + '/users/update/'+userData.id, obj).then(res =>{ 
+                       axios.post(backendURI.url + '/users/academic/'+userData.id, obj).then(res =>{ 
                         console.log(res.data);
                         if(res.data.state==true){
                             alert("Update Successfull");
@@ -99,7 +92,7 @@ export default class Academic extends Component {
     render() {
         return(
             <div>
-            <div className="card" style={{width: 550}}>
+            <div className="card3">
                 <div className="card-body px-lg-5">
                     <div style={{marginTop: 10}}>
                         <form  onSubmit={this.onSubmit}>
@@ -108,7 +101,7 @@ export default class Academic extends Component {
                                     <input type="number" name="project"
                                     value={this.state.pro || ""}
                                     onChange={this.onChangePro}/>
-                                    <input type="submit" value="change" className="btn btn-primary" />
+                                    <input type="submit" value="change" className="btn btn-info my-4" />
                                 </p>
                             </div>
                         </form>
