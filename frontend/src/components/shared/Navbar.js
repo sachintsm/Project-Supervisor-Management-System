@@ -64,7 +64,7 @@ export default class navbar extends Component {
         {/*#263238 => NAVBAR color*/ }
         <MDBNavbar color='special-color-dark' dark  expand='md' className='navbar'   >
           <MDBNavbarBrand>
-            <img style={{ width: '5rem' }}  src={require('../../assets/logo/Logo_white.png')} />
+            <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
@@ -94,6 +94,22 @@ export default class navbar extends Component {
               {this.state.panel === 'coordinator' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link href='/coordinatorhome/projectGroups'>Project Groups</Nav.Link>
+                </MDBNavItem>
+              )}
+
+              {this.state.panel === 'coordinator' && (
+                <MDBNavItem className="mr-4">
+                  <Nav.Link  className="padding-zero"   href='/shared/notice'>
+                    Notices
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+
+              {this.state.panel === 'coordinator' && (
+                <MDBNavItem  className="mr-4">
+                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
+                  NoticeView
+                  </Nav.Link>
                 </MDBNavItem>
               )}
 
@@ -134,6 +150,24 @@ export default class navbar extends Component {
                   </Nav.Link>
                 </MDBNavItem>
               )}
+
+              {/* ============================ Supervisor Panel ============================================= */}
+              {this.state.panel === 'supervisor' && (
+                <MDBNavItem   className="mr-4">
+                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
+                  NoticeView
+                  </Nav.Link>
+                </MDBNavItem>
+              )}
+
+              {/* =============================  Student Panel  ============================================ */}
+
+              {this.state.panel === 'student' && (
+                <MDBNavItem   className="mr-4">
+                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>NoticeView</Nav.Link>
+                </MDBNavItem>
+              )}
+
               {/* ========================================================================= */}
 
               <MDBNavItem className="mr-4">

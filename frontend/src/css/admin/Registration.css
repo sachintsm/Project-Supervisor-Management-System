@@ -1,12 +1,14 @@
-.image {
+.reg-image {
     margin-top: 100px;
     width: 100%;
     margin-bottom: 100px;
 }
+
 .image2 {
     width: 100%;
     margin-bottom: 100px;
 }
+
 .reg-head {
     margin-left: 20px;
     margin-top: 30px;
@@ -42,11 +44,20 @@
     border-radius: 5px;
 }
 
-.reg-csv-topic{
+.reg-csv-topic {
     margin-top: -70px;
 }
 
-.reg-error{
-    color : red ;
+.reg-error {
+    color: red;
     font-size: 10px;
+}
+
+@media screen and (max-width:500px) {
+    .image-div {
+        display: none;
+    }
+    .reg-head {
+        padding-top: 20px;
+    }
 }
