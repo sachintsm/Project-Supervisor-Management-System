@@ -39,65 +39,65 @@ export default class Contactus extends Component {
   };
 
   //? validation function
-  validate = () => {
-    let isError = false;
-    const errors = {
-      firstNameError: '',
-      lastNameError: '',
-      //userTypeError: '',
-      contactNumberError: '',
-      emailError: '',
-      messageError: '',
-    };
+  // validate = () => {
+  //   let isError = false;
+  //   const errors = {
+  //     firstNameError: '',
+  //     lastNameError: '',
+  //     //userTypeError: '',
+  //     contactNumberError: '',
+  //     emailError: '',
+  //     messageError: '',
+  //   };
 
-    if (this.state.form.firstName.length < 1) {
-      isError = true;
-      errors.firstNameError = 'First name required *'
-    }
+    // if (this.state.form.firstName.length < 1) {
+    //   isError = true;
+    //   errors.firstNameError = 'First name required *'
+    // }
 
-    if (this.state.form.lastName.length < 1) {
-      isError = true;
-      errors.lastNameError = 'Last name required *'
-    }
+    // if (this.state.form.lastName.length < 1) {
+    //   isError = true;
+    //   errors.lastNameError = 'Last name required *'
+    // }
 
-    if (this.state.form.contactNumber.length != 10) {
-      isError = true;
-      errors.contactNumberError = 'Invalied contact number!'
-    }
+    // if (this.state.form.contactNumber.length != 10) {
+    //   isError = true;
+    //   errors.contactNumberError = 'Invalied contact number!'
+    // }
 
-    if (this.state.form.email.indexOf('@') === -1) {
-      isError = true;
-      errors.emailError = 'Invalied email address!'
-    }
+  //   if (this.state.form.email.indexOf('@') === -1) {
+  //     isError = true;
+  //     errors.emailError = 'Invalied email address!'
+  //   }
 
-    if (this.state.form.message.length < 1) {
-      isError = true;
-      errors.messageError = 'Message required *'
-    }
+  //   if (this.state.form.message.length < 1) {
+  //     isError = true;
+  //     errors.messageError = 'Message required *'
+  //   }
 
-    this.setState({
-      ...this.state,
-      ...errors
-    })
-    return isError;  //! is not error return state 'false'
-  }
+  //   this.setState({
+  //     ...this.state,
+  //     ...errors
+  //   })
+  //   return isError;  //! is not error return state 'false'
+  // }
 
 
   onSubmit(e) {
     e.preventDefault()
-    const err = this.validate();  //?calling validation function
+    // const err = this.validate();  //?calling validation function
 
-    if (!err) {
-      this.setState({
-        firstNameError: '',
-        lastNameError: '',
-        contactNumberError: '',
-        //userTypeError: '',
-        emailError: '',
-        messageError: '',
-        //mobileNumberError: '',
-        //indexNumberError: '',
-      })
+    // if (!err) {
+    //   this.setState({
+    //     firstNameError: '',
+    //     lastNameError: '',
+    //     contactNumberError: '',
+    //     //userTypeError: '',
+    //     emailError: '',
+    //     messageError: '',
+    //     //mobileNumberError: '',
+    //     //indexNumberError: '',
+    //   })
 
 
 
@@ -126,9 +126,9 @@ export default class Contactus extends Component {
           console.log(error);
         });
     }
-  }
+  
   render() {
-    //const { form } = this.state;
+    
     return (
       <div>
         <Button className="btn btn-info my-4" onClick={this.toggle} href="#">
@@ -170,7 +170,9 @@ export default class Contactus extends Component {
                     <Input type="textarea" className="form-control" name="message" onChange={this.onChange} />
                   </div>
                   <div className="form-group">
-                    <Button className="btn btn-info my-4" type="submit">Send</Button>
+                    <Button className="btn btn-info my-4" disabled={
+                      !this.state.firstName || !this.state.lastName || !this.state.contactNumber || !this.state.email || !this.state.message
+                      } type="submit" block>Send</Button>
                   </div>
                 </form>
               </div>

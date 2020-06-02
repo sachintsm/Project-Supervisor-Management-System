@@ -45,6 +45,7 @@ export default class footer extends Component {
               <div className="row">
                 <p className="companey-name">Our Services</p>
               </div>
+              <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
               
             </div>
             <div className="col-md-4" style={{ marginTop: " 30px" }}>
