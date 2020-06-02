@@ -780,8 +780,8 @@ class Notice extends Component {
                 </Container>
                 </Col>
               </Row>
-
           </div>
+          <Footer />
       </React.Fragment>
 
     )

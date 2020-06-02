@@ -127,6 +127,8 @@ class NoticeView extends Component {
         )}
            
            </Container>
+
+           <Footer />
            </React.Fragment>
         );   
         
@@ -187,6 +189,7 @@ class NoticeView extends Component {
         )}
            
            </Container>
+           <Footer />
            </React.Fragment>
       )
     } else if(this.userType === 'coordinator'){
@@ -247,6 +250,7 @@ class NoticeView extends Component {
         )}
            
            </Container>
+           <Footer />
            </React.Fragment>
       )
 
