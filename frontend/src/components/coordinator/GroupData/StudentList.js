@@ -41,10 +41,9 @@ class StudentList extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-
         await axios.get(backendURI.url + '/users/studentList/' + this.props.obj, { headers: headers })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 if (res.data.data) {
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
