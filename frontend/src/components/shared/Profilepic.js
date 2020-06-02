@@ -4,6 +4,7 @@ import '../../css/shared/Profile.css';
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
+import Snackpop from './Snackpop';
 
 
 const backendURI = require("./BackendURI");
@@ -44,16 +45,25 @@ export default class Profilepic extends Component {
             multerImage:'',
             },
             username:'',
-            mulImage:'' 
+            mulImage:'',
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
         }
     }
-
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
 
 
     onFormSubmit(e){
         e.preventDefault();
         if(!this.state.form.file){
-            alert("Please select a picture.");
+            this.setState({
+                snackbaropen: true,
+                snackbarmsg: "Please select a picture.",
+                snackbarcolor: 'error',
+            })
         }
         else{
             confirmAlert({
@@ -69,9 +79,19 @@ export default class Profilepic extends Component {
                             console.log( formData);
                             axios.post(backendURI.url +'/users/uploadmulter/'+ userData.id , formData)
                                 .then((response) => {
-                                console.log(response);
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: response.data.msg,
+                                        snackbarcolor: 'success',
+                                    })
+                                    console.log(response);
                                 }).catch((error) => {
-                            });
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: error.data.msg,
+                                        snackbarcolor: 'error',
+                                    })
+                                    });
                             window.location.reload(false);
                         }
                     },
@@ -101,19 +121,26 @@ export default class Profilepic extends Component {
     render() {
         return (
                 <div>
-                    <div className="card testimonial-card"  style={{width: 420,height:250,backgroundColor: '#263238'}}>
-                    <div className="card-body" style={{height:200}}>
-                        <img src={("http://localhost:4000/users/profileImage/"+this.state.mulImage)} className="avatar"alt="" />
+                <Snackpop
+                        msg={this.state.snackbarmsg}
+                        color={this.state.snackbarcolor}
+                        time={3000}
+                        status={this.state.snackbaropen}
+                        closeAlert={this.closeAlert}
+                />
+                    <div className="card testimonial-card"  style={{backgroundColor: '#263238'}}>
+                    <div className="card-body1">
+                        <img src={("http://localhost:4000/users/profileImage/"+this.state.mulImage)} className="avatar" alt="" />
                         <br></br>
                         <h3 className="card-title" style={{ color: 'white' }}>{this.state.username}</h3>
                         </div>
                     </div>
-                        <div className="card testimonial-card"  style={{width: 420,height:130}}>
-                        <div className="card-body" style={{height:200}}>
-                            <div className="form-group">
+                        <div className="card testimonial-card1">
+                        <div className="card-body1">
+                            <div className="form-group1">
                                 <form onSubmit={this.onFormSubmit}>
                                     <input type="file" className="myImage" name="Image" onChange= {this.onChangeP} />
-                                    <button type="submit"  className="btn btn-primary">Upload</button>
+                                    <button type="submit"  className="btn btn-info my-4">Upload</button>
                                 </form>
                             </div>
                         </div>
