@@ -106,7 +106,7 @@ export default class navbar extends Component {
               )}
 
               {this.state.panel === 'coordinator' && (
-                <MDBNavItem>
+                <MDBNavItem  className="mr-4">
                   <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
                   NoticeView
                   </Nav.Link>
@@ -153,7 +153,7 @@ export default class navbar extends Component {
 
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
-                <MDBNavItem>
+                <MDBNavItem   className="mr-4">
                   <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
                   NoticeView
                   </Nav.Link>
@@ -163,7 +163,7 @@ export default class navbar extends Component {
               {/* =============================  Student Panel  ============================================ */}
 
               {this.state.panel === 'student' && (
-                <MDBNavItem>
+                <MDBNavItem   className="mr-4">
                   <Nav.Link  className="padding-zero"  href='/shared/noticeView'>NoticeView</Nav.Link>
                 </MDBNavItem>
               )}

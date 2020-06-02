@@ -9,6 +9,7 @@ class CoordinatorList extends Component {
         super(props);
         this.state = {
             coordinatorIDList: this.props.idList.coordinatorList,
+            component: this.props.component,
             coordinatorNameList: [],
             props: props
         }
@@ -47,7 +48,7 @@ class CoordinatorList extends Component {
         return (
             <div>
                 {this.state.coordinatorNameList.map((user, index) => {
-                    return <p key={index}>{user}</p>
+                    return <div><span key={index}>{user}</span><br/></div>
                 })}
             </div>
         );

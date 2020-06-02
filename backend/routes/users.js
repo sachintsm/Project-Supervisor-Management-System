@@ -504,4 +504,17 @@ router.get('/student/:id',verify, async (req, res) => {
   if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
   else return res.json({state: true})
 })
+
+//get student index from student userID
+router.get('/studentindex/:id', async(req,res)=>{
+  try{
+    const id = req.params.id;
+    const index = await User.find({ _id: id }).select('indexNumber');
+    res.send(index)
+  }
+  catch(err){
+    console.log(err)
+  }
+})
+
 module.exports = router;
