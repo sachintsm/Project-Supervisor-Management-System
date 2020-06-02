@@ -7,6 +7,7 @@ const Projects = require('../models/projects');
 const User = require('../models/users');
 const CreateGroups = require('../models/createGroups')
 
+//create project category
 router.post('/projecttype', async (req, res, next) => {
   console.log(req.body)
   try {
@@ -31,6 +32,7 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
+//get project categories
 router.get('/projecttype', verify, async (req, res, next) => {
   try {
     const types = await ProjectType.find({ "isDeleted": false });
@@ -49,6 +51,7 @@ router.get('/projecttype', verify, async (req, res, next) => {
 //   }
 // })
 
+//Delete project category
 router.patch("/projecttype/delete/:id", async (req, res, next) => {
   try {
 
@@ -94,7 +97,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 })
 
-
+//Edit Project category
 router.patch("/projecttype/:id", async (req, res, next) => {
   try {
 
@@ -166,7 +169,7 @@ router.get('/studentprojects/:studentId', async(req,res,next)=>{
     const id = req.params.studentId;
     const result = await User.findOne({ _id: id }).select('indexNumber');
     if(result.length==0){
-      res.send("Index Number not Found")
+      res.send([])
     }
     else{
       const index = result.indexNumber
@@ -181,7 +184,7 @@ router.get('/studentprojects/:studentId', async(req,res,next)=>{
         res.send(projects)
       }
       else{
-        res.send("Projects not found")
+        res.send([])
       }
     }
   }
