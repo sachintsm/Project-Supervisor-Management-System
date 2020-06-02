@@ -364,26 +364,27 @@ export default class registration extends Component {
           />
 
           <Row>
-            <Col xs="4">
+            <Col md="4" xs="12" className="image-div">
               <img
                 alt='background'
                 src={require('../../assets/backgrounds/pngguru.png')}
-                className='image'
+                className='reg-image'
               />
             </Col>
-            <Col xs="8" className="main-div">
+            <Col md="8" xs="12" className="main-div">
 
 
-              <div className="container">
+              <div>
 
                 <div >
                   <p className="reg-head">User Registration</p>
+
                   <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
-                    <Tab eventKey="single" title="Registration">
-                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+                    <Tab eventKey="single" title="Single" className="reg-tab-text">
+                      <div>
                         <form onSubmit={this.onSubmit}>
                           <Row>
-                            <Col>
+                            <Col md={6} xs="12">
                               <div className="form-group">
                                 <label className="text-label">First Name: </label>
                                 <input
@@ -397,7 +398,7 @@ export default class registration extends Component {
                                 <p className="reg-error">{this.state.firstNameError}</p>
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={6} xs="12">
                               <div className="form-group">
                                 <label className="text-label">Last Name : </label>
                                 <input
@@ -437,8 +438,8 @@ export default class registration extends Component {
                             </Col>
                           </Row>
 
-                          <Row style={{ marginTop: "20px" }}>
-                            <Col>
+                          <Row style={{ marginTop: "20px" }} >
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">E-mail : </label>
                                 <input
@@ -452,7 +453,7 @@ export default class registration extends Component {
 
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">NIC Number : </label>
                                 <input
@@ -466,7 +467,7 @@ export default class registration extends Component {
 
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">Mobile Number : </label>
                                 <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
@@ -479,7 +480,7 @@ export default class registration extends Component {
                           </Row>
 
                           <Row>
-                            <Col>
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">Usertype : </label>
                                 <div className="form-group">
@@ -494,7 +495,7 @@ export default class registration extends Component {
                                 </div>
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">Index Number : </label>
                                 <input type="text" className="form-control" name="indexNumber" onChange={this.onChange}
@@ -504,7 +505,7 @@ export default class registration extends Component {
 
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={4} xs="12">
                               <div className="form-group">
                                 <label className="text-label">Registration Number : </label>
                                 <input type="text" className="form-control" name="regNumber" onChange={this.onChange}
@@ -514,7 +515,7 @@ export default class registration extends Component {
 
                               </div>
                             </Col>
-                            <Col>
+                            <Col md={4} xs="12">
                               <label className="text-label">Birthday : </label>
                               <div className="form-group">
                                 <DatePicker
@@ -532,7 +533,7 @@ export default class registration extends Component {
 
                           <div className="form-group">
                             <button
-                              className="btn btn-info my-4 " style={{width : "100%"}}
+                              className="btn btn-info my-4 " style={{ width: "100%" }}
                               type="submit"
                             >Register Now </button>
                           </div>
@@ -541,7 +542,7 @@ export default class registration extends Component {
                     </Tab>
 
 
-                    <Tab eventKey="bulk" title="Bulk Registration">
+                    <Tab eventKey="bulk" title="Bulk">
                       <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
 
 
@@ -563,19 +564,22 @@ export default class registration extends Component {
                         </div>
 
 
-                        <div className="container">
-                          <CSVReader
-                            cssClass="react-csv-input"
-                            onFileLoaded={handleForce}
-                            inputStyle={{ color: 'grey' }}
-                          />
+                        <div className="container ">
+                          <Row className="req-csvbtn">
+
+                            <CSVReader
+                              cssClass="react-csv-input"
+                              onFileLoaded={handleForce}
+                              inputStyle={{ color: 'grey' }}
+                            />
+                          </Row>
                         </div>
 
                         <div className="form-group">
                           <button
                             className="btn btn-info my-4  "
                             onClick={this.fileUpload}
-                            style={{width : "100%"}}
+                            style={{ width: "100%" }}
                           >Register Now </button>
                         </div>
 

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import {getFromStorage} from "../../utils/Storage";
+import { getFromStorage } from "../../utils/Storage";
 const backendURI = require('../shared/BackendURI');
 
 class CoordinatorList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             coordinatorIDList: this.props.idList.coordinatorList,
@@ -22,18 +22,18 @@ class CoordinatorList extends Component {
     }
 
     getCoordinatorList() {
-
+        
         this.setState({
             coordinatorIDList: this.props.idList,
             coordinatorNameList: []
         })
         const headers = {
-            'auth-token':getFromStorage('auth-token').token,
+            'auth-token': getFromStorage('auth-token').token,
         }
-        this.state.coordinatorIDList.map(id=>{
-            axios.get(backendURI.url+'/users/stafflist/'+id, {headers: headers}).then(res=>{
-                if(res.data){
-                    const name = res.data.firstName+" "+res.data.lastName
+        this.state.coordinatorIDList.map(id => {
+            axios.get(backendURI.url + '/users/stafflist/' + id, { headers: headers }).then(res => {
+                if (res.data) {
+                    const name = res.data.firstName + " " + res.data.lastName
                     this.setState({
                         coordinatorNameList: [...this.state.coordinatorNameList, name]
                     })
@@ -46,7 +46,7 @@ class CoordinatorList extends Component {
     render() {
         return (
             <div>
-                {this.state.coordinatorNameList.map((user,index)=>{
+                {this.state.coordinatorNameList.map((user, index) => {
                     return <p key={index}>{user}</p>
                 })}
             </div>
