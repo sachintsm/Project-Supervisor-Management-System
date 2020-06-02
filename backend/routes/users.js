@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
 const Staff = require('../models/staff');
+const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const bcrypt = require('bcryptjs');
@@ -38,7 +39,7 @@ router.get('/verify', verify, function (req, res, next) {
 //User registration
 router.post("/register", verify, async function (req, res) {
   upload(req, res, (err) = async () => {
-    // console.log(req.body)
+
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
@@ -126,6 +127,7 @@ router.post("/register", verify, async function (req, res) {
   })
 });
 
+//? bulk user registration funtion
 router.post('/bulkRegister', async (req, res, next) => {
 
   var student
@@ -204,7 +206,6 @@ router.post('/bulkRegister', async (req, res, next) => {
 
 //User Login
 router.post('/login', async function (req, res) {
-    console.log('ddddddddddddddddddddddddddddddddddd')
   const password = req.body.password;
   console.log(req.body)
   //checking if the userId is already in the database
@@ -260,6 +261,45 @@ router.get('/stafflist/:id', async (req, res, next) => {
   }
 });
 
+//? get student name
+router.get('/studentList/:id', async (req, res, next) => {
+
+  try {
+    const id = req.params.id;
+    User
+      .find({ isStudent: true, isDeleted: false, indexNumber: id })
+      .select('indexNumber regNumber firstName lastName')
+      .exec()
+      .then(data => {
+        res.json({ state: true, data: data[0], msg: 'Data successfully sent..!' })
+      })
+      .catch(err => {
+        res.send({ state: false, msg: err.message })
+      })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//? get supervisor name
+router.get('/supervisorList/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;    
+    User
+      .find({ isSupervisor: true, isDeleted: false, _id: id })
+      .select('firstName lastName')
+      .exec()
+      .then(data => {
+        res.json({ state: true, data: data[0], msg: 'Data successfully sent..!' })
+      })
+      .catch(err => {
+        res.send({ state: false, msg: err.message })
+      })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //get all users details
 router.get('/get', function (req, res) {
 
@@ -278,7 +318,7 @@ router.get('/get', function (req, res) {
 router.route('/deleteUser/:id').post(function (req, res) {
   console.log('zxcvbn');
 
-  
+
   User.findById(req.params.id, function (err, user) {
     if (!user) {
       res.status(404).send("data is not found");
@@ -286,7 +326,7 @@ router.route('/deleteUser/:id').post(function (req, res) {
     else
       user.isDeleted = true;
 
-      user.save().then(user => {
+    user.save().then(user => {
 
     })
       .catch(err => {
@@ -333,41 +373,36 @@ router.get('/getUserName/:id', async (req, res) => {
 
 })
 
-
-
-//testing merge
-
 //get details to user profile
 router.get('/get/:id', function (req, res) {
   let id = req.params.id;
   User.find({ _id: id })
-      .exec()
-      .then(result => {
-          res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
-      })
-      .catch(error => {
-          res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-      })
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 });
 
 //update user profile 
-
-router.post('/update/:id',function(req,res){
+router.post('/update/:id', function (req, res) {
   let id = req.params.id;
-  User.findById({_id:id}, function(err,user){
-      if(err)
-          res.status(404).send("data is not found");
-      else{
-          user.email = req.body.email;
-          user.mobile = req.body.mobile;
+  User.findById({ _id: id }, function (err, user) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      user.email = req.body.email;
+      user.mobile = req.body.mobile;
 
-          user.save().then(user => {
-              res.json({state:true,msg:'Update Complete'});
-          })
-              .catch(err => {
-                  res.status(400).send("unable to update database");
-              });
-      }
+      user.save().then(user => {
+        res.json({ state: true, msg: 'Update Complete' });
+      })
+        .catch(err => {
+          res.status(400).send("unable to update database");
+        });
+    }
   });
 });
 
@@ -398,61 +433,63 @@ router.post('/updateUser/:id',function(req,res){
 ////////////////get user profile pic
 router.get("/profileImage/:filename", function (req, res) {
   console.log(req.params.filename)
-   const filename = req.params.filename;
+  const filename = req.params.filename;
   console.log(filename)
   res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
 
 });
 
 
+
 ////update user profile pic
-router.post('/uploadmulter/:id',async function(req,res){
+router.post('/uploadmulter/:id', async function (req, res) {
   let id = req.params.id;
   console.log(id);
 
   const userIdExists = await User.findOne({ _id: id });
-    console.log(userIdExists);
-  if (userIdExists) {console.log("true")
-  var p=userIdExists.imageName;
-  console.log(p);
-  fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-    if (err) throw err;
-    // if no error, file has been deleted successfully
-    console.log('File deleted!');
-  }); 
+  console.log(userIdExists);
+  if (userIdExists) {
+    console.log("true")
+    var p = userIdExists.imageName;
+    console.log(p);
+    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+    });
 
-  upload(req, res, (err) = async () => {
-    let ts = Date.now();
-    let date_ob = new Date(ts);
-    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+    upload(req, res, (err) = async () => {
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
 
-    var fullPath = time + '-' + req.file.originalname;
-    console.log(fullPath);
-  
-    User.findById({_id:id}, function(err,user){
-      if(err){
-      res.status(404).send("data is not found");
-      }
-      else{
-      user.imageName= fullPath
-      user.save()
-        .then((req) => {
-          res.json({
-            state: true,
-            msg: "Update profile picture!",
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.json({
-            state: false,
-            msg: "Update Unsuccessfull..!",
-          });
-        });
-      }
-    })   
-    
-  })
+      var fullPath = time + '-' + req.file.originalname;
+      console.log(fullPath);
+
+      User.findById({ _id: id }, function (err, user) {
+        if (err) {
+          res.status(404).send("data is not found");
+        }
+        else {
+          user.imageName = fullPath
+          user.save()
+            .then((req) => {
+              res.json({
+                state: true,
+                msg: "Update profile picture!",
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.json({
+                state: false,
+                msg: "Update Unsuccessfull..!",
+              });
+            });
+        }
+      })
+
+    })
   }
 
 });
@@ -462,48 +499,107 @@ router.post('/reset/:id', function (req, res) {
   const oldPassword = req.body.currentPw
   var newPassword = req.body.newPw
   let id = req.params.id;
-  User.findById({_id:id}, function (err, user) {    //find the user with respect to the userid
-      if (err) throw err;
-      bcrypt.compare(oldPassword, user.password, function (err, match) {  //check the old password with database password
-          if (err) {
+  User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
+    if (err) throw err;
+    bcrypt.compare(oldPassword, user.password, function (err, match) {  //check the old password with database password
+      if (err) {
+        throw err;
+      }
+      if (match) {    //if userid and password mached
+        console.log("Userid and Password match...!");
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
+            newPassword = hash;
+            if (err) {
               throw err;
-          }
-          if (match) {    //if userid and password mached
-              console.log("Userid and Password match...!");
-              bcrypt.genSalt(10, function (err, salt) {
-                  bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
-                      newPassword = hash;
-                      if (err) {
-                          throw err;
-                      }
-                      else {
-                          User.update({ _id:id }, {   //save the new password to the database
-                              $set: {
-                                  password: newPassword
-                              }
-                          })
-                              .exec()
-                              .then(data => {
-                                  console.log("Data Update Success..!")
-                                  res.json({ state: true, msg: "Data Update Success..!" });
+            }
+            else {
+              User.update({ _id: id }, {   //save the new password to the database
+                $set: {
+                  password: newPassword
+                }
+              })
+                .exec()
+                .then(data => {
+                  console.log("Data Update Success..!")
+                  res.json({ state: true, msg: "Data Update Success..!" });
 
-                              })
-                              .catch(error => {
-                                  console.log("Data Updating Unsuccessfull..!")
-                                  res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
-                              })
-                      }
-                  });
-              });
-          }
-          else {
-              res.json({
-                  state: false,
-                  msg: "Password Incorrect..!"
-              });
-          }
-      });
+                })
+                .catch(error => {
+                  console.log("Data Updating Unsuccessfull..!")
+                  res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
+                })
+            }
+          });
+        });
+      }
+      else {
+        res.json({
+          state: false,
+          msg: "Password Incorrect..!"
+        });
+      }
+    });
   });
+})
+///// update no of projects
+
+router.post('/academic/:id',function(req,res){
+  let id = req.params.id;
+  console.log(id);
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+        console.log(req.body.pro);
+          user.noProject = req.body.pro;
+
+          user.save().then(user => {
+              res.json({state:true,msg:'Update Complete', data:user.noProject});
+              
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
+//? check student available or not
+router.get('/student/:id',verify, async (req, res) => {
+  const index = req.params.id;
+  const ifExist = await User.findOne({ indexNumber: index });
+  if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
+  else return res.json({state: true})
+})
+
+//get student index from student userID
+router.get('/studentindex/:id', async(req,res)=>{
+  try{
+    const id = req.params.id;
+    const index = await User.find({ _id: id }).select('indexNumber');
+    res.send(index)
+  }
+  catch(err){
+    console.log(err)
+  }
+})
+
+
+//get all group members by userId of one student
+router.post("/getgroupmembers/:id", async(req,res,next)=>{
+  try{
+    const userId = req.params.id;
+    const projectId = req.body.projectId;
+    const result = await User.findOne({ _id: userId }).select('indexNumber');
+    const index = result.indexNumber
+
+    const group = await CreateGroups.findOne({projectId:projectId,groupMembers:index}).select("groupMembers")
+    res.send(group.groupMembers)
+
+  }
+  catch (e) {
+    console.log(e)
+  }
 })
 
 module.exports = router;

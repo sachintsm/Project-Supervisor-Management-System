@@ -45,14 +45,19 @@ export default class footer extends Component {
               <div className="row">
                 <p className="companey-name">Our Services</p>
               </div>
+              <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
               
             </div>
             <div className="col-md-4" style={{ marginTop: " 30px" }}>
               <div className="row">
-                <p className="companey-name">Contact Us</p>
+                  <div className="col-md-12 zero-padding">
+                      <p className="companey-name">Contact Us</p>
+                  </div>
+                  <div className="col-md-12  zero-padding">
+                      <Contactus/>
+                  </div>
             </div>
 
-              <Contactus/>
               {/* <div className="row">
                     <div className="col-md-1"><a href="/shared/mailbox"><FiMail size='1.5rem'></FiMail></a></div>
                     <div className="col-md-10">
@@ -132,7 +137,8 @@ export default class footer extends Component {
         </div>
         <div className="container">
           <p className="copyright">
-            Copyright &copy; 2020 deathstalker Team&trade;. All rights reserved
+            Copyright &copy; 2020 deathstalker Team&trade;.
+              All rights reserved
             &reg;.
           </p>
         </div>

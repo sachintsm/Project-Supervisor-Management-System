@@ -6,7 +6,6 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-// import { Button, Col, Row } from 'react-bootstrap';
 import Navbar from "../shared/Navbar";
 import '../../css/admin/ViewUsers.css';
 import Footer from '../shared/Footer'
@@ -132,6 +131,7 @@ export default class ViewUsers extends Component {
             if (currentStaff.isStaff === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
+            else return null
         })
 
     }
@@ -147,6 +147,8 @@ export default class ViewUsers extends Component {
             if (currentStaff.isStaff === true && currentStaff.isAdmin === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
+            else return null
+
         })
 
     }
@@ -163,6 +165,7 @@ export default class ViewUsers extends Component {
             if (currentStaff.isStaff === true && currentStaff.isCoordinator === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
+            else return null
         })
 
     }
@@ -195,6 +198,8 @@ export default class ViewUsers extends Component {
             if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
+            else return null
+
         })
 
     }
@@ -210,7 +215,7 @@ export default class ViewUsers extends Component {
 
     }
 
-    
+
 
     render() {
         return (
