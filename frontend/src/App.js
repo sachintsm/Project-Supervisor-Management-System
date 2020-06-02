@@ -52,6 +52,8 @@ function App() {
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>          
+          <Route exact path='/shared/notice' component={Notice}></Route>
+          <Route exact path='/shared/noticeView' component={NoticeView}></Route>
 
           {/* ==================================================================== */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>

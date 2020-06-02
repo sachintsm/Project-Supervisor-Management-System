@@ -89,7 +89,7 @@ router.get("/viewNotice", (req, res, next) => {
   // notice get methord
   Notice.find()
     .sort({ date: 1 })
-    .select("noticeTittle notice date filePath toCordinator toStudent toSupervisor")
+    .select("noticeTittle notice date filePath userType toCordinator toStudent toSupervisor")
     .exec()
     .then((docs) => {
       // result hadling
