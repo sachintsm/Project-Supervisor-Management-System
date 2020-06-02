@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
+import ViewProjects from "./ViewProjects";
 
 
 class StudentHome extends Component {
@@ -16,7 +17,7 @@ class StudentHome extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"student"} />
-        <h1>Student Home</h1>
+        <ViewProjects/>
         
       </React.Fragment>
     );
