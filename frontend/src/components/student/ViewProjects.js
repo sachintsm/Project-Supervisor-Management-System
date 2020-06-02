@@ -38,6 +38,7 @@ class ViewProjects extends Component {
         }
         const studentId = getFromStorage("auth-id")
         axios.get(backendURI.url+'/projects/studentprojects/'+studentId.id,{headers: headers}).then(result=>{
+            console.log(result.data)
             if(result.data.length>0){
                 result.data.map(item=>{
                   if(item.projectState){

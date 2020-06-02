@@ -169,7 +169,7 @@ router.get('/studentprojects/:studentId', async(req,res,next)=>{
     const id = req.params.studentId;
     const result = await User.findOne({ _id: id }).select('indexNumber');
     if(result.length==0){
-      res.send("Index Number not Found")
+      res.send([])
     }
     else{
       const index = result.indexNumber
@@ -184,7 +184,7 @@ router.get('/studentprojects/:studentId', async(req,res,next)=>{
         res.send(projects)
       }
       else{
-        res.send("Projects not found")
+        res.send([])
       }
     }
   }
