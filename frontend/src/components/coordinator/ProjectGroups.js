@@ -231,7 +231,6 @@ class ProjectGroups extends Component {
                                 <Col md="2" xs="12">
                                     <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
                                 </Col>
-
                             </Row>
                         </div>
                         {spinnerDiv && (

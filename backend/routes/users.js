@@ -284,7 +284,7 @@ router.get('/studentList/:id', async (req, res, next) => {
 //? get supervisor name
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
-    const id = req.params.id;    
+    const id = req.params.id;
     User
       .find({ isSupervisor: true, isDeleted: false, _id: id })
       .select('firstName lastName')
@@ -498,10 +498,24 @@ router.post('/reset/:id', function (req, res) {
 })
 
 //? check student available or not
-router.get('/student/:id',verify, async (req, res) => {
+router.get('/student/:id', verify, async (req, res) => {
   const index = req.params.id;
   const ifExist = await User.findOne({ indexNumber: index });
   if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
-  else return res.json({state: true})
+  else return res.json({ state: true })
+})
+
+//? update isSupervisor -> true , when assigne supervisors to the prjectcts
+router.get('/updateSupervisor/:id', (req, res) => {
+  const id = req.params.id
+  User.find({ _id: id })
+    .update({ isSupervisor: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Data successfully updated..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+    })
 })
 module.exports = router;

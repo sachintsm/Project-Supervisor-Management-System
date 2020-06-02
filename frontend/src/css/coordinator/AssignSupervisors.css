@@ -1,14 +1,18 @@
-.pg-container-div {
+.as-dropdown-select{
+    margin-top : 19px;
+}
+
+.as-container-div {
     min-height: 530px;
     margin-bottom: 40px;
 }
 
-.pg-dropdown-select {
+.as-dropdown-select {
     margin-top: 20px;
     margin-bottom: 40px;
 }
 
-.pg-reg-head {
+.as-reg-head {
     color: rgb(75, 75, 75);
     font-weight: 500;
     font-family: roboto, sans;
@@ -16,7 +20,7 @@
     margin-top: 40px;
 }
 
-.pg-details-head {
+.as-details-head {
     color: rgb(75, 75, 75);
     font-weight: 500;
     font-family: roboto, sans;
@@ -24,7 +28,7 @@
     margin-top: 10px;
 }
 
-.pg-table-row:hover {
+.as-table-row:hover {
     cursor: pointer;
     background-color: #fff;
 }
@@ -33,7 +37,7 @@
     margin: auto;
 }
 
-.pg-btn {
+.as-btn {
     width: 100%;
     margin-top: 20px;
 }
@@ -41,21 +45,21 @@
 /* On screens that are 600px or less, set the background color to olive */
 
 @media screen and (max-width: 500px) {
-    .pg-dropdown-select {
+    .as-dropdown-select {
         width: 100%;
     }
-    .pg-btn {
+    .as-btn {
         width: 100%;
         margin-top: -20px;
         margin-bottom: 20px;
     }
-    .pg-reg-head{
+    .as-reg-head{
         font-size: 30px;
         padding-top: 20px;
         text-align: center;
     }
 
-    .pg-table{
+    .as-table{
         width: 100%;
         margin-top: 20px;
     }
