@@ -74,17 +74,35 @@
 }
 
 @media only screen and (max-width: 600px) {
+
+
+
   .card-div-1 {
     margin: auto;
     margin-top: 20px !important;
     margin-bottom: 20px  !important;
     width: 100%;
     padding: 20px 30px;
+  }
 
+  .card-div-2 {
+    margin: auto;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 0px;
+  }
+
+  .form-control-label {
+    font-size: 5px;
+    padding: 0px 15px !important
   }
 
   .title{
     font-size: 20px;
+  }
+  .title2{
+    font-size: 20px;
+    padding: 0px 30px
   }
 
   .cp-text{
@@ -99,6 +117,15 @@
   .mt-30{
     margin-top: 15px;
   }
+  .middle{
+    text-align: center;
+  }
+  .table-heading{
+    font-size: 13px;
+  }
+  .operation-column{
+    width: 35%;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -110,9 +137,24 @@
     padding: 20px 20px;
   }
 
+
+  .card-div-2 {
+    margin: auto;
+    margin-bottom: 20px  !important;
+    width: 100%;
+    padding: 20px 0px;
+  }
+  .form-control-label {
+    font-size: 5px;
+    padding: 0px 15px !important
+  }
   .title{
     font-size: 17px;
   }
+  .title2{
+     font-size: 20px;
+     padding: 0px 20px
+   }
   .cp-text{
     font-size: 12px;
   }
@@ -122,6 +164,15 @@
   }
   .mt-30{
     margin-top: 5px;
+  }
+  .middle{
+    text-align: center;
+  }
+  .table-heading{
+    font-size: 10px;
+  }
+  .operation-column{
+    width: 35%;
   }
 }
 

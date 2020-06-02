@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
-import NoticeView from "../shared/NoticeView"
+import ViewProjects from "./ViewProjects";
+
 
 class StudentHome extends Component {
   componentDidMount = async () => {
@@ -16,8 +17,8 @@ class StudentHome extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"student"} />
-        <h1>Student Home</h1>
-        <NoticeView/>
+        <ViewProjects/>
+        
       </React.Fragment>
     );
   }

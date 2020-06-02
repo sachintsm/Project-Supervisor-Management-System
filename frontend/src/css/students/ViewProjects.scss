@@ -1,0 +1,118 @@
+
+.view-project-background-color{
+  background-color: #f5f5f5;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.view-projects{
+  .zero-padding{
+    padding: 0px !important;
+  }
+  .zero-margin{
+    margin: 0px !important;
+  }
+  .container-fluid{
+    padding: 0px 0px !important;
+  }
+  .card-div{
+    padding: 3%;
+  }
+  .current-card{
+    margin-top: 0px !important;
+  }
+  .ended-card{
+    margin-bottom: 0px !important;
+  }
+  .dot {
+    height: 10px;
+    width: 10px;
+    background-color: #00e600;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .project-list-div{
+    padding: 20px 20px;
+  }
+  .projects-card{
+    padding: 5% !important;
+    padding: 20px 20px;
+    margin-bottom: 20px !important;
+    align-content: center;
+  }
+  .projects-card:hover{
+    background-color: #f5f5f5;
+    cursor: pointer;
+   }
+  .no-project{
+    color: red
+  }
+  .bold-text{
+    font-weight: bold;
+  }
+  .normal-text{
+    font-weight: normal;
+  }
+  .p {
+    background-color: red !important;
+  }
+
+
+
+}
+
+@media only screen and  (max-width: 767px){
+
+  .view-project-background-color{
+    background-color: #f5f5f5;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .projects-card{
+    background-color: #f5f5f5 !important;
+  }
+  .projects-card:hover{
+       background-color: white !important;
+  }
+  .view-projects{
+    padding: 20px  0px!important;
+
+    .text{
+      font-size: 12px !important;
+    }
+    .title{
+      padding-left: 10px;
+      font-size: 20px !important;
+    }
+    .card-div{
+      padding: 4% 2%;
+    }
+    .item-div{
+      padding: 0px 4px;
+
+    }
+    .project-list-div{
+      padding: 0px 20px;
+    }
+    .bold-text{
+      font-size: 12px !important;
+    }
+    .normal-text{
+      font-size: 12px !important;
+    }
+    .current-card{
+      margin-bottom: 20px!important;
+
+    }
+    .ended-card{
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
+    .no-project{
+      font-size: 12px !important;
+      font-size: 12px !important;
+    }
+  }
+
+}
