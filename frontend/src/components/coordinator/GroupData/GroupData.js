@@ -32,8 +32,8 @@ class GroupData extends Component {
             groupSupervisors: [],
 
             addStudentIndex: '',
-            staffOptionList: [],
             staffList: [],
+            staffOptionList: [],
             selectedStaffList: [],
 
 
