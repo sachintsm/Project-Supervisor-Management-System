@@ -69,6 +69,12 @@
     padding-bottom: 30px;
   }
 
+  .projects-card{
+    background-color: #f5f5f5 !important;
+  }
+  .projects-card:hover{
+       background-color: white !important;
+  }
   .view-projects{
     padding: 20px  0px!important;
 
@@ -84,6 +90,7 @@
     }
     .item-div{
       padding: 0px 4px;
+
     }
     .project-list-div{
       padding: 0px 20px;
@@ -94,7 +101,16 @@
     .normal-text{
       font-size: 12px !important;
     }
+    .current-card{
+      margin-bottom: 20px!important;
+
+    }
+    .ended-card{
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
     .no-project{
+      font-size: 12px !important;
       font-size: 12px !important;
     }
   }

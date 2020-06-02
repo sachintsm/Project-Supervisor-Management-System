@@ -68,24 +68,24 @@ class ViewProjects extends Component {
                                                 <div  className="card zero-margin projects-card">
 
                                                     <Row>
-                                                        <Col lg={5} md={4} sm={12} xs={12}><span className="bold-text">Project Year </span></Col>
+                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Project Year </span></Col>
                                                         {/*<Col lg={1} md={1} sm={0} xs={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={7} sm={12} xs={12}><span className="normal-text">{item.projectYear}</span></Col>
+                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text">{item.projectYear}</span></Col>
                                                     </Row>
                                                     <Row>
-                                                        <Col lg={5} md={4} sm={12} xs={12}><span className="bold-text">Project Type</span></Col>
+                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Project Type</span></Col>
                                                         {/*<Col lg={1} md={1} sm={0} XS={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={7} sm={12} xs={12}><span className="normal-text">{item.projectType}</span></Col>
+                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text">{item.projectType}</span></Col>
                                                     </Row>
                                                     <Row>
-                                                        <Col lg={5} md={4} sm={12} xs={12}><span className="bold-text">Academic Year</span></Col>
+                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Academic Year</span></Col>
                                                         {/*<Col lg={1} md={1} sm={0} xs={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={5} md={7} sm={12} xs={12}><span className="normal-text">{item.academicYear}</span></Col>
+                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="normal-text">{item.academicYear}</span></Col>
                                                     </Row>
                                                     <Row>
-                                                        <Col lg={5} md={4} sm={12} xs={12}><span className="bold-text">Coordinators</span></Col>
+                                                        <Col lg={5} md={6} sm={6} xs={6}><span className="bold-text">Coordinators</span></Col>
                                                         {/*<Col lg={1} md={1} sm={0} XS={0}><span className="bold-text">: </span></Col>*/}
-                                                        <Col lg={7} md={7} sm={12} xs={12}><span className="normal-text"><CoordinatorList component={"viewProject"} idList={item}/></span></Col>
+                                                        <Col lg={7} md={6} sm={6} xs={6}><span className="normal-text"><CoordinatorList component={"viewProject"} idList={item}/></span></Col>
                                                     </Row>
                                                 </div>
 
