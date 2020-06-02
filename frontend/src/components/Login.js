@@ -153,13 +153,13 @@ export default class login extends Component {
               <div style={{ textAlign: 'center' }}>
                 <img
                   alt='background'
-                  src={require('../assets/logo/logo.png')}
+                  src={require('../assets/logo/Project Logo.png')}
                   className='logo'
                 />
               </div>
 
               <div className="title-div">
-                <h3 className="title">E-Supervision</h3>
+                {/* <h3 className="title">E-Supervision</h3> */}
               </div>
               <Form onSubmit={this.onSignIn}>
                 <FormGroup className="form-group-1">

@@ -64,7 +64,7 @@ export default class navbar extends Component {
         {/*#263238 => NAVBAR color*/ }
         <MDBNavbar color='special-color-dark' dark  expand='md' className='navbar'   >
           <MDBNavbarBrand>
-            <img style={{ width: '5rem' }}  src={require('../../assets/logo/Logo_white.png')} />
+            <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>

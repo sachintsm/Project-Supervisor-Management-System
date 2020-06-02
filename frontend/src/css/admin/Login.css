@@ -57,8 +57,9 @@
   /*padding-top: 20px !important;*/
   text-align: center;
   align-items: center;
-  width: 50%;
-  margin-bottom: 10px;
+  width: 80%;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 .btn-div{
@@ -106,8 +107,8 @@
         padding-top: 15px !important;
         text-align: center;
         align-items: center;
-        width: 60%;
-        margin-bottom: 5px;
+        width: 90%;
+        margin-bottom: 40px;
     }
 
     .login-card {
