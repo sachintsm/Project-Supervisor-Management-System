@@ -15,6 +15,8 @@ import ProjectTypes from './components/admin/ProjectTypes';
 
 import Footer from "./components/shared/Footer"
 import Profile from "./components/shared/Profile";
+import EditProfile from "./components/admin/EditUser";
+
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
@@ -41,6 +43,8 @@ function App() {
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
           <Route exact path="/profile" component={Profile}></Route>
+          <Route exact path="/editprofile/:id" component={EditProfile}></Route>
+
 
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>

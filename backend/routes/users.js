@@ -295,6 +295,27 @@ router.route('/deleteUser/:id').post(function (req, res) {
   });
 });
 
+//admin update user password
+router.route('/updatePasswordA/:id').post(function (req, res) {
+  console.log('zxcvbn');
+
+  
+  User.findById(req.params.id, function (err, user) {
+    if (!user) {
+      res.status(404).send("data is not found");
+    }
+    else
+      user.password = user.nic;
+
+      user.save().then(user => {
+
+    })
+      .catch(err => {
+        res.status(400).send("Delete not possible");
+      });
+  });
+});
+
 //get User name
 router.get('/getUserName/:id', async (req, res) => {
   const id = req.params.id;
@@ -338,6 +359,30 @@ router.post('/update/:id',function(req,res){
           res.status(404).send("data is not found");
       else{
           user.email = req.body.email;
+          user.mobile = req.body.mobile;
+
+          user.save().then(user => {
+              res.json({state:true,msg:'Update Complete'});
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
+
+//update user profile 
+
+router.post('/updateUser/:id',function(req,res){
+  let id = req.params.id;
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+          user.firstName = req.body.firstName;
+          user.lastName = req.body.lastName;
+          user.email = req.body.email;
+          user.nic = req.body.nic;
           user.mobile = req.body.mobile;
 
           user.save().then(user => {
