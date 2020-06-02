@@ -252,7 +252,7 @@ class NoticeView extends Component {
 
     }else{
       return(
-        <h2>dbhscjks</h2>
+        null
       )
     }
   
