@@ -338,7 +338,6 @@ router.route('/deleteUser/:id').post(function (req, res) {
 //get User name
 router.get('/getUserName/:id', async (req, res) => {
   const id = req.params.id;
-
   User
     .find({ _id: id })
     .select('firstName lastName')

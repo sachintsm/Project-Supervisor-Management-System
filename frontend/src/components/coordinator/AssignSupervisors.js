@@ -4,7 +4,7 @@ import { verifyAuth } from "../../utils/Authentication";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../css/coordinator/AssignSupervisors.css";
+import "../../css/coordinator/AssignSupervisors.scss";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
@@ -20,6 +20,15 @@ import MultiSelect from 'react-multi-select-component';
 
 const backendURI = require('../shared/BackendURI');
 
+class finalBlock {
+    constructor(id, name, groups, length) {
+        this.id = id
+        this.name = name
+        this.groups = groups
+        this.length = length
+    }
+}
+
 class AssignSupervisors extends Component {
     constructor(props) {
         super(props);
@@ -34,10 +43,18 @@ class AssignSupervisors extends Component {
             selectedStaffList: [],
 
             projectId: '',
+
+            spinnerDiv1: false,
+            spinnerDiv2: false,
+
+            supervisorIdList: [],
+            finalBlockArray: [],
         };
         this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        this.searchGroups = this.searchGroups.bind(this)
+
     }
 
     closeAlert = () => {
@@ -105,34 +122,9 @@ class AssignSupervisors extends Component {
         })
     }
 
-
-
-    validate = () => {
-        let isError = false;
-        const errors = {
-            selectProjectError: '',
-            groupIdError: '',
-        };
-        if (this.state.projectId.length === 0) {
-            console.log('Error: key is missing..!')
-            isError = true;
-            errors.selectProjectError = 'Please select a project *'
-        }
-        if (this.state.groupId.length === 0) {
-            isError = true;
-            errors.groupIdError = 'Please specify group ID *'
-        }
-        this.setState({
-            ...this.state,
-            ...errors
-        })
-        return isError;  //! is not error return state 'false'
-    }
-
     //? assing supervisors to the projects
     addSupervisors() {
-        console.log(this.state.projectId)
-        if (this.state.projectId === null) {
+        if (this.state.projectId === '') {
             this.setState({
                 snackbaropen: true,
                 snackbarmsg: 'Please select the project..!',
@@ -146,7 +138,13 @@ class AssignSupervisors extends Component {
                 buttons: [{
                     label: 'Yes',
                     onClick: async () => {
-                        const obj = getFromStorage('auth-token');
+                        this.setState({
+                            spinnerDiv1: true
+                        })
+                        const headers = {
+                            'auth-token': getFromStorage('auth-token').token,
+                        }
+
                         for (let i = 0; i < this.state.selectedStaffList.length; i++) {
                             const data = {
                                 projectId: this.state.projectId,
@@ -154,8 +152,9 @@ class AssignSupervisors extends Component {
                             }
 
                             //? add supervisors array at project document
-                            await axios.post(backendURI.url + '/projectSupervisors/add', data)
-                                .then(res => {
+                            await axios.post(backendURI.url + '/projectSupervisors/add', data, { headers: headers })
+                                .then(async res => {
+                                    console.log(res)
                                     if (res.data.state === false) {
                                         this.setState({
                                             snackbaropen: true,
@@ -169,24 +168,27 @@ class AssignSupervisors extends Component {
                                             snackbarmsg: res.data.msg,
                                             snackbarcolor: 'success',
                                         })
-                                    }
-                                })
-                            //? set isSupervisor -> true
-                            await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
-                                .then(res => {
-                                    if (res.data.state === false) {
-                                        this.setState({
-                                            snackbaropen: true,
-                                            snackbarmsg: res.data.msg,
-                                            snackbarcolor: 'error',
-                                        })
-                                    }
-                                    else {
-                                        this.setState({
-                                            snackbaropen: true,
-                                            snackbarmsg: res.data.msg,
-                                            snackbarcolor: 'success',
-                                        })
+                                        //? set isSupervisor -> true
+                                        await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
+                                            .then(res => {
+                                                if (res.data.state === false) {
+                                                    this.setState({
+                                                        snackbaropen: true,
+                                                        snackbarmsg: res.data.msg,
+                                                        snackbarcolor: 'error',
+                                                        spinnerDiv1: false
+
+                                                    })
+                                                }
+                                                else {
+                                                    this.setState({
+                                                        snackbaropen: true,
+                                                        snackbarmsg: res.data.msg,
+                                                        snackbarcolor: 'success',
+                                                        spinnerDiv1: false
+                                                    })
+                                                }
+                                            })
                                     }
                                 })
                         }
@@ -204,11 +206,68 @@ class AssignSupervisors extends Component {
         }
     }
 
+    async searchGroups() {
+        if (this.state.projectId === '') {
+            this.setState({
+                snackbaropen: true,
+                snackbarmsg: 'Please select the project..!',
+                snackbarcolor: 'error'
+            })
+        }
+        else {
+            this.setState({
+                spinnerDiv2: true,
+                finalBlockArray: [],
+            })
+            const headers = {
+                'auth-token': getFromStorage('auth-token').token,
+            }
+
+            //? project supervisor Id list
+            await axios.get(backendURI.url + '/projectSupervisors/get/' + this.state.projectId, { headers: headers })
+                .then(res => {
+                    this.setState({
+                        supervisorIdList: res.data.data.supervisors
+                    })
+                })
+
+            for (let i = 0; i < this.state.supervisorIdList.length; i++) {
+                var id = this.state.supervisorIdList[i]
+                await axios.get(backendURI.url + '/users/getUserName/' + id)
+                    .then(async res => {
+                        let name = res.data.data[0].firstName + " " + res.data.data[0].lastName
+                        let userId = res.data.data[0]._id
+                        var array1 = [];
+                        var count = 0;
+                        let data = {
+                            projectId: this.state.projectId,
+                            supervisor: userId
+                        }
+                        await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', data)
+                            .then((res) => {
+                                count = res.data.data.length
+                                for (let j = 0; j < res.data.data.length; j++) {
+                                    var group = res.data.data[j].groupId + " , "
+                                    array1.push(group)
+                                }
+                                var block = new finalBlock(userId, name, array1, count)
+                                this.state.finalBlockArray.push(block)
+                            })
+
+                    })
+            }
+            this.setState({
+                spinnerDiv2: false,
+                dataDiv: true
+            })
+
+        }
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     render() {
-        const { activeProjects, dataDiv, spinnerDiv } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
 
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
@@ -259,45 +318,17 @@ class AssignSupervisors extends Component {
                                 </Col>
                             </Row>
                         </div>
-                        {spinnerDiv && (
+
+                        {spinnerDiv1 && (
                             <div className="spinner">
                                 <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                             </div>
                         )}
-                        {dataDiv && (
-                            <div className="container">
-                                <p className="as-details-head">Project Groups</p>
 
-                                {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                <Table hover className="as-table" >
-
-                                    <thead>
-                                        <tr>
-                                            <th className="table-head">Group</th>
-                                            <th className="table-head">Members' Ids</th>
-                                            <th className="table-head">Supervisors</th>
-                                            <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.groupDataBlock.map((item) => {
-                                            return (
-                                                <tr className="as-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                    <td className="table-body">{item.groupId}</td>
-                                                    <td className="table-body">{item.groupMembers}</td>
-                                                    <td className="table-body">{item.supervisors}</td>
-                                                    <td style={{ textAlign: 'center' }}><DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} /></td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </div>
-                        )}
                     </div>
                     <div className="card">
                         <div className="container">
-                            <p className="as-reg-head">Project Group Details</p>
+                            <p className="as-reg-head">Project Supervisors List</p>
 
                             <Row >
                                 <Col md="10" xs="12">
@@ -313,34 +344,28 @@ class AssignSupervisors extends Component {
                                 </Col>
                             </Row>
                         </div>
-                        {spinnerDiv && (
+                        {spinnerDiv2 && (
                             <div className="spinner">
                                 <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                             </div>
                         )}
                         {dataDiv && (
                             <div className="container">
-                                <p className="as-details-head">Project Groups</p>
-
-                                {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
                                 <Table hover className="as-table" >
-
                                     <thead>
                                         <tr>
-                                            <th className="table-head">Group</th>
-                                            <th className="table-head">Members' Ids</th>
-                                            <th className="table-head">Supervisors</th>
-                                            <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
+                                            <th className="table-head">Supervisor</th>
+                                            <th className="table-head">Groups</th>
+                                            <th className="table-head">Count</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.groupDataBlock.map((item) => {
+                                        {this.state.finalBlockArray.map((item) => {
                                             return (
-                                                <tr className="as-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                    <td className="table-body">{item.groupId}</td>
-                                                    <td className="table-body">{item.groupMembers}</td>
-                                                    <td className="table-body">{item.supervisors}</td>
-                                                    <td style={{ textAlign: 'center' }}><DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} /></td>
+                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item._id)}>
+                                                    <td className="table-body">{item.name}</td>
+                                                    <td className="table-body">{item.groups}</td>
+                                                    <td className="table-body">{item.length}</td>
                                                 </tr>
                                             )
                                         })}
