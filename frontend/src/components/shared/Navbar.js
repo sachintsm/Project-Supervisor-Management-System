@@ -141,7 +141,7 @@ export default class navbar extends Component {
 
                 <MDBDropdown className='mr-4'>
                   <MDBDropdownToggle nav caret>
-                    <span  className='mr-2'>Notice</span>
+                    <span  className='mr-2'>Notices</span>
                   </MDBDropdownToggle>
                   <MDBDropdownMenu>
                     <MDBDropdownItem href='/shared/noticeView'>View Notices</MDBDropdownItem>
