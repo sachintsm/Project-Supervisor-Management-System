@@ -139,9 +139,9 @@ export default class navbar extends Component {
               )}
               {this.state.panel === 'admin' && (
 
-                <MDBDropdown>
+                <MDBDropdown className='mr-4'>
                   <MDBDropdownToggle nav caret>
-                    <span className='mr-2'>Notice</span>
+                    <span  className='mr-2'>Notices</span>
                   </MDBDropdownToggle>
                   <MDBDropdownMenu>
                     <MDBDropdownItem href='/shared/noticeView'>View Notices</MDBDropdownItem>
@@ -149,11 +149,11 @@ export default class navbar extends Component {
                   </MDBDropdownMenu>
                 </MDBDropdown>
 
-                <MDBNavItem className="mr-4">
-                  <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                    Notices
-                  </Nav.Link>
-                </MDBNavItem>
+                // <MDBNavItem className="mr-4">
+                //   <Nav.Link  className="padding-zero"   href='/shared/notice'>
+                //     Notices
+                //   </Nav.Link>
+                // </MDBNavItem>
               )}
 
               {/* ============================ Supervisor Panel ============================================= */}

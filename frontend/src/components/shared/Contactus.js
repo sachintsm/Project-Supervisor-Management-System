@@ -38,70 +38,12 @@ export default class Contactus extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  //? validation function
-  // validate = () => {
-  //   let isError = false;
-  //   const errors = {
-  //     firstNameError: '',
-  //     lastNameError: '',
-  //     //userTypeError: '',
-  //     contactNumberError: '',
-  //     emailError: '',
-  //     messageError: '',
-  //   };
-
-    // if (this.state.form.firstName.length < 1) {
-    //   isError = true;
-    //   errors.firstNameError = 'First name required *'
-    // }
-
-    // if (this.state.form.lastName.length < 1) {
-    //   isError = true;
-    //   errors.lastNameError = 'Last name required *'
-    // }
-
-    // if (this.state.form.contactNumber.length != 10) {
-    //   isError = true;
-    //   errors.contactNumberError = 'Invalied contact number!'
-    // }
-
-  //   if (this.state.form.email.indexOf('@') === -1) {
-  //     isError = true;
-  //     errors.emailError = 'Invalied email address!'
-  //   }
-
-  //   if (this.state.form.message.length < 1) {
-  //     isError = true;
-  //     errors.messageError = 'Message required *'
-  //   }
-
-  //   this.setState({
-  //     ...this.state,
-  //     ...errors
-  //   })
-  //   return isError;  //! is not error return state 'false'
-  // }
-
+  
 
   onSubmit(e) {
     e.preventDefault()
-    // const err = this.validate();  //?calling validation function
-
-    // if (!err) {
-    //   this.setState({
-    //     firstNameError: '',
-    //     lastNameError: '',
-    //     contactNumberError: '',
-    //     //userTypeError: '',
-    //     emailError: '',
-    //     messageError: '',
-    //     //mobileNumberError: '',
-    //     //indexNumberError: '',
-    //   })
-
-
-
-      const obj = {
+    
+       const obj = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         contactNumber: this.state.contactNumber,
