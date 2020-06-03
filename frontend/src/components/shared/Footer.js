@@ -20,6 +20,31 @@ export default class footer extends Component {
           <div className="row">
           <div className="col-md-4" style={{ marginTop: " 30px" }}>
               <div className="row">
+                {/* <p className="companey-name">Team Members</p> */}
+              </div>
+              {/* <div className="row">
+              <img style={{ width: '18rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
+              </div> */}
+              {/* <div className="row">
+                <p className="address"> S.M.W. Arachchi</p>
+              </div> */}
+              <div className="row">
+              <img style={{ width: '17rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
+              </div>
+              {/* <div className="row">
+                <p className="address"> H.I.D.D. Galappaththi</p>
+              </div>
+              <div className="row">
+                <p className="address"> K.A.B.S. Kumaranayake</p>
+              </div>
+              <div className="row">
+                <p className="address"> M.S. Mushtaq</p>
+              </div> */}
+            </div>
+            
+            <div className="col-md-4" style={{ marginTop: " 30px" }}>
+              
+              <div className="row">
                 <p className="companey-name">Team Members</p>
               </div>
               <div className="row">
@@ -40,14 +65,9 @@ export default class footer extends Component {
               <div className="row">
                 <p className="address"> M.S. Mushtaq</p>
               </div>
-            </div>
-            <div className="col-md-4" style={{ marginTop: " 30px" }}>
-              <div className="row">
-                <p className="companey-name">Our Services</p>
+              {/* <img style={{ width: '18rem' }}  src={require('../../assets/logo/Project Logo white.png')} /> */}
               </div>
-              <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
-              
-            </div>
+
             <div className="col-md-4" style={{ marginTop: " 30px" }}>
               <div className="row">
                   <div className="col-md-12 zero-padding">
@@ -137,7 +157,7 @@ export default class footer extends Component {
         </div>
         <div className="container">
           <p className="copyright">
-            Copyright &copy; 2020 deathstalker Team&trade;.
+            Copyright &copy; 2020 e-Supervision Team.
               All rights reserved
             &reg;.
           </p>
