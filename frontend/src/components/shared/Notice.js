@@ -227,7 +227,7 @@ class Notice extends Component {
   closeAlert = () => {
     this.setState({
       succesAlert: false,
-      warnAlert: false,
+      deleteSuccesAlert: false,
     });
   };
 
