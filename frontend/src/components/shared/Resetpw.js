@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
 import '../../css/shared/Profile.css';
+import Snackpop from './Snackpop';
 
 const backendURI = require("./BackendURI");
 
@@ -22,13 +22,29 @@ export default class Resetpw extends Component {
             newtPw:'',
             conNewPw:'',
             conError:'',
-            isPasswordShown:false
+            isCuShown:false,
+            isNewShown:false,
+            isConShown:false,
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
 
         }
     }
-    togglePasswordVisibility = () => {
-        const {isPasswordShown} = this.state;
-        this.setState({ isPasswordShown: !isPasswordShown});
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
+    togglePasswordVisibilityCu = () => {
+        const {isCuShown} = this.state;
+        this.setState({ isCuShown: !isCuShown});
+    }
+    togglePasswordVisibilityNew = () => {
+        const {isNewShown} = this.state;
+        this.setState({ isNewShown: !isNewShown});
+    }
+    togglePasswordVisibilityCon = () =>{
+        const {isConShown} = this.state;
+        this.setState({ isConShown: !isConShown});
     }
     onChangeCurrentpw(e){
         this.setState({
@@ -88,19 +104,30 @@ export default class Resetpw extends Component {
                         .then(res => {
                             console.log(res.data);
                             if(! res.data.state){
-                            alert("Your current password is invalid");
+                                this.setState({
+                                    snackbaropen: true,
+                                    snackbarmsg: 'Your current password is invalid',
+                                    snackbarcolor: 'error',
+                                })
                             }
                             else{
-                                alert("Password change successfully");
+                                this.setState({
+                                    snackbaropen: true,
+                                    snackbarmsg: 'Password change successfully',
+                                    snackbarcolor: 'success',
+                                })
                             }
                         }
                         )
                         .catch(error => {
                             console.log(error)
-                            alert("Your Current Password is invalid");
+                            this.setState({
+                                snackbaropen: true,
+                                snackbarmsg: 'Your current password is invalid',
+                                snackbarcolor: 'error',
+                            })
                         })
                       
-                       
                     }
                   },
                   {
@@ -122,43 +149,52 @@ export default class Resetpw extends Component {
 
 
 render() {
-        const {isPasswordShown}= this.state;
+        const {isCuShown}= this.state;
+        const {isNewShown}= this.state;
+        const {isConShown}= this.state;
     return(
         <div>
-            <div className="card" style={{width: 550}}>
+            <Snackpop
+                msg={this.state.snackbarmsg}
+                color={this.state.snackbarcolor}
+                time={3000}
+                status={this.state.snackbaropen}
+                closeAlert={this.closeAlert}
+             />
+            <div className="card2">
                 <div className="card-body px-lg-5">
                     <div style={{marginTop: 10}}>
                         <form  onSubmit={this.onReset}>
-                            <div className="form-group">
-                               <input type={isPasswordShown ? "text":"password"} className="form-control" 
+                            <div className="input-container">
+                               <input type={isCuShown ? "text":"password"} className="form-control" 
                                  placeholder="Enter Current Password"
                                  value={this.state.currentPw || ""}
                                  onChange={this.onChangeCurrentpw}
                                  required/>
-                                 <i className={`fa ${isPasswordShown? "fa-eye-slash": "fa-eye"}  password-icon`}
-                                 onClick={this.togglePasswordVisibility}/>
-                            </div>
-                            <div className="form-group">
-                                 <input type={isPasswordShown ? "text":"password"} className="form-control"
+                                 <i className={`fa ${isCuShown? "fa-eye-slash": "fa-eye"}  password-icon`}
+                                 onClick={this.togglePasswordVisibilityCu}/>
+                            </div><br></br>
+                            <div className="input-container">
+                                 <input type={isNewShown ? "text":"password"} className="form-control"
                                  placeholder="Enter New password" 
                                  value={this.state.newPw || ""}
                                  onChange={this.onChangeNewpw}
                                  required/>
-                                 <i className={`fa ${isPasswordShown? "fa-eye-slash": "fa-eye"}  password-icon`}
-                                 onClick={this.togglePasswordVisibility}/>
-                            </div>
-                            <div className="form-group">
-                                 <input type={isPasswordShown ? "text":"password"} className="form-control"
+                                 <i className={`fa ${isNewShown? "fa-eye-slash": "fa-eye"}  password-icon`}
+                                 onClick={this.togglePasswordVisibilityNew}/>
+                            </div><br></br>
+                            <div className="input-container">
+                                 <input type={isConShown? "text":"password"} className="form-control"
                                  placeholder="Confirm New password" 
                                  value={this.state.conNewPw || ""}
                                  onChange={this.onChangeConfirmNewpw}
                                  required/>
-                                 <i className={`fa ${isPasswordShown? "fa-eye-slash": "fa-eye"}  password-icon`}
-                                 onClick={this.togglePasswordVisibility}/>
+                                 <i className={`fa ${isConShown? "fa-eye-slash": "fa-eye"}  password-icon`}
+                                 onClick={this.togglePasswordVisibilityCon}/>
                                  <div style={{fontSize:12,color:"red"}}>{this.state.conError}</div> 
                             </div>
                              <div className="from-group justify-content-center">
-                                <input type="submit" value="Reset Password" className="btn btn-primary" />
+                                <input type="submit" value="Change" className="btn btn-info my-4" />
                             </div>
                         </form>
                     </div>

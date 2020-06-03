@@ -43,7 +43,7 @@ class StudentList extends Component {
             if (res) {
                 
                 if (res.data.data !== undefined) {
-                    console.log(res.data.data)
+                    // console.log(res.data.data)
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
 

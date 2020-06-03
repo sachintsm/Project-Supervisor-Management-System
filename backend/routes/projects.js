@@ -4,7 +4,10 @@ var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
 const ProjectType = require('../models/projectType');
 const Projects = require('../models/projects');
+const User = require('../models/users');
+const CreateGroups = require('../models/createGroups')
 
+//create project category
 router.post('/projecttype', async (req, res, next) => {
   console.log(req.body)
   try {
@@ -29,6 +32,7 @@ router.post('/projecttype', async (req, res, next) => {
   }
 });
 
+//get project categories
 router.get('/projecttype', verify, async (req, res, next) => {
   try {
     const types = await ProjectType.find({ "isDeleted": false });
@@ -47,6 +51,7 @@ router.get('/projecttype', verify, async (req, res, next) => {
 //   }
 // })
 
+//Delete project category
 router.patch("/projecttype/delete/:id", async (req, res, next) => {
   try {
 
@@ -59,6 +64,7 @@ router.patch("/projecttype/delete/:id", async (req, res, next) => {
   }
 })
 
+//Delete Project API
 router.patch("/delete/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -69,6 +75,7 @@ router.patch("/delete/:id", async (req, res, next) => {
   }
 })
 
+// Update Project API
 router.patch("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -90,7 +97,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 })
 
-
+//Edit Project category
 router.patch("/projecttype/:id", async (req, res, next) => {
   try {
 
@@ -116,7 +123,7 @@ router.patch("/projecttype/:id", async (req, res, next) => {
 })
 
 
-
+//Insert Project API
 router.post('/', async (req, res, next) => {
   try {
     const project = new Projects(req.body);
@@ -130,7 +137,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// ?get all the active projects
+// ?get all the active projects fot coordinator
 router.get('/active&projects/:coordinatorId', (req, res) => {
   const coordinatorId = req.params.coordinatorId;
   Projects
@@ -145,10 +152,41 @@ router.get('/active&projects/:coordinatorId', (req, res) => {
     })
 })
 
+//get all the projects API
 router.get('/', async (req,res,next)=>{
   try{
     const projects = await Projects.find({ "isDeleted": false }).sort({projectYear: -1});
     res.send(projects);
+  }
+  catch(err){
+    console.log(err)
+  }
+})
+
+//get projects of a student by student userID
+router.get('/studentprojects/:studentId', async(req,res,next)=>{
+  try {
+    const id = req.params.studentId;
+    const result = await User.findOne({ _id: id }).select('indexNumber');
+    if(result.length==0){
+      res.send([])
+    }
+    else{
+      const index = result.indexNumber
+      const projectList = await CreateGroups.find({groupMembers:index}).select('projectId');
+      let projectIdList = []
+      // console.log(projectList)
+      if(projectList.length>0){
+        for(let i in projectList){
+          projectIdList.push(projectList[i].projectId)
+        }
+        const projects = await Projects.find({_id:projectIdList});
+        res.send(projects)
+      }
+      else{
+        res.send([])
+      }
+    }
   }
   catch(err){
     console.log(err)
