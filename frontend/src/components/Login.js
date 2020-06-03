@@ -130,14 +130,12 @@ export default class login extends Component {
   render() {
     return (
       <div
-        className='container-fluid login-page'
-        style={{
-          backgroundColor: '#F8F9FA',
-
-          verticalAlign: 'middle',
-          backgroundImage: `url(${require('../assets/backgrounds/background.jpg')})`,
-        }}
       >
+        <div
+            className='container-fluid login-page'
+            style={{
+              backgroundImage: `url(${require('../assets/backgrounds/b1.jpg')})`,
+            }}></div>
 
         <Snackpop
             msg={'Invalid Credentials'}
@@ -145,7 +143,9 @@ export default class login extends Component {
             time={3000}
             status={this.state.loginError}
             closeAlert={this.closeAlert}
+            className="z-index-2"
         />
+
         {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
         <div className='row vertical-center'>
           <div className='container login-card-div col-md-5 col-sm-11 col-xs-11 col-lg-5'>
