@@ -5,12 +5,14 @@ import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
+//import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import {getFromStorage} from "../../utils/Storage";
+
+//import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -176,6 +178,11 @@ class Notice extends Component {
               noticeTittle: "",
               notice: "",
               noticeAttachment: "",
+              toViewType: true,
+              toCordinator: false,
+              toSupervisor: false,
+              toStudent: false,
+
             });
           },
         },
@@ -228,7 +235,7 @@ class Notice extends Component {
 
   render() {
 
-    if(this.userTypes == 'admin'){
+    if(this.userTypes === 'admin'){
     return (
       <React.Fragment>
         <Snackpop
@@ -242,7 +249,7 @@ class Notice extends Component {
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
-          time={1000}
+          time={3000}
           status={this.state.deleteSuccesAlert}
           closeAlert={this.closeAlert}
         />
@@ -319,7 +326,7 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col md={4} className="form-control-label ">
                         <FormControlLabel
                           className="form-control-label"
@@ -340,7 +347,7 @@ class Notice extends Component {
                             <span
                               style={{ fontSize: "14px", color: "#6d6d6d" }}
                             >
-                              To View
+                              Select user to View
                             </span>
                           }
                         />
@@ -419,7 +426,7 @@ class Notice extends Component {
                         )}
                       </Col>
                     </Row>
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           File Attach :{" "}
@@ -434,6 +441,8 @@ class Notice extends Component {
                         </FormGroup>
                       </Col>
                     </Row>
+
+                    
 
                     <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                       <Button
@@ -454,55 +463,39 @@ class Notice extends Component {
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          
                           <Card
                             key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" }}
+                            style={{ marginTop: "10px", marginBottom: "10px" , paddingBottom:"0.5px" }}
                           >
-                        
-                          
-                            <CardContent style={{ paddingBottom: "2px" }}>
-                              <h6>{type.noticeTittle}</h6>
+                          <Row>
+                            <Col xs="11">
+                            <CardContent style={{ paddingBottom: "2px"}}>
+                              <h6><b>{type.noticeTittle}</b></h6>
                             </CardContent>
-                            <h8
-                              style={{ color: "#6d6d6d", paddingLeft: "13px" }}
-                            >
-                              {type.date}
-                            </h8>
-                            <CardContent style={{ paddingTop: "2px" }}>
-                              <Typography variant="body1" component="p">
+                            </Col>
+
+                            <Col xs="1">
+                              <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                            </Col>
+                          </Row>  
+
+                            <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
+                              {type.date}</small>
+                            </h6>
+                        
+                            <CardContent style={{ paddingTop: "2px",fontWeight:"300" }}>
+                              <Typography variant="body2" component="p" >
                                 {type.notice}
                               </Typography>
-                            </CardContent>
 
-                            <CardContent
-                              style={{
-                                paddingBottom: "2px",
-                                paddingTop: "1px",
-                              }}
-                            >
-                              <a
-                                href={
-                                  "http://localhost:4000/notice/noticeAttachment/" +
-                                  type.filePath
-                                }
-                              >
+                              <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                                 Attachment
                               </a>
-                            </CardContent>
+                              </CardContent>
 
-                            <CardActions>
-                              <Button
-                                size="small"
-                                variant="outline-danger"
-                                style={{ width: "20%" }}
-                                onClick={() =>
-                                  this.onDeleteHandler(type._id, type.filepath)
-                                }
-                              >
-                                Delete
-                              </Button>
-                            </CardActions>
+                          
+
+                            
                           </Card>
                          
                         );
@@ -518,7 +511,7 @@ class Notice extends Component {
         <Footer />
       </React.Fragment>
     );
-  }else if(this.userTypes == 'coordinator'){
+  }else if(this.userTypes === 'coordinator'){
     return(
       <React.Fragment>
 
@@ -611,7 +604,7 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col md={4} className="form-control-label ">
                         <FormControlLabel
                           className="form-control-label"
@@ -632,7 +625,7 @@ class Notice extends Component {
                             <span
                               style={{ fontSize: "14px", color: "#6d6d6d" }}
                             >
-                              To View
+                            Select user to View
                             </span>
                           }
                         />
@@ -687,7 +680,7 @@ class Notice extends Component {
                         )}
                       </Col>
                     </Row>
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           File Attach :{" "}
@@ -722,55 +715,38 @@ class Notice extends Component {
                     <div>
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'coordinator'){
-                        return (
-                          <Card
-                            key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" }}
-                          >
-                            <CardContent style={{ paddingBottom: "2px" }}>
-                              <h6>{type.noticeTittle}</h6>
-                            </CardContent>
-                            <h8
-                              style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                          return (
+                            <Card
+                              key={type._id}
+                              style={{ marginTop: "10px", marginBottom: "10px" }}
                             >
-                              {type.date}
-                            </h8>
-                            <CardContent style={{ paddingTop: "2px" }}>
-                              <Typography variant="body1" component="p">
-                                {type.notice}
-                              </Typography>
-                            </CardContent>
-
-                            <CardContent
-                              style={{
-                                paddingBottom: "2px",
-                                paddingTop: "1px",
-                              }}
-                            >
-                              <a
-                                href={
-                                  "http://localhost:4000/notice/noticeAttachment/" +
-                                  type.filePath
-                                }
-                              >
-                                Attachment
-                              </a>
-                            </CardContent>
-
-                            <CardActions>
-                              <Button
-                                size="small"
-                                variant="outline-danger"
-                                style={{ width: "20%" }}
-                                onClick={() =>
-                                  this.onDeleteHandler(type._id, type.filepath)
-                                }
-                              >
-                                Delete
-                              </Button>
-                            </CardActions>
-                          </Card>
-                        );
+                            <Row>
+                              <Col xs="11">
+                              <CardContent style={{ paddingBottom: "2px"}}>
+                                <h6><b>{type.noticeTittle}</b></h6>
+                              </CardContent>
+                              </Col>
+  
+                              <Col xs="1">
+                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                              </Col>
+                            </Row>  
+  
+                              <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
+                                {type.date}</small>
+                              </h6>
+                          
+                              <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
+                                <Typography variant="body2" component="p">
+                                  {type.notice}
+                                </Typography>
+                                <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
+                                  Attachment
+                                </a>
+                              </CardContent>
+                            </Card>
+                           
+                          );
                               }
                       })}
                     </div>

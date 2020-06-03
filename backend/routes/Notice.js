@@ -113,26 +113,6 @@ router.get("/noticeAttachment/:filename", function (req, res) {
   );
 });
 
-router.get("/viewNotices", (req, res, next) => {
-  // notice get methord
-  Notice.find()
-    .sort({ date: 1 })
-    .select("toCordinator toStudent toSupervisor")
-    .exec()
-    .then((docs) => {
-      // result hadling
-      console.log("Data Transfer Successss.!");
-      res.status(200).json(docs);
-    })
-    .catch((error) => {
-      // error hadling
-      console.log(error);
-      res.status(500).json({
-        error: error,
-      });
-    });
-});
-
 //delte notice
 router.delete("/delteNotice/:_id", (req, res) => {
   const id = req.params._id;

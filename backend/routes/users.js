@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
 const Staff = require('../models/staff');
+const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const bcrypt = require('bcryptjs');
@@ -205,7 +206,6 @@ router.post('/bulkRegister', async (req, res, next) => {
 
 //User Login
 router.post('/login', async function (req, res) {
-  console.log('ddddddddddddddddddddddddddddddddddd')
   const password = req.body.password;
   console.log(req.body)
   //checking if the userId is already in the database
@@ -284,7 +284,7 @@ router.get('/studentList/:id', async (req, res, next) => {
 //? get supervisor name
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
-    const id = req.params.id;    
+    const id = req.params.id;
     User
       .find({ isSupervisor: true, isDeleted: false, _id: id })
       .select('firstName lastName')
@@ -327,6 +327,27 @@ router.route('/deleteUser/:id').post(function (req, res) {
       user.isDeleted = true;
 
     user.save().then(user => {
+
+    })
+      .catch(err => {
+        res.status(400).send("Delete not possible");
+      });
+  });
+});
+
+//admin update user password
+router.route('/updatePasswordA/:id').post(function (req, res) {
+  console.log('zxcvbn');
+
+  
+  User.findById(req.params.id, function (err, user) {
+    if (!user) {
+      res.status(404).send("data is not found");
+    }
+    else
+      user.password = user.nic;
+
+      user.save().then(user => {
 
     })
       .catch(err => {
@@ -385,6 +406,30 @@ router.post('/update/:id', function (req, res) {
   });
 });
 
+//update user profile 
+
+router.post('/updateUser/:id',function(req,res){
+  let id = req.params.id;
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+          user.firstName = req.body.firstName;
+          user.lastName = req.body.lastName;
+          user.email = req.body.email;
+          user.nic = req.body.nic;
+          user.mobile = req.body.mobile;
+
+          user.save().then(user => {
+              res.json({state:true,msg:'Update Complete'});
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
+
 ////////////////get user profile pic
 router.get("/profileImage/:filename", function (req, res) {
   console.log(req.params.filename)
@@ -393,6 +438,7 @@ router.get("/profileImage/:filename", function (req, res) {
   res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
 
 });
+
 
 
 ////update user profile pic
@@ -496,13 +542,48 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
+///// update no of projects
 
+router.post('/academic/:id',function(req,res){
+  let id = req.params.id;
+  console.log(id);
+  User.findById({_id:id}, function(err,user){
+      if(err)
+          res.status(404).send("data is not found");
+      else{
+        console.log(req.body.pro);
+          user.noProject = req.body.pro;
+
+          user.save().then(user => {
+              res.json({state:true,msg:'Update Complete', data:user.noProject});
+              
+          })
+              .catch(err => {
+                  res.status(400).send("unable to update database");
+              });
+      }
+  });
+});
 //? check student available or not
-router.get('/student/:id',verify, async (req, res) => {
+router.get('/student/:id', verify, async (req, res) => {
   const index = req.params.id;
   const ifExist = await User.findOne({ indexNumber: index });
   if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
-  else return res.json({state: true})
+  else return res.json({ state: true })
+})
+
+//? update isSupervisor -> true , when assigne supervisors to the prjectcts
+router.get('/updateSupervisor/:id', (req, res) => {
+  const id = req.params.id
+  User.find({ _id: id })
+    .update({ isSupervisor: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Data successfully updated..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+    })
 })
 
 //get student index from student userID
@@ -514,6 +595,24 @@ router.get('/studentindex/:id', async(req,res)=>{
   }
   catch(err){
     console.log(err)
+  }
+})
+
+
+//get all group members by userId of one student
+router.post("/getgroupmembers/:id", async(req,res,next)=>{
+  try{
+    const userId = req.params.id;
+    const projectId = req.body.projectId;
+    const result = await User.findOne({ _id: userId }).select('indexNumber');
+    const index = result.indexNumber
+
+    const group = await CreateGroups.findOne({projectId:projectId,groupMembers:index}).select("groupMembers")
+    res.send(group.groupMembers)
+
+  }
+  catch (e) {
+    console.log(e)
   }
 })
 

@@ -82,44 +82,38 @@ class NoticeView extends Component {
 
               {this.state.noticeList.map((type) => {
                 if(type.toStudent){
-                return (
-                  <Card
-                    key={type._id}
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
-                  >
-                    <CardContent style={{ paddingBottom: "2px" }}>
-                      <h6>{type.noticeTittle}</h6>
-                    </CardContent>
-                    <h8
-                      style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                  return (
+                    <Card
+                      key={type._id}
+                      style={{ marginTop: "10px", marginBottom: "10px" }}
                     >
-                      {type.date}
-                    </h8>
-                    <CardContent style={{ paddingTop: "2px" }}>
-                      <Typography variant="body1" component="p">
-                        {type.notice}
-                      </Typography>
-                    </CardContent>
+                    <Row>
+                      <Col xs="12">
+                      <CardContent style={{ paddingBottom: "2px"}}>
+                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
+                      </CardContent>
+                      </Col>
+                    </Row>  
 
-                    <CardContent
-                      style={{
-                        paddingBottom: "2px",
-                        paddingTop: "1px",
-                      }}
-                    >
-                      <a
-                        href={
-                          "http://localhost:4000/notice/noticeAttachment/" +
-                          type.filePath
-                        }
-                      >
+                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
+                        {type.date}</small>
+                      </h6>
+                  
+                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
+                        <Typography variant="body2" component="p">
+                          {type.notice}
+                        </Typography>
+
+                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                         Attachment
                       </a>
-                    </CardContent>
+                      </CardContent>
 
-                    
-                  </Card>
-                );
+                      
+                      
+                    </Card>
+                   
+                  );
               }
               })}
             </div>
@@ -132,7 +126,7 @@ class NoticeView extends Component {
            </React.Fragment>
         );   
         
-    } else if(this.userType == 'supervisor'){
+    } else if(this.userType === 'supervisor'){
       return(
         <React.Fragment>
         <Navbar panel={"supervisor"} />
@@ -144,44 +138,35 @@ class NoticeView extends Component {
 
               {this.state.noticeList.map((type) => {
                 if(type.toSupervisor){
-                return (
-                  <Card
-                    key={type._id}
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
-                  >
-                    <CardContent style={{ paddingBottom: "2px" }}>
-                      <h6>{type.noticeTittle}</h6>
-                    </CardContent>
-                    <h8
-                      style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                  return (
+                    <Card
+                      key={type._id}
+                      style={{ marginTop: "10px", marginBottom: "10px" }}
                     >
-                      {type.date}
-                    </h8>
-                    <CardContent style={{ paddingTop: "2px" }}>
-                      <Typography variant="body1" component="p">
-                        {type.notice}
-                      </Typography>
-                    </CardContent>
+                    <Row>
+                      <Col xs="12">
+                      <CardContent style={{ paddingBottom: "2px"}}>
+                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
+                      </CardContent>
+                      </Col>
+                    </Row>  
 
-                    <CardContent
-                      style={{
-                        paddingBottom: "2px",
-                        paddingTop: "1px",
-                      }}
-                    >
-                      <a
-                        href={
-                          "http://localhost:4000/notice/noticeAttachment/" +
-                          type.filePath
-                        }
-                      >
+                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
+                        {type.date}</small>
+                      </h6>
+                  
+                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
+                        <Typography variant="body2" component="p">
+                          {type.notice}
+                        </Typography>
+                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                         Attachment
                       </a>
-                    </CardContent>
+                      </CardContent>
 
-                    
-                  </Card>
-                );
+                    </Card>
+                   
+                  );
               }
               })}
             </div>
@@ -205,44 +190,34 @@ class NoticeView extends Component {
 
               {this.state.noticeList.map((type) => {
                 if(type.toCordinator){
-                return (
-                  <Card
-                    key={type._id}
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
-                  >
-                    <CardContent style={{ paddingBottom: "2px" }}>
-                      <h6>{type.noticeTittle}</h6>
-                    </CardContent>
-                    <h8
-                      style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                  return (
+                    <Card
+                      key={type._id}
+                      style={{ marginTop: "10px", marginBottom: "10px" }}
                     >
-                      {type.date}
-                    </h8>
-                    <CardContent style={{ paddingTop: "2px" }}>
-                      <Typography variant="body1" component="p">
-                        {type.notice}
-                      </Typography>
-                    </CardContent>
+                    <Row>
+                      <Col xs="12">
+                      <CardContent style={{ paddingBottom: "2px"}}>
+                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
+                      </CardContent>
+                      </Col>
+                    </Row>  
 
-                    <CardContent
-                      style={{
-                        paddingBottom: "2px",
-                        paddingTop: "1px",
-                      }}
-                    >
-                      <a
-                        href={
-                          "http://localhost:4000/notice/noticeAttachment/" +
-                          type.filePath
-                        }
-                      >
+                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
+                        {type.date}</small>
+                      </h6>
+                  
+                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
+                        <Typography variant="body2" component="p">
+                          {type.notice}
+                        </Typography>
+                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                         Attachment
                       </a>
-                    </CardContent>
-
-                    
-                  </Card>
-                );
+                      </CardContent>
+                    </Card>
+                   
+                  );
               }
               })}
             </div>
