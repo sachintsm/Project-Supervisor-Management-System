@@ -51,7 +51,6 @@ class Notice extends Component {
       deleteSuccesAlert: false,
       warnAlert: false,
       snackbaropen: false,
-      toViewType: true,
       toCordinator: false,
       toSupervisor: false,
       toStudent: false,
@@ -236,7 +235,6 @@ class Notice extends Component {
             formData.append("notice", this.state.notice);
             formData.append("date", this.state.date);
             formData.append("noticeAttachment", this.state.noticeAttachment);
-            formData.append("toViewType", this.state.toViewType);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
             formData.append("toStudent", this.state.toStudent);
@@ -244,8 +242,7 @@ class Notice extends Component {
             // form required set
             if (
               this.state.noticeTittle === "" ||
-              this.state.notice === "" ||
-              this.state.noticeAttachment === ""
+              this.state.notice === "" 
             ) {
               this.setState({
                 snackbaropen: true,
@@ -424,34 +421,15 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-20">
-                      <Col md={4} className="form-control-label ">
-                        <FormControlLabel
-                          className="form-control-label"
-                          control={
-                            <Checkbox
-                              fontSize="5px"
-                              checked={this.state.toViewType}
-                              onChange={() => {
-                                this.setState({
-                                  toViewType: !this.state.toViewType,
-                                });
-                              }}
-                              name="checkedB"
-                              color="default"
-                            />
-                          }
-                          label={
-                            <span
-                              style={{ fontSize: "14px", color: "#6d6d6d" }}
-                            >
-                              Select user to View
-                            </span>
-                          }
-                        />
+                    <Row className="margin-top-22">
+                      <Col md={4} >
+                        
+                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                      Select user to View :
+                    </p>
                       </Col>
+                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -473,10 +451,9 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
                       </Col>
+                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -498,10 +475,9 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
+                        
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -521,9 +497,10 @@ class Notice extends Component {
                               <span style={{ fontSize: "12px" }}>Studentd</span>
                             }
                           />
-                        )}
                       </Col>
                     </Row>
+
+                    
                     <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -781,35 +758,15 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-20">
-                      <Col md={4} className="form-control-label ">
-                        <FormControlLabel
-                          className="form-control-label"
-                          control={
-                            <Checkbox
-                              fontSize="5px"
-                              checked={this.state.toViewType}
-                              onChange={() => {
-                                this.setState({
-                                  toViewType: !this.state.toViewType,
-                                });
-                              }}
-                              name="checkedB"
-                              color="default"
-                            />
-                          }
-                          label={
-                            <span
-                              style={{ fontSize: "14px", color: "#6d6d6d" }}
-                            >
-                            Select user to View
-                            </span>
-                          }
-                        />
+                    <Row className="margin-top-22">
+                      <Col md={4} >
+                        
+                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                      Select user to View :
+                    </p>
                       </Col>
                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -831,10 +788,10 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
+                        
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
+                        
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -854,7 +811,7 @@ class Notice extends Component {
                               <span style={{ fontSize: "12px" }}>Studentd</span>
                             }
                           />
-                        )}
+                        
                       </Col>
                     </Row>
                     <Row className="margin-top-20">
@@ -917,9 +874,11 @@ class Notice extends Component {
                                 <Typography variant="body2" component="p">
                                   {type.notice}
                                 </Typography>
+
                                 <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                                   Attachment
                                 </a>
+                              
                               </CardContent>
                             </Card>
                            
