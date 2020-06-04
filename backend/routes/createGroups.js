@@ -114,6 +114,7 @@ router.post('/addSupervisorIndex', async (req, res) => {
 
 
 //? delete index from the groupMembers
+//? (GroupData.js)
 router.post('/removeStudentIndex', async (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -134,6 +135,7 @@ router.post('/removeStudentIndex', async (req, res) => {
 })
 
 //? delete supervisor from the project
+//? (GroupData.js)
 router.post('/removeSupervisorIndex', (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -154,6 +156,7 @@ router.post('/removeSupervisorIndex', (req, res) => {
 
 
 //? get projects for spesific supervisor
+//? (AssignSupervisor.js)
 router.post('/getsupervisorGroup', async (req, res) => {
     const projectId = req.body.projectId
     const supervisor = req.body.supervisor
@@ -167,6 +170,27 @@ router.post('/getsupervisorGroup', async (req, res) => {
         .catch(err => {
             res.send({ state: false, msg: err.message })
         })
+})
+
+//? remove supervisor from the all the groups with respect to the one project
+//? (AssignSupervisor.js)
+router.post('/remove-supervisor', verify, async (req, res) => {
+    const projectId = req.body.projectId
+    const supervisorId = req.body.supervisor
+
+    CreateGroups
+        .find({projectId: projectId})
+        .update(
+            { $pull : {supervisors : supervisorId}}
+        )
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Index successfully deleted..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+        
 })
 
 module.exports = router
