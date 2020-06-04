@@ -76,7 +76,7 @@ class NoticeView extends Component {
         <Navbar panel={"student"} />
         <Container>
         {this.state.noticeList.length > 0 &&(
-          <div>
+          <div  style={{marginTop:"20px"}}>
             <h3>Notice View </h3>
             <div>
 
@@ -85,7 +85,7 @@ class NoticeView extends Component {
                   return (
                     <Card
                       key={type._id}
-                      style={{ marginTop: "10px", marginBottom: "10px" }}
+                      style={{ marginTop: "20px", marginBottom: "10px" }}
                     >
                     <Row>
                       <Col xs="12">
@@ -132,7 +132,7 @@ class NoticeView extends Component {
         <Navbar panel={"supervisor"} />
         <Container>
         {this.state.noticeList.length > 0 &&(
-          <div>
+          <div style={{marginTop:"20px"}}>
             <h3>Notice View </h3>
             <div>
 
@@ -141,7 +141,7 @@ class NoticeView extends Component {
                   return (
                     <Card
                       key={type._id}
-                      style={{ marginTop: "10px", marginBottom: "10px" }}
+                      style={{ marginTop: "20px", marginBottom: "10px" }}
                     >
                     <Row>
                       <Col xs="12">
@@ -155,6 +155,8 @@ class NoticeView extends Component {
                         {type.date}</small>
                       </h6>
                   
+
+                  
                       <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
                         <Typography variant="body2" component="p">
                           {type.notice}
@@ -164,6 +166,7 @@ class NoticeView extends Component {
                       </a>
                       </CardContent>
 
+                      
                     </Card>
                    
                   );
@@ -184,7 +187,7 @@ class NoticeView extends Component {
         <Navbar panel={"coordinator"} />
         <Container>
         {this.state.noticeList.length > 0 &&(
-          <div>
+          <div  style={{marginTop:"20px"}}>
             <h3>Notice View </h3>
             <div>
 
@@ -193,7 +196,7 @@ class NoticeView extends Component {
                   return (
                     <Card
                       key={type._id}
-                      style={{ marginTop: "10px", marginBottom: "10px" }}
+                      style={{ marginTop: "20px", marginBottom: "10px" }}
                     >
                     <Row>
                       <Col xs="12">
