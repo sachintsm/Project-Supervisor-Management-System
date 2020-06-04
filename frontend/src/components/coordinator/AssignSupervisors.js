@@ -8,7 +8,6 @@ import "../../css/coordinator/AssignSupervisors.scss";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
-import CSVReader from "react-csv-reader";
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -54,7 +53,7 @@ class AssignSupervisors extends Component {
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this)
-
+        this.deleteSupervisor = this.deleteSupervisor.bind(this);
     }
 
     closeAlert = () => {
@@ -264,6 +263,46 @@ class AssignSupervisors extends Component {
         }
     }
 
+    deleteSupervisor(data) {
+        const projectId = this.state.projectId;
+        const userId = data;
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+
+        confirmAlert({
+            title: 'Confirm to Delete?',
+            message: 'Supervisor will also removed from the Groups!',
+            buttons: [{
+                label: 'Yes',
+                onClick: async () => {
+                    data = {
+                        projectId : projectId,
+                        supervisor : userId
+                    }
+                    //? remove supervisor from the project supervisor list
+                    await axios.post(backendURI.url +'/projectSupervisors/delete', data, { headers: headers })
+                        .then(res => {
+                            console.log(res)
+                        })
+
+                    //? remove supervisor from the Specific groups
+                    await axios.post(backendURI.url +'/createGroups/remove-supervisor', data, { headers: headers })
+                        .then(res => {
+                            console.log(res)
+                        })
+                }
+            },
+            {
+                label: 'No',
+                onClick: () => {
+
+                }
+            }
+            ]
+        })
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     render() {
@@ -357,6 +396,7 @@ class AssignSupervisors extends Component {
                                             <th className="table-head">Supervisor</th>
                                             <th className="table-head">Groups</th>
                                             <th className="table-head">Count</th>
+                                            <th className="table-head">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -366,6 +406,7 @@ class AssignSupervisors extends Component {
                                                     <td className="table-body">{item.name}</td>
                                                     <td className="table-body">{item.groups}</td>
                                                     <td className="table-body">{item.length}</td>
+                                                    <td className="table-body"><DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id)} /></td>
                                                 </tr>
                                             )
                                         })}
