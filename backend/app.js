@@ -59,7 +59,7 @@ const notice = require("./routes/notice");
 const projects = require('./routes/projects');
 const createGroups =  require('./routes/createGroups')
 const projectSupervisors = require('./routes/projectSupervisors')
-// const contactUs = require('./routes/contactUs');
+const contactUs = require('./routes/contactUs');
 
 
 //routing path in routers
@@ -69,7 +69,7 @@ app.use('/projects', projects);
 app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use('/projectSupervisors', projectSupervisors)
-// app.use("/contactUs", contactUs);
+app.use("/contactUs", contactUs);
 
 
 const PORT = process.env.PORT || 4000;
