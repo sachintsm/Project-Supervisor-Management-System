@@ -9,7 +9,7 @@ router.post('/add', verify, async (req, res) => {
     console.log(req.body)
     const isExists = await ProjectSupervisors.findOne({ projectId: req.body.projectId })
     if (isExists) {
-        const existSupervisor = await ProjectSupervisors.findOne({ supervisors: req.body.supervisors })
+        const existSupervisor = await ProjectSupervisors.findOne({ projectId: req.body.projectId, supervisors: req.body.supervisors })
         if (existSupervisor) return res.json({ state: false, msg: "Already Exists..!" })
         else {
             ProjectSupervisors
@@ -45,7 +45,7 @@ router.post('/add', verify, async (req, res) => {
 
 //? get all supervisors with respect to the one project
 //? (AssignSupervisor.js)
-router.get('/get/:id',verify, (req, res) => {
+router.get('/get/:id', verify, (req, res) => {
     const id = req.params.id
     ProjectSupervisors
         .find({ projectId: id })
@@ -61,11 +61,12 @@ router.get('/get/:id',verify, (req, res) => {
 
 //? Remove supervisor from the project
 //? (AssignSupervisor.js)
-router.post('/delete', verify, (req, res) => {
+router.post('/delete', verify, async (req, res) => {
     const projectId = req.body.projectId
     const supervisor = req.body.supervisor
 
-    ProjectSupervisors
+    console.log(req.body)
+    await ProjectSupervisors
         .find({ projectId: projectId })
         .update(
             { $pull: { supervisors: supervisor } }

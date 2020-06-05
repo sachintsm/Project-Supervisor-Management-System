@@ -54,6 +54,7 @@ class AssignSupervisors extends Component {
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this)
         this.deleteSupervisor = this.deleteSupervisor.bind(this);
+        this.groupDataHandler = this.groupDataHandler.bind(this)
     }
 
     closeAlert = () => {
@@ -170,6 +171,7 @@ class AssignSupervisors extends Component {
                                         //? set isSupervisor -> true
                                         await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
                                             .then(res => {
+                                                console.log(res)
                                                 if (res.data.state === false) {
                                                     this.setState({
                                                         snackbaropen: true,
@@ -191,7 +193,7 @@ class AssignSupervisors extends Component {
                                     }
                                 })
                         }
-                        window.location.reload()
+                        // window.location.reload()
                     }
                 },
                 {
@@ -263,34 +265,65 @@ class AssignSupervisors extends Component {
         }
     }
 
-    deleteSupervisor(data) {
+    async deleteSupervisor(data, groups) {
         const projectId = this.state.projectId;
         const userId = data;
+        var array1 = []
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
+        let dt = {
+            projectId: projectId,
+            supervisor: userId
+        }
 
+        //? gett the groups that one supercviser supervised
+        await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
+            .then(res => {
+                for (let j = 0; j < res.data.data.length; j++) {
+                    var group = res.data.data[j].groupId
+                    array1.push(group)
+                }
+            })
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Supervisor will also removed from the Groups!',
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
-                    data = {
-                        projectId : projectId,
-                        supervisor : userId
-                    }
-                    //? remove supervisor from the project supervisor list
-                    await axios.post(backendURI.url +'/projectSupervisors/delete', data, { headers: headers })
+                    // //? remove supervisor from the project supervisor list
+                    await axios.post(backendURI.url + '/projectSupervisors/delete', dt, { headers: headers })
                         .then(res => {
                             console.log(res)
                         })
+                    for (let j = 0; j < array1.length; j++) {
+                        console.log(array1.length)
+                        data = {
+                            projectId: projectId,
+                            supervisor: userId,
+                            groupId: array1[j]
+                        }
 
-                    //? remove supervisor from the Specific groups
-                    await axios.post(backendURI.url +'/createGroups/remove-supervisor', data, { headers: headers })
-                        .then(res => {
-                            console.log(res)
-                        })
+                        //? remove supervisor from the Specific groups
+                        await axios.post(backendURI.url + '/createGroups/remove-supervisor', data, { headers: headers })
+                            .then(res => {
+                                if (res.data.state === false) {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'error'
+                                    })
+                                }
+                                else {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'success'
+                                    })
+                                }
+                            })
+                    }
+                    window.location.reload();
                 }
             },
             {
@@ -298,11 +331,14 @@ class AssignSupervisors extends Component {
                 onClick: () => {
 
                 }
-            }
-            ]
+            }]
         })
     }
+    //? opent the gropuData window
+    groupDataHandler(data) {
 
+        // this.props.history.push('/coordinatorhome/groupData/' + data);
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     render() {
@@ -402,11 +438,14 @@ class AssignSupervisors extends Component {
                                     <tbody>
                                         {this.state.finalBlockArray.map((item) => {
                                             return (
-                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item._id)}>
+                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
+
                                                     <td className="table-body">{item.name}</td>
                                                     <td className="table-body">{item.groups}</td>
                                                     <td className="table-body">{item.length}</td>
-                                                    <td className="table-body"><DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id)} /></td>
+                                                    <td className="table-body">
+                                                        <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                    </td>
                                                 </tr>
                                             )
                                         })}

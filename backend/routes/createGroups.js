@@ -177,11 +177,12 @@ router.post('/getsupervisorGroup', async (req, res) => {
 router.post('/remove-supervisor', verify, async (req, res) => {
     const projectId = req.body.projectId
     const supervisorId = req.body.supervisor
-
-    CreateGroups
-        .find({projectId: projectId})
+    const groupId = req.body.groupId
+    // console.log(req.body)
+    await CreateGroups
+        .find({ projectId: projectId, groupId: groupId})
         .update(
-            { $pull : {supervisors : supervisorId}}
+            { $pull: { supervisors: supervisorId } }
         )
         .exec()
         .then(data => {
@@ -190,7 +191,7 @@ router.post('/remove-supervisor', verify, async (req, res) => {
         .catch(err => {
             res.send({ state: false, msg: err.message })
         })
-        
+
 })
 
 module.exports = router
