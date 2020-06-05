@@ -380,7 +380,6 @@ router.route('/updatePasswordA/:id').post(function (req, res) {
 //get User name
 router.get('/getUserName/:id', async (req, res) => {
   const id = req.params.id;
-
   User
     .find({ _id: id })
     .select('firstName lastName')
@@ -591,6 +590,20 @@ router.get('/student/:id', verify, async (req, res) => {
   const ifExist = await User.findOne({ indexNumber: index });
   if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
   else return res.json({ state: true })
+})
+
+//? update isSupervisor -> true , when assigne supervisors to the prjectcts
+router.get('/updateSupervisor/:id', (req, res) => {
+  const id = req.params.id
+  User.find({ _id: id })
+    .update({ isSupervisor: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Data successfully updated..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+    })
 })
 
 //get student index from student userID

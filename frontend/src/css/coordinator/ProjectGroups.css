@@ -1,7 +1,5 @@
-.pg-fullpage {
-}
-
 .pg-container-div {
+    min-height: 530px;
     margin-bottom: 40px;
 }
 

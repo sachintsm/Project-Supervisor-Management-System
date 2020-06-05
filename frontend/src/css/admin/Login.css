@@ -11,24 +11,35 @@
     width: 100%;
     height: 100%;
     background-position:100% 100%;
-    margin: 0;
-    overflow: hidden;
-    vertical-align: middle;
-    padding-top: 10%;
-    padding-bottom: 10%;
+    z-index: -1;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+
+    transform: scale(1.1);
+    display: block;
 }
+
+
 
 .title-div{
     text-align: center;
 }
 
-.vertical-center{
+.z-index-2{
+    position: fixed;
+    z-index: 2;
+}
 
-    position: relative;
+.vertical-center{
+    position: fixed;
     top: 50%;
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    z-index: 2;
 }
 
 

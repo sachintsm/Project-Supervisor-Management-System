@@ -5,10 +5,12 @@ import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
+//import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
 
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
@@ -28,6 +30,9 @@ import {
   Row,
   FormControl,
   FormGroup,
+  Dropdown, 
+  DropdownButton, 
+  ButtonGroup,
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
@@ -53,7 +58,9 @@ class Notice extends Component {
       snackbarmsg: "",
       noticeType: "",
       userTypes:'',
+      selectedTypeIndex: 0 ,
       noticeList: [],
+      projectTypeList:[]
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -62,6 +69,10 @@ class Notice extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.getCategoryList = this.getCategoryList.bind(this);
+    this.onChangeType = this.onChangeType.bind(this);
+    this.onChangeAcademicYear = this.onChangeAcademicYear.bind(this);
+
   }
 
   snackbarClose = (event) => {
@@ -70,10 +81,9 @@ class Notice extends Component {
 
   componentDidMount() {
     this.getNoticeList();
+    this.getCategoryList()
 
     this.userTypes = localStorage.getItem("user-level");
-    
-
     console.log(this.userTypes)
   }
 
@@ -92,6 +102,94 @@ class Notice extends Component {
           noticeList: [],
         });
       }
+    });
+  }
+
+  getCategoryList() {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
+      if (result.data.length > 0) {
+        this.setState({
+          projectTypeList: result.data.map((type) => type)
+        },()=>{
+          this.setState({
+            type :  this.state.projectTypeList[0].projectType
+          })
+          if(this.state.projectTypeList[0].isFirstYear){
+            this.setState(({
+              academicYear: "1st Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isSecondYear){
+            this.setState(({
+              academicYear: "2nd Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isThirdYear){
+            this.setState(({
+              academicYear: "3rd Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isFourthYear){
+            this.setState(({
+              academicYear: "4th Year"
+            }))
+          }
+          else{
+            this.setState(({
+              academicYear: ''
+            }))
+          }
+        })
+      }
+      else {
+        this.setState({
+          projectTypeList: []
+        })
+      }
+    }))
+
+  }
+
+  onChangeType(typeIndex) {
+    // console.log(typeIndex)
+    this.setState({
+      type: this.state.projectTypeList[typeIndex].projectType,
+      selectedTypeIndex: typeIndex
+    });
+    if(this.state.projectTypeList[typeIndex].isFirstYear){
+      this.setState(({
+        academicYear: "1st Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isSecondYear){
+      this.setState(({
+        academicYear: "2nd Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isThirdYear){
+      this.setState(({
+        academicYear: "3rd Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isFourthYear){
+      this.setState(({
+        academicYear: "4th Year"
+      }))
+    }
+    else{
+      this.setState(({
+        academicYear: ''
+      }))
+    }
+  }
+
+  onChangeAcademicYear(year) {
+    this.setState({
+      academicYear: year,
     });
   }
 
@@ -176,6 +274,11 @@ class Notice extends Component {
               noticeTittle: "",
               notice: "",
               noticeAttachment: "",
+              toViewType: true,
+              toCordinator: false,
+              toSupervisor: false,
+              toStudent: false,
+
             });
           },
         },
@@ -220,7 +323,7 @@ class Notice extends Component {
   closeAlert = () => {
     this.setState({
       succesAlert: false,
-      warnAlert: false,
+      deleteSuccesAlert: false,
     });
   };
 
@@ -228,7 +331,7 @@ class Notice extends Component {
 
   render() {
 
-    if(this.userTypes == 'admin'){
+    if(this.userTypes === 'admin'){
     return (
       <React.Fragment>
         <Snackpop
@@ -242,7 +345,7 @@ class Notice extends Component {
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
-          time={1000}
+          time={3000}
           status={this.state.deleteSuccesAlert}
           closeAlert={this.closeAlert}
         />
@@ -287,6 +390,8 @@ class Notice extends Component {
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
 
+
+
                     <Row className="margin-top-30">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -319,7 +424,7 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col md={4} className="form-control-label ">
                         <FormControlLabel
                           className="form-control-label"
@@ -340,7 +445,7 @@ class Notice extends Component {
                             <span
                               style={{ fontSize: "14px", color: "#6d6d6d" }}
                             >
-                              To View
+                              Select user to View
                             </span>
                           }
                         />
@@ -419,7 +524,7 @@ class Notice extends Component {
                         )}
                       </Col>
                     </Row>
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           File Attach :{" "}
@@ -434,6 +539,8 @@ class Notice extends Component {
                         </FormGroup>
                       </Col>
                     </Row>
+
+                    
 
                     <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                       <Button
@@ -454,55 +561,35 @@ class Notice extends Component {
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          
                           <Card
                             key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" }}
+                            style={{ marginTop: "10px", marginBottom: "10px" , paddingBottom:"0.5px" }}
                           >
-                        
-                          
-                            <CardContent style={{ paddingBottom: "2px" }}>
-                              <h6>{type.noticeTittle}</h6>
+                          <Row>
+                            <Col xs="11">
+                            <CardContent style={{ paddingBottom: "2px"}}>
+                              <h6><b>{type.noticeTittle}</b></h6>
                             </CardContent>
-                            <h8
-                              style={{ color: "#6d6d6d", paddingLeft: "13px" }}
-                            >
-                              {type.date}
-                            </h8>
-                            <CardContent style={{ paddingTop: "2px" }}>
-                              <Typography variant="body1" component="p">
+                            </Col>
+
+                            <Col xs="1">
+                              <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                            </Col>
+                          </Row>  
+
+                            <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
+                              {type.date}</small>
+                            </h6>
+                        
+                            <CardContent style={{ paddingTop: "2px",fontWeight:"300" }}>
+                              <Typography variant="body2" component="p" >
                                 {type.notice}
                               </Typography>
-                            </CardContent>
 
-                            <CardContent
-                              style={{
-                                paddingBottom: "2px",
-                                paddingTop: "1px",
-                              }}
-                            >
-                              <a
-                                href={
-                                  "http://localhost:4000/notice/noticeAttachment/" +
-                                  type.filePath
-                                }
-                              >
+                              <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                                 Attachment
                               </a>
-                            </CardContent>
-
-                            <CardActions>
-                              <Button
-                                size="small"
-                                variant="outline-danger"
-                                style={{ width: "20%" }}
-                                onClick={() =>
-                                  this.onDeleteHandler(type._id, type.filepath)
-                                }
-                              >
-                                Delete
-                              </Button>
-                            </CardActions>
+                              </CardContent>
                           </Card>
                          
                         );
@@ -518,7 +605,7 @@ class Notice extends Component {
         <Footer />
       </React.Fragment>
     );
-  }else if(this.userTypes == 'coordinator'){
+  }else if(this.userTypes === 'coordinator'){
     return(
       <React.Fragment>
 
@@ -579,6 +666,89 @@ class Notice extends Component {
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notices</h3>
 
+                    
+                    <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+                    <Col lg="4" md="4" sm="6" xs="6">
+                    <Row>
+                      <p className="cp-text">
+                        Project Type
+                      </p>
+                    </Row>
+
+                    <Row >
+
+                      {
+                        this.state.projectTypeList.length == 0 ? (
+                            <DropdownButton
+                                // className="full-width"
+                                as={ButtonGroup}
+                                variant={'secondary'}
+                                title={"No Items"}
+                                onSelect={this.onChangeType}
+                                style={{ width: "90%" }}
+                            >
+                            </DropdownButton>) : (
+                            <DropdownButton
+                                // className="full-width"
+                                as={ButtonGroup}
+                                variant={'secondary'}
+                                title={this.state.type}
+                                onSelect={this.onChangeType}
+                                style={{ width: "90%" }}
+                            >
+                              {this.state.projectTypeList.map((item,index) => {
+                                return(
+                                    <Dropdown.Item key={item._id} eventKey={index}>
+                                      {item.projectType}
+                                    </Dropdown.Item>)
+                              })}
+                            </DropdownButton>)
+                      }
+
+                    </Row>
+                  </Col>
+
+                  {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
+                    <Col  lg="4" md="4" sm="12" xs="12" >
+                      <Row>
+                        <p className="cp-text cp-text2">
+                          Academic Year
+                        </p>
+                      </Row>
+                      <Row>
+
+                        <DropdownButton
+                            as={ButtonGroup}
+                            variant={'secondary'}
+                            title={this.state.academicYear}
+                            onSelect={this.onChangeAcademicYear}
+                            style={{ width: "90%" }}
+                            className="full-width"
+                        >
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
+                          <Dropdown.Item eventKey='1st Year'>
+                            1st Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
+                          <Dropdown.Item eventKey='2nd Year'>
+                            2nd Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
+                          <Dropdown.Item eventKey='3rd Year'>
+                            3rd Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
+                          <Dropdown.Item eventKey='4th Year'>
+                            4th Year
+                          </Dropdown.Item>}
+                        </DropdownButton>{' '}
+                      </Row>
+                    </Col> :  null
+                }
+
+                    
+                    </Row>
+
                     <Row className="margin-top-30">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -611,7 +781,7 @@ class Notice extends Component {
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col md={4} className="form-control-label ">
                         <FormControlLabel
                           className="form-control-label"
@@ -632,7 +802,7 @@ class Notice extends Component {
                             <span
                               style={{ fontSize: "14px", color: "#6d6d6d" }}
                             >
-                              To View
+                            Select user to View
                             </span>
                           }
                         />
@@ -687,7 +857,7 @@ class Notice extends Component {
                         )}
                       </Col>
                     </Row>
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           File Attach :{" "}
@@ -722,55 +892,38 @@ class Notice extends Component {
                     <div>
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'coordinator'){
-                        return (
-                          <Card
-                            key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" }}
-                          >
-                            <CardContent style={{ paddingBottom: "2px" }}>
-                              <h6>{type.noticeTittle}</h6>
-                            </CardContent>
-                            <h8
-                              style={{ color: "#6d6d6d", paddingLeft: "13px" }}
+                          return (
+                            <Card
+                              key={type._id}
+                              style={{ marginTop: "10px", marginBottom: "10px" }}
                             >
-                              {type.date}
-                            </h8>
-                            <CardContent style={{ paddingTop: "2px" }}>
-                              <Typography variant="body1" component="p">
-                                {type.notice}
-                              </Typography>
-                            </CardContent>
-
-                            <CardContent
-                              style={{
-                                paddingBottom: "2px",
-                                paddingTop: "1px",
-                              }}
-                            >
-                              <a
-                                href={
-                                  "http://localhost:4000/notice/noticeAttachment/" +
-                                  type.filePath
-                                }
-                              >
-                                Attachment
-                              </a>
-                            </CardContent>
-
-                            <CardActions>
-                              <Button
-                                size="small"
-                                variant="outline-danger"
-                                style={{ width: "20%" }}
-                                onClick={() =>
-                                  this.onDeleteHandler(type._id, type.filepath)
-                                }
-                              >
-                                Delete
-                              </Button>
-                            </CardActions>
-                          </Card>
-                        );
+                            <Row>
+                              <Col xs="11">
+                              <CardContent style={{ paddingBottom: "2px"}}>
+                                <h6><b>{type.noticeTittle}</b></h6>
+                              </CardContent>
+                              </Col>
+  
+                              <Col xs="1">
+                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                              </Col>
+                            </Row>  
+  
+                              <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
+                                {type.date}</small>
+                              </h6>
+                          
+                              <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
+                                <Typography variant="body2" component="p">
+                                  {type.notice}
+                                </Typography>
+                                <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
+                                  Attachment
+                                </a>
+                              </CardContent>
+                            </Card>
+                           
+                          );
                               }
                       })}
                     </div>

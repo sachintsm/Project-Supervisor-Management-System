@@ -1,0 +1,114 @@
+.as-dropdown-select {
+    margin-top: 19px;
+}
+
+.as-container-div {
+    min-height: 530px;
+    margin-bottom: 40px;
+}
+
+.as-dropdown-select {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.as-reg-head {
+    color: rgb(75, 75, 75);
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 2em;
+    margin-top: 40px;
+}
+
+.as-details-head {
+    color: rgb(75, 75, 75);
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+.as-table-row:hover {
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.spinner {
+    margin: auto;
+}
+
+.as-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+
+@media screen and (max-width: 500px) {
+    .spinner{
+        margin-top: 20px;
+    }
+    .as-dropdown-select {
+        width: 100%;
+        margin-top: -10px;
+        margin-bottom: 30px;
+    }
+    .as-btn {
+        width: 100%;
+        margin-top: 0px;
+        margin-bottom: 20px;
+    }
+    .as-reg-head {
+        font-size: 25px;
+        text-align: left;
+    }
+    .as-table {
+        table, thead, tbody, th, td, tr {
+            display: block;
+            font-size: 13px;
+        }
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        tr {
+            border: 1px solid rgb(212, 212, 212);
+            border-radius: 3px;
+            padding: 3% 5%;
+            margin-bottom : 10px;
+        }
+        p {
+            margin: 0px !important;
+        }
+        td {
+            /* Behave  like a "row" */
+            /*border-bottom: 1px solid #eee;*/
+            position: relative;
+            padding: 0px !important;
+            padding-left: 50%;
+        }
+        td:before {
+            /*position: relative;*/
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            color: rgb(49, 49, 49);
+            font-weight: bold;
+        }
+        
+        td:nth-of-type(1):before {
+            content: "Supervisor";
+        }
+        td:nth-of-type(2):before {
+            content: "Groups";
+        }
+        td:nth-of-type(3):before {
+            content: "Count";
+        }
+        
+    }
+}

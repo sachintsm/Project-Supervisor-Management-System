@@ -85,7 +85,7 @@ class ProjectGroups extends Component {
             spinnerDiv: true,
             groupDataBlock: []
         })
-        // this.state.groupDataBlock = [];
+
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
                 this.setState({
@@ -137,7 +137,7 @@ class ProjectGroups extends Component {
     }
 
     //? opent the gropuData window
-    groupDataHandler(data){
+    groupDataHandler(data) {
         this.props.history.push('/coordinatorhome/groupData/' + data);
     }
 
@@ -231,7 +231,6 @@ class ProjectGroups extends Component {
                                 <Col md="2" xs="12">
                                     <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
                                 </Col>
-
                             </Row>
                         </div>
                         {spinnerDiv && (

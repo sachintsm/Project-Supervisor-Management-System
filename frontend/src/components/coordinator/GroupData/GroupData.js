@@ -32,8 +32,8 @@ class GroupData extends Component {
             groupSupervisors: [],
 
             addStudentIndex: '',
-            staffOptionList: [],
             staffList: [],
+            staffOptionList: [],
             selectedStaffList: [],
 
 
@@ -69,7 +69,7 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                // console.log(res.data.data)
+                console.log(res)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,

@@ -61,10 +61,10 @@ export default class navbar extends Component {
     }
     return (
       <Router>
-        {/*#263238 => NAVBAR color*/ }
-        <MDBNavbar color='special-color-dark' dark  expand='md' className='navbar'   >
+        {/*#263238 => NAVBAR color*/}
+        <MDBNavbar color='special-color-dark' dark expand='md' className='navbar'   >
           <MDBNavbarBrand>
-            <img style={{ width: '12rem' }}  src={require('../../assets/logo/Project Logo white.png')} />
+            <img style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} />
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
@@ -86,69 +86,74 @@ export default class navbar extends Component {
 
               {/* =============================== Coordinator Panel================================ */}
               {this.state.panel === 'coordinator' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link href='/coordinatorhome/createGroups'>Create Groups</Nav.Link>
-                </MDBNavItem>
+                <MDBDropdown>
+                  <MDBDropdownToggle nav caret>
+                    <span className='mr-2'>Notice</span>
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    <MDBDropdownItem href='/shared/noticeView'>View Notices</MDBDropdownItem>
+                    <MDBDropdownItem href='/shared/notice'>Create Notice</MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
               )}
-              {/*&nbsp; &nbsp; &nbsp;*/}
-              {this.state.panel === 'coordinator' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link href='/coordinatorhome/projectGroups'>Project Groups</Nav.Link>
-                </MDBNavItem>
-              )}
+              &nbsp;&nbsp;&nbsp;&nbsp;
 
               {this.state.panel === 'coordinator' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                    Notices
-                  </Nav.Link>
-                </MDBNavItem>
-              )}
-
-              {this.state.panel === 'coordinator' && (
-                <MDBNavItem  className="mr-4">
-                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
-                  NoticeView
-                  </Nav.Link>
-                </MDBNavItem>
+                <MDBDropdown className="mr-4">
+                  <MDBDropdownToggle nav caret>
+                    <span className='mr-2'>Projects</span>
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    <MDBDropdownItem href='/coordinatorhome/createGroups'>Create Groups</MDBDropdownItem>
+                    <MDBDropdownItem href='/coordinatorhome/projectGroups'>Project Groups Data</MDBDropdownItem>
+                    <MDBDropdownItem href='/coordinatorhome/assignSupervisors'>Assign Supervisors</MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
               )}
 
               {/* =============================== Admin Panel================================ */}
-              {this.state.panel==='admin' && (
+              {this.state.panel === 'admin' && (
 
-                  <MDBDropdown className="mr-4">
-                    <MDBDropdownToggle nav caret>
-                      <span className='mr-2'>Users</span>
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu>
-                      <MDBDropdownItem href='/adminhome/viewusers'>Manage Users</MDBDropdownItem>
-                      <MDBDropdownItem href='/adminhome/registration'>User Registrations</MDBDropdownItem>
-                    </MDBDropdownMenu>
-                  </MDBDropdown>
+                <MDBDropdown className="mr-4">
+                  <MDBDropdownToggle nav caret>
+                    <span className='mr-2'>Users</span>
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    <MDBDropdownItem href='/adminhome/viewusers'>Manage Users</MDBDropdownItem>
+                    <MDBDropdownItem href='/adminhome/registration'>User Registrations</MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
               )}
-
-              {this.state.panel==='admin' && (
-
-                  <MDBDropdown className="mr-4">
-                    <MDBDropdownToggle nav caret>
-                      <span className='mr-2'>Projects</span>
-                    </MDBDropdownToggle>
-                    <MDBDropdownMenu>
-
-                      <MDBDropdownItem href='/adminhome/projecttypes'>Project Categories</MDBDropdownItem>
-                      <MDBDropdownItem href='/adminhome/createproject'>Projects</MDBDropdownItem>
-
-                    </MDBDropdownMenu>
-                  </MDBDropdown>
-              )}
-
 
               {this.state.panel === 'admin' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                    Notices
-                  </Nav.Link>
-                </MDBNavItem>
+
+                <MDBDropdown className="mr-4">
+                  <MDBDropdownToggle nav caret>
+                    <span className='mr-2'>Projects</span>
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    <MDBDropdownItem href='/adminhome/projecttypes'>Project Categories</MDBDropdownItem>
+                    <MDBDropdownItem href='/adminhome/createproject'>Projects</MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
+              )}
+              {this.state.panel === 'admin' && (
+
+                <MDBDropdown className='mr-4'>
+                  <MDBDropdownToggle nav caret>
+                    <span  className='mr-2'>Notices</span>
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu>
+                    <MDBDropdownItem href='/shared/noticeView'>View Notices</MDBDropdownItem>
+                    <MDBDropdownItem href='/shared/notice'>Create Notice</MDBDropdownItem>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
+
+                // <MDBNavItem className="mr-4">
+                //   <Nav.Link  className="padding-zero"   href='/shared/notice'>
+                //     Notices
+                //   </Nav.Link>
+                // </MDBNavItem>
               )}
 
               {/* ============================ Supervisor Panel ============================================= */}
@@ -158,13 +163,16 @@ export default class navbar extends Component {
                   NoticeView
                   </Nav.Link>
                 </MDBNavItem>
+
               )}
 
               {/* =============================  Student Panel  ============================================ */}
 
               {this.state.panel === 'student' && (
+                
                 <MDBNavItem   className="mr-4">
                   <Nav.Link  className="padding-zero"  href='/shared/noticeView'>NoticeView</Nav.Link>
+
                 </MDBNavItem>
               )}
 
@@ -243,17 +251,17 @@ export default class navbar extends Component {
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   ) : (
-                    <Nav.Link   className="padding-zero"   href='/profile'>Profile</Nav.Link>
+                    <Nav.Link className="padding-zero" href='/profile'>Profile</Nav.Link>
                   )}
               </MDBNavItem>
               <MDBNavItem>
-                <Nav.Link   className="padding-zero"  onClick={this.logout}>Logout</Nav.Link>
+                <Nav.Link className="padding-zero" onClick={this.logout}>Logout</Nav.Link>
               </MDBNavItem>
 
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBNavbar>
-      </Router>
+      </Router >
     );
   }
 }

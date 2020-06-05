@@ -21,6 +21,7 @@ import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
 import ProjectGroups from './components/coordinator/ProjectGroups'
 import GroupData from './components/coordinator/GroupData/GroupData';
+import AssignSupervisor from './components/coordinator/AssignSupervisors';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import NoticeView from './components/shared/NoticeView';
@@ -58,10 +59,11 @@ function App() {
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>          
+          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
           <Route exact path='/shared/notice' component={Notice}></Route>
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
-          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
+          <Route path='/coordinatorhome/assignSupervisors' exact component={AssignSupervisor}></Route>
 
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
