@@ -4,7 +4,7 @@ const verify = require('../authentication');
 const ProjectSupervisors = require('../models/projectSupervisors');
 
 //? add supervisor to project
-router.post('/add', async (req, res) => {
+router.post('/add', verify, async (req, res) => {
     console.log(req.body)
     const isExists = await ProjectSupervisors.findOne({ projectId: req.body.projectId })
     if (isExists) {
@@ -40,6 +40,20 @@ router.post('/add', async (req, res) => {
             })
 
     }
+})
+
+router.get('/get/:id',verify, (req, res) => {
+    const id = req.params.id
+    ProjectSupervisors
+        .find({ projectId: id })
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+        })
+        .catch(error => {
+            console.log(error)
+            res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+        })
 })
 
 

@@ -152,4 +152,21 @@ router.post('/removeSupervisorIndex', (req, res) => {
         })
 })
 
+
+//? get projects for spesific supervisor
+router.post('/getsupervisorGroup', async (req, res) => {
+    const projectId = req.body.projectId
+    const supervisor = req.body.supervisor
+    console.log(supervisor)
+    CreateGroups
+        .find({ projectId: projectId, supervisors: supervisor })
+        .exec()
+        .then(data => {
+            res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+})
+
 module.exports = router
