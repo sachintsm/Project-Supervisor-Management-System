@@ -48,7 +48,6 @@ process.on('SIGNIT', () => {
   });
 });
 
-// app.use(passport.initialize());
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,17 +57,19 @@ app.use(bodyParser.json());
 const users = require('./routes/users');
 const notice = require("./routes/notice");
 const projects = require('./routes/projects');
-// const contactUs = require('./routes/contactUs');
 const createGroups =  require('./routes/createGroups')
+const projectSupervisors = require('./routes/projectSupervisors')
+// const contactUs = require('./routes/contactUs');
+
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
 app.use('/users', users);
 app.use('/projects', projects);
 app.use("/notice", notice);
-// app.use("/contactUs", contactUs);
 app.use('/createGroups', createGroups);
-
+app.use('/projectSupervisors', projectSupervisors)
+// app.use("/contactUs", contactUs);
 
 
 const PORT = process.env.PORT || 4000;

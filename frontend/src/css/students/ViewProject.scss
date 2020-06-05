@@ -1,0 +1,63 @@
+.open-project-background-color{
+  background-color: #f5f5f5 !important;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.open-project{
+  padding:20px 100px !important;
+
+  .bold-text{
+    font-weight: bold;
+  }
+  .normal-text{
+    font-weight: normal;
+  }
+  .project-detail-card{
+    padding: 5% 8% !important;
+  }
+  .title{
+    margin-bottom: 5%;
+  }
+  .spinner{
+    align-content: center;
+  }
+
+
+}
+
+
+@media only screen and  (max-width: 1024px){
+
+  .open-project{
+    padding:20px 50px !important;
+    .bold-text{
+      font-size: 13px;
+    }
+    .normal-text{
+      font-size: 13px;
+    }
+  }
+
+
+}
+
+@media only screen and  (max-width: 768px){
+  .open-project{
+    padding:20px 20px !important;
+    .bold-text{
+      font-size: 12px;
+    }
+    .normal-text{
+      font-size: 11px;
+    }
+    .project-detail-card{
+      padding: 3% 5% !important;
+      margin: 0% 0% !important;
+    }
+    .my-col{
+      padding-top: 5px!important;
+      padding-bottom: 10px!important;
+    }
+  }
+}

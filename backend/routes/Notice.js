@@ -89,7 +89,7 @@ router.get("/viewNotice", (req, res, next) => {
   // notice get methord
   Notice.find()
     .sort({ date: 1 })
-    .select("noticeTittle notice date filePath userType")
+    .select("noticeTittle notice date filePath userType toCordinator toStudent toSupervisor")
     .exec()
     .then((docs) => {
       // result hadling
@@ -111,26 +111,6 @@ router.get("/noticeAttachment/:filename", function (req, res) {
   res.sendFile(
     path.join(__dirname, "../local_storage/notice_Attachment/" + filename)
   );
-});
-
-router.get("/viewNotices", (req, res, next) => {
-  // notice get methord
-  Notice.find()
-    .sort({ date: 1 })
-    .select("toCordinator toStudent toSupervisor userType")
-    .exec()
-    .then((docs) => {
-      // result hadling
-      console.log("Data Transfer Successss.!");
-      res.status(200).json(docs);
-    })
-    .catch((error) => {
-      // error hadling
-      console.log(error);
-      res.status(500).json({
-        error: error,
-      });
-    });
 });
 
 //delte notice
