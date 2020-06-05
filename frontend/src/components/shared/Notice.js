@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
-//import {getFromStorage} from "../../utils/Storage";
+import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -30,6 +30,9 @@ import {
   Row,
   FormControl,
   FormGroup,
+  Dropdown, 
+  DropdownButton, 
+  ButtonGroup,
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
@@ -55,7 +58,9 @@ class Notice extends Component {
       snackbarmsg: "",
       noticeType: "",
       userTypes:'',
+      selectedTypeIndex: 0 ,
       noticeList: [],
+      projectTypeList:[]
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -64,6 +69,10 @@ class Notice extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.getCategoryList = this.getCategoryList.bind(this);
+    this.onChangeType = this.onChangeType.bind(this);
+    this.onChangeAcademicYear = this.onChangeAcademicYear.bind(this);
+
   }
 
   snackbarClose = (event) => {
@@ -72,10 +81,9 @@ class Notice extends Component {
 
   componentDidMount() {
     this.getNoticeList();
+    this.getCategoryList()
 
     this.userTypes = localStorage.getItem("user-level");
-    
-
     console.log(this.userTypes)
   }
 
@@ -94,6 +102,94 @@ class Notice extends Component {
           noticeList: [],
         });
       }
+    });
+  }
+
+  getCategoryList() {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
+      if (result.data.length > 0) {
+        this.setState({
+          projectTypeList: result.data.map((type) => type)
+        },()=>{
+          this.setState({
+            type :  this.state.projectTypeList[0].projectType
+          })
+          if(this.state.projectTypeList[0].isFirstYear){
+            this.setState(({
+              academicYear: "1st Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isSecondYear){
+            this.setState(({
+              academicYear: "2nd Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isThirdYear){
+            this.setState(({
+              academicYear: "3rd Year"
+            }))
+          }
+          else if(this.state.projectTypeList[0].isFourthYear){
+            this.setState(({
+              academicYear: "4th Year"
+            }))
+          }
+          else{
+            this.setState(({
+              academicYear: ''
+            }))
+          }
+        })
+      }
+      else {
+        this.setState({
+          projectTypeList: []
+        })
+      }
+    }))
+
+  }
+
+  onChangeType(typeIndex) {
+    // console.log(typeIndex)
+    this.setState({
+      type: this.state.projectTypeList[typeIndex].projectType,
+      selectedTypeIndex: typeIndex
+    });
+    if(this.state.projectTypeList[typeIndex].isFirstYear){
+      this.setState(({
+        academicYear: "1st Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isSecondYear){
+      this.setState(({
+        academicYear: "2nd Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isThirdYear){
+      this.setState(({
+        academicYear: "3rd Year"
+      }))
+    }
+    else if(this.state.projectTypeList[typeIndex].isFourthYear){
+      this.setState(({
+        academicYear: "4th Year"
+      }))
+    }
+    else{
+      this.setState(({
+        academicYear: ''
+      }))
+    }
+  }
+
+  onChangeAcademicYear(year) {
+    this.setState({
+      academicYear: year,
     });
   }
 
@@ -227,7 +323,7 @@ class Notice extends Component {
   closeAlert = () => {
     this.setState({
       succesAlert: false,
-      warnAlert: false,
+      deleteSuccesAlert: false,
     });
   };
 
@@ -293,6 +389,8 @@ class Notice extends Component {
                 >
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
+
+
 
                     <Row className="margin-top-30">
                       <Col>
@@ -492,10 +590,6 @@ class Notice extends Component {
                                 Attachment
                               </a>
                               </CardContent>
-
-                          
-
-                            
                           </Card>
                          
                         );
@@ -571,6 +665,89 @@ class Notice extends Component {
                 >
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notices</h3>
+
+                    
+                    <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+                    <Col lg="4" md="4" sm="6" xs="6">
+                    <Row>
+                      <p className="cp-text">
+                        Project Type
+                      </p>
+                    </Row>
+
+                    <Row >
+
+                      {
+                        this.state.projectTypeList.length == 0 ? (
+                            <DropdownButton
+                                // className="full-width"
+                                as={ButtonGroup}
+                                variant={'secondary'}
+                                title={"No Items"}
+                                onSelect={this.onChangeType}
+                                style={{ width: "90%" }}
+                            >
+                            </DropdownButton>) : (
+                            <DropdownButton
+                                // className="full-width"
+                                as={ButtonGroup}
+                                variant={'secondary'}
+                                title={this.state.type}
+                                onSelect={this.onChangeType}
+                                style={{ width: "90%" }}
+                            >
+                              {this.state.projectTypeList.map((item,index) => {
+                                return(
+                                    <Dropdown.Item key={item._id} eventKey={index}>
+                                      {item.projectType}
+                                    </Dropdown.Item>)
+                              })}
+                            </DropdownButton>)
+                      }
+
+                    </Row>
+                  </Col>
+
+                  {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
+                    <Col  lg="4" md="4" sm="12" xs="12" >
+                      <Row>
+                        <p className="cp-text cp-text2">
+                          Academic Year
+                        </p>
+                      </Row>
+                      <Row>
+
+                        <DropdownButton
+                            as={ButtonGroup}
+                            variant={'secondary'}
+                            title={this.state.academicYear}
+                            onSelect={this.onChangeAcademicYear}
+                            style={{ width: "90%" }}
+                            className="full-width"
+                        >
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
+                          <Dropdown.Item eventKey='1st Year'>
+                            1st Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
+                          <Dropdown.Item eventKey='2nd Year'>
+                            2nd Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
+                          <Dropdown.Item eventKey='3rd Year'>
+                            3rd Year
+                          </Dropdown.Item>}
+                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
+                          <Dropdown.Item eventKey='4th Year'>
+                            4th Year
+                          </Dropdown.Item>}
+                        </DropdownButton>{' '}
+                      </Row>
+                    </Col> :  null
+                }
+
+                    
+                    </Row>
 
                     <Row className="margin-top-30">
                       <Col>
