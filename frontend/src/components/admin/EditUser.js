@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import axios from 'axios';
 import Navbar from "../shared/Navbar";
-import '../../css/admin/ViewUsers.css';
+import '../../css/admin/EditUser.css';
 import Footer from '../shared/Footer'
 import { verifyAuth } from "../../utils/Authentication";
 import {
@@ -31,7 +31,7 @@ class EditUser extends Component {
             authState: '',
             snackbaropen: false,
             snackbarmsg: '',
-            id:'',
+            id: '',
             firstName: '',
             lastName: '',
             email: '',
@@ -71,7 +71,7 @@ class EditUser extends Component {
                 console.log(response.data.data[0].firstName);
 
                 this.setState({
-                    id:response.data.data[0]._id,
+                    id: response.data.data[0]._id,
                     firstName: response.data.data[0].firstName,
                     lastName: response.data.data[0].lastName,
                     email: response.data.data[0].email,
@@ -158,84 +158,94 @@ class EditUser extends Component {
                                 <div className="row" style={{ marginTop: "20px" }}>
 
                                     <div className="card">
-                                        <div>
-                                            <h3 className="sp_head">Update User</h3>
-                                            <div>
-                                                <form onSubmit={this.onSubmit} >
+                                        <div className="row">
+                                            <div className="col-md-8">
+                                                <div className="card">
+                                                    <div>
+                                                        <h3 className="sp_head">Update User</h3>
+                                                        <div>
+                                                            <form onSubmit={this.onSubmit} >
 
-                                                    <div className="form-group">
-                                                        <label>First name</label>
-                                                        <input type="text"
-                                                            name="firstName"
-                                                            className="form-control"
-                                                            value={this.state.firstName}
-                                                            onChange={this.onChange}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label>Last name</label>
-                                                        <input type="text"
-                                                            name="lastName"
-                                                            className="form-control"
-                                                            value={this.state.lastName}
-                                                            onChange={this.onChange}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label>Email</label>
-                                                        <input type="text"
-                                                            name="email"
-                                                            className="form-control"
-                                                            value={this.state.email}
-                                                            onChange={this.onChange}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label>NIC</label>
-                                                        <input type="text"
-                                                            name="nic"
-                                                            className="form-control"
-                                                            value={this.state.nic}
-                                                            onChange={this.onChange}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label>Contact Number</label>
-                                                        <input type="text"
-                                                            name="mobile"
-                                                            className="form-control"
-                                                            value={this.state.mobile}
-                                                            onChange={this.onChange}
-                                                        />
-                                                    </div>
-
-
-                                                    <div className="form-group">
-                                                        <br />
-                                                        <input type="submit" value="Update User" className="btn btn-primary" />
-                                                    </div>
+                                                                <div className="form-group labl">
+                                                                    <label>First name</label>
+                                                                    <input type="text"
+                                                                        name="firstName"
+                                                                        className="form-control"
+                                                                        value={this.state.firstName}
+                                                                        onChange={this.onChange}
+                                                                    />
+                                                                </div>
+                                                                <div className="form-group labl">
+                                                                    <label>Last name</label>
+                                                                    <input type="text"
+                                                                        name="lastName"
+                                                                        className="form-control"
+                                                                        value={this.state.lastName}
+                                                                        onChange={this.onChange}
+                                                                    />
+                                                                </div>
+                                                                <div className="form-group labl">
+                                                                    <label>Email</label>
+                                                                    <input type="text"
+                                                                        name="email"
+                                                                        className="form-control"
+                                                                        value={this.state.email}
+                                                                        onChange={this.onChange}
+                                                                    />
+                                                                </div>
+                                                                <div className="form-group labl">
+                                                                    <label>NIC</label>
+                                                                    <input type="text"
+                                                                        name="nic"
+                                                                        className="form-control"
+                                                                        value={this.state.nic}
+                                                                        onChange={this.onChange}
+                                                                    />
+                                                                </div>
+                                                                <div className="form-group labl">
+                                                                    <label>Contact Number</label>
+                                                                    <input type="text"
+                                                                        name="mobile"
+                                                                        className="form-control"
+                                                                        value={this.state.mobile}
+                                                                        onChange={this.onChange}
+                                                                    />
+                                                                </div>
 
 
-                                                </form>
+                                                                <div className="form-group labl">
+                                                                    <br />
+                                                                    <input type="submit" value="Update User" className="btn btn-primary" />
+                                                                </div>
+
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="card">
+
+                                                    <div>
+                                                        <h3 className="sp_head">Reset Password</h3>
+                                                        <div>
+                                                            <div className="para">
+                                                                <p>When you press the "Reset Password" button, It automatically assigns the user's NIC number as user's password.</p>
+                                                            </div>
+                                                            <div className="form-group labl">
+                                                                <br />
+                                                                {/* <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.ResetUserPassword(this.state.id)} /> */}
+                                                                <input type="submit" value="Reset password" className="btn btn-primary" onClick={() => this.ResetUserPassword(this.state.id)}/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="card">
-                                        <div>
-                                            <h3 className="sp_head">Reset Password</h3>
-                                            <div>
-                                                <div>
-                                                    <p>When you press the "Reset Password" button, It automatically assigns the user's NIC number as user's password.</p>
-                                                </div>
-                                                <div className="form-group">
-                                                    <br />
-                                                    <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.ResetUserPassword(this.state.id)} />
-                                                    {/* <input type="submit" value="Reset password" className="btn btn-primary" /> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
 
 
