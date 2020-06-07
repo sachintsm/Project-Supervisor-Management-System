@@ -300,6 +300,15 @@ router.get('/supervisorList/:id', async (req, res, next) => {
   }
 });
 
+//? get Supervisors List
+router.get('/supervisorsList', async (req, res) => {
+  try {
+    const results = await User.find({ isSupervisor: true, isDeleted: false });
+    res.send(results);
+  } catch (error) {
+    console.log(error);
+  }
+})
 //get all users details
 router.get('/get', function (req, res) {
 
