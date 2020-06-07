@@ -11,8 +11,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-
-
 import "../../css/shared/Notice.css";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -34,6 +32,9 @@ import {
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
+const date_ob = new Date();
+const year = date_ob.getFullYear()
+
 
 class Notice extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Notice extends Component {
       notice: "",
       noticeAttachment: "",
       date: "",
+      year: year,
       succesAlert: false,
       deleteSuccesAlert: false,
       warnAlert: false,
@@ -59,6 +61,7 @@ class Notice extends Component {
       selectedTypeIndex: 0 ,
       noticeList: [],
       projectTypeList:[],
+      yearsArray: [],
 
 
 
@@ -76,6 +79,7 @@ class Notice extends Component {
     this.getCategoryList = this.getCategoryList.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onChangeAcademicYear = this.onChangeAcademicYear.bind(this);
+    this.onChangeYear = this.onChangeYear.bind(this);
 
   }
 
@@ -89,6 +93,16 @@ class Notice extends Component {
 
     this.userTypes = localStorage.getItem("user-level");
     console.log(this.userTypes)
+
+
+    //##############################################
+    let date_ob = new Date();
+    const year = date_ob.getFullYear();
+    var startYear = year - 2;
+    for (var i = 0; i < 6; i++) {
+      this.state.yearsArray.push(startYear);
+      startYear += 1;
+    }
   }
 
   // Notice get from database and map to the array
@@ -245,6 +259,12 @@ class Notice extends Component {
     });
   }
 
+  onChangeYear(year) {
+    this.setState({
+      year: year,
+    });
+  }
+
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
@@ -307,6 +327,10 @@ class Notice extends Component {
           noticeTittle: "",
           notice: "",
           noticeAttachment: "",
+          toCordinator: false,
+          toSupervisor: false,
+          toStudent: false,
+
         });
       },
     },
@@ -360,6 +384,15 @@ class Notice extends Component {
 
   render() {
 
+    const { yearsArray } = this.state;
+
+    let yearList = yearsArray.length > 0
+        && yearsArray.map((item, i) => {
+          return (
+              <Dropdown.Item key={i} eventKey={item}>{item}</Dropdown.Item>
+          )
+        }, this);
+
     if(this.userTypes === 'admin'){
     return (
       <React.Fragment>
@@ -367,7 +400,7 @@ class Notice extends Component {
      <Snackpop
           msg={"Successfully Added"}
           color={"success"}
-          time={3000}
+          time={2000}
           status={this.state.succesAlert}
           closeAlert={this.closeAlert}
         />
@@ -376,7 +409,7 @@ class Notice extends Component {
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
-          time={3000}
+          time={2000}
           status={this.state.deleteSuccesAlert}
           closeAlert={this.closeAlert}
         />
@@ -649,6 +682,31 @@ class Notice extends Component {
 
                     
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+
+                    <Col lg="4" md="4" sm="6" xs="6">
+                    <Row>
+                      <p className="cp-text">
+                        Year of the Project
+                      </p>
+                    </Row>
+                    <Row>
+                      <DropdownButton
+                          as={ButtonGroup}
+                          // className="full-width"
+                          variant={'secondary'}
+                          title={this.state.year}
+                          onSelect={this.onChangeYear}
+                          style={{ width: "90%" }}>
+                        {this.state.yearsArray.map((item,index) => {
+                          return(
+                              <Dropdown.Item key={index} eventKey={item}>
+                                {item}
+                              </Dropdown.Item>)
+                        })}
+                      </DropdownButton>{' '}
+                    </Row>
+                    </Col>
+                    
                     <Col lg="4" md="4" sm="6" xs="6">
                     <Row>
                       <p className="cp-text">
