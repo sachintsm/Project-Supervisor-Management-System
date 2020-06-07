@@ -338,22 +338,43 @@ router.route('/deleteUser/:id').post(function (req, res) {
 //admin update user password
 router.route('/updatePasswordA/:id').post(function (req, res) {
   console.log('zxcvbn');
+  console.log(req.params.id);
 
-  
-  User.findById(req.params.id, function (err, user) {
-    if (!user) {
-      res.status(404).send("data is not found");
-    }
-    else
-      user.password = user.nic;
+  // var newPassword = req.body.nic
+  let id = req.params.id;
+  User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
+    console.log(user.nic);
 
-      user.save().then(user => {
+    var newPassword = user.nic
 
-    })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
+    if (err) throw err;
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
+        newPassword = hash;
+        if (err) {
+          throw err;
+        }
+        else {
+          User.updateOne({ _id: id }, {   //save the new password to the database
+            $set: {
+              password: newPassword
+            }
+          })
+            .exec()
+            .then(data => {
+              console.log("Data Update Success..!")
+              res.json({ state: true, msg: "Data Update Success..!" });
+
+            })
+            .catch(error => {
+              console.log("Data Updating Unsuccessfull..!")
+              res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
+            })
+        }
       });
+    });
   });
+
 });
 
 //get User name
@@ -405,27 +426,27 @@ router.post('/update/:id', function (req, res) {
   });
 });
 
-//update user profile 
+//update user profile by admin
 
-router.post('/updateUser/:id',function(req,res){
+router.post('/updateUser/:id', function (req, res) {
   let id = req.params.id;
-  User.findById({_id:id}, function(err,user){
-      if(err)
-          res.status(404).send("data is not found");
-      else{
-          user.firstName = req.body.firstName;
-          user.lastName = req.body.lastName;
-          user.email = req.body.email;
-          user.nic = req.body.nic;
-          user.mobile = req.body.mobile;
+  User.findById({ _id: id }, function (err, user) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.email = req.body.email;
+      user.nic = req.body.nic;
+      user.mobile = req.body.mobile;
 
-          user.save().then(user => {
-              res.json({state:true,msg:'Update Complete'});
-          })
-              .catch(err => {
-                  res.status(400).send("unable to update database");
-              });
-      }
+      user.save().then(user => {
+        res.json({ state: true, msg: 'Update Complete' });
+      })
+        .catch(err => {
+          res.status(400).send("unable to update database");
+        });
+    }
   });
 });
 
@@ -543,24 +564,24 @@ router.post('/reset/:id', function (req, res) {
 })
 ///// update no of projects
 
-router.post('/academic/:id',function(req,res){
+router.post('/academic/:id', function (req, res) {
   let id = req.params.id;
   console.log(id);
-  User.findById({_id:id}, function(err,user){
-      if(err)
-          res.status(404).send("data is not found");
-      else{
-        console.log(req.body.pro);
-          user.noProject = req.body.pro;
+  User.findById({ _id: id }, function (err, user) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      console.log(req.body.pro);
+      user.noProject = req.body.pro;
 
-          user.save().then(user => {
-              res.json({state:true,msg:'Update Complete', data:user.noProject});
-              
-          })
-              .catch(err => {
-                  res.status(400).send("unable to update database");
-              });
-      }
+      user.save().then(user => {
+        res.json({ state: true, msg: 'Update Complete', data: user.noProject });
+
+      })
+        .catch(err => {
+          res.status(400).send("unable to update database");
+        });
+    }
   });
 });
 //? check student available or not
@@ -586,27 +607,27 @@ router.get('/updateSupervisor/:id', (req, res) => {
 })
 
 //get student index from student userID
-router.get('/studentindex/:id', async(req,res)=>{
-  try{
+router.get('/studentindex/:id', async (req, res) => {
+  try {
     const id = req.params.id;
     const index = await User.find({ _id: id }).select('indexNumber');
     res.send(index)
   }
-  catch(err){
+  catch (err) {
     console.log(err)
   }
 })
 
 
 //get all group members by userId of one student
-router.post("/getgroupmembers/:id", async(req,res,next)=>{
-  try{
+router.post("/getgroupmembers/:id", async (req, res, next) => {
+  try {
     const userId = req.params.id;
     const projectId = req.body.projectId;
     const result = await User.findOne({ _id: userId }).select('indexNumber');
     const index = result.indexNumber
 
-    const group = await CreateGroups.findOne({projectId:projectId,groupMembers:index}).select("groupMembers")
+    const group = await CreateGroups.findOne({ projectId: projectId, groupMembers: index }).select("groupMembers")
     res.send(group.groupMembers)
 
   }
