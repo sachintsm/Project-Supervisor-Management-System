@@ -64,7 +64,7 @@ class GroupData extends Component {
         this.setState({
             projectId : this.props.location.projectId
         })
-        console.log(this.props.location.projectId)
+        console.log(this.props.location.state.projectId)
 
         this.setState({
             authState: authState,
@@ -269,11 +269,6 @@ class GroupData extends Component {
         })
         return isError;  //! is not error return state 'false'
     }
-
-
-
-
-
 
 
     render() {
