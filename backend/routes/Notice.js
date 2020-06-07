@@ -31,11 +31,11 @@ const upload = multer({ storage: storage }).single("noticeAttachment");
 // data send to database and save
 router.post("/addNotice", async (req, res) => {
   try {
-    if (!req.body.toViewType) {
+    
       req.body.toCordinator = false;
       req.body.toSupervisor = false;
       req.body.toStudent = false;
-    }
+    
 
     if (
       !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)

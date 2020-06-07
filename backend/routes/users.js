@@ -347,22 +347,43 @@ router.route('/deleteUser/:id').post(function (req, res) {
 //admin update user password
 router.route('/updatePasswordA/:id').post(function (req, res) {
   console.log('zxcvbn');
+  console.log(req.params.id);
 
+  // var newPassword = req.body.nic
+  let id = req.params.id;
+  User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
+    console.log(user.nic);
 
-  User.findById(req.params.id, function (err, user) {
-    if (!user) {
-      res.status(404).send("data is not found");
-    }
-    else
-      user.password = user.nic;
+    var newPassword = user.nic
 
-    user.save().then(user => {
+    if (err) throw err;
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
+        newPassword = hash;
+        if (err) {
+          throw err;
+        }
+        else {
+          User.updateOne({ _id: id }, {   //save the new password to the database
+            $set: {
+              password: newPassword
+            }
+          })
+            .exec()
+            .then(data => {
+              console.log("Data Update Success..!")
+              res.json({ state: true, msg: "Data Update Success..!" });
 
-    })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
+            })
+            .catch(error => {
+              console.log("Data Updating Unsuccessfull..!")
+              res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
+            })
+        }
       });
+    });
   });
+
 });
 
 //get User name
@@ -414,7 +435,7 @@ router.post('/update/:id', function (req, res) {
   });
 });
 
-//update user profile 
+//update user profile by admin
 
 router.post('/updateUser/:id', function (req, res) {
   let id = req.params.id;
