@@ -39,6 +39,8 @@ class GroupData extends Component {
 
             addStudentIndexError: '',
             addSupervisorIndexError: '',
+
+            projectId : '',
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -57,6 +59,12 @@ class GroupData extends Component {
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
+        
+        
+        this.setState({
+            projectId : this.props.location.projectId
+        })
+        console.log(this.props.location.projectId)
 
         this.setState({
             authState: authState,
@@ -69,7 +77,7 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
@@ -77,7 +85,7 @@ class GroupData extends Component {
                 })
             })
 
-        await axios.get(backendURI.url + '/users/stafflist', { headers: headers })
+        await axios.get(backendURI.url + '/users/supervisorsList', { headers: headers })
             .then((result) => {
                 if (result.data.length > 0) {
                     this.setState({

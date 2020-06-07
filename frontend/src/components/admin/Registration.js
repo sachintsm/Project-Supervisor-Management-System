@@ -39,7 +39,7 @@ export default class registration extends Component {
         mobileNumber: '',
         indexNumber: '',
         regNumber: '',
-
+        indexDiv: true,
         imgName: '',
       },
 
@@ -189,6 +189,16 @@ export default class registration extends Component {
   handleDropdownChange = (e) => {
     const Val = e.target.value
     console.log(Val)
+    if (Val === 'Student') {
+      this.setState({
+        indexDiv: true
+      })
+    }
+    else {
+      this.setState({
+        indexDiv: false
+      })
+    }
     this.setState(prevState => ({
       form: {
         ...prevState.form,
@@ -208,6 +218,7 @@ export default class registration extends Component {
       nicError: '',
       mobileNumberError: '',
       indexNumber: '',
+      regNumber : ''
     };
 
     if (this.state.form.firstName.length < 1) {
@@ -235,9 +246,13 @@ export default class registration extends Component {
       isError = true;
       errors.userTypeError = 'User type must be specified *'
     }
-    if (this.state.form.indexNumber.length === 0) {
+    if (this.state.form.indexNumber.length === 0 && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
       isError = true;
       errors.indexNumberError = 'Index number must be specified *'
+    }
+    if (this.state.form.regNumber.length === 0 && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
+      isError = true;
+      errors.regNumberError = 'Registration number must be specified *'
     }
 
     this.setState({
@@ -261,6 +276,7 @@ export default class registration extends Component {
         nicError: '',
         mobileNumberError: '',
         indexNumberError: '',
+        regNumberError : ''
       })
 
       confirmAlert({
@@ -340,7 +356,7 @@ export default class registration extends Component {
 
 
   render() {
-    const { form } = this.state;
+    const { form, indexDiv } = this.state;
 
     //? loading csv file data into csvData array ...
     const handleForce = data => {
@@ -495,26 +511,30 @@ export default class registration extends Component {
                                 </div>
                               </div>
                             </Col>
-                            <Col md={4} xs="12">
-                              <div className="form-group">
-                                <label className="text-label">Index Number : </label>
-                                <input type="text" className="form-control" name="indexNumber" onChange={this.onChange}
-                                  value={form.indexNumber}
-                                ></input>
-                                <p className="reg-error">{this.state.indexNumberError}</p>
+                            {indexDiv && (
+                              <Col md={4} xs="12">
+                                <div className="form-group">
+                                  <label className="text-label">Index Number : </label>
+                                  <input type="text" className="form-control" name="indexNumber" onChange={this.onChange}
+                                    value={form.indexNumber}
+                                  ></input>
+                                  <p className="reg-error">{this.state.indexNumberError}</p>
 
-                              </div>
-                            </Col>
-                            <Col md={4} xs="12">
-                              <div className="form-group">
-                                <label className="text-label">Registration Number : </label>
-                                <input type="text" className="form-control" name="regNumber" onChange={this.onChange}
-                                  value={form.regNumber}
-                                ></input>
-                                <p className="reg-error">{this.state.regNumberError}</p>
+                                </div>
+                              </Col>
+                            )}
+                            {indexDiv && (
+                              <Col md={4} xs="12">
+                                <div className="form-group">
+                                  <label className="text-label">Registration Number : </label>
+                                  <input type="text" className="form-control" name="regNumber" onChange={this.onChange}
+                                    value={form.regNumber}
+                                  ></input>
+                                  <p className="reg-error">{this.state.regNumberError}</p>
 
-                              </div>
-                            </Col>
+                                </div>
+                              </Col>
+                            )}
                             <Col md={4} xs="12">
                               <label className="text-label">Birthday : </label>
                               <div className="form-group">

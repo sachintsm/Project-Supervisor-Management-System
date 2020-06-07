@@ -138,7 +138,8 @@ class ProjectGroups extends Component {
 
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data);
+        this.props.history.push({pathname : '/coordinatorhome/groupData/' + data, projectId : this.state.projectId});
+        // this.props.history.push(this.state.projectId)
     }
 
     //?delete the group
