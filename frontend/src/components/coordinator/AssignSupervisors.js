@@ -336,8 +336,7 @@ class AssignSupervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-
-        // this.props.history.push('/coordinatorhome/groupData/' + data);
+        this.props.history.push('/coordinatorhome/supervisorData/' + data);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
