@@ -6,6 +6,7 @@ var projects = Schema({
     projectType: {type: String},
     academicYear: {type: String},
     coordinatorList: [{type: String}],
+    supervisorList: [{type: String}],
     isDeleted: {type: Boolean},
     projectState: {type: Boolean    }
 });

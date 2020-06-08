@@ -58,7 +58,6 @@ const users = require('./routes/users');
 const notice = require("./routes/notice");
 const projects = require('./routes/projects');
 const createGroups =  require('./routes/createGroups')
-const projectSupervisors = require('./routes/projectSupervisors')
 const contactUs = require('./routes/contactUs');
 
 
@@ -68,7 +67,6 @@ app.use('/users', users);
 app.use('/projects', projects);
 app.use("/notice", notice);
 app.use('/createGroups', createGroups);
-app.use('/projectSupervisors', projectSupervisors)
 app.use("/contactUs", contactUs);
 
 

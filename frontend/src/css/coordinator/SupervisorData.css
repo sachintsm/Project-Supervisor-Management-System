@@ -15,20 +15,30 @@
     margin-left: 20px;
     margin-top: 20px;
 }
+.sd-topic2 {
+    color: #3b3b3b;
+    font-size: 28px;
+    font-weight: 500;
+    font-family: roboto, sans;
+    margin-left: 20px;
+    margin-top: 20px;
+}
 .sd-proj-card{
     margin-top: 0px;
 }
 .sd-proj-card:hover{
-    background-color: rgb(248, 248, 248);
+    margin-top: 20px;
+    background-color: rgba(231, 231, 231, 0.76);
     cursor: pointer;
+    transition: 0.5s;
 }
 /* Student Project Card  */
 .spc-topic-div{
-    background-color: #e0e0e0;
+    background-color: rgb(53, 154, 255);
     margin-bottom: 20px;
 }
 .sd-topic-div{
-    background-color: #e0e0e0;
+    background-color: rgb(236, 236, 236);
     margin-bottom: 20px;
 }
 .spc-progress {
@@ -38,9 +48,9 @@
 
 .spc-topic {
     text-align: center;
-    color: #444444;
-    font-size: 24px;
-    font-weight: 400;
+    color: #f8f8f8;
+    font-size: 22px;
+    font-weight: 500;
     font-family: roboto, sans;
     margin: auto;
     margin-top: 20px;
@@ -63,4 +73,8 @@
     font-family: roboto, sans;
     margin-left: 40px;
     /* margin-top: 20px; */
+}
+
+.card-row-sd{
+    margin-left: 200px;
 }

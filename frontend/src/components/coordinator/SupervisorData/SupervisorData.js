@@ -72,7 +72,10 @@ class SupervisorData extends Component {
         //? load all the active project names from
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
+                console.log(res);
+                
                 this.setState({
+
                     activeProjects: res.data.data,
                 })
                 for (let i = 0; i < this.state.activeProjects.length; i++) {
@@ -130,52 +133,55 @@ class SupervisorData extends Component {
                     <div>
                         <p className="sd-topic">{this.state.superName}</p>
                     </div>
-                    <div className="card sd-big-card">
-                        <div className="container">
-                            <div className="row sd-topic-div">
-                                <p className="sd-topic">On-going Projects</p>
-                            </div>
-                            <Row>
-                                {spinnerDiv1 && (
-                                    <div className="spinner">
-                                        <Spinner style={{ marginBottom: "20px"}} animation="border" variant="info" />
-                                    </div>
-                                )}
-                                {this.state.groupDataBlock.map((item) => {
-                                    return (
-                                        <Col md={4} sm={12} key={item._id}>
-                                            <Card className='sd-proj-card'>
-                                                <div className="container" >
-                                                    <Row className="spc-topic-div">
-                                                        <p className="spc-topic">{item.groupId} - {item.groupName}</p>
-                                                    </Row>
+                    <div className="container">
 
-                                                    <Row style={{ width: '70%', margin: "auto" }}>
-                                                        <Col md={12} sm={12} xs={12} className="spc-progress">
-                                                            <CircularProgressbar value={percentage} text={`${percentage}%`} />
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className="spc-head">Group Members</p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className="spc-list">{item.groupMembers}</p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className="spc-head">Supervisors</p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className="spc-list">{item.supervisors}</p>
-                                                    </Row>
+                        <Row className="card-row-sd">
+                            {spinnerDiv1 && (
+                                <div className="spinner">
+                                    <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
+                                </div>
+                            )}
+                            {this.state.groupDataBlock.map((item) => {
+                                return (
+                                    <Col md={4} sm={12} key={item._id}>
+                                        <Card className='sd-proj-card'>
+                                            <div className="container" >
+                                                <Row className="spc-topic-div">
+                                                    <p className="spc-topic">{item.groupId} - {item.groupName}</p>
+                                                </Row>
 
-                                                </div>
-                                            </Card>
-                                        </Col>
-                                    )
-                                })}
-                            </Row>
+                                                <Row style={{ width: '70%', margin: "auto" }}>
+                                                    <Col md={12} sm={12} xs={12} className="spc-progress">
+                                                        <CircularProgressbar value={percentage} text={`${percentage}%`} styles={{
+                                                            path: {
+                                                                stroke: `rgba(30,144,255, ${percentage / 100})`
+                                                            },
+                                                            text: {
+                                                                fill: '#1E90FF'
+                                                            }
+                                                        }} />
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <p className="spc-head">Group Members</p>
+                                                </Row>
+                                                <Row>
+                                                    <p className="spc-list">{item.groupMembers}</p>
+                                                </Row>
+                                                <Row>
+                                                    <p className="spc-head">Supervisors</p>
+                                                </Row>
+                                                <Row>
+                                                    <p className="spc-list">{item.supervisors}</p>
+                                                </Row>
 
-                        </div>
+                                            </div>
+                                        </Card>
+                                    </Col>
+                                )
+                            })}
+                        </Row>
+
                     </div>
 
                 </div>
