@@ -32,6 +32,8 @@ class StudentList extends Component {
         this.setState({ snackbaropen: false });
     };
     componentDidMount = async () => {
+        console.log(this.props.obj);
+        
         this.setState({
             supervisorList: []
         })
