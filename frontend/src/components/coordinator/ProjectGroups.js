@@ -131,7 +131,6 @@ class ProjectGroups extends Component {
                 )
                 this.state.groupDataBlock.push(blockA)
             }
-
         }
         this.setState({ dataDiv: true, spinnerDiv: false });
 

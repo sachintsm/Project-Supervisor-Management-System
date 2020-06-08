@@ -5,8 +5,6 @@ import { verifyAuth } from "../../utils/Authentication";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/coordinator/AssignSupervisors.scss";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';

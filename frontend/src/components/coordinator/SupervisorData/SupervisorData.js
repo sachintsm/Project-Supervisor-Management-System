@@ -10,6 +10,7 @@ import Snackpop from "../../shared/Snackpop";
 import { verifyAuth } from "../../../utils/Authentication";
 import { Card, Row, Col } from 'reactstrap';
 import Navbar from '../../shared/Navbar';
+import { Table, Spinner } from 'react-bootstrap'
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -35,6 +36,9 @@ class SupervisorData extends Component {
             authState: '',
             activeProjects: [],
             groupDataBlock: [],
+
+            superName: '',
+            spinnerDiv1: true,
         }
 
     }
@@ -53,7 +57,13 @@ class SupervisorData extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-
+        await axios.get(backendURI.url + '/users/getUserName/' + this.props.match.params.id)
+            .then(res => {
+                var superName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
+                this.setState({
+                    superName: superName
+                })
+            })
         const data = {
             projectId: this.props.location.state.projectId,
             supervisorId: this.props.match.params.id
@@ -61,66 +71,53 @@ class SupervisorData extends Component {
 
         //? load all the active project names from
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
-            .then((res => {
+            .then(async res => {
                 this.setState({
                     activeProjects: res.data.data,
                 })
-            }))
-        // console.log(this.state.activeProjects);
-
-        for (let i = 0; i < this.state.activeProjects.length; i++) {
-            if (this.state.activeProjects[i].supervisors.length !== 0) {
-                var array1 = [];
-                var array2 = [];
-                for (let j = 0; j < this.state.activeProjects[i].supervisors.length; j++) {
-                    await axios.get(backendURI.url + '/users/getUserName/' + this.state.activeProjects[i].supervisors[j])
-                        .then(res => {
-                            var supervisorName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName + ', ';
-                            array1.push(supervisorName)
+                for (let i = 0; i < this.state.activeProjects.length; i++) {
+                    if (this.state.activeProjects[i].supervisors.length !== 0) {
+                        var array1 = [];
+                        var array2 = [];
+                        for (let j = 0; j < this.state.activeProjects[i].supervisors.length; j++) {
+                            await axios.get(backendURI.url + '/users/getUserName/' + this.state.activeProjects[i].supervisors[j])
+                                .then(res => {
+                                    var supervisorName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName + ', ';
+                                    array1.push(supervisorName)
+                                })
+                        }
+                        for (let k = 0; k < this.state.activeProjects[i].groupMembers.length; k++) {
+                            var newMember = this.state.activeProjects[i].groupMembers[k] + ', '
+                            array2.push(newMember)
+                        }
+                        var block = new groupDataBlock(
+                            this.state.activeProjects[i]._id,
+                            this.state.activeProjects[i].groupId,
+                            this.state.activeProjects[i].groupName,
+                            this.state.activeProjects[i].projectId,
+                            array2,
+                            array1
+                        )
+                        // console.log(block)
+                        // this.state.groupDataBlock.push(block)
+                        this.setState({
+                            groupDataBlock: [...this.state.groupDataBlock, block],
+                            spinnerDiv1: false
                         })
+                    }
                 }
-                for (let k = 0; k < this.state.activeProjects[i].groupMembers.length; k++) {
-                    var newMember = this.state.activeProjects[i].groupMembers[k] + ', '
-                    array2.push(newMember)
-                }
-                var block = new groupDataBlock(
-                    this.state.activeProjects[i]._id,
-                    this.state.activeProjects[i].groupId,
-                    'E-supervision',
-                    this.state.activeProjects[i].projectId,
-                    array2,
-                    array1
-                )
-                // console.log(block)
-                this.state.groupDataBlock.push(block)
-            } else {
-                var array3 = [];
-                for (let k = 0; k < this.state.activeProjects[i].groupMembers.length; k++) {
-                    var newMemberA = this.state.activeProjects[i].groupMembers[k] + ', '
-                    array3.push(newMemberA)
-                }
-                var blockA = new groupDataBlock(
-                    this.state.activeProjects[i]._id,
-                    this.state.activeProjects[i].groupId,
-                    'E-supervision',
-                    this.state.activeProjects[i].projectId,
-                    array3,
-                    ''
-                )
-                this.state.groupDataBlock.push(blockA)
-            }
-        }
+            })
+
     }
-    
+
     render() {
-        for (let k = 0; k < this.state.groupDataBlock.length; k++) {
-            console.log(this.state.groupDataBlock[k])
-        }
+
+        const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
 
         const percentage = 66;
 
         return (
-            <div className="gd-fullpage">
+            <div className="sd-fullpage">
                 <Navbar panel={"coordinator"} />
                 <div className="container">
                     <Snackpop
@@ -130,21 +127,26 @@ class SupervisorData extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
-
-                    <div className="card">
+                    <div>
+                        <p className="sd-topic">{this.state.superName}</p>
+                    </div>
+                    <div className="card sd-big-card">
                         <div className="container">
-                            <div className="row">
-                                <p className="sd-topic">Ongoing Projects</p>
+                            <div className="row sd-topic-div">
+                                <p className="sd-topic">On-going Projects</p>
                             </div>
-                            {/* <SupervisorProjectCard supId={this.props.match.params.id} proId={this.props.location.state.projectId} /> */}
                             <Row>
-                                <Col md={4}>
-
-                                    {this.state.groupDataBlock.map((item) => {
-                                        return (
-                                            <Card>
+                                {spinnerDiv1 && (
+                                    <div className="spinner">
+                                        <Spinner style={{ marginBottom: "20px"}} animation="border" variant="info" />
+                                    </div>
+                                )}
+                                {this.state.groupDataBlock.map((item) => {
+                                    return (
+                                        <Col md={4} sm={12} key={item._id}>
+                                            <Card className='sd-proj-card'>
                                                 <div className="container" >
-                                                    <Row>
+                                                    <Row className="spc-topic-div">
                                                         <p className="spc-topic">{item.groupId} - {item.groupName}</p>
                                                     </Row>
 
@@ -157,6 +159,9 @@ class SupervisorData extends Component {
                                                         <p className="spc-head">Group Members</p>
                                                     </Row>
                                                     <Row>
+                                                        <p className="spc-list">{item.groupMembers}</p>
+                                                    </Row>
+                                                    <Row>
                                                         <p className="spc-head">Supervisors</p>
                                                     </Row>
                                                     <Row>
@@ -165,10 +170,11 @@ class SupervisorData extends Component {
 
                                                 </div>
                                             </Card>
-                                        )
-                                    })}
-                                </Col>
+                                        </Col>
+                                    )
+                                })}
                             </Row>
+
                         </div>
                     </div>
 
