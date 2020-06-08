@@ -92,6 +92,7 @@ class ProjectGroups extends Component {
                     groupData: res.data.data
                 })
             })
+
         for (let i = 0; i < this.state.groupData.length; i++) {
             if (this.state.groupData[i].supervisors.length !== 0) {
                 var array1 = [];

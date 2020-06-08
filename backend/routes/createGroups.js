@@ -9,7 +9,8 @@ router.post('/add', verify, (req, res) => {
     const newGroup = new CreateGroups({
         groupId: req.body.groupId,
         projectId: req.body.projectId,
-        groupMembers: req.body.groupMembers
+        groupMembers: req.body.groupMembers,
+        groupState : true
     })
 
     newGroup.save()
@@ -191,7 +192,22 @@ router.post('/remove-supervisor', verify, async (req, res) => {
         .catch(err => {
             res.send({ state: false, msg: err.message })
         })
+})
 
+//? get one supervisor active all projects
+router.post('/active&groups', async (req, res) => {
+    const supervisorId = req.body.supervisorId
+    const projectId  = req.body.projectId
+    console.log(req.body)
+    await CreateGroups
+        .find({supervisors : supervisorId, projectId : projectId, groupState : true})
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Data successfully Transfered..!' , data : data})
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
 })
 
 module.exports = router
