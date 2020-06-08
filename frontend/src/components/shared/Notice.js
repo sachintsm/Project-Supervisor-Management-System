@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-//import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-//import { verifyAuth } from "../../utils/Authentication";
 import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CardContent from "@material-ui/core/CardContent";
-//import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
@@ -15,8 +11,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-
-
 import "../../css/shared/Notice.css";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -33,9 +27,14 @@ import {
   Dropdown, 
   DropdownButton, 
   ButtonGroup,
+
+  
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
+const date_ob = new Date();
+const year = date_ob.getFullYear()
+
 
 class Notice extends Component {
   constructor(props) {
@@ -47,20 +46,28 @@ class Notice extends Component {
       notice: "",
       noticeAttachment: "",
       date: "",
+      year: year,
       succesAlert: false,
       deleteSuccesAlert: false,
       warnAlert: false,
       snackbaropen: false,
-      toViewType: true,
       toCordinator: false,
       toSupervisor: false,
       toStudent: false,
       snackbarmsg: "",
       noticeType: "",
       userTypes:'',
+      viewUserSelect :'Select user to View :',
       selectedTypeIndex: 0 ,
       noticeList: [],
-      projectTypeList:[]
+      projectTypeList:[],
+      yearsArray: [],
+
+
+
+      noticeTittleError: "",
+      noticeError: "",
+      viewUserSelectError:"",
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -72,12 +79,13 @@ class Notice extends Component {
     this.getCategoryList = this.getCategoryList.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
     this.onChangeAcademicYear = this.onChangeAcademicYear.bind(this);
+    this.onChangeYear = this.onChangeYear.bind(this);
 
   }
 
-  snackbarClose = (event) => {
-    this.setState({ snackbaropen: false });
-  };
+  // snackbarClose = (event) => {
+  //   this.setState({ snackbaropen: false });
+  // };
 
   componentDidMount() {
     this.getNoticeList();
@@ -85,6 +93,16 @@ class Notice extends Component {
 
     this.userTypes = localStorage.getItem("user-level");
     console.log(this.userTypes)
+
+
+    //##############################################
+    let date_ob = new Date();
+    const year = date_ob.getFullYear();
+    var startYear = year - 2;
+    for (var i = 0; i < 6; i++) {
+      this.state.yearsArray.push(startYear);
+      startYear += 1;
+    }
   }
 
   // Notice get from database and map to the array
@@ -187,6 +205,36 @@ class Notice extends Component {
     }
   }
 
+  validate = () => {
+    let isError = false;
+    const errors = {
+      noticeTittleError: "",
+      noticeError: "",
+      viewUserSelectError:"",
+
+
+    }
+
+    if (this.state.noticeTittle.length < 1) {
+      isError = true;
+      errors.noticeTittleError = 'Notice Tittle required *'
+    }
+    if (this.state.notice.length < 1) {
+      isError = true;
+      errors.noticeError = 'Notice Content required *'
+    }
+    // if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+    //   isError = true;
+    //   errors.viewUserSelectError = 'must be select at least one *'
+    // }
+
+    this.setState({
+      ...this.state,
+      ...errors
+    })
+    return isError;
+  }
+
   onChangeAcademicYear(year) {
     this.setState({
       academicYear: year,
@@ -211,18 +259,34 @@ class Notice extends Component {
     });
   }
 
+  onChangeYear(year) {
+    this.setState({
+      year: year,
+    });
+  }
+
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
+
+    const err = this.validate();
+
+    if (!err) {
+      this.setState({
+        noticeTittleError: "",
+        noticeError: "",
+        viewUserSelectError:"",
+      })
+
     confirmAlert({
-      title: "Create Notice",
+      title: 'Confirm to submit',
       message: "Are you sure?",
       buttons: [
         {
           label: "Yes",
           onClick: async () => {
-            this.state.date = Date();
 
+            this.state.date = Date();
             const userType = localStorage.getItem("user-level");
             const userId = localStorage.getItem("auth-id");
 
@@ -236,58 +300,47 @@ class Notice extends Component {
             formData.append("notice", this.state.notice);
             formData.append("date", this.state.date);
             formData.append("noticeAttachment", this.state.noticeAttachment);
-            formData.append("toViewType", this.state.toViewType);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
             formData.append("toStudent", this.state.toStudent);
 
-            // form required set
-            if (
-              this.state.noticeTittle === "" ||
-              this.state.notice === "" ||
-              this.state.noticeAttachment === ""
-            ) {
+      
+            axios
+            .post(backendURI.url + "/notice/addNotice", formData)
+            .then((res) => {
+              this.setState({
+                succesAlert: true,
+              });
+              this.getNoticeList();
+              console.log(res.data);
+            })
+            .catch((error) => {
               this.setState({
                 snackbaropen: true,
-                snackbarmsg: "Please Fill the Form..!",
+                snackbarmsg: error,
               });
-            } else {
-              axios
-                .post(backendURI.url + "/notice/addNotice", formData)
-                .then((res) => {
-                  this.setState({
-                    succesAlert: true,
-                  });
-                  this.getNoticeList();
-                  console.log(res.data);
-                })
-                .catch((error) => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: error,
-                  });
-                  console.log(error);
-                });
-            }
-
-            this.setState({
-              noticeTittle: "",
-              notice: "",
-              noticeAttachment: "",
-              toViewType: true,
-              toCordinator: false,
-              toSupervisor: false,
-              toStudent: false,
-
+              console.log(error);
             });
-          },
-        },
-        {
-          label: "No",
-          onClick: () => {},
-        },
-      ],
-    });
+        
+
+        this.setState({
+          noticeTittle: "",
+          notice: "",
+          noticeAttachment: "",
+          toCordinator: false,
+          toSupervisor: false,
+          toStudent: false,
+
+        });
+      },
+    },
+    {
+      label: "No",
+      onClick: () => {},
+    },
+  ],
+});
+}
   }
 
   onDeleteHandler = (id, filePath) => {
@@ -323,7 +376,7 @@ class Notice extends Component {
   closeAlert = () => {
     this.setState({
       succesAlert: false,
-      warnAlert: false,
+      deleteSuccesAlert: false,
     });
   };
 
@@ -331,21 +384,32 @@ class Notice extends Component {
 
   render() {
 
+    const { yearsArray } = this.state;
+
+    let yearList = yearsArray.length > 0
+        && yearsArray.map((item, i) => {
+          return (
+              <Dropdown.Item key={i} eventKey={item}>{item}</Dropdown.Item>
+          )
+        }, this);
+
     if(this.userTypes === 'admin'){
     return (
       <React.Fragment>
-        <Snackpop
+
+     <Snackpop
           msg={"Successfully Added"}
           color={"success"}
-          time={3000}
+          time={2000}
           status={this.state.succesAlert}
           closeAlert={this.closeAlert}
         />
 
+
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
-          time={3000}
+          time={2000}
           status={this.state.deleteSuccesAlert}
           closeAlert={this.closeAlert}
         />
@@ -356,23 +420,7 @@ class Notice extends Component {
           className="container-fluid container-fluid-div"
           style={{ backgroundColor: "rgb(252, 252, 252)" }}
         >
-          <Snackbar
-            open={this.state.snackbaropen}
-            autoHideDuration={2000}
-            onClose={this.snackbarClose}
-            message={<span id="message-id">{this.state.snackbarmsg}</span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="secondary"
-                onClick={this.snackbarClose}
-              >
-                {" "}
-                x{" "}
-              </IconButton>,
-            ]}
-          />
+          
           <Row>
             <Col>
               <Container>
@@ -396,6 +444,7 @@ class Notice extends Component {
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           Notice Tittle :{" "}
+
                         </label>
                         <FormControl
                           type="text"
@@ -403,11 +452,13 @@ class Notice extends Component {
                           placeholder="Notice Tittle"
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
+                          errortext={this.noticeTittleError}
                         ></FormControl>
+                        <p className="reg-error">{this.state.noticeTittleError}</p>
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <div className="form-group">
                           <p style={{ textalign: "left", color: " #6d6d6d" }}>
@@ -419,39 +470,24 @@ class Notice extends Component {
                             placeholder="Enter Notice"
                             value={this.state.notice}
                             onChange={this.onChangeNotice}
+                            errortext={this.noticeError}
                           ></textarea>
+                          <p className="reg-error">{this.state.noticeError}</p>
                         </div>
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-20">
-                      <Col md={4} className="form-control-label ">
-                        <FormControlLabel
-                          className="form-control-label"
-                          control={
-                            <Checkbox
-                              fontSize="5px"
-                              checked={this.state.toViewType}
-                              onChange={() => {
-                                this.setState({
-                                  toViewType: !this.state.toViewType,
-                                });
-                              }}
-                              name="checkedB"
-                              color="default"
-                            />
-                          }
-                          label={
-                            <span
-                              style={{ fontSize: "14px", color: "#6d6d6d" }}
-                            >
-                              Select user to View
-                            </span>
-                          }
-                        />
+                    <Row className="margin-top-22">
+                      <Col md={4} >
+                       <div> 
+                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                      {this.state.viewUserSelect}
+                      </p>
+                      </div>
+                      
                       </Col>
+                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -473,10 +509,9 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
                       </Col>
+                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -498,10 +533,9 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
+                        
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -521,9 +555,10 @@ class Notice extends Component {
                               <span style={{ fontSize: "12px" }}>Studentd</span>
                             }
                           />
-                        )}
                       </Col>
                     </Row>
+
+                    
                     <Row className="margin-top-20">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -539,9 +574,6 @@ class Notice extends Component {
                         </FormGroup>
                       </Col>
                     </Row>
-
-                    
-
                     <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                       <Button
                         type="submit"
@@ -631,24 +663,6 @@ class Notice extends Component {
           className="container-fluid container-fluid-div"
           style={{ backgroundColor: "rgb(252, 252, 252)" }}
         >
-          <Snackbar
-            open={this.state.snackbaropen}
-            autoHideDuration={2000}
-            onClose={this.snackbarClose}
-            message={<span id="message-id">{this.state.snackbarmsg}</span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="secondary"
-                onClick={this.snackbarClose}
-              >
-                {" "}
-                x{" "}
-              </IconButton>,
-            ]}
-          />
-
           <Row>
             <Col>
               <Container>
@@ -668,6 +682,31 @@ class Notice extends Component {
 
                     
                     <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+
+                    <Col lg="4" md="4" sm="6" xs="6">
+                    <Row>
+                      <p className="cp-text">
+                        Year of the Project
+                      </p>
+                    </Row>
+                    <Row>
+                      <DropdownButton
+                          as={ButtonGroup}
+                          // className="full-width"
+                          variant={'secondary'}
+                          title={this.state.year}
+                          onSelect={this.onChangeYear}
+                          style={{ width: "90%" }}>
+                        {this.state.yearsArray.map((item,index) => {
+                          return(
+                              <Dropdown.Item key={index} eventKey={item}>
+                                {item}
+                              </Dropdown.Item>)
+                        })}
+                      </DropdownButton>{' '}
+                    </Row>
+                    </Col>
+                    
                     <Col lg="4" md="4" sm="6" xs="6">
                     <Row>
                       <p className="cp-text">
@@ -760,11 +799,13 @@ class Notice extends Component {
                           placeholder="Notice Tittle"
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
+                          errortext={this.noticeTittleError}
                         ></FormControl>
+                        <p className="reg-error">{this.state.noticeTittleError}</p>
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-20">
                       <Col>
                         <div className="form-group">
                           <p style={{ textalign: "left", color: " #6d6d6d" }}>
@@ -776,40 +817,23 @@ class Notice extends Component {
                             placeholder="Enter Notice"
                             value={this.state.notice}
                             onChange={this.onChangeNotice}
+                            errortext={this.noticeError}
                           ></textarea>
+                          <p className="reg-error">{this.state.noticeError}</p>
+                        
                         </div>
                       </Col>
                     </Row>
 
-                    <Row className="margin-top-20">
-                      <Col md={4} className="form-control-label ">
-                        <FormControlLabel
-                          className="form-control-label"
-                          control={
-                            <Checkbox
-                              fontSize="5px"
-                              checked={this.state.toViewType}
-                              onChange={() => {
-                                this.setState({
-                                  toViewType: !this.state.toViewType,
-                                });
-                              }}
-                              name="checkedB"
-                              color="default"
-                            />
-                          }
-                          label={
-                            <span
-                              style={{ fontSize: "14px", color: "#6d6d6d" }}
-                            >
-                            Select user to View
-                            </span>
-                          }
-                        />
+                    <Row className="margin-top-22">
+                      <Col md={4} >
+                        
+                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                      {this.state.viewUserSelect}
+                    </p>
                       </Col>
                      
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -831,10 +855,10 @@ class Notice extends Component {
                               </span>
                             }
                           />
-                        )}
+                        
                       </Col>
                       <Col className="col-padding-5">
-                        {this.state.toViewType && (
+                        
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -854,7 +878,7 @@ class Notice extends Component {
                               <span style={{ fontSize: "12px" }}>Studentd</span>
                             }
                           />
-                        )}
+                        
                       </Col>
                     </Row>
                     <Row className="margin-top-20">
@@ -920,6 +944,7 @@ class Notice extends Component {
                                 <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
                                   Attachment
                                 </a>
+                              
                               </CardContent>
                             </Card>
                            

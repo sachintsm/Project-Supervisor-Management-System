@@ -1,0 +1,19 @@
+.card{
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width:95%;
+}
+
+.labl{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.para{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: cornflowerblue;
+    background-position: center;
+}

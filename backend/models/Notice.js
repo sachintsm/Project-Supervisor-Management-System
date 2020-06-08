@@ -8,7 +8,6 @@ var noticeSchema = mongoose.Schema({
   notice: { type: String },
   filePath: { type: String },
   date: { type: String },
-  toViewType: { type: Boolean },
   toCordinator: { type: Boolean },
   toSupervisor: { type: Boolean },
   toStudent: { type: Boolean },
