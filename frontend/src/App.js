@@ -22,7 +22,7 @@ import CreateGroup from './components/coordinator/CreateGroups'
 import ProjectGroups from './components/coordinator/ProjectGroups'
 import GroupData from './components/coordinator/GroupData/GroupData';
 import AssignSupervisor from './components/coordinator/AssignSupervisors';
-import SupervisorData from './components/coordinator/SupervisorData';
+import SupervisorData from './components/coordinator/SupervisorData/SupervisorData';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import NoticeView from './components/shared/NoticeView';

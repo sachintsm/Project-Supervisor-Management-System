@@ -6,16 +6,14 @@ import { Row, Col } from "reactstrap";
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import axios from 'axios';
-import { Table, Spinner } from 'react-bootstrap'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
-import { Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
 
 const backendURI = require('../../shared/BackendURI');
+
 class GroupData extends Component {
 
     constructor(props) {
@@ -25,7 +23,7 @@ class GroupData extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
-            groupId: this.props.match.params.id,
+            // groupId: this.props.match.params.id,
 
             groupData: [],
             groupMembers: [],

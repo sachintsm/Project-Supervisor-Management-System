@@ -1,0 +1,44 @@
+/* Student Project Data */
+
+.sd-topic {
+    color: #444444;
+    font-size: 28px;
+    font-weight: 500;
+    font-family: roboto, sans;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+/* Student Project Card  */
+
+.spc-progress {
+    margin: auto;
+    /* height: 200px; */
+}
+
+.spc-topic {
+    color: #444444;
+    font-size: 24px;
+    font-weight: 400;
+    font-family: roboto, sans;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.spc-head{
+    color: #444444;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: roboto, sans;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.spc-list{
+    color: #444444;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: roboto, sans;
+    margin-left: 40px;
+    margin-top: 20px;
+}
