@@ -11,6 +11,7 @@
 
 .card{
     margin: 0px;
+    margin-bottom: 20px;
 }
 
 .ch-project-name{
@@ -31,5 +32,22 @@
     margin-bottom: 10px;
 }
 .ch-btn-btn{
-    width: 100%;
+    width: 110%;
+    margin-bottom: 10px;
+}
+
+.ch-project-date{
+    margin-top: 20px;
+}
+
+.ch-title{
+    font-size: 16px;
+    color : #747474;
+    font-family: roboto, sans;
+}
+.ch-body{
+    font-size: 16px;
+    color : #444444;
+    font-weight: bold;
+    font-family: roboto, sans;
 }
