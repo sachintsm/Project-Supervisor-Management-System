@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CreateGroups = require('../models/createGroups');
+const User = require('../models/users');
 const verify = require('../authentication');
 
 
@@ -209,5 +210,22 @@ router.post('/active&groups', async (req, res) => {
             res.send({ state: false, msg: err.message })
         })
 })
+
+//getGroup details by userId & projectId
+router.post("/groupDetails/:studentId", async(req,res,next)=>{
+    console.log("backend....")
+    try{
+        const id = req.params.studentId;
+        const projectId = req.body.projectId;
+        const indexNumber = await User.findOne({_id:id}).select('indexNumber')
+        const result = await CreateGroups.findOne({groupMembers:indexNumber.indexNumber,projectId:projectId})
+        console.log(result)
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
 
 module.exports = router

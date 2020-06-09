@@ -163,7 +163,7 @@ router.get('/', async (req,res,next)=>{
   }
 })
 
-//get projects of a student by student userID
+//get projectsz of a student by student userID
 router.get('/studentprojects/:studentId', async(req,res,next)=>{
   try {
     const id = req.params.studentId;
