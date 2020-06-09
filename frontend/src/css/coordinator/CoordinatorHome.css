@@ -1,0 +1,35 @@
+.ch-topic{
+    font-size: 28px;
+    font-family: roboto, sans;
+    font-weight: 500;
+    color: #444444;
+}
+
+.ch-topic-div{
+    margin-top: 20px;
+}
+
+.card{
+    margin: 0px;
+}
+
+.ch-project-name{
+    margin-left :20px;
+    margin-top: 20px;
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.ch-project-name-div{
+    background-color: #17a2b8;
+}
+
+.ch-btn-row{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.ch-btn-btn{
+    width: 100%;
+}
