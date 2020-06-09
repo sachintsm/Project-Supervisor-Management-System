@@ -91,7 +91,7 @@ router.post('/addStudentIndex', async (req, res) => {
     }
 })
 //? add supervisor index to a group
-router.post('/addSupervisorIndex', async (req, res) => {
+router.post('/addSupervisorIndex',verify, async (req, res) => {
     console.log(req.body)
     const id = req.body._id
     const index = req.body.index
@@ -211,6 +211,23 @@ router.post('/active&groups', async (req, res) => {
         })
 })
 
+//? get all group count for a project
+//? (CoodinatorHome.js)
+router.get('/groupCount/:id', async (req, res) => {
+    const projectId = req.params.id
+    await CreateGroups
+      .find({ projectId: projectId , groupState: true })
+      .count()
+      .exec()
+      .then(data => {
+        res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+      })
+      .catch(error => {
+        console.log(error)
+        res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+  })
+
 //getGroup details by userId & projectId
 router.post("/groupDetails/:studentId", async(req,res,next)=>{
 
@@ -226,6 +243,5 @@ router.post("/groupDetails/:studentId", async(req,res,next)=>{
         console.log(e)
     }
 })
-
 
 module.exports = router
