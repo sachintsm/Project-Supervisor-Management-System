@@ -71,6 +71,7 @@ class StudentList extends Component {
                             _id: this.props.id,
                             index: id
                         }
+                        console.log(this.props.obj)
                         axios.post(backendURI.url + '/createGroups/removeSupervisorIndex', data)
                             .then(res => {
                                 if (res.data.state === false) {
@@ -86,7 +87,7 @@ class StudentList extends Component {
                                         snackbarmsg: res.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    window.location.reload()
+                                    // window.location.reload()
                                 }
                             })
 

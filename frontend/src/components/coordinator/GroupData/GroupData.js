@@ -23,7 +23,7 @@ class GroupData extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
-            // groupId: this.props.match.params.id,
+            groupId: this.props.match.params.id,
 
             groupData: [],
             groupMembers: [],
@@ -118,7 +118,7 @@ class GroupData extends Component {
     }
     supervisorList() {
         let groupId = this.state.groupId
-
+        
         if (this.state.groupSupervisors !== null) {
             return this.state.groupSupervisors.map(function (object, i) {
                 return <SupervisorList obj={object} key={i} id={groupId} />
@@ -283,7 +283,7 @@ class GroupData extends Component {
                     />
 
                     <div className="card">
-                        <div className="container">
+                        <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>
                         <div className="container">

@@ -9,7 +9,7 @@ const CreateGroups = require('../models/createGroups')
 
 //create project category
 router.post('/projecttype', async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
 
     if (!req.body.isAcademicYear) {
@@ -42,15 +42,6 @@ router.get('/projecttype', verify, async (req, res, next) => {
   }
 })
 
-// router.post('/projecttype', async (req, res, next) => {
-//   try {
-//     const result = await ProjectType.findByIdAndUpdate({ "_id": req._id });
-//     res.send(result);
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
-
 //Delete project category
 router.patch("/projecttype/delete/:id", async (req, res, next) => {
   try {
@@ -79,8 +70,8 @@ router.patch("/delete/:id", async (req, res, next) => {
 router.patch("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const idList=[]
-    req.body.selectedStaffList.map(item=>{
+    const idList = []
+    req.body.selectedStaffList.map(item => {
       idList.push(item.value)
     })
 
@@ -141,7 +132,7 @@ router.post('/', async (req, res, next) => {
 router.get('/active&projects/:coordinatorId', (req, res) => {
   const coordinatorId = req.params.coordinatorId;
   Projects
-    .find({ projectState: true,isDeleted: false, coordinatorList: coordinatorId })
+    .find({ projectState: true, isDeleted: false, coordinatorList: coordinatorId })
     .then(data => {
       // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
@@ -153,44 +144,105 @@ router.get('/active&projects/:coordinatorId', (req, res) => {
 })
 
 //get all the projects API
-router.get('/', async (req,res,next)=>{
-  try{
-    const projects = await Projects.find({ "isDeleted": false }).sort({projectYear: -1});
+router.get('/', async (req, res, next) => {
+  try {
+    const projects = await Projects.find({ "isDeleted": false }).sort({ projectYear: -1 });
     res.send(projects);
   }
-  catch(err){
+  catch (err) {
     console.log(err)
   }
 })
 
-//get projectsz of a student by student userID
-router.get('/studentprojects/:studentId', async(req,res,next)=>{
+//get projects of a student by student userID
+router.get('/studentprojects/:studentId', async (req, res, next) => {
   try {
     const id = req.params.studentId;
     const result = await User.findOne({ _id: id }).select('indexNumber');
-    if(result.length==0){
+    if (result.length == 0) {
       res.send([])
     }
-    else{
+    else {
       const index = result.indexNumber
-      const projectList = await CreateGroups.find({groupMembers:index}).select('projectId');
+      const projectList = await CreateGroups.find({ groupMembers: index }).select('projectId');
       let projectIdList = []
       // console.log(projectList)
-      if(projectList.length>0){
-        for(let i in projectList){
+      if (projectList.length > 0) {
+        for (let i in projectList) {
           projectIdList.push(projectList[i].projectId)
         }
-        const projects = await Projects.find({_id:projectIdList});
+        const projects = await Projects.find({ _id: projectIdList });
         res.send(projects)
       }
-      else{
+      else {
         res.send([])
       }
     }
   }
-  catch(err){
+  catch (err) {
     console.log(err)
   }
 })
+
+
+//? add supervisor to project
+//? (AssignSupervisor.js)
+router.post('/addSupervisor', verify, async (req, res) => {
+  // console.log(req.body)
+  const existSupervisor = await Projects.findOne({ _id: req.body.projectId, supervisorList: req.body.supervisors })
+  if (existSupervisor) return res.json({ state: false, msg: "Already Exists..!" })
+  else {
+    Projects
+      .find({ _id: req.body.projectId })
+      .update({
+        $push: { supervisorList: req.body.supervisors }
+      })
+      .exec()
+      .then(data => {
+        res.json({ state: true, msg: 'Data successfully updated..!' })
+      })
+      .catch(err => {
+        res.send({ state: false, msg: err.message })
+      })
+  }
+})
+
+//? get all supervisors with respect to the one project
+//? (AssignSupervisor.js)
+router.get('/getSupervisors/:id', verify, (req, res) => {
+  const id = req.params.id
+  Projects
+    .find({ _id: id })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+//? Remove supervisor from the project
+//? (AssignSupervisor.js)
+router.post('/deletesupervisorGroup', verify, async (req, res) => {
+  const projectId = req.body.projectId
+  const supervisor = req.body.supervisor
+
+  console.log(req.body)
+  await Projects
+    .find({ _id: projectId })
+    .update(
+      { $pull: { supervisorList: supervisor } }
+    )
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Index successfully deleted..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+    })
+})
+
 
 module.exports = router;

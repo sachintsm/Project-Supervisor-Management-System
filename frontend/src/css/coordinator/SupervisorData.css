@@ -1,5 +1,12 @@
 /* Student Project Data */
+.sd-fullpage{
+    background-color: #fcfcfc;
+    min-height: 730px;
+}
 
+.sd-big-card{
+    margin-top: 0px;
+}
 .sd-topic {
     color: #444444;
     font-size: 28px;
@@ -8,37 +15,66 @@
     margin-left: 20px;
     margin-top: 20px;
 }
-
+.sd-topic2 {
+    color: #3b3b3b;
+    font-size: 28px;
+    font-weight: 500;
+    font-family: roboto, sans;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.sd-proj-card{
+    margin-top: 0px;
+}
+.sd-proj-card:hover{
+    margin-top: 20px;
+    background-color: rgba(231, 231, 231, 0.76);
+    cursor: pointer;
+    transition: 0.5s;
+}
 /* Student Project Card  */
-
+.spc-topic-div{
+    background-color: #17a2b8;
+    margin-bottom: 20px;
+}
+.sd-topic-div{
+    background-color: rgb(236, 236, 236);
+    margin-bottom: 20px;
+}
 .spc-progress {
     margin: auto;
     /* height: 200px; */
 }
 
 .spc-topic {
-    color: #444444;
-    font-size: 24px;
-    font-weight: 400;
+    text-align: center;
+    color: #f8f8f8;
+    font-size: 22px;
+    font-weight: 500;
     font-family: roboto, sans;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
+
 }
 .spc-head{
     color: #444444;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 500;
     font-family: roboto, sans;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .spc-list{
-    color: #444444;
-    font-size: 20px;
-    font-weight: 400;
+    color: #616161;
+    font-size: 16px;
+    /* font-weight: 400; */
     font-family: roboto, sans;
     margin-left: 40px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+}
+
+.card-row-sd{
+    margin-left: 200px;
 }
