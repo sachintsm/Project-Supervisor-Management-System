@@ -5,8 +5,6 @@ import { verifyAuth } from "../../utils/Authentication";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/coordinator/AssignSupervisors.scss";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
@@ -152,7 +150,7 @@ class AssignSupervisors extends Component {
                             }
 
                             //? add supervisors array at project document
-                            await axios.post(backendURI.url + '/projectSupervisors/add', data, { headers: headers })
+                            await axios.post(backendURI.url + '/projects/addSupervisor', data, { headers: headers })
                                 .then(async res => {
                                     console.log(res)
                                     if (res.data.state === false) {
@@ -225,10 +223,10 @@ class AssignSupervisors extends Component {
             }
 
             //? project supervisor Id list
-            await axios.get(backendURI.url + '/projectSupervisors/get/' + this.state.projectId, { headers: headers })
+            await axios.get(backendURI.url + '/projects/getSupervisors/' + this.state.projectId, { headers: headers })
                 .then(res => {
                     this.setState({
-                        supervisorIdList: res.data.data.supervisors
+                        supervisorIdList: res.data.data.supervisorList
                     })
                 })
 
@@ -272,27 +270,27 @@ class AssignSupervisors extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-        let dt = {
+        const dt = {
             projectId: projectId,
             supervisor: userId
         }
-
         //? gett the groups that one supercviser supervised
         await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
-            .then(res => {
-                for (let j = 0; j < res.data.data.length; j++) {
-                    var group = res.data.data[j].groupId
-                    array1.push(group)
-                }
-            })
+        .then(res => {
+            for (let j = 0; j < res.data.data.length; j++) {
+                var group = res.data.data[j].groupId
+                array1.push(group)
+            }
+        })
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Supervisor will also removed from the Groups!',
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
+                    console.log(dt)
                     // //? remove supervisor from the project supervisor list
-                    await axios.post(backendURI.url + '/projectSupervisors/delete', dt, { headers: headers })
+                    await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
                         .then(res => {
                             console.log(res)
                         })
