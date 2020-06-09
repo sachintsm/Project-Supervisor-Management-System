@@ -5,7 +5,6 @@ import '../../../css/coordinator/SupervisorData.css'
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
-import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
 import { verifyAuth } from "../../../utils/Authentication";
 import { Card, Row, Col } from 'reactstrap';
@@ -110,7 +109,9 @@ class SupervisorData extends Component {
                     }
                 }
             })
-
+    }
+    onClickGroup(data){
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
     }
 
     render() {
@@ -143,8 +144,8 @@ class SupervisorData extends Component {
                             )}
                             {this.state.groupDataBlock.map((item) => {
                                 return (
-                                    <Col md={4} sm={12} key={item._id}>
-                                        <Card className='sd-proj-card'>
+                                    <Col md={4} xs={12} sm={6} key={item._id}>
+                                        <Card className='sd-proj-card' onClick={() => this.onClickGroup(item._id)}>
                                             <div className="container" >
                                                 <Row className="spc-topic-div">
                                                     <p className="spc-topic">{item.groupId} - {item.groupName}</p>
@@ -154,10 +155,10 @@ class SupervisorData extends Component {
                                                     <Col md={12} sm={12} xs={12} className="spc-progress">
                                                         <CircularProgressbar value={percentage} text={`${percentage}%`} styles={{
                                                             path: {
-                                                                stroke: `rgba(30,144,255, ${percentage / 100})`
+                                                                stroke: `rgba(	23, 162, 184, ${percentage / 100})`
                                                             },
                                                             text: {
-                                                                fill: '#1E90FF'
+                                                                fill: '#17a2b8'
                                                             }
                                                         }} />
                                                     </Col>
@@ -185,6 +186,7 @@ class SupervisorData extends Component {
                     </div>
 
                 </div>
+                <Footer/>
             </div>
         );
     }
