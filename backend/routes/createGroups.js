@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CreateGroups = require('../models/createGroups');
+const User = require('../models/users');
 const verify = require('../authentication');
 
 
@@ -9,7 +10,8 @@ router.post('/add', verify, (req, res) => {
     const newGroup = new CreateGroups({
         groupId: req.body.groupId,
         projectId: req.body.projectId,
-        groupMembers: req.body.groupMembers
+        groupMembers: req.body.groupMembers,
+        groupState : true
     })
 
     newGroup.save()
@@ -114,6 +116,7 @@ router.post('/addSupervisorIndex', async (req, res) => {
 
 
 //? delete index from the groupMembers
+//? (GroupData.js)
 router.post('/removeStudentIndex', async (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -134,10 +137,11 @@ router.post('/removeStudentIndex', async (req, res) => {
 })
 
 //? delete supervisor from the project
+//? (GroupData.js)
 router.post('/removeSupervisorIndex', (req, res) => {
     const id = req.body._id
     const index = req.body.index
-
+    // console.log(req.body)
     CreateGroups
         .find({ _id: id })
         .update(
@@ -154,10 +158,11 @@ router.post('/removeSupervisorIndex', (req, res) => {
 
 
 //? get projects for spesific supervisor
+//? (AssignSupervisor.js)
 router.post('/getsupervisorGroup', async (req, res) => {
     const projectId = req.body.projectId
     const supervisor = req.body.supervisor
-    console.log(supervisor)
+    // console.log(supervisor)
     CreateGroups
         .find({ projectId: projectId, supervisors: supervisor })
         .exec()
@@ -168,5 +173,59 @@ router.post('/getsupervisorGroup', async (req, res) => {
             res.send({ state: false, msg: err.message })
         })
 })
+
+//? remove supervisor from the all the groups with respect to the one project
+//? (AssignSupervisor.js)
+router.post('/remove-supervisor', verify, async (req, res) => {
+    const projectId = req.body.projectId
+    const supervisorId = req.body.supervisor
+    const groupId = req.body.groupId
+    // console.log(req.body)
+    await CreateGroups
+        .find({ projectId: projectId, groupId: groupId})
+        .update(
+            { $pull: { supervisors: supervisorId } }
+        )
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Index successfully deleted..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+})
+
+//? get one supervisor active all projects
+router.post('/active&groups', async (req, res) => {
+    const supervisorId = req.body.supervisorId
+    const projectId  = req.body.projectId
+    // console.log(req.body)
+    await CreateGroups
+        .find({supervisors : supervisorId, projectId : projectId, groupState : true})
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: 'Data successfully Transfered..!' , data : data})
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+})
+
+//getGroup details by userId & projectId
+router.post("/groupDetails/:studentId", async(req,res,next)=>{
+
+    try{
+        const id = req.params.studentId;
+        const projectId = req.body.projectId;
+        const indexNumber = await User.findOne({_id:id}).select('indexNumber')
+        const result = await CreateGroups.findOne({groupMembers:indexNumber.indexNumber,projectId:projectId})
+
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
 
 module.exports = router

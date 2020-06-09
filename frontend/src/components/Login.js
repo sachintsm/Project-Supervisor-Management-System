@@ -5,7 +5,7 @@ import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
-
+import { Col, Row } from 'reactstrap'
 import {
   Button,
   FormControl,
@@ -29,7 +29,7 @@ export default class login extends Component {
       email: '',
       password: '',
       loginError: false,
-      emailChange:false,
+      emailChange: false,
       passwordChange: false
     };
 
@@ -61,7 +61,7 @@ export default class login extends Component {
       loginError: false,
     });
   };
-  
+
   onSignIn(e) {
 
     e.preventDefault();
@@ -132,18 +132,18 @@ export default class login extends Component {
       <div
       >
         <div
-            className='container-fluid login-page'
-            style={{
-              backgroundImage: `url(${require('../assets/backgrounds/b1.jpg')})`,
-            }}></div>
+          className='container-fluid login-page'
+          style={{
+            backgroundImage: `url(${require('../assets/backgrounds/b1.jpg')})`,
+          }}></div>
 
         <Snackpop
-            msg={'Invalid Credentials'}
-            color={'error'}
-            time={3000}
-            status={this.state.loginError}
-            closeAlert={this.closeAlert}
-            className="z-index-2"
+          msg={'Invalid Credentials'}
+          color={'error'}
+          time={3000}
+          status={this.state.loginError}
+          closeAlert={this.closeAlert}
+          className="z-index-2"
         />
 
         {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
@@ -171,52 +171,56 @@ export default class login extends Component {
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
-                        className="email-formcontrol"
-                      style={{borderColor: this.state.emailChange ?  this.state.email==='' ? 'red': null:null}}
+                      className="email-formcontrol"
+                      style={{ borderColor: this.state.emailChange ? this.state.email === '' ? 'red' : null : null }}
                       type='email'
                       onChange={this.onChangeEmail}
                       aria-describedby='basic-addon1'
-                      placeholder={this.state.emailChange && this.state.email==='' ?"Please enter an Email":null}
+                      placeholder={this.state.emailChange && this.state.email === '' ? "Please enter an Email" : null}
                     />
                   </InputGroup>
                 </FormGroup>
 
                 <FormGroup className="form-group-2">
-                  <FormLabel  className="cp-text">Password</FormLabel>
+                  <FormLabel className="cp-text">Password</FormLabel>
 
                   <InputGroup className='mb-3'>
                     <InputGroup.Prepend className="password-icon">
                       <InputGroup.Text id='basic-addon1'>
-                        <FiLock size='1.5rem'  className="password-icon2"></FiLock>
+                        <FiLock size='1.5rem' className="password-icon2"></FiLock>
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
-                        className="password-formcontrol"
-                      style={{borderColor: this.state.passwordChange ? this.state.password==='' ? 'red': null:null}}
+                      className="password-formcontrol"
+                      style={{ borderColor: this.state.passwordChange ? this.state.password === '' ? 'red' : null : null }}
                       type='password'
                       onChange={this.onChangePassword}
-                      placeholder={this.state.passwordChange && this.state.password==='' ?"Please enter a Password":null}
+                      placeholder={this.state.passwordChange && this.state.password === '' ? "Please enter a Password" : null}
                     />
                   </InputGroup>
                 </FormGroup>
                 <div className='row' className="btn-div">
-                  {/*<div className='col-md-6 col-sm-12' style={{ textAlign: 'center' }}>*/}
-                  {/*  <Button variant='outline-dark' style={{ width: '90%' }}>*/}
-                  {/*    Forget Password*/}
-                  {/*  </Button>*/}
-                  {/*</div>*/}
-                  <div className='col-md-12 col-sm-12' style={{ textAlign: 'center' }}>
-                    <Button
-                        type="submit"
-                        className="login-btn"
-                      variant='dark'
-                      // onClick={() => this.onSignIn()}
-                    >
-                      LOGIN
+
+                  <Button
+                    type="submit"
+                    className="login-btn"
+                    variant='primary'
+                  // onClick={() => this.onSignIn()}
+                  >
+                    Login
                     </Button>
-                  </div>
                 </div>
               </Form>
+              <div>
+                <Row className="lg-problem">
+                  <Col md={4} xs={6} sm={6}>
+                    <p className="lg-problem-text">Problem with login?</p>
+                  </Col>
+                  <Col md={4} xs={6} sm={6}>
+                    <p className="lg-problem-admin">Contact admin</p>
+                  </Col>
+                </Row>
+              </div>
             </Card>
           </div>
         </div>

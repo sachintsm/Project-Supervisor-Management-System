@@ -6,16 +6,14 @@ import { Row, Col } from "reactstrap";
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import axios from 'axios';
-import { Table, Spinner } from 'react-bootstrap'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
-import { Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
 
 const backendURI = require('../../shared/BackendURI');
+
 class GroupData extends Component {
 
     constructor(props) {
@@ -39,6 +37,8 @@ class GroupData extends Component {
 
             addStudentIndexError: '',
             addSupervisorIndexError: '',
+
+            projectId : '',
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -57,6 +57,12 @@ class GroupData extends Component {
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
+        
+        
+        this.setState({
+            projectId : this.props.location.projectId
+        })
+        console.log(this.props.location.state.projectId)
 
         this.setState({
             authState: authState,
@@ -69,7 +75,7 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
@@ -77,7 +83,7 @@ class GroupData extends Component {
                 })
             })
 
-        await axios.get(backendURI.url + '/users/stafflist', { headers: headers })
+        await axios.get(backendURI.url + '/users/supervisorsList', { headers: headers })
             .then((result) => {
                 if (result.data.length > 0) {
                     this.setState({
@@ -112,7 +118,7 @@ class GroupData extends Component {
     }
     supervisorList() {
         let groupId = this.state.groupId
-
+        
         if (this.state.groupSupervisors !== null) {
             return this.state.groupSupervisors.map(function (object, i) {
                 return <SupervisorList obj={object} key={i} id={groupId} />
@@ -263,11 +269,6 @@ class GroupData extends Component {
     }
 
 
-
-
-
-
-
     render() {
         return (
             <div className="gd-fullpage">
@@ -282,7 +283,7 @@ class GroupData extends Component {
                     />
 
                     <div className="card">
-                        <div className="container">
+                        <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>
                         <div className="container">

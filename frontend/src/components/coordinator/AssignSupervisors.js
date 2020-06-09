@@ -5,10 +5,7 @@ import { verifyAuth } from "../../utils/Authentication";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/coordinator/AssignSupervisors.scss";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
-import CSVReader from "react-csv-reader";
 import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -54,7 +51,8 @@ class AssignSupervisors extends Component {
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this)
-
+        this.deleteSupervisor = this.deleteSupervisor.bind(this);
+        this.groupDataHandler = this.groupDataHandler.bind(this)
     }
 
     closeAlert = () => {
@@ -152,7 +150,7 @@ class AssignSupervisors extends Component {
                             }
 
                             //? add supervisors array at project document
-                            await axios.post(backendURI.url + '/projectSupervisors/add', data, { headers: headers })
+                            await axios.post(backendURI.url + '/projects/addSupervisor', data, { headers: headers })
                                 .then(async res => {
                                     console.log(res)
                                     if (res.data.state === false) {
@@ -171,6 +169,7 @@ class AssignSupervisors extends Component {
                                         //? set isSupervisor -> true
                                         await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
                                             .then(res => {
+                                                console.log(res)
                                                 if (res.data.state === false) {
                                                     this.setState({
                                                         snackbaropen: true,
@@ -192,7 +191,7 @@ class AssignSupervisors extends Component {
                                     }
                                 })
                         }
-                        window.location.reload()
+                        // window.location.reload()
                     }
                 },
                 {
@@ -224,10 +223,10 @@ class AssignSupervisors extends Component {
             }
 
             //? project supervisor Id list
-            await axios.get(backendURI.url + '/projectSupervisors/get/' + this.state.projectId, { headers: headers })
+            await axios.get(backendURI.url + '/projects/getSupervisors/' + this.state.projectId, { headers: headers })
                 .then(res => {
                     this.setState({
-                        supervisorIdList: res.data.data.supervisors
+                        supervisorIdList: res.data.data.supervisorList
                     })
                 })
 
@@ -264,6 +263,79 @@ class AssignSupervisors extends Component {
         }
     }
 
+    async deleteSupervisor(data, groups) {
+        const projectId = this.state.projectId;
+        const userId = data;
+        var array1 = []
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        const dt = {
+            projectId: projectId,
+            supervisor: userId
+        }
+        //? gett the groups that one supercviser supervised
+        await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
+        .then(res => {
+            for (let j = 0; j < res.data.data.length; j++) {
+                var group = res.data.data[j].groupId
+                array1.push(group)
+            }
+        })
+        confirmAlert({
+            title: 'Confirm to Delete?',
+            message: 'Supervisor will also removed from the Groups!',
+            buttons: [{
+                label: 'Yes',
+                onClick: async () => {
+                    console.log(dt)
+                    // //? remove supervisor from the project supervisor list
+                    await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
+                        .then(res => {
+                            console.log(res)
+                        })
+                    for (let j = 0; j < array1.length; j++) {
+                        console.log(array1.length)
+                        data = {
+                            projectId: projectId,
+                            supervisor: userId,
+                            groupId: array1[j]
+                        }
+
+                        //? remove supervisor from the Specific groups
+                        await axios.post(backendURI.url + '/createGroups/remove-supervisor', data, { headers: headers })
+                            .then(res => {
+                                if (res.data.state === false) {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'error'
+                                    })
+                                }
+                                else {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'success'
+                                    })
+                                }
+                            })
+                    }
+                    window.location.reload();
+                }
+            },
+            {
+                label: 'No',
+                onClick: () => {
+
+                }
+            }]
+        })
+    }
+    //? opent the gropuData window
+    groupDataHandler(data) {
+        this.props.history.push('/coordinatorhome/supervisorData/' + data, {projectId : this.state.projectId});
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     render() {
@@ -357,15 +429,20 @@ class AssignSupervisors extends Component {
                                             <th className="table-head">Supervisor</th>
                                             <th className="table-head">Groups</th>
                                             <th className="table-head">Count</th>
+                                            <th className="table-head">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {this.state.finalBlockArray.map((item) => {
                                             return (
-                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item._id)}>
+                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
+
                                                     <td className="table-body">{item.name}</td>
                                                     <td className="table-body">{item.groups}</td>
                                                     <td className="table-body">{item.length}</td>
+                                                    <td className="table-body">
+                                                        <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                    </td>
                                                 </tr>
                                             )
                                         })}

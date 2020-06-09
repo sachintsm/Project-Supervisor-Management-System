@@ -7,14 +7,23 @@
 .open-project{
   padding:20px 100px !important;
 
+  .details-row{
+    border-bottom: 1px solid #CCC;
+  }
   .bold-text{
     font-weight: bold;
   }
   .normal-text{
     font-weight: normal;
   }
-  .project-detail-card{
-    padding: 5% 8% !important;
+  .project-detail-card1{
+    padding: 5% 5% 0% 5% !important;
+  }
+  .project-detail-card2{
+     padding: 5% 5% 5% 5% !important;
+   }
+  .project-progress{
+    padding: 10px 60px 30px 0px;
   }
   .title{
     margin-bottom: 5%;
@@ -22,8 +31,56 @@
   .spinner{
     align-content: center;
   }
-
-
+  .table-col{
+    padding-right: 0px !important;
+  }
+  .dot {
+    margin-left: 15px;
+    height: 10px;
+    width: 10px;
+    background-color: #00e600;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .group-detail-table{
+    text-align: center;
+  }
+  .btn-card-col{
+    padding: 0% 2%
+  }
+  .btn-card{
+    padding: 5% 10%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 20px;
+    //border: 1px solid #f5f5f5;
+  }
+  .btn-card:hover{
+    background-color: #263238;
+    color: white;
+    .btn-title{
+      border-top: 2px solid white;
+      margin-top: 10px;
+      color: white;
+    }
+  }
+  .btn-row{
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+  .btn-icon {
+    //vertical-align: middle;
+    size: 2em !important;
+  }
+  .btn-title{
+    align-content: center;
+    vertical-align: center;
+    border-top: 1.8px solid #263238;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #263238;
+  }
 }
 
 
@@ -36,6 +93,18 @@
     }
     .normal-text{
       font-size: 13px;
+    }
+    .table-col{
+      padding-left: 0px !important;
+    }
+    .project-progress{
+      padding: 30px 20px 20px 20px;
+    }
+    .project-detail-card1{
+      padding: 5% 5% 4% 5% !important;
+    }
+    .btn-title{
+      font-size: 14px ;
     }
   }
 
@@ -58,6 +127,30 @@
     .my-col{
       padding-top: 5px!important;
       padding-bottom: 10px!important;
+    }
+
+    .project-progress{
+      padding: 30px 100px 20px 100px;
+    }
+    .btn-title{
+      font-size: 10px ;
+    }
+    .group-detail-table{
+      text-align: start;
+      padding-left: 20px;
+    }
+    .btn-card-col{
+      padding: 0% 2%;
+    }
+    .project-detail-card1{
+      margin: 5px 2px !important;
+    }
+    .project-detail-card2{
+      margin: 5px 2px !important;
+    }
+    .btn-card{
+      margin-top: 15px;
+      margin-bottom: 0px;
     }
   }
 }

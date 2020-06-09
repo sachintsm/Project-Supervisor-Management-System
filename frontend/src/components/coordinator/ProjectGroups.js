@@ -97,6 +97,7 @@ class ProjectGroups extends Component {
                     groupData: res.data.data
                 })
             })
+
         for (let i = 0; i < this.state.groupData.length; i++) {
             if (this.state.groupData[i].supervisors.length !== 0) {
                 var array1 = [];
@@ -135,7 +136,6 @@ class ProjectGroups extends Component {
                 )
                 this.state.groupDataBlock.push(blockA)
             }
-
         }
         this.setState({ dataDiv: true, spinnerDiv: false });
 
@@ -143,7 +143,7 @@ class ProjectGroups extends Component {
 
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data);
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
     }
 
     //?delete the group

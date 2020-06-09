@@ -3,10 +3,18 @@ import ProjectDetailsCard from "./ProjectDetailsCard";
 import "../../css/students/ViewProject.scss"
 import Footer from '../shared/Footer';
 import axios from 'axios';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Card, Row, Col, Spinner } from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 import {getFromStorage} from "../../utils/Storage";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Navbar from "../shared/Navbar";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { IoIosPersonAdd } from 'react-icons/io';
+import { TiGroup } from 'react-icons/ti';
+import { FaChartLine } from 'react-icons/fa';
+import { FiUploadCloud } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
+
 
 const backendURI = require('../shared/BackendURI');
 class studentBlock {
@@ -26,8 +34,10 @@ class ViewProject extends Component {
         this.state = {
             project: props.location.state.projectDetails,
             studentList:[],
-            loading: true
+            loading: true,
+            groupDetails: []
         }
+        this.getGroupId()
     }
 
     componentDidMount() {
@@ -76,47 +86,117 @@ class ViewProject extends Component {
 
     }
 
+    getGroupId = () => {
+        const userId = getFromStorage("auth-id").id;
+        const project ={
+            projectId: this.state.project._id
+        }
+
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+
+        axios.post(backendURI.url+'/createGroups/groupDetails/'+userId,project,{headers:headers}).then(
+            res=>{
+                this.setState({
+                    groupDetails: res.data,
+                    loading: false
+                })
+            }
+        )
+    }
+
+    viewProgress=(project)=>{
+        this.props.history.push('/studenthome/viewproject/progress-tasks',{projectDetails:project,groupDetails:this.state.groupDetails})
+    }
+
     render() {
+        const percentage = 67;
         return (
             <React.Fragment>
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
 
-                        <Row>
-                            <Col lg={6} md={5} xs={12} sm={12} className="my-col">
-                                <div className="card project-detail-card">
-                                    <h4 className="title">Project Details</h4>
-                                    <ProjectDetailsCard project={this.state.project}/>
+                        <Row className="details-row">
+                            <Col lg={7} md={7} xs={12} sm={7} className="my-col">
+                                <div  className="card project-detail-card1">
+                                    <Row>
+                                        <Col lg={7} md={12} xs={12} sm={12}>
+                                            <div>
+                                                <h4 className="title">Project Details {this.state.project.projectState && <span className="dot"></span>}</h4>
+                                                <ProjectDetailsCard project={this.state.project}/>
+
+                                            </div>
+                                        </Col>
+                                        <Col lg={5} md={12} xs={12} sm={12} className="project-progress" ><CircularProgressbar styles={buildStyles({textColor: '#263238',pathColor: `#263238`,})}   value={percentage} text={`${percentage}%`} /></Col>
+                                    </Row>
+                                </div>
+
+                            </Col>
+                            <Col lg={5} md={5} xs={12} sm={5}  className="my-col">
+                                <div className="card project-detail-card2">
+                                    <h4 className="title">Group Members{this.state.project.projectState && <span className="dot"></span>}</h4>
+                                    <div className="group-detail-table">
+                                        {this.state.loading && <Spinner animation="border" className="spinner"/>}
+                                        {
+                                            this.state.studentList.map((user,index)=>{
+                                                return (
+
+                                                    <div key={index} >
+
+
+                                                        <Row className="mb-1">
+                                                            <Col md="3" xs="6" sm="3" className="table-col">
+                                                                <span className="normal-text zero-margin">{user.index}</span>
+                                                            </Col>
+                                                            <Col md="3" xs="6" sm="3" className="table-col">
+                                                                <span className="normal-text zero-margin">{user.reg}</span>
+                                                            </Col>
+                                                            <Col md="5" xs="12" sm="3" className="table-col">
+                                                                <span className="normal-text zero-margin">{user.name}</span>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </Col>
-                            <Col lg={6} md={7} xs={12} sm={12}  className="my-col">
-                                <div className="card project-detail-card">
-                                    <h4 className="title">Group Members</h4>
-                                    {this.state.loading && <Spinner animation="border" className="spinner"/>}
-                                    {
-                                        this.state.studentList.map((user,index)=>{
-                                            return (
-
-                                                <div key={index}>
-
-
-                                                    <Row className="mb-1">
-                                                        <Col md="3" xs="6" sm="3">
-                                                            <span className="normal-text zero-margin">{user.index}</span>
-                                                        </Col>
-                                                        <Col md="3" xs="6" sm="3">
-                                                            <span className="normal-text zero-margin">{user.reg}</span>
-                                                        </Col>
-                                                        <Col md="5" xs="12" sm="3">
-                                                            <span className="normal-text zero-margin">{user.name}</span>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
+                        </Row>
+                        <Row className="btn-row">
+                            <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                                <Card className="btn-card">
+                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
+                                        <div>
+                                            <IoIosPersonAdd />
+                                        </div>
+                                    </IconContext.Provider><span className="btn-title">Request Supervisors</span></Card>
+                            </Col>
+                            <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                                <Card className="btn-card">
+                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
+                                        <div>
+                                            <TiGroup />
+                                        </div>
+                                    </IconContext.Provider><span className="btn-title">Request Meetings</span></Card>
+                            </Col>
+                            <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                                <Card className="btn-card" onClick={()=>{this.viewProgress(this.state.project)}}>
+                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
+                                        <div>
+                                            <FaChartLine />
+                                        </div>
+                                    </IconContext.Provider><span className="btn-title">Progress</span></Card>
+                            </Col>
+                            <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                                <Card className="btn-card">
+                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
+                                        <div>
+                                            <FiUploadCloud />
+                                        </div>
+                                    </IconContext.Provider><span className="btn-title">Submissions</span></Card>
                             </Col>
                         </Row>
                 </div>
@@ -126,4 +206,4 @@ class ViewProject extends Component {
     }
 }
 
-export default ViewProject;
+export default withRouter(ViewProject);
