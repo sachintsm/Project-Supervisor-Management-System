@@ -213,13 +213,13 @@ router.post('/active&groups', async (req, res) => {
 
 //getGroup details by userId & projectId
 router.post("/groupDetails/:studentId", async(req,res,next)=>{
-    console.log("backend....")
+
     try{
         const id = req.params.studentId;
         const projectId = req.body.projectId;
         const indexNumber = await User.findOne({_id:id}).select('indexNumber')
         const result = await CreateGroups.findOne({groupMembers:indexNumber.indexNumber,projectId:projectId})
-        console.log(result)
+
         res.send(result)
     }
     catch (e) {
