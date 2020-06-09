@@ -118,7 +118,6 @@ class GroupData extends Component {
     }
     supervisorList() {
         let groupId = this.state.groupId
-        console.log(groupId);
         
         if (this.state.groupSupervisors !== null) {
             return this.state.groupSupervisors.map(function (object, i) {
@@ -284,7 +283,7 @@ class GroupData extends Component {
                     />
 
                     <div className="card">
-                        <div className="container">
+                        <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>
                         <div className="container">
