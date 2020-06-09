@@ -28,6 +28,8 @@ class NoticeView extends Component {
        super(props)
      
        this.state = {
+        
+          projectIdList:[],
 
           noticeList: [],
           noticeView : [],
@@ -38,15 +40,13 @@ class NoticeView extends Component {
           
        }
        this.getNoticeList = this.getNoticeList.bind(this);
+       this.getProjectId = this.getProjectId.bind(this);
       //  this.getNoticeViewList = this.getNoticeViewList.bind(this);
      }
 
      componentDidMount() {
           this.getNoticeList();
-          // this.getNoticeViewList();
-      
-         
-
+          this.getProjectId();
           this.userType = localStorage.getItem("user-level");
           console.log(this.userType)
         }
@@ -67,7 +67,26 @@ class NoticeView extends Component {
             }
           });
         }
+
+        getProjectId() {
+          axios.get(backendURI.url + "/ProjectSupervisors/getProjectId").then((result) => {
+            if (result.data.length > 0) {
+              console.log("shbakjd",result.data);
+              this.setState({
+                projectIdList: result.data.map((pList) => pList),
+              });
+            } else {
+              this.setState({
+                projectIdList: [],
+              });
+            }
+          });
+        }
+
+
   render() {
+
+    
 
     if(this.userType === 'student'){
 
@@ -137,7 +156,8 @@ class NoticeView extends Component {
             <div>
 
               {this.state.noticeList.map((type) => {
-                if(type.toSupervisor){
+                
+                if(type.toSupervisor && type.projectId === "5ebcf3f80de93d0b000bb5a6"){
                   return (
                     <Card
                       key={type._id}
@@ -171,6 +191,7 @@ class NoticeView extends Component {
                    
                   );
               }
+            
               })}
             </div>
           </div>

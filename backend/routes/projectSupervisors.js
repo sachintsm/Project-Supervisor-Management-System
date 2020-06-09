@@ -56,5 +56,23 @@ router.get('/get/:id',verify, (req, res) => {
         })
 })
 
+router.get("/getProjectId", (req, res, next) => {
+ 
+    ProjectSupervisors.find()
+      .sort({ date: 1 })
+      .select("projectId")
+      .exec()
+      .then((docs) => {
+        console.log("Data Transfer Successss.!");
+        res.status(200).json(docs);
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          error: error,
+        });
+      });
+  });
+
 
 module.exports = router
