@@ -11,10 +11,12 @@
   }
 }
 .task-card:hover{
-
-   cursor: pointer;
-   .card-body{
-     background-color: #263238;
-     color: white;
-   }
+    border: 1.5px solid #263238;
+    margin-bottom: 1px;
+    cursor: pointer;
+    transform: scale(1.05)
+   //.card-body{
+   //  background-color: #263238;
+   //  color: white;
+   //}
  }
