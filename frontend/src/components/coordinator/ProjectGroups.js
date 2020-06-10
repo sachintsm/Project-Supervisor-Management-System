@@ -10,6 +10,7 @@ import { Table, Spinner } from 'react-bootstrap'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../shared/Snackpop";
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -220,7 +221,7 @@ class ProjectGroups extends Component {
                         closeAlert={this.closeAlert}
                     />
 
-                    <div className="card">
+                    <div className="card pg-search-card">
                         <div className="container">
                             <p className="pg-reg-head">Project Group Details</p>
 

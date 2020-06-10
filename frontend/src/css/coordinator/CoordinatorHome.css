@@ -9,10 +9,11 @@
     margin-top: 20px;
 }
 
-.card{
+.ch-card{
     margin: 0px;
     margin-bottom: 20px;
 }
+
 
 .ch-project-name{
     margin-left :20px;
@@ -50,4 +51,9 @@
     color : #444444;
     font-weight: bold;
     font-family: roboto, sans;
+}
+
+.no-projects{
+    color: #858585;
+    text-align: center;
 }
