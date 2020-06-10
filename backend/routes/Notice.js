@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Notice = require("../models/notice");
+const Projects = require('../models/projects');
 const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
@@ -167,8 +168,19 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
     })
 })
 
-//when Admin create notice it notice must show only him
 
 
-
+router.get('/getCordinatorList/:id', (req, res) => {
+  const id = req.params.id
+  Projects
+    .find({ _id: id })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
 module.exports = router;

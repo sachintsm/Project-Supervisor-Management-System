@@ -45,24 +45,28 @@ class Notice extends Component {
       notice: "",
       noticeAttachment: "",
       date: "",
-      succesAlert: false,
-      deleteSuccesAlert: false,
-      warnAlert: false,
-      snackbaropen: false,
-      toCordinator: false,
-      toSupervisor: false,
-      toStudent: false,
-      snackbarmsg: "",
       noticeType: "",
       userTypes:'',
       userId:"",
       viewUserSelect :'Select user to View :',
+      projectId: "",
       selectedTypeIndex: 0 ,
-     // noticeList: [],
+     
+      succesAlert: false,
+      deleteSuccesAlert: false,
+      warnAlert: false,
+      snackbaropen: false,
+      snackbarmsg: "",
+
+      toCordinator: false,
+      toSupervisor: false,
+      toStudent: false,
+     
+      
       projectTypeList:[],
       noticeListCoordinator:[],
-      projectId: "",
       activeProjects: [],
+
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
@@ -109,6 +113,7 @@ class Notice extends Component {
             }))
 }
 
+// get project details
   async getProjectDetails() {
     const authState = await verifyAuth();
 
@@ -132,14 +137,13 @@ class Notice extends Component {
             }))
   }
 
+  // validaion notice form
   validate = () => {
     let isError = false;
     const errors = {
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
-
-
     }
 
     if (this.state.noticeTittle.length < 1) {
@@ -272,6 +276,8 @@ class Notice extends Component {
 });
 }
   }
+
+  //delete notice
 
   onDeleteHandler = (id, filePath) => {
 
