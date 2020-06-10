@@ -199,13 +199,12 @@ export default class login extends Component {
                     />
                   </InputGroup>
                 </FormGroup>
-                <div className='row' className="btn-div">
+                <div className='row btn-div'>
 
                   <Button
                     type="submit"
                     className="login-btn"
                     variant='primary'
-                  // onClick={() => this.onSignIn()}
                   >
                     Login
                     </Button>
