@@ -67,6 +67,7 @@ class ProjectGroups extends Component {
         //? load all the active project names from
         axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
             .then((res => {
+                console.log("ddddd",res.data.data)
                 this.setState({
                     activeProjects: res.data.data
                 })
@@ -79,6 +80,8 @@ class ProjectGroups extends Component {
         this.setState({
             projectId: val
         })
+
+        
     }
 
     async searchGroups() {
@@ -89,6 +92,8 @@ class ProjectGroups extends Component {
 
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
+
+           
                 this.setState({
                     groupData: res.data.data
                 })

@@ -38,7 +38,6 @@ class ViewProjects extends Component {
         }
         const studentId = getFromStorage("auth-id")
         axios.get(backendURI.url+'/projects/studentprojects/'+studentId.id,{headers: headers}).then(result=>{
-            console.log(result.data)
             if(result.data.length>0){
                 result.data.map(item=>{
                   if(item.projectState){
@@ -59,12 +58,13 @@ class ViewProjects extends Component {
         })
     }
 
+
     render() {
         return (
             <React.Fragment>
                 <div className="container-fluid view-projects view-project-background-color">
                     <Container>
-                        <div className="card card-div current-card">
+                        <div className="card card-div current-card add-card">
                             <h3 className="title">Ongoing Projects <span className="dot"></span></h3>
                             <div className="project-list-div">
 

@@ -45,7 +45,9 @@
   }
   .projects-card:hover{
     background-color: #f5f5f5;
+    border: 1.5px solid #555;
     cursor: pointer;
+    transform: scale(1.05);
    }
   .no-project{
     color: red

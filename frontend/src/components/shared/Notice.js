@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-
+import { verifyAuth } from "../../utils/Authentication";
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -32,8 +32,7 @@ import {
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
-const date_ob = new Date();
-const year = date_ob.getFullYear()
+
 
 
 class Notice extends Component {
@@ -46,24 +45,27 @@ class Notice extends Component {
       notice: "",
       noticeAttachment: "",
       date: "",
-      year: year,
+      noticeType: "",
+      userTypes:'',
+      userId:"",
+      viewUserSelect :'Select user to View :',
+      projectId: "",
+      selectedTypeIndex: 0 ,
+     
       succesAlert: false,
       deleteSuccesAlert: false,
       warnAlert: false,
       snackbaropen: false,
+      snackbarmsg: "",
+
       toCordinator: false,
       toSupervisor: false,
       toStudent: false,
-      snackbarmsg: "",
-      noticeType: "",
-      userTypes:'',
-      viewUserSelect :'Select user to View :',
-      selectedTypeIndex: 0 ,
-      noticeList: [],
+     
+      
       projectTypeList:[],
-      yearsArray: [],
-
-
+      noticeListCoordinator:[],
+      activeProjects: [],
 
       noticeTittleError: "",
       noticeError: "",
@@ -71,148 +73,77 @@ class Notice extends Component {
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.onChangeNotice = this.onChangeNotice.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.getNoticeList = this.getNoticeList.bind(this);
+    this.getNoticeListCordinator = this.getNoticeListCordinator.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.getCategoryList = this.getCategoryList.bind(this);
-    this.onChangeType = this.onChangeType.bind(this);
-    this.onChangeAcademicYear = this.onChangeAcademicYear.bind(this);
-    this.onChangeYear = this.onChangeYear.bind(this);
-
+   
   }
 
-  // snackbarClose = (event) => {
-  //   this.setState({ snackbaropen: false });
-  // };
+
 
   componentDidMount() {
-    this.getNoticeList();
-    this.getCategoryList()
+   this.getNoticeListCordinator();
+   this.getProjectDetails();
 
     this.userTypes = localStorage.getItem("user-level");
-    console.log(this.userTypes)
+    this.userId = localStorage.getItem("auth-id");
+    console.log(this.userId)
+    
 
-
-    //##############################################
-    let date_ob = new Date();
-    const year = date_ob.getFullYear();
-    var startYear = year - 2;
-    for (var i = 0; i < 6; i++) {
-      this.state.yearsArray.push(startYear);
-      startYear += 1;
-    }
+   
   }
 
   // Notice get from database and map to the array
-  getNoticeList() {
-    axios.get(backendURI.url + "/notice/viewNotice").then((result) => {
-      if (result.data.length > 0) {
-        console.log(result.data);
+  getNoticeListCordinator() {
+    // const headers = {
+    //   'auth-token':getFromStorage('auth-token').token,
+    // }
+
+    const coId = JSON.parse(localStorage.getItem("auth-id"))
+
+    axios.get(backendURI.url + '/notice/NoticeView/' + coId.id)
+            .then((res => {
+                console.log("ddddd",res.data.data)
+                this.setState({
+                  noticeListCoordinator: res.data.data
+                })
+            }))
+}
+
+// get project details
+  async getProjectDetails() {
+    const authState = await verifyAuth();
+
         this.setState({
-          noticeList: result.data.map((type) => type),
+            authState: authState,
         });
+        if (!authState || (!localStorage.getItem("isCoordinator") && !localStorage.getItem("isAdmin") )) { //!check user is logged in or not if not re-directed to the login form
+            this.props.history.push("/");
+        }
 
-        
-      } else {
-        this.setState({
-          noticeList: [],
-        });
-      }
-    });
+        const coId = JSON.parse(localStorage.getItem("auth-id"))
+
+        //? load all the active project names from
+        axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
+            .then((res => {
+              console.log("project List",res.data.data)
+                this.setState({
+                    activeProjects: res.data.data
+                    
+                })
+            }))
   }
 
-  getCategoryList() {
-
-    const headers = {
-      'auth-token':getFromStorage('auth-token').token,
-    }
-    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
-      if (result.data.length > 0) {
-        this.setState({
-          projectTypeList: result.data.map((type) => type)
-        },()=>{
-          this.setState({
-            type :  this.state.projectTypeList[0].projectType
-          })
-          if(this.state.projectTypeList[0].isFirstYear){
-            this.setState(({
-              academicYear: "1st Year"
-            }))
-          }
-          else if(this.state.projectTypeList[0].isSecondYear){
-            this.setState(({
-              academicYear: "2nd Year"
-            }))
-          }
-          else if(this.state.projectTypeList[0].isThirdYear){
-            this.setState(({
-              academicYear: "3rd Year"
-            }))
-          }
-          else if(this.state.projectTypeList[0].isFourthYear){
-            this.setState(({
-              academicYear: "4th Year"
-            }))
-          }
-          else{
-            this.setState(({
-              academicYear: ''
-            }))
-          }
-        })
-      }
-      else {
-        this.setState({
-          projectTypeList: []
-        })
-      }
-    }))
-
-  }
-
-  onChangeType(typeIndex) {
-    // console.log(typeIndex)
-    this.setState({
-      type: this.state.projectTypeList[typeIndex].projectType,
-      selectedTypeIndex: typeIndex
-    });
-    if(this.state.projectTypeList[typeIndex].isFirstYear){
-      this.setState(({
-        academicYear: "1st Year"
-      }))
-    }
-    else if(this.state.projectTypeList[typeIndex].isSecondYear){
-      this.setState(({
-        academicYear: "2nd Year"
-      }))
-    }
-    else if(this.state.projectTypeList[typeIndex].isThirdYear){
-      this.setState(({
-        academicYear: "3rd Year"
-      }))
-    }
-    else if(this.state.projectTypeList[typeIndex].isFourthYear){
-      this.setState(({
-        academicYear: "4th Year"
-      }))
-    }
-    else{
-      this.setState(({
-        academicYear: ''
-      }))
-    }
-  }
-
+  // validaion notice form
   validate = () => {
     let isError = false;
     const errors = {
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
-
-
     }
 
     if (this.state.noticeTittle.length < 1) {
@@ -235,11 +166,13 @@ class Notice extends Component {
     return isError;
   }
 
-  onChangeAcademicYear(year) {
+
+  handleDropdownChange = (e) => {
+    const val = e.target.value
     this.setState({
-      academicYear: year,
-    });
-  }
+        projectId: val
+    });   
+}
 
   onChangeTittle(e) {
     this.setState({
@@ -259,11 +192,7 @@ class Notice extends Component {
     });
   }
 
-  onChangeYear(year) {
-    this.setState({
-      year: year,
-    });
-  }
+  
 
   // when press add notice button call this function then save data in database
   onSubmit(e) {
@@ -286,16 +215,21 @@ class Notice extends Component {
           label: "Yes",
           onClick: async () => {
 
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+
             this.state.date = Date();
             const userType = localStorage.getItem("user-level");
-            const userId = localStorage.getItem("auth-id");
-
-          
-
-
+            //const userId = localStorage.getItem("auth-id.id");
+           
+            const userId = getFromStorage('auth-id').id ;
+    
             const formData = new FormData();
+
             formData.append("userId",userId);
             formData.append("userType",userType);
+            formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
             formData.append("date", this.state.date);
@@ -306,12 +240,12 @@ class Notice extends Component {
 
       
             axios
-            .post(backendURI.url + "/notice/addNotice", formData)
+            .post(backendURI.url + "/notice/addNotice", formData,{headers: headers})
             .then((res) => {
               this.setState({
                 succesAlert: true,
               });
-              this.getNoticeList();
+              this.getNoticeListCordinator();
               console.log(res.data);
             })
             .catch((error) => {
@@ -343,8 +277,11 @@ class Notice extends Component {
 }
   }
 
+  //delete notice
+
   onDeleteHandler = (id, filePath) => {
-    console.log(filePath);
+
+   // console.log(filePath);
     confirmAlert({
       title: "Delete Notice",
       message: "Are you sure?",
@@ -352,17 +289,22 @@ class Notice extends Component {
         {
           label: "Yes",
           onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
             axios
-              .delete(backendURI.url + "/notice/delteNotice/" + id)
+              .delete(backendURI.url + "/notice/delteNotice/" + id,{headers: headers})
               .then((res) => {
                 this.setState({
                   deleteSuccesAlert: true,
                 });
-                this.getNoticeList();
+                this.getNoticeListCordinator();
               })
               .catch((err) => {
                 console.log(err);
               });
+              
           },
         },
         {
@@ -384,14 +326,24 @@ class Notice extends Component {
 
   render() {
 
-    const { yearsArray } = this.state;
+    const { activeProjects } = this.state;   // ?load projects to dropdown menu this coordinator
 
-    let yearList = yearsArray.length > 0
-        && yearsArray.map((item, i) => {
-          return (
-              <Dropdown.Item key={i} eventKey={item}>{item}</Dropdown.Item>
-          )
-        }, this);
+    let activeProjectsList = activeProjects.length > 0
+        && activeProjects.map((item, i) => {
+            return (
+                <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
+            )
+        }, this)
+
+        let activeProjectsListid = activeProjects.length > 0
+        && activeProjects.map((item, i) => {
+            return (
+                <option key={i} value={item._id}>{item._id}</option>
+            )
+        }, this)
+
+
+    
 
     if(this.userTypes === 'admin'){
     return (
@@ -586,11 +538,11 @@ class Notice extends Component {
                     </Row>
                   </div>
                 </div>
-                {this.state.noticeList.length > 0 && (
+                {this.state.noticeListCoordinator.length > 0  && (
                   <div>
                     <h3>Notice View </h3>
                     <div>
-                      {this.state.noticeList.map((type) => {
+                      {this.state.noticeListCoordinator.map((type) => {
                         if(type.userType === 'admin'){
                         return (
                           <Card
@@ -624,8 +576,11 @@ class Notice extends Component {
                               </CardContent>
                           </Card>
                          
-                        );
-                      }
+                             
+                          );
+                              }
+
+
                       })}
                     </div>
                   </div>
@@ -637,6 +592,7 @@ class Notice extends Component {
         <Footer />
       </React.Fragment>
     );
+
   }else if(this.userTypes === 'coordinator'){
     return(
       <React.Fragment>
@@ -680,115 +636,21 @@ class Notice extends Component {
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notices</h3>
 
-                    
-                    <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-
-                    <Col lg="4" md="4" sm="6" xs="6">
                     <Row>
-                      <p className="cp-text">
-                        Year of the Project
-                      </p>
-                    </Row>
-                    <Row>
-                      <DropdownButton
-                          as={ButtonGroup}
-                          // className="full-width"
-                          variant={'secondary'}
-                          title={this.state.year}
-                          onSelect={this.onChangeYear}
-                          style={{ width: "90%" }}>
-                        {this.state.yearsArray.map((item,index) => {
-                          return(
-                              <Dropdown.Item key={index} eventKey={item}>
-                                {item}
-                              </Dropdown.Item>)
-                        })}
-                      </DropdownButton>{' '}
-                    </Row>
-                    </Col>
-                    
-                    <Col lg="4" md="4" sm="6" xs="6">
-                    <Row>
-                      <p className="cp-text">
-                        Project Type
-                      </p>
-                    </Row>
 
-                    <Row >
-
-                      {
-                        this.state.projectTypeList.length == 0 ? (
-                            <DropdownButton
-                                // className="full-width"
-                                as={ButtonGroup}
-                                variant={'secondary'}
-                                title={"No Items"}
-                                onSelect={this.onChangeType}
-                                style={{ width: "90%" }}
-                            >
-                            </DropdownButton>) : (
-                            <DropdownButton
-                                // className="full-width"
-                                as={ButtonGroup}
-                                variant={'secondary'}
-                                title={this.state.type}
-                                onSelect={this.onChangeType}
-                                style={{ width: "90%" }}
-                            >
-                              {this.state.projectTypeList.map((item,index) => {
-                                return(
-                                    <Dropdown.Item key={item._id} eventKey={index}>
-                                      {item.projectType}
-                                    </Dropdown.Item>)
-                              })}
-                            </DropdownButton>)
-                      }
-
-                    </Row>
-                  </Col>
-
-                  {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                    <Col  lg="4" md="4" sm="12" xs="12" >
-                      <Row>
-                        <p className="cp-text cp-text2">
-                          Academic Year
-                        </p>
-                      </Row>
-                      <Row>
-
-                        <DropdownButton
-                            as={ButtonGroup}
-                            variant={'secondary'}
-                            title={this.state.academicYear}
-                            onSelect={this.onChangeAcademicYear}
-                            style={{ width: "90%" }}
-                            className="full-width"
-                        >
-                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
-                          <Dropdown.Item eventKey='1st Year'>
-                            1st Year
-                          </Dropdown.Item>}
-                          {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
-                          <Dropdown.Item eventKey='2nd Year'>
-                            2nd Year
-                          </Dropdown.Item>}
-                          {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
-                          <Dropdown.Item eventKey='3rd Year'>
-                            3rd Year
-                          </Dropdown.Item>}
-                          {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
-                          <Dropdown.Item eventKey='4th Year'>
-                            4th Year
-                          </Dropdown.Item>}
-                        </DropdownButton>{' '}
-                      </Row>
-                    </Col> :  null
-                }
-
+                    <Col xs="12">
+                                    <div className="form-group pg-dropdown-select">
+                                        <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                            <option>Select the project</option>
+                                            {activeProjectsList}
+                                        </select>
+                                        
+                                    </div>
+                                </Col>
                     
                     </Row>
 
-                    <Row className="margin-top-30">
+                    <Row className="margin-top-5">
                       <Col>
                         <label className="verticle-align-middle cp-text">
                           Notice Tittle :{" "}
@@ -910,11 +772,11 @@ class Notice extends Component {
                   </div>
                 </div>
 
-                {this.state.noticeList.length > 0  && (
+                {this.state.noticeListCoordinator.length > 0  && (
                   <div>
                     <h3>Notice View </h3>
                     <div>
-                      {this.state.noticeList.map((type) => {
+                      {this.state.noticeListCoordinator.map((type) => {
                         if(type.userType === 'coordinator'){
                           return (
                             <Card
@@ -950,6 +812,8 @@ class Notice extends Component {
                            
                           );
                               }
+
+
                       })}
                     </div>
                   </div>
