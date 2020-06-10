@@ -82,6 +82,11 @@ class ViewProject extends Component {
         })
 
     }
+    requestSup(){
+
+        this.props.history.push('/studenthome/requestsupervisor');
+    }
+
 
     render() {
 
@@ -146,7 +151,7 @@ class ViewProject extends Component {
                                         <div>
                                             <IoIosPersonAdd />
                                         </div>
-                                    </IconContext.Provider><span className="btn-title">Request Supervisors</span></Card>
+                                    </IconContext.Provider><span className="btn-title" onClick={()=>this.requestSup()}>Request Supervisors</span></Card>
                             </Col>
                             <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
                                 <Card className="btn-card">
