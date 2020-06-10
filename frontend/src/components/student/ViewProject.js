@@ -4,6 +4,7 @@ import "../../css/students/ViewProject.scss"
 import Footer from '../shared/Footer';
 import axios from 'axios';
 import { Card, Row, Col, Spinner } from 'react-bootstrap';
+import { withRouter } from "react-router-dom";
 import {getFromStorage} from "../../utils/Storage";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Navbar from "../shared/Navbar";
@@ -33,8 +34,10 @@ class ViewProject extends Component {
         this.state = {
             project: props.location.state.projectDetails,
             studentList:[],
-            loading: true
+            loading: true,
+            groupDetails: []
         }
+        this.getGroupId()
     }
 
     componentDidMount() {
@@ -88,8 +91,31 @@ class ViewProject extends Component {
     }
 
 
-    render() {
+    getGroupId = () => {
+        const userId = getFromStorage("auth-id").id;
+        const project ={
+            projectId: this.state.project._id
+        }
 
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+
+        axios.post(backendURI.url+'/createGroups/groupDetails/'+userId,project,{headers:headers}).then(
+            res=>{
+                this.setState({
+                    groupDetails: res.data,
+                    loading: false
+                })
+            }
+        )
+    }
+
+    viewProgress=(project)=>{
+        this.props.history.push('/studenthome/viewproject/progress-tasks',{projectDetails:project,groupDetails:this.state.groupDetails})
+    }
+
+    render() {
         const percentage = 67;
         return (
             <React.Fragment>
@@ -162,12 +188,12 @@ class ViewProject extends Component {
                                     </IconContext.Provider><span className="btn-title">Request Meetings</span></Card>
                             </Col>
                             <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
-                                <Card className="btn-card">
+                                <Card className="btn-card" onClick={()=>{this.viewProgress(this.state.project)}}>
                                     <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
                                         <div>
                                             <FaChartLine />
                                         </div>
-                                    </IconContext.Provider><span className="btn-title">View Progress</span></Card>
+                                    </IconContext.Provider><span className="btn-title">Progress</span></Card>
                             </Col>
                             <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
                                 <Card className="btn-card">
@@ -185,4 +211,4 @@ class ViewProject extends Component {
     }
 }
 
-export default ViewProject;
+export default withRouter(ViewProject);

@@ -244,5 +244,19 @@ router.post('/deletesupervisorGroup', verify, async (req, res) => {
     })
 })
 
-
+//? get all the project data with spesific coordinator
+//? (CoodinatorHome.js)
+router.get('/getAllActiveProjectData/:id', async (req, res) => {
+  const coId = req.params.id
+  await Projects
+    .find({ coordinatorList: coId, projectState: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
 module.exports = router;

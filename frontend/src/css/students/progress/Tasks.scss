@@ -1,0 +1,48 @@
+
+.tasks-background-color{
+  background-color: #f5f5f5;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  min-height: 450px;
+}
+
+.tasks{
+
+  .container-fluid{
+    padding: 0px 0px !important;
+  }
+  .card-div{
+    padding: 3%;
+  }
+  .current-card{
+    margin-top: 0px !important;
+  }
+  .btn-icon {
+    //vertical-align: middle;
+    size: 2em !important;
+  }
+  .btn-title{
+    align-content: center;
+    vertical-align: center;
+    border-top: 1.8px solid #263238;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #263238;
+  }
+  .btn-card{
+    padding: 5% 10%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 20px;
+    //border: 1px solid #f5f5f5;
+  }
+  .btn-card:hover{
+    background-color: #263238;
+    color: white;
+    .btn-title{
+      border-top: 2px solid white;
+      margin-top: 10px;
+      color: white;
+    }
+  }
+}

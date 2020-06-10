@@ -6,21 +6,15 @@ import { withStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import axios from 'axios';
-// import MultiSelect from 'react-multi-select-component';
 import Snackpop from '../shared/Snackpop';
-// import MuiAlert from '@material-ui/lab/Alert';
 import Footer from '../shared/Footer';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
-// import YearPicker from 'react-year-picker';
 import {
   Button,
   Container,
   Col,
   Row,
-  //   Dropdown,
-  //   DropdownButton,
-  //   ButtonGroup,
   FormControl,
   Table,
 } from 'react-bootstrap';
@@ -249,7 +243,6 @@ class ProjectTypes extends Component {
                       </label>
                       <FormControl
                         type='text'
-                        className="placeholder-text"
                         className="placeholder-text"
                         placeholder='Undergraduate / BIT / Master / etc'
                         value={this.state.projectType}
