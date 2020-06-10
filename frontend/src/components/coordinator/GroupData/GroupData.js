@@ -199,7 +199,7 @@ class GroupData extends Component {
 
     async onSubmitAddSupervisor(e) {
         e.preventDefault();
-        const err = this.validate();  //?calling validation function
+        // const err = this.validate();  //?calling validation function
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
@@ -217,7 +217,7 @@ class GroupData extends Component {
                                 _id: this.props.match.params.id,
                                 index: this.state.selectedStaffList[i].value
                             }
-                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data)
+                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data, { headers: headers})
                                 .then(res => {
                                     if (res.data.state === false) {
                                         this.setState({
