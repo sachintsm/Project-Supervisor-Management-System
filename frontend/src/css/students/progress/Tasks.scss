@@ -7,7 +7,25 @@
 }
 
 .tasks{
-
+  .project-task-title{
+    margin-bottom: 20px !important;
+  }
+  padding: 5px 50px !important;
+  .main-card{
+    padding: 20px 50px !important;
+  }
+  .no-task-text{
+    color: red
+  }
+  .spinner{
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+  }
+  .spinner-div{
+    text-align: center;
+    padding: 100px 0px 30px 0px;
+  }
   .container-fluid{
     padding: 0px 0px !important;
   }
@@ -16,6 +34,9 @@
   }
   .current-card{
     margin-top: 0px !important;
+  }
+  .task-card-col{
+    padding: 5px 5px;
   }
   .btn-icon {
     //vertical-align: middle;
@@ -34,7 +55,8 @@
     cursor: pointer;
     text-align: center;
     border-radius: 20px;
-    //border: 1px solid #f5f5f5;
+    margin: 5px 5px 5px 0px;
+
   }
   .btn-card:hover{
     background-color: #263238;
