@@ -117,8 +117,11 @@ class ViewProject extends Component {
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
-
+                    <div className="title-div">
+                        <h1 className="project-task-title">{this.state.groupDetails.groupName} </h1>
+                    </div>
                         <Row className="details-row">
+
                             <Col lg={7} md={7} xs={12} sm={7} className="my-col">
                                 <div  className="card project-detail-card1">
                                     <Row>
