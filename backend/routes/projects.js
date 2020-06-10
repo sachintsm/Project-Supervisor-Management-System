@@ -259,4 +259,39 @@ router.get('/getAllActiveProjectData/:id', async (req, res) => {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
 })
+
+//? get all the project data with spesific coordinator
+//? (CoodinatorHome.js)
+router.get('/getAllEndProjectData/:id', async (req, res) => {
+  const coId = req.params.id
+  const dt = new Date
+  const year = dt.getFullYear()
+
+  await Projects
+    .find({ coordinatorList: coId, projectState: false, projectYear: { $gte: year - 2 } })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+//? update the project state to false
+//? (CoodinatorHome.js)
+router.get('/endProject/:id', verify, async (req, res) => {
+  const id = req.params.id
+  await Projects
+    .findOne({ _id: id })
+    .update({ projectState: false })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Project successfully ended..!' })
+    })
+    .catch(err => {
+      res.json({ state: false, msg: 'Project ending failed..!' })
+    })
+})
 module.exports = router;
