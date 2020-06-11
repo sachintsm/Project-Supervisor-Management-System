@@ -49,12 +49,12 @@
 }
 
 .sl-card {
-    margin-top: -10px;
+    margin-top: -35px;
     height: 40px;
 }
 
 .sl-card-super {
-    margin-top: -10px;
+    margin-top: -35px;
     height: 40px;
 }
 
@@ -70,7 +70,7 @@
     transition: 0.5s;
 }
 .gd-stu-list {
-    margin-top: -20px;
+    margin-top: 0px;
 }
 
 @media screen and (max-width: 500px) {
@@ -107,7 +107,7 @@
     }
     
     .gd-stu-list {
-        margin-top: -20px;
+        margin-top: 0px;
     }
     .gd-del-btn {
         color: #444444;
@@ -118,13 +118,4 @@
         margin-top: -10px;
         margin-bottom: 20px;
     }
-    .sl-card {
-        margin-top: -10px;
-        height: 80px;
-    }
-    .sl-card-super {
-        margin-top: -10px;
-        height: 40px;
-    }
-    
 }

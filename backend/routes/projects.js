@@ -294,4 +294,21 @@ router.get('/endProject/:id', verify, async (req, res) => {
       res.json({ state: false, msg: 'Project ending failed..!' })
     })
 })
+
+//? get project name
+//? (supervisors.js)
+router.get('/getProjectName/:id', async (req, res) => {
+  const id = req.params.id
+  Projects
+    .findOne({ _id: id })
+    .select('projectYear projectType academicYear')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
 module.exports = router;
