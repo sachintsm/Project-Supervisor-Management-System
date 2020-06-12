@@ -60,7 +60,7 @@ const projects = require('./routes/projects');
 const createGroups =  require('./routes/createGroups')
 const contactUs = require('./routes/contactUs');
 const progress = require('./routes/progress');
-
+const groupChat = require('./routes/groupChat')
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -70,7 +70,7 @@ app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
 app.use("/progress", progress);
-
+app.use("/groupChat", groupChat);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, function () {
