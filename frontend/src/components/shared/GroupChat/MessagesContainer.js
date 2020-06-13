@@ -4,16 +4,20 @@ import { Comment } from 'semantic-ui-react';
 
 
 class MessagesContainer extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+    
     render() {
-        console.log(this.props.messages)
         return (
             <Comment.Group>
-                
+
                 {this.props.messages.map((message, i) => {
                     return(
                         <Comment key={i}>
-                            <Comment.Author as="b">{message.sender}</Comment.Author>
-                            <Comment.Text>{message.content}</Comment.Text>
+                            <Comment.Author as="b">{message.userId}</Comment.Author>
+                            <Comment.Text>{message.message}</Comment.Text>
                         </Comment>
                     )
                 })}

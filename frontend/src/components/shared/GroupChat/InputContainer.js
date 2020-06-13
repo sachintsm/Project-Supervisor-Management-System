@@ -32,10 +32,6 @@ class InputContainer extends Component {
             <div>
                 <form>
                     <Row>
-                        <input className="form-control" name="sender" placeholder="Name here..."
-                            onChange={this.onhandleChange} value={this.state.sender} />
-                    </Row>
-                    <Row>
                         <input type="text" className="form-control" placeholder="Enter the message here..." name="content"
                             onChange={this.onhandleChange} value={this.state.content} />
                     </Row>

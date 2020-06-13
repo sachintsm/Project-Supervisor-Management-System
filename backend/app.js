@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const dotenv = require('dotenv').config();
 const jwt = require('jsonwebtoken');
-
+const socket = require('socket.io');
 const app = express();
 
 app.use(express.json());
@@ -57,7 +57,7 @@ app.use(bodyParser.json());
 const users = require('./routes/users');
 const notice = require("./routes/notice");
 const projects = require('./routes/projects');
-const createGroups =  require('./routes/createGroups')
+const createGroups = require('./routes/createGroups')
 const contactUs = require('./routes/contactUs');
 const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat')
@@ -73,8 +73,17 @@ app.use("/progress", progress);
 app.use("/groupChat", groupChat);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, function () {
+let server = app.listen(PORT, function () {
   console.log('listening to port ' + PORT);
+});
+
+var io = require('socket.io')(server);
+
+io.sockets.on('connection', function (socket) {
+  socket.on('message', function (data) {
+    socket.join(data.groupId); // We are using room of socket io
+    io.sockets.in(data.groupId).emit('message', data);
+  });
 });
 
 module.exports = app;
