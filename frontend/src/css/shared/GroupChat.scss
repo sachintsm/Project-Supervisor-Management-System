@@ -1,0 +1,85 @@
+.messages-container {
+    margin-top: 10px;
+    height: 65vh;
+}
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: rgb(243, 243, 242); /* color of the tracking area */
+}
+.messages-container::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 212, 212); /* color of the scroll thumb */
+    border-radius: 10px; /* roundness of the scroll thumb */
+    // border: 3px solid rgb(56, 50, 39); /* creates padding around scroll thumb */
+}
+
+.mc-chat-card {
+    background-color: rgb(245, 245, 245);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.mc-chat-username {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: -0px;
+    font-family: roboto, sans;
+}
+
+.mc-chat-content {
+    font-family: cursive;
+    color: #646464;
+}
+
+/**************************************************************/
+.input-container{
+    margin-top: -40px;
+}
+
+.chat-send-btn{
+    width: 100%;
+    margin-left: -30px;
+    margin-top: -5px;
+}
+
+.chat-input-row{
+    width: 105%;
+    // margin: auto;
+    padding-left: 12px;
+}
+
+.send-icon:hover{
+    color: #006eff;
+    transition: 0.5s;
+}
+
+.container-main-div{
+    padding-bottom:10px;
+    padding-top:10px;
+}
+
+.chat-propic{
+    color: #acacac;
+}
+
+
+.chat-topic-div{
+    height: 70px;
+    width : 95%;
+    margin-top: 30px;
+    background-color: rgb(58, 58, 58);
+}
+
+.chat-topic{
+    font-size: 28px;
+    font-weight: 500;
+    color: #fff;
+    margin:auto;
+}
