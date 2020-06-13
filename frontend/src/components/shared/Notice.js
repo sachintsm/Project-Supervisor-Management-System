@@ -64,7 +64,7 @@ class Notice extends Component {
      
       
       projectTypeList:[],
-      noticeListCoordinator:[],
+      noticeList:[],
       activeProjects: [],
 
       noticeTittleError: "",
@@ -77,7 +77,7 @@ class Notice extends Component {
     this.onChangeNotice = this.onChangeNotice.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.getNoticeListCordinator = this.getNoticeListCordinator.bind(this);
+    this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
    
   }
@@ -85,7 +85,7 @@ class Notice extends Component {
 
 
   componentDidMount() {
-   this.getNoticeListCordinator();
+   this.getNoticeList();
    this.getProjectDetails();
 
     this.userTypes = localStorage.getItem("user-level");
@@ -97,18 +97,15 @@ class Notice extends Component {
   }
 
   // Notice get from database and map to the array
-  getNoticeListCordinator() {
-    // const headers = {
-    //   'auth-token':getFromStorage('auth-token').token,
-    // }
+  getNoticeList() {
+   
 
     const coId = JSON.parse(localStorage.getItem("auth-id"))
 
     axios.get(backendURI.url + '/notice/NoticeView/' + coId.id)
             .then((res => {
-                console.log("ddddd",res.data.data)
                 this.setState({
-                  noticeListCoordinator: res.data.data
+                  noticeList: res.data.data
                 })
             }))
 }
@@ -245,7 +242,7 @@ class Notice extends Component {
               this.setState({
                 succesAlert: true,
               });
-              this.getNoticeListCordinator();
+              this.getNoticeList();
               console.log(res.data);
             })
             .catch((error) => {
@@ -299,7 +296,7 @@ class Notice extends Component {
                 this.setState({
                   deleteSuccesAlert: true,
                 });
-                this.getNoticeListCordinator();
+                this.getNotice();
               })
               .catch((err) => {
                 console.log(err);
@@ -538,11 +535,11 @@ class Notice extends Component {
                     </Row>
                   </div>
                 </div>
-                {this.state.noticeListCoordinator.length > 0  && (
+                {this.state.noticeList.length > 0  && (
                   <div>
                     <h3>Notice View </h3>
                     <div>
-                      {this.state.noticeListCoordinator.map((type) => {
+                      {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
                           <Card
@@ -772,11 +769,11 @@ class Notice extends Component {
                   </div>
                 </div>
 
-                {this.state.noticeListCoordinator.length > 0  && (
+                {this.state.noticeList.length > 0  && (
                   <div>
                     <h3>Notice View </h3>
                     <div>
-                      {this.state.noticeListCoordinator.map((type) => {
+                      {this.state.noticeList.map((type) => {
                         if(type.userType === 'coordinator'){
                           return (
                             <Card
