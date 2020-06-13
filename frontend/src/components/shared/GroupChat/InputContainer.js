@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
-
+import { Row ,Col} from 'reactstrap';
+import SendIcon from '@material-ui/icons/Send';
 class InputContainer extends Component {
 
     constructor(props) {
@@ -29,16 +29,19 @@ class InputContainer extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="container"> 
                 <form>
-                    <Row>
-                        <input type="text" className="form-control" placeholder="Enter the message here..." name="content"
-                            onChange={this.onhandleChange} value={this.state.content} />
-                    </Row>
-                    <Row>
-                        <button className="btn btn-info" onClick={this.onhandleSubmit}>Send </button>
+                    <Row className="chat-input-row">
+                        <Col md={11}>
+                            <input type="text" className="form-control" placeholder="Enter the message here..." name="content"
+                                onChange={this.onhandleChange} value={this.state.content} required/>
+                        </Col>
+                        <Col md={1}>
+                            <button className="btn btn chat-send-btn" onClick={this.onhandleSubmit} disabled={this.state.content === ''}><SendIcon fontSize="large" className="send-icon"/> </button>
+                        </Col>
                     </Row>
                 </form>
+                
             </div>
         );
     }
