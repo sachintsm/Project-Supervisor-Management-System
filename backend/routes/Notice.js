@@ -33,11 +33,11 @@ const upload = multer({ storage: storage }).single("noticeAttachment");
 // Notice data send to database and save
 router.post("/addNotice", verify, async (req, res) => {
   try {
-    
-      req.body.toCordinator = false;
-      req.body.toSupervisor = false;
-      req.body.toStudent = false;
-    
+
+    req.body.toCordinator = false;
+    req.body.toSupervisor = false;
+    req.body.toStudent = false;
+
 
     if (
       !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
@@ -62,7 +62,7 @@ router.post("/addNotice", verify, async (req, res) => {
       const newNotice = new Notice({
         userType: req.body.userType,
         userId: req.body.userId,
-        projectId:req.body.projectId,
+        projectId: req.body.projectId,
         noticeTittle: req.body.noticeTittle,
         notice: req.body.notice,
         date: req.body.date,
@@ -89,7 +89,7 @@ router.post("/addNotice", verify, async (req, res) => {
 });
 // notice get from database
 router.get("/viewNotice", (req, res, next) => {
- 
+
   Notice.find()
     .sort({ date: 1 })
     .select("noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId ")
@@ -115,7 +115,7 @@ router.get("/noticeAttachment/:filename", function (req, res) {
 });
 
 //delte notice feom database
-router.delete("/delteNotice/:_id",verify,async (req, res) => {
+router.delete("/delteNotice/:_id", verify, async (req, res) => {
   const id = req.params._id;
   console.log(req.params._id);
 
@@ -157,9 +157,9 @@ router.delete("/noticeAttachment/:filename", (req, res) => {
 router.get('/NoticeView/:coordinatorId', (req, res) => {
   const coordinatorId = req.params.coordinatorId;
   Notice
-    .find({userId : coordinatorId })
+    .find({ userId: coordinatorId })
     .then(data => {
-       console.log(data)
+      console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {
@@ -170,17 +170,44 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
 
 
 
-router.get('/getCordinatorList/:id', (req, res) => {
-  const id = req.params.id
-  Projects
-    .find({ _id: id })
-    .exec()
-    .then(data => {
-      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
+router.get('/getAllActiveProjectId/:id', async (req, res) => {
+
+  try {
+
+    const coId = req.params.id
+    const result1 = await Projects.find({ coordinatorList: coId, projectState: true }).select('_id')
+    let idList = []
+    for (let i in result1) {
+      idList.push(result1[i]._id)
+    }
+
+    const result2 = await Notice.find({ projectId: idList })
+   // console.log(result2)
+
+   .then(data => {
+    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+  })
+
+  } catch (error) {
+    console.log(error)
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+  }
 })
+
+// router.get('/getNotice/:id', async (req, res) => {
+//   const coId = req.params.id
+//   await Notice
+//     .find({ projectId: coId, })
+//     .select('noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId')
+//     .exec()
+//     .then(data => {
+//       res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+//     })
+//     .catch(error => {
+//       console.log(error)
+//       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+//     })
+// })
+
+
 module.exports = router;
