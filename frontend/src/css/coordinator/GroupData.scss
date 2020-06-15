@@ -2,6 +2,9 @@
     background-color: #f8f8f8;
     min-height: 730px;
 }
+.gd-card{
+    margin-top: 20px;
+}
 
 .gd-reg-head {
     /* margin-left: 20px; */
@@ -66,6 +69,9 @@
     cursor: pointer;
     transition: 0.5s;
 }
+.gd-stu-list {
+    margin-top: 0px;
+}
 
 @media screen and (max-width: 500px) {
     .sl-text {
@@ -101,7 +107,7 @@
     }
     
     .gd-stu-list {
-        margin-top: 50px;
+        margin-top: 0px;
     }
     .gd-del-btn {
         color: #444444;
@@ -109,7 +115,7 @@
         margin-left: -10px;
     }
     .gd-add-div {
-        margin-top: 20px;
+        margin-top: -10px;
         margin-bottom: 20px;
     }
 }

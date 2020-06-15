@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../../css/coordinator/GroupData.css';
+import '../../../css/coordinator/GroupData.scss';
 import Navbar from '../../shared/Navbar';
 import { verifyAuth } from "../../../utils/Authentication";
 import { Row, Col } from "reactstrap";
@@ -282,7 +282,7 @@ class GroupData extends Component {
                         closeAlert={this.closeAlert}
                     />
 
-                    <div className="card">
+                    <div className="card gd-card">
                         <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>

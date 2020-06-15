@@ -218,6 +218,7 @@ class AssignSupervisors extends Component {
                 spinnerDiv2: true,
                 finalBlockArray: [],
             })
+            
             const headers = {
                 'auth-token': getFromStorage('auth-token').token,
             }

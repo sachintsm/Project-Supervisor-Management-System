@@ -146,7 +146,7 @@ router.get('/active&projects/:coordinatorId', (req, res) => {
 //get all the projects API
 router.get('/', async (req, res, next) => {
   try {
-    const projects = await Projects.find({ "isDeleted": false }).sort({ projectYear: -1 });
+    const projects = await Projects.find({"isDeleted": false}).sort({ projectYear: -1 });
     res.send(projects);
   }
   catch (err) {
@@ -155,7 +155,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //get projects of a student by student userID
-router.get('/studentprojects/:studentId', async (req, res, next) => {
+router.get('/studentprojects/:studentId',async(req, res, next) => {
   try {
     const id = req.params.studentId;
     const result = await User.findOne({ _id: id }).select('indexNumber');
@@ -164,7 +164,7 @@ router.get('/studentprojects/:studentId', async (req, res, next) => {
     }
     else {
       const index = result.indexNumber
-      const projectList = await CreateGroups.find({ groupMembers: index }).select('projectId');
+      const projectList = await CreateGroups.find({groupMembers: index}).select('projectId');
       let projectIdList = []
       // console.log(projectList)
       if (projectList.length > 0) {
@@ -259,4 +259,57 @@ router.get('/getAllActiveProjectData/:id', async (req, res) => {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
 })
+
+//? get all the project data with spesific coordinator
+//? (CoodinatorHome.js)
+router.get('/getAllEndProjectData/:id', async (req, res) => {
+  const coId = req.params.id
+  const dt = new Date
+  const year = dt.getFullYear()
+
+  await Projects
+    .find({ coordinatorList: coId, projectState: false, projectYear: { $gte: year - 2 } })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+//? update the project state to false
+//? (CoodinatorHome.js)
+router.get('/endProject/:id', verify, async (req, res) => {
+  const id = req.params.id
+  await Projects
+    .findOne({ _id: id })
+    .update({ projectState: false })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Project successfully ended..!' })
+    })
+    .catch(err => {
+      res.json({ state: false, msg: 'Project ending failed..!' })
+    })
+})
+
+//? get project name
+//? (supervisors.js)
+router.get('/getProjectName/:id', async (req, res) => {
+  const id = req.params.id
+  Projects
+    .findOne({ _id: id })
+    .select('projectYear projectType academicYear')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
 module.exports = router;
