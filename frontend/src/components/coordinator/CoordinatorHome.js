@@ -78,8 +78,7 @@ class CoordinatorHome extends Component {
               activeProjectBlock: [...this.state.activeProjectBlock, block],
             })
 
-            console.log(this.state.activeProjectBlock)
-
+            
           })
       }
 

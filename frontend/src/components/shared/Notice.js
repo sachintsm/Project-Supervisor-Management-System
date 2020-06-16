@@ -33,7 +33,21 @@ import {
 
 const backendURI = require("./BackendURI");
 
+class noticeBlock {
+  constructor(_id , userType, projectName , date , noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent ){
+    this._id = _id;
+    this.userType = userType;
+    this.projectName = projectName;
+    this.date = date;
+    this.noticeTittle = noticeTittle;
+    this.notice = notice;
+    this.noticeAttachment = noticeAttachment;
+    this.toCordinator = toCordinator;
+    this.toSupervisor = toSupervisor;
+    this.toStudent = toStudent;
 
+  }
+}
 
 class Notice extends Component {
   constructor(props) {
@@ -44,7 +58,6 @@ class Notice extends Component {
       noticeTittle: "",
       notice: "",
       noticeAttachment: "",
-      date: "",
       noticeType: "",
       userTypes:'',
       userId:"",
@@ -65,6 +78,8 @@ class Notice extends Component {
       
       projectTypeList:[],
       noticeList:[],
+      noticeListCo: [],
+      noticeListBlock:[],
       activeProjects: [],
 
       noticeTittleError: "",
@@ -79,6 +94,7 @@ class Notice extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.getNoticeListCordinator = this.getNoticeListCordinator.bind(this);
    
   }
 
@@ -87,6 +103,7 @@ class Notice extends Component {
   componentDidMount() {
    this.getNoticeList();
    this.getProjectDetails();
+   this.getNoticeListCordinator();
 
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
@@ -96,12 +113,48 @@ class Notice extends Component {
    
   }
 
+  getNoticeListCordinator = async () => {
+    this.userType = localStorage.getItem("user-level");
+    console.log(this.userType)
+
+    const userId = getFromStorage('auth-id').id;
+
+    await axios.get(backendURI.url + '/notice/getNotice/' + userId)
+      .then(res => {
+        this.setState({ noticeListCo: res.data.data })
+      })
+    
+     for (let i = 0 ; i<this.state.noticeListCo.length ; i++){
+       await axios.get(backendURI.url + '/notice/getProjectName/'+ this.state.noticeListCo[i].projectId )
+       .then(res=>{
+
+        var _id = this.state.noticeListCo[i]._id;
+        var userType = this.state.noticeListCo[i].userType;
+        var date = this.state.noticeListCo[i].date;
+        var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
+        var noticeTittle = this.state.noticeListCo[i].noticeTittle;
+        var notice = this.state.noticeListCo[i].notice;
+        var noticeAttachment = this.state.noticeListCo[i].filePath;
+        var toCordinator = this.state.noticeListCo[i].toCordinator;
+        var toSupervisor = this.state.noticeListCo[i].toSupervisor;
+        var toStudent = this.state.noticeListCo[i].toStudent;
+
+
+        var block = new noticeBlock(_id , userType, projectName , date , noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent )
+
+        this.setState({
+          noticeListBlock : [...this.state.noticeListBlock , block]
+        })
+      //console.log(this.state.noticeListBlock)
+       })
+
+     }
+
+  }
+
   // Notice get from database and map to the array
   getNoticeList() {
-   
-
     const coId = JSON.parse(localStorage.getItem("auth-id"))
-
     axios.get(backendURI.url + '/notice/NoticeView/' + coId.id)
             .then((res => {
                 this.setState({
@@ -216,7 +269,8 @@ class Notice extends Component {
               'auth-token':getFromStorage('auth-token').token,
             }
 
-            this.state.date = Date();
+          const date = new Date();
+
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
            
@@ -229,7 +283,7 @@ class Notice extends Component {
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", this.state.date);
+            formData.append("date", date);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -296,7 +350,7 @@ class Notice extends Component {
                 this.setState({
                   deleteSuccesAlert: true,
                 });
-                this.getNotice();
+                this.getNoticeList();
               })
               .catch((err) => {
                 console.log(err);
@@ -353,8 +407,6 @@ class Notice extends Component {
           status={this.state.succesAlert}
           closeAlert={this.closeAlert}
         />
-
-
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
@@ -386,9 +438,6 @@ class Notice extends Component {
                 >
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
-
-
-
                     <Row className="margin-top-30">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -769,38 +818,37 @@ class Notice extends Component {
                   </div>
                 </div>
 
-                {this.state.noticeList.length > 0  && (
+                {this.state.noticeListBlock.length > 0  && (
                   <div>
                     <h3>Notice View </h3>
                     <div>
-                      {this.state.noticeList.map((type) => {
-                        if(type.userType === 'coordinator'){
+                      {this.state.noticeListBlock.map((types) => {
+                        if(types.userType === 'coordinator'){
                           return (
                             <Card
-                              key={type._id}
+                              key={types._id}
                               style={{ marginTop: "10px", marginBottom: "10px" }}
                             >
                             <Row>
-                              <Col xs="11">
-                              <CardContent style={{ paddingBottom: "2px"}}>
-                                <h6><b>{type.noticeTittle}</b></h6>
+                            <Col xs="11">
+                              <CardContent style={{ paddingBottom: "2px" }}>
+                                <h6><b>{types.noticeTittle}</b><small>({types.projectName})</small></h6>
+                                <h6>by <small>({types.userType}</small><small>
+                                {types.date})</small></h6>
                               </CardContent>
-                              </Col>
-  
+                            </Col>
                               <Col xs="1">
-                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
                               </Col>
                             </Row>  
   
-                              <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
-                                {type.date}</small>
-                              </h6>
+                              
                           
                               <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
                                 <Typography variant="body2" component="p">
-                                  {type.notice}
+                                  {types.notice}
                                 </Typography>
-                                <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
+                                <a href={"http://localhost:4000/notice/noticeAttachment/" +types.noticeAttachment}>
                                   Attachment
                                 </a>
                               

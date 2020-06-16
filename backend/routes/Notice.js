@@ -6,6 +6,7 @@ const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
 const verify = require('../authentication');
+const notice = require("../models/notice");
 
 //  notification attachment saving destination folder
 var storage = multer.diskStorage({
@@ -170,7 +171,7 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
 
 
 
-router.get('/getAllActiveProjectId/:id', async (req, res) => {
+router.get('/getNotice/:id', async (req, res) => {
 
   try {
 
@@ -182,8 +183,20 @@ router.get('/getAllActiveProjectId/:id', async (req, res) => {
     }
 
     const result2 = await Notice.find({ projectId: idList })
-   // console.log(result2)
+    // let notice1 = []
+    // notice1.push(result2)
+    // const result3 = await Notice.find({userType:'admin'})
+    // let notice2 = []
+    // notice2.push(result3)
+    // Array.prototype.push.apply(notice1, notice2)
 
+    
+    // res.send(notice1);
+
+
+ //console.log(notice1)
+    
+    .sort({date:-1})
    .then(data => {
     res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
   })
@@ -194,20 +207,21 @@ router.get('/getAllActiveProjectId/:id', async (req, res) => {
   }
 })
 
-// router.get('/getNotice/:id', async (req, res) => {
-//   const coId = req.params.id
-//   await Notice
-//     .find({ projectId: coId, })
-//     .select('noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId')
-//     .exec()
-//     .then(data => {
-//       res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-//     })
-//     .catch(error => {
-//       console.log(error)
-//       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-//     })
-// })
+
+
+router.get('/getProjectName/:id', async (req, res) => {
+  const poId = req.params.id
+  await Projects
+    .find({ _id: poId,  projectState: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
 
 
 module.exports = router;
