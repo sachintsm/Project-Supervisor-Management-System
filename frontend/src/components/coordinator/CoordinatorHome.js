@@ -65,9 +65,14 @@ class CoordinatorHome extends Component {
         await axios.get(backendURI.url + '/createGroups/groupCount/' + this.state.activeProject[i]._id)
           .then(res => {
             // console.log(res);
+            //! get date from mongo object id
+            let timestamp = this.state.activeProject[i]._id.toString().substring(0, 8)
+            let date = new Date(parseInt(timestamp, 16) * 1000)
+            var dt = date.toISOString().substring(0, 10)
+
             var _id = this.state.activeProject[i]._id;
             var project = this.state.activeProject[i].projectYear + " " + this.state.activeProject[i].projectType + " " + this.state.activeProject[i].academicYear
-            var startDate = this.state.activeProject[i].startDate
+            var startDate = dt
             var coodinatorCount = (this.state.activeProject[i].coordinatorList).length
             var supervisorCount = (this.state.activeProject[i].supervisorList).length
             var groupCount = res.data.data
@@ -91,9 +96,15 @@ class CoordinatorHome extends Component {
         await axios.get(backendURI.url + '/createGroups/groupCount/' + this.state.endProject[i]._id)
           .then(res => {
             // console.log(res);
+
+            //! get date from mongo object id
+            let timestamp = this.state.endProject[i]._id.toString().substring(0, 8)
+            let date = new Date(parseInt(timestamp, 16) * 1000)
+            var dt = date.toISOString().substring(0, 10)
+
             var _id = this.state.endProject[i]._id;
             var project = this.state.endProject[i].projectYear + " " + this.state.endProject[i].projectType + " " + this.state.endProject[i].academicYear
-            var startDate = this.state.endProject[i].startDate
+            var startDate = dt
             var coodinatorCount = (this.state.endProject[i].coordinatorList).length
             var supervisorCount = (this.state.endProject[i].supervisorList).length
             var groupCount = res.data.data
@@ -167,6 +178,26 @@ class CoordinatorHome extends Component {
 
   }
 
+  supervisors(id) {
+    this.props.history.push('/coordinatorhome/projectdata/Supervisors/' + id);
+  }
+  groups(id) {
+    this.props.history.push('/coordinatorhome/projectdata/Groups/' + id);
+
+  }
+  srs(id) {
+    this.props.history.push('/coordinatorhome/projectdata/SRS/' + id);
+
+  }
+  proposals(id) {
+    this.props.history.push('/coordinatorhome/projectdata/Proposals/' + id);
+
+  }
+  biWeeklys(id) {
+    this.props.history.push('/coordinatorhome/projectdata/BiWeekly/' + id);
+
+  }
+
   render() {
     const { spinnerDiv1 } = this.state
     let noProject;
@@ -185,7 +216,7 @@ class CoordinatorHome extends Component {
           <div className="ch-topic-div">
             <p className="ch-topic">On-going Projects</p>
           </div>
-          
+
           {noProject}
 
           {spinnerDiv1 && (
@@ -231,19 +262,19 @@ class CoordinatorHome extends Component {
 
                 <Row className="container ch-btn-row">
                   <Col md={2}>
-                    <Button className="btn ch-btn-btn">Supervisors</Button>
+                    <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Groups</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Bi-Weekly</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn ch-btn-btn">SRC Documents</Button>
+                    <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Proposals</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
                   </Col>
                   <Col md={2}>
                     <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>
@@ -301,19 +332,19 @@ class CoordinatorHome extends Component {
 
                 <Row className="container ch-btn-row">
                   <Col md={2}>
-                    <Button className="btn ch-btn-btn">Supervisors</Button>
+                    <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Groups</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Bi-Weekly</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn ch-btn-btn">SRC Documents</Button>
+                    <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
                   </Col>
                   <Col md={2}>
-                    <Button className="btn  ch-btn-btn">Proposals</Button>
+                    <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
                   </Col>
 
                 </Row>
@@ -321,7 +352,7 @@ class CoordinatorHome extends Component {
             )
           })}
         </div>
-      </React.Fragment>
+      </React.Fragment >
     );
   }
 }
