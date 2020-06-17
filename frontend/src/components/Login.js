@@ -170,6 +170,7 @@ export default class login extends Component {
                         <FiMail className="email-icon2" size='1.5rem'></FiMail>
                       </InputGroup.Text>
                     </InputGroup.Prepend>
+
                     <FormControl
                       className="email-formcontrol"
                       style={{ borderColor: this.state.emailChange ? this.state.email === '' ? 'red' : null : null }}
@@ -199,13 +200,12 @@ export default class login extends Component {
                     />
                   </InputGroup>
                 </FormGroup>
-                <div className='row' className="btn-div">
+                <div className='row btn-div'>
 
                   <Button
                     type="submit"
                     className="login-btn"
                     variant='primary'
-                  // onClick={() => this.onSignIn()}
                   >
                     Login
                     </Button>

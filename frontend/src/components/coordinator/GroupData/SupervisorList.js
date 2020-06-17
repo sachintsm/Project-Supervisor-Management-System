@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { getFromStorage } from "../../../utils/Storage";
 import { Row, Col } from "reactstrap";
-import '../../../css/coordinator/GroupData.css';
+import '../../../css/coordinator/GroupData.scss';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 

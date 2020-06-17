@@ -72,7 +72,7 @@ class SupervisorData extends Component {
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
                 console.log(res);
-                
+
                 this.setState({
 
                     activeProjects: res.data.data,
@@ -110,7 +110,7 @@ class SupervisorData extends Component {
                 }
             })
     }
-    onClickGroup(data){
+    onClickGroup(data) {
         this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
     }
 
@@ -118,7 +118,38 @@ class SupervisorData extends Component {
 
         const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
 
-        const percentage = 66;
+        const percentage = 75.250923;
+        let progressCircle;
+        if (percentage >= 75) {
+            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
+                path: {
+                    stroke:'#388e3c'
+                },
+                text: {
+                    fill: '#388e3c'
+                }
+            }} />
+        }
+        else if (percentage >= 25) {
+            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
+                path: {
+                    stroke: `#fbc02d`
+                },
+                text: {
+                    fill: '#fbc02d'
+                }
+            }} />
+        }
+        else {
+            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
+                path: {
+                    stroke: `#e53935`
+                },
+                text: {
+                    fill: '#e53935'
+                }
+            }} />
+        }
 
         return (
             <div className="sd-fullpage">
@@ -153,14 +184,16 @@ class SupervisorData extends Component {
 
                                                 <Row style={{ width: '70%', margin: "auto" }}>
                                                     <Col md={12} sm={12} xs={12} className="spc-progress">
-                                                        <CircularProgressbar value={percentage} text={`${percentage}%`} styles={{
+
+                                                        {/* <CircularProgressbar value={percentage} text={`${percentage}%`} styles={{
                                                             path: {
                                                                 stroke: `rgba(	23, 162, 184, ${percentage / 100})`
                                                             },
                                                             text: {
                                                                 fill: '#17a2b8'
                                                             }
-                                                        }} />
+                                                        }} /> */}
+                                                        {progressCircle}
                                                     </Col>
                                                 </Row>
                                                 <Row>
@@ -186,7 +219,7 @@ class SupervisorData extends Component {
                     </div>
 
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

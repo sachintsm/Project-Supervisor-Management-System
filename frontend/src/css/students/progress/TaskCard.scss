@@ -1,0 +1,22 @@
+.task-card{
+  margin: 0px 0px 20px 0px;
+  .card-header{
+    background-color: #263238;
+    color: white;
+    font-size: 20px;
+  }
+  .circular-progress-div{
+    padding: 5% 30% 8% 30%;
+    text-align: center;
+  }
+}
+.task-card:hover{
+    border: 1.5px solid #263238;
+    margin-bottom: 1px;
+    cursor: pointer;
+    transform: scale(1.05)
+   //.card-body{
+   //  background-color: #263238;
+   //  color: white;
+   //}
+ }

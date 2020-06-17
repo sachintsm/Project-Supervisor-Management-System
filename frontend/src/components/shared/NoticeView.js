@@ -4,6 +4,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
+import { getFromStorage } from '../../utils/Storage';
+
 
 //import Footer from "../shared/Footer";
 //import Navbar from "../shared/Navbar";
@@ -13,233 +15,164 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 
 import {
-     Button,
-     Container,
-     Col,
-     Row,
-     FormControl,
-     FormGroup,
-   } from "react-bootstrap";
+  Button,
+  Container,
+  Col,
+  Row,
+  FormControl,
+  FormGroup,
+} from "react-bootstrap";
 
-   const backendURI = require("./BackendURI");
+const backendURI = require("./BackendURI");
+
 class NoticeView extends Component {
 
-     constructor(props) {
-       super(props)
-     
-       this.state = {
+  constructor(props) {
+    super(props)
 
-          noticeList: [],
-          noticeView : [],
-          notice:'',
-          userType: '',
-          // toStudent:'',
-          // toSupervisor:'',
-          
-       }
-       this.getNoticeList = this.getNoticeList.bind(this);
-      //  this.getNoticeViewList = this.getNoticeViewList.bind(this);
-     }
+    this.state = {
+      getProjectId: [],
+      NoticeList: [],
+      allNoticeList:[],
+      notice: '',
+      userType: '',
+    }
 
-     componentDidMount() {
-          this.getNoticeList();
-          // this.getNoticeViewList();
-      
-         
+  }
 
-          this.userType = localStorage.getItem("user-level");
-          console.log(this.userType)
-        }
-     
-        
+  componentDidMount = async () => {
 
-     getNoticeList() {
-          axios.get(backendURI.url + "/notice/viewNotice").then((result) => {
-            if (result.data.length > 0) {
-              console.log(result.data);
-              this.setState({
-                noticeList: result.data.map((type) => type),
-              });
-            } else {
-              this.setState({
-                noticeList: [],
-              });
-            }
-          });
-        }
+    this.userType = localStorage.getItem("user-level");
+    console.log(this.userType)
+
+    const userId = getFromStorage('auth-id').id;
+
+    await axios.get(backendURI.url + '/notice/getAllActiveProjectId/' + userId)
+      .then(res => {
+        this.setState({ NoticeList: res.data.data })
+      })
+    
+      await axios.get(backendURI.url + '/notice/viewNotice')
+      .then((res => {
+          this.setState({
+            allNoticeList: res.data
+          })
+      }))
+  }
+
+
+
   render() {
-
-    if(this.userType === 'student'){
+    
+    if (this.userType === 'coordinator') {
 
       return (
         <React.Fragment>
-        <Navbar panel={"student"} />
-        <Container>
-        {this.state.noticeList.length > 0 &&(
-          <div  style={{marginTop:"20px"}}>
-            <h3>Notice View </h3>
-            <div>
+          <Navbar panel={"coordinator"} />
+          <Container>
 
-              {this.state.noticeList.map((type) => {
-                if(type.toStudent){
-                  return (
-                    <Card
-                      key={type._id}
-                      style={{ marginTop: "20px", marginBottom: "10px" }}
-                    >
-                    <Row>
-                      <Col xs="12">
-                      <CardContent style={{ paddingBottom: "2px"}}>
-                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
-                      </CardContent>
-                      </Col>
-                    </Row>  
+            {this.state.NoticeList.length > 0 && (
+              <div style={{ marginTop: "20px" }}>
+                <h3>Notice View </h3>
+                <div>
 
-                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
-                        {type.date}</small>
-                      </h6>
-                  
-                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
-                        <Typography variant="body2" component="p">
-                          {type.notice}
-                        </Typography>
+                  {this.state.NoticeList.map(types => {
+                    return (
+                      <Card
+                        key={types._id}
+                        style={{ marginTop: "20px", marginBottom: "10px" }}
+                      >
+                        <Row>
+                          <Col xs="12">
+                            <CardContent style={{ paddingBottom: "2px" }}>
+                              <h6><b>{types.noticeTittle}</b>({types.userType})</h6>
+                            </CardContent>
+                          </Col>
+                        </Row>
 
-                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
-                        Attachment
+                        <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
+                          {types.data}</small>
+                        </h6>
+
+                        <CardContent style={{ paddingTop: "2px", fontWeight: "300" }}>
+                          <Typography variant="body2" component="p">
+                            {types.notice}
+                          </Typography>
+                          <a href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                            Attachment
                       </a>
-                      </CardContent>
+                        </CardContent>
+                      </Card>
+                    );
 
-                      
-                      
-                    </Card>
-                   
-                  );
-              }
-              })}
-            </div>
-          </div>
-        )}
-           
-           </Container>
-
-           <Footer />
-           </React.Fragment>
-        );   
-        
-    } else if(this.userType === 'supervisor'){
-      return(
-        <React.Fragment>
-        <Navbar panel={"supervisor"} />
-        <Container>
-        {this.state.noticeList.length > 0 &&(
-          <div style={{marginTop:"20px"}}>
-            <h3>Notice View </h3>
-            <div>
-
-              {this.state.noticeList.map((type) => {
-                if(type.toSupervisor){
-                  return (
-                    <Card
-                      key={type._id}
-                      style={{ marginTop: "20px", marginBottom: "10px" }}
-                    >
-                    <Row>
-                      <Col xs="12">
-                      <CardContent style={{ paddingBottom: "2px"}}>
-                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
-                      </CardContent>
-                      </Col>
-                    </Row>  
-
-                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
-                        {type.date}</small>
-                      </h6>
-                  
-
-                  
-                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
-                        <Typography variant="body2" component="p">
-                          {type.notice}
-                        </Typography>
-                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
-                        Attachment
-                      </a>
-                      </CardContent>
-
-                      
-                    </Card>
-                   
-                  );
-              }
-              })}
-            </div>
-          </div>
-        )}
-           
-           </Container>
-           <Footer />
-           </React.Fragment>
-      )
-    } else if(this.userType === 'coordinator'){
-
-      return(
-        <React.Fragment>
-        <Navbar panel={"coordinator"} />
-        <Container>
-        {this.state.noticeList.length > 0 &&(
-          <div  style={{marginTop:"20px"}}>
-            <h3>Notice View </h3>
-            <div>
-
-              {this.state.noticeList.map((type) => {
-                if(type.toCordinator){
-                  return (
-                    <Card
-                      key={type._id}
-                      style={{ marginTop: "20px", marginBottom: "10px" }}
-                    >
-                    <Row>
-                      <Col xs="12">
-                      <CardContent style={{ paddingBottom: "2px"}}>
-                        <h6><b>{type.noticeTittle}</b>({type.userType})</h6>
-                      </CardContent>
-                      </Col>
-                    </Row>  
-
-                      <h6 style={{ color: "#6d6d6d", paddingLeft: "13px" ,fontSize:"2"}}><small>
-                        {type.date}</small>
-                      </h6>
-                  
-                      <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
-                        <Typography variant="body2" component="p">
-                          {type.notice}
-                        </Typography>
-                        <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
-                        Attachment
-                      </a>
-                      </CardContent>
-                    </Card>
-                   
-                  );
-              }
-              })}
-            </div>
-          </div>
-        )}
-           
-           </Container>
-           <Footer />
-           </React.Fragment>
+                  })}
+                </div>
+              </div>
+            )}
+          </Container>
+          <Footer />
+        </React.Fragment>
       )
 
-    }else{
+    }else if(this.userType === 'supervisor'){
+
+      return (
+        <React.Fragment>
+          <Navbar panel={"supervisor"} />
+          <Container>
+
+            {this.state.NoticeList.length > 0 && (
+              <div style={{ marginTop: "20px" }}>
+                <h3>Notice View </h3>
+                <div>
+
+                  {this.state.NoticeList.map(types => {
+                    if(types.toSupervisor){
+                    return (
+                      <Card
+                        key={types._id}
+                        style={{ marginTop: "20px", marginBottom: "10px" }}
+                      >
+                        <Row>
+                          <Col xs="12">
+                            <CardContent style={{ paddingBottom: "2px" }}>
+                              <h6><b>{types.noticeTittle}</b>({types.userType})</h6>
+                            </CardContent>
+                          </Col>
+                        </Row>
+
+                        <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
+                          {types.data}</small>
+                        </h6>
+
+                        <CardContent style={{ paddingTop: "2px", fontWeight: "300" }}>
+                          <Typography variant="body2" component="p">
+                            {types.notice}
+                          </Typography>
+                          <a href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                            Attachment
+                      </a>
+                        </CardContent>
+                      </Card>
+                    );
+                  }
+                  })}
+                </div>
+              </div>
+            )}
+          </Container>
+          <Footer />
+        </React.Fragment>
+      )
+
+
+
+    } else{
       return(
         null
       )
     }
-  
-  
-  }   
+  }
 }
 
 export default NoticeView

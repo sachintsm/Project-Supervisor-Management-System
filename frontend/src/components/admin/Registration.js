@@ -238,7 +238,7 @@ export default class registration extends Component {
       isError = true;
       errors.nicError = 'Invalid NIC number!'
     }
-    if (this.state.form.mobileNumber.length != 10) {
+    if (this.state.form.mobileNumber.length !== 10) {
       isError = true;
       errors.mobileNumberError = 'Invalied mobile number!'
     }

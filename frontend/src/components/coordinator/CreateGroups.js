@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
 import { verifyAuth } from "../../utils/Authentication";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/coordinator/CreateGroups.css";

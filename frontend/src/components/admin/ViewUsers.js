@@ -1,8 +1,6 @@
-// import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import axios from 'axios';
-// import { MDBInput } from "mdbreact";
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -12,26 +10,10 @@ import Footer from '../shared/Footer';
 import { verifyAuth } from "../../utils/Authentication";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
-import {
-    Button,
-    Container,
-    Col,
-    Row,
-    //   Dropdown,
-    //   DropdownButton,
-    //   ButtonGroup,
-    FormControl,
-    Table,
-} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-// import SearchField from "react-search-field";
-
-
 const backendURI = require('../shared/BackendURI');
-// const userId = localStorage.getItem("auth-id");
-
-
 
 const Staff = React.memo(props => (
     <tr>
@@ -41,9 +23,9 @@ const Staff = React.memo(props => (
         <td>{props.staff.nic}</td>
         <td>{props.staff.mobile}</td>
         <td>
-            <Create className="edit-btn" fontSize="large" href={"/editprofile/" +props.staff._id}/>
+            <Create className="edit-btn" fontSize="large" href={"/editprofile/" + props.staff._id} />
         </td>
-            <Link to={"/editprofile/" +props.staff._id}>Edit</Link>
+        <Link to={"/editprofile/" + props.staff._id}>Edit</Link>
         <td>
         </td>
         <td>
@@ -181,6 +163,9 @@ export default class ViewUsers extends Component {
         return filteredUsers.map((currentStaff, i) => {
             if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+            }
+            else{
+                return null;
             }
         })
 
@@ -410,7 +395,7 @@ export default class ViewUsers extends Component {
 
                                         </div>
                                     </Tab>
-                                    
+
 
                                 </Tabs>
                             </div>
