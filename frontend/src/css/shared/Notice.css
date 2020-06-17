@@ -25,3 +25,28 @@
 .btn-style{
 width:30px;
   }
+
+.container-fluid-di {
+    background-color: #f5f5f5;
+    width: 60%;
+}
+.tit{
+  color: #263238;
+}
+
+.cd-header{
+  height:60px;
+  background-color: #17a2b8;
+}
+
+.atchmnt{
+  font-size:6px;
+}
+.ch-card{
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+.cd-body-h6{
+  text-align: left;
+}

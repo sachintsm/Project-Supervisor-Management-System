@@ -269,7 +269,8 @@ class Notice extends Component {
               'auth-token':getFromStorage('auth-token').token,
             }
 
-          const date = new Date();
+          var dateobj = new Date();
+          var B = dateobj.toISOString();
 
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
@@ -283,7 +284,7 @@ class Notice extends Component {
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", date);
+            formData.append("date", B);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -419,7 +420,7 @@ class Notice extends Component {
 
         <div
           className="container-fluid container-fluid-div"
-          style={{ backgroundColor: "rgb(252, 252, 252)" }}
+          style={{  backgroundColor: '#f5f5f5' }}
         >
           
           <Row>
@@ -591,37 +592,31 @@ class Notice extends Component {
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          <Card
-                            key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" , paddingBottom:"0.5px" }}
-                          >
+                          <div className="card ch-card" div key={type._id} >
+                          <div className="card-header container cd-header">
+
                           <Row>
-                            <Col xs="11">
-                            <CardContent style={{ paddingBottom: "2px"}}>
-                              <h6><b>{type.noticeTittle}</b></h6>
-                            </CardContent>
-                            </Col>
-
-                            <Col xs="1">
-                              <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
-                            </Col>
-                          </Row>  
-
-                            <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
+                          <Col xs="11">
+                          <h6><b>{type.noticeTittle}</b><br/>
+                          <small>
                               {type.date}</small>
-                            </h6>
-                        
-                            <CardContent style={{ paddingTop: "2px",fontWeight:"300" }}>
-                              <Typography variant="body2" component="p" >
-                                {type.notice}
-                              </Typography>
-
-                              <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
-                                Attachment
+                          </h6>
+                          
+                          </Col>
+                          <Col xs="1">
+                          <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                        </Col>
+                          </Row>
+                          </div>
+                          <div className="card-body">
+                            
+                              <h6>{type.notice}</h6>
+                              <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.filePath}>
+                              Attachment
                               </a>
-                              </CardContent>
-                          </Card>
-                         
+                          
+                          </div>
+                        </div>
                              
                           );
                               }
@@ -663,7 +658,7 @@ class Notice extends Component {
 
         <div
           className="container-fluid container-fluid-div"
-          style={{ backgroundColor: "rgb(252, 252, 252)" }}
+          style={{  backgroundColor: "#f8f9fd" }}
         >
           <Row>
             <Col>
@@ -825,35 +820,31 @@ class Notice extends Component {
                       {this.state.noticeListBlock.map((types) => {
                         if(types.userType === 'coordinator'){
                           return (
-                            <Card
-                              key={types._id}
-                              style={{ marginTop: "10px", marginBottom: "10px" }}
-                            >
+                            <div className="card ch-card" div key={types._id} >
+                            <div className="card-header container cd-header ">
+
                             <Row>
                             <Col xs="11">
-                              <CardContent style={{ paddingBottom: "2px" }}>
-                                <h6><b>{types.noticeTittle}</b><small>({types.projectName})</small></h6>
-                                <h6>by <small>({types.userType}</small><small>
-                                {types.date})</small></h6>
-                              </CardContent>
+                            <h6><b>{types.noticeTittle}</b> &nbsp; - &nbsp;{types.projectName}<br/>
+                            <small>
+                                {types.date}</small>
+                            </h6>
+                            
                             </Col>
-                              <Col xs="1">
-                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
-                              </Col>
-                            </Row>  
-  
+                            <Col xs="1">
+                            <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
+                          </Col>
+                            </Row>
+                            </div>
+                            <div className="card-body">
                               
-                          
-                              <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
-                                <Typography variant="body2" component="p">
-                                  {types.notice}
-                                </Typography>
-                                <a href={"http://localhost:4000/notice/noticeAttachment/" +types.noticeAttachment}>
-                                  Attachment
+                                <h6>{types.notice}</h6>
+                                <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                Attachment
                                 </a>
-                              
-                              </CardContent>
-                            </Card>
+                            
+                            </div>
+                          </div>
                            
                           );
                               }
