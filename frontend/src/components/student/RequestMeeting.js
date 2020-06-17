@@ -50,70 +50,68 @@ export default class RequestMeeting extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  //   validate = () => {
-  //     let isError = false;
-  //     const errors = {
-  //         purposeError: '',
-  //         dateError: '',
-  //         timeError: '',
-  //         supervisorError: '',
-  //     };
+    validate = () => {
+      // let isError = false;
+      // const errors = {
+      //     purposeError: '',
+      //     dateError: '',
+      //     timeError: '',
+      //     supervisorError: '',
+      // };
 
-  //     if (this.state.firstName.length < 1) {
-  //       isError = true;
-  //       errors.firstNameError = 'First name required *'
-  //     }
-  //     if (this.state.lastName.length < 1) {
-  //       isError = true;
-  //       errors.lastNameError = 'Last name required *'
-  //     }
-  //     if (this.state.email.indexOf('@') === -1) {
-  //       isError = true;
-  //       errors.emailError = 'Invalied email address!'
-  //     }
+      // if (this.state.firstName.length < 1) {
+      //   isError = true;
+      //   errors.firstNameError = 'First name required *'
+      // }
+      // if (this.state.lastName.length < 1) {
+      //   isError = true;
+      //   errors.lastNameError = 'Last name required *'
+      // }
+      // if (this.state.email.indexOf('@') === -1) {
+      //   isError = true;
+      //   errors.emailError = 'Invalied email address!'
+      // }
 
-  //     if (this.state.contactNumber.length === 0 || this.state.contactNumber.length > 10) {
-  //       isError = true;
-  //       errors.nicError = 'Invalid NIC Contact Number!'
-  //     }
-  //     if (this.state.message.length < 1) {
-  //       isError = true;
-  //       errors.messageError = 'Message required *'
-  //     }
+      // if (this.state.contactNumber.length === 0 || this.state.contactNumber.length > 10) {
+      //   isError = true;
+      //   errors.nicError = 'Invalid NIC Contact Number!'
+      // }
+      // if (this.state.message.length < 1) {
+      //   isError = true;
+      //   errors.messageError = 'Message required *'
+      // }
 
-  //     this.setState({
-  //       ...this.state,
-  //       ...errors
-  //     })
-  //     return isError;  //! is not error return state 'false'
-  //   }
+      // this.setState({
+      //   ...this.state,
+      //   ...errors
+      // })
+      // return isError;  //! is not error return state 'false'
+    }
 
 
   onSubmit(e) {
     e.preventDefault()
-    // const err = this.validate();  
+    const err = this.validate();  
     //?calling validation function
 
-    if (!e) {
+    if (!err) {
       this.setState({
-        firstNameError: '',
-        lastNameError: '',
-        contactNumberError: '',
-        emailError: '',
-        messageError: ''
+        purposeError: '',
+        dateError: '',
+        timeError: '',
+        supervisorError: '',
       })
 
 
       const obj = {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        contactNumber: this.state.contactNumber,
-        email: this.state.email,
-        message: this.state.message
+        purpose: this.state.purpose,
+        date: this.state.date,
+        time: this.state.time,
+        supervisor: this.state.supervisor,
       };
       console.log("abcd");
       console.log(obj);
-      axios.post(backendURI.url + "/contactUs/add", obj)
+      axios.post(backendURI.url + "/requestMeeting/add", obj)
         .then((res) => {
           console.log(res.data.state)
           if (res.data.state === true) {
@@ -172,7 +170,7 @@ export default class RequestMeeting extends Component {
 
                   <div className="form-group">
                     <Label for="avatar">Purpose</Label>
-                    <Input type="textarea" className="form-control" name="message" onChange={this.onChange} />
+                    <Input type="textarea" className="form-control" name="purpose" onChange={this.onChange} />
                     <p className="reg-error">{this.state.messageError}</p>
 
                   </div>
@@ -182,7 +180,7 @@ export default class RequestMeeting extends Component {
                     <Col>
                       <div className="form-group">
                         <label className="text-label">Dtae </label>
-                        <input type="text" className="form-control" name="firstName" onChange={this.onChange} />
+                        <input type="text" className="form-control" name="date" onChange={this.onChange} />
                         <p className="reg-error">{this.state.firstNameError}</p>
 
                       </div>
@@ -190,7 +188,7 @@ export default class RequestMeeting extends Component {
                     <Col>
                       <div className="form-group">
                         <label className="text-label">Time </label>
-                        <input type="text" className="form-control" name="lastName" onChange={this.onChange} />
+                        <input type="text" className="form-control" name="time" onChange={this.onChange} />
                         <p className="reg-error">{this.state.lastNameError}</p>
 
                       </div>
@@ -199,13 +197,13 @@ export default class RequestMeeting extends Component {
 
                   <div className="form-group">
                     <Label for="avatar">Supervisor</Label>
-                    <Input type="text" className="form-control" name="email" onChange={this.onChange} />
+                    <Input type="text" className="form-control" name="supervisor" onChange={this.onChange} />
                     <p className="reg-error">{this.state.emailError}</p>
 
                   </div>
 
                   <div className="form-group">
-                    <Button className="btn btn-info my-4" type="submit" block>Send</Button>
+                    <Button className="btn btn-info my-4" type="submit" block>Send Request</Button>
                   </div>
                 </form>
               </div>
