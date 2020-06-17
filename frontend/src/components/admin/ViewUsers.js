@@ -8,7 +8,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Navbar from "../shared/Navbar";
 import '../../css/admin/ViewUsers.css';
-import Footer from '../shared/Footer'
+import Footer from '../shared/Footer';
 import { verifyAuth } from "../../utils/Authentication";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
