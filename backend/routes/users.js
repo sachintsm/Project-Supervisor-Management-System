@@ -645,8 +645,86 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
     console.log(e)
   }
 })
-////////////////////////request supervisors////////////////////////
+
+
+////////check supervisor request/////////////////////
+router.post('/check', (req, res)=> {
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+  console.log(req.body.sup_id);
+
+  Request.find({ supId: req.body.sup_id }).select().exec()
+  .then(data => {
+    console.log(data);
+    console.log(data.length);
+    var count=0;
+    for(var i =0; i<data.length; i++){
+      console.log(data[i].reqDate);
+      if(dateString == (data[i].reqDate)){
+        count=count+1;
+      }
+    }
+    console.log(count);
+    if(count<2){
+           res.json({ state: true, msg: "You can request..." });
+
+    }else{
+          res.json({ state: false, msg: "Supervisor exceed request limit..." });
+    }
+
+  })
+  .catch(err => {
+    console.log(err);
+    res.json({ state: false, msg: "Request Failed..!" });
+  })
+
+
+})
+//////////////////////////request send supervisors//////////////////////////
 router.post('/add', async (req, res)=> {
+
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+  const result =  await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+  
+  const group = await CreateGroups.findOne({projectId: req.body.project_id, groupMembers: index }).select("groupId")
+ console.log(group.groupId);
+ 
+                 //create a new request
+                const newReq = new Request({
+                  supId: req.body.sup_id,
+                  stuId: req.body.stu_id,
+                  state:'pending',
+                  reqDate: dateString,
+                  groupId:group.groupId,
+                  description:req.body.descript
+
+                  
+                });
+
+                newReq.save()
+                .then(result => {
+                  console.log(result)
+                    res.json({ state: true, msg: "Request Successfull..!" });
+                })
+                .catch(error => {
+                    console.log(error)
+                    res.json({ state: false, msg: "Request Failed..!" });
+                })
+
+});
+
+
+
+////////////////////////request supervisors////////////////////////
+/*router.post('/add', async (req, res)=> {
 
   let ts = Date.now();
   let date_ob = new Date(ts);
@@ -703,7 +781,7 @@ router.post('/add', async (req, res)=> {
           console.log(err);
           res.json({ state: false, msg: "Request Failed..!" });
         })
-});
+});*/
 
 
 module.exports = router;
