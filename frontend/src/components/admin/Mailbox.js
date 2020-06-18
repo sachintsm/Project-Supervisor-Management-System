@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import {Container, Col, Row} from "react-bootstrap";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const backendURI = require("../shared/BackendURI");
 
@@ -25,24 +26,32 @@ export default class MailBox extends Component {
         <React.Fragment>       
           <Container>
               <div style={{ marginTop: "20px" }}>
-                <h3>Notice View </h3>
+                <h3>Mail Box </h3>
                 <div>
                   {this.state.MessageList.map(message => {
                     return (
                       <Card style={{ marginTop: "20px", marginBottom: "10px" }}>
                         <Row>
-                          <Col xs="12">
+                          <Col xs="11">
                             <CardContent style={{ paddingBottom: "2px" }}>
                               <h6>{message.firstName} {message.lastName}</h6>
-                            </CardContent>
+                              </CardContent>
                           </Col>
-                        </Row>
+                          <Col xs="1">
+                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(message._id)} />
+                              </Col>
+                            </Row>
+
+                        
+                        {/* <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
+                          {message.data}</small>
+                        </h6> */}
 
                         <CardContent style={{ paddingTop: "2px", fontWeight: "300" }}>
                           {message.message}<br/>
                           {message.contactNumber}<br/>
                           {message.email}
-                        </CardContent>
+                         </CardContent>
                         <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
                          </small>
                         </h6>                      
