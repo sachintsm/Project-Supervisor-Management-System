@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const socket = require('socket.io');
 const app = express();
 
+// global.CronJob = require('./cron.js'); 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
