@@ -141,7 +141,7 @@ export default class navbar extends Component {
 
                 <MDBDropdown className='mr-4'>
                   <MDBDropdownToggle nav caret>
-                    <span  className='mr-2'>Notices</span>
+                    <span className='mr-2'>Notices</span>
                   </MDBDropdownToggle>
                   <MDBDropdownMenu>
                     <MDBDropdownItem href='/shared/noticeView'>View Notices</MDBDropdownItem>
@@ -158,9 +158,9 @@ export default class navbar extends Component {
 
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
-                <MDBNavItem   className="mr-4">
-                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>
-                  NoticeView
+                <MDBNavItem className="mr-4">
+                  <Nav.Link className="padding-zero" href='/shared/noticeView'>
+                    NoticeView
                   </Nav.Link>
                 </MDBNavItem>
 
@@ -169,9 +169,21 @@ export default class navbar extends Component {
               {/* =============================  Student Panel  ============================================ */}
 
               {this.state.panel === 'student' && (
-                
-                <MDBNavItem   className="mr-4">
-                  <Nav.Link  className="padding-zero"  href='/shared/noticeView'>NoticeView</Nav.Link>
+
+                <MDBNavItem className="mr-4">
+                  <Nav.Link className="padding-zero" href='/shared/noticeView'>NoticeView</Nav.Link>
+
+                </MDBNavItem>
+              )}
+
+              {/* ========================================================================= */}
+
+              {/* =============================  Student Panel  ============================================ */}
+
+              {this.state.panel === 'student' &&(
+
+                <MDBNavItem className="mr-4">
+                  <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>
 
                 </MDBNavItem>
               )}

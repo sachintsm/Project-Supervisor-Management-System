@@ -37,6 +37,7 @@ import StudentHome from './components/student/StudentHome';
 import ViewProjects from "./components/student/ViewProjects";
 import ViewProject from "./components/student/ViewProject";
 import Tasks from "./components/student/progress/Tasks";
+import ViewMeeting from "./components/student/ViewMeeting";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -92,6 +93,8 @@ function App() {
           <Route exact path='/studenthome/viewproject' component={ViewProject}></Route>
           <Route exact path='/studenthome/viewproject/progress-tasks' component={Tasks}></Route>
           <Route exact path='/shared/notice' component={NoticeView}></Route>
+          <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
+
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>
 

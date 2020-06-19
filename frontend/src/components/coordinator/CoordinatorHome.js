@@ -78,9 +78,12 @@ class CoordinatorHome extends Component {
             var groupCount = res.data.data
 
             var block = new coodinatorProjectBlock(_id, project, startDate, coodinatorCount, supervisorCount, groupCount)
+            
             this.setState({
               activeProjectBlock: [...this.state.activeProjectBlock, block],
             })
+
+            console.log(this.state.activeProjectBlock)
 
           })
       }

@@ -61,6 +61,7 @@ const notice = require("./routes/notice");
 const projects = require('./routes/projects');
 const createGroups = require('./routes/createGroups')
 const contactUs = require('./routes/contactUs');
+const requestMeeting = require('./routes/RequestMeeting');
 const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat')
 
@@ -71,6 +72,7 @@ app.use('/projects', projects);
 app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
+app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);
 

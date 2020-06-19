@@ -146,7 +146,7 @@ router.get('/active&projects/:coordinatorId', (req, res) => {
 //get all the projects API
 router.get('/', async (req, res, next) => {
   try {
-    const projects = await Projects.find({ "isDeleted": false }).sort({ projectYear: -1 });
+    const projects = await Projects.find({"isDeleted": false}).sort({ projectYear: -1 });
     res.send(projects);
   }
   catch (err) {
@@ -155,7 +155,7 @@ router.get('/', async (req, res, next) => {
 })
 
 //get projects of a student by student userID
-router.get('/studentprojects/:studentId', async (req, res, next) => {
+router.get('/studentprojects/:studentId',async(req, res, next) => {
   try {
     const id = req.params.studentId;
     const result = await User.findOne({ _id: id }).select('indexNumber');
@@ -164,7 +164,7 @@ router.get('/studentprojects/:studentId', async (req, res, next) => {
     }
     else {
       const index = result.indexNumber
-      const projectList = await CreateGroups.find({ groupMembers: index }).select('projectId');
+      const projectList = await CreateGroups.find({groupMembers: index}).select('projectId');
       let projectIdList = []
       // console.log(projectList)
       if (projectList.length > 0) {
@@ -311,4 +311,5 @@ router.get('/getProjectName/:id', async (req, res) => {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
 })
+
 module.exports = router;
