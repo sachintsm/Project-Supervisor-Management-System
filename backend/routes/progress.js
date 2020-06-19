@@ -43,4 +43,24 @@ router.get('/gettasks/:id',async(req,res,next) =>{
     }
 })
 
+//get total progress of a group
+router.get('gettotalprogress/:groupId', async(req,res,next) =>{
+    try{
+        const groupId = req.params.groupId
+        console.log("grpid=====",groupId)
+        const tasks = await ProgressTasks.find({groupId:groupId})
+        let percentSum=0;
+        let totalWeight=0;
+        for(let i in tasks){
+            percentSum = percentSum + tasks[i].totalProgress*tasks[i].taskWeight
+            totalWeight = totalWeight + tasks[i].taskWeight
+        }
+        const totalProgress = percentSum/totalWeight
+        res.send(100)
+    }
+    catch (e) {
+        console.log(e)
+    }
+} )
+
 module.exports = router;

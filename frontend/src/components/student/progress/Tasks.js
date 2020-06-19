@@ -13,6 +13,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Navbar from "../../shared/Navbar";
 import {getFromStorage} from "../../../utils/Storage";
 import TaskCard from "./TaskCard";
+import { withRouter } from "react-router-dom";
+import TotalProgressCard from "./TotalProgressCard";
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -64,8 +66,11 @@ class Tasks extends Component {
     }
 
     getTasks = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
         const groupId = this.state.groupDetails._id;
-        axios.get(backendURI.url+'/progress/gettasks/'+groupId).then(res=>{
+        axios.get(backendURI.url+'/progress/gettasks/'+groupId,{headers:headers}).then(res=>{
             this.setState({
                 currentTasks: res.data,
                 loading: false
@@ -124,18 +129,23 @@ class Tasks extends Component {
                 <div className="container-fluid tasks tasks-background-color">
                     <div className="main-card">
                         <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+
+                        <Row>
+                            <TotalProgressCard groupId={this.state.groupDetails._id}/>
+                        </Row>
+
                         {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
 
                         {this.state.currentTasks.length==0 && !this.state.loading && <h6 className="no-task-text">* No Tasks to Show</h6>}
                         <Row>
                             {this.state.currentTasks.map(item=>{
                                 return(
-                                    <Col className="task-card-col" lg={3} md={3} xs={4} sm={6}>
-                                        <TaskCard key={item._id} task={item} />
+                                    <Col className="task-card-col" key={item._id} lg={3} md={3} xs={4} sm={6}>
+                                        <TaskCard task={item} />
                                     </Col>
                                 )
                             })}
-                            {!this.state.loading &&
+                            {!this.state.loading && this.state.project.projectState &&
                             <Col lg={3} md={3} xs={4} sm={6}>
                                 <Card className="btn-card" onClick={()=>{this.openModal()}}>
                                     <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
@@ -192,4 +202,4 @@ class Tasks extends Component {
     }
 }
 
-export default Tasks;
+export default withRouter(Tasks);
