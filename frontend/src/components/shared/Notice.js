@@ -269,8 +269,8 @@ class Notice extends Component {
               'auth-token':getFromStorage('auth-token').token,
             }
 
-          var dateobj = new Date();
-          var B = dateobj.toISOString();
+          var date = new Date();
+         // var B = dateobj.toISOString();
 
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
@@ -284,7 +284,7 @@ class Notice extends Component {
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", B);
+            formData.append("date", date);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -297,8 +297,11 @@ class Notice extends Component {
               this.setState({
                 succesAlert: true,
               });
+              window.location.reload();
               this.getNoticeList();
-              console.log(res.data);
+              this.getProjectDetails();
+              
+             // console.log(res.data);
             })
             .catch((error) => {
               this.setState({
@@ -351,7 +354,9 @@ class Notice extends Component {
                 this.setState({
                   deleteSuccesAlert: true,
                 });
+                window.location.reload();
                 this.getNoticeList();
+                this.getProjectDetails();
               })
               .catch((err) => {
                 console.log(err);
@@ -429,7 +434,7 @@ class Notice extends Component {
                 <div
                   className="card"
                   style={{
-                    width: "80%",
+                    width: "100%",
                     margin: "auto",
                     marginTop: "40px",
                     marginBottom: "40px",
@@ -587,37 +592,37 @@ class Notice extends Component {
                 </div>
                 {this.state.noticeList.length > 0  && (
                   <div>
-                    <h3>Notice View </h3>
+                   
                     <div>
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          <div className="card ch-card" div key={type._id} >
-                          <div className="card-header container cd-header">
+                          <div className="card container ch-card "   key={type._id} >
+                          <div className="cd-style">
 
-                          <Row>
-                          <Col xs="11">
-                          <h6><b>{type.noticeTittle}</b><br/>
-                          <small>
-                              {type.date}</small>
-                          </h6>
-                          
-                          </Col>
-                          <Col xs="1">
-                          <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
-                        </Col>
-                          </Row>
-                          </div>
-                          <div className="card-body">
-                            
-                              <h6>{type.notice}</h6>
-                              <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.filePath}>
-                              Attachment
-                              </a>
-                          
-                          </div>
-                        </div>
-                             
+                          <Row  className="cd-notice-tittle-div">
+                          <Col md={11} xs={10}>
+                           <p className="cd-notice-name">{type.noticeTittle}</p>
+                           </Col>
+                           <Col className="cd-btn-row" md={1} xs={2}>
+                           <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                           </Col>
+                           </Row>
+
+                           <Row className="cd-user-name-div">
+                           <Col md={11} xs={10}>
+                           <p className="cd-date">(&nbsp;{type.date}&nbsp;)</p>
+                           </Col>
+                           </Row>
+
+                              <div className="card-body">
+                                <h6>{type.notice}</h6>
+                                <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
+                                  Attachment
+                                </a>
+                              </div>
+                            </div>
+                            </div>
                           );
                               }
 
@@ -666,7 +671,7 @@ class Notice extends Component {
                 <div
                   className="card"
                   style={{
-                    width: "80%",
+                    width: "100%",
                     margin: "auto",
                     marginTop: "40px",
                     marginBottom: "40px",
@@ -815,36 +820,36 @@ class Notice extends Component {
 
                 {this.state.noticeListBlock.length > 0  && (
                   <div>
-                    <h3>Notice View </h3>
+                    
                     <div>
                       {this.state.noticeListBlock.map((types) => {
                         if(types.userType === 'coordinator'){
                           return (
-                            <div className="card ch-card" div key={types._id} >
-                            <div className="card-header container cd-header ">
+                            <div className="card container ch-card "   key={types._id} >
+                          <div className="cd-style">
 
-                            <Row>
-                            <Col xs="11">
-                            <h6><b>{types.noticeTittle}</b> &nbsp; - &nbsp;{types.projectName}<br/>
-                            <small>
-                                {types.date}</small>
-                            </h6>
-                            
-                            </Col>
-                            <Col xs="1">
-                            <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
-                          </Col>
-                            </Row>
-                            </div>
-                            <div className="card-body">
-                              
+                          <Row  className="cd-notice-tittle-div">
+                          <Col md={11} xs={10}>
+                          <p className="cd-notice-name-project">{types.noticeTittle}&nbsp;-&nbsp;<small>{types.projectName}</small></p>                           </Col>
+                           <Col className="cd-btn-row" md={1} xs={2}>
+                           <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
+                           </Col>
+                           </Row>
+
+                           <Row className="cd-user-name-div">
+                           <Col md={11} xs={10}>
+                           <p className="cd-notice-date">(&nbsp;{types.date}&nbsp;)</p>
+                           </Col>
+                           </Row>
+
+                              <div className="card-body">
                                 <h6>{types.notice}</h6>
                                 <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
-                                Attachment
+                                  Attachment
                                 </a>
-                            
+                              </div>
                             </div>
-                          </div>
+                            </div>
                            
                           );
                               }
