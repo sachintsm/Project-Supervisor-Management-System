@@ -114,6 +114,10 @@ class ViewProject extends Component {
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupDetails._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
+
+    viewMeetings = (project) => {        
+        this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
+    }
     render() {
         const percentage = 67;
 
@@ -190,13 +194,13 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Request Supervisors</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewMeetings(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <TiGroup />
                                     </div>
-                                </IconContext.Provider><span className="btn-title">Request Meetings</span></Card>
+                                </IconContext.Provider><span className="btn-title">Meetings</span></Card>
                         </Col>
                         <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card" onClick={() => { this.viewProgress(this.state.project) }}>
