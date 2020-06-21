@@ -11,6 +11,10 @@ import {
 } from 'reactstrap';
 import { Row, Col } from "reactstrap";
 import Snackpop from "../shared/Snackpop";
+import DatePicker from "react-datepicker";
+import { getFromStorage } from "../../utils/Storage";
+
+
 
 const backendURI = require('../shared/BackendURI');
 
@@ -20,14 +24,18 @@ export default class RequestMeeting extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+
 
     this.state = {
+      item: this.props.project,
+      group: this.props.group,
       snackbaropen: false,
       snackbarmsg: '',
       snackbarcolor: '',
 
+      groupId: "",
       purpose: "",
-      date: "",
       time: "",
       supervisor: "",
 
@@ -35,7 +43,21 @@ export default class RequestMeeting extends Component {
       dateError: '',
       timeError: '',
       supervisorError: '',
+      groupDetails: [],
+      activeList: [],
+      endedList: [],
+      project: '',
+
+
+      date: new Date(),
+
     };
+    console.log(this.state.group.groupId);
+
+
+  }
+
+  componentDidMount() {
   }
   closeAlert = () => {
     this.setState({ snackbaropen: false });
@@ -46,52 +68,58 @@ export default class RequestMeeting extends Component {
     });
   };
 
+  onChangeDate = date => {
+    this.setState(prevState => ({
+      date: date
+    }))
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-    validate = () => {
-      // let isError = false;
-      // const errors = {
-      //     purposeError: '',
-      //     dateError: '',
-      //     timeError: '',
-      //     supervisorError: '',
-      // };
+  validate = () => {
+    // let isError = false;
+    // const errors = {
+    //     purposeError: '',
+    //     dateError: '',
+    //     timeError: '',
+    //     supervisorError: '',
+    // };
 
-      // if (this.state.firstName.length < 1) {
-      //   isError = true;
-      //   errors.firstNameError = 'First name required *'
-      // }
-      // if (this.state.lastName.length < 1) {
-      //   isError = true;
-      //   errors.lastNameError = 'Last name required *'
-      // }
-      // if (this.state.email.indexOf('@') === -1) {
-      //   isError = true;
-      //   errors.emailError = 'Invalied email address!'
-      // }
+    // if (this.state.firstName.length < 1) {
+    //   isError = true;
+    //   errors.firstNameError = 'First name required *'
+    // }
+    // if (this.state.lastName.length < 1) {
+    //   isError = true;
+    //   errors.lastNameError = 'Last name required *'
+    // }
+    // if (this.state.email.indexOf('@') === -1) {
+    //   isError = true;
+    //   errors.emailError = 'Invalied email address!'
+    // }
 
-      // if (this.state.contactNumber.length === 0 || this.state.contactNumber.length > 10) {
-      //   isError = true;
-      //   errors.nicError = 'Invalid NIC Contact Number!'
-      // }
-      // if (this.state.message.length < 1) {
-      //   isError = true;
-      //   errors.messageError = 'Message required *'
-      // }
+    // if (this.state.contactNumber.length === 0 || this.state.contactNumber.length > 10) {
+    //   isError = true;
+    //   errors.nicError = 'Invalid NIC Contact Number!'
+    // }
+    // if (this.state.message.length < 1) {
+    //   isError = true;
+    //   errors.messageError = 'Message required *'
+    // }
 
-      // this.setState({
-      //   ...this.state,
-      //   ...errors
-      // })
-      // return isError;  //! is not error return state 'false'
-    }
+    // this.setState({
+    //   ...this.state,
+    //   ...errors
+    // })
+    // return isError;  //! is not error return state 'false'
+  }
 
 
   onSubmit(e) {
     e.preventDefault()
-    const err = this.validate();  
+    const err = this.validate();
     //?calling validation function
 
     if (!err) {
@@ -104,6 +132,7 @@ export default class RequestMeeting extends Component {
 
 
       const obj = {
+        groupId: this.state.group.groupId,
         purpose: this.state.purpose,
         date: this.state.date,
         time: this.state.time,
@@ -158,7 +187,7 @@ export default class RequestMeeting extends Component {
         />
 
         <Button className="btn btn-info my-4" onClick={this.toggle} href="#">
-          New Meeting
+          New Meet
                 </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Request Meeting</ModalHeader>
@@ -179,9 +208,17 @@ export default class RequestMeeting extends Component {
                   <Row>
                     <Col>
                       <div className="form-group">
-                        <label className="text-label">Dtae </label>
-                        <input type="text" className="form-control" name="date" onChange={this.onChange} />
-                        <p className="reg-error">{this.state.firstNameError}</p>
+                        <label className="text-label">Date </label>
+                        {/* <input type="text" className="form-control" name="date" onChange={this.onChange} />
+                        <p className="reg-error">{this.state.firstNameError}</p> */}
+                        <div className="form-group">
+                          <DatePicker
+                            className="form-control"
+                            selected={this.state.date}
+                            onChange={this.onChangeDate}
+                            dateFormat="yyyy-MM-dd"
+                          />
+                        </div>
 
                       </div>
                     </Col>

@@ -196,6 +196,7 @@ class CreateProject extends Component {
         this.setState({
           projects: result.data.map(project=>project)
         })
+        console.log("sss",this.state.projects)
       }
       else{
         this.setState({

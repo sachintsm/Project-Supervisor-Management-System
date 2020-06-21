@@ -1,22 +1,7 @@
-.notice-card{
-    width: 100%;
-    margin: auto;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-top: 30px;
-    
-}
-.notice-card-div{
-    margin-top: 35px;
-    margin-bottom: 35px;
-
-}
 
 .topic {
     font-weight: 600;
     padding-top: 50px;
-    /* font-family: roboto,sens-serif; */
     font-weight: 300;
     text-align: center;
   }
@@ -25,3 +10,124 @@
 .btn-style{
 width:30px;
   }
+
+ 
+.container-fluid-di {
+    background-color: #f5f5f5;
+    width: 60%;
+}
+.tb-style{
+  color: #263238;
+  /* padding-bottom:50px; */
+}
+
+
+/* NoticeView */
+
+.cd-notice-tittle-div{
+  background-color:#C8C8C8;
+  height: 26px;
+
+}
+
+.ch-card{
+  margin: 0px;
+  margin-bottom: 20px;
+ 
+}
+.cd-notice-name{
+    margin-left :16px;
+    margin-top: 5px;
+    color:#080808;
+    font-family: roboto, sans;
+    font-size: 16px;
+    font-weight: 500;
+}
+.cd-projects-name{
+  
+  margin-top: 8px;
+  color:#080808;
+  font-family: roboto, sans;
+  font-size: 12px;
+  font-weight: 400;
+}
+.cd-notice-name-project{
+  margin-top: 8px;
+  color:#080808;
+  font-family: roboto, sans;
+  font-size: 16px;
+  font-weight: 400;
+}
+.cd-date{
+  font-size: 12px;
+  margin-left :14px;
+  font-weight: 350;
+  font-family: roboto, sans;
+  color:#080808;
+
+}
+.cd-user-name-div{
+  background-color: #C8C8C8;
+  height: 20px;
+}
+
+.cd-notice-date{
+  font-size:12px;
+  margin-top:1px;
+  font-weight: 350;
+  font-family: roboto, sans;
+  color:#080808;
+
+}
+.cd-btn-row{
+  text-align:right;
+  
+}
+
+
+
+@media screen and (max-width: 500px) {
+
+
+.cd-date{
+  font-size:8px;
+  margin-left :14px;
+  font-weight: 350;
+  font-family: roboto, sans;
+  color:#080808;
+}
+.cd-notice-name{
+  margin-left :16px;
+  margin-top: 5px;
+  color:#080808;
+  font-family: roboto, sans;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cd-projects-name{
+  
+  margin-top: 8px;
+  color:#080808;
+  font-family: roboto, sans;
+  font-size: 12px;
+  font-weight: 400;
+}
+.cd-notice-name-project{
+  margin-top: 8px;
+  color:#080808;
+  font-family: roboto, sans;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.cd-notice-date{
+  font-size:8px;
+  margin-top:6px;
+  font-weight: 350;
+  font-family: roboto, sans;
+  color:#080808;
+
+}
+
+}
