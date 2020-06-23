@@ -270,7 +270,8 @@ class Notice extends Component {
             }
 
           var date = new Date();
-         // var B = dateobj.toISOString();
+
+         var B = date.toString('dddd, MMMM ,yyyy') ;
 
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
@@ -279,12 +280,13 @@ class Notice extends Component {
     
             const formData = new FormData();
 
+
             formData.append("userId",userId);
             formData.append("userType",userType);
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", date);
+            formData.append("date", B);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);

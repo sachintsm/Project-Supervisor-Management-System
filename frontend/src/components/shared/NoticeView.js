@@ -288,8 +288,48 @@ class NoticeView extends Component {
           <Footer />
         </React.Fragment>
       )
-    } else {
+    } else if(this.userType === 'admin') {
       return (
+
+        <React.Fragment>
+          <Navbar panel={"admin"} />
+          <div className="container">
+         {this.state.allNoticeList.length > 0 && (
+                    <div>
+                      {this.state.allNoticeList.map((types) => {
+                          return (
+                            <div className="card container ch-card " style={{marginTop:"25px"}}   key={types._id} >
+                            <div className="cd-style">
+  
+                            <Row className="cd-notice-tittle-div">
+                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                             </Row>
+  
+                             <Row className="cd-user-name-div">
+                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             </Row>
+  
+                                <div className="card-body">
+                                  <h6>{types.notice}</h6>
+                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                    Attachment
+                                  </a>
+                                </div>
+                              </div>
+                              </div>
+                          );
+                      })}
+                    </div>
+                    
+              
+
+                )}
+                </div>
+                <Footer />
+            </React.Fragment>
+      )
+    }else{
+      return(
         null
       )
     }
