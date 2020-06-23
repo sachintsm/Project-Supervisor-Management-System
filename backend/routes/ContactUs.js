@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const ContactUs = require('../models/contactUs');
 
+//Get all
+router.route('/').get(function(req, res) {
+    console.log("Message requested");
+    ContactUs.find(function(err, message) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(message);
+            
+        }
+    });
+});
+
+//Post
 router.post('/add', (req, res) => {
     console.log(req.body);
     const newContactUs = new ContactUs({
