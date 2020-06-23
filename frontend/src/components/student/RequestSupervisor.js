@@ -12,22 +12,6 @@ import '../../css/students/ReqSupervisor.css';
 
 const backendURI = require('../shared/BackendURI');
 
-
-/*const Modal = ({ handleClose, show, sId }) => {
-    const showHideClassName = show ? "modal display-block" : "modal display-none";
-    console.log(showHideClassName );
-    console.log(sId);
-  
-    return (
-      <div className={showHideClassName}>
-        <section className="modal-main">
-            <p>hello {sId}</p>
-          <button onClick={handleClose}>close</button>
-        </section>
-      </div>
-    );
-  };*/
-
   function CenteredModal(props) {
     const { hide,des,desH,re,...rest } = props
     return (
@@ -45,7 +29,7 @@ const backendURI = require('../shared/BackendURI');
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Centered Modal</h4>
+          <h5></h5>
           <form>
             <textarea rows="10" cols="60"value={des} onChange={desH} />
           </form>
@@ -68,7 +52,7 @@ const Staff = React.memo( props =>(
                 <td>{props.staff.mobile}</td>
                 <td><input type="submit" value="Request" className="btn btn-info my-4" /></td>
                 <td><ButtonToolbar>
-                <Button type="submit" value="Mod" className="btn btn-info my-4" onClick={() => props.send(props.staff._id)} disabled={props.dis} >Req</Button> 
+                <Button type="submit" value="Mod" className="btn btn-info my-4" onClick={() => props.send(props.staff._id)} >Req</Button> 
                 <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -127,7 +111,8 @@ export default class Profile extends Component {
         const authState = await verifyAuth();
         this.setState({ authState: authState });
 
-        axios.get(backendURI.url + "/users/get")
+        axios.get(backendURI.url + '/users/getSup/' + this.state.project._id)
+       //axios.get(backendURI.url + "/users/get")
             .then(response => {
                 console.log(response.data.data);
 
@@ -169,9 +154,13 @@ export default class Profile extends Component {
 
     }
     reqSend(sup){
+        const userData = getFromStorage('auth-id')
         console.log(sup);
+        console.log(userData.id);
         const obj = {
             sup_id: sup,
+            stu_id:userData.id,
+            project_id:this.state.project._id,
         };
         axios.post(backendURI.url + "/users/check" , obj)
                     .then(res => {

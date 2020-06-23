@@ -5,8 +5,9 @@ var requestSchema =mongoose.Schema({
     supId:{type:String},
     stuId:{type:String},
     state:{type:String},
-    reqDate:{ type: String },
+    reqDate:{type: String},
     groupId:{type:String},
+    projectId:{type:String},
     description:{type:String}
 });
 

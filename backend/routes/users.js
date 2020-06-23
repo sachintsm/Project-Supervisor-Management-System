@@ -6,6 +6,7 @@ const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const Request = require('../models/request');
+const Projects = require('../models/projects');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
@@ -648,31 +649,57 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
 
 
 ////////check supervisor request/////////////////////
-router.post('/check', (req, res)=> {
+router.post('/check',async (req, res)=> {
   let ts = Date.now();
   let date_ob = new Date(ts);
   let dateString = new Date(date_ob).toUTCString();
   dateString = dateString.split(' ').slice(0, 4).join(' ');
+
   console.log(req.body.sup_id);
+  console.log(req.body.stu_id);
+
+  const result =  await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+  
+  const group = await CreateGroups.findOne({projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  console.log(group.groupId);
+
+  
 
   Request.find({ supId: req.body.sup_id }).select().exec()
   .then(data => {
-    console.log(data);
-    console.log(data.length);
-    var count=0;
-    for(var i =0; i<data.length; i++){
-      console.log(data[i].reqDate);
-      if(dateString == (data[i].reqDate)){
-        count=count+1;
+      console.log(data);
+      console.log(data.length);
+      var count=0;
+      var stat=false;
+      for(var i =0; i<data.length; i++){
+        console.log(data[i].reqDate);
+        if(dateString == (data[i].reqDate)){
+          count=count+1;
+        }
       }
-    }
-    console.log(count);
+      console.log(count);
     if(count<2){
-           res.json({ state: true, msg: "You can request..." });
+          for(var i =0; i<data.length; i++){
+              console.log(data[i].reqDate);
+              if((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))){
+                  stat=true;
+              }
+              else{
+                stat=false;
+              }
+          }
+          if(stat== true){
+            res.json({ state: false, msg: "You have already requested..." });
+          }
+          else{
+            res.json({ state: true, msg: "You can request..." });
+          }
 
     }else{
-          res.json({ state: false, msg: "Supervisor exceed request limit..." });
-    }
+            res.json({ state: false, msg: "Supervisor exceed request limit..." });
+      }
 
   })
   .catch(err => {
@@ -704,6 +731,7 @@ router.post('/add', async (req, res)=> {
                   state:'pending',
                   reqDate: dateString,
                   groupId:group.groupId,
+                  projectId:req.body.project_id,
                   description:req.body.descript
 
                   
@@ -721,67 +749,55 @@ router.post('/add', async (req, res)=> {
 
 });
 
+/////get supervisors//////////////////
+router.get('/getSup/:id',  async(req, res)=> {
 
-
-////////////////////////request supervisors////////////////////////
-/*router.post('/add', async (req, res)=> {
-
-  let ts = Date.now();
-  let date_ob = new Date(ts);
-  let dateString = new Date(date_ob).toUTCString();
-  dateString = dateString.split(' ').slice(0, 4).join(' ');
-
-  const result =  await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
-  const index = result.indexNumber
-  console.log(index);
+  const id = req.params.id;
   
-  const group = await CreateGroups.findOne({projectId: req.body.project_id, groupMembers: index }).select("groupId")
- console.log(group.groupId);
-  Request.find({ supId: req.body.sup_id }).select().exec()
-        .then(data => {
-          console.log(data);
-          console.log(data.length);
-          var count=0;
-          for(var i =0; i<data.length; i++){
-            console.log(data[i].reqDate);
-            if(dateString == (data[i].reqDate)){
-              count=count+1;
-             // console.log("true");
+ 
+  Projects
+    .find({ _id: id })
+    .exec()
+    .then(data => {
+    
+            //console.log(data[0].supervisorList);
+            var supervisorIdList = data[0].supervisorList
+           // console.log(supervisorIdList.length);
+            if (supervisorIdList.length === 0) {
+               res.json({ state: false, msg: "No Supervisors!" });
+            } else{
+                var arr1 = [];
+                for (let i = 0; i < supervisorIdList.length; i++) {
+                  var idS = supervisorIdList[i]
+                  console.log(idS);
+                  User.find({ _id: idS })
+                  .exec()
+                  .then(result => {
+                    console.log(result[0]);
+                    arr1.push(result[0]);
+                    
+                    if( i === (supervisorIdList.length-1)){
+                      console.log(arr1);
+                      res.json({ state: true, msg: "Data Transfer Successfully..!", data:arr1 });
+                    }
+                    else{
+                      console.log("no");
+                    }
+                    //res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+                  })
+                  .catch(error => {
+                    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+                  })
+                }
+                //console.log(arr1);
             }
-          }
-          console.log(count);
-          if(count<2){
-                 //create a new request
-                const newReq = new Request({
-                  supId: req.body.sup_id,
-                  stuId: req.body.stu_id,
-                  state:'pending',
-                  reqDate: dateString,
-                  groupId:group.groupId,
 
-                  
-                });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 
-                newReq.save()
-                .then(result => {
-                  console.log(result)
-                    res.json({ state: true, msg: "Request Successfull..!" });
-                })
-                .catch(error => {
-                    console.log(error)
-                    res.json({ state: false, msg: "Request Failed..!" });
-                })
-
-          }else{
-                res.json({ state: false, msg: "Supervisor exceed request limit..." });
-          }
-
-        })
-        .catch(err => {
-          console.log(err);
-          res.json({ state: false, msg: "Request Failed..!" });
-        })
-});*/
-
+})
 
 module.exports = router;
