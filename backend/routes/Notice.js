@@ -6,6 +6,7 @@ const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
 const verify = require('../authentication');
+const notice = require("../models/notice");
 
 //  notification attachment saving destination folder
 var storage = multer.diskStorage({
@@ -87,11 +88,12 @@ router.post("/addNotice", verify, async (req, res) => {
     console.log(err);
   }
 });
-// notice get from database
+
+// all notice get from database without filter
 router.get("/viewNotice", (req, res, next) => {
 
   Notice.find()
-    .sort({ date: 1 })
+    .sort({ date: -1 })
     .select("noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId ")
     .exec()
     .then((docs) => {
@@ -105,6 +107,7 @@ router.get("/viewNotice", (req, res, next) => {
       });
     });
 });
+
 //Get notice attchment from database
 router.get("/noticeAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
@@ -152,12 +155,13 @@ router.delete("/noticeAttachment/:filename", (req, res) => {
   }
 });
 
-//when cordinator create notice it notice must show only him
+//when cordinator create notice it notice must show only him so get those notices this rout
 
 router.get('/NoticeView/:coordinatorId', (req, res) => {
   const coordinatorId = req.params.coordinatorId;
   Notice
     .find({ userId: coordinatorId })
+    .sort({date:-1})
     .then(data => {
       console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
@@ -169,11 +173,9 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
 })
 
 
-
-router.get('/getAllActiveProjectId/:id', async (req, res) => {
-
+// only get project id true notices
+router.get('/getNotice/:id', async (req, res) => {
   try {
-
     const coId = req.params.id
     const result1 = await Projects.find({ coordinatorList: coId, projectState: true }).select('_id')
     let idList = []
@@ -182,8 +184,7 @@ router.get('/getAllActiveProjectId/:id', async (req, res) => {
     }
 
     const result2 = await Notice.find({ projectId: idList })
-   // console.log(result2)
-
+    .sort({date:-1})
    .then(data => {
     res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
   })
@@ -194,20 +195,38 @@ router.get('/getAllActiveProjectId/:id', async (req, res) => {
   }
 })
 
-// router.get('/getNotice/:id', async (req, res) => {
-//   const coId = req.params.id
-//   await Notice
-//     .find({ projectId: coId, })
-//     .select('noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId')
-//     .exec()
-//     .then(data => {
-//       res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-//     })
-//     .catch(error => {
-//       console.log(error)
-//       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-//     })
-// })
 
+// get project name from project collection
+router.get('/getProjectName/:id', async (req, res) => {
+  const poId = req.params.id
+  await Projects
+    .find({ _id: poId,  projectState: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+// get admin published notices
+router.get("/getAdminNotice", (req, res, next) => {
+
+  Notice.find({userType :'admin'})
+    .sort({ date: -1 })
+    .exec()
+    .then((docs) => {
+      console.log("Data Transfer Successss.!");
+      res.status(200).json(docs);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        error: error,
+      });
+    });
+});
 
 module.exports = router;

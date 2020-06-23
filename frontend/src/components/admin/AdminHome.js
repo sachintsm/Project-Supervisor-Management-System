@@ -3,7 +3,9 @@ import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import '../../css/admin/AdminHome.css'
 import Notice from "../shared/Notice";
-import Footer from '../shared/Footer'
+import Footer from '../shared/Footer';
+
+import MailBox from "./Mailbox.js";
 
 class AdminHome extends Component {
   
@@ -21,8 +23,7 @@ class AdminHome extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"admin"} />
-        <p className="head-now">Admin Home</p>
-        
+        <MailBox/>
         <Footer />
       </React.Fragment>
     );

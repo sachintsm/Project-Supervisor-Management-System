@@ -800,4 +800,22 @@ router.get('/getSup/:id',  async(req, res)=> {
 
 })
 
+//get user by id
+
+router.get('/getUser/:id', async (req, res) => {
+
+  const userid = req.params.id;
+  await User.find({_id : userid})
+  .select('firstName lastName')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data[0] });
+     // console.log("dd",result.data)
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+
 module.exports = router;

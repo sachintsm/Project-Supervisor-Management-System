@@ -76,7 +76,7 @@ export default class Contactus extends Component {
 
     if (this.state.contactNumber.length === 0 || this.state.contactNumber.length > 10) {
       isError = true;
-      errors.nicError = 'Invalid NIC Contact Number!'
+      errors.contactNumberError = 'Invalid Contact Number!'
     }
     if (this.state.message.length < 1) {
       isError = true;
