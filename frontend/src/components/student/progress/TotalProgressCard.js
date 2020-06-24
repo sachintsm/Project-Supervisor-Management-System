@@ -54,7 +54,7 @@ class TotalProgressCard extends Component {
                                     </Col>
                                     <Col md={8} sm={12} xs={12} className="individual-progress-div">
                                         {this.state.groupDetails.groupMembers.map(member=>{
-                                            return <IndividualTotalProgress key={member} member={member}/>
+                                            return <IndividualTotalProgress key={member} member={member} groupId={this.state.groupDetails._id}/>
                                         })}
                                     </Col>
                                 </Row>

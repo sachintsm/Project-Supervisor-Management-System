@@ -63,12 +63,13 @@ router.get('/gettotalprogress/:groupId', async(req,res,next) =>{
 } )
 
 //get total progress of a student
-router.get('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
+router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
     try{
         const index = req.params.studentIndex
+        const groupId = req.body.groupId
         const userId = await User.findOne({indexNumber:index}).select('_id');
         // console.log(userId)
-        const tasks = await ProgressTasks.find({studentList:userId._id})
+        const tasks = await ProgressTasks.find({studentList:userId._id, groupId:groupId})
         // console.log(tasks)
         let progress = 0;
         let totalWeight = 0;
@@ -79,14 +80,14 @@ router.get('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
                     index = userId._id
                     let individualProgress = tasks[i].studentProgress[j]; // individual progress of the student
                     let taskTotalProgress = tasks[i].totalProgress; // task total progress
-                    let individualContribution = individualProgress*taskTotalProgress/100.00 * tasks[i].taskWeight ;  // calculating individual contribution
+                    let individualContribution = individualProgress * tasks[i].taskWeight ;  // calculating individual contribution
+                    // let individualContribution = individualProgress*taskTotalProgress/100.00 * tasks[i].taskWeight ;  // calculating individual contribution
                     progress = progress + individualContribution;
                     totalWeight = totalWeight + tasks[i].taskWeight;
                 }
             }
         }
         let studentProgress = progress/totalWeight;
-        console.log(index);
         res.send(""+studentProgress);
     }
     catch (e) {

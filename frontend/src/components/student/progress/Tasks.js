@@ -131,10 +131,7 @@ class Tasks extends Component {
                         <div className="title-div">
                             <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
                         </div>
-
-                        <Row>
-                            <TotalProgressCard groupDetails={this.state.groupDetails}/>
-                        </Row>
+                        {this.state.currentTasks.length>0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails}/></Row>}
 
                         {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
 

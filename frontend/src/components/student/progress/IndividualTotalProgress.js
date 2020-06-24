@@ -12,6 +12,7 @@ class IndividualTotalProgress extends Component {
         super(props);
         this.state = {
             member: this.props.member,
+            groupId: this.props.groupId,
             progress: 0
         }
     }
@@ -20,8 +21,8 @@ class IndividualTotalProgress extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-        let progress = 0;
-        axios.get(backendURI.url+'/progress/getstudenttotalprogress/'+this.state.member,{headers:headers}).then(res=>{
+        let progress =   0;
+        axios.post(backendURI.url+'/progress/getstudenttotalprogress/'+this.state.member,{groupId:this.state.groupId},{headers:headers}).then(res=>{
             // console.log(this.state.member)
             let totalProgress = parseFloat(res.data)
             console.log(totalProgress)
