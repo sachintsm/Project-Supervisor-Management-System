@@ -190,7 +190,7 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Chat Box</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={()=>this.requestSup(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>

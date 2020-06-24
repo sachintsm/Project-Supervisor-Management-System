@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Spinner, Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
+import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import axios from 'axios';
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
@@ -7,38 +7,37 @@ import { confirmAlert } from 'react-confirm-alert';
 import Footer from '../shared/Footer';
 import Navbar from "../shared/Navbar";
 import Snackpop from "../shared/Snackpop";
-import Modalreq from "./Modalreq";
 import '../../css/students/ReqSupervisor.css';
 
 const backendURI = require('../shared/BackendURI');
 
-  function CenteredModal(props) {
+function CenteredModal(props) {
     const { hide,des,desH,re,...rest } = props
     return (
     
-      <Modal
-        {...rest}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-                
-        <Modal.Header>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Add Project Description
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5></h5>
-          <form>
-            <textarea rows="10" cols="60"value={des} onChange={desH} />
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-            <Button onClick={re} disabled={!des}>Send</Button>
-            <Button onClick={hide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal responsive="true"
+            {...rest}
+            size="md"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+                    
+            <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+                Add Project Description
+            </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <h5></h5>
+            <form className="area">
+                <textarea rows="10" cols="60"value={des} onChange={desH} />
+            </form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={re} disabled={!des}>Send</Button>
+                <Button onClick={hide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
 
     );
   }
@@ -50,9 +49,8 @@ const Staff = React.memo( props =>(
                 <td>{props.staff.firstName} {props.staff.lastName}</td>
                 <td>{props.staff.email}</td>
                 <td>{props.staff.mobile}</td>
-                <td><input type="submit" value="Request" className="btn btn-info my-4" /></td>
                 <td><ButtonToolbar>
-                <Button type="submit" value="Mod" className="btn btn-info my-4" onClick={() => props.send(props.staff._id)} >Req</Button> 
+                <Button type="submit" value="Mod" className="btn btn-info my-4" onClick={() => props.send(props.staff._id)} >Request</Button> 
                 <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -63,8 +61,6 @@ const Staff = React.memo( props =>(
                 </ButtonToolbar>
                 </td>
             </tr>
-            
-    ////onClick={() => props.request(props.staff._id)}
             
        )
 );
@@ -254,61 +250,6 @@ export default class Profile extends Component {
           })
 
     }
-  /* requestSup(data) {
-        const userData = getFromStorage('auth-id')
-        confirmAlert({
-            title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: () => {
-                    const obj = {
-                        sup_id: data,
-                        stu_id: userData.id,
-                        project_id:this.state.project._id
-                    };
-                    console.log(obj);
-                    axios.post(backendURI.url + "/users/add" , obj)
-                    .then(res => {
-                        
-                        console.log(res.data)
-                        if(res.data.state==true){
-                            this.setState({
-                                snackbaropen: true,
-                                snackbarmsg: res.data.msg,
-                                snackbarcolor: 'success',
-                            })
-                        }
-                        else{
-                            this.setState({
-                                snackbaropen: true,
-                                snackbarmsg:res.data.msg,
-                                snackbarcolor: 'error',
-                            })
-                            
-                        }
-                    })
-                    .catch((error) => {
-                    console.log(error);
-                    this.setState({
-                        snackbaropen: true,
-                        snackbarmsg:'Something went wrong',
-                        snackbarcolor: 'error',
-                    })
-                    })
-                }
-              },
-              {
-                label: 'No',
-                onClick: () => {
-                    window.location.reload(false);
-                }
-              }
-            ]
-          })
-
-    }*/
     render(){
        
         return(
@@ -322,28 +263,20 @@ export default class Profile extends Component {
                 status={this.state.snackbaropen}
                 closeAlert={this.closeAlert}
                />
-            
-               
-                
-
                 <div className="row">
-                    {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
-                        <Sidebar />
-                    </div> */}
                     <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
                         <div className="container">
-                                    <div className="row" style={{ marginTop: "20px" }}>
-
-                                        <div className="card">
-                                            <div>
-                                                <h3 className="sp_head">List of Supervisors</h3>
-                                                <form>
-                                                    <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                        <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch}/>
-                                                    </div>
-                                                </form>
+                            <div className="row" style={{ marginTop: "20px" }}>
+                                <div className="card">
+                                    <div>
+                                        <h3 className="sp_head">List of Supervisors</h3>
+                                            <form>
+                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch}/>
+                                                </div>
+                                            </form>
                                                 <div>
-                                                    <Table hover style={{ marginTop: 20 }} >
+                                                    <Table responsive >
                                                         <thead>
                                                             <tr>
                                                                 <th>Name</th>
@@ -353,15 +286,13 @@ export default class Profile extends Component {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-
-                                                        {this.UserList4()}
+                                                            {this.UserList4()}
                                                         </tbody>
                                                     </Table>
                                                 </div>
-                                        
-                                            </div>
-                                        </div>
                                     </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

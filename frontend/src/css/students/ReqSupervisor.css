@@ -26,26 +26,7 @@
 .tit{
    color: #263238;
 }
-.del-btn{
-    color: rgb(83, 83, 83);
-    padding-right: 5px;
-}
 
-.del-btn:hover{
-    color: rgb(214, 0, 0);
-    transition: 0.5s;
-    cursor: pointer;
-}
-.edit-btn{
-    color: rgb(83, 83, 83);
-    padding-right: 5px;
-}
-
-.edit-btn:hover{
-    color:#17A2B8;
-    transition: 0.5s;
-    cursor: pointer;
-}
 .btn-info{
     height:3;
     width:3;
@@ -58,4 +39,34 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
+.table{
+    margin-Top: 20;
+}
 
+@media only screen and  (max-width: 1024px){
+    .card{
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        width:100%;
+    }
+   .table{
+    margin-Top: 20;
+    width:20%;
+   }
+   .area{
+       width:100%;
+   }
+}
+@media only screen and  (max-width: 768px){
+    .card{
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        width:100%;
+    }
+    .table{
+        margin-Top: 20;
+        width:20%;
+    }
+}

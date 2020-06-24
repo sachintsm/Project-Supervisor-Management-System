@@ -722,7 +722,7 @@ router.post('/add', async (req, res)=> {
   console.log(index);
   
   const group = await CreateGroups.findOne({projectId: req.body.project_id, groupMembers: index }).select("groupId")
- console.log(group.groupId);
+  console.log(group.groupId);
  
                  //create a new request
                 const newReq = new Request({
@@ -754,18 +754,17 @@ router.get('/getSup/:id',  async(req, res)=> {
 
   const id = req.params.id;
   
- 
   Projects
     .find({ _id: id })
     .exec()
     .then(data => {
     
             //console.log(data[0].supervisorList);
-            var supervisorIdList = data[0].supervisorList
+          var supervisorIdList = data[0].supervisorList
            // console.log(supervisorIdList.length);
-            if (supervisorIdList.length === 0) {
+          if (supervisorIdList.length === 0) {
                res.json({ state: false, msg: "No Supervisors!" });
-            } else{
+          } else{
                 var arr1 = [];
                 for (let i = 0; i < supervisorIdList.length; i++) {
                   var idS = supervisorIdList[i]
