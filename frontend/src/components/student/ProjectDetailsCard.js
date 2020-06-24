@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import CoordinatorList from "../admin/CoordinatorList";
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import {getFromStorage} from "../../utils/Storage";
 import axios from 'axios';
+import "../../css/students/ProjectDetailsCard.scss"
 
 const backendURI = require('../shared/BackendURI');
 
@@ -41,7 +42,7 @@ class ProjectDetailsCard extends Component {
 
     render() {
         return (
-            <div>
+            <div className="project-details-card-div">
                 {this.state.loading &&
                 <Col style={{textAlign:'center'}}>
                     <Spinner animation="border" className="spinner" style={{alignContent:'center'}}/>

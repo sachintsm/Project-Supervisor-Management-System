@@ -21,7 +21,6 @@ const marks = [
 class TaskCard extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.task)
         this.state = {
             task: this.props.task
         }

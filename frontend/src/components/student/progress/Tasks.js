@@ -128,10 +128,12 @@ class Tasks extends Component {
                 <Navbar panel={"student"} />
                 <div className="container-fluid tasks tasks-background-color">
                     <div className="main-card">
-                        <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+                        <div className="title-div">
+                            <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+                        </div>
 
                         <Row>
-                            <TotalProgressCard groupId={this.state.groupDetails._id}/>
+                            <TotalProgressCard groupDetails={this.state.groupDetails}/>
                         </Row>
 
                         {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
