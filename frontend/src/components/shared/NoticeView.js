@@ -390,7 +390,7 @@ class NoticeView extends Component {
     }else if(this.userType === 'student') {
       return(
         <React.Fragment>
-          <Navbar panel={"supervisor"} />
+          <Navbar panel={"student"} />
           <div className="container">
           <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginTop: "20px",marginBottom:"30px", width: "100%" }}>
           <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
