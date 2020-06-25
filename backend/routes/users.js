@@ -667,7 +667,7 @@ router.post('/check',async (req, res)=> {
 
   
 
-  Request.find({ supId: req.body.sup_id }).select().exec()
+  Request.find({ groupId: group.groupId }).select().exec()
   .then(data => {
       console.log(data);
       console.log(data.length);
@@ -698,7 +698,7 @@ router.post('/check',async (req, res)=> {
           }
 
     }else{
-            res.json({ state: false, msg: "Supervisor exceed request limit..." });
+            res.json({ state: false, msg: "You exceed your request limit..." });
       }
 
   })

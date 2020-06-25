@@ -145,10 +145,10 @@ export default class Profile extends Component {
 
         return filteredUsers.map((currentStaff, i) => {
             console.log(i);
-            if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+           // if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
                 return <Staff request={this.requestSup} send={this.reqSend} hiden={this.hideModal} 
                 desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} dis={this.state.dis} staff={currentStaff} key={i} />;
-            }
+           // }
         })
 
     }
