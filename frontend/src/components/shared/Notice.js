@@ -63,6 +63,10 @@ class Notice extends Component {
       userId:"",
       viewUserSelect :'Select user to View :',
       projectId: "",
+      toCordinator: false,
+      toSupervisor: false,
+      toStudent: false,
+     
       selectedTypeIndex: 0 ,
      
       succesAlert: false,
@@ -71,11 +75,6 @@ class Notice extends Component {
       snackbaropen: false,
       snackbarmsg: "",
 
-      toCordinator: false,
-      toSupervisor: false,
-      toStudent: false,
-     
-      
       projectTypeList:[],
       noticeList:[],
       noticeListCo: [],
@@ -85,6 +84,8 @@ class Notice extends Component {
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
+      projectIdError:"",
+      noticeTittleLenthError:"",
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -194,19 +195,31 @@ class Notice extends Component {
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
+      projectIdError:"",
+      noticeTittleLenthError:"",
     }
 
     if (this.state.noticeTittle.length < 1) {
       isError = true;
       errors.noticeTittleError = 'Notice Tittle required *'
     }
+
+    if (this.state.noticeTittle.length >= 50) {
+      isError = true;
+      errors.noticeTittleLenthError = 'Lenth must be less than 50 *'
+    }
     if (this.state.notice.length < 1) {
       isError = true;
       errors.noticeError = 'Notice Content required *'
     }
-    // if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+      isError = true;
+      errors.viewUserSelectError = 'must be select at least one *'
+    }
+
+    // if (this.state.projectId.length === 0) {
     //   isError = true;
-    //   errors.viewUserSelectError = 'must be select at least one *'
+    //   errors.projectIdError = 'Project type must be specified *'
     // }
 
     this.setState({
@@ -255,6 +268,8 @@ class Notice extends Component {
         noticeTittleError: "",
         noticeError: "",
         viewUserSelectError:"",
+       // projectIdError:"",
+        noticeTittleLenthError:"",
       })
 
     confirmAlert({
@@ -459,8 +474,10 @@ class Notice extends Component {
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
                           errortext={this.noticeTittleError}
+                          errortext={this.noticeTittleLenthError}
                         ></FormControl>
                         <p className="reg-error">{this.state.noticeTittleError}</p>
+                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
                       </Col>
                     </Row>
 
@@ -562,6 +579,9 @@ class Notice extends Component {
                             }
                           />
                       </Col>
+
+                      <p className="reg-error">{this.state.viewUserSelectError}</p>
+
                     </Row>
 
                     
@@ -687,14 +707,15 @@ class Notice extends Component {
                     <Row>
 
                     <Col xs="12">
-                                    <div className="form-group pg-dropdown-select">
-                                        <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                            <option>Select the project</option>
-                                            {activeProjectsList}
-                                        </select>
-                                        
-                                    </div>
-                                </Col>
+                        <div className="form-group pg-dropdown-select">
+                          <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                            <option>Select the project</option>
+                                {activeProjectsList}
+                          </select>          
+                        </div>
+                      
+
+                    </Col>
                     
                     </Row>
 
@@ -710,8 +731,10 @@ class Notice extends Component {
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
                           errortext={this.noticeTittleError}
+                          errortext={this.noticeTittleLenthError}
                         ></FormControl>
                         <p className="reg-error">{this.state.noticeTittleError}</p>
+                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
                       </Col>
                     </Row>
 
@@ -741,6 +764,7 @@ class Notice extends Component {
                       <p style={{ textalign: "left", color: " #6d6d6d" }}>
                       {this.state.viewUserSelect}
                     </p>
+                   
                       </Col>
                      
                       <Col className="col-padding-5">
@@ -790,6 +814,8 @@ class Notice extends Component {
                           />
                         
                       </Col>
+
+                      <p className="reg-error">{this.state.viewUserSelectError}</p>
                     </Row>
                     <Row className="margin-top-20">
                       <Col>
