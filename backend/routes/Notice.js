@@ -77,7 +77,7 @@ router.post("/addNotice", verify, async (req, res) => {
       newNotice
         .save()
         .then((result) => {
-          console.log(result);
+         // console.log(result);
           res.json({ state: true, msg: "Data inserted successful.." });
         })
         .catch((error) => {
@@ -111,7 +111,7 @@ router.get("/viewNotice", (req, res, next) => {
 //Get notice attchment from database
 router.get("/noticeAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
-  console.log(filename);
+ //console.log(filename);
   res.sendFile(
     path.join(__dirname, "../local_storage/notice_Attachment/" + filename)
   );
@@ -163,7 +163,7 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
     .find({ userId: coordinatorId })
     .sort({date:-1})
     .then(data => {
-      console.log(data)
+     // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {
