@@ -2,11 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Notice = require("../models/notice");
 const Projects = require('../models/projects');
+const CreateGroups = require('../models/createGroups');
+const User = require('../models/users');
+
 const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
 const verify = require('../authentication');
 const notice = require("../models/notice");
+
 
 //  notification attachment saving destination folder
 var storage = multer.diskStorage({
@@ -228,5 +232,33 @@ router.get("/getAdminNotice", (req, res, next) => {
       });
     });
 });
+
+//get notice by student 
+
+router.get("/getNoticeByStudent/:id" , async (req,res)=>{
+
+  try {
+    const sId = req.params.id
+    const result1 = await User.findOne({_id:sId , isStudent :true}).select('indexNumber')
+   
+    // res.json(result1.indexNumber)
+    // console.log(result1.indexNumber)
+    const result2 = await createGroups.find({groupMembers : result1.indexNumber , groupState:true}).select('projectId')
+    let idList = []
+    for(let i in result2){
+      idList.push(result2[i].projectId)
+    }
+
+    const result3 = await Notice.find({ projectId: idList })
+    .sort({date:-1})
+   .then(data => {
+    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+  })
+  } catch (error) {
+    console.log(error)
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+  }
+
+})
 
 module.exports = router;
