@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Notice = require("../models/notice");
 const Projects = require('../models/projects');
-const CreateGroups = require('../models/createGroups');
+const createGroups = require("../models/createGroups");
 const User = require('../models/users');
 
 const multer = require("multer");
