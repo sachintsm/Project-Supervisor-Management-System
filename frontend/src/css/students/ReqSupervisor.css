@@ -42,6 +42,10 @@
 .table{
     margin-Top: 20;
 }
+.area{
+  width: 450px;
+  height: 150px;
+}
 
 @media only screen and  (max-width: 1024px){
     .card{
@@ -68,5 +72,8 @@
     .table{
         margin-Top: 20;
         width:20%;
+    }
+    .area{
+        width:100%;
     }
 }

@@ -691,7 +691,7 @@ router.post('/check',async (req, res)=> {
               }
           }
           if(stat== true){
-            res.json({ state: false, msg: "You have already requested..." });
+            res.json({ state: false, msg: "Your group have already requested..." });
           }
           else{
             res.json({ state: true, msg: "You can request..." });

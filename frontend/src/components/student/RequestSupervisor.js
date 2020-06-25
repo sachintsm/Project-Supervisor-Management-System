@@ -22,15 +22,15 @@ function CenteredModal(props) {
             centered
         >
                     
-            <Modal.Header>
+            <Modal.Header >
             <Modal.Title id="contained-modal-title-vcenter">
                 Add Project Description
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <h5></h5>
-            <form className="area">
-                <textarea rows="10" cols="60"value={des} onChange={desH} />
+            <form >
+                <textarea className="area" value={des} onChange={desH} />
             </form>
             </Modal.Body>
             <Modal.Footer>
@@ -44,6 +44,7 @@ function CenteredModal(props) {
   
 
 const Staff = React.memo( props =>(
+
         
             <tr>
                 <td>{props.staff.firstName} {props.staff.lastName}</td>
@@ -134,14 +135,16 @@ export default class Profile extends Component {
         })
     }
     UserList4() {
-
+        
         let filteredUsers = this.state.userS.filter(
             (currentStaff) => {
+                console.log(currentStaff.firstName);
                 return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
 
         return filteredUsers.map((currentStaff, i) => {
+            console.log(i);
             if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
                 return <Staff request={this.requestSup} send={this.reqSend} hiden={this.hideModal} 
                 desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} dis={this.state.dis} staff={currentStaff} key={i} />;
@@ -272,7 +275,7 @@ export default class Profile extends Component {
                                         <h3 className="sp_head">List of Supervisors</h3>
                                             <form>
                                                 <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch}/>
+                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
                                                 </div>
                                             </form>
                                                 <div>
