@@ -48,6 +48,23 @@ class noticeBlock {
   }
 }
 
+class studentNoticeBlock {
+  constructor(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
+    this._id = _id;
+    this.userType = userType;
+    this.userId = userId;
+    this.projectName = projectName;
+    this.date = date;
+    this.noticeTittle = noticeTittle;
+    this.notice = notice;
+    this.noticeAttachment = noticeAttachment;
+    this.toCordinator = toCordinator;
+    this.toSupervisor = toSupervisor;
+    this.toStudent = toStudent;
+
+  }
+}
+
 class NoticeView extends Component {
 
   constructor(props) {
@@ -60,6 +77,8 @@ class NoticeView extends Component {
       notice: '',
       userType: '',
       noticeListBlock: [],
+      studentNoticeList:[],
+      studentNoticeListBlock:[],
     }
 
   }
@@ -71,11 +90,14 @@ class NoticeView extends Component {
 
     const userId = getFromStorage('auth-id').id;
 
+    if(this.userType === 'coordinator'|| this.userType === 'supervisor' ){
+
     await axios.get(backendURI.url + '/notice/getNotice/' + userId)
       .then(res => {
         this.setState({ noticeList: res.data.data })
       })
 
+     
     for (let i = 0; i < this.state.noticeList.length; i++) {
       await axios.get(backendURI.url + '/notice/getProjectName/' + this.state.noticeList[i].projectId)
         .then(res => {
@@ -98,11 +120,48 @@ class NoticeView extends Component {
           this.setState({
             noticeListBlock: [...this.state.noticeListBlock, block]
           })
-          //console.log(this.state.noticeListBlock)
+         // console.log("aaa",this.state.noticeListBlock)
         })
 
     }
-    await axios.get(backendURI.url + '/notice/getAdminNotice')
+
+  }else if(this.userType === 'student'){
+    
+      await axios.get(backendURI.url + '/notice/getNoticeByStudent/' + userId)
+      .then(res => {
+        this.setState({ studentNoticeList: res.data.data })
+      })
+
+      for (let i = 0; i < this.state.studentNoticeList.length; i++) {
+        await axios.get(backendURI.url + '/notice/getProjectName/' + this.state.studentNoticeList[i].projectId)
+          .then(res => {
+  
+            var _id = this.state.studentNoticeList[i]._id;
+            var userType = this.state.studentNoticeList[i].userType;
+            var userId = this.state.studentNoticeList[i].userId;
+            var date = this.state.studentNoticeList[i].date;
+            var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
+            var noticeTittle = this.state.studentNoticeList[i].noticeTittle;
+            var notice = this.state.studentNoticeList[i].notice;
+            var noticeAttachment = this.state.studentNoticeList[i].filePath;
+            var toCordinator = this.state.studentNoticeList[i].toCordinator;
+            var toSupervisor = this.state.studentNoticeList[i].toSupervisor;
+            var toStudent = this.state.studentNoticeList[i].toStudent;
+  
+  
+            var block = new studentNoticeBlock(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
+  
+            this.setState({
+              studentNoticeListBlock: [...this.state.studentNoticeListBlock, block]
+            })
+            //console.log("sss",this.state.studentNoticeListBlock)
+          })
+  
+      }
+
+    } 
+
+      await axios.get(backendURI.url + '/notice/getAdminNotice')
       .then(res => {
         //console.log(res.data)
         this.setState({
@@ -327,6 +386,80 @@ class NoticeView extends Component {
                 </div>
                 <Footer />
             </React.Fragment>
+      )
+    }else if(this.userType === 'student') {
+      return(
+        <React.Fragment>
+          <Navbar panel={"supervisor"} />
+          <div className="container">
+          <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginTop: "20px",marginBottom:"30px", width: "100%" }}>
+          <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
+            {this.state.studentNoticeListBlock.length > 0 && (
+              <div >
+                  {this.state.studentNoticeListBlock.map((types) => {
+                    return (
+                      <div className="card container ch-card "   key={types._id} >
+                      <div className="cd-style">
+
+                      <Row className="cd-notice-tittle-div">
+                       <p className="cd-notice-name">{types.noticeTittle}</p><p className="cd-projects-name">&nbsp;-&nbsp;{types.projectName}</p>
+                       </Row>
+
+                       <Row className="cd-user-name-div">
+                       <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}</p>
+                       </Row>
+
+                          <div className="card-body">
+                            <h6>{types.notice}</h6>
+                            <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                              Attachment
+                            </a>
+                          </div>
+                        </div>
+                        </div>
+                    );
+                  })}
+                
+              </div>
+            )}
+          </Tab>
+              <Tab eventKey="admins" title="Published By Admins">
+                {this.state.allNoticeList.length > 0 && (
+                    <div>
+                      {this.state.allNoticeList.map((types) => {
+                        if (types.toStudent) {
+                          return (
+                            <div className="card container ch-card "   key={types._id} >
+                            <div className="cd-style">
+  
+                            <Row className="cd-notice-tittle-div">
+                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                             </Row>
+  
+                             <Row className="cd-user-name-div">
+                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             </Row>
+  
+                                <div className="card-body">
+                                  <h6>{types.notice}</h6>
+                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                    Attachment
+                                  </a>
+                                </div>
+                              </div>
+                              </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  
+                )}
+              </Tab>
+            </Tabs>
+          </div>
+          <Footer />
+        </React.Fragment>
+       
       )
     }else{
       return(
