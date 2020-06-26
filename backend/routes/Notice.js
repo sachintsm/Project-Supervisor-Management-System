@@ -2,11 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Notice = require("../models/notice");
 const Projects = require('../models/projects');
+const createGroups = require("../models/createGroups");
+const User = require('../models/users');
+
 const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
 const verify = require('../authentication');
 const notice = require("../models/notice");
+
 
 //  notification attachment saving destination folder
 var storage = multer.diskStorage({
@@ -77,7 +81,7 @@ router.post("/addNotice", verify, async (req, res) => {
       newNotice
         .save()
         .then((result) => {
-          console.log(result);
+         // console.log(result);
           res.json({ state: true, msg: "Data inserted successful.." });
         })
         .catch((error) => {
@@ -111,7 +115,7 @@ router.get("/viewNotice", (req, res, next) => {
 //Get notice attchment from database
 router.get("/noticeAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
-  console.log(filename);
+ //console.log(filename);
   res.sendFile(
     path.join(__dirname, "../local_storage/notice_Attachment/" + filename)
   );
@@ -163,7 +167,7 @@ router.get('/NoticeView/:coordinatorId', (req, res) => {
     .find({ userId: coordinatorId })
     .sort({date:-1})
     .then(data => {
-      console.log(data)
+     // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {
@@ -228,5 +232,33 @@ router.get("/getAdminNotice", (req, res, next) => {
       });
     });
 });
+
+//get notice by student 
+
+router.get("/getNoticeByStudent/:id" , async (req,res)=>{
+
+  try {
+    const sId = req.params.id
+    const result1 = await User.findOne({_id:sId , isStudent :true}).select('indexNumber')
+   
+    // res.json(result1.indexNumber)
+    // console.log(result1.indexNumber)
+    const result2 = await createGroups.find({groupMembers : result1.indexNumber , groupState:true}).select('projectId')
+    let idList = []
+    for(let i in result2){
+      idList.push(result2[i].projectId)
+    }
+
+    const result3 = await Notice.find({ projectId: idList })
+    .sort({date:-1})
+   .then(data => {
+    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+  })
+  } catch (error) {
+    console.log(error)
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+  }
+
+})
 
 module.exports = router;
