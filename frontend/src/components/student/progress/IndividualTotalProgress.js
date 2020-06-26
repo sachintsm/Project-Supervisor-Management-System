@@ -13,23 +13,42 @@ class IndividualTotalProgress extends Component {
         this.state = {
             member: this.props.member,
             groupId: this.props.groupId,
-            progress: 0
+            totalProgress: this.props.totalProgress,
+            progress: 0,
+            parentComponent: this.props.parentComponent,
+            taskDetails: this.props.taskDetails
         }
     }
 
     componentDidMount() {
+        console.log("ssss",this.state.totalProgress)
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
         let progress =   0;
-        axios.post(backendURI.url+'/progress/getstudenttotalprogress/'+this.state.member,{groupId:this.state.groupId},{headers:headers}).then(res=>{
-            // console.log(this.state.member)
-            let totalProgress = parseFloat(res.data)
-            console.log(totalProgress)
-            this.setState({
-                progress: Math.round(totalProgress * 10) / 10
+
+        if(this.state.parentComponent==="totalProgress"){
+            axios.post(backendURI.url+'/progress/getstudenttotalprogress/'+this.state.member,{groupId:this.state.groupId},{headers:headers}).then(res=>{
+                let studentProgress = parseFloat(res.data)
+                    studentProgress = studentProgress*100/this.state.totalProgress
+
+                this.setState({
+                    progress: Math.round(studentProgress * 1) / 1
+                })
             })
-        })
+        }
+        if(this.state.parentComponent==="taskprogress"){
+            axios.post(backendURI.url+'/progress/getstudenttaskprogress/'+this.state.member,{taskId:this.state.taskDetails._id},{headers:headers}).then(res=>{
+                let studentProgress = parseFloat(res.data)
+                console.log(studentProgress)
+                studentProgress = studentProgress*100/this.state.taskDetails.totalProgress
+
+                this.setState({
+                    progress: Math.round(studentProgress * 1) / 1
+                })
+            })
+        }
+
         axios.get(backendURI.url + '/users/studentList/' + this.state.member, { headers: headers })
             .then(res => {
                     if (res.data.data) {

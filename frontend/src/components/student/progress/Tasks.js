@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import {Input,Label, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import "../../../css/students/progress/Tasks.scss"
 import Footer from "../../shared/Footer";
@@ -140,7 +140,7 @@ class Tasks extends Component {
                             {this.state.currentTasks.map(item=>{
                                 return(
                                     <Col className="task-card-col" key={item._id} lg={3} md={3} xs={4} sm={6}>
-                                        <TaskCard task={item} />
+                                        <TaskCard task={item} groupDetails={this.state.groupDetails}/>
                                     </Col>
                                 )
                             })}
@@ -156,13 +156,10 @@ class Tasks extends Component {
                                     </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
                             </Col>}
                         </Row>
-                        <Row>
-                            {/*<Col lg={4} md={4} xs={2} sm={1}></Col>*/}
-                            {/*<Col lg={4} md={4} xs={2} sm={1}></Col>*/}
-                        </Row>
                     </div>
                 </div>
 
+                {/*Modal for addd new Task*/}
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Add New Task</ModalHeader>
                     <ModalBody>
@@ -195,7 +192,7 @@ class Tasks extends Component {
                     </ModalBody>
                 </Modal>
 
-                    <Footer/>
+                <Footer/>
             </React.Fragment>
         );
     }

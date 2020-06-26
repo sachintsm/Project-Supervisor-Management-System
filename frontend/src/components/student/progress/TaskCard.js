@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
+import {Input,Label, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import "../../../css/students/progress/TaskCard.scss"
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import Slider from '@material-ui/core/Slider';
+import { withRouter } from "react-router-dom";
 import {ThemeProvider} from "@material-ui/styles";
+import {createMuiTheme} from "@material-ui/core/styles";
 
 const marks = [
     { value: 1, label: '1',  },
@@ -17,20 +20,62 @@ const marks = [
     { value: 9, label: '9',  },
     { value: 10, label: '10',  },
 ];
+const muiTheme = createMuiTheme({
+    overrides:{
+        MuiSlider: {
+            thumb:{
+                color: "#000",
+            },
+            track: {
+                color: '#444'
+            },
+            rail: {
+                color: '#888'
+            },
+            mark: {
+                backgroundColor: '#888',
+            },
+        }
+    }
+});
 
 class TaskCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: this.props.task
+            task: this.props.task,
+            groupDetails: this.props.groupDetails
         }
-        // console.log(this.task)
     }
 
+    componentDidMount() {
+        this.setState({
+            totalProgress: this.state.task.totalProgress
+        })
+    }
+
+    editTask = () => {
+        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskDetails: this.state.task ,groupDetails: this.state.groupDetails})
+    }
+
+    taskWeightHandler = (event,value) =>{
+        this.setState({taskWeight: value})
+    }
+
+    progressHandler = (event,value) => {
+        this.setState({totalProgress: value})
+    }
+
+    onChangeDescription = (e) => {
+
+        this.setState({ description: e.target.value  })
+    }
 
     render() {
+
+
         return (
-            <Card className="task-card">
+            <Card className="task-card" onClick={this.editTask}>
                 <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%)</Card.Header>
                 <Card.Body className="card-body">
                     <div className="circular-progress-div">
@@ -45,7 +90,41 @@ class TaskCard extends Component {
                 </Card.Body>
             </Card>
         );
+            // if the task is in edit state
+            // return (
+            //     <Card className="task-card" onClick={this.editTask}>
+            //         <Card.Header className="card-header">Update Task</Card.Header>
+            //         <Card.Body className="card-body">
+            //             <Card.Text>
+            //                 {this.state.task.totalProgress > this.state.totalProgress &&
+            //                     (<div><span>Change Task Progress </span><span style={{fontWeight:"bold"}}>({this.state.totalProgress}%)</span> <span style={{color:"red"}}>(-{this.state.task.totalProgress-this.state.totalProgress}%)</span> </div>)}
+            //                 {this.state.task.totalProgress < this.state.totalProgress &&
+            //                     (<div><span>Change Task Progress </span><span style={{fontWeight:"bold"}}>({this.state.totalProgress}%)</span><span style={{color:"#27d600"}}> (+{this.state.totalProgress-this.state.task.totalProgress}%)</span></div>)}
+            //                 {this.state.task.totalProgress === this.state.totalProgress && <div><span>Change Task Progress </span><span style={{fontWeight:"bold"}}>({this.state.totalProgress}%)</span> </div>}
+            //
+            //                 <ThemeProvider theme={muiTheme}>
+            //                     <Slider defaultValue={this.state.task.totalProgress} onChange={this.progressHandler} aria-labelledby="continuous-slider"
+            //                             valueLabelDisplay="auto" step={1} min={0} max={100} />
+            //                 </ThemeProvider>
+            //
+            //                 <span>Change Task Weight</span>
+            //                 <ThemeProvider theme={muiTheme}>
+            //                     <Slider defaultValue={this.state.task.taskWeight} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
+            //                             valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+            //                 </ThemeProvider>
+            //
+            //                 <label>Comment</label>
+            //                 <Input type="text" className="form-control" name="Description" onChange={this.onChangeDescription} />
+            //
+            //                 <Row>
+            //
+            //                 </Row>
+            //             </Card.Text>
+            //         </Card.Body>
+            //     </Card>
+            // );
+
     }
 }
 
-export default TaskCard;
+export default withRouter(TaskCard);
