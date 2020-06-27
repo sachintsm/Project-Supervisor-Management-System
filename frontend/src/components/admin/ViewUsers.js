@@ -263,7 +263,7 @@ export default class ViewUsers extends Component {
                                                 <div>
                                                     <h3 className="sp_head">List of Staff</h3>
                                                     <form>
-                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                        <div className="form-group vu-search-box" >
                                                             <input className="form-control" type="text" value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
@@ -299,13 +299,13 @@ export default class ViewUsers extends Component {
                                                 <div>
                                                     <h3 className="sp_head">List of Admins</h3>
                                                     <form>
-                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                        <div className="form-group  vu-search-box">
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
                                                     <div className="container">
                                                         <div className=" vu-table">
-                                                            <Table hover style={{ marginTop: 20 }} >
+                                                            <Table hover  className="vu-table-hover" >
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Name</th>
@@ -334,13 +334,13 @@ export default class ViewUsers extends Component {
                                                 <div>
                                                     <h3 className="sp_head">List of Co-ordinators</h3>
                                                     <form>
-                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                        <div className="form-group  vu-search-box">
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
                                                     <div className="container">
                                                         <div className=" vu-table">
-                                                            <Table hover style={{ marginTop: 20 }} >
+                                                            <Table hover  className="vu-table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Name</th>
@@ -371,13 +371,13 @@ export default class ViewUsers extends Component {
                                                 <div>
                                                     <h3 className="sp_head">List of Supervisors</h3>
                                                     <form>
-                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                        <div className="form-group  vu-search-box">
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
                                                     <div className="container">
                                                         <div className=" vu-table">
-                                                            <Table hover style={{ marginTop: 20 }} >
+                                                            <Table hover  className="vu-table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Name</th>
@@ -407,13 +407,13 @@ export default class ViewUsers extends Component {
                                                 <div>
                                                     <h3 className="sp_head">List of Students</h3>
                                                     <form>
-                                                        <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                        <div className="form-group  vu-search-box" >
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
                                                     <div className="container">
                                                         <div className=" vu-table">
-                                                            <Table hover style={{ marginTop: 20 }} >
+                                                            <Table hover  className="vu-table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Name</th>

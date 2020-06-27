@@ -55,6 +55,12 @@
 /* On screens that are 600px or less, set the background color to olive */
 
 @media screen and (max-width: 500px) {
+    .vu-search-box{
+        width: 90%;
+    }
+    .vu-table{
+        margin: 0px;
+    }
     .vu-table-hover {
         table, thead, tbody, th, td, tr {
             display: block;
