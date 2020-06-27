@@ -251,7 +251,7 @@ export default class ViewUsers extends Component {
                         {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
                             <Sidebar />
                         </div> */}
-                        <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                        <div className="col-md-12" style={{ minHeight: "1000px" }}>
                             <div className="container">
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
@@ -421,7 +421,6 @@ export default class ViewUsers extends Component {
                                                                         <th>Nic</th>
                                                                         <th>Mobile</th>
                                                                         <th>Actions</th>
-
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -442,7 +441,6 @@ export default class ViewUsers extends Component {
                         </div>
                     </div>
                 </div>
-
                 <Footer />
             </React.Fragment >
         )
