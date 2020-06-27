@@ -13,16 +13,7 @@ import { Table, Spinner } from 'react-bootstrap'
 
 const backendURI = require('../shared/BackendURI');
 
-class groupDataBlock {
-  constructor(_id, groupId, groupName, projectId, groupMembers, supervisors) {
-    this._id = _id;
-    this.groupId = groupId;
-    this.groupName = groupName;
-    this.projectId = projectId;
-    this.groupMembers = groupMembers;
-    this.supervisors = supervisors;
-  }
-}
+
 class SupervisorHome extends Component {
   constructor(props) {
     super(props);
@@ -70,52 +61,7 @@ class SupervisorHome extends Component {
         })
       })
 
-
-    // //? load all the active project names from
-    // await axios.post(backendURI.url + '/createGroups/active&groups/', data)
-    //   .then(async res => {
-    //     console.log(res);
-
-    //     this.setState({
-
-    //       activeProjects: res.data.data,
-    //     })
-    //     for (let i = 0; i < this.state.activeProjects.length; i++) {
-    //       if (this.state.activeProjects[i].supervisors.length !== 0) {
-    //         var array1 = [];
-    //         var array2 = [];
-    //         for (let j = 0; j < this.state.activeProjects[i].supervisors.length; j++) {
-    //           await axios.get(backendURI.url + '/users/getUserName/' + this.state.activeProjects[i].supervisors[j])
-    //             .then(res => {
-    //               var supervisorName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName + ', ';
-    //               array1.push(supervisorName)
-    //             })
-    //         }
-    //         for (let k = 0; k < this.state.activeProjects[i].groupMembers.length; k++) {
-    //           var newMember = this.state.activeProjects[i].groupMembers[k] + ', '
-    //           array2.push(newMember)
-    //         }
-    //         var block = new groupDataBlock(
-    //           this.state.activeProjects[i]._id,
-    //           this.state.activeProjects[i].groupId,
-    //           this.state.activeProjects[i].groupName,
-    //           this.state.activeProjects[i].projectId,
-    //           array2,
-    //           array1
-    //         )
-    //         // console.log(block)
-    //         // this.state.groupDataBlock.push(block)
-    //         this.setState({
-    //           groupDataBlock: [...this.state.groupDataBlock, block],
-    //           spinnerDiv1: false
-    //         })
-    //       }
-    //     }
-    //   })
-  }
-  // onClickGroup(data) {
-  //   this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
-  // }
+    }
 
   render() {
 
@@ -170,59 +116,7 @@ class SupervisorHome extends Component {
           </div>
           <div className="container">
 
-            <Row className="card-row-sd">
-              {/* {spinnerDiv1 && (
-                <div className="spinner">
-                  <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
-                </div>
-              )} */}
-              {/* {this.state.groupDataBlock.map((item) => {
-                return ( */}
-                  <Col md={4} xs={12} sm={6} 
-                  // key={item._id}
-                  >
-                    <Card className='sd-proj-card'
-                    //  onClick={() => this.onClickGroup(item._id)}
-                     >
-                      <div className="container" >
-                        <Row className="spc-topic-div">
-                          <p className="spc-topic">
-                            {/* {item.groupId} - {item.groupName} */}
-                            E-Supervision
-                            </p>
-                        </Row>
-
-                        <Row style={{ width: '70%', margin: "auto" }}>
-                          <Col md={12} sm={12} xs={12} className="spc-progress">
-                            {progressCircle}
-                          </Col>
-                        </Row>
-                        <Row>
-                          <p className="spc-head">Group Members</p>
-                        </Row>
-                        <Row>
-                          <p className="spc-list">
-                            {/* {item.groupMembers} */}
-                            17001112
-                            </p>
-                        </Row>
-                        <Row>
-                          <p className="spc-head">Supervisors</p>
-                        </Row>
-                        <Row>
-                          <p className="spc-list">
-                            {/* {item.supervisors} */}
-                            Sachin Muthumala
-                            </p>
-                        </Row>
-
-                      </div>
-                    </Card>
-                  </Col>
-                {/* )
-              })} */}
-            </Row>
-
+              
           </div>
 
         </div>
