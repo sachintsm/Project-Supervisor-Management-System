@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {getFromStorage} from "../../../utils/Storage";
-import { ProgressBar , Row, Col } from 'react-bootstrap';
+import { ProgressBar , Row, Col, Spinner } from 'react-bootstrap';
 import axios from "axios";
 import "../../../css/students/progress/IndividualTotalProgress.scss"
 
@@ -16,7 +16,8 @@ class IndividualTotalProgress extends Component {
             totalProgress: this.props.totalProgress,
             progress: 0,
             parentComponent: this.props.parentComponent,
-            taskDetails: this.props.taskDetails
+            taskDetails: this.props.taskDetails,
+            loading: true
         }
     }
 
@@ -33,7 +34,8 @@ class IndividualTotalProgress extends Component {
                     studentProgress = studentProgress*100/this.state.totalProgress
 
                 this.setState({
-                    progress: Math.round(studentProgress * 1) / 1
+                    progress: Math.round(studentProgress * 1) / 1,
+                    loading: false
                 })
             })
         }
@@ -44,7 +46,8 @@ class IndividualTotalProgress extends Component {
                 studentProgress = studentProgress*100/this.state.taskDetails.totalProgress
 
                 this.setState({
-                    progress: Math.round(studentProgress * 1) / 1
+                    progress: Math.round(studentProgress * 1) / 1,
+                    loading: false
                 })
             })
         }
@@ -68,13 +71,18 @@ class IndividualTotalProgress extends Component {
     }
 
     render() {
+        console.log(this.state.loading)
         return (
             <div className="individual-total-progress">
-                {this.state.name} ({this.state.index})
-                <Row>
-                    <Col lg={9} md={9} sm={12} xs={12} className="progressbar-col"><ProgressBar variant="dark" now={this.state.progress} /></Col>
-                    <Col lg={3} md={3} sm={12} xs={12} ><span className="progress-value-span">{this.state.progress} %</span></Col>
-                </Row>
+                {/*{this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}*/}
+                <div>
+                    {this.state.name} ({this.state.index})
+                    <Row>
+                        <Col lg={9} md={9} sm={12} xs={12} className="progressbar-col"><ProgressBar variant="dark" now={this.state.progress} /></Col>
+                        <Col lg={3} md={3} sm={12} xs={12} ><span className="progress-value-span">{this.state.progress} %</span></Col>
+                    </Row>
+                </div>
+
 
             </div>
         );

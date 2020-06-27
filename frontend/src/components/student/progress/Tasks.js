@@ -139,7 +139,7 @@ class Tasks extends Component {
                         <Row>
                             {this.state.currentTasks.map(item=>{
                                 return(
-                                    <Col className="task-card-col" key={item._id} lg={3} md={3} xs={4} sm={6}>
+                                    <Col className="task-card-col" key={item._id} lg={3} md={4} xs={12} sm={12}>
                                         <TaskCard task={item} groupDetails={this.state.groupDetails}/>
                                     </Col>
                                 )
@@ -164,30 +164,29 @@ class Tasks extends Component {
                     <ModalHeader toggle={this.toggle}>Add New Task</ModalHeader>
                     <ModalBody>
                         <div className="container">
-                            <div className="row">
-                            </div><div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
-                            <form onSubmit={this.onSubmit}>
+                            <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
+                                <form onSubmit={this.onSubmit}>
 
-                                <div className="form-group">
-                                    <Label for="avatar">Task Title</Label>
-                                    <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} />
-                                    <p className="reg-error">{this.state.contactNumberError}</p>
-                                </div>
+                                    <div className="form-group">
+                                        <Label for="avatar">Task Title</Label>
+                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} />
+                                        <p className="reg-error">{this.state.contactNumberError}</p>
+                                    </div>
 
-                                <div className="form-group">
-                                    <Label for="avatar">Task Weight ( 1-10 )</Label>
+                                    <div className="form-group">
+                                        <Label for="avatar">Task Weight ( 1-10 )</Label>
 
-                                    <ThemeProvider theme={muiTheme}>
+                                        <ThemeProvider theme={muiTheme}>
 
-                                        <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
-                                            valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
-                                    </ThemeProvider>
-                                </div>
-                                <div className="form-group">
-                                    <Button className="btn btn-info my-4" type="submit" block>Add Task</Button>
-                                </div>
-                            </form>
-                        </div>
+                                            <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
+                                                valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className="form-group">
+                                        <Button className="btn btn-info my-4" type="submit" block>Add Task</Button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </ModalBody>
                 </Modal>

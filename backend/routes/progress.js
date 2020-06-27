@@ -18,8 +18,6 @@ router.post('/addtask', verify, async (req, res, next) => {
             progressList.push(0)
             studentList.push(studentIds[i]._id)
         }
-
-
         const project = new ProgressTasks(req.body);
         project.studentList = studentList
         project.studentProgress = progressList
@@ -28,6 +26,18 @@ router.post('/addtask', verify, async (req, res, next) => {
     }
     catch (err) {
         console.log(err)
+    }
+})
+
+router.patch('/edittask/:id',verify,async(req,res,next)=>{
+    try{
+        const id = req.params.id;
+        const obj = req.body;
+        const result = await ProgressTasks.findByIdAndUpdate(id,  obj,{ new: true })
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
     }
 })
 
