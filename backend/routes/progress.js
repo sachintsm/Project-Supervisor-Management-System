@@ -102,12 +102,10 @@ router.post('/getstudenttaskprogress/:studentIndex', async(req,res,next) =>{
         const taskId = req.body.taskId
         const userId = await User.findOne({indexNumber:index}).select('_id');
         const task = await ProgressTasks.findOne({studentList:userId._id,_id:taskId})
-        console.log(task)
         let studentProgress = 0;
         for(let j in task.studentList){ //get the array index of student
             if(task.studentList[j] == userId._id){
                 studentProgress = task.studentProgress[j]; // individual progress of the student
-                console.log(studentProgress)
             }
         }
         res.send(""+studentProgress);
