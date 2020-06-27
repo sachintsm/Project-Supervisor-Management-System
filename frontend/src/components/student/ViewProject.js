@@ -86,6 +86,10 @@ class ViewProject extends Component {
         })
 
     }
+    requestSup(item){
+        this.props.history.push('/studenthome/requestsupervisor',{projectDetails:item});
+    }
+
 
     getGroupId = () => {
         const userId = getFromStorage("auth-id").id;
@@ -108,7 +112,7 @@ class ViewProject extends Component {
     }
 
     viewProgress = (project) => {
-        this.props.history.push('/studenthome/viewproject/progress-tasks', { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: project, groupDetails: this.state.groupDetails })
     }
 
     viewChat = (project) => {
@@ -186,13 +190,13 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Chat Box</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={()=>this.requestSup(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <IoIosPersonAdd />
                                     </div>
-                                </IconContext.Provider><span className="btn-title">Request Supervisors</span></Card>
+                                </IconContext.Provider><span className="btn-title" onClick={()=>this.requestSup(this.state.project)}>Request Supervisors</span></Card>
                         </Col>
                         <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewMeetings(this.state.project)}>
                             <Card className="btn-card">

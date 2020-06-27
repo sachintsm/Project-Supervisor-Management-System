@@ -1,0 +1,41 @@
+.total-progress-card-div{
+
+  .total-progress-card{
+    margin: 0px 0px 20px 0px;
+    .card-header{
+      background-color: #263238 !important;
+      color: white;
+      font-size: 20px;
+    }
+    .circular-progress-div{
+      padding: 3% 5% 2% 5%;
+      text-align: center;
+    }
+    .individual-progress-div{
+      padding: 2.4% 0% 0% 5%;
+    }
+  }
+
+}
+@media only screen and  (max-width: 1024px) {
+  .total-progress-card-div{
+    .card-body{
+      margin: 0px 30px !important;
+    }
+    .circular-progress-div{
+      padding: 4% 3% 3% 1% !important;
+      text-align: center;
+    }
+
+  }
+}
+
+@media only screen and  (max-width: 768px) {
+  .total-progress-card-div{
+    .circular-progress-div{
+      padding: 7% 3% 3% 3% !important;
+      text-align: center;
+    }
+
+  }
+}
