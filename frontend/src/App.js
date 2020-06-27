@@ -36,6 +36,7 @@ import NoticeView from './components/shared/NoticeView';
 import StudentHome from './components/student/StudentHome';
 import ViewProjects from "./components/student/ViewProjects";
 import ViewProject from "./components/student/ViewProject";
+import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
 
@@ -95,6 +96,7 @@ function App() {
           <Route exact path='/studenthome/viewproject/progresstasks' component={Tasks}></Route>
           <Route exact path='/studenthome/viewproject/progresstasks/viewtask' component={ViewTask}></Route>
           <Route exact path='/shared/notice' component={NoticeView}></Route>
+          <Route exact path='/studenthome/requestsupervisor' component={RequestSupervisor}></Route>
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
 
 
