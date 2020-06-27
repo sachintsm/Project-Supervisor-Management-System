@@ -28,7 +28,6 @@ class ViewProjects extends Component {
     }
 
     openProject(item){
-
         this.props.history.push('/studenthome/viewproject',{projectDetails:item})
     }
 
