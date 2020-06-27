@@ -6,8 +6,8 @@ var progresstasks = Schema({
     taskTitle: {type: String},
     taskWeight: {type: Number},
     totalProgress: {type: Number},
-    studentList: {type: Array},
-    studentProgress: {type: Array},
+    studentList: [{type: String}],
+    studentProgress: [{type: Number}],
 });
 
 const ProgressTasks = mongoose.model('progresstasks', progresstasks);

@@ -1,35 +1,37 @@
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
 import axios from 'axios';
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Navbar from "../shared/Navbar";
-import '../../css/admin/ViewUsers.css';
+import '../../css/admin/ViewUsers.scss';
 import Footer from '../shared/Footer';
 import { verifyAuth } from "../../utils/Authentication";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Row, Col } from 'reactstrap';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
+import Snackpop from "../shared/Snackpop";
 
 const backendURI = require('../shared/BackendURI');
 
 const Staff = React.memo(props => (
     <tr>
-        <td>{props.staff.firstName} {props.staff.lastName}</td>
-        <td>{props.staff.email}</td>
-        {/* <td>{props.staff.birthday}</td> */}
-        <td>{props.staff.nic}</td>
-        <td>{props.staff.mobile}</td>
-        <td>
-            <Create className="edit-btn" fontSize="large" href={"/editprofile/" + props.staff._id} />
-        </td>
-        <Link to={"/editprofile/" + props.staff._id}>Edit</Link>
-        <td>
-        </td>
-        <td>
-            <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => props.delete(props.staff._id)} />
+        <td className="table-body">{props.staff.firstName} {props.staff.lastName}</td>
+        <td className="table-body">{props.staff.email}</td>
+        <td className="table-body">{props.staff.nic}</td>
+        <td className="table-body">{props.staff.mobile}</td>
+        <td className="table-body">
+            <Row>
+                <Col>
+                    <Link to={"/editprofile/" + props.staff._id}><Create className="edit-btn" fontSize="default" /></Link>
+                </Col>
+                <Col>
+                    <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => props.delete(props.staff._id)} />
+                </Col>
+            </Row>
         </td>
     </tr>
 ));
@@ -42,6 +44,10 @@ export default class ViewUsers extends Component {
         super(props);
 
         this.state = {
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
+
             authState: '',
             snackbaropen: false,
             snackbarmsg: '',
@@ -79,11 +85,7 @@ export default class ViewUsers extends Component {
 
         axios.get(backendURI.url + "/users/get")
             .then(response => {
-                console.log(response.data.data);
-
                 this.setState({ userS: response.data.data });
-                //   console.log(userStaff);
-
             })
             .catch(function (error) {
                 console.log(error);
@@ -164,7 +166,7 @@ export default class ViewUsers extends Component {
             if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
-            else{
+            else {
                 return null;
             }
         })
@@ -191,13 +193,41 @@ export default class ViewUsers extends Component {
 
 
     deleteUser(data) {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        axios.post(backendURI.url + "/users/deleteUser/" + data)
+                            .then(res => {
+                                if (res.data.state === true) {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'success',
+                                    })
+                                }
+                                else {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'error',
+                                    })
+                                }
+                            });
+                        window.location.reload();
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
 
-        axios.post(backendURI.url + "/users/deleteUser/" + data)
-            .then(res => console.log(res.data));
-
-        // this.props.history.push('adminhome/viewusers/');
-        window.location.reload();
-
+                    }
+                }
+            ]
+        })
     }
 
 
@@ -207,20 +237,14 @@ export default class ViewUsers extends Component {
             <React.Fragment >
                 <Navbar panel={"admin"} />
                 <div className="container-fluid">
-                    <Snackbar
-                        open={this.state.snackbaropen}
-                        autoHideDuration={2000}
-                        onClose={this.snackbarClose}
-                        message={<span id="message-id">{this.state.snackbarmsg}</span>}
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="Close"
-                                color="secondary"
-                                onClick={this.snackbarClose}
-                            > x </IconButton>
-                        ]}
+                    <Snackpop
+                        msg={this.state.snackbarmsg}
+                        color={this.state.snackbarcolor}
+                        time={3000}
+                        status={this.state.snackbaropen}
+                        closeAlert={this.closeAlert}
                     />
+
                     {/* ************************************************************************************************************************************************************************** */}
 
                     <div className="row">
@@ -243,22 +267,25 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="text" value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div>
-                                                        <Table hover style={{ marginTop: 20 }} >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Nic</th>
-                                                                    <th>Mobile</th>
+                                                    <div className="container">
+                                                        <div className=" vu-table">
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {this.UserList1()}
+                                                            <Table hover className="vu-table-hover" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th className="table-head">Name</th>
+                                                                        <th className="table-head">Email</th>
+                                                                        <th className="table-head">Nic</th>
+                                                                        <th className="table-head">Mobile</th>
+                                                                        <th className="table-head">Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.UserList1()}
 
-                                                            </tbody>
-                                                        </Table>
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -273,24 +300,28 @@ export default class ViewUsers extends Component {
                                                     <h3 className="sp_head">List of Admins</h3>
                                                     <form>
                                                         <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div>
-                                                        <Table hover style={{ marginTop: 20 }} >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Nic</th>
-                                                                    <th>Mobile</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {this.UserList2()}
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover style={{ marginTop: 20 }} >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Email</th>
+                                                                        <th>Nic</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>Actions</th>
 
-                                                            </tbody>
-                                                        </Table>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.UserList2()}
+
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -304,25 +335,27 @@ export default class ViewUsers extends Component {
                                                     <h3 className="sp_head">List of Co-ordinators</h3>
                                                     <form>
                                                         <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div>
-                                                        <Table hover style={{ marginTop: 20 }} >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Nic</th>
-                                                                    <th>Mobile</th>
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover style={{ marginTop: 20 }} >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Email</th>
+                                                                        <th>Nic</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>Actions</th>
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {this.UserList3()}
-
-                                                            </tbody>
-                                                        </Table>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.UserList3()}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,25 +372,28 @@ export default class ViewUsers extends Component {
                                                     <h3 className="sp_head">List of Supervisors</h3>
                                                     <form>
                                                         <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div>
-                                                        <Table hover style={{ marginTop: 20 }} >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Nic</th>
-                                                                    <th>Mobile</th>
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover style={{ marginTop: 20 }} >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Email</th>
+                                                                        <th>Nic</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>Actions</th>
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {this.UserList4()}
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.UserList4()}
 
-                                                            </tbody>
-                                                        </Table>
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,24 +408,27 @@ export default class ViewUsers extends Component {
                                                     <h3 className="sp_head">List of Students</h3>
                                                     <form>
                                                         <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search ID here" onChange={this.handleSearch} />
+                                                            <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div>
-                                                        <Table hover style={{ marginTop: 20 }} >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Name</th>
-                                                                    <th>Email</th>
-                                                                    <th>Nic</th>
-                                                                    <th>Mobile</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {this.UserList5()}
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover style={{ marginTop: 20 }} >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Email</th>
+                                                                        <th>Nic</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>Actions</th>
 
-                                                            </tbody>
-                                                        </Table>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.UserList5()}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
