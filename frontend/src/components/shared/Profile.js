@@ -219,13 +219,13 @@ export default class Profile extends Component {
     }
     render() {
         return (
-            <div style={{ backgroundColor: "#f5f5f5" }}>
+            <div style={{ backgroundColor: "#f5f5f5" }} >
                 {this.state.admin === true ?
                     (<Navbar panel={"admin"} />) : (this.state.stu === true ?
                         (<Navbar panel={"student"} />) : (this.state.sup === true ?
                             (<Navbar panel={"supervisor"} />) : (this.state.cor === true ?
                                 (<Navbar panel={"coordinator"} />) : null)))}
-                <div>
+                <div className="card container">
                     <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
@@ -234,7 +234,7 @@ export default class Profile extends Component {
                         closeAlert={this.closeAlert}
                     />
                     <Row>
-                        <Col xs="4" style={{ marginTop: "190px" }}><Profilepic /></Col>
+                        <Col xs="4" style={{ marginTop: "0px" }}><Profilepic /></Col>
                         <Col xs="8" className="main-div">
                             <p className="reg-head">Manage Your Account</p>
                             <Tabs className="tab" defaultActiveKey="edit" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
@@ -243,7 +243,7 @@ export default class Profile extends Component {
                                         <div className="card-body px-lg-5">
                                             <div style={{ marginTop: 10 }}>
                                                 <form onSubmit={this.onSubmit}>
-                                                    <div className="form-row mb-4">
+                                                    <div className="form-row ">
                                                         <div className="col">
                                                             <div className="form-group">
                                                                 <label>First Name:</label>
@@ -271,7 +271,7 @@ export default class Profile extends Component {
                                                             required />
                                                         <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
                                                     </div>
-                                                    <div className="form-row mb-4">
+                                                    <div className="form-row ">
                                                         <div className="col">
                                                             <div className="form-group">
                                                                 <label> NIC Number:</label>
@@ -300,7 +300,7 @@ export default class Profile extends Component {
                                                             readOnly />
                                                     </div>
                                                     {this.state.stu === true ? (
-                                                        <div className="form-row mb-4">
+                                                        <div className="form-row ">
                                                             <div className="col">
                                                                 <div className="form-group">
                                                                     <label> Index Number:</label>
@@ -322,7 +322,7 @@ export default class Profile extends Component {
                                                         </div>) : null
                                                     }
                                                     <div className="from-group justify-content-center">
-                                                        <input type="submit" value="Save" className="btn btn-info my-4" />
+                                                        <input type="submit" value="Save" className="btn btn-info my-4" style={{width: "100%"}} />
                                                     </div>
                                                 </form>
                                             </div>
