@@ -3,11 +3,17 @@
   .card-header{
     background-color: #263238;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
   }
   .circular-progress-div{
     padding: 5% 30% 8% 30%;
     text-align: center;
+  }
+  @media only screen and  (max-width: 1024px) {
+    .card-header{
+      font-size: 15px !important;
+    }
+
   }
 }
 .task-card:hover{

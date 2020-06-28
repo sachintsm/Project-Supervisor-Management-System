@@ -312,4 +312,21 @@ router.get('/getProjectName/:id', async (req, res) => {
     })
 })
 
+//? get all the project data with spesific supervisor
+//? (SupervisorHome.js)
+router.get('/getAllActiveProjectDataS/:id', async (req, res) => {
+  const coId = req.params.id
+  await Projects
+    .find({ supervisorList: coId, projectState: true })
+    .select('projectYear projectType academicYear _id')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
 module.exports = router;
