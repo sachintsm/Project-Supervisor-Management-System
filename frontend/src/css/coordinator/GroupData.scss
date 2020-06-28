@@ -29,10 +29,15 @@
 }
 
 .gd-del-btn {
-    color: #444444;
+    color: #5e5e5e;
     margin-right: 10px;
     margin-left: -10px;
     margin-top: 7px;
+}
+.gd-del-btn:hover {
+    color: #a02828;
+    font-size: 25px;
+    transition: 0.5s;
 }
 .gd-reg-head-div {
     background-color: #17a2b8;
@@ -42,23 +47,23 @@
 /*************************Student List ****************/
 
 .sl-text {
-    font-size: 18px;
+    font-size: 16px;
     padding-top: 5px;
     padding-left: 10px;
-    color: #444444;
+    color: #5e5e5e;
 }
 
-.sl-card {
-    margin-top: -35px;
+.sd-sl-card-student {
+    // margin-top: 35px;
     height: 40px;
 }
 
 .sl-card-super {
-    margin-top: -35px;
+    // margin-top: -35px;
     height: 40px;
 }
 
-.sl-card:hover {
+.sd-sl-card-student:hover {
     background-color: rgb(248, 248, 248);
     cursor: pointer;
     transition: 0.5s;
@@ -70,22 +75,23 @@
     transition: 0.5s;
 }
 .gd-stu-list {
-    margin-top: 0px;
+    margin-top: -40px;
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 500px) {
     .sl-text {
-        font-size: 16px;
-        padding-top: 5px;
+        font-size: 15px;
+        // padding-top: 5px;
         padding-left: 10px;
         color: #444444;
     }
-    .sl-card {
-        margin-top: -35px;
+    .sd-sl-card-student {
+        margin-bottom: 20px;
         height: 90px;
     }
     .sl-card-super {
-        margin-top: -35px;
+        // margin-top: -35px;
         height: 40px;
     }
     .gd-topic {
@@ -107,10 +113,10 @@
     }
     
     .gd-stu-list {
-        margin-top: 0px;
+        margin-top: -40px;
     }
     .gd-del-btn {
-        color: #444444;
+        color: #5c5c5c;
         margin-right: 10px;
         margin-left: -10px;
     }

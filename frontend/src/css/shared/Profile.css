@@ -1,18 +1,18 @@
 @media (min-width: 320px) and (max-width: 480px) {
-    .form-group{
-        margin: 0 auto; 
-        float: none; 
-        margin-bottom: 10px;  
+    .form-group {
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
     }
-    .password-icon{
-        cursor:pointer;
+    .password-icon {
+        cursor: pointer;
     }
-    .input-container{
-        display:flex;
+    .input-container {
+        display: flex;
     }
-    .card-body{
-        margin: 0 auto; 
-        float: none; 
+    .card-body {
+        margin: 0 auto;
+        float: none;
         margin-bottom: 10px;
     }
     .avatar {
@@ -20,8 +20,8 @@
         width: 50px;
         height: 50px;
         border-radius: 25%;
-      }
-      .tab {
+    }
+    .tab {
         margin-left: 20px;
         margin-right: 20px;
         text-align: left;
@@ -37,60 +37,57 @@
         color: #3a3a3a;
         font-weight: 500;
     }
-    .form-group1{
+    .form-group1 {
         width: 50px;
     }
-    
-    
-    
-    .testimonial-card{
+    .testimonial-card {
         width: 100px;
-        height:100px;
-        
+        height: 100px;
     }
-    .card-body1{
-        height:100px;
-        width:100px;
-        margin: 0 auto; 
-        float: none; 
+    .card-body1 {
+        height: 100%;
+        width: 100%;
+        margin: 0 auto;
+        float: none;
         margin-bottom: 10px;
     }
-    .testimonial-card1{
+    .testimonial-card1 {
         width: 130px;
-        height:129px;
+        height: 129px;
     }
-    
-    .card1{
+    .card1 {
         width: 210px;
     }
-    .card2{
+    .card2 {
         width: 220px;
     }
-    .card3{
+    .card3 {
         width: 200px;
     }
-    .myImage{
-        width: 97px; 
+    .myImage {
+        width: 97px;
     }
-    .card-title{
-        font-size:small;
+    .card-title {
+        font-size: small;
+        padding-left: 10px;
     }
-  }
-  @media (min-width: 481px) and (max-width: 1024px) {
-    .form-group{
-        margin: 0 auto; 
-        float: none; 
-        margin-bottom: 10px;  
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+    .form-group {
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
     }
-    .input-container{
-        display:flex;
+    .input-container {
+        display: flex;
     }
-    .password-icon{
-        cursor:pointer;
+    .password-icon {
+        cursor: pointer;
     }
-    .card-body{
-        margin: 0 auto; 
-        float: none; 
+    .card-body {
+        margin: 0 auto;
+        float: none;
         margin-bottom: 10px;
     }
     .avatar {
@@ -98,8 +95,8 @@
         width: 110px;
         height: 120px;
         border-radius: 50%;
-      }
-      .tab {
+    }
+    .tab {
         margin-left: 20px;
         margin-right: 20px;
         text-align: left;
@@ -115,100 +112,93 @@
         color: #3a3a3a;
         font-weight: 500;
     }
-    
-    
-    
-    .testimonial-card{
+    .testimonial-card {
         width: 250px;
-        height:230px;
-        
+        height: 230px;
     }
-    .card-body1{
-        height:200px;
-        margin: 0 auto; 
-        float: none; 
+    .card-body1 {
+        height: 200px;
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+        /* width: 10px; */
+    }
+    .testimonial-card1 {
+        width: 250px;
+        height: 130px;
+    }
+    .card1 {
+        width: 100%;
+    }
+    .card2 {
+        width: 100%;
+        margin-top: 20px;
+    }
+    .card3 {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .form-group {
+        margin: 0 auto;
+        float: none;
         margin-bottom: 10px;
     }
-    .testimonial-card1{
-        width: 250px;
-        height:130px;
+    .input-container {
+        display: flex;
     }
-    
-    .card1{
-        width: 500px;
+    .password-icon {
+        cursor: pointer;
     }
-    .card2{
-        width: 400px;
+    .card-body {
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
     }
-    .card3{
-        width: 200px;
+    .avatar {
+        vertical-align: middle;
+        /* width: 110px; */
+        /* height: 120px; */
+        border-radius: 50%;
     }
-  }
-@media (min-width: 1025px) and (max-width: 1280px) {
-.form-group{
-    margin: 0 auto; 
-    float: none; 
-    margin-bottom: 10px;  
-}
-.input-container{
-    display:flex;
-}
-.password-icon{
-    cursor:pointer;
-}
-.card-body{
-    margin: 0 auto; 
-    float: none; 
-    margin-bottom: 10px;
-}
-.avatar {
-    vertical-align: middle;
-    width: 110px;
-    height: 120px;
-    border-radius: 50%;
-  }
-  .tab {
-    margin-left: 20px;
-    margin-right: 20px;
-    text-align: left;
-    margin-top: 50px;
-}
-.main-div {
-    height: 100%;
-}
-.reg-head {
-    margin-left: 20px;
-    margin-top: 30px;
-    font-size: 30px;
-    color: #3a3a3a;
-    font-weight: 500;
-}
-
-
-
-.testimonial-card{
-    width: 420px;
-    height:250px;
-    
-}
-.card-body1{
-    height:200px;
-    margin: 0 auto; 
-    float: none; 
-    margin-bottom: 10px;
-}
-.testimonial-card1{
-    width: 420px;
-    height:130px;
-}
-
-.card1{
-    width: 650px;
-}
-.card2{
-    width: 450px;
-}
-.card3{
-    width: 550px;
-}
+    .tab {
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: left;
+        margin-top: 50px;
+    }
+    .main-div {
+        height: 100%;
+    }
+    .reg-head {
+        margin-left: 20px;
+        margin-top: 30px;
+        font-size: 30px;
+        color: #3a3a3a;
+        font-weight: 500;
+    }
+    .testimonial-card {
+        width: 420px;
+        height: 250px;
+    }
+    .card-body1 {
+        height: 200px;
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+    .testimonial-card1 {
+        width: 420px;
+        height: 130px;
+    }
+    .card1 {
+        width: 650px;
+    }
+    .card2 {
+        width: 100%;
+    }
+    .card3 {
+        width: 550px;
+    }
 }

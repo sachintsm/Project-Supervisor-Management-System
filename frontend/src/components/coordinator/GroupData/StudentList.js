@@ -113,7 +113,7 @@ class StudentList extends Component {
                 />
                 {this.state.studentList.map((user, index) => {
                     return (
-                        <div key={user.id} className="card sl-card">
+                        <div key={user.id} className="sd-sl-card-student"> 
                             <Row >
                                 <Col md="3" xs="6">
                                     <p className="sl-text">{user.index}</p>
