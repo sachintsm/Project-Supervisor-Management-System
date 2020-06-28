@@ -162,7 +162,7 @@ render() {
                 closeAlert={this.closeAlert}
              />
             <div className="card2">
-                <div className="card-body px-lg-5">
+                <div className="card-body2 px-lg-5">
                     <div style={{marginTop: 10}}>
                         <form  onSubmit={this.onReset}>
                             <div className="input-container">
@@ -174,7 +174,7 @@ render() {
                                  <i className={`fa ${isCuShown? "fa-eye-slash": "fa-eye"}  password-icon`}
                                  onClick={this.togglePasswordVisibilityCu}/>
                             </div><br></br>
-                            <div className="input-container">
+                            <div className="input-container" style={{marginTop: 7}}>
                                  <input type={isNewShown ? "text":"password"} className="form-control"
                                  placeholder="Enter New password" 
                                  value={this.state.newPw || ""}
@@ -183,7 +183,7 @@ render() {
                                  <i className={`fa ${isNewShown? "fa-eye-slash": "fa-eye"}  password-icon`}
                                  onClick={this.togglePasswordVisibilityNew}/>
                             </div><br></br>
-                            <div className="input-container">
+                            <div className="input-container" style={{marginTop: 7}}>
                                  <input type={isConShown? "text":"password"} className="form-control"
                                  placeholder="Confirm New password" 
                                  value={this.state.conNewPw || ""}
