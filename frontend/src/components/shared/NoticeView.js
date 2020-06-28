@@ -211,20 +211,20 @@ class NoticeView extends Component {
                   <div >
                       {this.state.noticeListBlock.map((types) => {
                         return (
-                          <div className="card container ch-card "   key={types._id} >
-                          <div className="cd-style">
+                          <div className="card container" style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                          <div className="crd_style">
 
-                          <Row className="cd-notice-tittle-div">
-                           <p className="cd-notice-name">{types.noticeTittle}</p><p className="cd-projects-name">&nbsp;-&nbsp;{types.projectName}</p>
+                          <Row className="crd_notice-tittle-div">
+                           <p className="crd_notice-name">{types.noticeTittle}</p><p className="crd_projects-name">&nbsp;-&nbsp;{types.projectName}</p>
                            </Row>
 
-                           <Row className="cd-user-name-div">
-                           <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}</p>
+                           <Row className="crd_user-name-div">
+                           <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}</p>
                            </Row>
 
                               <div className="card-body">
                                 <h6>{types.notice}</h6>
-                                <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
                               </div>
@@ -243,20 +243,20 @@ class NoticeView extends Component {
                       {this.state.allNoticeList.map((types) => {
                         if (types.toCordinator) {
                           return (
-                            <div className="card container ch-card "   key={types._id} >
-                            <div className="cd-style">
+                            <div className="card container  " style={{ margin:"0px 0px 20px 0px"}}   key={types._id} >
+                            <div className="crd_style">
   
-                            <Row className="cd-notice-tittle-div">
-                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                            <Row className="crd_notice-tittle-div">
+                             <p className="crd_notice-name">{types.noticeTittle}</p>
                              </Row>
   
-                             <Row className="cd-user-name-div">
-                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             <Row className="crd_user-name-div">
+                             <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;)</p>
                              </Row>
   
                                 <div className="card-body">
                                   <h6>{types.notice}</h6>
-                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                     Attachment
                                   </a>
                                 </div>
@@ -285,20 +285,20 @@ class NoticeView extends Component {
               <div >
                   {this.state.noticeListBlock.map((types) => {
                     return (
-                      <div className="card container ch-card "   key={types._id} >
-                      <div className="cd-style">
+                      <div className="card container  " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                      <div className="crd_style">
 
-                      <Row className="cd-notice-tittle-div">
-                       <p className="cd-notice-name">{types.noticeTittle}</p><p className="cd-projects-name">&nbsp;-&nbsp;{types.projectName}</p>
+                      <Row className="crd_notice-tittle-div">
+                       <p className="crd_notice-name">{types.noticeTittle}</p><p className="crd_projects-name">&nbsp;-&nbsp;{types.projectName}</p>
                        </Row>
 
-                       <Row className="cd-user-name-div">
-                       <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}</p>
+                       <Row className="crd_user-name-div">
+                       <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}</p>
                        </Row>
 
                           <div className="card-body">
                             <h6>{types.notice}</h6>
-                            <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                            <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                               Attachment
                             </a>
                           </div>
@@ -316,20 +316,20 @@ class NoticeView extends Component {
                       {this.state.allNoticeList.map((types) => {
                         if (types.toSupervisor) {
                           return (
-                            <div className="card container ch-card "   key={types._id} >
-                            <div className="cd-style">
+                            <div className="card container "  style={{ margin:"0px 0px 20px 0px"}} key={types._id} >
+                            <div className="crd_style">
   
-                            <Row className="cd-notice-tittle-div">
-                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                            <Row className="crd_notice-tittle-div">
+                             <p className="crd_notice-name">{types.noticeTittle}</p>
                              </Row>
   
-                             <Row className="cd-user-name-div">
-                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             <Row className="crd_user-name-div">
+                             <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;)</p>
                              </Row>
   
                                 <div className="card-body">
                                   <h6>{types.notice}</h6>
-                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                     Attachment
                                   </a>
                                 </div>
@@ -357,20 +357,20 @@ class NoticeView extends Component {
                     <div>
                       {this.state.allNoticeList.map((types) => {
                           return (
-                            <div className="card container ch-card " style={{marginTop:"25px"}}   key={types._id} >
-                            <div className="cd-style">
+                            <div className="card container  " style={{ margin:"30px 0px 20px 0px"}}  key={types._id} >
+                            <div className="crd_style">
   
-                            <Row className="cd-notice-tittle-div">
-                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                            <Row className="crd_notice-tittle-div">
+                             <p className="crd_notice-name">{types.noticeTittle}</p>
                              </Row>
   
-                             <Row className="cd-user-name-div">
-                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             <Row className="crd_user-name-div">
+                             <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;)</p>
                              </Row>
   
                                 <div className="card-body">
                                   <h6>{types.notice}</h6>
-                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                     Attachment
                                   </a>
                                 </div>
@@ -398,20 +398,20 @@ class NoticeView extends Component {
               <div >
                   {this.state.studentNoticeListBlock.map((types) => {
                     return (
-                      <div className="card container ch-card "   key={types._id} >
-                      <div className="cd-style">
+                      <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                      <div className="crd_style">
 
-                      <Row className="cd-notice-tittle-div">
-                       <p className="cd-notice-name">{types.noticeTittle}</p><p className="cd-projects-name">&nbsp;-&nbsp;{types.projectName}</p>
+                      <Row className="crd_notice-tittle-div">
+                       <p className="crd_notice-name">{types.noticeTittle}</p><p className="cd-projects-name">&nbsp;-&nbsp;{types.projectName}</p>
                        </Row>
 
-                       <Row className="cd-user-name-div">
-                       <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}</p>
+                       <Row className="crd_user-name-div">
+                       <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}</p>
                        </Row>
 
                           <div className="card-body">
                             <h6>{types.notice}</h6>
-                            <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                            <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                               Attachment
                             </a>
                           </div>
@@ -429,20 +429,20 @@ class NoticeView extends Component {
                       {this.state.allNoticeList.map((types) => {
                         if (types.toStudent) {
                           return (
-                            <div className="card container ch-card "   key={types._id} >
-                            <div className="cd-style">
+                            <div className="card container  " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                            <div className="crd_style">
   
-                            <Row className="cd-notice-tittle-div">
-                             <p className="cd-notice-name">{types.noticeTittle}</p>
+                            <Row className="crd_notice-tittle-div">
+                             <p className="crd_notice-name">{types.noticeTittle}</p>
                              </Row>
   
-                             <Row className="cd-user-name-div">
-                             <UserNameList id={types} />  <p className="cd-date">-&nbsp; {types.date}&nbsp;)</p>
+                             <Row className="crd_user-name-div">
+                             <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;)</p>
                              </Row>
   
                                 <div className="card-body">
                                   <h6>{types.notice}</h6>
-                                  <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                     Attachment
                                   </a>
                                 </div>

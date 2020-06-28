@@ -55,7 +55,7 @@ class UserNameList extends Component {
 
                 {this.state.userNameList.map((user, index) => {
                     return <div key={index}>
-                        <p className= "cd-date" >
+                        <p className= "crd_date" >
                             (&nbsp;by&nbsp;{user}
                         </p>
                     </div>
