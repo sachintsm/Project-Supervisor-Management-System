@@ -698,8 +698,8 @@ router.post('/check',async (req, res)=> {
           }
 
     }else{
-            res.json({ state: false, msg: "You exceed your request limit..." });
-      }
+          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+    }
 
   })
   .catch(err => {
