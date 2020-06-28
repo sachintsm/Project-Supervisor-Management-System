@@ -5,7 +5,7 @@ const verify = require('../authentication');
 const Projects = require('../models/projects');
 const ProgressTasks = require('../models/progresstasks');
 const User = require('../models/users');
-const CreateGroups = require('../models/createGroups')
+const ProgressUpdates = require('../models/progressupdates');
 
 //add project tasks
 router.post('/addtask', verify, async (req, res, next) => {
@@ -18,8 +18,6 @@ router.post('/addtask', verify, async (req, res, next) => {
             progressList.push(0)
             studentList.push(studentIds[i]._id)
         }
-
-
         const project = new ProgressTasks(req.body);
         project.studentList = studentList
         project.studentProgress = progressList
@@ -30,12 +28,36 @@ router.post('/addtask', verify, async (req, res, next) => {
         console.log(err)
     }
 })
+//edit progresstasks
+router.patch('/edittask/:id',verify,async(req,res,next)=>{
+    try{
+        const id = req.params.id;
+        const obj = req.body;
+        const result = await ProgressTasks.findByIdAndUpdate(id,  obj,{ new: true })
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
 
 //get project tasks
 router.get('/gettasks/:id',async(req,res,next) =>{
     try {
         const groupId = req.params.id
         const result = await ProgressTasks.find({groupId:groupId}).sort({ totalProgress: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
+//get task details from taskId
+router.get('/gettaskdetails/:id',async(req,res,next) =>{
+    try {
+        const id = req.params.id
+        const result = await ProgressTasks.findOne({_id:id})
         res.send(result)
     }
     catch (e) {
@@ -102,12 +124,10 @@ router.post('/getstudenttaskprogress/:studentIndex', async(req,res,next) =>{
         const taskId = req.body.taskId
         const userId = await User.findOne({indexNumber:index}).select('_id');
         const task = await ProgressTasks.findOne({studentList:userId._id,_id:taskId})
-        console.log(task)
         let studentProgress = 0;
         for(let j in task.studentList){ //get the array index of student
             if(task.studentList[j] == userId._id){
                 studentProgress = task.studentProgress[j]; // individual progress of the student
-                console.log(studentProgress)
             }
         }
         res.send(""+studentProgress);
@@ -117,4 +137,60 @@ router.post('/getstudenttaskprogress/:studentIndex', async(req,res,next) =>{
     }
 } )
 
+//update the progress
+router.post('/addprogressupdate', verify, async (req, res, next) => {
+    try {
+
+        const obj2 = req.body
+
+        //update task prgress & student progress
+        const userId = req.body.userId;
+        const taskId = req.body.taskId;
+        const progressChange = req.body.progressChange
+        let prevStudentProgress = 0;
+        let studentIndex = -1
+
+        const task = await ProgressTasks.findOne({_id: taskId});
+        let prevTotalProgress = task.totalProgress;
+        for(let j in task.studentList){ //get the array index of student
+            if(task.studentList[j] == userId){
+                console.log(j)
+                studentIndex = j;
+                prevStudentProgress = task.studentProgress[j]; // individual progress of the student
+            }
+        }
+        let newProgress = prevStudentProgress + progressChange; // student new progress
+        let totalProgress = 0;
+
+        if(newProgress<0){ // if student reduce progress more than his current progress
+            newProgress=0
+            totalProgress = prevTotalProgress - prevStudentProgress;
+            obj2.progressChange = -1 * prevStudentProgress
+        }
+        else{
+            totalProgress = prevTotalProgress + progressChange; // task new progress
+        }
+        let studentProgress = task.studentProgress;
+        studentProgress[studentIndex] = newProgress;
+        console.log(studentProgress)
+
+        const obj = {
+            totalProgress: totalProgress,
+            studentProgress : studentProgress
+        }
+        const result = await ProgressTasks.findByIdAndUpdate(taskId,  obj,{ new: true })
+
+
+        const project = new ProgressUpdates(obj2);
+        const result2 = await project.save();
+        console.log(result2)
+
+
+
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
 module.exports = router;

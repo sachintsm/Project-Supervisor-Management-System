@@ -43,6 +43,7 @@ class TaskProgressCard extends Component {
                                         {this.state.totalProgressInt>50 && <CircularProgressbar styles={buildStyles({textColor: `rgb(${255 - ((this.state.totalProgressInt-50)*(255/50)) -100},150,0)` ,pathColor: `rgb(${255 - ((this.state.totalProgressInt-50)*(255/50))},255,0)`,})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
                                     </Col>
                                     <Col md={8} sm={12} xs={12} className="individual-progress-div">
+
                                         {!this.state.loading && this.state.groupDetails.groupMembers.map(member=>{
                                             return <IndividualTotalProgress key={member} member={member} groupId={this.state.groupDetails._id} totalProgress={this.state.totalProgress} parentComponent={"taskprogress"} taskDetails={this.state.taskDetails}/>
                                         })}
