@@ -562,8 +562,8 @@ console.log(this.userTypes)
         <Navbar panel={"admin"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{  backgroundColor: '#f5f5f5' }}
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
         >
           
           <Row>
@@ -806,8 +806,8 @@ console.log(this.userTypes)
         <Navbar panel={"coordinator"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{  backgroundColor: "#f8f9fd" }}
+          className="container-fluid "
+          style={{  backgroundColor: "#F5F5F5" }}
         >
           <Row>
             <Col>
