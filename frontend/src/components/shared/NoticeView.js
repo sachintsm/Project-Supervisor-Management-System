@@ -204,8 +204,12 @@ class NoticeView extends Component {
       return (
         <React.Fragment>
           <Navbar panel={"coordinator"} />
+          <div
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
+        >
           <div className="container">
-            <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginTop: "20px",marginBottom:"30px", width: "100%" }}>
+            <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{marginBottom:"30px", width: "100%" }}>
               <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
                 {this.state.noticeListBlock.length > 0 && (
                   <div >
@@ -269,6 +273,7 @@ class NoticeView extends Component {
               </Tab>
             </Tabs>
           </div>
+          </div>
           <Footer />
         </React.Fragment>
       )
@@ -278,8 +283,13 @@ class NoticeView extends Component {
       return (
         <React.Fragment>
           <Navbar panel={"supervisor"} />
+          <div
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
+        >
+         
           <div className="container">
-          <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginTop: "20px",marginBottom:"30px", width: "100%" }}>
+          <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{marginBottom:"30px", width: "100%" }}>
           <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
             {this.state.noticeListBlock.length > 0 && (
               <div >
@@ -344,7 +354,9 @@ class NoticeView extends Component {
               </Tab>
             </Tabs>
           </div>
+          </div>
           <Footer />
+         
         </React.Fragment>
       )
     } else if(this.userType === 'admin') {
@@ -352,6 +364,10 @@ class NoticeView extends Component {
 
         <React.Fragment>
           <Navbar panel={"admin"} />
+          <div
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
+        >
           <div className="container">
          {this.state.allNoticeList.length > 0 && (
                     <div>
@@ -384,6 +400,7 @@ class NoticeView extends Component {
 
                 )}
                 </div>
+                </div>
                 <Footer />
             </React.Fragment>
       )
@@ -391,8 +408,12 @@ class NoticeView extends Component {
       return(
         <React.Fragment>
           <Navbar panel={"student"} />
+          <div
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
+        >
           <div className="container">
-          <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginTop: "20px",marginBottom:"30px", width: "100%" }}>
+          <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{marginBottom:"30px", width: "100%" }}>
           <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
             {this.state.studentNoticeListBlock.length > 0 && (
               <div >
@@ -456,6 +477,7 @@ class NoticeView extends Component {
                 )}
               </Tab>
             </Tabs>
+          </div>
           </div>
           <Footer />
         </React.Fragment>
