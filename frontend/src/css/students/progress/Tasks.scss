@@ -7,6 +7,9 @@
 }
 
 .tasks{
+  .title-div{
+    text-align: center;
+  }
   .project-task-title{
     margin-bottom: 20px !important;
   }
@@ -36,7 +39,7 @@
     margin-top: 0px !important;
   }
   .task-card-col{
-    padding: 5px 5px;
+    padding: 5px 15px;
   }
   .btn-icon {
     //vertical-align: middle;
@@ -66,5 +69,42 @@
       margin-top: 10px;
       color: white;
     }
+  }
+}
+@media only screen and  (max-width: 1024px) {
+
+  .tasks{
+
+    .main-card{
+      padding: 0px 0px !important;
+    }
+  }
+}
+
+@media only screen and  (max-width: 768px) {
+
+  .tasks{
+
+    .main-card{
+      padding: 20px 0px !important;
+    }
+  }
+}
+@media only screen and  (max-width: 600px) {
+
+  .project-task-title{
+    font-size: 24px !important;
+  }
+  .container-fluid{
+    padding: 10px 40px !important;
+  }
+}
+@media only screen and  (max-width: 400px) {
+
+  .project-task-title{
+    font-size: 22px !important;
+  }
+  .container-fluid{
+    padding: 10px 20px !important;
   }
 }

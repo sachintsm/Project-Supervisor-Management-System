@@ -7,15 +7,15 @@
   }
 
 
-.btn-style{
-width:30px;
+.btn_style{
+width:50px;
   }
 
  
-.container-fluid-di {
+/* .container-fluid-di {
     background-color: #f5f5f5;
     width: 60%;
-}
+} */
 .tb-style{
   color: #263238;
   /* padding-bottom:50px; */
@@ -24,18 +24,17 @@ width:30px;
 
 /* NoticeView */
 
-.cd-notice-tittle-div{
+.crd_notice-tittle-div{
   background-color:#C8C8C8;
   height: 26px;
-
 }
 
-.ch-card{
+/* .notice_crd{
   margin: 0px;
   margin-bottom: 20px;
- 
-}
-.cd-notice-name{
+} */
+
+.crd_notice-name{
     margin-left :16px;
     margin-top: 5px;
     color:#080808;
@@ -43,22 +42,22 @@ width:30px;
     font-size: 16px;
     font-weight: 500;
 }
-.cd-projects-name{
-  
+
+.crd_projects-name{ 
   margin-top: 8px;
   color:#080808;
   font-family: roboto, sans;
   font-size: 12px;
   font-weight: 400;
 }
-.cd-notice-name-project{
+.crd_notice-name-project{
   margin-top: 8px;
   color:#080808;
   font-family: roboto, sans;
   font-size: 16px;
   font-weight: 400;
 }
-.cd-date{
+.crd_date{
   font-size: 12px;
   margin-left :14px;
   font-weight: 350;
@@ -66,12 +65,12 @@ width:30px;
   color:#080808;
 
 }
-.cd-user-name-div{
+.crd_user-name-div{
   background-color: #C8C8C8;
   height: 20px;
 }
 
-.cd-notice-date{
+.crd_notice-date{
   font-size:12px;
   margin-top:1px;
   font-weight: 350;
@@ -79,7 +78,7 @@ width:30px;
   color:#080808;
 
 }
-.cd-btn-row{
+.crd_btn-row{
   text-align:right;
   
 }
@@ -87,16 +86,14 @@ width:30px;
 
 
 @media screen and (max-width: 500px) {
-
-
-.cd-date{
+  .crd_date{
   font-size:6px;
   margin-left :14px;
   font-weight: 350;
   font-family: roboto, sans;
   color:#080808;
 }
-.cd-notice-name{
+.crd_notice-name{
   margin-left :16px;
   margin-top: 5px;
   color:#080808;
@@ -105,7 +102,7 @@ width:30px;
   font-weight: 500;
 }
 
-.cd-projects-name{
+.crd_projects-name{
   
   margin-top: 8px;
   color:#080808;
@@ -113,7 +110,7 @@ width:30px;
   font-size: 6px;
   font-weight: 400;
 }
-.cd-notice-name-project{
+.crd_notice-name-project{
   margin-top: 8px;
   color:#080808;
   font-family: roboto, sans;
@@ -121,7 +118,7 @@ width:30px;
   font-weight: 400;
 }
 
-.cd-notice-date{
+.crd_notice-date{
   font-size:8px;
   margin-top:6px;
   font-weight: 350;

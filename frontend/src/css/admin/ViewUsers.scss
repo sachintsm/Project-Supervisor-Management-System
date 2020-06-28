@@ -1,68 +1,71 @@
-.as-dropdown-select {
-    margin-top: 19px;
-}
-
-.as-container-div {
-    min-height: 530px;
-    margin-bottom: 40px;
-}
-
-.as-dropdown-select {
-    margin-top: 20px;
-    margin-bottom: 40px;
-}
-
-.as-reg-head {
-    color: rgb(75, 75, 75);
-    font-weight: 500;
-    font-family: roboto, sans;
-    font-size: 2em;
-    margin-top: 40px;
-}
-
-.as-details-head {
-    color: rgb(75, 75, 75);
-    font-weight: 500;
-    font-family: roboto, sans;
-    font-size: 1.5em;
-    margin-top: 10px;
-}
-
-.as-table-row:hover {
-    cursor: pointer;
-    background-color: #fff;
-}
-
-.spinner {
+.card{
     margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width:100%;
 }
 
-.as-btn {
-    width: 100%;
-    margin-top: 20px;
+.sp_table{
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
+
+.sp_head{
+    margin-left: 30px;
+    margin-top: 30px;
+
+}
+
+.btn-info{
+    height: 40px;
+    width: 100px;
+    background-color: blue;
+}
+
+.tit{
+   color: #263238;
+}
+.del-btn{
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+}
+
+.del-btn:hover{
+    color: rgb(214, 0, 0);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.edit-btn{
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+}
+
+.edit-btn:hover{
+    color:#17A2B8;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.vu-table{
+    margin: 22px;
+}
+
+.vu-search-box{
+    margin: auto;
+    margin-top: 30px;
+    width: 93%;
+}
 /* On screens that are 600px or less, set the background color to olive */
 
 @media screen and (max-width: 500px) {
-    .spinner{
-        margin-top: 20px;
+    .vu-search-box{
+        width: 90%;
     }
-    .as-dropdown-select {
-        width: 100%;
-        margin-top: -10px;
-        margin-bottom: 30px;
+    .vu-table{
+        margin: 0px;
     }
-    .as-btn {
-        width: 100%;
-        margin-top: 0px;
-        margin-bottom: 20px;
-    }
-    .as-reg-head {
-        font-size: 25px;
-        text-align: left;
-    }
-    .as-table {
+    .vu-table-hover {
         table, thead, tbody, th, td, tr {
             display: block;
             font-size: 13px;
@@ -101,17 +104,21 @@
         }
         
         td:nth-of-type(1):before {
-            content: "Supervisor";
+            content: "Name";
         }
         td:nth-of-type(2):before {
-            content: "Groups";
+            content: "Email";
         }
         td:nth-of-type(3):before {
-            content: "Count";
+            content: "Nic";
         }
         td:nth-of-type(4):before {
-            content: "Delete";
+            content: "Mobile";
         }
+        td:nth-of-type(5):before {
+            content: "Action";
+        }
+        
         
     }
 }

@@ -1,0 +1,104 @@
+.view-task{
+  .task-options{
+    margin: 0px 40px;
+  }
+  .title{
+    margin-bottom: 20px;
+  }
+  .edit-card-div{
+    padding-right: 30px;
+  }
+  .update-card-div{
+    padding-left: 30px;
+  }
+  .edit-card{
+    padding: 20px 40px 10px 40px!important;
+    margin-top: 20px;
+  }
+  .update-card{
+    padding: 20px 40px 10px 40px!important;
+    margin-top: 20px;
+  }
+  .label-description{
+    margin-top: 2px;
+    margin-bottom: 14px;
+  }
+  .slider-div{
+    padding: 0px 5px !important;
+  }
+  .update-button-div{
+    margin-bottom: 2.2px;
+  }
+  .update-button{
+    width: 100%!important;
+  }
+  .btn-row{
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .btn-row2{
+    padding: 0px !important;
+    margin: 26px 0px 17.5px 0px!important;
+  }
+  .my-btn1{
+    margin: 0px !important;
+    padding-left: 0px !important;
+  }
+  .my-btn2{
+    margin: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  @media only screen and  (max-width: 1024px) {
+
+    .task-options{
+      margin: 0px 17px;
+    }
+    .edit-card-div{
+       padding-right: 15px;
+     }
+    .update-card-div{
+      padding-left: 15px;
+    }
+  }
+  @media only screen and  (max-width: 1024px) {
+
+    .task-options{
+      margin: 0px 0px;
+    }
+    .edit-card-div{
+       padding-right: 10px;
+     }
+    .update-card-div{
+      padding-left: 10px;
+    }
+    .edit-card{
+      padding: 20px 20px !important;
+      margin-top: 20px;
+    }
+    .update-card{
+      padding: 20px 20px !important;
+      margin-top: 20px;
+    }
+  }
+  @media only screen and  (max-width: 600px) {
+
+    .edit-card{
+      margin-bottom: 10px;
+      margin-top: 0px;
+    }
+    .update-card{
+        margin-bottom: 10px;
+        margin-top: 0px;
+      }
+    .edit-card-div{
+      padding: 0px;
+    }
+    .update-card-div{
+      padding: 0px;
+    }
+    .title{
+      font-size: 22px !important;
+    }
+  }
+}

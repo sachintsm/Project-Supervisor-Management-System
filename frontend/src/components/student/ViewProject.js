@@ -42,6 +42,7 @@ class ViewProject extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.getgroupMembersIndexes();
     }
 
@@ -112,7 +113,7 @@ class ViewProject extends Component {
     }
 
     viewProgress = (project) => {
-        this.props.history.push('/studenthome/viewproject/progress-tasks', { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: project, groupDetails: this.state.groupDetails })
     }
 
     viewChat = (project) => {

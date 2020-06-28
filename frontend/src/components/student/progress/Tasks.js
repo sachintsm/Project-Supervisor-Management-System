@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import {Input,Label, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import "../../../css/students/progress/Tasks.scss"
 import Footer from "../../shared/Footer";
@@ -13,6 +13,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Navbar from "../../shared/Navbar";
 import {getFromStorage} from "../../../utils/Storage";
 import TaskCard from "./TaskCard";
+import { withRouter } from "react-router-dom";
+import TotalProgressCard from "./TotalProgressCard";
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -60,12 +62,19 @@ class Tasks extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.getTasks()
     }
 
+    componentWillUnmount() {
+        console.log("component unmount")
+    }
     getTasks = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
         const groupId = this.state.groupDetails._id;
-        axios.get(backendURI.url+'/progress/gettasks/'+groupId).then(res=>{
+        axios.get(backendURI.url+'/progress/gettasks/'+groupId,{headers:headers}).then(res=>{
             this.setState({
                 currentTasks: res.data,
                 loading: false
@@ -118,24 +127,29 @@ class Tasks extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
                 <div className="container-fluid tasks tasks-background-color">
                     <div className="main-card">
-                        <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+                        <div className="title-div">
+                            <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+                        </div>
+                        {this.state.currentTasks.length>0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails}/></Row>}
+
                         {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
 
                         {this.state.currentTasks.length==0 && !this.state.loading && <h6 className="no-task-text">* No Tasks to Show</h6>}
                         <Row>
                             {this.state.currentTasks.map(item=>{
                                 return(
-                                    <Col className="task-card-col" lg={3} md={3} xs={4} sm={6}>
-                                        <TaskCard key={item._id} task={item} />
+                                    <Col className="task-card-col" key={item._id} lg={3} md={4} xs={12} sm={12}>
+                                        <TaskCard task={item} groupDetails={this.state.groupDetails} projectDetails={this.state.projectDetails}/>
                                     </Col>
                                 )
                             })}
-                            {!this.state.loading &&
+                            {!this.state.loading && this.state.project.projectState &&
                             <Col lg={3} md={3} xs={4} sm={6}>
                                 <Card className="btn-card" onClick={()=>{this.openModal()}}>
                                     <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
@@ -147,49 +161,45 @@ class Tasks extends Component {
                                     </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
                             </Col>}
                         </Row>
-                        <Row>
-                            {/*<Col lg={4} md={4} xs={2} sm={1}></Col>*/}
-                            {/*<Col lg={4} md={4} xs={2} sm={1}></Col>*/}
-                        </Row>
                     </div>
                 </div>
 
+                {/*Modal for addd new Task*/}
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Add New Task</ModalHeader>
                     <ModalBody>
                         <div className="container">
-                            <div className="row">
-                            </div><div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
-                            <form onSubmit={this.onSubmit}>
+                            <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
+                                <form onSubmit={this.onSubmit}>
 
-                                <div className="form-group">
-                                    <Label for="avatar">Task Title</Label>
-                                    <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} />
-                                    <p className="reg-error">{this.state.contactNumberError}</p>
-                                </div>
+                                    <div className="form-group">
+                                        <Label for="avatar">Task Title</Label>
+                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} />
+                                        <p className="reg-error">{this.state.contactNumberError}</p>
+                                    </div>
 
-                                <div className="form-group">
-                                    <Label for="avatar">Task Weight ( 1-10 )</Label>
+                                    <div className="form-group">
+                                        <Label for="avatar">Task Weight ( 1-10 )</Label>
 
-                                    <ThemeProvider theme={muiTheme}>
+                                        <ThemeProvider theme={muiTheme}>
 
-                                        <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
-                                            valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
-                                    </ThemeProvider>
-                                </div>
-                                <div className="form-group">
-                                    <Button className="btn btn-info my-4" type="submit" block>Add Task</Button>
-                                </div>
-                            </form>
-                        </div>
+                                            <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
+                                                valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className="form-group">
+                                        <Button className="btn btn-info my-4" type="submit" block>Add Task</Button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </ModalBody>
                 </Modal>
 
-                    <Footer/>
+                <Footer/>
             </React.Fragment>
         );
     }
 }
 
-export default Tasks;
+export default withRouter(Tasks);

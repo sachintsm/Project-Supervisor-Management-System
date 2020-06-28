@@ -24,11 +24,11 @@ class ViewProjects extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.getProjectList();
     }
 
     openProject(item){
-
         this.props.history.push('/studenthome/viewproject',{projectDetails:item})
     }
 

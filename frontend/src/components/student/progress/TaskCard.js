@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Card, Form } from 'react-bootstrap';
+import { Card, } from 'react-bootstrap';
 import "../../../css/students/progress/TaskCard.scss"
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import Slider from '@material-ui/core/Slider';
-import {ThemeProvider} from "@material-ui/styles";
+import { withRouter } from "react-router-dom";
+import {createMuiTheme} from "@material-ui/core/styles";
 
 const marks = [
     { value: 1, label: '1',  },
@@ -18,20 +19,34 @@ const marks = [
     { value: 10, label: '10',  },
 ];
 
+
 class TaskCard extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.task)
         this.state = {
-            task: this.props.task
+            task: this.props.task,
+            groupDetails: this.props.groupDetails,
+            projectDetails: this.props.projectDetails
         }
-        // console.log(this.task)
+    }
+
+    componentDidMount() {
+        this.setState({
+            totalProgress: this.state.task.totalProgress
+        })
+    }
+
+    editTask = () => {
+        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskId: this.state.task._id ,groupDetails: this.state.groupDetails})
     }
 
 
+
     render() {
+
+
         return (
-            <Card className="task-card">
+            <Card className="task-card" onClick={this.editTask}>
                 <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%)</Card.Header>
                 <Card.Body className="card-body">
                     <div className="circular-progress-div">
@@ -46,7 +61,8 @@ class TaskCard extends Component {
                 </Card.Body>
             </Card>
         );
+
     }
 }
 
-export default TaskCard;
+export default withRouter(TaskCard);
