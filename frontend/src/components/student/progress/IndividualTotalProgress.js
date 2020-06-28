@@ -41,8 +41,12 @@ class IndividualTotalProgress extends Component {
         if(this.state.parentComponent==="taskprogress"){
             axios.post(backendURI.url+'/progress/getstudenttaskprogress/'+this.state.member,{taskId:this.state.taskDetails._id},{headers:headers}).then(res=>{
                 let studentProgress = parseFloat(res.data)
-                studentProgress = studentProgress*100/this.state.taskDetails.totalProgress
+                if(studentProgress==0){
 
+                }
+                else{
+                    studentProgress = studentProgress*100/this.state.taskDetails.totalProgress
+                }
                 this.setState({
                     progress: Math.round(studentProgress * 1) / 1,
                     loading: false

@@ -6,7 +6,7 @@ var progressupdates = Schema({
     dateTime: {type: String},
     userId: {type: String},
     description: {type: String},
-    percentageChange: {type: Number},
+    progressChange: {type: Number},
 });
 
 const ProgressUpdates = mongoose.model('progressupdates', progressupdates);

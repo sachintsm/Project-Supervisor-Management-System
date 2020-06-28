@@ -49,15 +49,34 @@ class ViewTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: props.location.state.taskDetails,
+            task: null,
+            taskId: props.location.state.taskId,
             groupDetails: props.location.state.groupDetails,
-            defaultTaskWeight: props.location.state.taskDetails.taskWeight,
-            defaultProgress: props.location.state.taskDetails.totalProgress,
+            defaultTaskWeight: null,
+            defaultProgress: null,
+            loading: true
         }
     }
     componentDidMount() {
+        this.getTaskDetails()
         window.scrollTo(0, 0)
-        this.setState({totalProgress: this.state.task.totalProgress})
+    }
+
+    getTaskDetails = () =>{
+
+        window.scrollTo(0, 0)
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.get(backendURI.url+'/progress/gettaskdetails/'+this.state.taskId,{headers:headers}).then(res=>{
+            this.setState({
+                task:res.data,
+                defaultTaskWeight: res.data.taskWeight,
+                defaultProgress : res.data.totalProgress,
+                totalProgress: res.data.totalProgress,
+                loading: false
+            })
+        })
     }
 
     onChangeTitle = (e) => {
@@ -116,14 +135,22 @@ class ViewTask extends Component {
     }
 
     updateTask = () =>{
+
         let userId = getFromStorage("auth-id").id
         const object = {
             taskId: this.state.task._id,
             userId: userId,
             description: this.state.description,
-            percentageChange: this.state.task.totalProgress - this.state.defaultProgress
+            progressChange: this.state.task.totalProgress - this.state.defaultProgress,
+            dateTime: new Date().getTime()
         }
-        console.log(object)
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
+            // console.log(res)
+        })
+        window.location.reload(false);
     }
 
     resetPage = () =>{
@@ -135,73 +162,75 @@ class ViewTask extends Component {
             <React.Fragment>
                 <Navbar panel={"student"} />
                 <div className="container-fluid view-task tasks-background-color">
-                    <div className="main-card">
+                    {!this.state.loading && (
+                        <div className="main-card">
 
-                        <Row><TaskProgressCard groupDetails={this.state.groupDetails} taskDetails={this.state.task}/></Row>
+                            <Row><TaskProgressCard groupDetails={this.state.groupDetails} taskDetails={this.state.task}/></Row>
 
-                        <Row className="task-options">
-                            <Col lg={6} md={6} className="edit-card-div">
-                                <Card className="edit-card">
-                                    <h3 className="title">Edit Task</h3>
+                            <Row className="task-options">
+                                <Col lg={6} md={6} className="edit-card-div">
+                                    <Card className="edit-card">
+                                        <h3 className="title">Edit Task</h3>
 
-                                    <div >
-                                        <form onSubmit={this.onSubmit}>
+                                        <div >
+                                            <form onSubmit={this.onSubmit}>
 
-                                            <div className="form-group">
-                                                <Label for="avatar">Task Title</Label>
-                                                <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} value={this.state.task.taskTitle}/>
+                                                <div className="form-group">
+                                                    <Label for="avatar">Task Title</Label>
+                                                    <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} value={this.state.task.taskTitle}/>
 
-                                            </div>
-
-                                            <div className="form-group">
-                                                <Label for="avatar">Task Weight ( 1-10 )</Label>
-                                                <div  className="slider-div">
-                                                    <ThemeProvider theme={muiTheme}>
-
-                                                        <Slider defaultValue={this.state.defaultTaskWeight} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
-                                                                valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
-                                                    </ThemeProvider>
                                                 </div>
-                                            </div>
-                                            <div className="form-group">
-                                                <Row className="btn-row">
+
+                                                <div className="form-group">
+                                                    <Label for="avatar">Task Weight ( 1-10 )</Label>
+                                                    <div  className="slider-div">
+                                                        <ThemeProvider theme={muiTheme}>
+
+                                                            <Slider defaultValue={this.state.defaultTaskWeight} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
+                                                                    valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+                                                        </ThemeProvider>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
+                                                    <Row className="btn-row">
+                                                        <Col md={4} lg={4} sm={6} xs={6} className="my-btn1"><Button className="btn btn-danger my-4 my-btn1" onClick={this.resetPage} block>Reset</Button></Col>
+                                                        <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.editTask} block>Edit Task</Button></Col>
+                                                    </Row>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </Card>
+                                </Col>
+                                <Col lg={6} md={6} className="update-card-div">
+                                    <Card className="update-card">
+                                        <h3  className="title">Update Task Progress</h3>
+
+                                        {this.state.task.totalProgress < this.state.defaultProgress &&
+                                        (<div><label>New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%)</label> <label style={{fontWeight:"bold",color:"red"}}> (-{this.state.defaultProgress-this.state.task.totalProgress}%)</label> </div>)}
+                                        {this.state.task.totalProgress > this.state.defaultProgress &&
+                                        (<div><label>New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%)</label> <label style={{fontWeight:"bold",color:"#27d600"}}> (+{this.state.task.totalProgress-this.state.defaultProgress}%)</label></div>)}
+                                        {this.state.task.totalProgress === this.state.totalProgress && <div><label> New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%) </label><label style={{marginLeft: "3px"}}>  (No Change)</label> </div>}
+
+                                        <ThemeProvider theme={muiTheme}>
+                                            <Slider defaultValue={this.state.defaultProgress} onChange={this.progressHandler} aria-labelledby="continuous-slider"
+                                                    valueLabelDisplay="auto" step={1} min={0} max={100} />
+                                        </ThemeProvider>
+                                        <form>
+
+                                            <label className="label-description">Description</label>
+                                            <Form.Control as="textarea" rows="2" onChange={this.onChangeDescription}/>
+                                            <div className="form-group update-button-div">
+                                                <Row className="btn-row2">
                                                     <Col md={4} lg={4} sm={6} xs={6} className="my-btn1"><Button className="btn btn-danger my-4 my-btn1" onClick={this.resetPage} block>Reset</Button></Col>
-                                                    <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.editTask} block>Edit Task</Button></Col>
+                                                    <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.updateTask} block>Update Task Progress</Button></Col>
                                                 </Row>
                                             </div>
                                         </form>
-                                    </div>
-                                </Card>
-                            </Col>
-                            <Col lg={6} md={6} className="update-card-div">
-                                <Card className="update-card">
-                                    <h3  className="title">Update Task Progress</h3>
-
-                                    {this.state.task.totalProgress < this.state.defaultProgress &&
-                                    (<div><label>New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%)</label> <label style={{fontWeight:"bold",color:"red"}}> (-{this.state.defaultProgress-this.state.task.totalProgress}%)</label> </div>)}
-                                    {this.state.task.totalProgress > this.state.defaultProgress &&
-                                    (<div><label>New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%)</label> <label style={{fontWeight:"bold",color:"#27d600"}}> (+{this.state.task.totalProgress-this.state.defaultProgress}%)</label></div>)}
-                                    {this.state.task.totalProgress === this.state.totalProgress && <div><label> New Task Progress </label><label style={{fontWeight:"bold",marginLeft:"3px"}}> ({this.state.task.totalProgress}%) </label><label style={{marginLeft: "3px"}}>  (No Change)</label> </div>}
-
-                                    <ThemeProvider theme={muiTheme}>
-                                        <Slider defaultValue={this.state.defaultProgress} onChange={this.progressHandler} aria-labelledby="continuous-slider"
-                                                valueLabelDisplay="auto" step={1} min={0} max={100} />
-                                    </ThemeProvider>
-                                    <form>
-
-                                        <label className="label-description">Description</label>
-                                        <Form.Control as="textarea" rows="2" onChange={this.onChangeDescription}/>
-                                        <div className="form-group update-button-div">
-                                            <Row className="btn-row2">
-                                                <Col md={4} lg={4} sm={6} xs={6} className="my-btn1"><Button className="btn btn-danger my-4 my-btn1" onClick={this.resetPage} block>Reset</Button></Col>
-                                                <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.updateTask} block>Update Task Progress</Button></Col>
-                                            </Row>
-                                        </div>
-                                    </form>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </div>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </div>
+                    )}
                 </div>
                 <Footer/>
             </React.Fragment>

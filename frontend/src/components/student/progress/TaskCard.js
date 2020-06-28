@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Card, Form } from 'react-bootstrap';
-import {Input,Label, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
+import { Card, } from 'react-bootstrap';
 import "../../../css/students/progress/TaskCard.scss"
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import Slider from '@material-ui/core/Slider';
 import { withRouter } from "react-router-dom";
-import {ThemeProvider} from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core/styles";
 
 const marks = [
@@ -20,31 +18,15 @@ const marks = [
     { value: 9, label: '9',  },
     { value: 10, label: '10',  },
 ];
-const muiTheme = createMuiTheme({
-    overrides:{
-        MuiSlider: {
-            thumb:{
-                color: "#000",
-            },
-            track: {
-                color: '#444'
-            },
-            rail: {
-                color: '#888'
-            },
-            mark: {
-                backgroundColor: '#888',
-            },
-        }
-    }
-});
+
 
 class TaskCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             task: this.props.task,
-            groupDetails: this.props.groupDetails
+            groupDetails: this.props.groupDetails,
+            projectDetails: this.props.projectDetails
         }
     }
 
@@ -55,7 +37,7 @@ class TaskCard extends Component {
     }
 
     editTask = () => {
-        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskDetails: this.state.task ,groupDetails: this.state.groupDetails})
+        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskId: this.state.task._id ,groupDetails: this.state.groupDetails})
     }
 
 
