@@ -22,7 +22,6 @@ class IndividualTotalProgress extends Component {
     }
 
     componentDidMount() {
-        console.log("ssss",this.state.totalProgress)
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
@@ -42,7 +41,6 @@ class IndividualTotalProgress extends Component {
         if(this.state.parentComponent==="taskprogress"){
             axios.post(backendURI.url+'/progress/getstudenttaskprogress/'+this.state.member,{taskId:this.state.taskDetails._id},{headers:headers}).then(res=>{
                 let studentProgress = parseFloat(res.data)
-                console.log(studentProgress)
                 studentProgress = studentProgress*100/this.state.taskDetails.totalProgress
 
                 this.setState({
@@ -71,7 +69,6 @@ class IndividualTotalProgress extends Component {
     }
 
     render() {
-        console.log(this.state.loading)
         return (
             <div className="individual-total-progress">
                 {/*{this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}*/}

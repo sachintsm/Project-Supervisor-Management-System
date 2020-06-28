@@ -28,7 +28,7 @@ router.post('/addtask', verify, async (req, res, next) => {
         console.log(err)
     }
 })
-
+//edit progresstasks
 router.patch('/edittask/:id',verify,async(req,res,next)=>{
     try{
         const id = req.params.id;
@@ -125,4 +125,26 @@ router.post('/getstudenttaskprogress/:studentIndex', async(req,res,next) =>{
     }
 } )
 
+//add progress update
+router.post('/addprogressupdate', verify, async (req, res, next) => {
+    try {
+        const update = req.body
+        console.log(update)
+        // const studentIds = await User.find({indexNumber:groupMembers}).select('_id');
+        // let studentList = []
+        // let progressList = []
+        // for(let i in studentIds){
+        //     progressList.push(0)
+        //     studentList.push(studentIds[i]._id)
+        // }
+        // const project = new ProgressTasks(req.body);
+        // project.studentList = studentList
+        // project.studentProgress = progressList
+        // const result = await project.save();
+        // res.send(result);
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
 module.exports = router;

@@ -56,6 +56,7 @@ class ViewTask extends Component {
         }
     }
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.setState({totalProgress: this.state.task.totalProgress})
     }
 
@@ -114,12 +115,22 @@ class ViewTask extends Component {
         this.props.history.goBack();
     }
 
+    updateTask = () =>{
+        let userId = getFromStorage("auth-id").id
+        const object = {
+            taskId: this.state.task._id,
+            userId: userId,
+            description: this.state.description,
+            percentageChange: this.state.task.totalProgress - this.state.defaultProgress
+        }
+        console.log(object)
+    }
+
     resetPage = () =>{
         window.location.reload(false);
     }
 
     render() {
-        console.log(this.state)
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -183,7 +194,7 @@ class ViewTask extends Component {
                                         <div className="form-group update-button-div">
                                             <Row className="btn-row2">
                                                 <Col md={4} lg={4} sm={6} xs={6} className="my-btn1"><Button className="btn btn-danger my-4 my-btn1" onClick={this.resetPage} block>Reset</Button></Col>
-                                                <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.editTask} block>Update Task Progress</Button></Col>
+                                                <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.updateTask} block>Update Task Progress</Button></Col>
                                             </Row>
                                         </div>
                                     </form>
