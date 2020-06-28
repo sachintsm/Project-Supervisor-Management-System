@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from "../../shared/Navbar";
-import { Row, Col, Card, Form } from 'react-bootstrap';
+import { Row, Col, Card, Form, Spinner   } from 'react-bootstrap';
 import {Input,Label, Button,} from 'reactstrap';
 import Footer from "../../shared/Footer";
 import TaskProgressCard from "./TaskProgressCard";
@@ -56,6 +56,7 @@ class ViewTask extends Component {
             defaultProgress: null,
             loading: true
         }
+
     }
     componentDidMount() {
         this.getTaskDetails()
@@ -137,12 +138,20 @@ class ViewTask extends Component {
     updateTask = () =>{
 
         let userId = getFromStorage("auth-id").id
+
+        const date = new Date()
+        const dateString = date.toLocaleDateString()
+        const timeString = date.toLocaleTimeString()
+
         const object = {
             taskId: this.state.task._id,
+            groupId: this.state.groupDetails._id,
             userId: userId,
             description: this.state.description,
             progressChange: this.state.task.totalProgress - this.state.defaultProgress,
-            dateTime: new Date().getTime()
+            timestamp: new Date(),
+            date: dateString,
+            time: timeString
         }
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
@@ -162,6 +171,7 @@ class ViewTask extends Component {
             <React.Fragment>
                 <Navbar panel={"student"} />
                 <div className="container-fluid view-task tasks-background-color">
+                    {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
                     {!this.state.loading && (
                         <div className="main-card">
 

@@ -15,6 +15,7 @@ import {getFromStorage} from "../../../utils/Storage";
 import TaskCard from "./TaskCard";
 import { withRouter } from "react-router-dom";
 import TotalProgressCard from "./TotalProgressCard";
+import ProgressUpdates from "./ProgressUpdates";
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -57,18 +58,18 @@ class Tasks extends Component {
             groupDetails: props.location.state.groupDetails,
             taskWeight: 0,
             currentTasks: [],
-            loading: true
+            loading: true,
+            progressUpdates: [],
+            updateLoading: true
         }
     }
 
     componentDidMount() {
         window.scrollTo(0, 0)
         this.getTasks()
+        this.getProgressUpdates()
     }
 
-    componentWillUnmount() {
-        console.log("component unmount")
-    }
     getTasks = () => {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
@@ -78,6 +79,20 @@ class Tasks extends Component {
             this.setState({
                 currentTasks: res.data,
                 loading: false
+            })
+        })
+    }
+
+    getProgressUpdates = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        const groupId = this.state.groupDetails._id;
+        console.log(groupId)
+        axios.get(backendURI.url+'/progress/getprojectprogressupdates/'+groupId,{headers:headers}).then(res=>{
+            this.setState({
+                progressUpdates: res.data,
+                updateLoading: false
             })
         })
     }
@@ -127,7 +142,6 @@ class Tasks extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -138,7 +152,7 @@ class Tasks extends Component {
                         </div>
                         {this.state.currentTasks.length>0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails}/></Row>}
 
-                        {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
+                        {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="sp   inner"/></div>}
 
                         {this.state.currentTasks.length==0 && !this.state.loading && <h6 className="no-task-text">* No Tasks to Show</h6>}
                         <Row>
@@ -162,7 +176,16 @@ class Tasks extends Component {
                             </Col>}
                         </Row>
                     </div>
+
+                    <div className="progress-update-div">
+                        <Card className="progress-update-card">
+                            <h3 className="title">Progress Update History</h3>
+                            {!this.state.updateLoading && <ProgressUpdates component={"totalprogress"} progressUpdates={this.state.progressUpdates}/>}
+
+                        </Card>
+                    </div>
                 </div>
+
 
                 {/*Modal for addd new Task*/}
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>

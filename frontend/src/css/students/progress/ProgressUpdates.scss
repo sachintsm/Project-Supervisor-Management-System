@@ -1,0 +1,30 @@
+.update-card-div{
+  padding: 0px 20px;
+  .update-card{
+    margin: 10px 0px;
+    padding: 5px 15px;
+  }
+  .description{
+    //font-weight: bold;
+    color: black;
+    font-size: 17px;
+  }
+  .update-card:hover{
+    background-color: #F5F5F5;
+  }
+  .positive-progress{
+    font-size: 27px;
+    color: #27d600 ;
+  }
+  .negative-progress{
+    font-size: 27px;
+    color: red;
+  }
+  .neutral-progress{
+    font-size: 27px;
+  }
+  .name{
+    font-size: 14px;
+    color: #666
+  }
+}
