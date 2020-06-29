@@ -394,6 +394,7 @@ export default class CreateGroups extends Component {
                                                     <button
                                                         className="btn btn-info full-width-btn"
                                                         onClick={(e) => this.onSubmit(e)}
+                                                        style={{width: '100%'}}
                                                     >Register Now </button>
                                                 </div>
                                             </div>
@@ -447,6 +448,8 @@ export default class CreateGroups extends Component {
                                                     <button
                                                         className="btn btn-info full-width-btn"
                                                         onClick={this.fileUpload}
+                                                        style={{width: '100%'}}
+
                                                     >Register Now </button>
                                                 </div>
                                             </div>
