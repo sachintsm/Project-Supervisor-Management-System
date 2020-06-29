@@ -3,6 +3,7 @@ import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import '../../css/shared/Profile.css';
+import { Row, Col } from "reactstrap";
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from './Snackpop';
 
@@ -117,13 +118,19 @@ export default class Academic extends Component {
                 <div className="card-body px-lg-5">
                     <div style={{marginTop: 10}}>
                         <form  onSubmit={this.onSubmit}>
+                       
                              <div className="from-group justify-content-center">
+                             <Row>
+                             <Col>
                                 <p className="tab">Your projects:  
                                     <input type="number" name="project"
                                     value={this.state.pro || ""}
-                                    onChange={this.onChangePro}/><br></br>
-                                    <input type="submit" value="change" className="btn btn-info my-4" />
+                                    onChange={this.onChangePro}/>
+                                   
                                 </p>
+                             </Col>
+                             </Row>
+                                <input type="submit" value="change" className="btn btn-info my-4" />
                             </div>
                         </form>
                     </div>

@@ -225,7 +225,7 @@ export default class Profile extends Component {
                         (<Navbar panel={"student"} />) : (this.state.sup === true ?
                             (<Navbar panel={"supervisor"} />) : (this.state.cor === true ?
                                 (<Navbar panel={"coordinator"} />) : null)))}
-                <div>
+                <div className="card container">
                     <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
@@ -234,17 +234,19 @@ export default class Profile extends Component {
                         closeAlert={this.closeAlert}
                     />
                     <Row>
-                        <Col xs="4" style={{ marginTop: "190px" }}><Profilepic /></Col>
-                        <Col xs="8" className="main-div">
+                        <Col md={4} xs="12" style={{ marginTop: "0px" }}><Profilepic /></Col>
+                        <Col md={8} xs="12" className="main-div">
                             <p className="reg-head">Manage Your Account</p>
                             <Tabs className="tab" defaultActiveKey="edit" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                                 <Tab eventKey="edit" title="Edit Details">
+                                
                                     <div className="card1">
                                         <div className="card-body px-lg-5">
                                             <div style={{ marginTop: 10 }}>
                                                 <form onSubmit={this.onSubmit}>
-                                                    <div className="form-row mb-4">
-                                                        <div className="col">
+                                                <Row>
+                                                    <Col md={6} xs="12">
+                                                   
                                                             <div className="form-group">
                                                                 <label>First Name:</label>
                                                                 <input type="text" className="form-control"
@@ -252,8 +254,8 @@ export default class Profile extends Component {
                                                                     onChange={this.onChangeFirstName}
                                                                     readOnly />
                                                             </div>
-                                                        </div>
-                                                        <div className="col">
+                                                        </Col>
+                                                        <Col md={6} xs="12">
                                                             <div className="form-group">
                                                                 <label>Last Name:</label>
                                                                 <input type="text" className="form-control"
@@ -261,8 +263,10 @@ export default class Profile extends Component {
                                                                     onChange={this.onChangeLastName}
                                                                     readOnly />
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                    <Col>
                                                     <div className="form-group">
                                                         <label>Email:</label>
                                                         <input type="text" className="form-control"
@@ -271,8 +275,10 @@ export default class Profile extends Component {
                                                             required />
                                                         <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
                                                     </div>
-                                                    <div className="form-row mb-4">
-                                                        <div className="col">
+                                                    </Col>
+                                                    </Row>
+                                                    <Row>
+                                                    <Col md={6} xs="12">
                                                             <div className="form-group">
                                                                 <label> NIC Number:</label>
                                                                 <input type="text" className="form-control"
@@ -280,8 +286,8 @@ export default class Profile extends Component {
                                                                     onChange={this.onChangeNic}
                                                                     readOnly />
                                                             </div>
-                                                        </div>
-                                                        <div className="col">
+                                                        </Col>
+                                                        <Col md={6} xs="12">
                                                             <div className="form-group">
                                                                 <label> Mobile Number:</label>
                                                                 <input type="text" className="form-control"
@@ -290,8 +296,10 @@ export default class Profile extends Component {
                                                                     required />
                                                                 <div style={{ fontSize: 12, color: "red" }}>{this.state.mobileError}</div>
                                                             </div>
-                                                        </div>
-                                                    </div>
+                                                         </Col>
+                                                    </Row>
+                                                    <Row>
+                                                    <Col>
                                                     <div className="form-group">
                                                         <label>Birthday:</label>
                                                         <input type="text" className="form-control"
@@ -299,9 +307,11 @@ export default class Profile extends Component {
                                                             onChange={this.onChangeBirthday}
                                                             readOnly />
                                                     </div>
+                                                    </Col>
+                                                    </Row>
                                                     {this.state.stu === true ? (
-                                                        <div className="form-row mb-4">
-                                                            <div className="col">
+                                                        <Row>
+                                                    <Col md={6} xs="12">
                                                                 <div className="form-group">
                                                                     <label> Index Number:</label>
                                                                     <input type="text" className="form-control"
@@ -309,8 +319,8 @@ export default class Profile extends Component {
                                                                         onChange={this.onChangeIndex}
                                                                         readOnly />
                                                                 </div>
-                                                            </div>
-                                                            <div className="col">
+                                                                </Col>
+                                                                <Col md={6} xs="12">
                                                                 <div className="form-group">
                                                                     <label> Registration Number:</label>
                                                                     <input type="text" className="form-control"
@@ -318,8 +328,8 @@ export default class Profile extends Component {
                                                                         onChange={this.onChangeReg}
                                                                         readOnly />
                                                                 </div>
-                                                            </div>
-                                                        </div>) : null
+                                                                
+                                                                </Col></Row> ) : null
                                                     }
                                                     <div className="from-group justify-content-center">
                                                         <input type="submit" value="Save" className="btn btn-info my-4" />
