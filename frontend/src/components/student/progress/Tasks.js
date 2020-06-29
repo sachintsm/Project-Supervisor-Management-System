@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import { Row, Col, Card, Spinner } from 'react-bootstrap';
-import {Input,Label, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
+import {Input,Label, Button, Modal, ModalHeader, ModalBody, } from 'reactstrap';
 import "../../../css/students/progress/Tasks.scss"
 import Footer from "../../shared/Footer";
 import {IconContext} from "react-icons";
 import axios from 'axios'
 import {AiOutlineFileAdd} from "react-icons/ai";
-import {AiOutlineAppstoreAdd} from "react-icons/ai";
 import Slider from '@material-ui/core/Slider';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -16,6 +15,8 @@ import TaskCard from "./TaskCard";
 import { withRouter } from "react-router-dom";
 import TotalProgressCard from "./TotalProgressCard";
 import ProgressUpdates from "./ProgressUpdates";
+import Tooltip from '@material-ui/core/Tooltip';
+import { makeStyles } from '@material-ui/core/styles';
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -48,6 +49,22 @@ const marks = [
     { value: 9, label: '9',  },
     { value: 10, label: '10',  },
 ];
+
+const useStylesBootstrap = makeStyles((theme) => ({
+    arrow: {
+        color: theme.palette.common.white,
+    },
+    tooltip: {
+        backgroundColor: '#555',
+        fontSize: "14px",
+        color: 'white'
+    },
+}));
+function BootstrapTooltip(props) {
+    const classes = useStylesBootstrap();
+
+    return <Tooltip arrow classes={classes} {...props} />;
+}
 
 class Tasks extends Component {
 
@@ -165,14 +182,17 @@ class Tasks extends Component {
                             })}
                             {!this.state.loading && this.state.project.projectState &&
                             <Col lg={3} md={3} xs={12} sm={12}>
-                                <Card className="btn-card" onClick={()=>{this.openModal()}}>
-                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
-                                        <div>
-                                            {/*<AiOutlineAppstoreAdd />*/}
-                                            <AiOutlineFileAdd />
 
-                                        </div>
-                                    </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
+                                <BootstrapTooltip title="Add New Task"  placement="bottom">
+                                    <Card className="btn-card" onClick={()=>{this.openModal()}}>
+                                        <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
+                                            <div>
+                                                {/*<AiOutlineAppstoreAdd />*/}
+                                                <AiOutlineFileAdd />
+
+                                            </div>
+                                        </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
+                                </BootstrapTooltip>
                             </Col>}
                         </Row>
                     </div>
@@ -198,12 +218,16 @@ class Tasks extends Component {
 
                                     <div className="form-group">
                                         <Label for="avatar">Task Title</Label>
-                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} />
+                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} placeholder="Eg :- Login Page / User Registrations"/>
                                         <p className="reg-error">{this.state.contactNumberError}</p>
                                     </div>
 
                                     <div className="form-group">
-                                        <Label for="avatar">Task Weight ( 1-10 )</Label>
+                                        <Label for="avatar">Task Weight ( 1-10 )
+                                            <BootstrapTooltip title="Define an approximate weight for the Task. Give higher weight for complex tasks and lower weight for simple tasks. Total Progress will be calculated according to the Task Weights"  placement="right">
+                                                <span className="question-span">&#9432;</span>
+                                            </BootstrapTooltip>
+                                        </Label>
 
                                         <ThemeProvider theme={muiTheme}>
 

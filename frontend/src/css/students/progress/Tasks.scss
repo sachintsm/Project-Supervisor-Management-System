@@ -6,6 +6,17 @@
   min-height: 450px;
 }
 
+.question-span{
+  font-weight: bold;
+  padding-left: 5px;
+  font-size: 24px;
+  //color: #17A2BB;
+  color: orange;
+}
+.question-span:hover{
+  cursor: pointer;
+  color: darkorange
+}
 .tasks{
   .title-div{
     text-align: center;
@@ -72,6 +83,7 @@
   }
 
   .progress-update-div{
+    background-color: #F5F5F5!important;
     padding:0px 50px;
     .progress-update-card{
       padding: 30px 30px;
