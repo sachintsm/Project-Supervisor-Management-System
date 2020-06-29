@@ -110,12 +110,7 @@ router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
             }
         }
         let studentProgress = progress/totalWeight;
-        if(progress===0){
-            res.send("0");
-        }
-        else{
-            res.send(""+studentProgress);
-        }
+        res.send(""+studentProgress);
     }
     catch (e) {
         console.log(e)

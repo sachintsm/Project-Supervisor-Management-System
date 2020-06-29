@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import '../../../css/coordinator/SupervisorData.css'
+import '../../../css/coordinator/SupervisorData.scss'
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
@@ -9,18 +9,19 @@ import Snackpop from "../../shared/Snackpop";
 import { verifyAuth } from "../../../utils/Authentication";
 import { Card, Row, Col } from 'reactstrap';
 import Navbar from '../../shared/Navbar';
-import { Table, Spinner } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 const backendURI = require('../../shared/BackendURI');
 
 class groupDataBlock {
-    constructor(_id, groupId, groupName, projectId, groupMembers, supervisors) {
+    constructor(_id, groupId, groupName, projectId, groupMembers, supervisors, progress) {
         this._id = _id;
         this.groupId = groupId;
         this.groupName = groupName;
         this.projectId = projectId;
         this.groupMembers = groupMembers;
         this.supervisors = supervisors;
+        this.progress = progress;
     }
 }
 class SupervisorData extends Component {
@@ -71,7 +72,7 @@ class SupervisorData extends Component {
         //? load all the active project names from
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
-                console.log(res);
+                // console.log(res.data.data);
 
                 this.setState({
 
@@ -92,16 +93,22 @@ class SupervisorData extends Component {
                             var newMember = this.state.activeProjects[i].groupMembers[k] + ', '
                             array2.push(newMember)
                         }
+                        var progress = 0;
+                        await axios.get(backendURI.url + '/progress/gettotalprogress/' + this.state.activeProjects[i]._id)
+                            .then(res => {
+                                if (res.data !== 'NaN') {
+                                    progress = res.data
+                                }
+                            })
                         var block = new groupDataBlock(
                             this.state.activeProjects[i]._id,
                             this.state.activeProjects[i].groupId,
                             this.state.activeProjects[i].groupName,
                             this.state.activeProjects[i].projectId,
                             array2,
-                            array1
+                            array1,
+                            progress
                         )
-                        // console.log(block)
-                        // this.state.groupDataBlock.push(block)
                         this.setState({
                             groupDataBlock: [...this.state.groupDataBlock, block],
                             spinnerDiv1: false
@@ -116,41 +123,138 @@ class SupervisorData extends Component {
 
     render() {
 
-        const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { spinnerDiv1, groupDataBlock } = this.state;   // ?load projects to dropdown menu this coordinator
+        
+        let noProject;
+        if (this.state.activeProjects.length === 0) {
+            this.state.spinnerDiv1 = false
+            noProject = <p className="sd-no-groups-tag">No active projects...</p>
+        }
+        
+        let supervisorProjectList = groupDataBlock.length > 0
+            && groupDataBlock.map((item, i) => {
+                if (item.progress >= 75) {
 
-        const percentage = 75.250923;
-        let progressCircle;
-        if (percentage >= 75) {
-            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
-                path: {
-                    stroke:'#388e3c'
-                },
-                text: {
-                    fill: '#388e3c'
-                }
-            }} />
-        }
-        else if (percentage >= 25) {
-            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
-                path: {
-                    stroke: `#fbc02d`
-                },
-                text: {
-                    fill: '#fbc02d'
-                }
-            }} />
-        }
-        else {
-            progressCircle = <CircularProgressbar value={percentage} text={`${percentage.toFixed(2)}%`} styles={{
-                path: {
-                    stroke: `#e53935`
-                },
-                text: {
-                    fill: '#e53935'
-                }
-            }} />
-        }
+                    return (
 
+                        <Col md={4} xs={12} sm={6} key={item._id}>
+                            <Card className='sd-proj-card' onClick={() => this.onClickGroup(item._id)}>
+                                <div className="container" >
+                                    <Row className="spc-topic-div">
+                                        <p className="spc-topic">{item.groupId} - {item.groupName}</p>
+                                    </Row>
+
+                                    <Row style={{ width: '70%', margin: "auto" }}>
+                                        <Col md={12} sm={12} xs={12} className="spc-progress">
+                                            <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
+                                                path: {
+                                                    stroke: '#388e3c'
+                                                },
+                                                text: {
+                                                    fill: '#388e3c'
+                                                }
+                                            }} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Group Members</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.groupMembers}</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Supervisors</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.supervisors}</p>
+                                    </Row>
+
+                                </div>
+                            </Card>
+                        </Col>
+                    )
+                }
+                else if (item.progress >= 25) {
+                    return (
+                        <Col md={4} xs={12} sm={6} key={item._id}>
+                            <Card className='sd-proj-card' onClick={() => this.onClickGroup(item._id)}>
+                                <div className="container" >
+                                    <Row className="spc-topic-div">
+                                        <p className="spc-topic">{item.groupId} - {item.groupName}</p>
+                                    </Row>
+
+                                    <Row style={{ width: '70%', margin: "auto" }}>
+                                        <Col md={12} sm={12} xs={12} className="spc-progress">
+                                            <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
+                                                path: {
+                                                    stroke: `#fbc02d`
+                                                },
+                                                text: {
+                                                    fill: '#fbc02d'
+                                                }
+                                            }} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Group Members</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.groupMembers}</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Supervisors</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.supervisors}</p>
+                                    </Row>
+
+                                </div>
+                            </Card>
+                        </Col>
+                    )
+                }
+                else {
+                    return (
+
+                        <Col md={4} xs={12} sm={6} key={item._id}>
+                            <Card className='sd-proj-card' onClick={() => this.onClickGroup(item._id)}>
+                                <div className="container" >
+                                    <Row className="spc-topic-div">
+                                        <p className="spc-topic">{item.groupId} - {item.groupName}</p>
+                                    </Row>
+
+                                    <Row style={{ width: '70%', margin: "auto" }}>
+                                        <Col md={12} sm={12} xs={12} className="spc-progress">
+                                            <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
+                                                path: {
+                                                    stroke: `#e53935`
+                                                },
+                                                text: {
+                                                    fill: '#e53935'
+                                                }
+                                            }} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Group Members</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.groupMembers}</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-head">Supervisors</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="spc-list">{item.supervisors}</p>
+                                    </Row>
+
+                                </div>
+                            </Card>
+                        </Col>
+                    )
+                }
+
+            })
         return (
             <div className="sd-fullpage">
                 <Navbar panel={"coordinator"} />
@@ -173,47 +277,8 @@ class SupervisorData extends Component {
                                     <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
                                 </div>
                             )}
-                            {this.state.groupDataBlock.map((item) => {
-                                return (
-                                    <Col md={4} xs={12} sm={6} key={item._id}>
-                                        <Card className='sd-proj-card' onClick={() => this.onClickGroup(item._id)}>
-                                            <div className="container" >
-                                                <Row className="spc-topic-div">
-                                                    <p className="spc-topic">{item.groupId} - {item.groupName}</p>
-                                                </Row>
-
-                                                <Row style={{ width: '70%', margin: "auto" }}>
-                                                    <Col md={12} sm={12} xs={12} className="spc-progress">
-
-                                                        {/* <CircularProgressbar value={percentage} text={`${percentage}%`} styles={{
-                                                            path: {
-                                                                stroke: `rgba(	23, 162, 184, ${percentage / 100})`
-                                                            },
-                                                            text: {
-                                                                fill: '#17a2b8'
-                                                            }
-                                                        }} /> */}
-                                                        {progressCircle}
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <p className="spc-head">Group Members</p>
-                                                </Row>
-                                                <Row>
-                                                    <p className="spc-list">{item.groupMembers}</p>
-                                                </Row>
-                                                <Row>
-                                                    <p className="spc-head">Supervisors</p>
-                                                </Row>
-                                                <Row>
-                                                    <p className="spc-list">{item.supervisors}</p>
-                                                </Row>
-
-                                            </div>
-                                        </Card>
-                                    </Col>
-                                )
-                            })}
+                            {noProject}
+                            {supervisorProjectList}
                         </Row>
 
                     </div>

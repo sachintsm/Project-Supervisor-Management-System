@@ -108,7 +108,7 @@ class Notice extends Component {
 
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
-    console.log(this.userId)
+    //console.log(this.userTypes)
     
 
    
@@ -120,7 +120,7 @@ class Notice extends Component {
 
     const userId = getFromStorage('auth-id').id;
 
-    await axios.get(backendURI.url + '/notice/getNotice/' + userId)
+    await axios.get(backendURI.url + '/notice/cogetNotice/' + userId)
       .then(res => {
         this.setState({ noticeListCo: res.data.data })
       })
@@ -155,8 +155,8 @@ class Notice extends Component {
 
   // Notice get from database and map to the array
   getNoticeList() {
-    const coId = JSON.parse(localStorage.getItem("auth-id"))
-    axios.get(backendURI.url + '/notice/NoticeView/' + coId.id)
+    const uId = JSON.parse(localStorage.getItem("auth-id"))
+    axios.get(backendURI.url + '/notice/NoticeView/' + uId.id)
             .then((res => {
                 this.setState({
                   noticeList: res.data.data
@@ -199,14 +199,16 @@ class Notice extends Component {
       noticeTittleLenthError:"",
     }
 
+    if(this.userTypes ==="coordinator"){
+
     if (this.state.noticeTittle.length < 1) {
       isError = true;
       errors.noticeTittleError = 'Notice Tittle required *'
     }
 
-    if (this.state.noticeTittle.length >= 50) {
+    if (this.state.noticeTittle.length >= 60) {
       isError = true;
-      errors.noticeTittleLenthError = 'Lenth must be less than 50 *'
+      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
     }
     if (this.state.notice.length < 1) {
       isError = true;
@@ -217,16 +219,43 @@ class Notice extends Component {
       errors.viewUserSelectError = 'must be select at least one *'
     }
 
-    // if (this.state.projectId.length === 0) {
-    //   isError = true;
-    //   errors.projectIdError = 'Project type must be specified *'
-    // }
+    
+    if (this.state.projectId.length === 0) {
+      isError = true;
+      errors.projectIdError = 'Project type must be specified *'
+    }
+  
+    this.setState({
+      ...this.state,
+      ...errors
+    })
+    return isError;
+
+  }else if(this.userTypes==="admin"){
+    if (this.state.noticeTittle.length < 1) {
+      isError = true;
+      errors.noticeTittleError = 'Notice Tittle required *'
+    }
+
+    if (this.state.noticeTittle.length >= 60) {
+      isError = true;
+      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
+    }
+    if (this.state.notice.length < 1) {
+      isError = true;
+      errors.noticeError = 'Notice Content required *'
+    }
+    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+      isError = true;
+      errors.viewUserSelectError = 'must be select at least one *'
+    }
 
     this.setState({
       ...this.state,
       ...errors
     })
     return isError;
+  }
   }
 
 
@@ -260,7 +289,96 @@ class Notice extends Component {
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
+console.log(this.userTypes)
 
+    if(this.userTypes=== "coordinator"){
+    const err = this.validate();
+
+    if (!err) {
+      this.setState({
+        noticeTittleError: "",
+        noticeError: "",
+        viewUserSelectError:"",
+        projectIdError:"",
+        noticeTittleLenthError:"",
+      })
+
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+
+          var date = new Date();
+
+         var B = date.toString('dddd, MMMM ,yyyy') ;
+
+            const userType = localStorage.getItem("user-level");
+            //const userId = localStorage.getItem("auth-id.id");
+           
+            const userId = getFromStorage('auth-id').id ;
+    
+            const formData = new FormData();
+
+
+            formData.append("userId",userId);
+            formData.append("userType",userType);
+            formData.append("projectId",this.state.projectId);
+            formData.append("noticeTittle", this.state.noticeTittle);
+            formData.append("notice", this.state.notice);
+            formData.append("date", B);
+            formData.append("noticeAttachment", this.state.noticeAttachment);
+            formData.append("toCordinator", this.state.toCordinator);
+            formData.append("toSupervisor", this.state.toSupervisor);
+            formData.append("toStudent", this.state.toStudent);
+
+      
+            axios
+            .post(backendURI.url + "/notice/addNotice", formData,{headers: headers})
+            .then((res) => {
+              this.setState({
+                succesAlert: true,
+              });
+              window.location.reload();
+              this.getNoticeList();
+              this.getProjectDetails();
+              
+             // console.log(res.data);
+            })
+            .catch((error) => {
+              this.setState({
+                snackbaropen: true,
+                snackbarmsg: error,
+              });
+              console.log(error);
+            });
+        
+
+        this.setState({
+          noticeTittle: "",
+          notice: "",
+          noticeAttachment: "",
+          toCordinator: false,
+          toSupervisor: false,
+          toStudent: false,
+
+        });
+      },
+    },
+    {
+      label: "No",
+      onClick: () => {},
+    },
+  ],
+});
+}
+  }else {
     const err = this.validate();
 
     if (!err) {
@@ -347,7 +465,10 @@ class Notice extends Component {
   ],
 });
 }
+
   }
+
+}
 
   //delete notice
 
@@ -441,8 +562,8 @@ class Notice extends Component {
         <Navbar panel={"admin"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{  backgroundColor: '#f5f5f5' }}
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
         >
           
           <Row>
@@ -603,8 +724,9 @@ class Notice extends Component {
                     <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                       <Button
                         type="submit"
-                        className="cp-btn"
+                        className="cp-btn btn_style"
                         variant="info"
+                        style={{ width: '50%' }}
                         onClick={this.onSubmit}
                       >
                         Add Notice
@@ -619,27 +741,27 @@ class Notice extends Component {
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          <div className="card container ch-card "   key={type._id} >
-                          <div className="cd-style">
+                          <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={type._id} >
+                          <div className="crd_style">
 
-                          <Row  className="cd-notice-tittle-div">
+                          <Row  className="crd_notice-tittle-div">
                           <Col md={11} xs={10}>
-                           <p className="cd-notice-name">{type.noticeTittle}</p>
+                           <p className="crd_notice-name">{type.noticeTittle}</p>
                            </Col>
-                           <Col className="cd-btn-row" md={1} xs={2}>
+                           <Col className="crd_btn-row" md={1} xs={2}>
                            <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
                            </Col>
                            </Row>
 
-                           <Row className="cd-user-name-div">
+                           <Row className="crd_user-name-div">
                            <Col md={11} xs={10}>
-                           <p className="cd-date">(&nbsp;{type.date}&nbsp;)</p>
+                           <p className="crd_date">(&nbsp;{type.date}&nbsp;)</p>
                            </Col>
                            </Row>
 
                               <div className="card-body">
                                 <h6>{type.notice}</h6>
-                                <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
                                   Attachment
                                 </a>
                               </div>
@@ -684,8 +806,8 @@ class Notice extends Component {
         <Navbar panel={"coordinator"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{  backgroundColor: "#f8f9fd" }}
+          className="container-fluid "
+          style={{  backgroundColor: "#F5F5F5" }}
         >
           <Row>
             <Col>
@@ -712,6 +834,7 @@ class Notice extends Component {
                             <option>Select the project</option>
                                 {activeProjectsList}
                           </select>          
+                          <p className="reg-error">{this.state.projectIdError}</p>
                         </div>
                       
 
@@ -838,6 +961,7 @@ class Notice extends Component {
                         type="submit"
                         className="cp-btn"
                         variant="info"
+                        style={{ width: '50%' }}
                         onClick={this.onSubmit}
                       >
                         Add Notice
@@ -853,26 +977,26 @@ class Notice extends Component {
                       {this.state.noticeListBlock.map((types) => {
                         if(types.userType === 'coordinator'){
                           return (
-                            <div className="card container ch-card "   key={types._id} >
-                          <div className="cd-style">
+                            <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                          <div className="crd_style">
 
-                          <Row  className="cd-notice-tittle-div">
+                          <Row  className="crd_notice-tittle-div">
                           <Col md={11} xs={10}>
-                          <p className="cd-notice-name-project">{types.noticeTittle}&nbsp;-&nbsp;<small>{types.projectName}</small></p>                           </Col>
-                           <Col className="cd-btn-row" md={1} xs={2}>
+                          <p className="crd_notice-name-project">{types.noticeTittle}&nbsp;-&nbsp;<small>{types.projectName}</small></p>                           </Col>
+                           <Col className="crd_btn-row" md={1} xs={2}>
                            <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
                            </Col>
                            </Row>
 
-                           <Row className="cd-user-name-div">
+                           <Row className="crd_user-name-div">
                            <Col md={11} xs={10}>
-                           <p className="cd-notice-date">(&nbsp;{types.date}&nbsp;)</p>
+                           <p className="crd_notice-date">(&nbsp;{types.date}&nbsp;)</p>
                            </Col>
                            </Row>
 
                               <div className="card-body">
                                 <h6>{types.notice}</h6>
-                                <a className="cd-atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
                               </div>
