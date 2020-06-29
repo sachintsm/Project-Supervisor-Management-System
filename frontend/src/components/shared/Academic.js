@@ -3,8 +3,9 @@ import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import '../../css/shared/Profile.css';
+import { Row, Col } from "reactstrap";
 import { confirmAlert } from 'react-confirm-alert';
-
+import Snackpop from './Snackpop';
 
 const backendURI = require("./BackendURI");
 
@@ -41,9 +42,15 @@ export default class Academic extends Component {
 
         this.state ={
             pro:'',
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
 
         }
     }
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
 
     onChangePro(e){
         this.setState({
@@ -58,7 +65,7 @@ export default class Academic extends Component {
         console.log(userData.id);
             confirmAlert({
                 title: 'Confirm to submit',
-                message: 'Are you sure to do this.',
+                message: 'Are you sure to change?',
                 buttons: [
                   {
                     label: 'Yes',
@@ -70,10 +77,18 @@ export default class Academic extends Component {
                        axios.post(backendURI.url + '/users/academic/'+userData.id, obj).then(res =>{ 
                         console.log(res.data);
                         if(res.data.state==true){
-                            alert("Update Successfull");
+                            this.setState({
+                                snackbaropen: true,
+                                snackbarmsg: 'Updated successfully',
+                                snackbarcolor: 'success',
+                            })
                         }
                         else{
-                            alert("Try Again");
+                            this.setState({
+                                snackbaropen: true,
+                                snackbarmsg: 'Try Again',
+                                snackbarcolor: 'error',
+                            })
                         }
                         }
                         );
@@ -92,17 +107,30 @@ export default class Academic extends Component {
     render() {
         return(
             <div>
+            <Snackpop
+                msg={this.state.snackbarmsg}
+                color={this.state.snackbarcolor}
+                time={3000}
+                status={this.state.snackbaropen}
+                closeAlert={this.closeAlert}
+            />
             <div className="card3">
                 <div className="card-body px-lg-5">
                     <div style={{marginTop: 10}}>
                         <form  onSubmit={this.onSubmit}>
+                       
                              <div className="from-group justify-content-center">
+                             <Row>
+                             <Col>
                                 <p className="tab">Your projects:  
                                     <input type="number" name="project"
                                     value={this.state.pro || ""}
                                     onChange={this.onChangePro}/>
-                                    <input type="submit" value="change" className="btn btn-info my-4" />
+                                   
                                 </p>
+                             </Col>
+                             </Row>
+                                <input type="submit" value="change" className="btn btn-info my-4" />
                             </div>
                         </form>
                     </div>
