@@ -164,7 +164,7 @@ class Tasks extends Component {
                                 )
                             })}
                             {!this.state.loading && this.state.project.projectState &&
-                            <Col lg={3} md={3} xs={4} sm={6}>
+                            <Col lg={3} md={3} xs={12} sm={12}>
                                 <Card className="btn-card" onClick={()=>{this.openModal()}}>
                                     <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
                                         <div>
@@ -180,7 +180,7 @@ class Tasks extends Component {
                     <div className="progress-update-div">
                         <Card className="progress-update-card">
                             <h3 className="title">Progress Update History</h3>
-                            {!this.state.updateLoading && <ProgressUpdates component={"totalprogress"} progressUpdates={this.state.progressUpdates}/>}
+                            {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
 
                         </Card>
                     </div>

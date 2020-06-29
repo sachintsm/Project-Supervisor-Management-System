@@ -13,18 +13,80 @@
     background-color: #F5F5F5;
   }
   .positive-progress{
-    font-size: 27px;
+    font-size: 30px;
     color: #27d600 ;
   }
   .negative-progress{
-    font-size: 27px;
+    font-size: 30px;
     color: red;
   }
   .neutral-progress{
-    font-size: 27px;
+    font-size: 30px;
   }
-  .name{
+  .task-title{
     font-size: 14px;
     color: #666
   }
+  .name{
+    font-size: 13px;
+    color: #666
+  }
+  .progress-change-col{
+    padding-top: 10px !important;
+    text-align: center;
+  }
+
+
+
+}
+
+@media only screen and  (max-width: 1024px) {
+  .progress-update-div{
+    padding: 0px 0px !important;
+  }
+
+}
+
+@media only screen and  (max-width: 768px) {
+  .update-card-div{
+    padding: 0px 0px;
+    .progress-change-col{
+      padding: 10px 0px 0px;
+    }
+  }
+}
+@media only screen and  (max-width: 600px) {
+  .update-card-div{
+    .description{
+      font-size: 16px;
+    }
+    .positive-progress{
+      font-size: 20px;
+      color: #27d600 ;
+    }
+    .negative-progress{
+      font-size: 20px;
+      color: red;
+    }
+    .neutral-progress{
+      font-size: 20px;
+    }
+    .task-title{
+      font-size: 13px;
+      color: #666
+    }
+    .name{
+      font-size: 12px;
+      color: #666
+    }
+    .progress-change-col{
+      padding: 5px 0px 0px !important;
+      text-align: center;
+    }
+  }
+
+}
+@media only screen and  (max-width: 400px) {
+
+
 }

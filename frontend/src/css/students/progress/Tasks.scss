@@ -90,6 +90,9 @@
     .main-card{
       padding: 0px 0px !important;
     }
+    .card-body{
+      padding-bottom: 5px;
+    }
   }
 }
 
@@ -109,6 +112,15 @@
   }
   .container-fluid{
     padding: 10px 40px !important;
+  }
+  .btn-card{
+    width: 100% !important;
+  }
+  .progress-update-div{
+    .title{
+      font-size: 23px !important;
+      margin-bottom: 10px !important;
+    }
   }
 }
 @media only screen and  (max-width: 400px) {
