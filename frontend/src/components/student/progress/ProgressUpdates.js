@@ -64,10 +64,10 @@ class ProgressUpdates extends Component {
 
     render() {
         return (
-            <div className="update-card-div">
+            <div className="update-card-history-div">
                 {!this.state.loading1 && !this.state.loading2 && this.state.progressUpdates.map(item => {
                     return (
-                        <Card className="update-card" key={item._id} style={{borderColor: item.progressChange<0? "red":"#27d600", borderWidth: "1.1px"}}>
+                        <Card className="update-history-card" key={item._id} style={{borderColor: item.progressChange<0? "red":"#27d600", borderWidth: "1.1px"}}>
                             <Row>
                                 <Col lg={9} md={9} sm={12}>
                                     { this.renderDate(item) }

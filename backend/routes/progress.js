@@ -110,7 +110,12 @@ router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
             }
         }
         let studentProgress = progress/totalWeight;
-        res.send(""+studentProgress);
+        if(progress===0){
+            res.send("0");
+        }
+        else{
+            res.send(""+studentProgress);
+        }
     }
     catch (e) {
         console.log(e)
@@ -193,6 +198,28 @@ router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
     try {
         const groupId = req.params.groupId
         const result = await ProgressUpdates.find({groupId:groupId}).sort({ timestamp: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
+router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
+    try {
+        const groupId = req.params.groupId
+        const result = await ProgressUpdates.find({groupId:groupId}).sort({ timestamp: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
+router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
+    try {
+        const taskId = req.params.taskId
+        const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
         res.send(result)
     }
     catch (e) {

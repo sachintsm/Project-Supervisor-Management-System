@@ -176,14 +176,15 @@ class Tasks extends Component {
                             </Col>}
                         </Row>
                     </div>
+                    {this.state.progressUpdates.length>0 && (
+                        <div className="progress-update-div">
+                            <Card className="progress-update-card">
+                                <h3 className="title">Progress Update History</h3>
+                                {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
 
-                    <div className="progress-update-div">
-                        <Card className="progress-update-card">
-                            <h3 className="title">Progress Update History</h3>
-                            {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
-
-                        </Card>
-                    </div>
+                            </Card>
+                        </div>
+                    )}
                 </div>
 
 

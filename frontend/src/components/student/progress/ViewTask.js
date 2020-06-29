@@ -10,6 +10,7 @@ import Slider from "@material-ui/core/Slider";
 import {createMuiTheme} from "@material-ui/core/styles";
 import axios from 'axios'
 import {getFromStorage} from "../../../utils/Storage";
+import ProgressUpdates from "./ProgressUpdates";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -54,13 +55,30 @@ class ViewTask extends Component {
             groupDetails: props.location.state.groupDetails,
             defaultTaskWeight: null,
             defaultProgress: null,
-            loading: true
+            loading: true,
+            updateLoading: true,
+            progressUpdates: []
         }
 
     }
     componentDidMount() {
         this.getTaskDetails()
+        this.getProgressUpdates()
         window.scrollTo(0, 0)
+    }
+
+    getProgressUpdates = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        const taskId = this.state.taskId;
+        axios.get(backendURI.url+'/progress/gettaskprogressupdates/'+taskId,{headers:headers}).then(res=>{
+            console.log(res.data)
+            this.setState({
+                progressUpdates: res.data,
+                updateLoading: false
+            })
+        })
     }
 
     getTaskDetails = () =>{
@@ -239,6 +257,16 @@ class ViewTask extends Component {
                                     </Card>
                                 </Col>
                             </Row>
+                        </div>
+
+
+                    )}
+                    {this.state.progressUpdates.length>0 && (
+                        <div className="progress-update-div">
+                            <Card className="progress-update-card">
+                                <h3 className="title">Progress Update History</h3>
+                                {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
+                            </Card>
                         </div>
                     )}
                 </div>
