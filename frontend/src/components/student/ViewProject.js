@@ -215,7 +215,8 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Progress</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
+                        <Col lg={4} md={4} xs={3} sm={3} className="btn-card-col"></Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
@@ -223,6 +224,7 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Submissions</span></Card>
                         </Col>
+                        <Col lg={4} md={4} xs={3} sm={3} className="btn-card-col"></Col>
 
                     </Row>
                 </div>

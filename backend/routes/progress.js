@@ -180,17 +180,46 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
         }
         const result = await ProgressTasks.findByIdAndUpdate(taskId,  obj,{ new: true })
 
-
         const project = new ProgressUpdates(obj2);
         const result2 = await project.save();
-        console.log(result2)
-
-
-
-
     }
     catch (err) {
         console.log(err)
     }
 })
+
+//get progress updates by project ID
+router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
+    try {
+        const groupId = req.params.groupId
+        const result = await ProgressUpdates.find({groupId:groupId}).sort({ timestamp: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
+router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
+    try {
+        const groupId = req.params.groupId
+        const result = await ProgressUpdates.find({groupId:groupId}).sort({ timestamp: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
+router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
+    try {
+        const taskId = req.params.taskId
+        const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
+        res.send(result)
+    }
+    catch (e) {
+
+    }
+})
+
 module.exports = router;

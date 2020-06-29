@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from "../../shared/Navbar";
-import { Row, Col, Card, Form } from 'react-bootstrap';
+import { Row, Col, Card, Form, Spinner   } from 'react-bootstrap';
 import {Input,Label, Button,} from 'reactstrap';
 import Footer from "../../shared/Footer";
 import TaskProgressCard from "./TaskProgressCard";
@@ -10,6 +10,7 @@ import Slider from "@material-ui/core/Slider";
 import {createMuiTheme} from "@material-ui/core/styles";
 import axios from 'axios'
 import {getFromStorage} from "../../../utils/Storage";
+import ProgressUpdates from "./ProgressUpdates";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -54,12 +55,30 @@ class ViewTask extends Component {
             groupDetails: props.location.state.groupDetails,
             defaultTaskWeight: null,
             defaultProgress: null,
-            loading: true
+            loading: true,
+            updateLoading: true,
+            progressUpdates: []
         }
+
     }
     componentDidMount() {
         this.getTaskDetails()
+        this.getProgressUpdates()
         window.scrollTo(0, 0)
+    }
+
+    getProgressUpdates = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        const taskId = this.state.taskId;
+        axios.get(backendURI.url+'/progress/gettaskprogressupdates/'+taskId,{headers:headers}).then(res=>{
+            console.log(res.data)
+            this.setState({
+                progressUpdates: res.data,
+                updateLoading: false
+            })
+        })
     }
 
     getTaskDetails = () =>{
@@ -137,12 +156,20 @@ class ViewTask extends Component {
     updateTask = () =>{
 
         let userId = getFromStorage("auth-id").id
+
+        const date = new Date()
+        const dateString = date.toLocaleDateString()
+        const timeString = date.toLocaleTimeString()
+
         const object = {
             taskId: this.state.task._id,
+            groupId: this.state.groupDetails._id,
             userId: userId,
             description: this.state.description,
             progressChange: this.state.task.totalProgress - this.state.defaultProgress,
-            dateTime: new Date().getTime()
+            timestamp: new Date(),
+            date: dateString,
+            time: timeString
         }
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
@@ -162,6 +189,7 @@ class ViewTask extends Component {
             <React.Fragment>
                 <Navbar panel={"student"} />
                 <div className="container-fluid view-task tasks-background-color">
+                    {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}
                     {!this.state.loading && (
                         <div className="main-card">
 
@@ -229,6 +257,16 @@ class ViewTask extends Component {
                                     </Card>
                                 </Col>
                             </Row>
+                        </div>
+
+
+                    )}
+                    {this.state.progressUpdates.length>0 && (
+                        <div className="progress-update-div">
+                            <Card className="progress-update-card">
+                                <h3 className="title">Progress Update History</h3>
+                                {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
+                            </Card>
                         </div>
                     )}
                 </div>

@@ -42,3 +42,16 @@
 
   }
 }
+
+@media only screen and  (max-width: 600px) {
+  .total-progress-card-div{
+    .circular-progress-div{
+      padding: 0% 30% 0% 30% !important;
+      text-align: center;
+    }
+    .card-body{
+      margin: 0px 10px !important;
+    }
+
+  }
+}

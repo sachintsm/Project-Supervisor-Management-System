@@ -219,7 +219,7 @@ export default class Profile extends Component {
     }
     render() {
         return (
-            <div style={{ backgroundColor: "#f5f5f5" }}>
+            <div style={{ backgroundColor: "#f5f5f5" }} >
                 {this.state.admin === true ?
                     (<Navbar panel={"admin"} />) : (this.state.stu === true ?
                         (<Navbar panel={"student"} />) : (this.state.sup === true ?
@@ -332,7 +332,7 @@ export default class Profile extends Component {
                                                                 </Col></Row> ) : null
                                                     }
                                                     <div className="from-group justify-content-center">
-                                                        <input type="submit" value="Save" className="btn btn-info my-4" />
+                                                        <input type="submit" value="Save" className="btn btn-info my-4" style={{width: "100%"}} />
                                                     </div>
                                                 </form>
                                             </div>
