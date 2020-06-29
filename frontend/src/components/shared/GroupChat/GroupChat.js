@@ -56,6 +56,8 @@ class GroupChat extends Component {
         }
         await axios.get(backendURI.url + '/groupChat/' + this.props.location.state.groupDetails._id)
             .then(res => {
+                console.log(res.data.data);
+
                 if (res.data.data.length > 0) {
                     this.setState({
                         messages: res.data.data[0].messages
@@ -65,8 +67,16 @@ class GroupChat extends Component {
     }
 
     handleSubmit = async (sender, content) => {
-        // const userId = getFromStorage('auth-id')
+        const userId = getFromStorage('auth-id').id
+        var profileImage = ''
+        await axios.get(backendURI.url + '/users/getUserImage/' +userId)
+            .then(res => {
+                // console.log(res.data.data[0].imageName);
+                profileImage = res.data.data[0].imageName
+            })
         let reqBody = {
+            userId: userId,
+            profileImage: profileImage,
             groupId: this.props.location.state.groupDetails._id,
             sender: this.state.userName,
             content: content
@@ -74,7 +84,6 @@ class GroupChat extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-        console.log(headers)
         await axios.post(backendURI.url + '/groupChat/', reqBody, { headers: headers })
             .then(res => {
                 this.state.socket.emit("message", res.data)
@@ -90,7 +99,7 @@ class GroupChat extends Component {
                     <Row className="chat-topic-div" style={{ margin: "auto", marginTop: "30px" }}>
                         <p className="chat-topic">Chat Room</p>
                     </Row>
-                    <div className="card messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
+                    <div className="messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
                         {this.state.messages.length > 0 ?
                             <MessagesContainer messages={this.state.messages} />
                             :
