@@ -281,7 +281,7 @@ class ViewTask extends Component {
                                         <form>
 
                                             <label className="label-description">Description
-                                                <BootstrapTooltip title="Briefly explain changes in the update"  placement="right">
+                                                <BootstrapTooltip className="anc" title="Briefly explain changes in the update"  placement="right">
                                                     <span className="question-span">&#9432;</span>
                                                 </BootstrapTooltip>
                                             </label>
@@ -289,7 +289,7 @@ class ViewTask extends Component {
                                             <div className="form-group update-button-div">
                                                 <Row className="btn-row2">
                                                     <Col md={4} lg={4} sm={6} xs={6} className="my-btn1"><Button className="btn btn-danger my-4 my-btn1" onClick={this.resetPage} block>Reset</Button></Col>
-                                                    <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.updateTask} block>Update Task Progress</Button></Col>
+                                                    <Col md={8} lg={8} sm={6} xs={6} className="my-btn2"><Button className="btn btn-info my-4 my-btn2" onClick={this.updateTask} block>Update</Button></Col>
                                                 </Row>
                                             </div>
                                         </form>
