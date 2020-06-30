@@ -84,9 +84,9 @@ class IndividualTotalProgress extends Component {
                     <Row>
                         <Col lg={9} md={9} sm={12} xs={12} className="progressbar-col">
 
-                            {this.state.progress<=33 && <ProgressBar  variant="danger" now={this.state.progress} />}
-                            {this.state.progress<=66 && this.state.progress>=33 && <ProgressBar  variant="warning" now={this.state.progress} />}
-                            {this.state.progress<=100 && this.state.progress>=66 && <ProgressBar  variant="success" now={this.state.progress} />}
+                            {this.state.progress<=20 && <ProgressBar  variant="danger" now={this.state.progress} />}
+                            {this.state.progress<=40 && this.state.progress>20 && <ProgressBar  variant="warning" now={this.state.progress} />}
+                            {this.state.progress<=100 && this.state.progress>40 && <ProgressBar  variant="success" now={this.state.progress} />}
 
                         </Col>
                         <Col lg={3} md={3} sm={12} xs={12} ><span className="progress-value-span">{this.state.progress} %</span></Col>
