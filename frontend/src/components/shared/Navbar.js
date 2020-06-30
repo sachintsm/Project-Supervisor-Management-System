@@ -192,8 +192,7 @@ export default class navbar extends Component {
 
               <MDBNavItem className="mr-4">
                 {this.state.isCoordinator ||
-                  this.state.isSupervisor ||
-                  this.state.isAdmin ? (
+                  this.state.isSupervisor ? (
                     <MDBDropdown style={{ backgroundColor: '#1C2331' }} dark>
                       <MDBDropdownToggle nav caret>
                         <span className='mr-2'>Profile</span>
