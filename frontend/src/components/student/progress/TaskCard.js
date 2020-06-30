@@ -124,9 +124,13 @@ class TaskCard extends Component {
                         </Card.Header>
                         <Card.Body className="card-body">
                             <div className="circular-progress-div">
-                                {this.state.task.totalProgress<51 && <CircularProgressbar styles={buildStyles({textColor: `rgb(150,${this.state.task.totalProgress*(255/50) -100},0)`,pathColor: `rgb(255,${this.state.task.totalProgress*(255/50)},0)`,})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                                {this.state.task.totalProgress>50 && <CircularProgressbar styles={buildStyles({textColor: `rgb(${255 - ((this.state.task.totalProgress-50)*(255/50)) -100},150,0)` ,pathColor: `rgb(${255 - ((this.state.task.totalProgress-50)*(255/50))},255,0)`,})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                            </div>
+
+
+                                {this.state.task.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: 'red',pathColor: 'red',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=66 && this.state.task.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: 'orange',pathColor: 'orange',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=100 && this.state.task.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#00b008',pathColor: '#00b008',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+
+                           </div>
                             <span>Task Weight</span>
                             <Card.Text>
                                 <Slider disabled defaultValue={this.state.task.taskWeight} aria-labelledby="non-linear-slider"

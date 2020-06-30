@@ -48,8 +48,10 @@ class TotalProgressCard extends Component {
                             <Card.Body className="card-body">
                                 <Row>
                                     <Col md={4} sm={12} xs={12} className="circular-progress-div">
-                                        {this.state.totalProgressInt<51 && <CircularProgressbar styles={buildStyles({textColor: `rgb(150,${this.state.totalProgressInt*(255/50) -100},0)`,pathColor: `rgb(255,${this.state.totalProgressInt*(255/50)},0)`,})}   value={this.state.totalProgress} text={`${this.state.totalProgressInt}%`} />}
-                                        {this.state.totalProgressInt>50 && <CircularProgressbar styles={buildStyles({textColor: `rgb(${255 - ((this.state.totalProgressInt-50)*(255/50)) -100},150,0)` ,pathColor: `rgb(${255 - ((this.state.totalProgressInt-50)*(255/50))},255,0)`,})}   value={this.state.totalProgress} text={`${this.state.totalProgressInt}%`} />}
+
+                                        {this.state.totalProgressInt<=33 && <CircularProgressbar styles={buildStyles({textColor: 'red',pathColor: 'red',})}   value={this.state.totalProgressInt} text={`${this.state.totalProgressInt}%`} />}
+                                        {this.state.totalProgressInt<=66 && this.state.totalProgressInt>33  && <CircularProgressbar styles={buildStyles({textColor: 'orange',pathColor: 'orange',})}   value={this.state.totalProgressInt} text={`${this.state.totalProgressInt}%`} />}
+                                        {this.state.totalProgressInt<=100 && this.state.totalProgressInt>66  && <CircularProgressbar styles={buildStyles({textColor: '#00b008',pathColor: '#00b008',})}   value={this.state.totalProgressInt} text={`${this.state.totalProgressInt}%`} />}
                                     </Col>
                                     <Col md={8} sm={12} xs={12} className="individual-progress-div">
                                         {!this.state.loading && this.state.groupDetails.groupMembers.map(member=>{
