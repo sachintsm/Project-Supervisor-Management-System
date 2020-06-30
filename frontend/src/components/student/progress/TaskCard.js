@@ -44,7 +44,7 @@ const useStylesBootstrap2 = makeStyles((theme) => ({
         color: "#555",
     },
     tooltip: {
-        backgroundColor: "#666",
+        backgroundColor: "#555",
         fontSize: "14px",
         color: 'white'
     },
@@ -124,9 +124,13 @@ class TaskCard extends Component {
                         </Card.Header>
                         <Card.Body className="card-body">
                             <div className="circular-progress-div">
-                                {this.state.task.totalProgress<51 && <CircularProgressbar styles={buildStyles({textColor: `rgb(150,${this.state.task.totalProgress*(255/50) -100},0)`,pathColor: `rgb(255,${this.state.task.totalProgress*(255/50)},0)`,})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                                {this.state.task.totalProgress>50 && <CircularProgressbar styles={buildStyles({textColor: `rgb(${255 - ((this.state.task.totalProgress-50)*(255/50)) -100},150,0)` ,pathColor: `rgb(${255 - ((this.state.task.totalProgress-50)*(255/50))},255,0)`,})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                            </div>
+
+
+                                {this.state.task.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: '#DC3545',pathColor: '#DC3545',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=66 && this.state.task.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: '#FFC107',pathColor: '#FFC107',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=100 && this.state.task.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#28A745',pathColor: '#28A745',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+
+                           </div>
                             <span>Task Weight</span>
                             <Card.Text>
                                 <Slider disabled defaultValue={this.state.task.taskWeight} aria-labelledby="non-linear-slider"
