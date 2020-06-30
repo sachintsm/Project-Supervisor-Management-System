@@ -54,7 +54,11 @@
 }
 
 @media only screen and  (max-width: 768px) {
+
+  .update-card-div{
+
   .update-card-history-div{
+
     padding: 0px 0px;
     .progress-change-col{
       padding: 10px 0px 0px;
@@ -62,7 +66,11 @@
   }
 }
 @media only screen and  (max-width: 600px) {
+
+  .update-card-div{
+
   .update-card-history-div{
+
     .description{
       font-size: 16px;
     }
@@ -86,7 +94,11 @@
       color: #666
     }
     .progress-change-col{
+
+      padding: 5px 0px 0px !important;
+
       padding-top: 10px !important;
+
       text-align: center;
     }
   }
