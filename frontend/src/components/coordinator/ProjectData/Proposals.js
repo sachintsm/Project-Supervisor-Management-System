@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
 
+import Navbar from '../../shared/Navbar';
+
+
+
+
+
 class Proposals extends Component {
+
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             
+        }
+    }
+    
+
+
+
     render() {
         return (
-            <div>
-                praposals
+            <React.Fragment>
+            <Navbar panel={"coordinator"} />
+            <div className="container">
+                <div className="card">
+                 <h2>Proposel</h2>
+                </div>
             </div>
+           </React.Fragment>
         );
     }
 }
