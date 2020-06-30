@@ -256,7 +256,7 @@ class SupervisorData extends Component {
 
             })
         return (
-            <div className="sd-fullpage">
+            <div>
                 <Navbar panel={"coordinator"} />
                 <div className="container">
                     <Snackpop

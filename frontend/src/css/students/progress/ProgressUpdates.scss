@@ -11,6 +11,7 @@
   }
   .update-history-card:hover{
     background-color: #F5F5F5;
+    transition-duration: 0.5s;
   }
   .positive-progress{
     font-size: 30px;
@@ -25,14 +26,20 @@
   }
   .task-title{
     font-size: 14px;
-    color: #666
+    color: #666;
+  }
+  .task-title-span{
+    background-color: #263238;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
   }
   .name{
     font-size: 13px;
     color: #666
   }
   .progress-change-col{
-    padding-top: 10px !important;
+    padding-top: 0px !important;
     text-align: center;
   }
 
@@ -48,7 +55,7 @@
 }
 
 @media only screen and  (max-width: 768px) {
-  .update-card-div{
+  .update-card-history-div{
     padding: 0px 0px;
     .progress-change-col{
       padding: 10px 0px 0px;
@@ -56,7 +63,7 @@
   }
 }
 @media only screen and  (max-width: 600px) {
-  .update-card-div{
+  .update-card-history-div{
     .description{
       font-size: 16px;
     }
@@ -80,7 +87,7 @@
       color: #666
     }
     .progress-change-col{
-      padding: 5px 0px 0px !important;
+      padding-top: 10px !important;
       text-align: center;
     }
   }

@@ -9,9 +9,9 @@
     margin-top: 20px;
 }
 
-.ch-card{
-    margin: 0px;
-    margin-bottom: 20px;
+.ch-card-ch-div{
+    /* margin: 0px; */
+    margin-bottom: 0px;
 }
 
 .ch-project-name{

@@ -51,7 +51,7 @@ const Staff = React.memo( props =>(
                 <td>{props.staff.email}</td>
                 <td>{props.staff.mobile}</td>
                 <td><ButtonToolbar>
-                <Button type="submit" value="Mod" className="btn btn-info my-4" onClick={() => props.send(props.staff._id)} >Request</Button> 
+                <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.staff._id)} >Request</Button> 
                 <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -197,7 +197,7 @@ export default class Profile extends Component {
         })
         confirmAlert({
             title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
+            message: 'Are you sure to request this supervisor?',
             buttons: [
               {
                 label: 'Yes',
@@ -278,14 +278,14 @@ export default class Profile extends Component {
                                                     <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
                                                 </div>
                                             </form>
-                                                <div>
+                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
                                                     <Table responsive >
                                                         <thead>
                                                             <tr>
                                                                 <th>Name</th>
                                                                 <th>Email</th>
                                                                 <th>Mobile</th>
-
+                                                                <th>Request</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
