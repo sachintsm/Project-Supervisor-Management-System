@@ -150,6 +150,12 @@ class Tasks extends Component {
                 message: 'Do you want to Add this Task?',
                 buttons: [
                     {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    },
+                    {
                         label: 'Yes',
                         onClick: async () => {
 
@@ -172,12 +178,6 @@ class Tasks extends Component {
                             })
 
                             window.location.reload(false);
-
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => {
 
                         }
                     }

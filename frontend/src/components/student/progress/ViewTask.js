@@ -13,6 +13,7 @@ import {getFromStorage} from "../../../utils/Storage";
 import ProgressUpdates from "./ProgressUpdates";
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
+import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -155,52 +156,107 @@ class ViewTask extends Component {
         this.setState({ description: e.target.value  })
     }
 
-    editTask = () => {
-        const object = {
-            id: this.state.task._id,
-            taskTitle: this.state.task.taskTitle,
-            taskWeight: this.state.task.taskWeight,
-        }
+    editTask = () => {            confirmAlert({
+        title: 'Edit Task',
+        message: 'Do you want to edit this Task?',
+        buttons: [
+            {
+                label: 'No',
+                onClick: () => {
 
-        const headers = {
-            'auth-token':getFromStorage('auth-token').token,
-        }
-        axios.patch(backendURI.url+'/progress/edittask/'+this.state.task._id,object,{headers:headers}).then(res=>{
-            console.log(res)
-        })
+                }
+            },
+            {
+                label: 'Yes',
+                onClick: async () => {
+                    const object = {
+                        id: this.state.task._id,
+                        taskTitle: this.state.task.taskTitle,
+                        taskWeight: this.state.task.taskWeight,
+                    }
 
-        this.props.history.goBack();
+                    const headers = {
+                        'auth-token':getFromStorage('auth-token').token,
+                    }
+                    axios.patch(backendURI.url+'/progress/edittask/'+this.state.task._id,object,{headers:headers}).then(res=>{
+                        console.log(res)
+                    })
+
+                    this.props.history.goBack();
+
+                }
+            }
+
+        ]
+    })
+
     }
 
     updateTask = () =>{
 
-        let userId = getFromStorage("auth-id").id
+        confirmAlert({
+            title: 'Update Task',
+            message: 'Do you want to update the task progress?',
+            buttons: [
+                {
+                    label: 'No',
+                    onClick: () => {
 
-        const date = new Date()
-        const dateString = date.toLocaleDateString()
-        const timeString = date.toLocaleTimeString()
+                    }
+                },
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        let userId = getFromStorage("auth-id").id
 
-        const object = {
-            taskId: this.state.task._id,
-            groupId: this.state.groupDetails._id,
-            userId: userId,
-            description: this.state.description,
-            progressChange: this.state.task.totalProgress - this.state.defaultProgress,
-            timestamp: new Date(),
-            date: dateString,
-            time: timeString
-        }
-        const headers = {
-            'auth-token':getFromStorage('auth-token').token,
-        }
-        axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
-            // console.log(res)
+                        const date = new Date()
+                        const dateString = date.toLocaleDateString()
+                        const timeString = date.toLocaleTimeString()
+
+                        const object = {
+                            taskId: this.state.task._id,
+                            groupId: this.state.groupDetails._id,
+                            userId: userId,
+                            description: this.state.description,
+                            progressChange: this.state.task.totalProgress - this.state.defaultProgress,
+                            timestamp: new Date(),
+                            date: dateString,
+                            time: timeString
+                        }
+                        const headers = {
+                            'auth-token':getFromStorage('auth-token').token,
+                        }
+                        axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
+                            // console.log(res)
+                        })
+                        window.location.reload(false);
+
+                    }
+                }
+            ]
         })
-        window.location.reload(false);
+
+
     }
 
-    resetPage = () =>{
-        window.location.reload(false);
+    resetPage = () =>{            confirmAlert({
+        message: 'Reset to default values?',
+        buttons: [
+            {
+                label: 'No',
+                onClick: () => {
+
+                }
+            },
+            {
+                label: 'Yes',
+                onClick: async () => {
+                    window.location.reload(false);
+
+                }
+            }
+        ]
+    })
     }
 
     render() {
