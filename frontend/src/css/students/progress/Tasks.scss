@@ -14,7 +14,7 @@
 }
 .question-span:hover{
   cursor: pointer;
-  color: darkorange
+  color: darkorange;
 }
 .title-error{
   font-size: 13px;
@@ -35,7 +35,7 @@
   }
   padding: 5px 50px !important;
   .main-card{
-    padding: 20px 50px !important;
+    padding: 20px 50px 0px 50px!important;
   }
   .no-task-text{
     color: red
@@ -97,7 +97,7 @@
     padding:0px 50px;
     .progress-update-card{
       padding: 30px 30px;
-      margin: 20px 0px 40px 0px;
+      margin: 10px 0px 40px 0px;
     }
     .title{
       margin-bottom: 20px;

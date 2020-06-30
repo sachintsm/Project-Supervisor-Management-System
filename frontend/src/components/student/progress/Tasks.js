@@ -53,7 +53,7 @@ const marks = [
 
 const useStylesBootstrap = makeStyles((theme) => ({
     arrow: {
-        color: theme.palette.common.white,
+        color: '#555',
     },
     tooltip: {
         backgroundColor: '#555',
