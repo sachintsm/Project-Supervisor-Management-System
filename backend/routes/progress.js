@@ -45,7 +45,11 @@ router.delete('/deletetask/:id',verify,async(req,res,next)=>{
     try{
         const id = req.params.id;
         const result = await ProgressTasks.findOneAndDelete({_id:id})
-        res.send(result)
+        const result2 = await ProgressUpdates.find({taskId: id})
+        result2.map(async (item)=>{
+            await ProgressUpdates.findOneAndDelete({taskId: id})
+        })
+        res.send(result2)
     }
     catch (e) {
         console.log(e)
