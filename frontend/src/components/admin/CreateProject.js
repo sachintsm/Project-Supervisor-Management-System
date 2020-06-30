@@ -442,221 +442,223 @@ class CreateProject extends Component {
               closeAlert={this.closeAlert}
           />
           <Navbar panel={'admin'} />
+          <div className="create-project-main">
 
-          <div className="container-fluid container-fluid-di">
-            <Row >
-              <Col>
-                <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
+            <div className="container-fluid container-fluid-di ">
+              <Row >
+                <Col>
+                  <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
-                  <div className="card card-1" >
+                    <div className="card card-1" >
 
-                    <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
-                    <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
-                      <Col lg="4" md="4" sm="6" xs="6">
-                        <Row>
-                          <p className="cp-text">
-                            Year of the Project
-                          </p>
-                        </Row>
-                        <Row>
-                          <DropdownButton
-                              as={ButtonGroup}
-                              // className="full-width"
-                              variant={'secondary'}
-                              title={this.state.year}
-                              onSelect={this.onChangeYear}
-                              style={{ width: "90%" }}>
-                            {this.state.yearsArray.map((item,index) => {
-                              return(
-                                  <Dropdown.Item key={index} eventKey={item}>
-                                    {item}
-                                  </Dropdown.Item>)
-                            })}
-                          </DropdownButton>{' '}
-                        </Row>
+                      <h3 style={{ marginTop: "30px" }}>{this.state.title}</h3>
+                      <Row style={{ marginLeft: '0px', marginTop: '20px' }}>
+                        <Col lg="4" md="4" sm="6" xs="6">
+                          <Row>
+                            <p className="cp-text">
+                              Year of the Project
+                            </p>
+                          </Row>
+                          <Row>
+                            <DropdownButton
+                                as={ButtonGroup}
+                                // className="full-width"
+                                variant={'secondary'}
+                                title={this.state.year}
+                                onSelect={this.onChangeYear}
+                                style={{ width: "90%" }}>
+                              {this.state.yearsArray.map((item,index) => {
+                                return(
+                                    <Dropdown.Item key={index} eventKey={item}>
+                                      {item}
+                                    </Dropdown.Item>)
+                              })}
+                            </DropdownButton>{' '}
+                          </Row>
 
-                      </Col>
-                      <Col lg="4" md="4" sm="6" xs="6">
-                        <Row>
-                          <p className="cp-text">
-                            Project Type
-                          </p>
-                        </Row>
+                        </Col>
+                        <Col lg="4" md="4" sm="6" xs="6">
+                          <Row>
+                            <p className="cp-text">
+                              Project Type
+                            </p>
+                          </Row>
 
-                        <Row >
+                          <Row >
 
-                          {
-                            this.state.projectTypeList.length == 0 ? (
+                            {
+                              this.state.projectTypeList.length == 0 ? (
+                                  <DropdownButton
+                                      // className="full-width"
+                                      as={ButtonGroup}
+                                      variant={'secondary'}
+                                      title={"No Items"}
+                                      onSelect={this.onChangeType}
+                                      style={{ width: "90%" }}
+                                  >
+                                  </DropdownButton>) : (
+                                  <DropdownButton
+                                      // className="full-width"
+                                      as={ButtonGroup}
+                                      variant={'secondary'}
+                                      title={this.state.type}
+                                      onSelect={this.onChangeType}
+                                      style={{ width: "90%" }}
+                                  >
+                                    {this.state.projectTypeList.map((item,index) => {
+                                      return(
+                                          <Dropdown.Item key={item._id} eventKey={index}>
+                                            {item.projectType}
+                                          </Dropdown.Item>)
+                                    })}
+                                  </DropdownButton>)
+                            }
+
+                          </Row>
+                        </Col>
+                        {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
+                            <Col  lg="4" md="4" sm="12" xs="12" >
+                              <Row>
+                                <p className="cp-text cp-text2">
+                                  Academic Year
+                                </p>
+                              </Row>
+                              <Row>
+
                                 <DropdownButton
-                                    // className="full-width"
                                     as={ButtonGroup}
                                     variant={'secondary'}
-                                    title={"No Items"}
-                                    onSelect={this.onChangeType}
+                                    title={this.state.academicYear}
+                                    onSelect={this.onChangeAcademicYear}
                                     style={{ width: "90%" }}
+                                    className="full-width"
                                 >
-                                </DropdownButton>) : (
-                                <DropdownButton
-                                    // className="full-width"
-                                    as={ButtonGroup}
-                                    variant={'secondary'}
-                                    title={this.state.type}
-                                    onSelect={this.onChangeType}
-                                    style={{ width: "90%" }}
-                                >
-                                  {this.state.projectTypeList.map((item,index) => {
-                                    return(
-                                        <Dropdown.Item key={item._id} eventKey={index}>
-                                          {item.projectType}
-                                        </Dropdown.Item>)
-                                  })}
-                                </DropdownButton>)
-                          }
-
-                        </Row>
-                      </Col>
-                      {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
-                          <Col  lg="4" md="4" sm="12" xs="12" >
-                            <Row>
-                              <p className="cp-text cp-text2">
-                                Academic Year
-                              </p>
-                            </Row>
-                            <Row>
-
-                              <DropdownButton
-                                  as={ButtonGroup}
-                                  variant={'secondary'}
-                                  title={this.state.academicYear}
-                                  onSelect={this.onChangeAcademicYear}
-                                  style={{ width: "90%" }}
-                                  className="full-width"
-                              >
-                                {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
-                                <Dropdown.Item eventKey='1st Year'>
-                                  1st Year
-                                </Dropdown.Item>}
-                                {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
-                                <Dropdown.Item eventKey='2nd Year'>
-                                  2nd Year
-                                </Dropdown.Item>}
-                                {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
-                                <Dropdown.Item eventKey='3rd Year'>
-                                  3rd Year
-                                </Dropdown.Item>}
-                                {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
-                                <Dropdown.Item eventKey='4th Year'>
-                                  4th Year
-                                </Dropdown.Item>}
-                              </DropdownButton>{' '}
-                            </Row>
-                          </Col> :  null
-                      }
+                                  {this.state.projectTypeList[this.state.selectedTypeIndex].isFirstYear &&
+                                  <Dropdown.Item eventKey='1st Year'>
+                                    1st Year
+                                  </Dropdown.Item>}
+                                  {this.state.projectTypeList[this.state.selectedTypeIndex].isSecondYear &&
+                                  <Dropdown.Item eventKey='2nd Year'>
+                                    2nd Year
+                                  </Dropdown.Item>}
+                                  {this.state.projectTypeList[this.state.selectedTypeIndex].isThirdYear &&
+                                  <Dropdown.Item eventKey='3rd Year'>
+                                    3rd Year
+                                  </Dropdown.Item>}
+                                  {this.state.projectTypeList[this.state.selectedTypeIndex].isFourthYear &&
+                                  <Dropdown.Item eventKey='4th Year'>
+                                    4th Year
+                                  </Dropdown.Item>}
+                                </DropdownButton>{' '}
+                              </Row>
+                            </Col> :  null
+                        }
 
 
-                    </Row>
-
-                    <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
-                      <Row>
-                        <p className="cp-text">
-                          Assign Coordinators into the Project
-                        </p>
                       </Row>
-                      <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
-                        <MultiSelect
-                            options={this.state.staffOptionList}
-                            value={this.state.selectedStaffList}
-                            onChange={this.setSelected}
-                            labelledBy={'Select'}
-                            hasSelectAll={false}
-                            className="cp-coordinator"
-                        />
-                      </Col>
-                    </Row>
 
-                    <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
-                      <Col md={3}></Col>
-                      {this.state.componentType === 'edit' &&
-                      <Col>
-                        <Button
-                            variant='outline-danger'
-                            onClick={this.goBack}
-                            style={{ width: '100%' }}
-                        >
-                          Go Back
-                        </Button>
-                      </Col>}
-                      <Col>
-                        <Button
-                            variant='info'
-                            onClick={this.onCreateProject}
-                            style={{ width: '100%' }}
-                        >
-                          {this.state.componentType === 'add' &&
-                          'Create Project Now'}
-                          {this.state.componentType === 'edit' &&
-                          'Edit Now'}
-                        </Button>
-                      </Col>
-                      <Col md={3}></Col>
-                    </Row>
+                      <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
+                        <Row>
+                          <p className="cp-text">
+                            Assign Coordinators into the Project
+                          </p>
+                        </Row>
+                        <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
+                          <MultiSelect
+                              options={this.state.staffOptionList}
+                              value={this.state.selectedStaffList}
+                              onChange={this.setSelected}
+                              labelledBy={'Select'}
+                              hasSelectAll={false}
+                              className="cp-coordinator"
+                          />
+                        </Col>
+                      </Row>
 
-                  </div>
+                      <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
+                        <Col md={3}></Col>
+                        {this.state.componentType === 'edit' &&
+                        <Col>
+                          <Button
+                              variant='outline-danger'
+                              onClick={this.goBack}
+                              style={{ width: '100%' }}
+                          >
+                            Go Back
+                          </Button>
+                        </Col>}
+                        <Col>
+                          <Button
+                              variant='info'
+                              onClick={this.onCreateProject}
+                              style={{ width: '100%' }}
+                          >
+                            {this.state.componentType === 'add' &&
+                            'Create Project Now'}
+                            {this.state.componentType === 'edit' &&
+                            'Edit Now'}
+                          </Button>
+                        </Col>
+                        <Col md={3}></Col>
+                      </Row>
+
+                    </div>
                   </Container>
                   <Container fluid className=" zero-padding" style={{paddingLeft: '3%', paddingRight: '3%'}}>
 
-                  {this.state.projects.length > 0 && this.state.componentType === "add" && (
+                    {this.state.projects.length > 0 && this.state.componentType === "add" && (
 
-                      <div className="card card-2 create-project">
-                        <h3>Current Projects</h3>
-
-
-                        <div>
-                          <Table hover style={{ marginTop: 20 }} >
-                            <thead>
-                            <tr>
-                              <th >Project Year</th>
-                              <th >Project Type</th>
-                              <th >Academic Year</th>
-                              <th >Coordinators</th>
-                              <th >State</th>
-                              <th style={{ width: '20%', textAlign: "center" }}>Operations</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.projects.map((project) => {
-                              return (<tr key={project._id}>
-                                    <td style={{ verticalAlign: 'middle' }}>{project.projectYear}</td>
-                                    <td style={{ verticalAlign: 'middle' }}>{project.projectType}</td>
-                                    <td style={{ verticalAlign: 'middle' }}>{project.academicYear?project.academicYear: '-'}</td>
-                                    <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project}/></td>
-                                    {project.projectState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Active</td>}
-                                    {!project.projectState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Ended</td>}
-
-                                    <td style={{ verticalAlign: 'middle' }}><Row>
-                                      <Col style={{  textAlign:"end"}}>
-                                        <Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(project)} />
-                                      </Col>
-                                      <Col>
-                                        <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() =>this.onDeleteHandler(project._id)} />
-                                      </Col>
-                                    </Row></td>
-                                  </tr>
+                        <div className="card card-2 create-project">
+                          <h3>Current Projects</h3>
 
 
-                              )
-                            })}
-                            </tbody>
-                          </Table>
+                          <div>
+                            <Table hover style={{ marginTop: 20 }} >
+                              <thead>
+                              <tr>
+                                <th >Project Year</th>
+                                <th >Project Type</th>
+                                <th >Academic Year</th>
+                                <th >Coordinators</th>
+                                <th >State</th>
+                                <th style={{ width: '20%', textAlign: "center" }}>Operations</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {this.state.projects.map((project) => {
+                                return (<tr key={project._id}>
+                                      <td style={{ verticalAlign: 'middle' }}>{project.projectYear}</td>
+                                      <td style={{ verticalAlign: 'middle' }}>{project.projectType}</td>
+                                      <td style={{ verticalAlign: 'middle' }}>{project.academicYear?project.academicYear: '-'}</td>
+                                      <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project}/></td>
+                                      {project.projectState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Active</td>}
+                                      {!project.projectState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Ended</td>}
+
+                                      <td style={{ verticalAlign: 'middle' }}><Row>
+                                        <Col style={{  textAlign:"end"}}>
+                                          <Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(project)} />
+                                        </Col>
+                                        <Col>
+                                          <DeleteForeverIcon className="del-btn" fontSize="large" onClick={() =>this.onDeleteHandler(project._id)} />
+                                        </Col>
+                                      </Row></td>
+                                    </tr>
+
+
+                                )
+                              })}
+                              </tbody>
+                            </Table>
+                          </div>
                         </div>
-                      </div>
-                  )}
-                </Container>
-              </Col>
+                    )}
+                  </Container>
+                </Col>
 
 
 
-            </Row>
+              </Row>
+            </div>
           </div>
 
 

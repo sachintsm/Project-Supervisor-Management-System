@@ -156,87 +156,92 @@ class ViewTask extends Component {
         this.setState({ description: e.target.value  })
     }
 
-    editTask = () => {            confirmAlert({
-        title: 'Edit Task',
-        message: 'Do you want to edit this Task?',
-        buttons: [
-            {
-                label: 'No',
-                onClick: () => {
+    editTask = () => {
+        if(this.state.task.taskTitle){
+            confirmAlert({
+                title: 'Edit Task',
+                message: 'Do you want to edit this Task?',
+                buttons: [
+                    {
+                        label: 'No',
+                        onClick: () => {
 
-                }
-            },
-            {
-                label: 'Yes',
-                onClick: async () => {
-                    const object = {
-                        id: this.state.task._id,
-                        taskTitle: this.state.task.taskTitle,
-                        taskWeight: this.state.task.taskWeight,
+                        }
+                    },
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            const object = {
+                                id: this.state.task._id,
+                                taskTitle: this.state.task.taskTitle,
+                                taskWeight: this.state.task.taskWeight,
+                            }
+
+                            const headers = {
+                                'auth-token':getFromStorage('auth-token').token,
+                            }
+                            axios.patch(backendURI.url+'/progress/edittask/'+this.state.task._id,object,{headers:headers}).then(res=>{
+                                console.log(res)
+                            })
+
+                            this.props.history.goBack();
+
+                        }
                     }
 
-                    const headers = {
-                        'auth-token':getFromStorage('auth-token').token,
-                    }
-                    axios.patch(backendURI.url+'/progress/edittask/'+this.state.task._id,object,{headers:headers}).then(res=>{
-                        console.log(res)
-                    })
-
-                    this.props.history.goBack();
-
-                }
-            }
-
-        ]
-    })
-
+                ]
+            })
+        }
     }
 
     updateTask = () =>{
 
-        confirmAlert({
-            title: 'Update Task',
-            message: 'Do you want to update the task progress?',
-            buttons: [
-                {
-                    label: 'No',
-                    onClick: () => {
+        if(this.state.description){
+            confirmAlert({
+                title: 'Update Task',
+                message: 'Do you want to update the task progress?',
+                buttons: [
+                    {
+                        label: 'No',
+                        onClick: () => {
 
-                    }
-                },
-                {
-                    label: 'Yes',
-                    onClick: async () => {
-                        let userId = getFromStorage("auth-id").id
-
-                        const date = new Date()
-                        const dateString = date.toLocaleDateString()
-                        const timeString = date.toLocaleTimeString()
-
-                        const object = {
-                            taskId: this.state.task._id,
-                            groupId: this.state.groupDetails._id,
-                            userId: userId,
-                            description: this.state.description,
-                            progressChange: this.state.task.totalProgress - this.state.defaultProgress,
-                            timestamp: new Date(),
-                            date: dateString,
-                            time: timeString
                         }
-                        const headers = {
-                            'auth-token':getFromStorage('auth-token').token,
+                    },
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+                            let userId = getFromStorage("auth-id").id
+
+                            const date = new Date()
+                            const dateString = date.toLocaleDateString()
+                            const timeString = date.toLocaleTimeString()
+
+                            const object = {
+                                taskId: this.state.task._id,
+                                groupId: this.state.groupDetails._id,
+                                userId: userId,
+                                description: this.state.description,
+                                progressChange: this.state.task.totalProgress - this.state.defaultProgress,
+                                timestamp: new Date(),
+                                date: dateString,
+                                time: timeString
+                            }
+                            const headers = {
+                                'auth-token':getFromStorage('auth-token').token,
+                            }
+                            axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
+                                // console.log(res)
+                            })
+                            window.location.reload(false);
+
                         }
-                        axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
-                            // console.log(res)
-                        })
-                        window.location.reload(false);
-
                     }
-                }
-            ]
-        })
-
-
+                ]
+            })
+        }
+        else{
+            this.setState({description: ""})
+        }
     }
 
     resetPage = () =>{            confirmAlert({
@@ -279,7 +284,7 @@ class ViewTask extends Component {
                                             <form onSubmit={this.onSubmit}>
 
                                                 <div className="form-group">
-                                                    <Label for="avatar">Task Title</Label>
+                                                    <Label for="avatar">Task Title{this.state.task.taskTitle==="" && <span className="title-error">*Required</span>}</Label>
                                                     <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} value={this.state.task.taskTitle}/>
 
                                                 </div>
@@ -340,6 +345,7 @@ class ViewTask extends Component {
                                                 <BootstrapTooltip title="Briefly explain changes in the update"  placement="right">
                                                     <span className="question-span">&#9432;</span>
                                                 </BootstrapTooltip>
+                                                {this.state.description==="" && <span className="title-error">*Required</span>}
                                             </label>
                                             <Form.Control as="textarea" rows="2" onChange={this.onChangeDescription}/>
                                             <div className="form-group update-button-div">
