@@ -199,7 +199,6 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
     }
 })
 
-
 //get progress updates by project ID
 router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
     try {
@@ -219,13 +218,8 @@ router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
-    try {
-        const taskId = req.params.taskId
-        const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
-        res.send(result)
-    }
 
+    }
 })
 
 router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
@@ -234,7 +228,6 @@ router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
         const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
         res.send(result)
     }
-
     catch (e) {
 
     }
