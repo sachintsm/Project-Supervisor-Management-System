@@ -197,7 +197,7 @@ export default class Profile extends Component {
         })
         confirmAlert({
             title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
+            message: 'Are you sure to request this supervisor?',
             buttons: [
               {
                 label: 'Yes',

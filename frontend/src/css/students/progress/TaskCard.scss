@@ -9,6 +9,16 @@
     padding: 5% 30% 8% 30%;
     text-align: center;
   }
+  .delete-span{
+    float: right;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+  }
+  .delete-span:hover{
+    color: red;
+    transform: scale(1.45)
+  }
   @media only screen and  (max-width: 1024px) {
     .card-header{
       font-size: 15px !important;
