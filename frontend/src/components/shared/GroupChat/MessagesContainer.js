@@ -53,7 +53,7 @@ class MessagesContainer extends Component {
                                 <Col md={1} xs={2}>
                                    
                                     {/* <AccountCircleIcon style={{ fontSize: "35px" }} className="chat-propic" /> */}
-                                    <img  className="mc-image" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
+                                    <img  className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
 
                                 </Col>
                                 <Col md={6} xs={8} className="mc-chat-card">

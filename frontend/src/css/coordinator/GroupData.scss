@@ -2,7 +2,7 @@
     background-color: #f8f8f8;
     min-height: 730px;
 }
-.gd-card{
+.gd-card {
     margin-top: 20px;
 }
 
@@ -10,7 +10,7 @@
     /* margin-left: 20px; */
     margin-top: 20px;
     font-size: 30px;
-    color: #f8f8f8;
+    color: #444444;
     font-weight: 500;
 }
 
@@ -21,12 +21,6 @@
     margin-bottom: 50px;
 }
 
-.gd-topic-2 {
-    font-size: 23px;
-    color: #444444;
-    font-weight: 500;
-    margin-bottom: 20px;
-}
 
 .gd-del-btn {
     color: #5e5e5e;
@@ -38,10 +32,6 @@
     color: #a02828;
     font-size: 25px;
     transition: 0.5s;
-}
-.gd-reg-head-div {
-    background-color: #17a2b8;
-    margin-bottom: 10px;
 }
 
 /*************************Student List ****************/
@@ -74,12 +64,37 @@
     cursor: pointer;
     transition: 0.5s;
 }
-.gd-stu-list {
-    margin-top: -40px;
-    margin-bottom: 20px;
+
+/***********************************************************************************/
+
+.task-card-gd {
+    // margin-top: -50px;
+    .card-header {
+        background-color: #263238;
+        color: white;
+        font-size: 18px;
+    }
+    .circular-progress-div {
+        padding: 5% 30% 8% 30%;
+        text-align: center;
+    }
+    .delete-span {
+        float: right;
+        font-size: 26px;
+        display: flex;
+        align-items: center;
+    }
+    .delete-span:hover {
+        color: red;
+        transform: scale(1.45);
+    }
 }
 
+
 @media screen and (max-width: 500px) {
+    .gd-add-btn{
+        margin-bottom: 20px;
+    }
     .sl-text {
         font-size: 15px;
         // padding-top: 5px;
@@ -111,10 +126,6 @@
         color: #444444;
         font-weight: 500;
     }
-    
-    .gd-stu-list {
-        margin-top: -40px;
-    }
     .gd-del-btn {
         color: #5c5c5c;
         margin-right: 10px;
@@ -124,4 +135,5 @@
         margin-top: -10px;
         margin-bottom: 20px;
     }
+
 }
