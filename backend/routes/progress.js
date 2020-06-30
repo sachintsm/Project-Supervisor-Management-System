@@ -40,6 +40,17 @@ router.patch('/edittask/:id',verify,async(req,res,next)=>{
         console.log(e)
     }
 })
+//delete task by taskId
+router.delete('/deletetask/:id',verify,async(req,res,next)=>{
+    try{
+        const id = req.params.id;
+        const result = await ProgressTasks.findOneAndDelete({_id:id})
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
 
 //get project tasks
 router.get('/gettasks/:id',async(req,res,next) =>{
