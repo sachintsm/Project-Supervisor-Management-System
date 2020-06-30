@@ -397,9 +397,9 @@ export default class registration extends Component {
 
                   <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
                     <Tab eventKey="single" title="Single" className="reg-tab-text">
-                      <div>
+                      <div className="container">
                         <form onSubmit={this.onSubmit}>
-                          <Row>
+                          <Row style={{marginTop: "20px" }}>
                             <Col md={6} xs="12">
                               <div className="form-group">
                                 <label className="text-label">First Name: </label>

@@ -38,6 +38,7 @@
   }
   .btn-row{
     padding: 0px !important;
+    padding-top: 12.5px !important;
     margin: 0px !important;
   }
   .btn-row2{
@@ -47,8 +48,18 @@
   .my-btn1{
     margin: 0px !important;
     padding-left: 0px !important;
+    padding-right: 0px !important;
   }
   .my-btn2{
+    margin: 0px !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+  }
+  .my-btn1-div{
+    margin: 0px !important;
+    padding-left: 0px !important;
+  }
+  .my-btn2-div{
     margin: 0px !important;
     padding-right: 0px !important;
   }
@@ -69,8 +80,8 @@
       margin: 0px 17px;
     }
     .edit-card-div{
-       padding-right: 15px;
-     }
+      padding-right: 15px;
+    }
     .update-card-div{
       padding-left: 15px;
     }
@@ -81,8 +92,8 @@
       margin: 0px 0px;
     }
     .edit-card-div{
-       padding-right: 10px;
-     }
+      padding-right: 10px;
+    }
     .update-card-div{
       padding-left: 10px;
     }
@@ -102,9 +113,9 @@
       margin-top: 0px;
     }
     .update-card{
-        margin-bottom: 10px;
-        margin-top: 0px;
-      }
+      margin-bottom: 10px;
+      margin-top: 0px;
+    }
     .edit-card-div{
       padding: 0px;
     }

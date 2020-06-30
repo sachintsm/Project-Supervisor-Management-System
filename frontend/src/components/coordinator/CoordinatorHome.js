@@ -226,7 +226,7 @@ class CoordinatorHome extends Component {
           )}
           {this.state.activeProjectBlock.map(data => {
             return (
-              <div className="card container ch-card" key={data._id}>
+              <div className="card container ch-card-ch-div" key={data._id} style={{marginTop:"10px", marginBottom:"20px"}}>
                 <Row className="ch-project-name-div">
                   <p className="ch-project-name">{data.project} </p>
                 </Row>
@@ -296,7 +296,7 @@ class CoordinatorHome extends Component {
           )}
           {this.state.endProjectBlock.map(data => {
             return (
-              <div className="card container ch-card" key={data._id}>
+              <div className="card container ch-card-ch-div" key={data._id} style={{marginTop:"10px", marginBottom:"20px"}}>
                 <Row className="ch-project-name-div">
                   <p className="ch-project-name">{data.project} </p>
                 </Row>
