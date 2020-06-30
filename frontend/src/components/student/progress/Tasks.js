@@ -15,11 +15,9 @@ import TaskCard from "./TaskCard";
 import { withRouter } from "react-router-dom";
 import TotalProgressCard from "./TotalProgressCard";
 import ProgressUpdates from "./ProgressUpdates";
-
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import { confirmAlert } from 'react-confirm-alert';
-
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -80,10 +78,8 @@ class Tasks extends Component {
             currentTasks: [],
             loading: true,
             progressUpdates: [],
-
             updateLoading: true,
             taskTitleError: false
-
         }
     }
 
@@ -222,16 +218,6 @@ class Tasks extends Component {
                             {!this.state.loading && this.state.project.projectState &&
                             <Col lg={3} md={3} xs={12} sm={12}>
 
-                                <Card className="btn-card" onClick={()=>{this.openModal()}}>
-                                    <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
-                                        <div>
-                                            {/*<AiOutlineAppstoreAdd />*/}
-                                            <AiOutlineFileAdd />
-
-                                        </div>
-                                    </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
-
-
                                 <BootstrapTooltip title="Add New Task"  placement="bottom">
                                     <Card className="btn-card" onClick={()=>{this.openModal()}}>
                                         <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
@@ -242,7 +228,6 @@ class Tasks extends Component {
                                             </div>
                                         </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
                                 </BootstrapTooltip>
-
                             </Col>}
                         </Row>
                     </div>
@@ -282,7 +267,7 @@ class Tasks extends Component {
                                         <ThemeProvider theme={muiTheme}>
 
                                             <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
-                                                valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+                                                    valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
                                         </ThemeProvider>
                                     </div>
                                     <div className="form-group">
