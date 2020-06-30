@@ -38,7 +38,7 @@ class GroupData extends Component {
             addStudentIndexError: '',
             addSupervisorIndexError: '',
 
-            projectId : '',
+            // projectId : '',
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -59,10 +59,10 @@ class GroupData extends Component {
         const authState = await verifyAuth();
         
         
-        this.setState({
-            projectId : this.props.location.projectId
-        })
-        console.log(this.props.location.state.projectId)
+        // this.setState({
+        //     projectId : this.props.location.projectId
+        // })
+        // console.log(this.props.location.state.projectId)
 
         this.setState({
             authState: authState,
@@ -271,7 +271,7 @@ class GroupData extends Component {
 
     render() {
         return (
-            <div className="gd-fullpage">
+            <div className="gd-fullpage" >
                 <Navbar panel={"coordinator"} />
                 <div className="container">
                     <Snackpop

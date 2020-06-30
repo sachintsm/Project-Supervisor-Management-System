@@ -57,8 +57,7 @@ class ProgressUpdates extends Component {
     }
 
     renderDate = (item) =>{
-        console.log("hello")
-        return (<div style={{fontSize: "13px",color:"#777"}}>{item.date}&nbsp; {item.time}</div>)
+        return (<div style={{fontSize: "12px",color:"#777"}}>{item.date}&nbsp;&nbsp;&nbsp; {item.time}</div>)
     }
 
 
@@ -68,11 +67,18 @@ class ProgressUpdates extends Component {
                 {!this.state.loading1 && !this.state.loading2 && this.state.progressUpdates.map(item => {
                     return (
                         <Card className="update-history-card" key={item._id} style={{borderColor: item.progressChange<0? "red":"#27d600", borderWidth: "1.1px"}}>
+                            {/*<Card className="update-history-card" key={item._id} style={{borderColor: "#263238", borderWidth: "1.1px"}}>*/}
                             <Row>
                                 <Col lg={9} md={9} sm={12}>
                                     { this.renderDate(item) }
-                                    <div className="description">{ item.description}</div>
-                                    {this.state.taskTitleShow && <div className="task-title">Task : {item.taskTitle} </div>}
+                                    <Row>
+                                        <Col md={4} lg={4} sm={12} xs={12}>
+                                            <span className="description">{ item.description}</span>
+                                        </Col>
+                                        <Col md={8} lg={8} sm={12} xs={12}>
+                                            {this.state.taskTitleShow && <span className="task-title"><span className="task-title-span">{item.taskTitle} </span></span>}
+                                        </Col>
+                                    </Row>
                                     {this.state.usernameShow && <div className="name">Author : {item.name}</div>}
 
                                 </Col>

@@ -146,7 +146,13 @@ class ViewProject extends Component {
 
                                         </div>
                                     </Col>
-                                    <Col lg={5} md={12} xs={12} sm={12} className="project-progress" ><CircularProgressbar styles={buildStyles({ textColor: '#263238', pathColor: `#263238`, })} value={percentage} text={`${percentage}%`} /></Col>
+                                    <Col lg={5} md={12} xs={12} sm={12} className="project-progress" >
+
+                                        {percentage<=33 && <CircularProgressbar styles={buildStyles({textColor: '#DC3545',pathColor: '#DC3545',})}   value={percentage} text={`${percentage}%`} />}
+                                        {percentage<=66 && percentage>33  && <CircularProgressbar styles={buildStyles({textColor: '#FFC107',pathColor: '#FFC107',})}   value={percentage} text={`${percentage}%`} />}
+                                        {percentage<=100 && percentage>66  && <CircularProgressbar styles={buildStyles({textColor: '#28A745',pathColor: '#28A745',})}   value={percentage} text={`${percentage}%`} />}
+                                        {/*<CircularProgressbar styles={buildStyles({ textColor: '#263238', pathColor: `#263238`, })} value={percentage} text={`${percentage}%`} />*/}
+                                    </Col>
                                 </Row>
                             </div>
 
