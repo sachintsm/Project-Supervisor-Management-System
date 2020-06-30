@@ -40,9 +40,9 @@ class TaskProgressCard extends Component {
                                 <Row>
                                     <Col md={4} sm={12} xs={12} className="circular-progress-div">
 
-                                        {this.state.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: 'red',pathColor: 'red',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
-                                        {this.state.totalProgress<=66 && this.state.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: 'orange',pathColor: 'orange',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
-                                        {this.state.totalProgress<=100 && this.state.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#00b008',pathColor: '#00b008',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
+                                        {this.state.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: '#DC3545',pathColor: '#DC3545',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
+                                        {this.state.totalProgress<=66 && this.state.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: '#FFC107',pathColor: '#FFC107',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
+                                        {this.state.totalProgress<=100 && this.state.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#28A745',pathColor: '#28A745',})}   value={this.state.totalProgress} text={`${this.state.totalProgress}%`} />}
                                     </Col>
                                     <Col md={8} sm={12} xs={12} className="individual-progress-div">
 

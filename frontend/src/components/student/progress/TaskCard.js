@@ -126,9 +126,9 @@ class TaskCard extends Component {
                             <div className="circular-progress-div">
 
 
-                                {this.state.task.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: 'red',pathColor: 'red',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                                {this.state.task.totalProgress<=66 && this.state.task.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: 'orange',pathColor: 'orange',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
-                                {this.state.task.totalProgress<=100 && this.state.task.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#00b008',pathColor: '#00b008',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=33 && <CircularProgressbar styles={buildStyles({textColor: '#DC3545',pathColor: '#DC3545',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=66 && this.state.task.totalProgress>33  && <CircularProgressbar styles={buildStyles({textColor: '#FFC107',pathColor: '#FFC107',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
+                                {this.state.task.totalProgress<=100 && this.state.task.totalProgress>66  && <CircularProgressbar styles={buildStyles({textColor: '#28A745',pathColor: '#28A745',})}   value={this.state.task.totalProgress} text={`${this.state.task.totalProgress}%`} />}
 
                            </div>
                             <span>Task Weight</span>

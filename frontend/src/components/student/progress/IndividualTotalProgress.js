@@ -3,6 +3,7 @@ import {getFromStorage} from "../../../utils/Storage";
 import { ProgressBar , Row, Col, Spinner } from 'react-bootstrap';
 import axios from "axios";
 import "../../../css/students/progress/IndividualTotalProgress.scss"
+import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -81,7 +82,13 @@ class IndividualTotalProgress extends Component {
                 <div>
                     {this.state.name} ({this.state.index})
                     <Row>
-                        <Col lg={9} md={9} sm={12} xs={12} className="progressbar-col"><ProgressBar variant="dark" now={this.state.progress} /></Col>
+                        <Col lg={9} md={9} sm={12} xs={12} className="progressbar-col">
+
+                            {this.state.progress<=33 && <ProgressBar  variant="danger" now={this.state.progress} />}
+                            {this.state.progress<=66 && this.state.progress>=33 && <ProgressBar  variant="warning" now={this.state.progress} />}
+                            {this.state.progress<=100 && this.state.progress>=66 && <ProgressBar  variant="success" now={this.state.progress} />}
+
+                        </Col>
                         <Col lg={3} md={3} sm={12} xs={12} ><span className="progress-value-span">{this.state.progress} %</span></Col>
                     </Row>
                 </div>
