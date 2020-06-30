@@ -41,7 +41,7 @@ function BootstrapTooltip1(props) {
 
 const useStylesBootstrap2 = makeStyles((theme) => ({
     arrow: {
-        color: "#666",
+        color: "#555",
     },
     tooltip: {
         backgroundColor: "#666",

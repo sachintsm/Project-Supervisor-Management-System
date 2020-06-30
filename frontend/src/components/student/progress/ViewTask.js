@@ -15,7 +15,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import { confirmAlert } from 'react-confirm-alert';
 
-
 const backendURI = require('../../shared/BackendURI');
 
 const muiTheme = createMuiTheme({
@@ -85,20 +84,6 @@ class ViewTask extends Component {
         this.getProgressUpdates()
         window.scrollTo(0, 0)
 
-    }
-
-    getProgressUpdates = () => {
-        const headers = {
-            'auth-token': getFromStorage('auth-token').token,
-        }
-        const taskId = this.state.taskId;
-        axios.get(backendURI.url+'/progress/gettaskprogressupdates/'+taskId,{headers:headers}).then(res=>{
-            console.log(res.data)
-            this.setState({
-                progressUpdates: res.data,
-                updateLoading: false
-            })
-        })
     }
 
     getProgressUpdates = () => {
@@ -209,28 +194,6 @@ class ViewTask extends Component {
 
     updateTask = () =>{
 
-        let userId = getFromStorage("auth-id").id
-
-        const date = new Date()
-        const dateString = date.toLocaleDateString()
-        const timeString = date.toLocaleTimeString()
-
-        const object = {
-            taskId: this.state.task._id,
-            groupId: this.state.groupDetails._id,
-            userId: userId,
-            description: this.state.description,
-            progressChange: this.state.task.totalProgress - this.state.defaultProgress,
-            timestamp: new Date(),
-            date: dateString,
-            time: timeString
-        }
-        const headers = {
-            'auth-token':getFromStorage('auth-token').token,
-        }
-        axios.post(backendURI.url+'/progress/addprogressupdate/',object,{headers:headers}).then(res=>{
-            // console.log(res)
-
         confirmAlert({
             title: 'Update Task',
             message: 'Do you want to update the task progress?',
@@ -271,7 +234,6 @@ class ViewTask extends Component {
                     }
                 }
             ]
-
         })
 
 
