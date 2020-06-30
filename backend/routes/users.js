@@ -391,7 +391,7 @@ router.get('/getUserName/:id', async (req, res) => {
   const id = req.params.id;
   User
     .find({ _id: id })
-    .select('firstName lastName')
+    .select('firstName lastName _id')
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
