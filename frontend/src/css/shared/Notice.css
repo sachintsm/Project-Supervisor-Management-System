@@ -86,8 +86,14 @@ width:50px;
 
 
 @media screen and (max-width: 500px) {
+
+  .crd_notice-tittle-div{
+    background-color:#C8C8C8;
+    height:35px;
+  }
+
   .crd_date{
-  font-size:6px;
+  font-size:8px;
   margin-left :14px;
   font-weight: 350;
   font-family: roboto, sans;

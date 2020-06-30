@@ -34,11 +34,13 @@ import {
 const backendURI = require("./BackendURI");
 
 class noticeBlock {
-  constructor(_id , userType, projectName , date , noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent ){
+  constructor(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent ){
     this._id = _id;
     this.userType = userType;
     this.projectName = projectName;
     this.date = date;
+    this.time = time;
+
     this.noticeTittle = noticeTittle;
     this.notice = notice;
     this.noticeAttachment = noticeAttachment;
@@ -132,6 +134,7 @@ class Notice extends Component {
         var _id = this.state.noticeListCo[i]._id;
         var userType = this.state.noticeListCo[i].userType;
         var date = this.state.noticeListCo[i].date;
+        var time = this.state.noticeListCo[i].time;
         var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
         var noticeTittle = this.state.noticeListCo[i].noticeTittle;
         var notice = this.state.noticeListCo[i].notice;
@@ -141,7 +144,7 @@ class Notice extends Component {
         var toStudent = this.state.noticeListCo[i].toStudent;
 
 
-        var block = new noticeBlock(_id , userType, projectName , date , noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent )
+        var block = new noticeBlock(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent )
 
         this.setState({
           noticeListBlock : [...this.state.noticeListBlock , block]
@@ -315,9 +318,11 @@ console.log(this.userTypes)
               'auth-token':getFromStorage('auth-token').token,
             }
 
-          var date = new Date();
+          const date = new Date();
+          const dateString = date.toLocaleDateString()
+          const timeString = date.toLocaleTimeString()
 
-         var B = date.toString('dddd, MMMM ,yyyy') ;
+        // var B = date.toString('dddd, MMMM ,yyyy') ;
 
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
@@ -332,7 +337,8 @@ console.log(this.userTypes)
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", B);
+            formData.append("date", dateString);
+            formData.append("time", timeString);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -403,7 +409,8 @@ console.log(this.userTypes)
             }
 
           var date = new Date();
-
+          const dateString = date.toLocaleDateString()
+          const timeString = date.toLocaleTimeString()
          var B = date.toString('dddd, MMMM ,yyyy') ;
 
             const userType = localStorage.getItem("user-level");
@@ -419,7 +426,8 @@ console.log(this.userTypes)
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", B);
+            formData.append("date", dateString);
+            formData.append("time", timeString);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -755,7 +763,7 @@ console.log(this.userTypes)
 
                            <Row className="crd_user-name-div">
                            <Col md={11} xs={10}>
-                           <p className="crd_date">(&nbsp;{type.date}&nbsp;)</p>
+                           <p className="crd_date">(&nbsp;{type.date}&nbsp;&nbsp;{type.time})</p>
                            </Col>
                            </Row>
 
@@ -982,7 +990,8 @@ console.log(this.userTypes)
 
                           <Row  className="crd_notice-tittle-div">
                           <Col md={11} xs={10}>
-                          <p className="crd_notice-name-project">{types.noticeTittle}&nbsp;-&nbsp;<small>{types.projectName}</small></p>                           </Col>
+                          <p className="crd_notice-name-project">{types.noticeTittle}</p>
+                          </Col>
                            <Col className="crd_btn-row" md={1} xs={2}>
                            <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
                            </Col>
@@ -990,7 +999,7 @@ console.log(this.userTypes)
 
                            <Row className="crd_user-name-div">
                            <Col md={11} xs={10}>
-                           <p className="crd_notice-date">(&nbsp;{types.date}&nbsp;)</p>
+                           <p className="crd_notice-date">{types.projectName}&nbsp;&nbsp;{types.date}&nbsp;&nbsp;{types.time}</p>
                            </Col>
                            </Row>
 
