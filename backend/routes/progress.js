@@ -40,6 +40,17 @@ router.patch('/edittask/:id',verify,async(req,res,next)=>{
         console.log(e)
     }
 })
+//delete task by taskId
+router.delete('/deletetask/:id',verify,async(req,res,next)=>{
+    try{
+        const id = req.params.id;
+        const result = await ProgressTasks.findOneAndDelete({_id:id})
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
 
 //get project tasks
 router.get('/gettasks/:id',async(req,res,next) =>{
@@ -188,6 +199,7 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
     }
 })
 
+
 //get progress updates by project ID
 router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
     try {
@@ -207,8 +219,13 @@ router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
+    try {
+        const taskId = req.params.taskId
+        const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
+        res.send(result)
     }
+
 })
 
 router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
@@ -217,6 +234,7 @@ router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
         const result = await ProgressUpdates.find({taskId:taskId}).sort({ timestamp: -1 })
         res.send(result)
     }
+
     catch (e) {
 
     }

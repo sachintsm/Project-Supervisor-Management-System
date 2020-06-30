@@ -481,11 +481,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
     console.log("true")
     var p = userIdExists.imageName;
     console.log(p);
-    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-      if (err) throw err;
-      // if no error, file has been deleted successfully
-      console.log('File deleted!');
-    });
+    
 
     upload(req, res, (err) = async () => {
       let ts = Date.now();
@@ -519,6 +515,11 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
+    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+    });
   }
 
 });
@@ -695,9 +696,9 @@ router.post('/check', async (req, res) => {
           res.json({ state: true, msg: "You can request..." });
         }
 
-      } else {
-        res.json({ state: false, msg: "You exceed your request limit..." });
-      }
+    }else{
+          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+    }
 
     })
     .catch(err => {

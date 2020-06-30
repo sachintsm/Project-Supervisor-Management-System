@@ -4,6 +4,7 @@ import '../../css/shared/Profile.css';
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
+import { Row, Col } from "reactstrap";
 import Snackpop from './Snackpop';
 
 
@@ -145,6 +146,8 @@ export default class Profilepic extends Component {
                             <form onSubmit={this.onFormSubmit}>
                                 {/* <input type="file" className="myImage" name="Image" onChange={this.onChangeP} /> */}
                                 {/* File input */}
+                                <Row>
+                                <Col md={12} xs="12">
                                 <div className="input-group">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text"> Upload </span>
@@ -160,6 +163,8 @@ export default class Profilepic extends Component {
                                     </div>
                                 </div>
                                 <button type="submit" className="btn btn-info my-4" style={{width: '100%'}}>Upload</button>
+                                </Col>
+                                </Row>
                             </form>
                         </div>
                     </div>
