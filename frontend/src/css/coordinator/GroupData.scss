@@ -21,7 +21,6 @@
     margin-bottom: 50px;
 }
 
-
 .gd-del-btn {
     color: #5e5e5e;
     margin-right: 10px;
@@ -90,9 +89,22 @@
     }
 }
 
+/*****************Submission part ************************************************/
+
+.text-sub-gd{
+    color: rgb(71, 71, 71);
+    font-weight: 500;
+    font-family: roboto, sans;
+    margin-top: 10px;
+}
+.cd-sub-card-unit:hover{
+    background-color: rgb(226, 226, 226);
+    cursor: pointer;
+    transition: 0.5s;
+}
 
 @media screen and (max-width: 500px) {
-    .gd-add-btn{
+    .gd-add-btn {
         margin-bottom: 20px;
     }
     .sl-text {
@@ -135,5 +147,4 @@
         margin-top: -10px;
         margin-bottom: 20px;
     }
-
 }

@@ -11,8 +11,11 @@ import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
 import ProjectTotalProgress from './ProjectTotalProgress'
-import { Row, Col, Card, Container, ProgressBar } from 'react-bootstrap';
-
+import { Row, Col, Card } from 'react-bootstrap';
+import DescriptionIcon from '@material-ui/icons/Description';
+import { Button, CardTitle, CardText } from 'reactstrap';
+import SubjectIcon from '@material-ui/icons/Subject';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 const backendURI = require('../../shared/BackendURI');
 
 class GroupData extends Component {
@@ -367,7 +370,49 @@ class GroupData extends Component {
                                     <Card className="task-card-gd">
                                         <Card.Header className="gd-card-header">Submissions</Card.Header>
                                         <Card.Body className="gd-card-body">
+                                            <Row style={{marginBottom:"-50px"}}>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"-0px"}}>
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+                                                                <DescriptionIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">SRS Document</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
 
+                                                </Col>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+
+                                                                <AssignmentIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">Project Proposal</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+                                                </Col>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+
+                                                                <SubjectIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">Bi-Weekly Reports</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+                                                </Col>
+                                            </Row>
 
                                         </Card.Body>
                                     </Card>
