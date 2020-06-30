@@ -57,7 +57,6 @@ class ProgressUpdates extends Component {
     }
 
     renderDate = (item) =>{
-        console.log("hello")
         return (<div style={{fontSize: "12px",color:"#777"}}>{item.date}&nbsp;&nbsp;&nbsp; {item.time}</div>)
     }
 

@@ -17,6 +17,7 @@ import TotalProgressCard from "./TotalProgressCard";
 import ProgressUpdates from "./ProgressUpdates";
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
+import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
@@ -77,7 +78,8 @@ class Tasks extends Component {
             currentTasks: [],
             loading: true,
             progressUpdates: [],
-            updateLoading: true
+            updateLoading: true,
+            taskTitleError: false
         }
     }
 
@@ -139,22 +141,55 @@ class Tasks extends Component {
 
     onSubmit=(e)=>{
         e.preventDefault();
-        const object={
-            taskTitle: this.state.taskTitle,
-            taskWeight: this.state.taskWeight,
-            groupId: this.state.groupDetails._id,
-            groupMembers: this.state.groupDetails.groupMembers,
-            totalProgress: 0,
-        }
-        const headers = {
-            'auth-token':getFromStorage('auth-token').token,
-        }
-        axios.post(backendURI.url+'/progress/addtask',object,{headers:headers}).then(res=>{
+        if(this.state.taskTitle){
 
-        })
 
-        this.setState({ modal: false });
-        window.location.reload(false);
+            this.setState({ modal: false });
+            confirmAlert({
+                title: 'Add New Task',
+                message: 'Do you want to Add this Task?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+
+                            this.setState({
+                                taskTitleError: false
+                            })
+
+                            const object={
+                                taskTitle: this.state.taskTitle,
+                                taskWeight: this.state.taskWeight,
+                                groupId: this.state.groupDetails._id,
+                                groupMembers: this.state.groupDetails.groupMembers,
+                                totalProgress: 0,
+                            }
+                            const headers = {
+                                'auth-token':getFromStorage('auth-token').token,
+                            }
+                            axios.post(backendURI.url+'/progress/addtask',object,{headers:headers}).then(res=>{
+
+                            })
+
+                            window.location.reload(false);
+
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    }
+                ]
+            })
+        }
+        else{
+            this.setState({
+                taskTitleError: true
+            })
+        }
+
 
     }
 
@@ -216,10 +251,10 @@ class Tasks extends Component {
                             <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
                                 <form onSubmit={this.onSubmit}>
 
-                                    <div className="form-group">
+                                    <div className="form-group title-form-group">
                                         <Label for="avatar">Task Title</Label>
                                         <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} placeholder="Eg :- Login Page / User Registrations"/>
-                                        <p className="reg-error">{this.state.contactNumberError}</p>
+                                        {this.state.taskTitleError && !this.state.taskTitle ? <span className="title-error">Please Enter a Task Title</span> : <span>&nbsp;</span>}
                                     </div>
 
                                     <div className="form-group">
