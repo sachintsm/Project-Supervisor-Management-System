@@ -337,9 +337,6 @@ export default class CreateGroups extends Component {
                                 <div >
                                     <p className="reg-head">Group Registration</p>
                                     <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
-
-
-
                                         <Tab eventKey="bulk" title="Bulk Registration">
                                             <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                                                 <Row>

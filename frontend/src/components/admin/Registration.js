@@ -218,7 +218,7 @@ export default class registration extends Component {
       nicError: '',
       mobileNumberError: '',
       indexNumber: '',
-      regNumber : ''
+      regNumber: ''
     };
 
     if (this.state.form.firstName.length < 1) {
@@ -276,7 +276,7 @@ export default class registration extends Component {
         nicError: '',
         mobileNumberError: '',
         indexNumberError: '',
-        regNumberError : ''
+        regNumberError: ''
       })
 
       confirmAlert({
@@ -395,11 +395,55 @@ export default class registration extends Component {
                 <div >
                   <p className="reg-head">User Registration</p>
 
-                  <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                  <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                    <Tab eventKey="bulk" title="Bulk">
+                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+
+
+                        <div className="form-group">
+                          <label className="text-label">CSV File Format : </label>
+                        </div>
+
+                        <img
+                          alt='background'
+                          src={require('../../assets/images/Reg-CSV-Format.png')}
+                          className='image2'
+                        />
+
+
+
+
+                        <div className="form-group reg-csv-topic">
+                          <label className="text-label">Choose CSV File : </label>
+                        </div>
+
+
+                        <div className="container ">
+                          <Row className="req-csvbtn">
+
+                            <CSVReader
+                              cssClass="react-csv-input"
+                              onFileLoaded={handleForce}
+                              inputStyle={{ color: 'grey' }}
+                            />
+                          </Row>
+                        </div>
+
+                        <div className="form-group">
+                          <button
+                            className="btn btn-info my-4  "
+                            onClick={this.fileUpload}
+                            style={{ width: "100%" }}
+                          >Register Now </button>
+                        </div>
+
+                      </div>
+
+                    </Tab>
                     <Tab eventKey="single" title="Single" className="reg-tab-text">
                       <div className="container">
                         <form onSubmit={this.onSubmit}>
-                          <Row style={{marginTop: "20px" }}>
+                          <Row style={{ marginTop: "20px" }}>
                             <Col md={6} xs="12">
                               <div className="form-group">
                                 <label className="text-label">First Name: </label>
@@ -562,50 +606,7 @@ export default class registration extends Component {
                     </Tab>
 
 
-                    <Tab eventKey="bulk" title="Bulk">
-                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
 
-
-                        <div className="form-group">
-                          <label className="text-label">CSV File Format : </label>
-                        </div>
-
-                        <img
-                          alt='background'
-                          src={require('../../assets/images/Reg-CSV-Format.png')}
-                          className='image2'
-                        />
-
-
-
-
-                        <div className="form-group reg-csv-topic">
-                          <label className="text-label">Choose CSV File : </label>
-                        </div>
-
-
-                        <div className="container ">
-                          <Row className="req-csvbtn">
-
-                            <CSVReader
-                              cssClass="react-csv-input"
-                              onFileLoaded={handleForce}
-                              inputStyle={{ color: 'grey' }}
-                            />
-                          </Row>
-                        </div>
-
-                        <div className="form-group">
-                          <button
-                            className="btn btn-info my-4  "
-                            onClick={this.fileUpload}
-                            style={{ width: "100%" }}
-                          >Register Now </button>
-                        </div>
-
-                      </div>
-
-                    </Tab>
                   </Tabs>
 
                 </div>
