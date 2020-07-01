@@ -75,7 +75,7 @@ class TaskCard extends Component {
     }
 
     editTask = () => {
-        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskId: this.state.task._id ,groupDetails: this.state.groupDetails})
+        this.props.history.push('/studenthome/viewproject/progresstasks/viewtask', { taskId: this.state.task._id ,groupDetails: this.state.groupDetails, projectDetails:this.state.projectDetails})
     }
 
     deleteTask = (e) =>{
@@ -110,18 +110,23 @@ class TaskCard extends Component {
     }
 
     render() {
-
         return (
             <div>
 
                 <BootstrapTooltip2 title={this.state.viewTitle}  placement="bottom">
                     <Card className="task-card" onClick={this.editTask}>
-                        <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%)
-                            <BootstrapTooltip1 title={this.state.deleteTitle}  placement="bottom">
-                                <span className="delete-span" onMouseEnter={()=>{this.setState({viewTitle: "",})}} onMouseLeave={()=>this.setState({viewTitle: "View "+this.state.task.taskTitle,})} onClick={this.deleteTask}><AiFillDelete/></span>
-                            </BootstrapTooltip1>
-
-                        </Card.Header>
+                        {this.state.projectDetails.projectState &&
+                            <div>
+                                <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%)
+                                    <BootstrapTooltip1 title={this.state.deleteTitle}  placement="bottom">
+                                        <span className="delete-span" onMouseEnter={()=>{this.setState({viewTitle: "",})}} onMouseLeave={()=>this.setState({viewTitle: "View "+this.state.task.taskTitle,})} onClick={this.deleteTask}><AiFillDelete/></span>
+                                    </BootstrapTooltip1>
+                                </Card.Header>
+                            </div>
+                        }
+                        {!this.state.projectDetails.projectState &&
+                        <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%) </Card.Header>
+                        }
                         <Card.Body className="card-body">
                             <div className="circular-progress-div">
 

@@ -211,7 +211,7 @@ class Tasks extends Component {
                             {this.state.currentTasks.map(item=>{
                                 return(
                                     <Col className="task-card-col" key={item._id} lg={3} md={4} xs={12} sm={12}>
-                                        <TaskCard task={item} groupDetails={this.state.groupDetails} projectDetails={this.state.projectDetails}/>
+                                        <TaskCard task={item} groupDetails={this.state.groupDetails} projectDetails={this.state.project}/>
                                     </Col>
                                 )
                             })}
