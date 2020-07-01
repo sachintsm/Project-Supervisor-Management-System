@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjectDetailsCard from "./ProjectDetailsCard";
+import ProjectDetailsCard2 from "./ProjectDetailsCard2";
 import "../../css/students/ViewProject.scss"
 import Footer from '../shared/Footer';
 import axios from 'axios';
@@ -18,24 +18,16 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 
 const backendURI = require('../shared/BackendURI');
-class studentBlock {
-    constructor(id, name, index, reg) {
-        this.id = id;
-        this.name = name;
-        this.index = index;
-        this.reg = reg;
-    }
-}
+
 
 class ViewProject extends Component {
     constructor(props) {
         super(props);
-        this.getStudentDetails = this.getStudentDetails.bind(this)
-        this.getgroupMembersIndexes = this.getgroupMembersIndexes.bind(this)
         this.state = {
             project: props.location.state.projectDetails,
             studentList: [],
             loading: true,
+            loading2: true,
             groupDetails: []
         }
         this.getGroupId()
@@ -50,43 +42,15 @@ class ViewProject extends Component {
         const studentId = getFromStorage("auth-id").id
         axios.post(backendURI.url + '/users/getgroupmembers/' + studentId, { projectId: this.state.project._id }).then(res => {
             this.setState({
-                indexNumbers: res.data
+                indexNumbers: res.data,
+                loading2: false
             })
         }).then(() => {
-            this.getStudentDetails()
+            // this.getStudentDetails()
         })
     }
 
-    getStudentDetails = async (indexesArray) => {
 
-        this.setState({
-            studentList: []
-        })
-        const headers = {
-            'auth-token': getFromStorage('auth-token').token,
-        }
-
-        this.state.indexNumbers.map(async (index) => {
-
-            await axios.get(backendURI.url + '/users/studentList/' + index, { headers: headers })
-                .then(res => {
-                    if (res.data.data) {
-                        const _id = res.data.data._id
-                        const name = res.data.data.firstName + " " + res.data.data.lastName
-                        const index = res.data.data.indexNumber
-                        const reg = res.data.data.regNumber
-
-                        let block = new studentBlock(_id, name, index, reg)
-
-                        this.setState({
-                            studentList: [...this.state.studentList, block],
-                            loading: false
-                        })
-                    }
-                })
-        })
-
-    }
     requestSup(item){
         this.props.history.push('/studenthome/requestsupervisor',{projectDetails:item});
     }
@@ -124,70 +88,14 @@ class ViewProject extends Component {
         this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     render() {
-        const percentage = 67;
 
         return (
             <React.Fragment>
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
-                    <div className="title-div">
-                        <h1 className="project-task-title">{this.state.groupDetails.groupName} </h1>
-                    </div>
-                    <Row className="details-row">
+                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers}/>}
 
-                        <Col lg={7} md={7} xs={12} sm={7} className="my-col">
-                            <div className="card project-detail-card1">
-                                <Row>
-                                    <Col lg={7} md={12} xs={12} sm={12}>
-                                        <div>
-                                            <h4 className="title">Project Details {this.state.project.projectState && <span className="dot"></span>}</h4>
-                                            <ProjectDetailsCard project={this.state.project} />
-
-                                        </div>
-                                    </Col>
-                                    <Col lg={5} md={12} xs={12} sm={12} className="project-progress" >
-
-                                        {percentage<=33 && <CircularProgressbar styles={buildStyles({textColor: '#DC3545',pathColor: '#DC3545',})}   value={percentage} text={`${percentage}%`} />}
-                                        {percentage<=66 && percentage>33  && <CircularProgressbar styles={buildStyles({textColor: '#FFC107',pathColor: '#FFC107',})}   value={percentage} text={`${percentage}%`} />}
-                                        {percentage<=100 && percentage>66  && <CircularProgressbar styles={buildStyles({textColor: '#28A745',pathColor: '#28A745',})}   value={percentage} text={`${percentage}%`} />}
-                                        {/*<CircularProgressbar styles={buildStyles({ textColor: '#263238', pathColor: `#263238`, })} value={percentage} text={`${percentage}%`} />*/}
-                                    </Col>
-                                </Row>
-                            </div>
-
-                        </Col>
-                        <Col lg={5} md={5} xs={12} sm={5} className="my-col">
-                            <div className="card project-detail-card2">
-                                <h4 className="title">Group Members{this.state.project.projectState && <span className="dot"></span>}</h4>
-                                <div className="group-detail-table">
-                                    {this.state.loading && <Spinner animation="border" className="spinner" />}
-                                    {
-                                        this.state.studentList.map((user, index) => {
-                                            return (
-
-                                                <div key={index} >
-
-
-                                                    <Row className="mb-1">
-                                                        <Col md="3" xs="6" sm="3" className="table-col">
-                                                            <span className="normal-text zero-margin">{user.index}</span>
-                                                        </Col>
-                                                        <Col md="3" xs="6" sm="3" className="table-col">
-                                                            <span className="normal-text zero-margin">{user.reg}</span>
-                                                        </Col>
-                                                        <Col md="5" xs="12" sm="3" className="table-col">
-                                                            <span className="normal-text zero-margin">{user.name}</span>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
                     <Row className="btn-row">
                         <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewChat(this.state.project)}>
                             <Card className="btn-card">
