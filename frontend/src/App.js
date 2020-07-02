@@ -12,7 +12,7 @@ import AdminHome from './components/admin/AdminHome';
 import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
-
+import ViewMailBox from './components/admin/ViewMailBox';
 import Profile from "./components/shared/Profile";
 import EditProfile from "./components/admin/EditUser";
 
@@ -62,6 +62,8 @@ function App() {
 
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
+          <Route exact path='/adminhome/viewmailbox' component={ViewMailBox}></Route>
+
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}></Route>
           <Route exact path='/shared/notice' component={Notice}></Route>
 
