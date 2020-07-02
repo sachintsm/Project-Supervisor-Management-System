@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
-import '../../css/admin/ProjectTypes.css';
+import '../../css/admin/ProjectTypes.scss';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
@@ -82,7 +82,16 @@ class ProjectTypes extends Component {
   }
 
   submit() {
-
+    if(this.state.projectType2){
+      this.setState({
+        projectType: this.state.projectType1 + " ( " + this.state.projectType2 + " )"
+      })
+    }
+    else{
+      this.setState({
+        projectType: this.state.projectType1
+      })
+    }
     confirmAlert({
       title: 'Project Category',
       message: 'Are you sure?',
@@ -95,11 +104,12 @@ class ProjectTypes extends Component {
               'auth-token':getFromStorage('auth-token').token,
             }
 
-            if (this.state.projectType === '') {
+            if (this.state.projectType1 === '') {
               this.setState({
                 warnAlert: true,
               });
             } else {
+
               if (this.state.componentType === 'add') {
                 axios
                     .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
@@ -125,11 +135,9 @@ class ProjectTypes extends Component {
                 this.getCategoryList()
               }
             }
-
-
-
             this.setState({
-              projectType: ''
+              projectType1: '',
+              projectType2: ''
             })
           }
         },
@@ -188,7 +196,8 @@ class ProjectTypes extends Component {
       isSecondYear: type.isSecondYear,
       isThirdYear: type.isThirdYear,
       isFourthYear: type.isFourthYear,
-      projectType: type.projectType,
+      projectType1: type.projectType1,
+      projectType2: type.projectType2,
       id: type._id,
     }, () => { window.scrollTo(0, 0) })
   }
@@ -221,7 +230,7 @@ class ProjectTypes extends Component {
         />
 
         <Snackpop
-          msg={'Please define a Project Type'}
+          msg={'Please define a Category Name'}
           color={'error'}
           time={3000}
           status={this.state.warnAlert}
@@ -239,16 +248,32 @@ class ProjectTypes extends Component {
                   <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
-                        Project Type{' '}
+                        Category Name{' '}
                       </label>
                       <FormControl
                         type='text'
                         className="placeholder-text"
-                        placeholder='Undergraduate / BIT / Master / etc'
-                        value={this.state.projectType}
+                        placeholder='Undergraduate / BIT / Master etc...'
+                        value={this.state.projectType1}
                         onChange={(e) => {
-                          this.setState({ projectType: e.target.value });
+                          this.setState({ projectType1: e.target.value });
                         }}
+                      ></FormControl>
+                    </Col>
+                  </Row>
+                  <Row className='mt-30'>
+                    <Col >
+                      <label className='verticle-align-middle cp-text'>
+                        Sub Category Name (optional){' '}
+                      </label>
+                      <FormControl
+                          type='text'
+                          className="placeholder-text"
+                          placeholder='CS / SE / IS / MIT / MIS / MCS / MBA etc...'
+                          value={this.state.projectType2}
+                          onChange={(e) => {
+                            this.setState({ projectType2: e.target.value });
+                          }}
                       ></FormControl>
                     </Col>
                   </Row>

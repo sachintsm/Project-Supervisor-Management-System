@@ -31,9 +31,7 @@ class StudentList extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    componentDidMount = async () => {
-        console.log(this.props.obj);
-        
+    componentDidMount = async () => {        
         this.setState({
             supervisorList: []
         })
@@ -87,7 +85,7 @@ class StudentList extends Component {
                                         snackbarmsg: res.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    // window.location.reload()
+                                    window.location.reload()
                                 }
                             })
 

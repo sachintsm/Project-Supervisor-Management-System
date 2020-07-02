@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Card from "@material-ui/core/Card";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Snackbar from "@material-ui/core/Snackbar";
+// import Card from "@material-ui/core/Card";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import CardContent from "@material-ui/core/CardContent";
+// import Typography from "@material-ui/core/Typography";
+// import Snackbar from "@material-ui/core/Snackbar";
 import { getFromStorage } from '../../utils/Storage';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -32,12 +32,13 @@ const backendURI = require("./BackendURI");
 
 
 class noticeBlock {
-  constructor(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
+  constructor(_id, userType, userId, projectName, date, time,noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
     this._id = _id;
     this.userType = userType;
     this.userId = userId;
     this.projectName = projectName;
     this.date = date;
+    this.time = time;
     this.noticeTittle = noticeTittle;
     this.notice = notice;
     this.noticeAttachment = noticeAttachment;
@@ -49,12 +50,13 @@ class noticeBlock {
 }
 
 class studentNoticeBlock {
-  constructor(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
+  constructor(_id, userType, userId, projectName, date,time, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
     this._id = _id;
     this.userType = userType;
     this.userId = userId;
     this.projectName = projectName;
     this.date = date;
+    this.time = time;
     this.noticeTittle = noticeTittle;
     this.notice = notice;
     this.noticeAttachment = noticeAttachment;
@@ -106,6 +108,7 @@ class NoticeView extends Component {
             var userType = this.state.noticeList[i].userType;
             var userId = this.state.noticeList[i].userId;
             var date = this.state.noticeList[i].date;
+            var time = this.state.noticeList[i].time;
             var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
             var noticeTittle = this.state.noticeList[i].noticeTittle;
             var notice = this.state.noticeList[i].notice;
@@ -115,7 +118,7 @@ class NoticeView extends Component {
             var toStudent = this.state.noticeList[i].toStudent;
 
 
-            var block = new noticeBlock(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
+            var block = new noticeBlock(_id, userType, userId, projectName, date,time, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
 
             this.setState({
               noticeListBlock: [...this.state.noticeListBlock, block]
@@ -140,6 +143,7 @@ class NoticeView extends Component {
             var userType = this.state.studentNoticeList[i].userType;
             var userId = this.state.studentNoticeList[i].userId;
             var date = this.state.studentNoticeList[i].date;
+            var time = this.state.studentNoticeList[i].time;
             var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
             var noticeTittle = this.state.studentNoticeList[i].noticeTittle;
             var notice = this.state.studentNoticeList[i].notice;
@@ -149,7 +153,7 @@ class NoticeView extends Component {
             var toStudent = this.state.studentNoticeList[i].toStudent;
 
 
-            var block = new studentNoticeBlock(_id, userType, userId, projectName, date, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
+            var block = new studentNoticeBlock(_id, userType, userId, projectName, date,time, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
 
             this.setState({
               studentNoticeListBlock: [...this.state.studentNoticeListBlock, block]
@@ -204,18 +208,15 @@ class NoticeView extends Component {
       return (
         <React.Fragment>
           <Navbar panel={"coordinator"} />
-          <div
-            className="container-fluid "
-            style={{ backgroundColor: '#F5F5F5' }}
-          >
+          
             <div className="container">
-              <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginBottom: "30px", width: "100%" }}>
+              <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginBottom: "30px", margingTop:"30px", width: "100%" }}>
                 <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
                   {this.state.noticeListBlock.length > 0 && (
                     <div >
                       {this.state.noticeListBlock.map((types) => {
                         return (
-                          <div className="card container" style={{ margin: "0px 0px 20px 0px" }} key={types._id} >
+                          <div className="card container" style={{ margin: "20px 0px 20px 0px" }} key={types._id} >
                             <div className="crd_style">
 
                               <Row className="crd_notice-tittle-div">
@@ -227,7 +228,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                                <h6>{types.notice}</h6>
+                              <h6>{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
@@ -247,7 +248,7 @@ class NoticeView extends Component {
                       {this.state.allNoticeList.map((types) => {
                         if (types.toCordinator) {
                           return (
-                            <div className="card container  " style={{ margin: "0px 0px 20px 0px" }} key={types._id} >
+                            <div className="card container  " style={{ margin: "20px 0px 20px 0px" }} key={types._id} >
                               <div className="crd_style">
 
                                 <Row className="crd_notice-tittle-div">
@@ -255,7 +256,7 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <Row className="crd_user-name-div">
-                                  <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;)</p>
+                                  <UserNameList id={types} />  <p className="crd_date">-&nbsp; {types.date}&nbsp;</p>
                                 </Row>
 
                                 <div className="card-body">
@@ -274,7 +275,7 @@ class NoticeView extends Component {
                 </Tab>
               </Tabs>
             </div>
-          </div>
+          
           <Footer />
         </React.Fragment>
       )

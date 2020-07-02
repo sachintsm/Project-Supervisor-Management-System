@@ -25,7 +25,7 @@ width:50px;
 /* NoticeView */
 
 .crd_notice-tittle-div{
-  background-color:#C8C8C8;
+  background-color: #263238;
   height: 26px;
 }
 
@@ -37,7 +37,7 @@ width:50px;
 .crd_notice-name{
     margin-left :16px;
     margin-top: 5px;
-    color:#080808;
+    color: 	#FFFFFF;
     font-family: roboto, sans;
     font-size: 16px;
     font-weight: 500;
@@ -45,7 +45,7 @@ width:50px;
 
 .crd_projects-name{ 
   margin-top: 8px;
-  color:#080808;
+  color: 	#FFFFFF;
   font-family: roboto, sans;
   font-size: 12px;
   font-weight: 400;
@@ -62,11 +62,11 @@ width:50px;
   margin-left :14px;
   font-weight: 350;
   font-family: roboto, sans;
-  color:#080808;
+  color: 	#FFFFFF;
 
 }
 .crd_user-name-div{
-  background-color: #C8C8C8;
+  background-color:  #263238;
   height: 20px;
 }
 
@@ -75,7 +75,7 @@ width:50px;
   margin-top:1px;
   font-weight: 350;
   font-family: roboto, sans;
-  color:#080808;
+  color: 	#FFFFFF;
 
 }
 .crd_btn-row{
@@ -83,20 +83,34 @@ width:50px;
   
 }
 
+.dlt-btn{
+  color: #FFFFFF;
+}
 
 
 @media screen and (max-width: 500px) {
+
+  .crd_notice-tittle-div{
+    background-color: #263238;
+    height:35px;
+  }
+
+  .crd_user-name-div{
+    background-color:  #263238;
+    height: 20px;
+  }
+
   .crd_date{
-  font-size:6px;
+  font-size:8px;
   margin-left :14px;
   font-weight: 350;
   font-family: roboto, sans;
-  color:#080808;
+  color: 	#FFFFFF;
 }
 .crd_notice-name{
   margin-left :16px;
   margin-top: 5px;
-  color:#080808;
+  color: 	#FFFFFF;
   font-family: roboto, sans;
   font-size: 8px;
   font-weight: 500;
@@ -105,14 +119,14 @@ width:50px;
 .crd_projects-name{
   
   margin-top: 8px;
-  color:#080808;
+  color: 	#FFFFFF;
   font-family: roboto, sans;
   font-size: 6px;
   font-weight: 400;
 }
 .crd_notice-name-project{
   margin-top: 8px;
-  color:#080808;
+  color: 	#FFFFFF;
   font-family: roboto, sans;
   font-size: 13px;
   font-weight: 400;
@@ -123,7 +137,7 @@ width:50px;
   margin-top:6px;
   font-weight: 350;
   font-family: roboto, sans;
-  color:#080808;
+  color: 	#FFFFFF;
 
 }
 

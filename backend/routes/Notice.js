@@ -71,6 +71,7 @@ router.post("/addNotice", verify, async (req, res) => {
         noticeTittle: req.body.noticeTittle,
         notice: req.body.notice,
         date: req.body.date,
+        time: req.body.time,
         filePath: filePath,
         toViewType: req.body.toViewType,
         toCordinator: req.body.toCordinator,
@@ -98,7 +99,7 @@ router.get("/viewNotice", (req, res, next) => {
 
   Notice.find()
     .sort({ date: -1 })
-    .select("noticeTittle notice date filePath userType toCordinator toStudent toSupervisor projectId userId ")
+    .select("noticeTittle notice date time filePath userType toCordinator toStudent toSupervisor projectId userId ")
     .exec()
     .then((docs) => {
       console.log("Data Transfer Successss.!");
@@ -165,7 +166,7 @@ router.get('/NoticeView/:userId', (req, res) => {
   const userId = req.params.userId;
   Notice
     .find({ userId: userId })
-    .sort({date:-1})
+    .sort({date:-1 }&&{time:-1})
     .then(data => {
      // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
@@ -188,7 +189,7 @@ router.get('/getNotice/:id', async (req, res) => {
     }
 
     const result2 = await Notice.find({ projectId: idList })
-    .sort({date:-1})
+    .sort({date:-1 }&&{time:-1})
    .then(data => {
     res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
   })
@@ -210,7 +211,7 @@ router.get('/cogetNotice/:id', async (req, res) => {
     }
 
     const result2 = await Notice.find({ projectId: idList , userId :coId})
-    .sort({date:-1})
+    .sort({date:-1 }&&{time:-1})
    .then(data => {
     res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
   })
@@ -241,7 +242,7 @@ router.get('/getProjectName/:id', async (req, res) => {
 router.get("/getAdminNotice", (req, res, next) => {
 
   Notice.find({userType :'admin'})
-    .sort({ date: -1 })
+    .sort({date:-1 }&&{time:-1})
     .exec()
     .then((docs) => {
       console.log("Data Transfer Successss.!");
@@ -272,7 +273,7 @@ router.get("/getNoticeByStudent/:id" , async (req,res)=>{
     }
 
     const result3 = await Notice.find({ projectId: idList })
-    .sort({date:-1})
+    .sort({date:-1 }&&{time:-1})
    .then(data => {
     res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
   })

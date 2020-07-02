@@ -149,18 +149,18 @@ export default class navbar extends Component {
                   </MDBDropdownMenu>
                 </MDBDropdown>
 
-                // <MDBNavItem className="mr-4">
-                //   <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                //     Notices
-                //   </Nav.Link>
-                // </MDBNavItem>
               )}
+                {/*// <MDBNavItem className="mr-4">*/}
+                {/*//   <Nav.Link  className="padding-zero"   href='/shared/notice'>*/}
+                {/*//     Notices*/}
+                {/*//   </Nav.Link>*/}
+                {/*// </MDBNavItem>*/}
 
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/shared/noticeView'>
-                    NoticeView
+                    Notices
                   </Nav.Link>
                 </MDBNavItem>
 
@@ -181,7 +181,7 @@ export default class navbar extends Component {
               {this.state.panel === 'student' && (
 
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/shared/noticeView'>NoticeView</Nav.Link>
+                  <Nav.Link className="padding-zero" href='/shared/noticeView'>Notices</Nav.Link>
 
                 </MDBNavItem>
               )}
@@ -190,20 +190,19 @@ export default class navbar extends Component {
 
               {/* =============================  Student Panel  ============================================ */}
 
-              {this.state.panel === 'student' &&(
+              {/*{this.state.panel === 'student' &&(*/}
 
-                <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>
+              {/*  <MDBNavItem className="mr-4">*/}
+              {/*    <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>*/}
 
-                </MDBNavItem>
-              )}
+              {/*  </MDBNavItem>*/}
+              {/*)}*/}
 
               {/* ========================================================================= */}
 
               <MDBNavItem className="mr-4">
                 {this.state.isCoordinator ||
-                  this.state.isSupervisor ||
-                  this.state.isAdmin ? (
+                  this.state.isSupervisor ? (
                     <MDBDropdown style={{ backgroundColor: '#1C2331' }} dark>
                       <MDBDropdownToggle nav caret>
                         <span className='mr-2'>Profile</span>
@@ -232,12 +231,12 @@ export default class navbar extends Component {
                             <MDBDropdownItem divider />
                           )}
 
-                        {this.state.panel === 'supervisor' &&
-                          this.state.isAdmin && (
-                            <MDBDropdownItem href='/adminhome'>
-                              Switch to Admin
-                            </MDBDropdownItem>
-                          )}
+                        {/*{this.state.panel === 'supervisor' &&*/}
+                        {/*  this.state.isAdmin && (*/}
+                        {/*    <MDBDropdownItem href='/adminhome'>*/}
+                        {/*      Switch to Admin*/}
+                        {/*    </MDBDropdownItem>*/}
+                        {/*  )}*/}
                         {this.state.panel === 'supervisor' &&
                           this.state.isCoordinator && (
                             <MDBDropdownItem href='/coordinatorhome'>
@@ -245,12 +244,12 @@ export default class navbar extends Component {
                             </MDBDropdownItem>
                           )}
 
-                        {this.state.panel === 'coordinator' &&
-                          this.state.isAdmin && (
-                            <MDBDropdownItem href='/adminHome'>
-                              Switch to Admin
-                            </MDBDropdownItem>
-                          )}
+                        {/*{this.state.panel === 'coordinator' &&*/}
+                        {/*  this.state.isAdmin && (*/}
+                        {/*    <MDBDropdownItem href='/adminHome'>*/}
+                        {/*      Switch to Admin*/}
+                        {/*    </MDBDropdownItem>*/}
+                        {/*  )}*/}
                         {this.state.panel === 'coordinator' &&
                           this.state.isSupervisor && (
                             <MDBDropdownItem href='/supervisorhome'>
@@ -258,18 +257,18 @@ export default class navbar extends Component {
                             </MDBDropdownItem>
                           )}
 
-                        {this.state.panel === 'admin' &&
-                          this.state.isCoordinator && (
-                            <MDBDropdownItem href='/coordinatorhome'>
-                              Switch to Coordinator
-                            </MDBDropdownItem>
-                          )}
-                        {this.state.panel === 'admin' &&
-                          this.state.isSupervisor && (
-                            <MDBDropdownItem href='/supervisorhome'>
-                              Switch to Supervisor
-                            </MDBDropdownItem>
-                          )}
+                        {/*{this.state.panel === 'admin' &&*/}
+                        {/*  this.state.isCoordinator && (*/}
+                        {/*    <MDBDropdownItem href='/coordinatorhome'>*/}
+                        {/*      Switch to Coordinator*/}
+                        {/*    </MDBDropdownItem>*/}
+                        {/*  )}*/}
+                        {/*{this.state.panel === 'admin' &&*/}
+                        {/*  this.state.isSupervisor && (*/}
+                        {/*    <MDBDropdownItem href='/supervisorhome'>*/}
+                        {/*      Switch to Supervisor*/}
+                        {/*    </MDBDropdownItem>*/}
+                        {/*  )}*/}
                       </MDBDropdownMenu>
                     </MDBDropdown>
                   ) : (

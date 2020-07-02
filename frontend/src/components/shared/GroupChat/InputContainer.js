@@ -32,12 +32,12 @@ class InputContainer extends Component {
             <div className="container"> 
                 <form>
                     <Row className="chat-input-row">
-                        <Col md={11}>
+                        <Col md={11} xs={10}>
                             <input type="text" className="form-control" placeholder="Enter the message here..." name="content"
                                 onChange={this.onhandleChange} value={this.state.content} required/>
                         </Col>
-                        <Col md={1}>
-                            <button className="btn btn chat-send-btn" onClick={this.onhandleSubmit} disabled={this.state.content === ''}><SendIcon fontSize="large" className="send-icon"/> </button>
+                        <Col md={1} xs={2}>
+                            <button className="btn chat-send-btn" onClick={this.onhandleSubmit} disabled={this.state.content === ''}><SendIcon fontSize="large" className="send-icon"/> </button>
                         </Col>
                     </Row>
                 </form>
