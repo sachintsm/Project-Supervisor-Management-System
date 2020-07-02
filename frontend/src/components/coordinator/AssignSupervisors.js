@@ -362,10 +362,7 @@ class AssignSupervisors extends Component {
                     />
                     <div className="card">
                         <div className="container">
-
                             <p className="as-reg-head">Assign Supervisors</p>
-
-
                             <Row >
                                 <Col md="5" xs="12">
                                     <div className="form-group as-dropdown-select">
@@ -397,12 +394,10 @@ class AssignSupervisors extends Component {
                                 <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                             </div>
                         )}
-
                     </div>
                     <div className="card">
                         <div className="container">
                             <p className="as-reg-head">Project Supervisors List</p>
-
                             <Row >
                                 <Col md="10" xs="12">
                                     <div className="form-group as-dropdown-select">

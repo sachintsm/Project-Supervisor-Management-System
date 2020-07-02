@@ -36,11 +36,13 @@ import NoticeView from './components/shared/NoticeView';
 import StudentHome from './components/student/StudentHome';
 import ViewProjects from "./components/student/ViewProjects";
 import ViewProject from "./components/student/ViewProject";
+import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
+import ViewTask from "./components/student/progress/ViewTask";
 
 require('dotenv').config();
 
@@ -93,8 +95,10 @@ function App() {
           <Route exact path='/studenthome' component={StudentHome}></Route>
           <Route exact path='/studenthome/viewprojects' component={ViewProjects}></Route>
           <Route exact path='/studenthome/viewproject' component={ViewProject}></Route>
-          <Route exact path='/studenthome/viewproject/progress-tasks' component={Tasks}></Route>
+          <Route exact path='/studenthome/viewproject/progresstasks' component={Tasks}></Route>
+          <Route exact path='/studenthome/viewproject/progresstasks/viewtask' component={ViewTask}></Route>
           <Route exact path='/shared/notice' component={NoticeView}></Route>
+          <Route exact path='/studenthome/requestsupervisor' component={RequestSupervisor}></Route>
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
 
 

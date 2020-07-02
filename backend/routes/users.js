@@ -5,6 +5,8 @@ const Staff = require('../models/staff');
 const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
+const Request = require('../models/request');
+const Projects = require('../models/projects');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
@@ -325,22 +327,20 @@ router.get('/get', function (req, res) {
 
 //delete user
 router.route('/deleteUser/:id').post(function (req, res) {
-  console.log('zxcvbn');
-
-
   User.findById(req.params.id, function (err, user) {
     if (!user) {
       res.status(404).send("data is not found");
     }
-    else
+    else {
       user.isDeleted = true;
 
-    user.save().then(user => {
-
-    })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
-      });
+      user.save().then(user => {
+        res.send({ state: true, msg: "Successfully deleted!" })
+      })
+        .catch(err => {
+          res.status(400).send({ msg: "Delete not possible", state: false });
+        });
+    }
   });
 });
 
@@ -391,7 +391,7 @@ router.get('/getUserName/:id', async (req, res) => {
   const id = req.params.id;
   User
     .find({ _id: id })
-    .select('firstName lastName')
+    .select('firstName lastName _id')
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
@@ -481,11 +481,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
     console.log("true")
     var p = userIdExists.imageName;
     console.log(p);
-    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-      if (err) throw err;
-      // if no error, file has been deleted successfully
-      console.log('File deleted!');
-    });
+    
 
     upload(req, res, (err) = async () => {
       let ts = Date.now();
@@ -519,6 +515,11 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
+    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+    });
   }
 
 });
@@ -643,6 +644,192 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
   catch (e) {
     console.log(e)
   }
+})
+
+
+////////check supervisor request/////////////////////
+router.post('/check', async (req, res) => {
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+  console.log(req.body.sup_id);
+  console.log(req.body.stu_id);
+
+  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  console.log(group.groupId);
+
+
+
+  Request.find({ groupId: group.groupId }).select().exec()
+    .then(data => {
+      console.log(data);
+      console.log(data.length);
+      var count = 0;
+      var stat = false;
+      for (var i = 0; i < data.length; i++) {
+        console.log(data[i].reqDate);
+        if (dateString == (data[i].reqDate)) {
+          count = count + 1;
+        }
+      }
+      console.log(count);
+      if (count < 2) {
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i].reqDate);
+          if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
+            stat = true;
+          }
+          else {
+            stat = false;
+          }
+        }
+        if (stat == true) {
+          res.json({ state: false, msg: "Your group have already requested..." });
+        }
+        else {
+          res.json({ state: true, msg: "You can request..." });
+        }
+
+    }else{
+          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+    }
+
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({ state: false, msg: "Request Failed..!" });
+    })
+
+
+})
+//////////////////////////request send supervisors//////////////////////////
+router.post('/add', async (req, res) => {
+
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  console.log(group.groupId);
+
+  //create a new request
+  const newReq = new Request({
+    supId: req.body.sup_id,
+    stuId: req.body.stu_id,
+    state: 'pending',
+    reqDate: dateString,
+    groupId: group.groupId,
+    projectId: req.body.project_id,
+    description: req.body.descript
+
+
+  });
+
+  newReq.save()
+    .then(result => {
+      console.log(result)
+      res.json({ state: true, msg: "Request Successfull..!" });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Request Failed..!" });
+    })
+
+});
+
+/////get supervisors//////////////////
+router.get('/getSup/:id', async (req, res) => {
+
+  const id = req.params.id;
+
+  Projects
+    .find({ _id: id })
+    .exec()
+    .then(data => {
+
+      //console.log(data[0].supervisorList);
+      var supervisorIdList = data[0].supervisorList
+      // console.log(supervisorIdList.length);
+      if (supervisorIdList.length === 0) {
+        res.json({ state: false, msg: "No Supervisors!" });
+      } else {
+        var arr1 = [];
+        for (let i = 0; i < supervisorIdList.length; i++) {
+          var idS = supervisorIdList[i]
+          console.log(idS);
+          User.find({ _id: idS })
+            .exec()
+            .then(result => {
+              console.log(result[0]);
+              arr1.push(result[0]);
+
+              if (i === (supervisorIdList.length - 1)) {
+                console.log(arr1);
+                res.json({ state: true, msg: "Data Transfer Successfully..!", data: arr1 });
+              }
+              else {
+                console.log("no");
+              }
+              //res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+            })
+            .catch(error => {
+              res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+            })
+        }
+        //console.log(arr1);
+      }
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+})
+
+//get user by id
+
+router.get('/getUser/:id', async (req, res) => {
+
+  const userid = req.params.id;
+  await User.find({ _id: userid })
+    .select('firstName lastName')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data[0] });
+      // console.log("dd",result.data)
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+
+//? get  user profile image names
+//? (MesasageContainer.js)
+router.get('/getUserImage/:id', async (req, res) => {
+  const id = req.params.id
+  
+  User.find({ _id: id })
+    .select('imageName')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 })
 
 module.exports = router;

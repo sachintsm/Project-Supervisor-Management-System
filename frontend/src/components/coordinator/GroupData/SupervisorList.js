@@ -31,9 +31,7 @@ class StudentList extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    componentDidMount = async () => {
-        console.log(this.props.obj);
-        
+    componentDidMount = async () => {        
         this.setState({
             supervisorList: []
         })
@@ -87,7 +85,7 @@ class StudentList extends Component {
                                         snackbarmsg: res.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    // window.location.reload()
+                                    window.location.reload()
                                 }
                             })
 
@@ -109,7 +107,7 @@ class StudentList extends Component {
             <div>
                 {this.state.supervisorList.map((user) => {
                     return (
-                        <div key={user.id} className="card sl-card-super">
+                        <div key={user.id} className="sl-card-super">
                             <Row >
                                 <Col md="10" xs="10">
                                     <p className="sl-text">{user.name}</p>

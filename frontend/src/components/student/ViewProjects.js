@@ -15,7 +15,6 @@ class ViewProjects extends Component {
     constructor(props) {
         super(props);
         this.getProjectList = this.getProjectList.bind(this)
-        this.openProject = this.openProject.bind(this)
         this.state = {
             activeList: [],
             endedList: [],
@@ -24,13 +23,10 @@ class ViewProjects extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0)
         this.getProjectList();
     }
 
-    openProject(item){
-
-        this.props.history.push('/studenthome/viewproject',{projectDetails:item})
-    }
 
     getProjectList(){
         const headers = {
@@ -77,10 +73,8 @@ class ViewProjects extends Component {
                                 <Row className="project-row">
                                     {
                                         this.state.activeList.map(item=>{
-                                            return <Col lg={6} md={12} sm={12} xs={12} key={item._id} className="item-div">
-                                                <div  className="card zero-margin projects-card" onClick={()=>this.openProject(item)}>
-                                                    <ProjectDetailsCard project={item}/>
-                                                </div>
+                                            return <Col lg={12} md={12} sm={12} xs={12} key={item._id} className="item-div">
+                                                <ProjectDetailsCard project={item}/>
                                             </Col>
                                         })
                                     }
@@ -89,7 +83,7 @@ class ViewProjects extends Component {
                             </div>
                         </div>
                         <div className="card card-div ended-card">
-                            <h3 className="title">Ended Projecs</h3>
+                            <h3 className="title">Ended Projects</h3>
                             <div className="project-list-div">
 
                                 {this.state.loading &&
@@ -101,10 +95,8 @@ class ViewProjects extends Component {
                                 <Row className="project-row">
                                     {
                                         this.state.endedList.map(item=>{
-                                            return <Col lg={6} md={12} sm={12} xs={12} key={item._id} className="item-div">
-                                                <div  className="card zero-margin projects-card"  onClick={()=>this.openProject(item)}>
+                                            return <Col lg={12} md={12} sm={12} xs={12} key={item._id} className="item-div">
                                                     <ProjectDetailsCard project={item}/>
-                                                </div>
                                             </Col>
                                         })
                                     }

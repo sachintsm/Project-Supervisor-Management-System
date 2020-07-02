@@ -2,7 +2,7 @@
     background-color: #f8f8f8;
     min-height: 730px;
 }
-.gd-card{
+.gd-card {
     margin-top: 20px;
 }
 
@@ -10,7 +10,7 @@
     /* margin-left: 20px; */
     margin-top: 20px;
     font-size: 30px;
-    color: #f8f8f8;
+    color: #444444;
     font-weight: 500;
 }
 
@@ -21,44 +21,38 @@
     margin-bottom: 50px;
 }
 
-.gd-topic-2 {
-    font-size: 23px;
-    color: #444444;
-    font-weight: 500;
-    margin-bottom: 20px;
-}
-
 .gd-del-btn {
-    color: #444444;
+    color: #5e5e5e;
     margin-right: 10px;
     margin-left: -10px;
     margin-top: 7px;
 }
-.gd-reg-head-div {
-    background-color: #17a2b8;
-    margin-bottom: 10px;
+.gd-del-btn:hover {
+    color: #a02828;
+    font-size: 25px;
+    transition: 0.5s;
 }
 
 /*************************Student List ****************/
 
 .sl-text {
-    font-size: 18px;
+    font-size: 16px;
     padding-top: 5px;
     padding-left: 10px;
-    color: #444444;
+    color: #5e5e5e;
 }
 
-.sl-card {
-    margin-top: -35px;
+.sd-sl-card-student {
+    // margin-top: 35px;
     height: 40px;
 }
 
 .sl-card-super {
-    margin-top: -35px;
+    // margin-top: -35px;
     height: 40px;
 }
 
-.sl-card:hover {
+.sd-sl-card-student:hover {
     background-color: rgb(248, 248, 248);
     cursor: pointer;
     transition: 0.5s;
@@ -69,23 +63,62 @@
     cursor: pointer;
     transition: 0.5s;
 }
-.gd-stu-list {
-    margin-top: 0px;
+
+/***********************************************************************************/
+
+.task-card-gd {
+    // margin-top: -50px;
+    .card-header {
+        background-color: #263238;
+        color: white;
+        font-size: 18px;
+    }
+    .circular-progress-div {
+        padding: 5% 30% 8% 30%;
+        text-align: center;
+    }
+    .delete-span {
+        float: right;
+        font-size: 26px;
+        display: flex;
+        align-items: center;
+    }
+    .delete-span:hover {
+        color: red;
+        transform: scale(1.45);
+    }
+}
+
+/*****************Submission part ************************************************/
+
+.text-sub-gd{
+    color: rgb(71, 71, 71);
+    font-weight: 500;
+    font-family: roboto, sans;
+    margin-top: 10px;
+}
+.cd-sub-card-unit:hover{
+    background-color: rgb(226, 226, 226);
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 @media screen and (max-width: 500px) {
+    .gd-add-btn {
+        margin-bottom: 20px;
+    }
     .sl-text {
-        font-size: 16px;
-        padding-top: 5px;
+        font-size: 15px;
+        // padding-top: 5px;
         padding-left: 10px;
         color: #444444;
     }
-    .sl-card {
-        margin-top: -35px;
+    .sd-sl-card-student {
+        margin-bottom: 20px;
         height: 90px;
     }
     .sl-card-super {
-        margin-top: -35px;
+        // margin-top: -35px;
         height: 40px;
     }
     .gd-topic {
@@ -105,12 +138,8 @@
         color: #444444;
         font-weight: 500;
     }
-    
-    .gd-stu-list {
-        margin-top: 0px;
-    }
     .gd-del-btn {
-        color: #444444;
+        color: #5c5c5c;
         margin-right: 10px;
         margin-left: -10px;
     }

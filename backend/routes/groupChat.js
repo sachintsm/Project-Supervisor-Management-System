@@ -18,20 +18,20 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', verify, async (req, res) => {
-    // console.log(req.headers);
-
     const existing = await GroupChat.findOne({ groupId: req.body.groupId });
     if (!existing) {
         const newChat = new GroupChat({
             groupId: req.body.groupId,
             messages: [{
-                userId: req.body.sender,
+                userId: req.body.userId,
+                profileImage: req.body.profileImage,
+                userName: req.body.sender,
                 message: req.body.content
             }]
         })
         newChat.save()
             .then(data => {
-                res.json({ groupId: req.body.groupId, userId: req.body.sender, message: req.body.content })
+                res.json({ groupId: req.body.groupId, userName: req.body.sender, userId: req.body.userId, message: req.body.content, profileImage: req.body.profileImage })
             })
             .catch(err => {
                 res.send({ state: false, msg: err.message })
@@ -44,7 +44,9 @@ router.post('/', verify, async (req, res) => {
                 {
                     $push: {
                         messages: {
-                            userId: req.body.sender,
+                            profileImage: req.body.profileImage,
+                            userId: req.body.userId,
+                            userName: req.body.sender,
                             message: req.body.content
                         }
                     }
@@ -52,7 +54,7 @@ router.post('/', verify, async (req, res) => {
             )
             .exec()
             .then(data => {
-                res.json({ groupId: req.body.groupId, userId: req.body.sender, message: req.body.content })
+                res.json({ groupId: req.body.groupId, userName: req.body.sender, userId: req.body.userId, message: req.body.content, profileImage: req.body.profileImage })
             })
             .catch(err => {
                 res.send({ state: false, msg: err.message })

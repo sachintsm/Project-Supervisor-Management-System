@@ -33,7 +33,23 @@ import {
 
 const backendURI = require("./BackendURI");
 
+class noticeBlock {
+  constructor(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent ){
+    this._id = _id;
+    this.userType = userType;
+    this.projectName = projectName;
+    this.date = date;
+    this.time = time;
 
+    this.noticeTittle = noticeTittle;
+    this.notice = notice;
+    this.noticeAttachment = noticeAttachment;
+    this.toCordinator = toCordinator;
+    this.toSupervisor = toSupervisor;
+    this.toStudent = toStudent;
+
+  }
+}
 
 class Notice extends Component {
   constructor(props) {
@@ -44,12 +60,15 @@ class Notice extends Component {
       noticeTittle: "",
       notice: "",
       noticeAttachment: "",
-      date: "",
       noticeType: "",
       userTypes:'',
       userId:"",
       viewUserSelect :'Select user to View :',
       projectId: "",
+      toCordinator: false,
+      toSupervisor: false,
+      toStudent: false,
+     
       selectedTypeIndex: 0 ,
      
       succesAlert: false,
@@ -58,18 +77,17 @@ class Notice extends Component {
       snackbaropen: false,
       snackbarmsg: "",
 
-      toCordinator: false,
-      toSupervisor: false,
-      toStudent: false,
-     
-      
       projectTypeList:[],
       noticeList:[],
+      noticeListCo: [],
+      noticeListBlock:[],
       activeProjects: [],
 
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
+      projectIdError:"",
+      noticeTittleLenthError:"",
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -79,6 +97,7 @@ class Notice extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.getNoticeListCordinator = this.getNoticeListCordinator.bind(this);
    
   }
 
@@ -87,22 +106,60 @@ class Notice extends Component {
   componentDidMount() {
    this.getNoticeList();
    this.getProjectDetails();
+   this.getNoticeListCordinator();
 
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
-    console.log(this.userId)
+    //console.log(this.userTypes)
     
 
    
   }
 
+  getNoticeListCordinator = async () => {
+    this.userType = localStorage.getItem("user-level");
+    console.log(this.userType)
+
+    const userId = getFromStorage('auth-id').id;
+
+    await axios.get(backendURI.url + '/notice/cogetNotice/' + userId)
+      .then(res => {
+        this.setState({ noticeListCo: res.data.data })
+      })
+    
+     for (let i = 0 ; i<this.state.noticeListCo.length ; i++){
+       await axios.get(backendURI.url + '/notice/getProjectName/'+ this.state.noticeListCo[i].projectId )
+       .then(res=>{
+
+        var _id = this.state.noticeListCo[i]._id;
+        var userType = this.state.noticeListCo[i].userType;
+        var date = this.state.noticeListCo[i].date;
+        var time = this.state.noticeListCo[i].time;
+        var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
+        var noticeTittle = this.state.noticeListCo[i].noticeTittle;
+        var notice = this.state.noticeListCo[i].notice;
+        var noticeAttachment = this.state.noticeListCo[i].filePath;
+        var toCordinator = this.state.noticeListCo[i].toCordinator;
+        var toSupervisor = this.state.noticeListCo[i].toSupervisor;
+        var toStudent = this.state.noticeListCo[i].toStudent;
+
+
+        var block = new noticeBlock(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent )
+
+        this.setState({
+          noticeListBlock : [...this.state.noticeListBlock , block]
+        })
+      //console.log(this.state.noticeListBlock)
+       })
+
+     }
+
+  }
+
   // Notice get from database and map to the array
   getNoticeList() {
-   
-
-    const coId = JSON.parse(localStorage.getItem("auth-id"))
-
-    axios.get(backendURI.url + '/notice/NoticeView/' + coId.id)
+    const uId = JSON.parse(localStorage.getItem("auth-id"))
+    axios.get(backendURI.url + '/notice/NoticeView/' + uId.id)
             .then((res => {
                 this.setState({
                   noticeList: res.data.data
@@ -141,26 +198,67 @@ class Notice extends Component {
       noticeTittleError: "",
       noticeError: "",
       viewUserSelectError:"",
+      projectIdError:"",
+      noticeTittleLenthError:"",
     }
+
+    if(this.userTypes ==="coordinator"){
 
     if (this.state.noticeTittle.length < 1) {
       isError = true;
       errors.noticeTittleError = 'Notice Tittle required *'
     }
+
+    if (this.state.noticeTittle.length >= 60) {
+      isError = true;
+      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
+    }
     if (this.state.notice.length < 1) {
       isError = true;
       errors.noticeError = 'Notice Content required *'
     }
-    // if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
-    //   isError = true;
-    //   errors.viewUserSelectError = 'must be select at least one *'
-    // }
+    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+      isError = true;
+      errors.viewUserSelectError = 'must be select at least one *'
+    }
+
+    
+    if (this.state.projectId.length === 0) {
+      isError = true;
+      errors.projectIdError = 'Project type must be specified *'
+    }
+  
+    this.setState({
+      ...this.state,
+      ...errors
+    })
+    return isError;
+
+  }else if(this.userTypes==="admin"){
+    if (this.state.noticeTittle.length < 1) {
+      isError = true;
+      errors.noticeTittleError = 'Notice Tittle required *'
+    }
+
+    if (this.state.noticeTittle.length >= 60) {
+      isError = true;
+      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
+    }
+    if (this.state.notice.length < 1) {
+      isError = true;
+      errors.noticeError = 'Notice Content required *'
+    }
+    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
+      isError = true;
+      errors.viewUserSelectError = 'must be select at least one *'
+    }
 
     this.setState({
       ...this.state,
       ...errors
     })
     return isError;
+  }
   }
 
 
@@ -194,7 +292,9 @@ class Notice extends Component {
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
+console.log(this.userTypes)
 
+    if(this.userTypes=== "coordinator"){
     const err = this.validate();
 
     if (!err) {
@@ -202,6 +302,8 @@ class Notice extends Component {
         noticeTittleError: "",
         noticeError: "",
         viewUserSelectError:"",
+        projectIdError:"",
+        noticeTittleLenthError:"",
       })
 
     confirmAlert({
@@ -216,7 +318,12 @@ class Notice extends Component {
               'auth-token':getFromStorage('auth-token').token,
             }
 
-            this.state.date = Date();
+          const date = new Date();
+          const dateString = date.toLocaleDateString()
+          const timeString = date.toLocaleTimeString()
+
+        // var B = date.toString('dddd, MMMM ,yyyy') ;
+
             const userType = localStorage.getItem("user-level");
             //const userId = localStorage.getItem("auth-id.id");
            
@@ -224,12 +331,14 @@ class Notice extends Component {
     
             const formData = new FormData();
 
+
             formData.append("userId",userId);
             formData.append("userType",userType);
             formData.append("projectId",this.state.projectId);
             formData.append("noticeTittle", this.state.noticeTittle);
             formData.append("notice", this.state.notice);
-            formData.append("date", this.state.date);
+            formData.append("date", dateString);
+            formData.append("time", timeString);
             formData.append("noticeAttachment", this.state.noticeAttachment);
             formData.append("toCordinator", this.state.toCordinator);
             formData.append("toSupervisor", this.state.toSupervisor);
@@ -242,8 +351,11 @@ class Notice extends Component {
               this.setState({
                 succesAlert: true,
               });
+              window.location.reload();
               this.getNoticeList();
-              console.log(res.data);
+              this.getProjectDetails();
+              
+             // console.log(res.data);
             })
             .catch((error) => {
               this.setState({
@@ -272,7 +384,99 @@ class Notice extends Component {
   ],
 });
 }
+  }else {
+    const err = this.validate();
+
+    if (!err) {
+      this.setState({
+        noticeTittleError: "",
+        noticeError: "",
+        viewUserSelectError:"",
+       // projectIdError:"",
+        noticeTittleLenthError:"",
+      })
+
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+
+            const headers = {
+              'auth-token':getFromStorage('auth-token').token,
+            }
+
+          var date = new Date();
+          const dateString = date.toLocaleDateString()
+          const timeString = date.toLocaleTimeString()
+         var B = date.toString('dddd, MMMM ,yyyy') ;
+
+            const userType = localStorage.getItem("user-level");
+            //const userId = localStorage.getItem("auth-id.id");
+           
+            const userId = getFromStorage('auth-id').id ;
+    
+            const formData = new FormData();
+
+
+            formData.append("userId",userId);
+            formData.append("userType",userType);
+            formData.append("projectId",this.state.projectId);
+            formData.append("noticeTittle", this.state.noticeTittle);
+            formData.append("notice", this.state.notice);
+            formData.append("date", dateString);
+            formData.append("time", timeString);
+            formData.append("noticeAttachment", this.state.noticeAttachment);
+            formData.append("toCordinator", this.state.toCordinator);
+            formData.append("toSupervisor", this.state.toSupervisor);
+            formData.append("toStudent", this.state.toStudent);
+
+      
+            axios
+            .post(backendURI.url + "/notice/addNotice", formData,{headers: headers})
+            .then((res) => {
+              this.setState({
+                succesAlert: true,
+              });
+              window.location.reload();
+              this.getNoticeList();
+              this.getProjectDetails();
+              
+             // console.log(res.data);
+            })
+            .catch((error) => {
+              this.setState({
+                snackbaropen: true,
+                snackbarmsg: error,
+              });
+              console.log(error);
+            });
+        
+
+        this.setState({
+          noticeTittle: "",
+          notice: "",
+          noticeAttachment: "",
+          toCordinator: false,
+          toSupervisor: false,
+          toStudent: false,
+
+        });
+      },
+    },
+    {
+      label: "No",
+      onClick: () => {},
+    },
+  ],
+});
+}
+
   }
+
+}
 
   //delete notice
 
@@ -296,7 +500,9 @@ class Notice extends Component {
                 this.setState({
                   deleteSuccesAlert: true,
                 });
-                this.getNotice();
+                window.location.reload();
+                this.getNoticeList();
+                this.getProjectDetails();
               })
               .catch((err) => {
                 console.log(err);
@@ -353,8 +559,6 @@ class Notice extends Component {
           status={this.state.succesAlert}
           closeAlert={this.closeAlert}
         />
-
-
         <Snackpop
           msg={"Deleted Successfully.."}
           color={"success"}
@@ -366,8 +570,8 @@ class Notice extends Component {
         <Navbar panel={"admin"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{ backgroundColor: "rgb(252, 252, 252)" }}
+          className="container-fluid "
+          style={{  backgroundColor: '#F5F5F5' }}
         >
           
           <Row>
@@ -376,7 +580,7 @@ class Notice extends Component {
                 <div
                   className="card"
                   style={{
-                    width: "80%",
+                    width: "100%",
                     margin: "auto",
                     marginTop: "40px",
                     marginBottom: "40px",
@@ -386,9 +590,6 @@ class Notice extends Component {
                 >
                   <div className="container">
                     <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
-
-
-
                     <Row className="margin-top-30">
                       <Col>
                         <label className="verticle-align-middle cp-text">
@@ -402,8 +603,10 @@ class Notice extends Component {
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
                           errortext={this.noticeTittleError}
+                          errortext={this.noticeTittleLenthError}
                         ></FormControl>
                         <p className="reg-error">{this.state.noticeTittleError}</p>
+                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
                       </Col>
                     </Row>
 
@@ -505,6 +708,9 @@ class Notice extends Component {
                             }
                           />
                       </Col>
+
+                      <p className="reg-error">{this.state.viewUserSelectError}</p>
+
                     </Row>
 
                     
@@ -526,8 +732,9 @@ class Notice extends Component {
                     <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                       <Button
                         type="submit"
-                        className="cp-btn"
+                        className="cp-btn btn_style"
                         variant="info"
+                        style={{ width: '50%' }}
                         onClick={this.onSubmit}
                       >
                         Add Notice
@@ -537,43 +744,37 @@ class Notice extends Component {
                 </div>
                 {this.state.noticeList.length > 0  && (
                   <div>
-                    <h3>Notice View </h3>
+                   
                     <div>
                       {this.state.noticeList.map((type) => {
                         if(type.userType === 'admin'){
                         return (
-                          <Card
-                            key={type._id}
-                            style={{ marginTop: "10px", marginBottom: "10px" , paddingBottom:"0.5px" }}
-                          >
-                          <Row>
-                            <Col xs="11">
-                            <CardContent style={{ paddingBottom: "2px"}}>
-                              <h6><b>{type.noticeTittle}</b></h6>
-                            </CardContent>
-                            </Col>
+                          <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={type._id} >
+                          <div className="crd_style">
 
-                            <Col xs="1">
-                              <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
-                            </Col>
-                          </Row>  
+                          <Row  className="crd_notice-tittle-div">
+                          <Col md={11} xs={10}>
+                           <p className="crd_notice-name">{type.noticeTittle}</p>
+                           </Col>
+                           <Col className="crd_btn-row" md={1} xs={2}>
+                           <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
+                           </Col>
+                           </Row>
 
-                            <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
-                              {type.date}</small>
-                            </h6>
-                        
-                            <CardContent style={{ paddingTop: "2px",fontWeight:"300" }}>
-                              <Typography variant="body2" component="p" >
-                                {type.notice}
-                              </Typography>
+                           <Row className="crd_user-name-div">
+                           <Col md={11} xs={10}>
+                           <p className="crd_date">(&nbsp;{type.date}&nbsp;&nbsp;{type.time})</p>
+                           </Col>
+                           </Row>
 
-                              <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
-                                Attachment
-                              </a>
-                              </CardContent>
-                          </Card>
-                         
-                             
+                              <div className="card-body">
+                                <h6>{type.notice}</h6>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
+                                  Attachment
+                                </a>
+                              </div>
+                            </div>
+                            </div>
                           );
                               }
 
@@ -613,8 +814,8 @@ class Notice extends Component {
         <Navbar panel={"coordinator"} />
 
         <div
-          className="container-fluid container-fluid-div"
-          style={{ backgroundColor: "rgb(252, 252, 252)" }}
+          className="container-fluid "
+          style={{  backgroundColor: "#F5F5F5" }}
         >
           <Row>
             <Col>
@@ -622,7 +823,7 @@ class Notice extends Component {
                 <div
                   className="card"
                   style={{
-                    width: "80%",
+                    width: "100%",
                     margin: "auto",
                     marginTop: "40px",
                     marginBottom: "40px",
@@ -636,14 +837,16 @@ class Notice extends Component {
                     <Row>
 
                     <Col xs="12">
-                                    <div className="form-group pg-dropdown-select">
-                                        <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                            <option>Select the project</option>
-                                            {activeProjectsList}
-                                        </select>
-                                        
-                                    </div>
-                                </Col>
+                        <div className="form-group pg-dropdown-select">
+                          <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                            <option>Select the project</option>
+                                {activeProjectsList}
+                          </select>          
+                          <p className="reg-error">{this.state.projectIdError}</p>
+                        </div>
+                      
+
+                    </Col>
                     
                     </Row>
 
@@ -659,8 +862,10 @@ class Notice extends Component {
                           value={this.state.noticeTittle}
                           onChange={this.onChangeTittle}
                           errortext={this.noticeTittleError}
+                          errortext={this.noticeTittleLenthError}
                         ></FormControl>
                         <p className="reg-error">{this.state.noticeTittleError}</p>
+                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
                       </Col>
                     </Row>
 
@@ -690,6 +895,7 @@ class Notice extends Component {
                       <p style={{ textalign: "left", color: " #6d6d6d" }}>
                       {this.state.viewUserSelect}
                     </p>
+                   
                       </Col>
                      
                       <Col className="col-padding-5">
@@ -739,6 +945,8 @@ class Notice extends Component {
                           />
                         
                       </Col>
+
+                      <p className="reg-error">{this.state.viewUserSelectError}</p>
                     </Row>
                     <Row className="margin-top-20">
                       <Col>
@@ -761,6 +969,7 @@ class Notice extends Component {
                         type="submit"
                         className="cp-btn"
                         variant="info"
+                        style={{ width: '50%' }}
                         onClick={this.onSubmit}
                       >
                         Add Notice
@@ -769,43 +978,39 @@ class Notice extends Component {
                   </div>
                 </div>
 
-                {this.state.noticeList.length > 0  && (
+                {this.state.noticeListBlock.length > 0  && (
                   <div>
-                    <h3>Notice View </h3>
+                    
                     <div>
-                      {this.state.noticeList.map((type) => {
-                        if(type.userType === 'coordinator'){
+                      {this.state.noticeListBlock.map((types) => {
+                        if(types.userType === 'coordinator'){
                           return (
-                            <Card
-                              key={type._id}
-                              style={{ marginTop: "10px", marginBottom: "10px" }}
-                            >
-                            <Row>
-                              <Col xs="11">
-                              <CardContent style={{ paddingBottom: "2px"}}>
-                                <h6><b>{type.noticeTittle}</b></h6>
-                              </CardContent>
-                              </Col>
-  
-                              <Col xs="1">
-                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
-                              </Col>
-                            </Row>  
-  
-                              <h6 style={{ color: "#6d6d6d", paddingLeft: "14px" ,fontSize:"2"}}><small>
-                                {type.date}</small>
-                              </h6>
-                          
-                              <CardContent style={{ paddingTop: "2px" , fontWeight:"300"}}>
-                                <Typography variant="body2" component="p">
-                                  {type.notice}
-                                </Typography>
-                                <a href={"http://localhost:4000/notice/noticeAttachment/" +type.filePath}>
+                            <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
+                          <div className="crd_style">
+
+                          <Row  className="crd_notice-tittle-div">
+                          <Col md={11} xs={10}>
+                          <p className="crd_notice-name">{types.noticeTittle}</p>
+                          </Col>
+                           <Col className="crd_btn-row" md={1} xs={2}>
+                           <DeleteForeverIcon className="dlt-btn" style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
+                           </Col>
+                           </Row>
+
+                           <Row className="crd_user-name-div">
+                           <Col md={11} xs={10}>
+                           <p className="crd_notice-date">{types.projectName}&nbsp;&nbsp;{types.date}&nbsp;&nbsp;{types.time}</p>
+                           </Col>
+                           </Row>
+
+                              <div className="card-body">
+                                <h6>{types.notice}</h6>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
-                              
-                              </CardContent>
-                            </Card>
+                              </div>
+                            </div>
+                            </div>
                            
                           );
                               }

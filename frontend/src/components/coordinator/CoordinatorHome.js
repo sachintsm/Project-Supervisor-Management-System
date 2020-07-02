@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
-import '../../css/coordinator/CoordinatorHome.css'
-import { Row, Col, Button } from 'reactstrap';
+import '../../css/coordinator/CoordinatorHome.scss'
+import { Button } from 'reactstrap';
 import axios from 'axios';
 import { Spinner } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert';
 import { getFromStorage } from '../../utils/Storage';
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { Row, Col, Card } from 'react-bootstrap';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -78,12 +79,11 @@ class CoordinatorHome extends Component {
             var groupCount = res.data.data
 
             var block = new coodinatorProjectBlock(_id, project, startDate, coodinatorCount, supervisorCount, groupCount)
-            
+
             this.setState({
               activeProjectBlock: [...this.state.activeProjectBlock, block],
             })
 
-            console.log(this.state.activeProjectBlock)
 
           })
       }
@@ -227,61 +227,66 @@ class CoordinatorHome extends Component {
           )}
           {this.state.activeProjectBlock.map(data => {
             return (
-              <div className="card container ch-card" key={data._id}>
-                <Row className="ch-project-name-div">
-                  <p className="ch-project-name">{data.project} </p>
-                </Row>
-                <Row className="container ch-project-date">
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Project Start Date</p>
-                  </Col>
-                  <Col md={4} xs={6}>
-                    <p className="ch-body">: {data.startDate}</p>
-                  </Col>
-                </Row>
+              <Card className="task-card-ch" key={data._id} style={{ marginTop: "10px", marginBottom: "20px" }}>
+                <Card.Header>
+                  {data.project}
+                </Card.Header>
+                <Card.Body>
 
-                <Row className="container">
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Coordinators Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.coodinatorCount}</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Supervisors Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.supervisorCount}</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Groups Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.groupCount}</p>
-                  </Col>
-                </Row>
+                  <Row className="container ">
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Project Start Date</p>
+                    </Col>
+                    <Col md={4} xs={6}>
+                      <p className="ch-body">: {data.startDate}</p>
+                    </Col>
+                  </Row>
 
-                <Row className="container ch-btn-row">
-                  <Col md={2}>
-                    <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>
-                  </Col>
-                </Row>
-              </div>
+                  <Row className="container">
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Coordinators Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.coodinatorCount}</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Supervisors Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.supervisorCount}</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Groups Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.groupCount}</p>
+                    </Col>
+                  </Row>
+
+                  <Row className="container">
+                    <Col md={2}>
+                      <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+              // <div className="card container ch-card-ch-div" key={data._id} style={{ marginTop: "10px", marginBottom: "20px" }}>
+              // </div>
             )
           })}
           <div className="ch-topic-div">
@@ -297,59 +302,63 @@ class CoordinatorHome extends Component {
           )}
           {this.state.endProjectBlock.map(data => {
             return (
-              <div className="card container ch-card" key={data._id}>
-                <Row className="ch-project-name-div">
-                  <p className="ch-project-name">{data.project} </p>
-                </Row>
-                <Row className="container ch-project-date">
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Project Start Date</p>
-                  </Col>
-                  <Col md={4} xs={6}>
-                    <p className="ch-body">: {data.startDate}</p>
-                  </Col>
-                </Row>
+              <Card className="task-card-ch" key={data._id} style={{ marginTop: "10px", marginBottom: "20px" }}>
+                <Card.Header>
+                  {data.project}
+                </Card.Header>
+                <Card.Body>
 
-                <Row className="container">
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Coordinators Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.coodinatorCount}</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Supervisors Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.supervisorCount}</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-title">Groups Count</p>
-                  </Col>
-                  <Col md={2} xs={6}>
-                    <p className="ch-body">: {data.groupCount}</p>
-                  </Col>
-                </Row>
+                  <Row className="container">
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Project Start Date</p>
+                    </Col>
+                    <Col md={4} xs={6}>
+                      <p className="ch-body">: {data.startDate}</p>
+                    </Col>
+                  </Row>
 
-                <Row className="container ch-btn-row">
-                  <Col md={2}>
-                    <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
-                  </Col>
-                  <Col md={2}>
-                    <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
-                  </Col>
+                  <Row className="container">
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Coordinators Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.coodinatorCount}</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Supervisors Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.supervisorCount}</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-title">Groups Count</p>
+                    </Col>
+                    <Col md={2} xs={6}>
+                      <p className="ch-body">: {data.groupCount}</p>
+                    </Col>
+                  </Row>
 
-                </Row>
-              </div>
+                  <Row className="container">
+                    <Col md={2}>
+                      <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRC Documents</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
+                    </Col>
+
+                  </Row>
+                </Card.Body>
+              </Card>
+             
             )
           })}
         </div>

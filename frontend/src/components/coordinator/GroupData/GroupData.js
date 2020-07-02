@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../../css/coordinator/GroupData.scss';
 import Navbar from '../../shared/Navbar';
 import { verifyAuth } from "../../../utils/Authentication";
-import { Row, Col } from "reactstrap";
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import axios from 'axios';
@@ -11,7 +10,12 @@ import Snackpop from "../../shared/Snackpop";
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
-
+import ProjectTotalProgress from './ProjectTotalProgress'
+import { Row, Col, Card } from 'react-bootstrap';
+import DescriptionIcon from '@material-ui/icons/Description';
+import { Button, CardTitle, CardText } from 'reactstrap';
+import SubjectIcon from '@material-ui/icons/Subject';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 const backendURI = require('../../shared/BackendURI');
 
 class GroupData extends Component {
@@ -38,7 +42,9 @@ class GroupData extends Component {
             addStudentIndexError: '',
             addSupervisorIndexError: '',
 
-            projectId : '',
+            groupDetails: [],
+            loading: false
+            // projectId : '',
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -57,12 +63,6 @@ class GroupData extends Component {
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
-        
-        
-        this.setState({
-            projectId : this.props.location.projectId
-        })
-        console.log(this.props.location.state.projectId)
 
         this.setState({
             authState: authState,
@@ -75,11 +75,12 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                // console.log(res)
+                console.log(res.data.data)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
-                    groupSupervisors: res.data.data.supervisors
+                    groupSupervisors: res.data.data.supervisors,
+                    loading: true
                 })
             })
 
@@ -118,7 +119,7 @@ class GroupData extends Component {
     }
     supervisorList() {
         let groupId = this.state.groupId
-        
+
         if (this.state.groupSupervisors !== null) {
             return this.state.groupSupervisors.map(function (object, i) {
                 return <SupervisorList obj={object} key={i} id={groupId} />
@@ -217,7 +218,7 @@ class GroupData extends Component {
                                 _id: this.props.match.params.id,
                                 index: this.state.selectedStaffList[i].value
                             }
-                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data, { headers: headers})
+                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data, { headers: headers })
                                 .then(res => {
                                     if (res.data.state === false) {
                                         this.setState({
@@ -271,7 +272,7 @@ class GroupData extends Component {
 
     render() {
         return (
-            <div className="gd-fullpage">
+            <div className="gd-fullpage" >
                 <Navbar panel={"coordinator"} />
                 <div className="container">
                     <Snackpop
@@ -282,102 +283,148 @@ class GroupData extends Component {
                         closeAlert={this.closeAlert}
                     />
 
-                    <div className="card gd-card">
-                        <div className="container gd-reg-head-div">
+                    <div className="gd-card">
+                        <div className="container">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>
-                        <div className="container">
-                            <Row>
-                                <Col md="8" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic">Group Members</p>
-                                        </div>
-                                    </Row>
-                                    <Row>
-                                        <div className="container gd-stu-list">
-                                            {this.studentList()}
-                                        </div>
-                                    </Row>
-                                </Col>
-                                <Col md="4" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic">Supervisors</p>
-                                        </div>
-                                    </Row>
-                                    <Row>
-                                        <div className="container gd-stu-list">
-                                            {this.supervisorList()}
-                                        </div>
-                                    </Row>
-                                </Col>
-                            </Row>
-
-                            <Row>
-                                <Col md="6" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic-2">Add Group Member</p>
-                                        </div>
-                                    </Row>
-                                    <Row className="gd-add-div">
-                                        <Col md="8" xs="12">
-                                            <div className="form-group">
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    name="addStudentIndex"
-                                                    placeholder="Index Number"
-                                                    onChange={this.onChangeAddStudentIndex}
-                                                ></input>
-                                                <p className="reg-error">{this.state.addStudentIndexError}</p>
-
-                                            </div>
-                                        </Col>
-                                        <Col md="4" xs="12">
-                                            <button
-                                                className="btn btn-info"
-                                                onClick={this.onSubmitAddStudent}
-                                                style={{ width: "100%" }}
-                                            >Add Now </button>
-                                        </Col>
-                                    </Row>
-
-
-                                </Col>
-                                <Col md="6" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic-2">Add Supervisor</p>
-                                        </div>
-                                    </Row>
-                                    <Row className="gd-add-div">
-                                        <Col md="8" xs="12">
-                                            <div className="form-group">
-                                                <MultiSelect
-                                                    options={this.state.staffOptionList}
-                                                    value={this.state.selectedStaffList}
-                                                    onChange={this.setSelected}
-                                                    labelledBy={'Select'}
-                                                    hasSelectAll={false}
-                                                />
-                                            </div>
-                                        </Col>
-                                        <Col md="4" xs="12">
-                                            <button
-                                                className="btn btn-info"
-                                                onClick={this.onSubmitAddSupervisor}
-                                                style={{ width: "100%" }}
-                                            >Add Now </button>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            </Row>
+                        <div className="container" style={{ marginTop: "0px" }}>
+                            {this.state.loading === true &&
+                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} />
+                            }
                         </div>
+                        <div className="container">
+                            <Row style={{ marginTop: "-40px" }}>
+                                <Col md="7" xs="12">
+                                    <Card className="task-card-gd">
+                                        <Card.Header className="gd-card-header">Group Members</Card.Header>
+                                        <Card.Body className="gd-card-body">
+                                            <Row>
+                                                <Col md="8" xs="12">
+                                                    <div className="form-group">
+                                                        <input
+                                                            type="number"
+                                                            className="form-control"
+                                                            name="addStudentIndex"
+                                                            placeholder="Index Number"
+                                                            onChange={this.onChangeAddStudentIndex}
+                                                        ></input>
+                                                        <p className="reg-error">{this.state.addStudentIndexError}</p>
+
+                                                    </div>
+                                                </Col>
+                                                <Col md="4" xs="12">
+                                                    <button
+                                                        className="btn btn-info gd-add-btn"
+                                                        onClick={this.onSubmitAddStudent}
+                                                        style={{ width: "100%" }}
+                                                    >Add Now </button>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <div className="container gd-stu-list">
+                                                    {this.studentList()}
+                                                </div>
+                                            </Row>
+
+                                        </Card.Body>
+                                    </Card>
+
+                                </Col>
+                                <Col md="5" xs="12">
+                                    <Card className="task-card-gd">
+                                        <Card.Header className="gd-card-header">Supervisors</Card.Header>
+                                        <Card.Body className="gd-card-body">
+                                            <Row >
+                                                <Col md="8" xs="12">
+                                                    <div className="form-group">
+                                                        <MultiSelect
+                                                            options={this.state.staffOptionList}
+                                                            value={this.state.selectedStaffList}
+                                                            onChange={this.setSelected}
+                                                            labelledBy={'Select'}
+                                                            hasSelectAll={false}
+                                                        />
+                                                    </div>
+                                                </Col>
+                                                <Col md="4" xs="12">
+                                                    <button
+                                                        className="btn btn-info gd-add-btn"
+                                                        onClick={this.onSubmitAddSupervisor}
+                                                        style={{ width: "100%" }}
+                                                    >Add Now </button>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <div className="container gd-stu-list">
+                                                    {this.supervisorList()}
+                                                </div>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+
+                                </Col>
+                            </Row>
+                            <div className="container">
+
+                                <Row style={{ marginTop: "-70px" }}>
+                                    <Card className="task-card-gd">
+                                        <Card.Header className="gd-card-header">Submissions</Card.Header>
+                                        <Card.Body className="gd-card-body">
+                                            <Row style={{marginBottom:"-50px"}}>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"-0px"}}>
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+                                                                <DescriptionIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">SRS Document</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+
+                                                </Col>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+
+                                                                <AssignmentIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">Project Proposal</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+                                                </Col>
+                                                <Col xs={12} mg={4} md={4}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+
+                                                        <Row>
+                                                            <Col xs={2} mg={2} md={2}>
+
+                                                                <SubjectIcon fontSize="large" />
+                                                            </Col>
+                                                            <Col xs={8} mg={8} md={8}>
+                                                                <label className="text-sub-gd">Bi-Weekly Reports</label>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card>
+                                                </Col>
+                                            </Row>
+
+                                        </Card.Body>
+                                    </Card>
+                                </Row>
+
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }
