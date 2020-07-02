@@ -147,81 +147,73 @@ export default class login extends Component {
         />
 
         {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
-        <div className='row vertical-center'>
-          <div className='container login-card-div col-md-5 col-sm-11 col-xs-11 col-lg-5'>
-            <Card className='login-card'>
-              <div style={{ textAlign: 'center' }}>
-                <img
-                  alt='background'
-                  src={require('../assets/logo/Project Logo.png')}
-                  className='logo'
-                />
-              </div>
+        <div className='row vertical-center login-card-div'>
+          <div className='container abc'>
+            <Row>
+              <Col md={2} lg={3} xs={0} sm={0}></Col>
+              <Col md={8} lg={6} xs={12} sm={12}>
+                <Card className='login-card'>
+                  <div style={{ textAlign: 'center' }}>
+                    <img alt='background'  src={require('../assets/logo/Project Logo.png')}   className='logo'    />
+                  </div>
+                  <Form onSubmit={this.onSignIn}>
+                    <FormGroup className="form-group-1">
+                      <FormLabel className="cp-text">Email</FormLabel>
+                      <InputGroup className='mb-3'>
+                        <InputGroup.Prepend className="email-icon">
+                          <InputGroup.Text id='basic-addon1'>
+                            <FiMail className="email-icon2" size='1.5rem'></FiMail>
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
 
-              <div className="title-div">
-                {/* <h3 className="title">E-Supervision</h3> */}
-              </div>
-              <Form onSubmit={this.onSignIn}>
-                <FormGroup className="form-group-1">
-                  <FormLabel className="cp-text">Email</FormLabel>
-                  <InputGroup className='mb-3'>
-                    <InputGroup.Prepend className="email-icon">
-                      <InputGroup.Text id='basic-addon1'>
-                        <FiMail className="email-icon2" size='1.5rem'></FiMail>
-                      </InputGroup.Text>
-                    </InputGroup.Prepend>
+                        <FormControl
+                            className="email-formcontrol"
+                            style={{ borderColor: this.state.emailChange ? this.state.email === '' ? 'red' : null : null }}
+                            type='email'
+                            onChange={this.onChangeEmail}
+                            aria-describedby='basic-addon1'
+                            placeholder={this.state.emailChange && this.state.email === '' ? "Please enter an Email" : null}
+                        />
+                      </InputGroup>
+                    </FormGroup>
 
-                    <FormControl
-                      className="email-formcontrol"
-                      style={{ borderColor: this.state.emailChange ? this.state.email === '' ? 'red' : null : null }}
-                      type='email'
-                      onChange={this.onChangeEmail}
-                      aria-describedby='basic-addon1'
-                      placeholder={this.state.emailChange && this.state.email === '' ? "Please enter an Email" : null}
-                    />
-                  </InputGroup>
-                </FormGroup>
+                    <FormGroup className="form-group-2">
+                      <FormLabel className="cp-text">Password</FormLabel>
 
-                <FormGroup className="form-group-2">
-                  <FormLabel className="cp-text">Password</FormLabel>
+                      <InputGroup className='mb-3'>
+                        <InputGroup.Prepend className="password-icon">
+                          <InputGroup.Text id='basic-addon1'>
+                            <FiLock size='1.5rem' className="password-icon2"></FiLock>
+                          </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            className="password-formcontrol"
+                            style={{ borderColor: this.state.passwordChange ? this.state.password === '' ? 'red' : null : null }}
+                            type='password'
+                            onChange={this.onChangePassword}
+                            placeholder={this.state.passwordChange && this.state.password === '' ? "Please enter a Password" : null}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <div className='row btn-div'>
+                      <Button type="submit" className="login-btn"   variant='primary'>Login </Button>
+                    </div>
+                  </Form>
+                  <div>
+                    <Row className="lg-problem">
+                      <Col lg={4} md={6} xs={6} sm={6}>
+                        <p className="lg-problem-text">Problem with login?</p>
+                      </Col>
+                      <Col lg={8} md={6} xs={6} sm={6}>
+                        <p className="lg-problem-admin">Contact admin</p>
+                      </Col>
+                    </Row>
+                  </div>
+                </Card>
+              </Col>
+              <Col md={2} lg={3} xs={0} sm={0}></Col>
+            </Row>
 
-                  <InputGroup className='mb-3'>
-                    <InputGroup.Prepend className="password-icon">
-                      <InputGroup.Text id='basic-addon1'>
-                        <FiLock size='1.5rem' className="password-icon2"></FiLock>
-                      </InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                      className="password-formcontrol"
-                      style={{ borderColor: this.state.passwordChange ? this.state.password === '' ? 'red' : null : null }}
-                      type='password'
-                      onChange={this.onChangePassword}
-                      placeholder={this.state.passwordChange && this.state.password === '' ? "Please enter a Password" : null}
-                    />
-                  </InputGroup>
-                </FormGroup>
-                <div className='row btn-div'>
-
-                  <Button
-                    type="submit"
-                    className="login-btn"
-                    variant='primary'
-                  >
-                    Login
-                    </Button>
-                </div>
-              </Form>
-              <div>
-                <Row className="lg-problem">
-                  <Col md={4} xs={6} sm={6}>
-                    <p className="lg-problem-text">Problem with login?</p>
-                  </Col>
-                  <Col md={4} xs={6} sm={6}>
-                    <p className="lg-problem-admin">Contact admin</p>
-                  </Col>
-                </Row>
-              </div>
-            </Card>
           </div>
         </div>
       </div>
