@@ -415,7 +415,67 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-//update user profile 
+///////// get project list for supervisor profile
+router.get('/getSupPro/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Projects
+    .find({supervisorList:id })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
+//////////////get request list for supervisor panel
+router.get('/getSupReq/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request
+    .find({supId:id })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
+//////////update request state whether accept or reject
+router.post('/updateReqState/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      request.state = req.body.state;
+
+      request.save().then(user => {
+        if(req.body.state=== 'accept'){
+           res.json({ state: true, msg: 'You accept this group' });
+        }else{
+           res.json({ state: true, msg: 'You reject this group' });
+        }
+      })
+        .catch(err => {
+          res.status(400).send("unable to accept");
+        });
+    }
+  });
+
+});
+//update user profile by user
 router.post('/update/:id', function (req, res) {
   let id = req.params.id;
   User.findById({ _id: id }, function (err, user) {
@@ -572,28 +632,8 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
-///// update no of projects
 
-router.post('/academic/:id', function (req, res) {
-  let id = req.params.id;
-  console.log(id);
-  User.findById({ _id: id }, function (err, user) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      console.log(req.body.pro);
-      user.noProject = req.body.pro;
 
-      user.save().then(user => {
-        res.json({ state: true, msg: 'Update Complete', data: user.noProject });
-
-      })
-        .catch(err => {
-          res.status(400).send("unable to update database");
-        });
-    }
-  });
-});
 //? check student available or not
 router.get('/student/:id', verify, async (req, res) => {
   const index = req.params.id;
