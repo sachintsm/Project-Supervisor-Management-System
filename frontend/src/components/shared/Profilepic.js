@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { verifyAuth } from "../../utils/Authentication";
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
@@ -124,7 +124,7 @@ export default class Profilepic extends Component {
     }
     render() {
         return (
-            <div className="container">
+            <div className="container user-profile">
                 <Snackpop
                     msg={this.state.snackbarmsg}
                     color={this.state.snackbarcolor}
