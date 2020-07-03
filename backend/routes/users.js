@@ -433,6 +433,7 @@ router.get('/getSupPro/:id', async(req, res)=> {
     })
 
 });
+
 //////////////get request list for supervisor panel
 router.get('/getSupReq/:id', async(req, res)=> {
   let id = req.params.id;
@@ -760,8 +761,16 @@ router.post('/add', async (req, res) => {
   const index = result.indexNumber
   console.log(index);
 
-  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id}).select("groupId")
   console.log(group.groupId);
+
+  const Year = await Projects.findOne({_id: req.body.project_id}).select("projectYear")
+  console.log(Year);
+  const Type = await Projects.findOne({_id: req.body.project_id}).select("projectType")
+  
+  const Academic = await Projects.findOne({_id: req.body.project_id}).select("academicYear")
+  
+
 
   //create a new request
   const newReq = new Request({
@@ -771,9 +780,10 @@ router.post('/add', async (req, res) => {
     reqDate: dateString,
     groupId: group.groupId,
     projectId: req.body.project_id,
-    description: req.body.descript
-
-
+    description: req.body.descript,
+    projectYear:Year.projectYear,
+    projectType:Type.projectType,
+    academicYear:Academic.academicYear
   });
 
   newReq.save()

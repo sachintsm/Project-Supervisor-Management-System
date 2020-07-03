@@ -20,7 +20,7 @@ const backendURI = require("../shared/BackendURI");
 const Pending = React.memo( props =>(
 
     <tr>
-        <td>{props.req.projectType}</td>
+        <td>{props.req.projectYear} {props.req.projectType} {props.req.academicYear}</td>
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
         <td><ButtonToolbar>
@@ -28,7 +28,7 @@ const Pending = React.memo( props =>(
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
-        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendReject(props.req._id)} >Reject</Button> 
+        <Button type="submit" variant="danger"  value="Mod" className="btn btn-info" onClick={() => props.sendReject(props.req._id)} >Reject</Button> 
         </ButtonToolbar>
         </td>
     </tr>
@@ -38,7 +38,7 @@ const Pending = React.memo( props =>(
 const Accept = React.memo( props =>(
 
     <tr>
-        <td>{props.req.projectType}</td>
+        <td>{props.req.projectYear} {props.req.projectType} {props.req.academicYear}</td>
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
     </tr>
@@ -47,7 +47,7 @@ const Accept = React.memo( props =>(
 const Reject = React.memo( props =>(
 
     <tr>
-        <td>{props.req.projectType}</td>
+        <td>{props.req.projectYear} {props.req.projectType} {props.req.academicYear}</td>
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
     </tr>
@@ -96,7 +96,9 @@ export default class ViewRequest extends Component {
             .then(response => {
                 console.log(response.data.data);
 
-                this.setState({ reqS: response.data.data });
+                this.setState({ 
+                    reqS: response.data.data,
+                });
             })
             .catch(function (error) {
                 console.log(error);
@@ -204,9 +206,10 @@ export default class ViewRequest extends Component {
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
-                return currentReq.groupId.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                return currentReq.projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
+
 
         return filteredReq.map((currentReq, i) => {
             console.log(i);
@@ -221,7 +224,7 @@ export default class ViewRequest extends Component {
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
-                return currentReq.groupId.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                return currentReq.projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
 
@@ -238,7 +241,7 @@ export default class ViewRequest extends Component {
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
-                return currentReq.groupId.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                return currentReq.projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
 

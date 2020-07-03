@@ -6,6 +6,9 @@
     }
     .password-icon {
         cursor: pointer;
+        float: right;
+        margin-top: 15px;
+        margin-left: -18px;
     }
     .input-container {
         display: flex;
@@ -85,6 +88,9 @@
     }
     .password-icon {
         cursor: pointer;
+        float: right;
+        margin-top: 15px;
+        margin-left: -18px;
     }
     .card-body {
         margin: 0 auto;
@@ -156,6 +162,9 @@
     }
     .password-icon {
         cursor: pointer;
+        float: right;
+        margin-top: 15px;
+        margin-left: -18px;
     }
     .card-body {
         margin: 0 auto;
@@ -216,7 +225,18 @@
 }
 @media (min-width: 1281px) and (max-width: 1580px){
     .card2 {
-        width: 1450px;
+        width: 100%;
         margin-Top: 50px;
+    }
+    .card-body2{
+        margin: 0 auto; 
+        float: none; 
+        width: 100%;
+        margin-Top: 50px;
+    }
+    .password-icon {
+        cursor: pointer;
+        float: right;
+        margin-top: -28px;
     }
 }
