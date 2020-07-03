@@ -64,6 +64,7 @@ const contactUs = require('./routes/contactUs');
 const requestMeeting = require('./routes/RequestMeeting');
 const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat')
+const courseTypes = require('./routes/courseTypes')
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -75,6 +76,7 @@ app.use("/contactUs", contactUs);
 app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);
+app.use('/courseTypes', courseTypes)
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {
