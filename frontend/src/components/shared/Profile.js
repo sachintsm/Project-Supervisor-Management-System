@@ -5,7 +5,7 @@ import axios from 'axios';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Row, Col } from "reactstrap";
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Profilepic from './Profilepic';
@@ -219,7 +219,7 @@ export default class Profile extends Component {
     }
     render() {
         return (
-            <div style={{ backgroundColor: "#f5f5f5" }} >
+            <div className="user-profile" style={{ backgroundColor: "#f5f5f5" }} >
                 {this.state.admin === true ?
                     (<Navbar panel={"admin"} />) : (this.state.stu === true ?
                         (<Navbar panel={"student"} />) : (this.state.sup === true ?

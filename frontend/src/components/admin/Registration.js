@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../css/admin/Registration.css";
+import "../../css/admin/Registration.scss";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import Tab from 'react-bootstrap/Tab';
@@ -13,6 +13,8 @@ import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -23,6 +25,7 @@ export default class registration extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.courseChange = this.courseChange.bind(this)
     this.handleImageChange = this.handleImageChange.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
 
@@ -41,6 +44,7 @@ export default class registration extends Component {
         regNumber: '',
         indexDiv: true,
         imgName: '',
+        courseType: '',
       },
 
       //!decalaring error state variables
@@ -52,9 +56,12 @@ export default class registration extends Component {
       mobileNumberError: '',
       indexNumberError: '',
       regNumberError: '',
+      courseTypeError: '',
 
       csvData: [],
       startDate: new Date(),
+
+      courses: [],
     };
   }
 
@@ -71,8 +78,11 @@ export default class registration extends Component {
     if (!authState) {  //!check user is logged in or not if not re-directed to the login form
       this.props.history.push("/");
     }
+    await axios.get(backendURI.url + '/courseTypes/get')
+      .then(res => {
+        this.setState({ courses: res.data.data })
+      })
   }
-
   //? Bulk user registration function reading csv file
   fileUpload = (e) => {
     e.preventDefault();
@@ -107,6 +117,7 @@ export default class registration extends Component {
                 var birthday = this.state.csvData[i][6];
                 var indexNumber = this.state.csvData[i][7];
                 var regNumber = this.state.csvData[i][8];
+                var courseType = this.state.csvData[i][9];
 
                 var data = {
                   firstName: firstName,
@@ -119,8 +130,9 @@ export default class registration extends Component {
                   birthday: birthday,
                   indexNumber: indexNumber,
                   regNumber: regNumber,
+                  courseType: courseType,
                 }
-
+                
                 await fetch(backendURI.url + "/users/bulkRegister", {
                   method: 'POST',
                   headers: {
@@ -188,7 +200,6 @@ export default class registration extends Component {
   //? user type drop down change
   handleDropdownChange = (e) => {
     const Val = e.target.value
-    console.log(Val)
     if (Val === 'Student') {
       this.setState({
         indexDiv: true
@@ -206,6 +217,19 @@ export default class registration extends Component {
       }
     }))
   }
+  courseChange = (e) => {
+    const Val = e.target.value
+
+    this.setState({
+      indexDiv: true
+    })
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        courseType: Val
+      }
+    }))
+  }
 
   //? validation function
   validate = () => {
@@ -218,7 +242,8 @@ export default class registration extends Component {
       nicError: '',
       mobileNumberError: '',
       indexNumber: '',
-      regNumber : ''
+      regNumber: '',
+      courseType: '',
     };
 
     if (this.state.form.firstName.length < 1) {
@@ -242,9 +267,13 @@ export default class registration extends Component {
       isError = true;
       errors.mobileNumberError = 'Invalied mobile number!'
     }
-    if (this.state.form.userType.length === 0) {
+    if (this.state.form.userType === '') {
       isError = true;
       errors.userTypeError = 'User type must be specified *'
+    }
+    if (this.state.form.courseType === '' && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
+      isError = true
+      errors.courseTypeError = 'Student course must be specified *'
     }
     if (this.state.form.indexNumber.length === 0 && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
       isError = true;
@@ -276,7 +305,8 @@ export default class registration extends Component {
         nicError: '',
         mobileNumberError: '',
         indexNumberError: '',
-        regNumberError : ''
+        regNumberError: '',
+        courseTypeError: '',
       })
 
       confirmAlert({
@@ -301,7 +331,7 @@ export default class registration extends Component {
               formData.append('mobileNumber', this.state.form.mobileNumber);
               formData.append('indexNumber', this.state.form.indexNumber)
               formData.append('regNumber', this.state.form.regNumber)
-
+              formData.append('courseType', this.state.form.courseType)
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);
 
@@ -350,7 +380,6 @@ export default class registration extends Component {
         ]
       })
     }
-
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -369,7 +398,7 @@ export default class registration extends Component {
     return (
       <div>
         <Navbar panel={"admin"} />
-        <div className="container-fluid">
+        <div className="container-fluid user-registration">
 
           <Snackpop
             msg={this.state.snackbarmsg}
@@ -395,11 +424,55 @@ export default class registration extends Component {
                 <div >
                   <p className="reg-head">User Registration</p>
 
-                  <Tabs className="tab" defaultActiveKey="single" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                  <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                    <Tab eventKey="bulk" title="Bulk">
+                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
+
+
+                        <div className="form-group">
+                          <label className="text-label">CSV File Format : </label>
+                        </div>
+
+                        <img
+                          alt='background'
+                          src={require('../../assets/images/Reg-CSV-Format.png')}
+                          className='image2'
+                        />
+
+
+
+
+                        <div className="form-group reg-csv-topic">
+                          <label className="text-label">Choose CSV File : </label>
+                        </div>
+
+
+                        <div className="container ">
+                          <Row className="req-csvbtn">
+
+                            <CSVReader
+                              cssClass="react-csv-input"
+                              onFileLoaded={handleForce}
+                              inputStyle={{ color: 'grey' }}
+                            />
+                          </Row>
+                        </div>
+
+                        <div className="form-group">
+                          <button
+                            className="btn btn-info my-4  "
+                            onClick={this.fileUpload}
+                            style={{ width: "100%" }}
+                          >Register Now </button>
+                        </div>
+
+                      </div>
+
+                    </Tab>
                     <Tab eventKey="single" title="Single" className="reg-tab-text">
                       <div className="container">
                         <form onSubmit={this.onSubmit}>
-                          <Row style={{marginTop: "20px" }}>
+                          <Row style={{ marginTop: "20px" }}>
                             <Col md={6} xs="12">
                               <div className="form-group">
                                 <label className="text-label">First Name: </label>
@@ -511,7 +584,7 @@ export default class registration extends Component {
                                 </div>
                               </div>
                             </Col>
-                            {indexDiv && (
+                            {indexDiv === true && (
                               <Col md={4} xs="12">
                                 <div className="form-group">
                                   <label className="text-label">Index Number : </label>
@@ -523,7 +596,7 @@ export default class registration extends Component {
                                 </div>
                               </Col>
                             )}
-                            {indexDiv && (
+                            {indexDiv === true && (
                               <Col md={4} xs="12">
                                 <div className="form-group">
                                   <label className="text-label">Registration Number : </label>
@@ -532,6 +605,27 @@ export default class registration extends Component {
                                   ></input>
                                   <p className="reg-error">{this.state.regNumberError}</p>
 
+                                </div>
+                              </Col>
+                            )}
+                            {indexDiv === true && (
+                              <Col md={4} xs="12">
+                                <div className="form-group">
+                                  <label className="text-label">Course : </label>
+                                  <div className="form-group">
+                                    <select className="form-control" id="dropdown" value={form.courseType} onChange={this.courseChange}>
+                                      <option>Select Course</option>
+                                      {this.state.courses.map((data) => {
+                                        return (
+                                          <option value={data.courseCode} key={data._id}>{data.courseName}</option>
+                                        )
+                                      })}
+                                    </select>
+                                    <p className="reg-error">{this.state.courseTypeError}</p>
+                                    <span className="course-reg">
+                                      <Link to="/adminhome/registration/course">Course Registration</Link>
+                                    </span>
+                                  </div>
                                 </div>
                               </Col>
                             )}
@@ -562,50 +656,7 @@ export default class registration extends Component {
                     </Tab>
 
 
-                    <Tab eventKey="bulk" title="Bulk">
-                      <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
 
-
-                        <div className="form-group">
-                          <label className="text-label">CSV File Format : </label>
-                        </div>
-
-                        <img
-                          alt='background'
-                          src={require('../../assets/images/Reg-CSV-Format.png')}
-                          className='image2'
-                        />
-
-
-
-
-                        <div className="form-group reg-csv-topic">
-                          <label className="text-label">Choose CSV File : </label>
-                        </div>
-
-
-                        <div className="container ">
-                          <Row className="req-csvbtn">
-
-                            <CSVReader
-                              cssClass="react-csv-input"
-                              onFileLoaded={handleForce}
-                              inputStyle={{ color: 'grey' }}
-                            />
-                          </Row>
-                        </div>
-
-                        <div className="form-group">
-                          <button
-                            className="btn btn-info my-4  "
-                            onClick={this.fileUpload}
-                            style={{ width: "100%" }}
-                          >Register Now </button>
-                        </div>
-
-                      </div>
-
-                    </Tab>
                   </Tabs>
 
                 </div>
