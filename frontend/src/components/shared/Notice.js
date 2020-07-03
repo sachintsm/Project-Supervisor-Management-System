@@ -6,6 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+// import 'froala-editor/css/froala_style.min.css';
+// import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// import FroalaEditorComponent from 'react-froala-wysiwyg';
 
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
@@ -573,9 +577,7 @@ class Notice extends Component {
           <Navbar panel={"admin"} />
 
           <div
-            className="container-fluid "
-            style={{ backgroundColor: '#F5F5F5' }}
-          >
+            className="container-fluid create-noticecreate-background">
 
             <Row>
               <Col>
@@ -794,13 +796,14 @@ class Notice extends Component {
                         })}
                       </div>
                     </div>
+
                   )}
                 </Container>
               </Col>
             </Row>
           </div>
           <Footer />
-        </React.Fragment>
+        </React.Fragment >
       );
 
     } else if (this.userTypes === 'coordinator') {
@@ -826,9 +829,7 @@ class Notice extends Component {
           <Navbar panel={"coordinator"} />
 
           <div
-            className="container-fluid "
-            style={{ backgroundColor: "#F5F5F5" }}
-          >
+            className="container-fluid create-noticecreate-background">
             <Row>
               <Col>
                 <Container>
@@ -885,29 +886,9 @@ class Notice extends Component {
                         <Col>
                           <div className="form-group">
                             <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                              Notice :
-                          </p>
-                            <textarea
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Notice"
-                              value={this.state.notice}
-                              onChange={this.onChangeNotice}
-                              errortext={this.noticeError}
-                            ></textarea>
-                            <p className="reg-error">{this.state.noticeError}</p>
-
+                              {this.state.viewUserSelect}
+                            </p>
                           </div>
-                        </Col>
-                      </Row>
-
-                      <Row className="margin-top-22">
-                        <Col md={4} >
-
-                          <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                            {this.state.viewUserSelect}
-                          </p>
-
                         </Col>
 
                         <Col className="col-padding-5">
