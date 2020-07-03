@@ -6,6 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+// import 'froala-editor/css/froala_style.min.css';
+// import 'froala-editor/css/froala_editor.pkgd.min.css';
+
+// import FroalaEditorComponent from 'react-froala-wysiwyg';
 
 import { verifyAuth } from "../../utils/Authentication";
 import {getFromStorage} from "../../utils/Storage";
@@ -570,9 +574,7 @@ console.log(this.userTypes)
         <Navbar panel={"admin"} />
 
         <div
-          className="container-fluid "
-          style={{  backgroundColor: '#F5F5F5' }}
-        >
+          className="container-fluid create-noticecreate-background">
           
           <Row>
             <Col>
@@ -814,9 +816,7 @@ console.log(this.userTypes)
         <Navbar panel={"coordinator"} />
 
         <div
-          className="container-fluid "
-          style={{  backgroundColor: "#F5F5F5" }}
-        >
+          className="container-fluid create-noticecreate-background">
           <Row>
             <Col>
               <Container>
