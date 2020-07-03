@@ -467,7 +467,8 @@ class NoticeView extends Component {
 
                     </div>
                   )}
-                  {this.state.noticeListBlock.length === 0 &&(
+                 
+                  {this.state.studentNoticeListBlock.length === 0 &&(
 
                     <div>
                     <h2>Coordinators Not Published Notices</h2>
