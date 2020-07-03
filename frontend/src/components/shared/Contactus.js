@@ -160,7 +160,7 @@ export default class Contactus extends Component {
           closeAlert={this.closeAlert}
         />
 
-        <Button className="btn btn-info my-4" onClick={this.toggle} href="#">
+        <Button className="btn btn-info my-4" onClick={this.toggle}>
           Message
                 </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>

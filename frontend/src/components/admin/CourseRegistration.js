@@ -64,7 +64,11 @@ class CourseRegistration extends Component {
                 courseCodeError: '',
                 courseNameError: '',
             })
- 
+
+            const data = {
+                courseCode: this.state.courseCode,
+                courseName: this.state.courseName
+            }
             confirmAlert({
                 title: 'Confirm to submit',
                 message: 'Are you sure to do this.',
@@ -72,10 +76,7 @@ class CourseRegistration extends Component {
                     {
                         label: 'Yes',
                         onClick: () => {
-                            const data = {
-                                courseCode: this.state.courseCode,
-                                courseName: this.state.courseName
-                            }
+                            console.log(this.state.courseCode);
                             const headers = {
                                 'auth-token': getFromStorage('auth-token').token,
                             }
@@ -145,12 +146,12 @@ class CourseRegistration extends Component {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => {
+                    onClick: async () => {
                         const headers = {
                             'auth-token': getFromStorage('auth-token').token,
                         }
 
-                        axios.delete(backendURI.url + '/courseTypes/' + id, { headers: headers })
+                        await axios.delete(backendURI.url + '/courseTypes/' + id, { headers: headers })
                             .then(res => {
                                 console.log(res);
 
@@ -200,7 +201,7 @@ class CourseRegistration extends Component {
                         <p className="reg-head">Course Registration</p>
 
                         <div className="card cr-card">
-                            <div className="container" style={{ marginTop: "20px", marginBottom: "10px" }} >
+                            <div className="container cr-content" style={{ marginTop: "20px", marginBottom: "10px" }} >
                                 <div className="container">
                                     <label className="text-label-cr">Course Name (i.e. : Computer Science)</label>
                                     <input className="form-control" type="text" onChange={this.onChange} name="courseName"></input>
@@ -213,7 +214,7 @@ class CourseRegistration extends Component {
                                     <button className="form-control btn btn-info my-4" type="submit" onClick={this.onSubmit}>Register</button>
                                 </div>
                             </div>
-                            <div className="container" style={{ marginBottom: "20px" }}>
+                            <div className="container cr-content" style={{ marginBottom: "20px" }}>
                                 <div className="container">
                                     {this.state.courses.map((data) => {
                                         return (

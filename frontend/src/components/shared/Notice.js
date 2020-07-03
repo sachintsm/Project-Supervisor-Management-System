@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import { verifyAuth } from "../../utils/Authentication";
-import {getFromStorage} from "../../utils/Storage";
+import { getFromStorage } from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "../../css/shared/Notice.css";
@@ -24,17 +24,17 @@ import {
   Row,
   FormControl,
   FormGroup,
-  Dropdown, 
-  DropdownButton, 
+  Dropdown,
+  DropdownButton,
   ButtonGroup,
 
-  
+
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
 
 class noticeBlock {
-  constructor(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent ){
+  constructor(_id, userType, projectName, date, time, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent) {
     this._id = _id;
     this.userType = userType;
     this.projectName = projectName;
@@ -61,33 +61,35 @@ class Notice extends Component {
       notice: "",
       noticeAttachment: "",
       noticeType: "",
-      userTypes:'',
-      userId:"",
-      viewUserSelect :'Select user to View :',
+      userTypes: '',
+      userId: "",
+      viewUserSelect: 'Select user to View :',
       projectId: "",
       toCordinator: false,
       toSupervisor: false,
       toStudent: false,
-     
-      selectedTypeIndex: 0 ,
-     
+
+      selectedTypeIndex: 0,
+
       succesAlert: false,
       deleteSuccesAlert: false,
       warnAlert: false,
       snackbaropen: false,
       snackbarmsg: "",
 
-      projectTypeList:[],
-      noticeList:[],
+      projectTypeList: [],
+      noticeList: [],
       noticeListCo: [],
-      noticeListBlock:[],
+      noticeListBlock: [],
       activeProjects: [],
 
       noticeTittleError: "",
       noticeError: "",
-      viewUserSelectError:"",
-      projectIdError:"",
-      noticeTittleLenthError:"",
+      viewUserSelectError: "",
+      projectIdError: "",
+      noticeTittleLenthError: "",
+
+      imgname: '',
     };
 
     this.onChangeTittle = this.onChangeTittle.bind(this);
@@ -98,22 +100,22 @@ class Notice extends Component {
     this.getNoticeList = this.getNoticeList.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.getNoticeListCordinator = this.getNoticeListCordinator.bind(this);
-   
+
   }
 
 
 
   componentDidMount() {
-   this.getNoticeList();
-   this.getProjectDetails();
-   this.getNoticeListCordinator();
+    this.getNoticeList();
+    this.getProjectDetails();
+    this.getNoticeListCordinator();
 
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
     //console.log(this.userTypes)
-    
 
-   
+
+
   }
 
   getNoticeListCordinator = async () => {
@@ -126,33 +128,33 @@ class Notice extends Component {
       .then(res => {
         this.setState({ noticeListCo: res.data.data })
       })
-    
-     for (let i = 0 ; i<this.state.noticeListCo.length ; i++){
-       await axios.get(backendURI.url + '/notice/getProjectName/'+ this.state.noticeListCo[i].projectId )
-       .then(res=>{
 
-        var _id = this.state.noticeListCo[i]._id;
-        var userType = this.state.noticeListCo[i].userType;
-        var date = this.state.noticeListCo[i].date;
-        var time = this.state.noticeListCo[i].time;
-        var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
-        var noticeTittle = this.state.noticeListCo[i].noticeTittle;
-        var notice = this.state.noticeListCo[i].notice;
-        var noticeAttachment = this.state.noticeListCo[i].filePath;
-        var toCordinator = this.state.noticeListCo[i].toCordinator;
-        var toSupervisor = this.state.noticeListCo[i].toSupervisor;
-        var toStudent = this.state.noticeListCo[i].toStudent;
+    for (let i = 0; i < this.state.noticeListCo.length; i++) {
+      await axios.get(backendURI.url + '/notice/getProjectName/' + this.state.noticeListCo[i].projectId)
+        .then(res => {
+
+          var _id = this.state.noticeListCo[i]._id;
+          var userType = this.state.noticeListCo[i].userType;
+          var date = this.state.noticeListCo[i].date;
+          var time = this.state.noticeListCo[i].time;
+          var projectName = res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear;
+          var noticeTittle = this.state.noticeListCo[i].noticeTittle;
+          var notice = this.state.noticeListCo[i].notice;
+          var noticeAttachment = this.state.noticeListCo[i].filePath;
+          var toCordinator = this.state.noticeListCo[i].toCordinator;
+          var toSupervisor = this.state.noticeListCo[i].toSupervisor;
+          var toStudent = this.state.noticeListCo[i].toStudent;
 
 
-        var block = new noticeBlock(_id , userType, projectName , date ,time, noticeTittle , notice ,noticeAttachment , toCordinator , toSupervisor , toStudent )
+          var block = new noticeBlock(_id, userType, projectName, date, time, noticeTittle, notice, noticeAttachment, toCordinator, toSupervisor, toStudent)
 
-        this.setState({
-          noticeListBlock : [...this.state.noticeListBlock , block]
+          this.setState({
+            noticeListBlock: [...this.state.noticeListBlock, block]
+          })
+          //console.log(this.state.noticeListBlock)
         })
-      //console.log(this.state.noticeListBlock)
-       })
 
-     }
+    }
 
   }
 
@@ -160,35 +162,35 @@ class Notice extends Component {
   getNoticeList() {
     const uId = JSON.parse(localStorage.getItem("auth-id"))
     axios.get(backendURI.url + '/notice/NoticeView/' + uId.id)
-            .then((res => {
-                this.setState({
-                  noticeList: res.data.data
-                })
-            }))
-}
+      .then((res => {
+        this.setState({
+          noticeList: res.data.data
+        })
+      }))
+  }
 
-// get project details
+  // get project details
   async getProjectDetails() {
     const authState = await verifyAuth();
 
+    this.setState({
+      authState: authState,
+    });
+    if (!authState || (!localStorage.getItem("isCoordinator") && !localStorage.getItem("isAdmin"))) { //!check user is logged in or not if not re-directed to the login form
+      this.props.history.push("/");
+    }
+
+    const coId = JSON.parse(localStorage.getItem("auth-id"))
+
+    //? load all the active project names from
+    axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
+      .then((res => {
+        console.log("project List", res.data.data)
         this.setState({
-            authState: authState,
-        });
-        if (!authState || (!localStorage.getItem("isCoordinator") && !localStorage.getItem("isAdmin") )) { //!check user is logged in or not if not re-directed to the login form
-            this.props.history.push("/");
-        }
+          activeProjects: res.data.data
 
-        const coId = JSON.parse(localStorage.getItem("auth-id"))
-
-        //? load all the active project names from
-        axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
-            .then((res => {
-              console.log("project List",res.data.data)
-                this.setState({
-                    activeProjects: res.data.data
-                    
-                })
-            }))
+        })
+      }))
   }
 
   // validaion notice form
@@ -197,77 +199,77 @@ class Notice extends Component {
     const errors = {
       noticeTittleError: "",
       noticeError: "",
-      viewUserSelectError:"",
-      projectIdError:"",
-      noticeTittleLenthError:"",
+      viewUserSelectError: "",
+      projectIdError: "",
+      noticeTittleLenthError: "",
     }
 
-    if(this.userTypes ==="coordinator"){
+    if (this.userTypes === "coordinator") {
 
-    if (this.state.noticeTittle.length < 1) {
-      isError = true;
-      errors.noticeTittleError = 'Notice Tittle required *'
-    }
+      if (this.state.noticeTittle.length < 1) {
+        isError = true;
+        errors.noticeTittleError = 'Notice Tittle required *'
+      }
 
-    if (this.state.noticeTittle.length >= 60) {
-      isError = true;
-      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
-    }
-    if (this.state.notice.length < 1) {
-      isError = true;
-      errors.noticeError = 'Notice Content required *'
-    }
-    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
-      isError = true;
-      errors.viewUserSelectError = 'must be select at least one *'
-    }
+      if (this.state.noticeTittle.length >= 60) {
+        isError = true;
+        errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
+      }
+      if (this.state.notice.length < 1) {
+        isError = true;
+        errors.noticeError = 'Notice Content required *'
+      }
+      if (this.state.toCordinator === 'false' && this.state.toStudent === 'false' && this.state.toSupervisor === 'false') {
+        isError = true;
+        errors.viewUserSelectError = 'must be select at least one *'
+      }
 
-    
-    if (this.state.projectId.length === 0) {
-      isError = true;
-      errors.projectIdError = 'Project type must be specified *'
-    }
-  
-    this.setState({
-      ...this.state,
-      ...errors
-    })
-    return isError;
 
-  }else if(this.userTypes==="admin"){
-    if (this.state.noticeTittle.length < 1) {
-      isError = true;
-      errors.noticeTittleError = 'Notice Tittle required *'
-    }
+      if (this.state.projectId.length === 0) {
+        isError = true;
+        errors.projectIdError = 'Project type must be specified *'
+      }
 
-    if (this.state.noticeTittle.length >= 60) {
-      isError = true;
-      errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
-    }
-    if (this.state.notice.length < 1) {
-      isError = true;
-      errors.noticeError = 'Notice Content required *'
-    }
-    if (this.state.toCordinator === 'false' && this.state.toStudent=== 'false' && this.state.toSupervisor === 'false') {
-      isError = true;
-      errors.viewUserSelectError = 'must be select at least one *'
-    }
+      this.setState({
+        ...this.state,
+        ...errors
+      })
+      return isError;
 
-    this.setState({
-      ...this.state,
-      ...errors
-    })
-    return isError;
-  }
+    } else if (this.userTypes === "admin") {
+      if (this.state.noticeTittle.length < 1) {
+        isError = true;
+        errors.noticeTittleError = 'Notice Tittle required *'
+      }
+
+      if (this.state.noticeTittle.length >= 60) {
+        isError = true;
+        errors.noticeTittleLenthError = 'Lenth must be less than 60 *'
+      }
+      if (this.state.notice.length < 1) {
+        isError = true;
+        errors.noticeError = 'Notice Content required *'
+      }
+      if (this.state.toCordinator === 'false' && this.state.toStudent === 'false' && this.state.toSupervisor === 'false') {
+        isError = true;
+        errors.viewUserSelectError = 'must be select at least one *'
+      }
+
+      this.setState({
+        ...this.state,
+        ...errors
+      })
+      return isError;
+    }
   }
 
 
   handleDropdownChange = (e) => {
     const val = e.target.value
     this.setState({
-        projectId: val
-    });   
-}
+      projectId: val
+    });
+  }
 
   onChangeTittle(e) {
     this.setState({
@@ -283,206 +285,207 @@ class Notice extends Component {
 
   onChangeFile(e) {
     this.setState({
+      imgname: e.target.files[0].name,
       noticeAttachment: e.target.files[0],
     });
   }
 
-  
+
 
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
-console.log(this.userTypes)
+    console.log(this.userTypes)
 
-    if(this.userTypes=== "coordinator"){
-    const err = this.validate();
+    if (this.userTypes === "coordinator") {
+      const err = this.validate();
 
-    if (!err) {
-      this.setState({
-        noticeTittleError: "",
-        noticeError: "",
-        viewUserSelectError:"",
-        projectIdError:"",
-        noticeTittleLenthError:"",
-      })
-
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: "Are you sure?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: async () => {
-
-            const headers = {
-              'auth-token':getFromStorage('auth-token').token,
-            }
-
-          const date = new Date();
-          const dateString = date.toLocaleDateString()
-          const timeString = date.toLocaleTimeString()
-
-        // var B = date.toString('dddd, MMMM ,yyyy') ;
-
-            const userType = localStorage.getItem("user-level");
-            //const userId = localStorage.getItem("auth-id.id");
-           
-            const userId = getFromStorage('auth-id').id ;
-    
-            const formData = new FormData();
-
-
-            formData.append("userId",userId);
-            formData.append("userType",userType);
-            formData.append("projectId",this.state.projectId);
-            formData.append("noticeTittle", this.state.noticeTittle);
-            formData.append("notice", this.state.notice);
-            formData.append("date", dateString);
-            formData.append("time", timeString);
-            formData.append("noticeAttachment", this.state.noticeAttachment);
-            formData.append("toCordinator", this.state.toCordinator);
-            formData.append("toSupervisor", this.state.toSupervisor);
-            formData.append("toStudent", this.state.toStudent);
-
-      
-            axios
-            .post(backendURI.url + "/notice/addNotice", formData,{headers: headers})
-            .then((res) => {
-              this.setState({
-                succesAlert: true,
-              });
-              window.location.reload();
-              this.getNoticeList();
-              this.getProjectDetails();
-              
-             // console.log(res.data);
-            })
-            .catch((error) => {
-              this.setState({
-                snackbaropen: true,
-                snackbarmsg: error,
-              });
-              console.log(error);
-            });
-        
-
+      if (!err) {
         this.setState({
-          noticeTittle: "",
-          notice: "",
-          noticeAttachment: "",
-          toCordinator: false,
-          toSupervisor: false,
-          toStudent: false,
+          noticeTittleError: "",
+          noticeError: "",
+          viewUserSelectError: "",
+          projectIdError: "",
+          noticeTittleLenthError: "",
+        })
 
+        confirmAlert({
+          title: 'Confirm to submit',
+          message: "Are you sure?",
+          buttons: [
+            {
+              label: "Yes",
+              onClick: async () => {
+
+                const headers = {
+                  'auth-token': getFromStorage('auth-token').token,
+                }
+
+                const date = new Date();
+                const dateString = date.toLocaleDateString()
+                const timeString = date.toLocaleTimeString()
+
+                // var B = date.toString('dddd, MMMM ,yyyy') ;
+
+                const userType = localStorage.getItem("user-level");
+                //const userId = localStorage.getItem("auth-id.id");
+
+                const userId = getFromStorage('auth-id').id;
+
+                const formData = new FormData();
+
+
+                formData.append("userId", userId);
+                formData.append("userType", userType);
+                formData.append("projectId", this.state.projectId);
+                formData.append("noticeTittle", this.state.noticeTittle);
+                formData.append("notice", this.state.notice);
+                formData.append("date", dateString);
+                formData.append("time", timeString);
+                formData.append("noticeAttachment", this.state.noticeAttachment);
+                formData.append("toCordinator", this.state.toCordinator);
+                formData.append("toSupervisor", this.state.toSupervisor);
+                formData.append("toStudent", this.state.toStudent);
+
+
+                axios
+                  .post(backendURI.url + "/notice/addNotice", formData, { headers: headers })
+                  .then((res) => {
+                    this.setState({
+                      succesAlert: true,
+                    });
+                    window.location.reload();
+                    this.getNoticeList();
+                    this.getProjectDetails();
+
+                    // console.log(res.data);
+                  })
+                  .catch((error) => {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: error,
+                    });
+                    console.log(error);
+                  });
+
+
+                this.setState({
+                  noticeTittle: "",
+                  notice: "",
+                  noticeAttachment: "",
+                  toCordinator: false,
+                  toSupervisor: false,
+                  toStudent: false,
+
+                });
+              },
+            },
+            {
+              label: "No",
+              onClick: () => { },
+            },
+          ],
         });
-      },
-    },
-    {
-      label: "No",
-      onClick: () => {},
-    },
-  ],
-});
-}
-  }else {
-    const err = this.validate();
+      }
+    } else {
+      const err = this.validate();
 
-    if (!err) {
-      this.setState({
-        noticeTittleError: "",
-        noticeError: "",
-        viewUserSelectError:"",
-       // projectIdError:"",
-        noticeTittleLenthError:"",
-      })
-
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: "Are you sure?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: async () => {
-
-            const headers = {
-              'auth-token':getFromStorage('auth-token').token,
-            }
-
-          var date = new Date();
-          const dateString = date.toLocaleDateString()
-          const timeString = date.toLocaleTimeString()
-         var B = date.toString('dddd, MMMM ,yyyy') ;
-
-            const userType = localStorage.getItem("user-level");
-            //const userId = localStorage.getItem("auth-id.id");
-           
-            const userId = getFromStorage('auth-id').id ;
-    
-            const formData = new FormData();
-
-
-            formData.append("userId",userId);
-            formData.append("userType",userType);
-            formData.append("projectId",this.state.projectId);
-            formData.append("noticeTittle", this.state.noticeTittle);
-            formData.append("notice", this.state.notice);
-            formData.append("date", dateString);
-            formData.append("time", timeString);
-            formData.append("noticeAttachment", this.state.noticeAttachment);
-            formData.append("toCordinator", this.state.toCordinator);
-            formData.append("toSupervisor", this.state.toSupervisor);
-            formData.append("toStudent", this.state.toStudent);
-
-      
-            axios
-            .post(backendURI.url + "/notice/addNotice", formData,{headers: headers})
-            .then((res) => {
-              this.setState({
-                succesAlert: true,
-              });
-              window.location.reload();
-              this.getNoticeList();
-              this.getProjectDetails();
-              
-             // console.log(res.data);
-            })
-            .catch((error) => {
-              this.setState({
-                snackbaropen: true,
-                snackbarmsg: error,
-              });
-              console.log(error);
-            });
-        
-
+      if (!err) {
         this.setState({
-          noticeTittle: "",
-          notice: "",
-          noticeAttachment: "",
-          toCordinator: false,
-          toSupervisor: false,
-          toStudent: false,
+          noticeTittleError: "",
+          noticeError: "",
+          viewUserSelectError: "",
+          // projectIdError:"",
+          noticeTittleLenthError: "",
+        })
 
+        confirmAlert({
+          title: 'Confirm to submit',
+          message: "Are you sure?",
+          buttons: [
+            {
+              label: "Yes",
+              onClick: async () => {
+
+                const headers = {
+                  'auth-token': getFromStorage('auth-token').token,
+                }
+
+                var date = new Date();
+                const dateString = date.toLocaleDateString()
+                const timeString = date.toLocaleTimeString()
+                var B = date.toString('dddd, MMMM ,yyyy');
+
+                const userType = localStorage.getItem("user-level");
+                //const userId = localStorage.getItem("auth-id.id");
+
+                const userId = getFromStorage('auth-id').id;
+
+                const formData = new FormData();
+
+
+                formData.append("userId", userId);
+                formData.append("userType", userType);
+                formData.append("projectId", this.state.projectId);
+                formData.append("noticeTittle", this.state.noticeTittle);
+                formData.append("notice", this.state.notice);
+                formData.append("date", dateString);
+                formData.append("time", timeString);
+                formData.append("noticeAttachment", this.state.noticeAttachment);
+                formData.append("toCordinator", this.state.toCordinator);
+                formData.append("toSupervisor", this.state.toSupervisor);
+                formData.append("toStudent", this.state.toStudent);
+
+
+                axios
+                  .post(backendURI.url + "/notice/addNotice", formData, { headers: headers })
+                  .then((res) => {
+                    this.setState({
+                      succesAlert: true,
+                    });
+                    window.location.reload();
+                    this.getNoticeList();
+                    this.getProjectDetails();
+
+                    // console.log(res.data);
+                  })
+                  .catch((error) => {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: error,
+                    });
+                    console.log(error);
+                  });
+
+
+                this.setState({
+                  noticeTittle: "",
+                  notice: "",
+                  noticeAttachment: "",
+                  toCordinator: false,
+                  toSupervisor: false,
+                  toStudent: false,
+
+                });
+              },
+            },
+            {
+              label: "No",
+              onClick: () => { },
+            },
+          ],
         });
-      },
-    },
-    {
-      label: "No",
-      onClick: () => {},
-    },
-  ],
-});
-}
+      }
+
+    }
 
   }
-
-}
 
   //delete notice
 
   onDeleteHandler = (id, filePath) => {
 
-   // console.log(filePath);
+    // console.log(filePath);
     confirmAlert({
       title: "Delete Notice",
       message: "Are you sure?",
@@ -492,10 +495,10 @@ console.log(this.userTypes)
           onClick: async () => {
 
             const headers = {
-              'auth-token':getFromStorage('auth-token').token,
+              'auth-token': getFromStorage('auth-token').token,
             }
             axios
-              .delete(backendURI.url + "/notice/delteNotice/" + id,{headers: headers})
+              .delete(backendURI.url + "/notice/delteNotice/" + id, { headers: headers })
               .then((res) => {
                 this.setState({
                   deleteSuccesAlert: true,
@@ -507,12 +510,12 @@ console.log(this.userTypes)
               .catch((err) => {
                 console.log(err);
               });
-              
+
           },
         },
         {
           label: "No",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -532,114 +535,114 @@ console.log(this.userTypes)
     const { activeProjects } = this.state;   // ?load projects to dropdown menu this coordinator
 
     let activeProjectsList = activeProjects.length > 0
-        && activeProjects.map((item, i) => {
-            return (
-                <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
-            )
-        }, this)
+      && activeProjects.map((item, i) => {
+        return (
+          <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
+        )
+      }, this)
 
-        let activeProjectsListid = activeProjects.length > 0
-        && activeProjects.map((item, i) => {
-            return (
-                <option key={i} value={item._id}>{item._id}</option>
-            )
-        }, this)
+    let activeProjectsListid = activeProjects.length > 0
+      && activeProjects.map((item, i) => {
+        return (
+          <option key={i} value={item._id}>{item._id}</option>
+        )
+      }, this)
 
 
-    
 
-    if(this.userTypes === 'admin'){
-    return (
-      <React.Fragment>
 
-     <Snackpop
-          msg={"Successfully Added"}
-          color={"success"}
-          time={2000}
-          status={this.state.succesAlert}
-          closeAlert={this.closeAlert}
-        />
-        <Snackpop
-          msg={"Deleted Successfully.."}
-          color={"success"}
-          time={2000}
-          status={this.state.deleteSuccesAlert}
-          closeAlert={this.closeAlert}
-        />
+    if (this.userTypes === 'admin') {
+      return (
+        <React.Fragment>
 
-        <Navbar panel={"admin"} />
+          <Snackpop
+            msg={"Successfully Added"}
+            color={"success"}
+            time={2000}
+            status={this.state.succesAlert}
+            closeAlert={this.closeAlert}
+          />
+          <Snackpop
+            msg={"Deleted Successfully.."}
+            color={"success"}
+            time={2000}
+            status={this.state.deleteSuccesAlert}
+            closeAlert={this.closeAlert}
+          />
 
-        <div
-          className="container-fluid "
-          style={{  backgroundColor: '#F5F5F5' }}
-        >
-          
-          <Row>
-            <Col>
-              <Container>
-                <div
-                  className="card"
-                  style={{
-                    width: "100%",
-                    margin: "auto",
-                    marginTop: "40px",
-                    marginBottom: "40px",
-                    paddingLeft: "2%",
-                    paddingRight: "2%",
-                  }}
-                >
-                  <div className="container">
-                    <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
-                    <Row className="margin-top-30">
-                      <Col>
-                        <label className="verticle-align-middle cp-text">
-                          Notice Tittle :{" "}
+          <Navbar panel={"admin"} />
 
-                        </label>
-                        <FormControl
-                          type="text"
-                          style={{ width: "100%" }}
-                          placeholder="Notice Tittle"
-                          value={this.state.noticeTittle}
-                          onChange={this.onChangeTittle}
-                          errortext={this.noticeTittleError}
-                          errortext={this.noticeTittleLenthError}
-                        ></FormControl>
-                        <p className="reg-error">{this.state.noticeTittleError}</p>
-                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
-                      </Col>
-                    </Row>
+          <div
+            className="container-fluid "
+            style={{ backgroundColor: '#F5F5F5' }}
+          >
 
-                    <Row className="margin-top-20">
-                      <Col>
-                        <div className="form-group">
-                          <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                            Notice :
-                          </p>
-                          <textarea
+            <Row>
+              <Col>
+                <Container>
+                  <div
+                    className="card"
+                    style={{
+                      width: "100%",
+                      margin: "auto",
+                      marginTop: "40px",
+                      marginBottom: "40px",
+                      paddingLeft: "2%",
+                      paddingRight: "2%",
+                    }}
+                  >
+                    <div className="container">
+                      <h3 style={{ marginTop: "30px" }}>Creating New Notice</h3>
+                      <Row className="margin-top-30">
+                        <Col>
+                          <label className="verticle-align-middle cp-text">
+                            Notice Tittle :{" "}
+
+                          </label>
+                          <FormControl
                             type="text"
-                            className="form-control"
-                            placeholder="Enter Notice"
-                            value={this.state.notice}
-                            onChange={this.onChangeNotice}
-                            errortext={this.noticeError}
-                          ></textarea>
-                          <p className="reg-error">{this.state.noticeError}</p>
-                        </div>
-                      </Col>
-                    </Row>
+                            style={{ width: "100%" }}
+                            placeholder="Notice Tittle"
+                            value={this.state.noticeTittle}
+                            onChange={this.onChangeTittle}
+                            errortext={this.noticeTittleError}
+                            errortext={this.noticeTittleLenthError}
+                          ></FormControl>
+                          <p className="reg-error">{this.state.noticeTittleError}</p>
+                          <p className="reg-error">{this.state.noticeTittleLenthError}</p>
+                        </Col>
+                      </Row>
 
-                    <Row className="margin-top-22">
-                      <Col md={4} >
-                       <div> 
-                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                      {this.state.viewUserSelect}
-                      </p>
-                      </div>
-                      
-                      </Col>
-                      
-                      <Col className="col-padding-5">
+                      <Row className="margin-top-20">
+                        <Col>
+                          <div className="form-group">
+                            <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                              Notice :
+                          </p>
+                            <textarea
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Notice"
+                              value={this.state.notice}
+                              onChange={this.onChangeNotice}
+                              errortext={this.noticeError}
+                            ></textarea>
+                            <p className="reg-error">{this.state.noticeError}</p>
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <Row className="margin-top-22">
+                        <Col md={4} >
+                          <div>
+                            <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                              {this.state.viewUserSelect}
+                            </p>
+                          </div>
+
+                        </Col>
+
+                        <Col className="col-padding-5">
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -661,9 +664,9 @@ console.log(this.userTypes)
                               </span>
                             }
                           />
-                      </Col>
-                      
-                      <Col className="col-padding-5">
+                        </Col>
+
+                        <Col className="col-padding-5">
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -685,9 +688,9 @@ console.log(this.userTypes)
                               </span>
                             }
                           />
-                        
-                      </Col>
-                      <Col className="col-padding-5">
+
+                        </Col>
+                        <Col className="col-padding-5">
                           <FormControlLabel
                             className="form-control-label"
                             control={
@@ -707,334 +710,343 @@ console.log(this.userTypes)
                               <span style={{ fontSize: "12px" }}>Studentd</span>
                             }
                           />
-                      </Col>
+                        </Col>
 
-                      <p className="reg-error">{this.state.viewUserSelectError}</p>
+                        <p className="reg-error">{this.state.viewUserSelectError}</p>
 
-                    </Row>
+                      </Row>
 
-                    
-                    <Row className="margin-top-20">
-                      <Col>
-                        <label className="verticle-align-middle cp-text">
-                          File Attach :{" "}
-                        </label>
-                        <FormGroup>
-                          <input
-                            type="file"
-                            name="noticeAttachment"
-                            id="exampleFile"
-                            onChange={this.onChangeFile}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
-                      <Button
-                        type="submit"
-                        className="cp-btn btn_style"
-                        variant="info"
-                        style={{ width: '50%' }}
-                        onClick={this.onSubmit}
-                      >
-                        Add Notice
-                      </Button>
-                    </Row>
-                  </div>
-                </div>
-                {this.state.noticeList.length > 0  && (
-                  <div>
-                   
-                    <div>
-                      {this.state.noticeList.map((type) => {
-                        if(type.userType === 'admin'){
-                        return (
-                          <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={type._id} >
-                          <div className="crd_style">
 
-                          <Row  className="crd_notice-tittle-div">
-                          <Col md={11} xs={10}>
-                           <p className="crd_notice-name">{type.noticeTittle}</p>
-                           </Col>
-                           <Col className="crd_btn-row" md={1} xs={2}>
-                           <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(type._id)} />
-                           </Col>
-                           </Row>
-
-                           <Row className="crd_user-name-div">
-                           <Col md={11} xs={10}>
-                           <p className="crd_date">(&nbsp;{type.date}&nbsp;&nbsp;{type.time})</p>
-                           </Col>
-                           </Row>
-
-                              <div className="card-body">
-                                <h6>{type.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
-                                  Attachment
-                                </a>
+                      <Row className="margin-top-20">
+                        <Col>
+                          <label className="verticle-align-middle cp-text">
+                            File Attach :{" "}
+                          </label>
+                          <FormGroup>
+                            <div className="input-group">
+                              <div className="input-group-prepend">
+                                <span className="input-group-text"> Upload </span>
+                              </div>
+                              <div className="custom-file">
+                                <input
+                                  type="file"
+                                  className="custom-file-input"
+                                  id="exampleFile"
+                                  onChange={this.onChangeFile}
+                                  name="noticeAttachment"
+                                />
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
                               </div>
                             </div>
-                            </div>
-                          );
-                              }
-
-
-                      })}
-                    </div>
-                  </div>
-                )}
-              </Container>
-            </Col>
-          </Row>
-        </div>
-        <Footer />
-      </React.Fragment>
-    );
-
-  }else if(this.userTypes === 'coordinator'){
-    return(
-      <React.Fragment>
-
-      <Snackpop
-          msg={"Successfully Added"}
-          color={"success"}
-          time={3000}
-          status={this.state.succesAlert}
-          closeAlert={this.closeAlert}
-        />
-
-        <Snackpop
-          msg={"Deleted Successfully.."}
-          color={"success"}
-          time={1000}
-          status={this.state.deleteSuccesAlert}
-          closeAlert={this.closeAlert}
-        />
-
-        <Navbar panel={"coordinator"} />
-
-        <div
-          className="container-fluid "
-          style={{  backgroundColor: "#F5F5F5" }}
-        >
-          <Row>
-            <Col>
-              <Container>
-                <div
-                  className="card"
-                  style={{
-                    width: "100%",
-                    margin: "auto",
-                    marginTop: "40px",
-                    marginBottom: "40px",
-                    paddingLeft: "2%",
-                    paddingRight: "2%",
-                  }}
-                >
-                  <div className="container">
-                    <h3 style={{ marginTop: "30px" }}>Creating New Notices</h3>
-
-                    <Row>
-
-                    <Col xs="12">
-                        <div className="form-group pg-dropdown-select">
-                          <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                            <option>Select the project</option>
-                                {activeProjectsList}
-                          </select>          
-                          <p className="reg-error">{this.state.projectIdError}</p>
-                        </div>
-                      
-
-                    </Col>
-                    
-                    </Row>
-
-                    <Row className="margin-top-5">
-                      <Col>
-                        <label className="verticle-align-middle cp-text">
-                          Notice Tittle :{" "}
-                        </label>
-                        <FormControl
-                          type="text"
-                          style={{ width: "100%" }}
-                          placeholder="Notice Tittle"
-                          value={this.state.noticeTittle}
-                          onChange={this.onChangeTittle}
-                          errortext={this.noticeTittleError}
-                          errortext={this.noticeTittleLenthError}
-                        ></FormControl>
-                        <p className="reg-error">{this.state.noticeTittleError}</p>
-                        <p className="reg-error">{this.state.noticeTittleLenthError}</p>
-                      </Col>
-                    </Row>
-
-                    <Row className="margin-top-20">
-                      <Col>
-                        <div className="form-group">
-                          <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                            Notice :
-                          </p>
-                          <textarea
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Notice"
-                            value={this.state.notice}
-                            onChange={this.onChangeNotice}
-                            errortext={this.noticeError}
-                          ></textarea>
-                          <p className="reg-error">{this.state.noticeError}</p>
-                        
-                        </div>
-                      </Col>
-                    </Row>
-
-                    <Row className="margin-top-22">
-                      <Col md={4} >
-                        
-                      <p style={{ textalign: "left", color: " #6d6d6d" }}>
-                      {this.state.viewUserSelect}
-                    </p>
-                   
-                      </Col>
-                     
-                      <Col className="col-padding-5">
-                          <FormControlLabel
-                            className="form-control-label"
-                            control={
-                              <Checkbox
-                                fontSize="5px"
-                                checked={this.state.toSupervisor}
-                                onChange={() => {
-                                  this.setState({
-                                    toSupervisor: !this.state.toSupervisor,
-                                  });
-                                }}
-                                name="checkedB"
-                                color="default"
-                              />
-                            }
-                            label={
-                              <span style={{ fontSize: "12px" }}>
-                                Supervisors
-                              </span>
-                            }
-                          />
-                        
-                      </Col>
-                      <Col className="col-padding-5">
-                        
-                          <FormControlLabel
-                            className="form-control-label"
-                            control={
-                              <Checkbox
-                                fontSize="5px"
-                                checked={this.state.toStudent}
-                                onChange={() => {
-                                  this.setState({
-                                    toStudent: !this.state.toStudent,
-                                  });
-                                }}
-                                name="checkedB"
-                                color="default"
-                              />
-                            }
-                            label={
-                              <span style={{ fontSize: "12px" }}>Studentd</span>
-                            }
-                          />
-                        
-                      </Col>
-
-                      <p className="reg-error">{this.state.viewUserSelectError}</p>
-                    </Row>
-                    <Row className="margin-top-20">
-                      <Col>
-                        <label className="verticle-align-middle cp-text">
-                          File Attach :{" "}
-                        </label>
-                        <FormGroup>
-                          <input
-                            type="file"
-                            name="noticeAttachment"
-                            id="exampleFile"
-                            onChange={this.onChangeFile}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-
-                    <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
-                      <Button
-                        type="submit"
-                        className="cp-btn"
-                        variant="info"
-                        style={{ width: '50%' }}
-                        onClick={this.onSubmit}
-                      >
-                        Add Notice
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
+                        <Button
+                          type="submit"
+                          className="cp-btn btn_style"
+                          variant="info"
+                          style={{ width: '50%' }}
+                          onClick={this.onSubmit}
+                        >
+                          Add Notice
                       </Button>
-                    </Row>
-                  </div>
-                </div>
-
-                {this.state.noticeListBlock.length > 0  && (
-                  <div>
-                    
-                    <div>
-                      {this.state.noticeListBlock.map((types) => {
-                        if(types.userType === 'coordinator'){
-                          return (
-                            <div className="card container " style={{ margin:"0px 0px 20px 0px"}}  key={types._id} >
-                          <div className="crd_style">
-
-                          <Row  className="crd_notice-tittle-div">
-                          <Col md={11} xs={10}>
-                          <p className="crd_notice-name">{types.noticeTittle}</p>
-                          </Col>
-                           <Col className="crd_btn-row" md={1} xs={2}>
-                           <DeleteForeverIcon className="dlt-btn" style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(types._id)} />
-                           </Col>
-                           </Row>
-
-                           <Row className="crd_user-name-div">
-                           <Col md={11} xs={10}>
-                           <p className="crd_notice-date">{types.projectName}&nbsp;&nbsp;{types.date}&nbsp;&nbsp;{types.time}</p>
-                           </Col>
-                           </Row>
-
-                              <div className="card-body">
-                                <h6>{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
-                                  Attachment
-                                </a>
-                              </div>
-                            </div>
-                            </div>
-                           
-                          );
-                              }
-
-
-                      })}
+                      </Row>
                     </div>
                   </div>
-                )}
+                  {this.state.noticeList.length > 0 && (
+                    <div>
 
+                      <div>
+                        {this.state.noticeList.map((type) => {
+                          if (type.userType === 'admin') {
+                            return (
+                              <div className="card container " style={{ margin: "0px 0px 20px 0px" }} key={type._id} >
+                                <div className="crd_style">
+
+                                  <Row className="crd_notice-tittle-div">
+                                    <Col md={11} xs={10}>
+                                      <p className="crd_notice-name">{type.noticeTittle}</p>
+                                    </Col>
+                                    <Col className="crd_btn-row" md={1} xs={2}>
+                                      <DeleteForeverIcon style={{ marginTop: "5px" }} className="del-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} />
+                                    </Col>
+                                  </Row>
+
+                                  <Row className="crd_user-name-div">
+                                    <Col md={11} xs={10}>
+                                      <p className="crd_date">(&nbsp;{type.date}&nbsp;&nbsp;{type.time})</p>
+                                    </Col>
+                                  </Row>
+
+                                  <div className="card-body">
+                                    <h6>{type.notice}</h6>
+                                    <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.noticeAttachment}>
+                                      Attachment
+                                </a>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+
+
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </Container>
-                </Col>
-              </Row>
+              </Col>
+            </Row>
           </div>
           <Footer />
-      </React.Fragment>
+        </React.Fragment>
+      );
 
-    )
-  }else{
-    return(
-      <h2></h2>
-    )
+    } else if (this.userTypes === 'coordinator') {
+      return (
+        <React.Fragment>
+
+          <Snackpop
+            msg={"Successfully Added"}
+            color={"success"}
+            time={3000}
+            status={this.state.succesAlert}
+            closeAlert={this.closeAlert}
+          />
+
+          <Snackpop
+            msg={"Deleted Successfully.."}
+            color={"success"}
+            time={1000}
+            status={this.state.deleteSuccesAlert}
+            closeAlert={this.closeAlert}
+          />
+
+          <Navbar panel={"coordinator"} />
+
+          <div
+            className="container-fluid "
+            style={{ backgroundColor: "#F5F5F5" }}
+          >
+            <Row>
+              <Col>
+                <Container>
+                  <div
+                    className="card"
+                    style={{
+                      width: "100%",
+                      margin: "auto",
+                      marginTop: "40px",
+                      marginBottom: "40px",
+                      paddingLeft: "2%",
+                      paddingRight: "2%",
+                    }}
+                  >
+                    <div className="container">
+                      <h3 style={{ marginTop: "30px" }}>Creating New Notices</h3>
+
+                      <Row>
+
+                        <Col xs="12">
+                          <div className="form-group pg-dropdown-select">
+                            <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                              <option>Select the project</option>
+                              {activeProjectsList}
+                            </select>
+                            <p className="reg-error">{this.state.projectIdError}</p>
+                          </div>
+
+
+                        </Col>
+
+                      </Row>
+
+                      <Row className="margin-top-5">
+                        <Col>
+                          <label className="verticle-align-middle cp-text">
+                            Notice Tittle :{" "}
+                          </label>
+                          <FormControl
+                            type="text"
+                            style={{ width: "100%" }}
+                            placeholder="Notice Tittle"
+                            value={this.state.noticeTittle}
+                            onChange={this.onChangeTittle}
+                            errortext={this.noticeTittleError}
+                            errortext={this.noticeTittleLenthError}
+                          ></FormControl>
+                          <p className="reg-error">{this.state.noticeTittleError}</p>
+                          <p className="reg-error">{this.state.noticeTittleLenthError}</p>
+                        </Col>
+                      </Row>
+
+                      <Row className="margin-top-20">
+                        <Col>
+                          <div className="form-group">
+                            <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                              Notice :
+                          </p>
+                            <textarea
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Notice"
+                              value={this.state.notice}
+                              onChange={this.onChangeNotice}
+                              errortext={this.noticeError}
+                            ></textarea>
+                            <p className="reg-error">{this.state.noticeError}</p>
+
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <Row className="margin-top-22">
+                        <Col md={4} >
+
+                          <p style={{ textalign: "left", color: " #6d6d6d" }}>
+                            {this.state.viewUserSelect}
+                          </p>
+
+                        </Col>
+
+                        <Col className="col-padding-5">
+                          <FormControlLabel
+                            className="form-control-label"
+                            control={
+                              <Checkbox
+                                fontSize="5px"
+                                checked={this.state.toSupervisor}
+                                onChange={() => {
+                                  this.setState({
+                                    toSupervisor: !this.state.toSupervisor,
+                                  });
+                                }}
+                                name="checkedB"
+                                color="default"
+                              />
+                            }
+                            label={
+                              <span style={{ fontSize: "12px" }}>
+                                Supervisors
+                              </span>
+                            }
+                          />
+
+                        </Col>
+                        <Col className="col-padding-5">
+
+                          <FormControlLabel
+                            className="form-control-label"
+                            control={
+                              <Checkbox
+                                fontSize="5px"
+                                checked={this.state.toStudent}
+                                onChange={() => {
+                                  this.setState({
+                                    toStudent: !this.state.toStudent,
+                                  });
+                                }}
+                                name="checkedB"
+                                color="default"
+                              />
+                            }
+                            label={
+                              <span style={{ fontSize: "12px" }}>Studentd</span>
+                            }
+                          />
+
+                        </Col>
+
+                        <p className="reg-error">{this.state.viewUserSelectError}</p>
+                      </Row>
+                      <Row className="margin-top-20">
+                        <Col>
+                          <label className="verticle-align-middle cp-text">
+                            File Attach :{" "}
+                          </label>
+                          <FormGroup>
+                            <input
+                              type="file"
+                              name="noticeAttachment"
+                              id="exampleFile"
+                              onChange={this.onChangeFile}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+
+                      <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
+                        <Button
+                          type="submit"
+                          className="cp-btn"
+                          variant="info"
+                          style={{ width: '50%' }}
+                          onClick={this.onSubmit}
+                        >
+                          Add Notice
+                      </Button>
+                      </Row>
+                    </div>
+                  </div>
+
+                  {this.state.noticeListBlock.length > 0 && (
+                    <div>
+
+                      <div>
+                        {this.state.noticeListBlock.map((types) => {
+                          if (types.userType === 'coordinator') {
+                            return (
+                              <div className="card container " style={{ margin: "0px 0px 20px 0px" }} key={types._id} >
+                                <div className="crd_style">
+
+                                  <Row className="crd_notice-tittle-div">
+                                    <Col md={11} xs={10}>
+                                      <p className="crd_notice-name">{types.noticeTittle}</p>
+                                    </Col>
+                                    <Col className="crd_btn-row" md={1} xs={2}>
+                                      <DeleteForeverIcon className="dlt-btn" style={{ marginTop: "5px" }} className="del-btn" fontSize="large" onClick={() => this.onDeleteHandler(types._id)} />
+                                    </Col>
+                                  </Row>
+
+                                  <Row className="crd_user-name-div">
+                                    <Col md={11} xs={10}>
+                                      <p className="crd_notice-date">{types.projectName}&nbsp;&nbsp;{types.date}&nbsp;&nbsp;{types.time}</p>
+                                    </Col>
+                                  </Row>
+
+                                  <div className="card-body">
+                                    <h6>{types.notice}</h6>
+                                    <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                      Attachment
+                                </a>
+                                  </div>
+                                </div>
+                              </div>
+
+                            );
+                          }
+
+
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                </Container>
+              </Col>
+            </Row>
+          </div>
+          <Footer />
+        </React.Fragment>
+
+      )
+    } else {
+      return (
+        <h2></h2>
+      )
+    }
   }
-  }
-  }
+}
 
 export default Notice;
