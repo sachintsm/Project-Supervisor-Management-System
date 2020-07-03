@@ -24,7 +24,7 @@ class CourseRegistration extends Component {
         return (
             <div>
                 <Navbar panel={"admin"} />
-                <div className="container-fluid course-registration">
+                <div className="container-fluid ">
 
                     <Snackpop
                         msg={this.state.snackbarmsg}
@@ -33,8 +33,12 @@ class CourseRegistration extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
+                    <div className="container course-registration">
+                        <p className="reg-head">User Registration</p>
+                    </div>
+
                 </div>
-        <Footer />
+                <Footer />
 
             </div>
         );

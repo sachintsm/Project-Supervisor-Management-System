@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import { Row, Col } from "reactstrap";
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from './Snackpop';
@@ -106,7 +106,7 @@ export default class Academic extends Component {
     }
     render() {
         return(
-            <div>
+            <div className="user-profile">
             <Snackpop
                 msg={this.state.snackbarmsg}
                 color={this.state.snackbarcolor}

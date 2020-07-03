@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../css/admin/Registration.css";
+import "../../css/admin/Registration.scss";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import Tab from 'react-bootstrap/Tab';
@@ -377,7 +377,7 @@ export default class registration extends Component {
     return (
       <div>
         <Navbar panel={"admin"} />
-        <div className="container-fluid">
+        <div className="container-fluid user-registration">
 
           <Snackpop
             msg={this.state.snackbarmsg}

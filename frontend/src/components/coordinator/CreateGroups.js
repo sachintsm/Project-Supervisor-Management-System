@@ -3,7 +3,7 @@ import Navbar from '../shared/Navbar';
 import { verifyAuth } from "../../utils/Authentication";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../css/coordinator/CreateGroups.css";
+import "../../css/coordinator/CreateGroups.scss";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
@@ -314,7 +314,7 @@ export default class CreateGroups extends Component {
         return (
             <div>
                 <Navbar panel={"coordinator"} />
-                <div className="container-fluid">
+                <div className="container-fluid create-groups">
 
                     <Snackpop
                         msg={this.state.snackbarmsg}
