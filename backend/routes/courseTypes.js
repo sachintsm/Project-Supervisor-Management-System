@@ -5,8 +5,10 @@ const verify = require('../authentication');
 const { json } = require('express');
 
 //? add new course type
-router.post('/add', verify, (req, res) => {
-    console.log(req.body);
+router.post('/add', verify,async (req, res) => {
+    // checking if the course code is already in the database
+    const codeExists = await CourseTypes.findOne({ courseCode: req.body.courseCode.toUpperCase() });
+    if (codeExists) return res.json({ state: false, msg: "This course code already exist..!" })
 
     const newCourse = new CourseTypes({
         courseCode: req.body.courseCode.toUpperCase(),

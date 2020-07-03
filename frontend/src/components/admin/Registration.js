@@ -13,7 +13,9 @@ import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+
 const backendURI = require('../shared/BackendURI');
 
 export default class registration extends Component {
@@ -23,6 +25,7 @@ export default class registration extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.courseChange = this.courseChange.bind(this)
     this.handleImageChange = this.handleImageChange.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
 
@@ -57,6 +60,8 @@ export default class registration extends Component {
 
       csvData: [],
       startDate: new Date(),
+
+      courses: [],
     };
   }
 
@@ -73,8 +78,11 @@ export default class registration extends Component {
     if (!authState) {  //!check user is logged in or not if not re-directed to the login form
       this.props.history.push("/");
     }
+    await axios.get(backendURI.url + '/courseTypes/get')
+      .then(res => {
+        this.setState({ courses: res.data.data })
+      })
   }
-
   //? Bulk user registration function reading csv file
   fileUpload = (e) => {
     e.preventDefault();
@@ -109,6 +117,7 @@ export default class registration extends Component {
                 var birthday = this.state.csvData[i][6];
                 var indexNumber = this.state.csvData[i][7];
                 var regNumber = this.state.csvData[i][8];
+                var courseType = this.state.csvData[i][9];
 
                 var data = {
                   firstName: firstName,
@@ -121,8 +130,9 @@ export default class registration extends Component {
                   birthday: birthday,
                   indexNumber: indexNumber,
                   regNumber: regNumber,
+                  courseType: courseType,
                 }
-
+                
                 await fetch(backendURI.url + "/users/bulkRegister", {
                   method: 'POST',
                   headers: {
@@ -190,7 +200,6 @@ export default class registration extends Component {
   //? user type drop down change
   handleDropdownChange = (e) => {
     const Val = e.target.value
-    console.log(Val)
     if (Val === 'Student') {
       this.setState({
         indexDiv: true
@@ -205,6 +214,19 @@ export default class registration extends Component {
       form: {
         ...prevState.form,
         userType: Val
+      }
+    }))
+  }
+  courseChange = (e) => {
+    const Val = e.target.value
+
+    this.setState({
+      indexDiv: true
+    })
+    this.setState(prevState => ({
+      form: {
+        ...prevState.form,
+        courseType: Val
       }
     }))
   }
@@ -245,13 +267,13 @@ export default class registration extends Component {
       isError = true;
       errors.mobileNumberError = 'Invalied mobile number!'
     }
-    if (this.state.form.userType.length === 0) {
+    if (this.state.form.userType === '') {
       isError = true;
       errors.userTypeError = 'User type must be specified *'
     }
     if (this.state.form.courseType === '' && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
       isError = true
-      errors.courseTypeError = 'Student course must be specified!'
+      errors.courseTypeError = 'Student course must be specified *'
     }
     if (this.state.form.indexNumber.length === 0 && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
       isError = true;
@@ -309,7 +331,7 @@ export default class registration extends Component {
               formData.append('mobileNumber', this.state.form.mobileNumber);
               formData.append('indexNumber', this.state.form.indexNumber)
               formData.append('regNumber', this.state.form.regNumber)
-              formData.append('couserType', this.state.form.courseType)
+              formData.append('courseType', this.state.form.courseType)
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);
 
@@ -358,7 +380,6 @@ export default class registration extends Component {
         ]
       })
     }
-
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -563,7 +584,7 @@ export default class registration extends Component {
                                 </div>
                               </div>
                             </Col>
-                            {indexDiv && (
+                            {indexDiv === true && (
                               <Col md={4} xs="12">
                                 <div className="form-group">
                                   <label className="text-label">Index Number : </label>
@@ -575,7 +596,7 @@ export default class registration extends Component {
                                 </div>
                               </Col>
                             )}
-                            {indexDiv && (
+                            {indexDiv === true && (
                               <Col md={4} xs="12">
                                 <div className="form-group">
                                   <label className="text-label">Registration Number : </label>
@@ -587,19 +608,23 @@ export default class registration extends Component {
                                 </div>
                               </Col>
                             )}
-                            {indexDiv && (
+                            {indexDiv === true && (
                               <Col md={4} xs="12">
                                 <div className="form-group">
-                                  <label className="text-label">Usertype : </label>
+                                  <label className="text-label">Course : </label>
                                   <div className="form-group">
-                                    <select className="form-control" id="dropdown" value={form.courseType} onChange={this.handleDropdownChange}>
-                                      <option>Select User Type</option>
-                                      <option value="Student"></option>
-                                      <option value="Staff">Staff</option>
-                                      <option value="Admin">Administrator</option>
+                                    <select className="form-control" id="dropdown" value={form.courseType} onChange={this.courseChange}>
+                                      <option>Select Course</option>
+                                      {this.state.courses.map((data) => {
+                                        return (
+                                          <option value={data.courseCode} key={data._id}>{data.courseName}</option>
+                                        )
+                                      })}
                                     </select>
-                                    <p className="reg-error">{this.state.userTypeError}</p>
-                                    <Link to="/adminhome/registration/course">Course Registration</Link>
+                                    <p className="reg-error">{this.state.courseTypeError}</p>
+                                    <span className="course-reg">
+                                      <Link to="/adminhome/registration/course">Course Registration</Link>
+                                    </span>
                                   </div>
                                 </div>
                               </Col>

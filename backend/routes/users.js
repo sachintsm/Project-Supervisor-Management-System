@@ -44,7 +44,19 @@ router.post("/register", verify, async function (req, res) {
 
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
-    if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
+    if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
+    if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
+    if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
+    if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
 
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
@@ -74,6 +86,9 @@ router.post("/register", verify, async function (req, res) {
 
     var fullPath = time + '-' + req.file.originalname;
 
+    console.log(req.body.courseType);
+    console.log(req.body.mobileNumber);
+
     //create a new user
     const newUser = new User({
       firstName: req.body.firstName,
@@ -85,7 +100,7 @@ router.post("/register", verify, async function (req, res) {
       mobile: req.body.mobileNumber,
       indexNumber: req.body.indexNumber.toLowerCase(),
       regNumber: req.body.regNumber.toLowerCase(),
-      courseType : req.body.courseType,
+      courseType: req.body.courseType,
       imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
@@ -163,7 +178,7 @@ router.post('/bulkRegister', async (req, res, next) => {
     mobile: req.body.mobileNumber,
     indexNumber: req.body.indexNumber.toLowerCase(),
     regNumber: req.body.regNumber.toLowerCase(),
-    courseType : req.body.courseType,
+    courseType: req.body.courseType.toUpperCase(),
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -483,7 +498,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
     console.log("true")
     var p = userIdExists.imageName;
     console.log(p);
-    
+
 
     upload(req, res, (err) = async () => {
       let ts = Date.now();
@@ -698,9 +713,9 @@ router.post('/check', async (req, res) => {
           res.json({ state: true, msg: "You can request..." });
         }
 
-    }else{
-          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
-    }
+      } else {
+        res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+      }
 
     })
     .catch(err => {
@@ -822,7 +837,7 @@ router.get('/getUser/:id', async (req, res) => {
 //? (MesasageContainer.js)
 router.get('/getUserImage/:id', async (req, res) => {
   const id = req.params.id
-  
+
   User.find({ _id: id })
     .select('imageName')
     .exec()
