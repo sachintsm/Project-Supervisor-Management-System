@@ -40,13 +40,14 @@ export default class Index extends Component{
                     {this.props.index}
                 </a>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Details</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>Students' Information</ModalHeader>
                     <ModalBody>
                         <div className="container">
-                            <img src={this.props.image}></img><br/>
-                            Name : {this.state.firstName} {this.state.lastName}<br/>
-                            Category : {this.state.cat}<br/>
-                            Email : {this.state.email}<br/>
+                            <img src={this.props.image}></img><br/><br/>
+                            Name : {this.state.firstName} {this.state.lastName}<br/><br/>
+                            Course Infomation : {this.state.cat}<br/><br/>
+                            Registration Number : {this.state.regNumber}<br/><br/>
+                            Email : {this.state.email}<br/><br/>
                         </div>
                     </ModalBody>
                 </Modal>
