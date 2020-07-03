@@ -239,4 +239,20 @@
         float: right;
         margin-top: -28px;
     }
+    .testimonial-card {
+        width: 250px;
+        height: 350px;
+    }
+    .card-body1 {
+        height: 120px;
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+    .avatar {
+        vertical-align: middle;
+        /* width: 110px; */
+         height: 350px; 
+        border-radius: 50%;
+    }
 }
