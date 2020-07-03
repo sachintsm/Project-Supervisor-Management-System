@@ -11,6 +11,37 @@ import '../../css/students/ReqSupervisor.css';
 
 const backendURI = require('../shared/BackendURI');
 
+
+function ProjectModal(props) {
+    const { hide,re,...rest } = props
+    return (
+    
+        <Modal responsive="true"
+            {...rest}
+            size="md"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+                    
+            <Modal.Header >
+            <Modal.Title id="contained-modal-title-vcenter">
+                 Projects
+            </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <h5></h5>
+            <form >
+                <textarea className="area" value={re.projectType} readOnly/>
+            </form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={hide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
+
+    );
+  }
+
 function CenteredModal(props) {
     const { hide,des,desH,re,...rest } = props
     return (
@@ -49,7 +80,15 @@ const Staff = React.memo( props =>(
             <tr>
                 <td>{props.staff.firstName} {props.staff.lastName}</td>
                 <td>{props.staff.email}</td>
-                <td>{props.staff.mobile}</td>
+                <td><ButtonToolbar>
+                <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.view(props.staff._id)} >Projects</Button> 
+                <ProjectModal
+                show={props.stat2}
+                hide={props.hiden2}
+                re={props.result}
+                />
+                </ButtonToolbar>
+                </td>
                 <td><ButtonToolbar>
                 <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.staff._id)} >Request</Button> 
                 <CenteredModal
@@ -77,11 +116,13 @@ export default class Profile extends Component {
             isSupervisor: '',
             search: '',
             userS: [],
+            pro:[],
             project: props.location.state.projectDetails,
             snackbaropen: false,
             snackbarmsg: ' ',
             snackbarcolor: '',
             show:false,
+            show2:false,
             sId:'',
             descript:'',
             dis:false
@@ -92,16 +133,23 @@ export default class Profile extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.requestSup = this.requestSup.bind(this);
         this.reqSend = this.reqSend.bind(this);
+        this.viewPro = this.viewPro.bind(this);
     } 
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
     showModal = () => {
         this.setState({show: true});
-      };
+    };
+    showModal2 = () => {
+        this.setState({show2: true});
+    };
     
     hideModal = () => {
         this.setState({ show: false,descript:'' });
+    };
+    hideModal2 = () => {
+        this.setState({ show2: false});
     };
 
     async componentDidMount() {
@@ -109,7 +157,6 @@ export default class Profile extends Component {
         this.setState({ authState: authState });
 
         axios.get(backendURI.url + '/users/getSup/' + this.state.project._id)
-       //axios.get(backendURI.url + "/users/get")
             .then(response => {
                 console.log(response.data.data);
 
@@ -144,10 +191,9 @@ export default class Profile extends Component {
         );
 
         return filteredUsers.map((currentStaff, i) => {
-            console.log(i);
            // if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
-                return <Staff request={this.requestSup} send={this.reqSend} hiden={this.hideModal} 
-                desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} dis={this.state.dis} staff={currentStaff} key={i} />;
+                return <Staff request={this.requestSup} send={this.reqSend} view={this.viewPro} result={this.state.pro} hiden={this.hideModal} hiden2={this.hideModal2} 
+                desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} stat2={this.state.show2} dis={this.state.dis}  staff={currentStaff} key={i} />;
            // }
         })
 
@@ -187,6 +233,34 @@ export default class Profile extends Component {
                         snackbarmsg:'Something went wrong',
                         snackbarcolor: 'error',
                     })
+                    })
+        
+    }
+    viewPro(sup){
+        const userData = getFromStorage('auth-id')
+        console.log(sup);
+        
+        axios.get(backendURI.url + "/users/getSupPro/"+sup)
+                    .then(res => {
+                        console.log(res.data.data);
+                        if(res.data.state==true){
+                            this.setState({
+                                pro:res.data.data
+                            })
+                            this.showModal2();
+                        }
+                        else{
+                            this.setState({
+                                snackbaropen: true,
+                                snackbarmsg:res.data.msg,
+                                snackbarcolor: 'error',
+                            })
+                            
+                        }
+                            
+                    })
+                    .catch((error) => {
+                    console.log(error);
                     })
         
     }
@@ -284,7 +358,7 @@ export default class Profile extends Component {
                                                             <tr>
                                                                 <th>Name</th>
                                                                 <th>Email</th>
-                                                                <th>Mobile</th>
+                                                                <th>View Projects</th>
                                                                 <th>Request</th>
                                                             </tr>
                                                         </thead>
