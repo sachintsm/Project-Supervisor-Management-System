@@ -13,7 +13,7 @@ import Footer from '../shared/Footer'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
-
+import {Link} from 'react-router-dom'
 const backendURI = require('../shared/BackendURI');
 
 export default class registration extends Component {
@@ -41,6 +41,7 @@ export default class registration extends Component {
         regNumber: '',
         indexDiv: true,
         imgName: '',
+        courseType: '',
       },
 
       //!decalaring error state variables
@@ -52,6 +53,7 @@ export default class registration extends Component {
       mobileNumberError: '',
       indexNumberError: '',
       regNumberError: '',
+      courseTypeError: '',
 
       csvData: [],
       startDate: new Date(),
@@ -218,7 +220,8 @@ export default class registration extends Component {
       nicError: '',
       mobileNumberError: '',
       indexNumber: '',
-      regNumber: ''
+      regNumber: '',
+      courseType: '',
     };
 
     if (this.state.form.firstName.length < 1) {
@@ -245,6 +248,10 @@ export default class registration extends Component {
     if (this.state.form.userType.length === 0) {
       isError = true;
       errors.userTypeError = 'User type must be specified *'
+    }
+    if (this.state.form.courseType === '' && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
+      isError = true
+      errors.courseTypeError = 'Student course must be specified!'
     }
     if (this.state.form.indexNumber.length === 0 && this.state.form.userType !== 'Admin' && this.state.form.userType !== 'Staff') {
       isError = true;
@@ -276,7 +283,8 @@ export default class registration extends Component {
         nicError: '',
         mobileNumberError: '',
         indexNumberError: '',
-        regNumberError: ''
+        regNumberError: '',
+        courseTypeError: '',
       })
 
       confirmAlert({
@@ -301,7 +309,7 @@ export default class registration extends Component {
               formData.append('mobileNumber', this.state.form.mobileNumber);
               formData.append('indexNumber', this.state.form.indexNumber)
               formData.append('regNumber', this.state.form.regNumber)
-
+              formData.append('couserType', this.state.form.courseType)
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);
 
@@ -576,6 +584,23 @@ export default class registration extends Component {
                                   ></input>
                                   <p className="reg-error">{this.state.regNumberError}</p>
 
+                                </div>
+                              </Col>
+                            )}
+                            {indexDiv && (
+                              <Col md={4} xs="12">
+                                <div className="form-group">
+                                  <label className="text-label">Usertype : </label>
+                                  <div className="form-group">
+                                    <select className="form-control" id="dropdown" value={form.courseType} onChange={this.handleDropdownChange}>
+                                      <option>Select User Type</option>
+                                      <option value="Student"></option>
+                                      <option value="Staff">Staff</option>
+                                      <option value="Admin">Administrator</option>
+                                    </select>
+                                    <p className="reg-error">{this.state.userTypeError}</p>
+                                    <Link to="/adminhome/registration/course">Course Registration</Link>
+                                  </div>
                                 </div>
                               </Col>
                             )}
