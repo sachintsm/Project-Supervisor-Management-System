@@ -138,12 +138,11 @@ export default class Profilepic extends Component {
                     <div className="card-body1">
                     {this.state.mulImage === '' ? 
                         (<img src={require('../../assets/images/default.jpg')}
-                        className="avatar" style={{ width: "100%", padding: "10px" }} />
+                        className="avatar" style={{  padding: "10px" }} />
                         ): (<img src={("http://localhost:4000/users/profileImage/" + this.state.mulImage)}
-                        className="avatar" style={{ width: "100%", padding: "10px" }} />
+                        className="avatar" style={{ padding: "10px" }} />
                         )
                     }   <br></br>
-                        <h3 className="card-title" style={{ color: 'white', marginLeft: "10px" }}>{this.state.username}</h3>
                     </div>
                 </div>
                 <div className="testimonial-card1">
