@@ -3,6 +3,8 @@ import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import Footer from '../shared/Footer';
 import '../../css/students/ViewMeeting.css';
+import { Row, Col } from 'reactstrap';
+
 import {
   Input,
   Label,
@@ -14,60 +16,23 @@ import {
 import RequestMeeting from "./RequestMeeting";
 import { Card, CardDeck } from 'react-bootstrap';
 import axios from 'axios';
+import ViewMeetBlock from "./ViewMeetBlock";
 const backendURI = require('../shared/BackendURI');
 
+class meetBlock {
+  constructor(id, purpose, date, time, supervisor) {
+    this.id = id;
+    this.purpose = purpose;
+    this.date = date;
+    this.time = time;
+    this.supervisor = supervisor;
 
-
-
-const ViewMeetings = props => (
-  
-  <div>
-
-    <div className="col-md-12 col-xs-12" style={{ marginBottom: "20px" }}>
-      <Card bg="light" text="black" className="col-md-12 col-xs-12 card text-center vmb-req-meeting-card" style={{ marginTop: "0px", marginBottom: "0px" }}>
-        <div className="overflow">
-          {/* <Card.Img variant="top" height="240" src={!props.signupcustomer.businessImg ? company :props.signupcustomer.businessImg} alt="" className="card-img-top" /> */}
-        </div>
-        {/* <Card.Header><center>Are you from around {props.viewmeetings.signup_city}?</center></Card.Header> */}
-        <Card.Body>
-
-          {/* <center>
-              <h1>
-                  <StarRatingComponent 
-                      name="rate1" 
-                      starCount={5}
-                      value={props.signupcustomer.sumRate/props.signupcustomer.rateTime}
-                  />
-              </h1>
-          </center>   */}
-          {/* <Card.Title><center>{props.viewmeetings.signup_company}</center></Card.Title> */}
-          <Card.Text >
-            Purpose : {props.viewmeetings.purpose} <br />
-              Date : {props.viewmeetings.date}<br />
-              Time : {props.viewmeetings.time}<br />
-              Supervisor : {props.viewsuperna}<br />
-          </Card.Text>
-          {/* <center><Link to={"/customer/more/"+props.signupcustomer._id}>Visit More</Link></center> */}
-
-        </Card.Body>
-      </Card>
-    </div>
-  </div>
-)
-
-
-// import ViewProjects from "./ViewProjects";
+  }
+}
 
 
 class ViewMeeting extends Component {
-  //   componentDidMount = async () => {
-  //     localStorage.setItem("user-level","student")
 
-  //     const authState = await verifyAuth();
-  //     this.setState({ authState: authState });
-  //     if (!authState || !localStorage.getItem("isStudent"))
-  //       this.props.history.push("/");
-  //   };
   constructor(props) {
     super(props);
     this.state = {
@@ -75,6 +40,8 @@ class ViewMeeting extends Component {
       project: props.location.state.projectDetails,
       group: props.location.state.groupDetails,
       superNa: [],
+      meetB: [],
+      viewMeetDiv: false,
 
     };
 
@@ -98,66 +65,64 @@ class ViewMeeting extends Component {
       await axios.get(backendURI.url + '/users/getUserName/' + this.state.meetings[i].supervisor)
         .then(res => {
           console.log(res.data.data);
+          const data = {
+            superName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
+            id: res.data.data[0]._id
+          }
 
-          var superName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
           this.setState({
-              superNa:  [...this.state.superNa, superName],
+            superNa: [...this.state.superNa, data],
           })
         })
-        console.log(this.state.superNa);
-        
+      console.log(this.state.superNa);
+
+      var block = new meetBlock(
+        this.state.meetings[i]._id,
+        this.state.meetings[i].purpose,
+        this.state.meetings[i].date,
+        this.state.meetings[i].time,
+        this.state.superNa[i].superName,
+
+      )
+      this.setState({
+        meetB: [...this.state.meetB, block],
+      })
 
     }
-
-
-
-  }
-
-  UserList() {
-
-    console.log(this.state.meetings);
-    return this.state.meetings.map(function (currentViewMeetings,i) {
-
-      return <ViewMeetings viewmeetings={currentViewMeetings}  key={i} />;
-
+    console.log(this.state.meetB);
+    this.setState({
+      viewMeetDiv: true,
     })
 
 
+
   }
-  // UserList() {
-
-  //   console.log(this.state.meetings);
-  //   return this.state.superNa.map(function ( currentviewsuperna,i) {
-
-  //     return <ViewMeetings  viewsuperna={currentviewsuperna} key={i} />;
-
-  //   })
-
-
-  // }
 
   render() {
+
+    const { viewMeetDiv } = this.state
     return (
       <React.Fragment>
-
         <Navbar panel={"student"} />
-        {/* <ViewProjects/> */}
         <div className="container">
-
           <div className="form-group">
             <RequestMeeting project={this.state.project} group={this.state.group} />
           </div>
           <div className="row">
             <div className="col-md-12">
-
-              <CardDeck>
-                {this.UserList()}
-              </CardDeck>
+              <Col md={12} xs={12} sm={12} >
+                <Row>
+                  <Col md={12} xs={12} sm={12}>
+                  </Col>
+                  {viewMeetDiv &&
+                    <ViewMeetBlock data={this.state.meetB} />
+                  }
+                </Row>
+              </Col>
             </div>
           </div>
         </div>
         <Footer />
-
       </React.Fragment>
     );
   }
