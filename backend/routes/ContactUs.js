@@ -24,6 +24,7 @@ router.post('/add', (req, res) => {
       contactNumber: req.body.contactNumber,
       email: req.body.email,
       message: req.body.message,
+    //   messageState : true
     })
 
     newContactUs.save()
