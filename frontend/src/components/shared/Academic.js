@@ -3,7 +3,7 @@ import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import { Row, Col } from "reactstrap";
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from './Snackpop';

@@ -3,7 +3,7 @@ import Navbar from '../shared/Navbar';
 import { verifyAuth } from "../../utils/Authentication";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
-import "../../css/coordinator/CreateGroups.css";
+import "../../css/coordinator/CreateGroups.scss";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { getFromStorage } from '../../utils/Storage';
@@ -109,7 +109,7 @@ export default class CreateGroups extends Component {
                                 while (this.state.csvData[i][j] != null) {
                                     this.state.grpMembers.push(this.state.csvData[i][j])
                                     console.log(this.state.csvData[i][j]);
-                                    j++;
+                                    j++;    
                                 }
                                 var data = {
                                     projectId: this.state.projectId,
@@ -314,7 +314,7 @@ export default class CreateGroups extends Component {
         return (
             <div>
                 <Navbar panel={"coordinator"} />
-                <div className="container-fluid">
+                <div className="container-fluid create-groups">
 
                     <Snackpop
                         msg={this.state.snackbarmsg}
@@ -337,9 +337,6 @@ export default class CreateGroups extends Component {
                                 <div >
                                     <p className="reg-head">Group Registration</p>
                                     <Tabs className="tab" defaultActiveKey="bulk" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
-
-
-
                                         <Tab eventKey="bulk" title="Bulk Registration">
                                             <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                                                 <Row>

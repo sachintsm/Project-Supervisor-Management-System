@@ -44,7 +44,19 @@ router.post("/register", verify, async function (req, res) {
 
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
-    if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
+    if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
+    if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
+    if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
+    if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
 
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
@@ -74,6 +86,9 @@ router.post("/register", verify, async function (req, res) {
 
     var fullPath = time + '-' + req.file.originalname;
 
+    console.log(req.body.courseType);
+    console.log(req.body.mobileNumber);
+
     //create a new user
     const newUser = new User({
       firstName: req.body.firstName,
@@ -85,6 +100,7 @@ router.post("/register", verify, async function (req, res) {
       mobile: req.body.mobileNumber,
       indexNumber: req.body.indexNumber.toLowerCase(),
       regNumber: req.body.regNumber.toLowerCase(),
+      courseType: req.body.courseType,
       imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
@@ -162,6 +178,7 @@ router.post('/bulkRegister', async (req, res, next) => {
     mobile: req.body.mobileNumber,
     indexNumber: req.body.indexNumber.toLowerCase(),
     regNumber: req.body.regNumber.toLowerCase(),
+    courseType: req.body.courseType.toUpperCase(),
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -701,7 +718,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
     console.log("true")
     var p = userIdExists.imageName;
     console.log(p);
-    
+
 
     upload(req, res, (err) = async () => {
       let ts = Date.now();
@@ -749,61 +766,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
   }
 
 });
-/*
-////update user profile pic
-router.post('/uploadmulter/:id', async function (req, res) {
-  let id = req.params.id;
-  console.log(id);
 
-  const userIdExists = await User.findOne({ _id: id });
-  console.log(userIdExists);
-  if (userIdExists) {
-    console.log("true")
-    var p = userIdExists.imageName;
-    console.log(p);
-    
-
-    upload(req, res, (err) = async () => {
-      let ts = Date.now();
-      let date_ob = new Date(ts);
-      const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
-
-      var fullPath = time + '-' + req.file.originalname;
-      console.log(fullPath);
-
-      User.findById({ _id: id }, function (err, user) {
-        if (err) {
-          res.status(404).send("data is not found");
-        }
-        else {
-          user.imageName = fullPath
-          user.save()
-            .then((req) => {
-              res.json({
-                state: true,
-                msg: "Update profile picture!",
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.json({
-                state: false,
-                msg: "Update Unsuccessfull..!",
-              });
-            });
-        }
-      })
-
-    })
-    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-      if (err) throw err;
-      // if no error, file has been deleted successfully
-      console.log('File deleted!');
-    });
-  }
-
-});
-*/ 
 //reset password using profile
 router.post('/reset/:id', function (req, res) {
   const oldPassword = req.body.currentPw
@@ -907,8 +870,6 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
 })
 
 
-
-
 //get user by id
 
 router.get('/getUser/:id', async (req, res) => {
@@ -931,7 +892,7 @@ router.get('/getUser/:id', async (req, res) => {
 //? (MesasageContainer.js)
 router.get('/getUserImage/:id', async (req, res) => {
   const id = req.params.id
-  
+
   User.find({ _id: id })
     .select('imageName')
     .exec()
