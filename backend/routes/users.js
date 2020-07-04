@@ -44,7 +44,19 @@ router.post("/register", verify, async function (req, res) {
 
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
-    if (userEmailExists) return res.json({ state: false, msg: "This userId already in use..!" })
+    if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
+    if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
+    if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+
+    // checking if the NIC is already in the database
+    const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
+    if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
 
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
@@ -74,6 +86,9 @@ router.post("/register", verify, async function (req, res) {
 
     var fullPath = time + '-' + req.file.originalname;
 
+    console.log(req.body.courseType);
+    console.log(req.body.mobileNumber);
+
     //create a new user
     const newUser = new User({
       firstName: req.body.firstName,
@@ -85,7 +100,7 @@ router.post("/register", verify, async function (req, res) {
       mobile: req.body.mobileNumber,
       indexNumber: req.body.indexNumber.toLowerCase(),
       regNumber: req.body.regNumber.toLowerCase(),
-      courseType : req.body.courseType,
+      courseType: req.body.courseType,
       imageName: fullPath,
       isStudent: student,
       isAdmin: admin,
@@ -163,7 +178,7 @@ router.post('/bulkRegister', async (req, res, next) => {
     mobile: req.body.mobileNumber,
     indexNumber: req.body.indexNumber.toLowerCase(),
     regNumber: req.body.regNumber.toLowerCase(),
-    courseType : req.body.courseType,
+    courseType: req.body.courseType.toUpperCase(),
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -417,238 +432,67 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-//update user profile 
-router.post('/update/:id', function (req, res) {
-  let id = req.params.id;
-  User.findById({ _id: id }, function (err, user) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      user.email = req.body.email;
-      user.mobile = req.body.mobile;
-
-      user.save().then(user => {
-        res.json({ state: true, msg: 'Update Complete' });
-      })
-        .catch(err => {
-          res.status(400).send("unable to update database");
-        });
-    }
-  });
-});
-
-//update user profile by admin
-
-router.post('/updateUser/:id', function (req, res) {
-  let id = req.params.id;
-  User.findById({ _id: id }, function (err, user) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
-      user.email = req.body.email;
-      user.nic = req.body.nic;
-      user.mobile = req.body.mobile;
-
-      user.save().then(user => {
-        res.json({ state: true, msg: 'Update Complete' });
-      })
-        .catch(err => {
-          res.status(400).send("unable to update database");
-        });
-    }
-  });
-});
-
-////////////////get user profile pic
-router.get("/profileImage/:filename", function (req, res) {
-  console.log(req.params.filename)
-  const filename = req.params.filename;
-  console.log(filename)
-  res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
-
-});
-
-
-
-////update user profile pic
-router.post('/uploadmulter/:id', async function (req, res) {
+///////// get project list for supervisor profile
+router.get('/getSupPro/:id', async(req, res)=> {
   let id = req.params.id;
   console.log(id);
-
-  const userIdExists = await User.findOne({ _id: id });
-  console.log(userIdExists);
-  if (userIdExists) {
-    console.log("true")
-    var p = userIdExists.imageName;
-    console.log(p);
-    
-
-    upload(req, res, (err) = async () => {
-      let ts = Date.now();
-      let date_ob = new Date(ts);
-      const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
-
-      var fullPath = time + '-' + req.file.originalname;
-      console.log(fullPath);
-
-      User.findById({ _id: id }, function (err, user) {
-        if (err) {
-          res.status(404).send("data is not found");
-        }
-        else {
-          user.imageName = fullPath
-          user.save()
-            .then((req) => {
-              res.json({
-                state: true,
-                msg: "Update profile picture!",
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.json({
-                state: false,
-                msg: "Update Unsuccessfull..!",
-              });
-            });
-        }
-      })
-
-    })
-    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-      if (err) throw err;
-      // if no error, file has been deleted successfully
-      console.log('File deleted!');
-    });
-  }
-
-});
-
-//reset password using profile
-router.post('/reset/:id', function (req, res) {
-  const oldPassword = req.body.currentPw
-  var newPassword = req.body.newPw
-  let id = req.params.id;
-  User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
-    if (err) throw err;
-    bcrypt.compare(oldPassword, user.password, function (err, match) {  //check the old password with database password
-      if (err) {
-        throw err;
-      }
-      if (match) {    //if userid and password mached
-        console.log("Userid and Password match...!");
-        bcrypt.genSalt(10, function (err, salt) {
-          bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
-            newPassword = hash;
-            if (err) {
-              throw err;
-            }
-            else {
-              User.update({ _id: id }, {   //save the new password to the database
-                $set: {
-                  password: newPassword
-                }
-              })
-                .exec()
-                .then(data => {
-                  console.log("Data Update Success..!")
-                  res.json({ state: true, msg: "Data Update Success..!" });
-
-                })
-                .catch(error => {
-                  console.log("Data Updating Unsuccessfull..!")
-                  res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
-                })
-            }
-          });
-        });
-      }
-      else {
-        res.json({
-          state: false,
-          msg: "Password Incorrect..!"
-        });
-      }
-    });
-  });
-})
-///// update no of projects
-
-router.post('/academic/:id', function (req, res) {
-  let id = req.params.id;
-  console.log(id);
-  User.findById({ _id: id }, function (err, user) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      console.log(req.body.pro);
-      user.noProject = req.body.pro;
-
-      user.save().then(user => {
-        res.json({ state: true, msg: 'Update Complete', data: user.noProject });
-
-      })
-        .catch(err => {
-          res.status(400).send("unable to update database");
-        });
-    }
-  });
-});
-//? check student available or not
-router.get('/student/:id', verify, async (req, res) => {
-  const index = req.params.id;
-  const ifExist = await User.findOne({ indexNumber: index });
-  if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
-  else return res.json({ state: true })
-})
-
-//? update isSupervisor -> true , when assigne supervisors to the prjectcts
-router.get('/updateSupervisor/:id', (req, res) => {
-  const id = req.params.id
-  User.find({ _id: id })
-    .update({ isSupervisor: true })
+  Projects
+    .find({supervisorList:id })
     .exec()
     .then(data => {
-      res.json({ state: true, msg: 'Data successfully updated..!' })
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
     })
-    .catch(err => {
-      res.send({ state: false, msg: err.message })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "No projects" });
     })
-})
 
-//get student index from student userID
-router.get('/studentindex/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const index = await User.find({ _id: id }).select('indexNumber');
-    res.send(index)
-  }
-  catch (err) {
-    console.log(err)
-  }
-})
+});
+//////////////////////////////////////request////////////////////////////////////////////////////////////////////
+//////////////get request list for supervisor panel
+router.get('/getSupReq/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request
+    .find({supId:id })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
 
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 
-//get all group members by userId of one student
-router.post("/getgroupmembers/:id", async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const projectId = req.body.projectId;
-    const result = await User.findOne({ _id: userId }).select('indexNumber');
-    const index = result.indexNumber
+});
+//////////update request state whether accept or reject
+router.post('/updateReqState/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      request.state = req.body.state;
 
-    const group = await CreateGroups.findOne({ projectId: projectId, groupMembers: index }).select("groupMembers")
-    res.send(group.groupMembers)
+      request.save().then(user => {
+        if(req.body.state=== 'accept'){
+           res.json({ state: true, msg: 'You accept this group' });
+        }else{
+           res.json({ state: true, msg: 'You reject this group' });
+        }
+      })
+        .catch(err => {
+          res.status(400).send("unable to accept");
+        });
+    }
+  });
 
-  }
-  catch (e) {
-    console.log(e)
-  }
-})
-
-
+});
 ////////check supervisor request/////////////////////
 router.post('/check', async (req, res) => {
   let ts = Date.now();
@@ -722,8 +566,16 @@ router.post('/add', async (req, res) => {
   const index = result.indexNumber
   console.log(index);
 
-  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id}).select("groupId")
   console.log(group.groupId);
+
+  const Year = await Projects.findOne({_id: req.body.project_id}).select("projectYear")
+  console.log(Year);
+  const Type = await Projects.findOne({_id: req.body.project_id}).select("projectType")
+  
+  const Academic = await Projects.findOne({_id: req.body.project_id}).select("academicYear")
+  
+
 
   //create a new request
   const newReq = new Request({
@@ -733,9 +585,10 @@ router.post('/add', async (req, res) => {
     reqDate: dateString,
     groupId: group.groupId,
     projectId: req.body.project_id,
-    description: req.body.descript
-
-
+    description: req.body.descript,
+    projectYear:Year.projectYear,
+    projectType:Type.projectType,
+    academicYear:Academic.academicYear
   });
 
   newReq.save()
@@ -783,7 +636,6 @@ router.get('/getSup/:id', async (req, res) => {
               else {
                 console.log("no");
               }
-              //res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
             })
             .catch(error => {
               res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
@@ -799,6 +651,224 @@ router.get('/getSup/:id', async (req, res) => {
     })
 
 })
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//update user profile by user
+router.post('/update/:id', function (req, res) {
+  let id = req.params.id;
+  User.findById({ _id: id }, function (err, user) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      user.email = req.body.email;
+      user.mobile = req.body.mobile;
+
+      user.save().then(user => {
+        res.json({ state: true, msg: 'Update Complete' });
+      })
+        .catch(err => {
+          res.status(400).send("unable to update database");
+        });
+    }
+  });
+});
+
+//update user profile by admin
+
+router.post('/updateUser/:id', function (req, res) {
+  let id = req.params.id;
+  User.findById({ _id: id }, function (err, user) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.email = req.body.email;
+      user.nic = req.body.nic;
+      user.mobile = req.body.mobile;
+
+      user.save().then(user => {
+        res.json({ state: true, msg: 'Update Complete' });
+      })
+        .catch(err => {
+          res.status(400).send("unable to update database");
+        });
+    }
+  });
+});
+
+////////////////get user profile pic
+router.get("/profileImage/:filename", function (req, res) {
+  console.log(req.params.filename)
+  const filename = req.params.filename;
+  console.log(filename)
+  res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
+
+});
+
+
+
+////update user profile pic
+router.post('/uploadmulter/:id', async function (req, res) {
+  let id = req.params.id;
+  console.log(id);
+
+  const userIdExists = await User.findOne({ _id: id });
+  console.log(userIdExists);
+  if (userIdExists) {
+    console.log("true")
+    var p = userIdExists.imageName;
+    console.log(p);
+
+
+    upload(req, res, (err) = async () => {
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+
+      var fullPath = time + '-' + req.file.originalname;
+      console.log(fullPath);
+
+      User.findById({ _id: id }, function (err, user) {
+        if (err) {
+          res.status(404).send("data is not found");
+        }
+        else {
+          user.imageName = fullPath
+          user.save()
+            .then((req) => {
+              res.json({
+                state: true,
+                msg: "Update profile picture!",
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.json({
+                state: false,
+                msg: "Update Unsuccessfull..!",
+              });
+            });
+        }
+      })
+
+    })
+    if(p === ''){
+      console.log('No Image to delete');
+   
+  }
+  else{
+    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+    });
+  }
+  }
+
+});
+
+//reset password using profile
+router.post('/reset/:id', function (req, res) {
+  const oldPassword = req.body.currentPw
+  var newPassword = req.body.newPw
+  let id = req.params.id;
+  User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
+    if (err) throw err;
+    bcrypt.compare(oldPassword, user.password, function (err, match) {  //check the old password with database password
+      if (err) {
+        throw err;
+      }
+      if (match) {    //if userid and password mached
+        console.log("Userid and Password match...!");
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
+            newPassword = hash;
+            if (err) {
+              throw err;
+            }
+            else {
+              User.update({ _id: id }, {   //save the new password to the database
+                $set: {
+                  password: newPassword
+                }
+              })
+                .exec()
+                .then(data => {
+                  console.log("Data Update Success..!")
+                  res.json({ state: true, msg: "Data Update Success..!" });
+
+                })
+                .catch(error => {
+                  console.log("Data Updating Unsuccessfull..!")
+                  res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
+                })
+            }
+          });
+        });
+      }
+      else {
+        res.json({
+          state: false,
+          msg: "Password Incorrect..!"
+        });
+      }
+    });
+  });
+})
+
+
+//? check student available or not
+router.get('/student/:id', verify, async (req, res) => {
+  const index = req.params.id;
+  const ifExist = await User.findOne({ indexNumber: index });
+  if (!ifExist) return res.json({ state: false, msg: "This Index not available..!" })
+  else return res.json({ state: true })
+})
+
+//? update isSupervisor -> true , when assigne supervisors to the prjectcts
+router.get('/updateSupervisor/:id', (req, res) => {
+  const id = req.params.id
+  User.find({ _id: id })
+    .update({ isSupervisor: true })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: 'Data successfully updated..!' })
+    })
+    .catch(err => {
+      res.send({ state: false, msg: err.message })
+    })
+})
+
+//get student index from student userID
+router.get('/studentindex/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const index = await User.find({ _id: id }).select('indexNumber');
+    res.send(index)
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
+
+
+//get all group members by userId of one student
+router.post("/getgroupmembers/:id", async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const projectId = req.body.projectId;
+    const result = await User.findOne({ _id: userId }).select('indexNumber');
+    const index = result.indexNumber
+
+    const group = await CreateGroups.findOne({ projectId: projectId, groupMembers: index }).select("groupMembers")
+    res.send(group.groupMembers)
+
+  }
+  catch (e) {
+    console.log(e)
+  }
+})
+
 
 //get user by id
 
@@ -822,7 +892,7 @@ router.get('/getUser/:id', async (req, res) => {
 //? (MesasageContainer.js)
 router.get('/getUserImage/:id', async (req, res) => {
   const id = req.params.id
-  
+
   User.find({ _id: id })
     .select('imageName')
     .exec()

@@ -109,7 +109,7 @@ export default class CreateGroups extends Component {
                                 while (this.state.csvData[i][j] != null) {
                                     this.state.grpMembers.push(this.state.csvData[i][j])
                                     console.log(this.state.csvData[i][j]);
-                                    j++;
+                                    j++;    
                                 }
                                 var data = {
                                     projectId: this.state.projectId,

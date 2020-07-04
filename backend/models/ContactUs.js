@@ -7,6 +7,7 @@ var contactUsSchema = mongoose.Schema({
     contactNumber: { type: String },
     email:  {type: String},
     message : {type: String},
+     messageState: {type: String},
     
 });
 
