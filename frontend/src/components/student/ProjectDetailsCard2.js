@@ -7,7 +7,7 @@ import axios from 'axios';
 import "../../css/students/ProjectDetailsCard2.scss"
 import { withRouter } from "react-router-dom";
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
-
+import Index from "../shared/Index";
 const backendURI = require('../shared/BackendURI');
 class studentBlock {
     constructor(id, name, index, reg) {
@@ -155,8 +155,8 @@ class ProjectDetailsCard extends Component {
                                                                 <Col md="5" xs="12" sm="12" className="table-col">
                                                                     <span className="normal-text zero-margin">{user.name}</span>
                                                                 </Col>
-                                                                <Col md="3" xs="12" sm="12" className="table-col">
-                                                                    <span className="normal-text zero-margin">{user.index}</span>
+                                                                <Col md="3" xs="12" sm="12" className="table-col">   
+                                                                    <span className="normal-text zero-margin"><Index index={user.index}/></span>
                                                                 </Col>
                                                                 <Col md="4" xs="12" sm="12" className="table-col">
                                                                     <span className="normal-text zero-margin">{user.reg}</span>

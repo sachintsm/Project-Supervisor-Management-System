@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Card from "@material-ui/core/Card";
+import Navbar from '../shared/Navbar';
 import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import {Container, Col, Row} from "react-bootstrap";
@@ -39,7 +40,11 @@ export default class MailBox extends Component {
                           </Col>
                           <Col xs="1">
                                 <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(message._id)} />
+                                
+                              {message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Read</td>}
+                              {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>}
                               </Col>
+
                             </Row>
 
                         
@@ -51,6 +56,8 @@ export default class MailBox extends Component {
                           {message.message}<br/>
                           {message.contactNumber}<br/>
                           {message.email}
+                          {/* {message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Read</td>}
+                              {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>} */}
                          </CardContent>
                         <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
                          </small>
