@@ -735,6 +735,66 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
+    if(p === ''){
+      console.log('No Image to delete');
+   
+  }
+  else{
+    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+    });
+  }
+  }
+
+});
+/*
+////update user profile pic
+router.post('/uploadmulter/:id', async function (req, res) {
+  let id = req.params.id;
+  console.log(id);
+
+  const userIdExists = await User.findOne({ _id: id });
+  console.log(userIdExists);
+  if (userIdExists) {
+    console.log("true")
+    var p = userIdExists.imageName;
+    console.log(p);
+    
+
+    upload(req, res, (err) = async () => {
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+
+      var fullPath = time + '-' + req.file.originalname;
+      console.log(fullPath);
+
+      User.findById({ _id: id }, function (err, user) {
+        if (err) {
+          res.status(404).send("data is not found");
+        }
+        else {
+          user.imageName = fullPath
+          user.save()
+            .then((req) => {
+              res.json({
+                state: true,
+                msg: "Update profile picture!",
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.json({
+                state: false,
+                msg: "Update Unsuccessfull..!",
+              });
+            });
+        }
+      })
+
+    })
     fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
       if (err) throw err;
       // if no error, file has been deleted successfully
@@ -743,7 +803,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
   }
 
 });
-
+*/ 
 //reset password using profile
 router.post('/reset/:id', function (req, res) {
   const oldPassword = req.body.currentPw

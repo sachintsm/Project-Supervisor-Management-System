@@ -13,7 +13,7 @@ const backendURI = require('../shared/BackendURI');
 
 
 function ProjectModal(props) {
-    const { hide,re,...rest } = props
+    const { hide,re,re2,re3,re4,...rest } = props
     return (
     
         <Modal responsive="true"
@@ -31,7 +31,7 @@ function ProjectModal(props) {
             <Modal.Body>
             <h5></h5>
             <form >
-                <textarea className="area" value={re.projectType} readOnly/>
+                <textarea className="area" value={re2} readOnly/>
             </form>
             </Modal.Body>
             <Modal.Footer>
@@ -86,6 +86,9 @@ const Staff = React.memo( props =>(
                 show={props.stat2}
                 hide={props.hiden2}
                 re={props.result}
+                re2={props.result2}
+                re3={props.result3}
+                re4={props.result4}
                 />
                 </ButtonToolbar>
                 </td>
@@ -117,6 +120,9 @@ export default class Profile extends Component {
             search: '',
             userS: [],
             pro:[],
+            year:[],
+            type:[],
+            academic:[],
             project: props.location.state.projectDetails,
             snackbaropen: false,
             snackbarmsg: ' ',
@@ -192,7 +198,8 @@ export default class Profile extends Component {
 
         return filteredUsers.map((currentStaff, i) => {
            // if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
-                return <Staff request={this.requestSup} send={this.reqSend} view={this.viewPro} result={this.state.pro} hiden={this.hideModal} hiden2={this.hideModal2} 
+                return <Staff request={this.requestSup} send={this.reqSend} view={this.viewPro} result={this.state.pro} result2={this.state.year}
+                result3={this.state.type} result4={this.state.academic} hiden={this.hideModal} hiden2={this.hideModal2} 
                 desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} stat2={this.state.show2} dis={this.state.dis}  staff={currentStaff} key={i} />;
            // }
         })
@@ -242,10 +249,13 @@ export default class Profile extends Component {
         
         axios.get(backendURI.url + "/users/getSupPro/"+sup)
                     .then(res => {
-                        console.log(res.data.data);
+                        console.log(res.data.data.projectYear);
                         if(res.data.state==true){
                             this.setState({
-                                pro:res.data.data
+                                pro:res.data.data,
+                                year:res.data.data.projectYear,
+                                type:res.data.data.projectType,
+                                academic:res.data.data.academicYear
                             })
                             this.showModal2();
                         }
