@@ -8,7 +8,11 @@ var requestSchema =mongoose.Schema({
     reqDate:{type: String},
     groupId:{type:String},
     projectId:{type:String},
-    description:{type:String}
+    description:{type:String},
+    projectYear:{type:String},
+    projectType:{type:String},
+    academicYear:{type:String}
+    
 });
 
 const Request = (module.exports = mongoose.model('Request', requestSchema));
