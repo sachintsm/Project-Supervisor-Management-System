@@ -6,7 +6,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import { Row, Col } from "reactstrap";
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import Footer from '../shared/Footer';
 import Navbar from "../shared/Navbar";
 import { confirmAlert } from 'react-confirm-alert';
