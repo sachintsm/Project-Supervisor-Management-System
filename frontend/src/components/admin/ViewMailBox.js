@@ -5,8 +5,9 @@ import '../../css/admin/AdminHome.css'
 import Notice from "../shared/Notice";
 import Footer from '../shared/Footer';
 
+import MailBox from "./Mailbox.js";
 
-class AdminHome extends Component {
+class ViewMailBox extends Component {
   
   componentDidMount = async () => {
     localStorage.setItem("user-level","admin")
@@ -22,10 +23,11 @@ class AdminHome extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"admin"} />
+        <MailBox/>
         <Footer />
       </React.Fragment>
     );
   }
 } 
 
-export default AdminHome;
+export default ViewMailBox;
