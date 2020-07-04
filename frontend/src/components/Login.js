@@ -147,7 +147,7 @@ export default class login extends Component {
         />
 
         {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
-        <div className='row vertical-center login-card-div'>
+        <div className='row login-panel vertical-center login-card-div'>
           <div className='container abc'>
             <Row>
               <Col md={2} lg={3} xs={0} sm={0}></Col>
@@ -181,7 +181,7 @@ export default class login extends Component {
                       <FormLabel className="cp-text">Password</FormLabel>
 
                       <InputGroup className='mb-3'>
-                        <InputGroup.Prepend className="password-icon">
+                        <InputGroup.Prepend className="login-password-icon">
                           <InputGroup.Text id='basic-addon1'>
                             <FiLock size='1.5rem' className="password-icon2"></FiLock>
                           </InputGroup.Text>
