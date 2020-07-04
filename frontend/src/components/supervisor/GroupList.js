@@ -14,15 +14,14 @@ class groupList extends Component {
 
         }
         console.log(this.state.groupData);
-        this.onClickGroup = this.onClickGroup.bind(this);
     }
 
 
 
-    onClickGroup(data) {
-        console.log(data);
-        this.props.history.push('/supervisorhome/groupData/' + data);
-    }
+    // onClickGroup(data) {
+    //     console.log(data);
+    //     this.props.history.push('/supervisorhome/groupData/' + data);
+    // }
 
     render() {
         const { groupData } = this.state;
@@ -32,7 +31,7 @@ class groupList extends Component {
                     return (
                         <Col md={4} xs={12} sm={6} key={item._id}>
                             <Link to={`/supervisorhome/groupData/${item._id}`}>
-                            <Card className='sh-proj-card' onClick={() => this.onClickGroup(item._id)} >
+                            <Card className='sh-proj-card'  >
                                 <div className="container" >
                                     <Row className="shpc-topic-div">
                                         <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
@@ -115,7 +114,7 @@ class groupList extends Component {
 
                         <Col md={4} xs={12} sm={6} key={item._id}>
                             <Link to={`/supervisorhome/groupData/${item._id}`}>
-                            <Card className='sh-proj-card' onClick={() => this.onClickGroup(item._id)}>
+                            <Card className='sh-proj-card' >
                                 <div className="container" >
                                     <Row className="shpc-topic-div">
                                         <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
