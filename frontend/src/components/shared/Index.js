@@ -19,6 +19,8 @@ export default class Index extends Component{
             image: '',
             
         });
+        // console.log(this.props);
+        
         axios.get(backendURI.url + '/indexInfo/'+this.props.index)
           .then(res => {
             this.setState({ 
