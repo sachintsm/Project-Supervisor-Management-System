@@ -7,7 +7,7 @@
 .open-project{
   padding:20px 100px !important;
 
-  .details-row{
+  .student-details-row{
     border-bottom: 1px solid #CCC;
   }
   .bold-text{
@@ -58,7 +58,7 @@
     padding: 0% 2%
   }
   .btn-card{
-    margin: 10px;
+    margin: 10px 0px;
     padding: 5% 10%;
     cursor: pointer;
     text-align: center;
@@ -70,7 +70,7 @@
     background-color: #263238;
     color: white;
     .btn-title{
-      border-top: 2px solid white;
+      //border-top: 2px solid white;
       margin-top: 10px;
       color: white;
     }
@@ -162,6 +162,16 @@
     .btn-card{
       margin-top: 15px;
       margin-bottom: 0px;
+    }
+  }
+}
+
+
+@media only screen and  (max-width: 768px){
+  .open-project{
+    padding: 10px 0px !important;
+    .project-detail-card-div{
+
     }
   }
 }

@@ -12,10 +12,10 @@ import AdminHome from './components/admin/AdminHome';
 import ViewUsers from './components/admin/ViewUsers';
 import CreateProject from './components/admin/CreateProject';
 import ProjectTypes from './components/admin/ProjectTypes';
-
+import CourseRegistration from './components/admin/CourseRegistration';
 import Profile from "./components/shared/Profile";
 import EditProfile from "./components/admin/EditUser";
-
+import ViewMailBox from "./components/admin/ViewMailBox";
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
@@ -62,10 +62,11 @@ function App() {
           <Route exact path="/profile" component={Profile}></Route>
           <Route exact path="/editprofile/:id" component={EditProfile}></Route>
 
-
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
+          <Route exact path='/adminhome/viewmailbox' component={ViewMailBox}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}></Route>
+          <Route exact path='/adminhome/registration/course' component={CourseRegistration}></Route>
           <Route exact path='/shared/notice' component={Notice}></Route>
 
           {/* =================== Coordinator Routes ============================== */}

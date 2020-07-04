@@ -3,7 +3,7 @@ import { getFromStorage } from "../../utils/Storage";
 import axios from 'axios';
 import { Row, Col } from "reactstrap";
 import { confirmAlert } from 'react-confirm-alert';
-import '../../css/shared/Profile.css';
+import '../../css/shared/Profile.scss';
 import Snackpop from './Snackpop';
 
 const backendURI = require("./BackendURI");
@@ -154,7 +154,7 @@ render() {
         const {isNewShown}= this.state;
         const {isConShown}= this.state;
     return(
-        <div>
+        <div className="user-profile">
             <Snackpop
                 msg={this.state.snackbarmsg}
                 color={this.state.snackbarcolor}

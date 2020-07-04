@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/coordinator/ProjectGroups.css';
+import '../../css/coordinator/ProjectGroups.scss';
 import Navbar from '../shared/Navbar';
 import { verifyAuth } from "../../utils/Authentication";
 import { Row, Col } from "reactstrap";
@@ -249,7 +249,7 @@ class ProjectGroups extends Component {
                                 <p className="pg-details-head">Project Groups</p>
 
                                 {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                <Table hover className="pg-table" >
+                                <Table hover className="pg-table project-groups" >
 
                                     <thead>
                                         <tr>

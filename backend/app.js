@@ -63,7 +63,9 @@ const createGroups = require('./routes/createGroups')
 const contactUs = require('./routes/contactUs');
 const requestMeeting = require('./routes/RequestMeeting');
 const progress = require('./routes/progress');
-const groupChat = require('./routes/groupChat')
+const groupChat = require('./routes/groupChat');
+const courseTypes = require('./routes/courseTypes');
+const indexInfo = require('./routes/IndexInfo');
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -72,9 +74,12 @@ app.use('/projects', projects);
 app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
+app.use("/indexInfo", indexInfo);
 app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);
+app.use('/courseTypes', courseTypes);
+app.use('/indexInfo', indexInfo);
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {

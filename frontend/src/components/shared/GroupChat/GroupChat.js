@@ -8,8 +8,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import openSocket from 'socket.io-client';
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
-import { Row } from 'reactstrap';
 import Navbar from '../../shared/Navbar'
+import { Row, Col, Card, Container, ProgressBar } from 'react-bootstrap';
 
 const backendURI = require('../BackendURI');
 
@@ -69,7 +69,7 @@ class GroupChat extends Component {
     handleSubmit = async (sender, content) => {
         const userId = getFromStorage('auth-id').id
         var profileImage = ''
-        await axios.get(backendURI.url + '/users/getUserImage/' +userId)
+        await axios.get(backendURI.url + '/users/getUserImage/' + userId)
             .then(res => {
                 // console.log(res.data.data[0].imageName);
                 profileImage = res.data.data[0].imageName
@@ -96,20 +96,21 @@ class GroupChat extends Component {
             <React.Fragment>
                 <Navbar panel={"student"} />
                 <div className='container'>
-                    <Row className="chat-topic-div" style={{ margin: "auto", marginTop: "30px" }}>
-                        <p className="chat-topic">Chat Room</p>
-                    </Row>
-                    <div className="messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
-                        {this.state.messages.length > 0 ?
-                            <MessagesContainer messages={this.state.messages} />
-                            :
-                            <div />
-                        }
-                    </div>
-                    <div className="input-container">
-                        <InputContainer handleSubmit={this.handleSubmit} />
-                    </div>
-
+                    <Card className="task-card-cb">
+                        <Card.Header className="gd-card-header">
+                            Chat Room
+                        </Card.Header>
+                        <Card.Body className="gd-card-body messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
+                            {this.state.messages.length > 0 ?
+                                <MessagesContainer messages={this.state.messages} />
+                                :
+                                <div />
+                            }
+                        </Card.Body>
+                            <div className="input-container">
+                                <InputContainer handleSubmit={this.handleSubmit} />
+                            </div>
+                    </Card>
                 </div>
             </React.Fragment>
         );

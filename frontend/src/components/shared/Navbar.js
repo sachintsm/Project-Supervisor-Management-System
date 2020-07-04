@@ -126,6 +126,14 @@ export default class navbar extends Component {
               )}
 
               {this.state.panel === 'admin' && (
+                <MDBNavItem className="mr-4">
+                  <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'>MailBox</Nav.Link>
+
+                </MDBNavItem>
+              )}
+
+
+              {this.state.panel === 'admin' && (
 
                 <MDBDropdown className="mr-4">
                   <MDBDropdownToggle nav caret>
@@ -148,13 +156,18 @@ export default class navbar extends Component {
                     <MDBDropdownItem href='/shared/notice'>Create Notice</MDBDropdownItem>
                   </MDBDropdownMenu>
                 </MDBDropdown>
+              )}
 
-                // <MDBNavItem className="mr-4">
+
+
+
+
+              {/* // <MDBNavItem className="mr-4">
                 //   <Nav.Link  className="padding-zero"   href='/shared/notice'>
                 //     Notices
                 //   </Nav.Link>
                 // </MDBNavItem>
-              )}
+               */}
 
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
@@ -180,7 +193,7 @@ export default class navbar extends Component {
 
               {/* =============================  Student Panel  ============================================ */}
 
-              {this.state.panel === 'student' &&(
+              {this.state.panel === 'student' && (
 
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>

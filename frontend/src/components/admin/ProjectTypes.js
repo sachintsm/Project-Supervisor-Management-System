@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../shared/Navbar';
-import '../../css/admin/ProjectTypes.css';
+import '../../css/admin/ProjectTypes.scss';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
@@ -18,8 +18,8 @@ import {
   FormControl,
   Table,
 } from 'react-bootstrap';
-import {getFromStorage} from "../../utils/Storage";
-import {confirmAlert} from "react-confirm-alert";
+import { getFromStorage } from "../../utils/Storage";
+import { confirmAlert } from "react-confirm-alert";
 const backendURI = require('../shared/BackendURI');
 
 const CustomCheckbox = withStyles({
@@ -64,10 +64,10 @@ class ProjectTypes extends Component {
   getCategoryList() {
 
     const headers = {
-      'auth-token':getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
 
-    axios.get(backendURI.url + '/projects/projecttype',{headers: headers}).then((result => {
+    axios.get(backendURI.url + '/projects/projecttype', { headers: headers }).then((result => {
       if (result.data.length > 0) {
         this.setState({
           projectTypeList: result.data.map((type) => type)
@@ -82,7 +82,16 @@ class ProjectTypes extends Component {
   }
 
   submit() {
-
+    if (this.state.projectType2) {
+      this.setState({
+        projectType: this.state.projectType1 + " ( " + this.state.projectType2 + " )"
+      })
+    }
+    else {
+      this.setState({
+        projectType: this.state.projectType1
+      })
+    }
     confirmAlert({
       title: 'Project Category',
       message: 'Are you sure?',
@@ -92,27 +101,28 @@ class ProjectTypes extends Component {
           onClick: async () => {
 
             const headers = {
-              'auth-token':getFromStorage('auth-token').token,
+              'auth-token': getFromStorage('auth-token').token,
             }
 
-            if (this.state.projectType === '') {
+            if (this.state.projectType1 === '') {
               this.setState({
                 warnAlert: true,
               });
             } else {
+
               if (this.state.componentType === 'add') {
                 axios
-                    .post(backendURI.url + '/projects/projecttype', this.state,{headers: headers})
-                    .then((res) => {
-                      this.setState({
-                        succesAlert: true,
-                      });
-                      this.getCategoryList()
-                    }).catch(err => console.log(err));
+                  .post(backendURI.url + '/projects/projecttype', this.state, { headers: headers })
+                  .then((res) => {
+                    this.setState({
+                      succesAlert: true,
+                    });
+                    this.getCategoryList()
+                  }).catch(err => console.log(err));
               }
 
               if (this.state.componentType === 'edit') {
-                axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state,{headers: headers}).then(res => {
+                axios.patch(backendURI.url + '/projects/projecttype/' + this.state.id, this.state, { headers: headers }).then(res => {
                 }).catch(err => {
                   console.log(err)
                 })
@@ -125,11 +135,9 @@ class ProjectTypes extends Component {
                 this.getCategoryList()
               }
             }
-
-
-
             this.setState({
-              projectType: ''
+              projectType1: '',
+              projectType2: ''
             })
           }
         },
@@ -161,9 +169,9 @@ class ProjectTypes extends Component {
           onClick: async () => {
 
             const headers = {
-              'auth-token':getFromStorage('auth-token').token,
+              'auth-token': getFromStorage('auth-token').token,
             }
-            axios.patch(backendURI.url + '/projects/projecttype/delete/' + id,{headers: headers}).then(res => {
+            axios.patch(backendURI.url + '/projects/projecttype/delete/' + id, { headers: headers }).then(res => {
               this.getCategoryList()
             }).catch(err => console.log(err))
           }
@@ -188,7 +196,8 @@ class ProjectTypes extends Component {
       isSecondYear: type.isSecondYear,
       isThirdYear: type.isThirdYear,
       isFourthYear: type.isFourthYear,
-      projectType: type.projectType,
+      projectType1: type.projectType1,
+      projectType2: type.projectType2,
       id: type._id,
     }, () => { window.scrollTo(0, 0) })
   }
@@ -221,7 +230,7 @@ class ProjectTypes extends Component {
         />
 
         <Snackpop
-          msg={'Please define a Project Type'}
+          msg={'Please define a Category Name'}
           color={'error'}
           time={3000}
           status={this.state.warnAlert}
@@ -239,15 +248,31 @@ class ProjectTypes extends Component {
                   <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
-                        Project Type{' '}
+                        Category Name{' '}
                       </label>
                       <FormControl
                         type='text'
                         className="placeholder-text"
-                        placeholder='Undergraduate / BIT / Master / etc'
-                        value={this.state.projectType}
+                        placeholder='Undergraduate / BIT / Master etc...'
+                        value={this.state.projectType1}
                         onChange={(e) => {
-                          this.setState({ projectType: e.target.value });
+                          this.setState({ projectType1: e.target.value });
+                        }}
+                      ></FormControl>
+                    </Col>
+                  </Row>
+                  <Row className='mt-30'>
+                    <Col >
+                      <label className='verticle-align-middle cp-text'>
+                        Sub Category Name (optional){' '}
+                      </label>
+                      <FormControl
+                        type='text'
+                        className="placeholder-text"
+                        placeholder='CS / SE / IS / MIT / MIS / MCS / MBA etc...'
+                        value={this.state.projectType2}
+                        onChange={(e) => {
+                          this.setState({ projectType2: e.target.value });
                         }}
                       ></FormControl>
                     </Col>
@@ -275,7 +300,7 @@ class ProjectTypes extends Component {
                         }
                       />
                     </Col>
-                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
+                    <Col md={2} sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -298,7 +323,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
+                    <Col md={2} sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -321,7 +346,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
+                    <Col md={2} sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -344,7 +369,7 @@ class ProjectTypes extends Component {
                         />
                       )}
                     </Col>
-                    <Col md={2}  sm={6} xs={6} className="col-padding-5  middle">
+                    <Col md={2} sm={6} xs={6} className="col-padding-5  middle">
                       {this.state.isAcademicYear && (
                         <FormControlLabel
                           className='form-control-label'
@@ -396,7 +421,7 @@ class ProjectTypes extends Component {
                     <Col md={3}></Col>
                   </Row>
                 </div>
-                
+
                 {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
                   <div className="card card-div-2">
@@ -416,14 +441,14 @@ class ProjectTypes extends Component {
                           {this.state.projectTypeList.map((type) => {
                             return (<tr key={type._id}>
                               <td className="table-heading" style={{ verticalAlign: 'middle' }}>{type.projectType}</td>
-                              <td className="table-heading"  style={{ verticalAlign: 'middle' }} >
+                              <td className="table-heading" style={{ verticalAlign: 'middle' }} >
                                 {!type.isFirstYear && !type.isSecondYear && !type.isThirdYear && !type.isFourthYear && "None"}
                                 {type.isFirstYear && "1st Year"}{type.isFirstYear && <br></br>}
                                 {type.isSecondYear && "2nd Year"}{type.isSecondYear && <br></br>}
                                 {type.isThirdYear && "3rd Year"}{type.isThirdYear && <br></br>}
                                 {type.isFourthYear && "4th Year"}{type.isFourthYear && <br></br>}</td>
-                              <td className="operation-column" style={{ verticalAlign: 'middle'}}><Row>
-                                <Col><Create className="edit-btn" fontSize="large" onClick={()=>this.onEditHandler(type)}/></Col>
+                              <td className="operation-column" style={{ verticalAlign: 'middle' }}><Row>
+                                <Col><Create className="edit-btn" fontSize="large" onClick={() => this.onEditHandler(type)} /></Col>
                                 <Col><DeleteForeverIcon className="del-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} /></Col>
                               </Row>
                               </td>
