@@ -99,6 +99,11 @@ width:50px;
   font-family: roboto, sans;
   color: 	#FFFFFF;
 
+
+}
+
+.crd_notice_content{
+  font-weight:380;
 }
 .crd_btn-row{
   text-align:right;

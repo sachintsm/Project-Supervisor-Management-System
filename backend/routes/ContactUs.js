@@ -38,4 +38,25 @@ router.post('/add', (req, res) => {
         })
 })
 
+// mail delete
+
+router.delete('/Mail_delete/:_id', async (req,res) =>{
+
+    const mail_id = req.params._id;
+
+    ContactUs.remove({_id:mail_id})
+    .exec()
+    .then((result) => {
+        res.status(200).json({
+          message: "Deleted Successfully..",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          massage: "Deleted Unsuccessfull",
+        });
+      });
+
+});
+
 module.exports = router
