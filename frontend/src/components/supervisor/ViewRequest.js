@@ -258,7 +258,7 @@ export default class ViewRequest extends Component {
         return (
             <React.Fragment >
                 <Navbar panel={"supervisor"} />
-                    <div>
+                    <div className="card container">
                     <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
@@ -288,6 +288,8 @@ export default class ViewRequest extends Component {
                                                                                 <th>Project Type</th>
                                                                                 <th>Group Number</th>
                                                                                 <th>Description</th>
+                                                                                <th>Accept</th>
+                                                                                <th>Reject</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
