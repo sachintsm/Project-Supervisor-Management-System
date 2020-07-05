@@ -71,13 +71,13 @@ class ViewTask extends Component {
             task: null,
             taskId: props.location.state.taskId,
             groupDetails: props.location.state.groupDetails,
+            projectDetails: props.location.state.projectDetails,
             defaultTaskWeight: null,
             defaultProgress: null,
             loading: true,
             updateLoading: true,
             progressUpdates: []
         }
-
     }
     componentDidMount() {
         this.getTaskDetails()
@@ -274,6 +274,7 @@ class ViewTask extends Component {
                         <div className="main-card">
 
                             <Row><TaskProgressCard groupDetails={this.state.groupDetails} taskDetails={this.state.task}/></Row>
+                            {this.state.projectDetails.projectState &&
 
                             <Row className="task-options">
                                 <Col lg={6} md={6} className="edit-card-div">
@@ -358,6 +359,7 @@ class ViewTask extends Component {
                                     </Card>
                                 </Col>
                             </Row>
+                            }
                         </div>
 
 
