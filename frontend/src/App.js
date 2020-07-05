@@ -36,7 +36,6 @@ import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeeting
 
 import ViewRequest from './components/supervisor/ViewRequest';
 
-import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import NoticeView from './components/shared/NoticeView';
 
 import StudentHome from './components/student/StudentHome';
