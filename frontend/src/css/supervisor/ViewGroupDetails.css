@@ -1,0 +1,46 @@
+/* .btn-card-col1{
+    padding: 4% 4%
+  } */
+.btn-card1{
+    max-width: 200%;
+    margin: 20px 0px;
+    padding: 5% 10%;
+    cursor: pointer;
+    text-align: center; 
+    border-radius: 70px;
+    /* //border: 1px solid #f5f5f5; */
+  }
+.btn-card1:hover{
+    transition: 0.5s;
+    background-color: #263238;
+    color: white;
+    /* .btn-title1{
+      //border-top: 2px solid white;
+      margin-top: 10px;
+      color: white;
+    } */
+}
+
+
+.btn-title1:hover{
+    /* //border-top: 2px solid white; */
+    margin-top: 10px;
+    color: white;
+  }
+  /* .btn-row1{
+    padding-left: 7%;
+    padding-right: 7%;
+    margin-top: 20px;
+  } */
+  .btn-icon1 {
+    vertical-align: middle;
+    /* size: 2em !important; */
+  }
+  .btn-title1{
+    align-content: center;
+    vertical-align: center;
+    border-top: 1.8px solid #263238;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #263238;
+  }
