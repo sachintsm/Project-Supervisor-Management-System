@@ -43,6 +43,7 @@ export default class RequestMeeting extends Component {
       supervisorN: [],
       superOptionList: [],
       selectValue: "",
+      state:"pending",
 
       purposeError: '',
       dateError: '',
@@ -167,6 +168,7 @@ export default class RequestMeeting extends Component {
         date: this.state.date,
         time: this.state.time,
         supervisor: this.state.supervisor,
+        state: this.state.state,
 
       };
       console.log("abcd");
