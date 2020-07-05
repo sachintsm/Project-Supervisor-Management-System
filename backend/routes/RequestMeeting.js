@@ -36,4 +36,16 @@ router.get('/get/:id', function (req, res) {
       })
   });
 
+  router.get('/getsupervisor/:id', function (req, res) {
+    let id = req.params.id;
+    RequsetMeeting.find({ supervisor: id })
+      .exec()
+      .then(result => {
+        res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+      })
+      .catch(error => {
+        res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+  });
+
 module.exports = router
