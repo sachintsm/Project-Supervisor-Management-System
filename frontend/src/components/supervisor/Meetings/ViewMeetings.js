@@ -10,9 +10,10 @@ import { getFromStorage } from '../../../utils/Storage';
 import Snackpop from "../../shared/Snackpop";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
+import ConfirmMeetings from "./ConfirmMeetings";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -22,11 +23,7 @@ const Meet = React.memo(props => (
         <td className="table-body">{props.meet.purpose}</td>
 
         <td className="table-body">
-            <Row>
-                <Col>
-                    {/* <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => props.delete(props.staff._id)} /> */}
-                </Col>
-            </Row>
+            <ConfirmMeetings data={props.meet._id} />
         </td>
     </tr>
 ));
@@ -57,6 +54,8 @@ class ViewMeetings extends Component {
         }
 
         // this.onChange = this.onChange.bind(this);
+        // this.confirm = this.confirm.bind(this);
+
 
     }
 
@@ -105,13 +104,12 @@ class ViewMeetings extends Component {
 
         return this.state.meetings.map((currentMeet, i) => {
 
-            return <Meet delete={this.deleteUser} meet={currentMeet} key={i} />;
+            return <Meet confirm={this.confirm} meet={currentMeet} key={i} />;
 
             return null
         })
 
     }
-
 
     render() {
         return (
@@ -137,7 +135,7 @@ class ViewMeetings extends Component {
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
 
-                                    <Tab eventKey="staff" title="Meeting Requests" className="tit">
+                                    <Tab eventKey="request" title="Meeting Requests" className="tit">
                                         <div className="row" style={{ marginTop: "20px" }}>
 
                                             <div className="card">
@@ -167,8 +165,8 @@ class ViewMeetings extends Component {
                                         </div>
 
                                     </Tab>
-                                    
-                                    <Tab eventKey="admins" title="Confirmed Meetings">
+
+                                    <Tab eventKey="confirm" title="Confirmed Meetings">
                                         <div className="row" style={{ marginTop: "20px" }}>
                                             <div className="card">
                                                 <div>
@@ -176,7 +174,37 @@ class ViewMeetings extends Component {
 
                                                     <div className="container">
                                                         <div className=" vu-table">
-                                                            <Table hover  className="vu-table-hover" >
+                                                            <Table hover className="vu-table-hover" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Group</th>
+                                                                        <th>Purpose</th>
+                                                                        <th>Date</th>
+                                                                        <th>Time</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {/* {this.UserList2()} */}
+
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </Tab>
+                                    <Tab eventKey="urgent" title="Urgent Meetings">
+                                        <div className="row" style={{ marginTop: "20px" }}>
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">Urgent Meetings</h3>
+
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover className="vu-table-hover" >
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Group</th>
