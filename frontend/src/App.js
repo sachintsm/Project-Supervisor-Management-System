@@ -34,6 +34,9 @@ import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeetings';
 
 
+import ViewRequest from './components/supervisor/ViewRequest';
+
+import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import NoticeView from './components/shared/NoticeView';
 
 import StudentHome from './components/student/StudentHome';
@@ -96,6 +99,7 @@ function App() {
 
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
+          <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>

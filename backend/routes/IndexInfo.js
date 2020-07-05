@@ -6,7 +6,7 @@ const Users = require('../models/users');
 router.route('/:id').get(function(req, res) {
     let id = req.params.id;
     console.log("Message requested");
-    Users.findOne({indexNumber:id}, function(err, message) {
+    Users.findOne({_id:id}, function(err, message) {
         if (err) {
             console.log(err);
         } else {

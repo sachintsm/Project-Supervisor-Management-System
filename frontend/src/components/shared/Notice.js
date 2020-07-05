@@ -15,7 +15,7 @@ import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import "../../css/shared/Notice.css";
+import "../../css/shared/Notice.css";  
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Snackpop from "../shared/Snackpop";
@@ -778,7 +778,7 @@ class Notice extends Component {
                                   </Row>
 
                                   <div className="card-body">
-                                    <h6>{type.notice}</h6>
+                                    <h6 className="crd_notice_content">{type.notice}</h6>
                                     <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.filePath}>
                                       Attachment
                                 </a>
@@ -1028,7 +1028,7 @@ class Notice extends Component {
                                   </Row>
 
                                   <div className="card-body">
-                                    <h6>{types.notice}</h6>
+                                    <h6 className="crd_notice_content">{types.notice}</h6>
                                     <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                       Attachment
                                 </a>
