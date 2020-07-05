@@ -59,7 +59,6 @@ class AssignSupervisors extends Component {
         this.setState({ snackbaropen: false });
     };
     setSelected(obj) {
-        console.log(obj)
         this.setState({
             selectedStaffList: obj,
         });

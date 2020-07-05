@@ -44,6 +44,7 @@ export default class Groups extends Component {
     };
 
     componentDidMount = async () => {
+        console.log(this.props);
 
         const authState = await verifyAuth();
 
@@ -118,7 +119,7 @@ export default class Groups extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId , pId : this.props.match.params.id});
     }
 
     //?delete the group

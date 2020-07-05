@@ -89,7 +89,6 @@ class NoticeView extends Component {
 
     this.userType = localStorage.getItem("user-level");
     console.log(this.userType)
-
     const userId = getFromStorage('auth-id').id;
 
     if (this.userType === 'coordinator' || this.userType === 'supervisor') {
@@ -180,20 +179,6 @@ class NoticeView extends Component {
 
   render() {
 
-   
-
-    let noCoordinatorNotice;
-    if (this.state.noticeListBlock.length === 0 && this.state.noticeListBlock.userType ==="coordinator" ) {
-         noCoordinatorNotice= <p className="no-notice">Cordinators not published Notices</p>
-    }
-
-    let noAdminNotice;
-    if (this.state.allNoticeList.length === 0 && this.state.allNoticeList.userType === 'admin') {
-      noAdminNotice= <p className="no-notice">Cordinators not published Notices</p>
- }
-
-  
-
 
     if (this.userType === 'coordinator') {
 
@@ -223,7 +208,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                              <h6>{types.notice}</h6>
+                              <h6 className="crd_notice_content">{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
@@ -263,7 +248,7 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
                                   <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
@@ -289,7 +274,7 @@ class NoticeView extends Component {
         </React.Fragment>
       )
 
-    } else if (this.userType === 'supervisor') {
+    } else if (this.userType ==='supervisor') {
 
       return (
         <React.Fragment>
@@ -317,7 +302,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                                <h6>{types.notice}</h6>
+                                <h6 className="crd_notice_content">{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.no}>
                                   Attachment
                             </a>
@@ -355,7 +340,7 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
                                   <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
@@ -407,7 +392,7 @@ class NoticeView extends Component {
                           </Row>
 
                           <div className="card-body">
-                            <h6>{types.notice}</h6>
+                            <h6 className="crd_notice_content">{types.notice}</h6>
                             <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                               Attachment
                                   </a>
@@ -455,7 +440,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                                <h6>{types.notice}</h6>
+                                <h6 className="crd_notice_content">{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                             </a>
@@ -494,7 +479,7 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
                                   <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>

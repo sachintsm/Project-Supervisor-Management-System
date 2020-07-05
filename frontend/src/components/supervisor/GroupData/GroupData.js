@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../../../css/coordinator/GroupData.scss';
+import "../../../css/supervisor/ViewGroupDetails.css";
 import Navbar from '../../shared/Navbar';
 import { verifyAuth } from "../../../utils/Authentication";
-import { Row, Col } from "reactstrap";
+import { Card, Row, Col, Spinner } from 'react-bootstrap';
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import axios from 'axios';
@@ -11,6 +11,13 @@ import Snackpop from "../../shared/Snackpop";
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
+
+import { IoIosPersonAdd } from 'react-icons/io';
+import { TiGroup } from 'react-icons/ti';
+import { FaChartLine } from 'react-icons/fa';
+import { FiUploadCloud } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -57,8 +64,8 @@ class GroupData extends Component {
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
-        
-        
+
+
         // this.setState({
         //     projectId : this.props.location.projectId
         // })
@@ -108,6 +115,10 @@ class GroupData extends Component {
             });
     }
 
+    viewMeetings = (project) => {
+        // this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
+    }
+
     studentList() {
         let groupId = this.state.groupId
         if (this.state.groupMembers !== null) {
@@ -118,7 +129,7 @@ class GroupData extends Component {
     }
     supervisorList() {
         let groupId = this.state.groupId
-        
+
         if (this.state.groupSupervisors !== null) {
             return this.state.groupSupervisors.map(function (object, i) {
                 return <SupervisorList obj={object} key={i} id={groupId} />
@@ -217,7 +228,7 @@ class GroupData extends Component {
                                 _id: this.props.match.params.id,
                                 index: this.state.selectedStaffList[i].value
                             }
-                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data, { headers: headers})
+                            await axios.post(backendURI.url + '/createGroups/addSupervisorIndex', data, { headers: headers })
                                 .then(res => {
                                     if (res.data.state === false) {
                                         this.setState({
@@ -268,12 +279,16 @@ class GroupData extends Component {
         return isError;  //! is not error return state 'false'
     }
 
+    viewMeetings = (project) => {        
+        this.props.history.push('/supervisorhome/viewMeetings')
+    }
+
 
     render() {
         return (
             <div className="gd-fullpage" >
-                <Navbar panel={"coordinator"} />
-                <div className="container">
+                <Navbar panel={"supervisor"} />
+                <div className="container-fluid open-project open-project-background-color">
                     <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
@@ -315,69 +330,49 @@ class GroupData extends Component {
                             </Row>
 
                             <Row>
-                                <Col md="6" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic-2">Add Group Member</p>
-                                        </div>
-                                    </Row>
-                                    <Row className="gd-add-div">
-                                        <Col md="8" xs="12">
-                                            <div className="form-group">
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    name="addStudentIndex"
-                                                    placeholder="Index Number"
-                                                    onChange={this.onChangeAddStudentIndex}
-                                                ></input>
-                                                <p className="reg-error">{this.state.addStudentIndexError}</p>
-
-                                            </div>
-                                        </Col>
-                                        <Col md="4" xs="12">
-                                            <button
-                                                className="btn btn-info"
-                                                onClick={this.onSubmitAddStudent}
-                                                style={{ width: "100%" }}
-                                            >Add Now </button>
-                                        </Col>
-                                    </Row>
 
 
-                                </Col>
-                                <Col md="6" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic-2">Add Supervisor</p>
-                                        </div>
-                                    </Row>
-                                    <Row className="gd-add-div">
-                                        <Col md="8" xs="12">
-                                            <div className="form-group">
-                                                <MultiSelect
-                                                    options={this.state.staffOptionList}
-                                                    value={this.state.selectedStaffList}
-                                                    onChange={this.setSelected}
-                                                    labelledBy={'Select'}
-                                                    hasSelectAll={false}
-                                                />
-                                            </div>
-                                        </Col>
-                                        <Col md="4" xs="12">
-                                            <button
-                                                className="btn btn-info"
-                                                onClick={this.onSubmitAddSupervisor}
-                                                style={{ width: "100%" }}
-                                            >Add Now </button>
-                                        </Col>
-                                    </Row>
-                                </Col>
                             </Row>
+                            <Row className="btn-row1">
+                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" onClick={() => this.viewChat(this.state.project)}>
+                                        <Card className="btn-card1">
+                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                                <div>
+                                                    <QuestionAnswerIcon style={{ fontSize: 32 }} />
+                                                </div>
+                                            </IconContext.Provider><span className="btn-title1">Chat Box</span></Card>
+                                    </Col>
+
+                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" onClick={() => this.viewMeetings(this.state.project)}>
+                                        <Card className="btn-card1">
+                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                                <div>
+                                                    <TiGroup />
+                                                </div>
+                                            </IconContext.Provider><span className="btn-title1">Meetings</span></Card>
+                                    </Col>
+                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                        <Card className="btn-card1" onClick={() => { this.viewProgress(this.state.project) }}>
+                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                                <div>
+                                                    <FaChartLine />
+                                                </div>
+                                            </IconContext.Provider><span className="btn-title1">Progress</span></Card>
+                                    </Col>
+                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                        <Card className="btn-card1">
+                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                                <div>
+                                                    <FiUploadCloud />
+                                                </div>
+                                            </IconContext.Provider><span className="btn-title1">Submissions</span></Card>
+                                    </Col>
+
+                                </Row>
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }

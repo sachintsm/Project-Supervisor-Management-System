@@ -94,7 +94,7 @@ class ProjectDetailsCard extends Component {
                         })
                     }
                 })
-        })
+        })       
 
     }
     openProject(item){
@@ -156,7 +156,7 @@ class ProjectDetailsCard extends Component {
                                                                     <span className="normal-text zero-margin">{user.name}</span>
                                                                 </Col>
                                                                 <Col md="3" xs="12" sm="12" className="table-col">   
-                                                                    <span className="normal-text zero-margin"><Index index={user.index}/></span>
+                                                                    <span className="normal-text zero-margin"><Index id={user.id} index={user.index}/></span>
                                                                 </Col>
                                                                 <Col md="4" xs="12" sm="12" className="table-col">
                                                                     <span className="normal-text zero-margin">{user.reg}</span>

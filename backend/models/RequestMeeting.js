@@ -7,6 +7,7 @@ var requestMeetingSchema = mongoose.Schema({
     date: { type: String},
     time: { type: String },
     supervisor:  {type: String},
+    state:{type:String},
     
 });
 

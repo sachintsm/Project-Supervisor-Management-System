@@ -39,25 +39,30 @@ router.get('/verify', verify, function (req, res, next) {
 });
 
 //User registration
-router.post("/register", verify, async function (req, res) {
+router.post("/register", verify,async function (req, res) {
   upload(req, res, (err) = async () => {
 
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
 
-    // checking if the NIC is already in the database
+    // checking if the NIC is already in the database 
     const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
     if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
 
-    // checking if the NIC is already in the database
-    const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
-    if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+    // console.log(req.body.indexNumber);
+    
+    // // checking if the NIC is already in the database
+    // if (req.body.indexNumber !== undefined || req.body.indexNumber !== '' || req.body.indexNumber !== null) {
+    //   const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
+    //   if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+    // }
 
-    // checking if the NIC is already in the database
-    const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
-    if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
-
+    // // checking if the NIC is already in the database
+    // if (req.body.regNumber !== undefined || req.body.regNumber !== '' || req.body.regNumber !== null) {
+    //   const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
+    //   if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
+    // }
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
 
@@ -86,9 +91,6 @@ router.post("/register", verify, async function (req, res) {
 
     var fullPath = time + '-' + req.file.originalname;
 
-    console.log(req.body.courseType);
-    console.log(req.body.mobileNumber);
-
     //create a new user
     const newUser = new User({
       firstName: req.body.firstName,
@@ -98,8 +100,8 @@ router.post("/register", verify, async function (req, res) {
       birthday: req.body.birthday,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
-      indexNumber: req.body.indexNumber.toLowerCase(),
-      regNumber: req.body.regNumber.toLowerCase(),
+      indexNumber: req.body.indexNumber,
+      regNumber: req.body.regNumber,
       courseType: req.body.courseType,
       imageName: fullPath,
       isStudent: student,
@@ -128,6 +130,7 @@ router.post("/register", verify, async function (req, res) {
                   res.json({
                     state: true,
                     msg: "User Registered Successfully..!",
+                    data: newUser
                   });
                 })
                 .catch((err) => {
@@ -304,6 +307,7 @@ router.get('/studentList/:id', async (req, res, next) => {
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
+    
     User
       .find({ isSupervisor: true, isDeleted: false, _id: id })
       .select('firstName lastName')
