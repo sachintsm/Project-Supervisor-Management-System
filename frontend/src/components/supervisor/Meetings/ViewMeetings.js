@@ -1,63 +1,211 @@
 
 
 import React, { Component } from "react";
-// import { verifyAuth } from "../../utils/Authentication";
+import { verifyAuth } from "../../../utils/Authentication";
 import Navbar from "../../shared/Navbar";
-// import '../../css/supervisor/SupervisorHome.css'
 import Footer from "../../shared/Footer";
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
-// import { getFromStorage } from '../../utils/Storage';
-// import Snackpop from "../shared/Snackpop";
-// import { Row, Col } from 'reactstrap';
-// import { Spinner } from 'react-bootstrap'
-// import GroupList from "./GroupList";
-// const backendURI = require('../shared/BackendURI');
+import { getFromStorage } from '../../../utils/Storage';
+import Snackpop from "../../shared/Snackpop";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'reactstrap';
 
+const backendURI = require('../../shared/BackendURI');
+
+const Meet = React.memo(props => (
+    <tr>
+        <td className="table-body">{props.meet.groupId}</td>
+        <td className="table-body">{props.meet.purpose}</td>
+
+        <td className="table-body">
+            <Row>
+                <Col>
+                    {/* <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => props.delete(props.staff._id)} /> */}
+                </Col>
+            </Row>
+        </td>
+    </tr>
+));
 
 class ViewMeetings extends Component {
 
     constructor(props) {
         super(props);
 
+        this.state = {
+            // snackbaropen: false,
+            // snackbarmsg: '',
+            // snackbarcolor: '',
+
+            // authState: '',
+            // snackbaropen: false,
+            // snackbarmsg: '',
+            groupId: this.props.match.params.id,
+            purpose: "",
+            time: "",
+            supervisor: "",
+            super: "",
+            supervisorN: [],
+            superOptionList: [],
+            selectValue: "",
+
+            meetings: [],
+        }
+
+        // this.onChange = this.onChange.bind(this);
 
     }
 
     componentDidMount = async () => {
 
+        const authState = await verifyAuth();
+
+        this.setState({
+            authState: authState,
+            groupDataBlock: [],
+            finalBlock: []
+        });
+        if (!authState) {  //!check user is logged in or not if not re-directed to the login form
+            this.props.history.push("/");
+        }
+
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+
+        const userId = getFromStorage('auth-id').id
+        this.setState({
+            userId: userId,
+        })
+
+
+        console.log(this.state.userId);
+
+
+        await axios.get(backendURI.url + '/requestMeeting/getsupervisor/' + this.state.userId)
+            .then(response => {
+                this.setState({ meetings: response.data.data });
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+        console.log(this.state.meetings);
+
+
 
     }
+
+    MeetList() {
+
+
+        return this.state.meetings.map((currentMeet, i) => {
+
+            return <Meet delete={this.deleteUser} meet={currentMeet} key={i} />;
+
+            return null
+        })
+
+    }
+
+
     render() {
-
-
-
-
-
         return (
-            <div className="sh-fullpage">
-                <Navbar panel={"supervisor"} />
-                <div className="container">
-                    {/* <Snackpop
+            <React.Fragment >
+                <Navbar panel={"admin"} />
+                <div className="container-fluid">
+                    <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
                         time={3000}
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
-                    /> */}
+                    />
 
-                    <div className="container">
+                    {/* ************************************************************************************************************************************************************************** */}
 
-                        <h1>ViewMeetings</h1>
+                    <div className="row">
+                        {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
+                            <Sidebar />
+                        </div> */}
+                        <div className="col-md-12" style={{ minHeight: "1000px" }}>
+                            <div className="container">
 
+                                <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
 
+                                    <Tab eventKey="staff" title="Meeting Requests" className="tit">
+                                        <div className="row" style={{ marginTop: "20px" }}>
 
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">Meeting Requests</h3>
 
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+
+                                                            <Table hover className="vu-table-hover" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th className="table-head">Group</th>
+                                                                        <th className="table-head">Purpose</th>
+                                                                        <th className="table-head">Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {this.MeetList()}
+
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </Tab>
+                                    
+                                    <Tab eventKey="admins" title="Confirmed Meetings">
+                                        <div className="row" style={{ marginTop: "20px" }}>
+                                            <div className="card">
+                                                <div>
+                                                    <h3 className="sp_head">Confirmed Meetings</h3>
+
+                                                    <div className="container">
+                                                        <div className=" vu-table">
+                                                            <Table hover  className="vu-table-hover" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Group</th>
+                                                                        <th>Purpose</th>
+                                                                        <th>Date</th>
+                                                                        <th>Time</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {/* {this.UserList2()} */}
+
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </Tab>
+                                </Tabs>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
                 <Footer />
-            </div>
-        );
+            </React.Fragment >
+        )
     }
 }
 
