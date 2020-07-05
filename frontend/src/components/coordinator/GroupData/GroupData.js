@@ -37,14 +37,14 @@ class GroupData extends Component {
             staffList: [],
             staffOptionList: [],
             selectedStaffList: [],
-
+            projectSupervisorList: [],
 
             addStudentIndexError: '',
             addSupervisorIndexError: '',
 
             groupDetails: [],
-            loading: false
-            // projectId : '',
+            loading: false,
+            projectId: this.props.location.state.pId,
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -63,7 +63,6 @@ class GroupData extends Component {
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
-
         this.setState({
             authState: authState,
         });
@@ -75,7 +74,6 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                console.log(res.data.data)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
@@ -84,29 +82,30 @@ class GroupData extends Component {
                 })
             })
 
-        await axios.get(backendURI.url + '/users/supervisorsList', { headers: headers })
-            .then((result) => {
-                if (result.data.length > 0) {
-                    this.setState({
-                        staffList: result.data.map((user) => user),
-                    });
-                }
+        await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.pId, { headers: headers })
+            .then(res => {
+                this.setState({
+                    projectSupervisorList: res.data.data.supervisorList
+                })
             })
-            .then((a) => {
-                this.state.staffList.map((user) => {
+
+        for (var i = 0; i < this.state.projectSupervisorList.length; i++) {
+
+            await axios.get(backendURI.url + '/users/supervisorList/' + this.state.projectSupervisorList[i], { headers: headers })
+                .then((res) => { 
                     const option = {
-                        label: user.firstName + ' ' + user.lastName,
-                        value: user._id,
+                        label: res.data.data.firstName + ' ' + res.data.data.lastName,
+                        value: res.data.data._id,
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
                     });
-                    return null;
+                })
+                
+                .catch((err) => {
+                    console.log(err);
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        }
     }
 
     studentList() {
@@ -370,9 +369,9 @@ class GroupData extends Component {
                                     <Card className="task-card-gd">
                                         <Card.Header className="gd-card-header">Submissions</Card.Header>
                                         <Card.Body className="gd-card-body">
-                                            <Row style={{marginBottom:"-50px"}}>
+                                            <Row style={{ marginBottom: "-50px" }}>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"-0px"}}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }}>
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
                                                                 <DescriptionIcon fontSize="large" />
@@ -385,7 +384,7 @@ class GroupData extends Component {
 
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
@@ -399,7 +398,7 @@ class GroupData extends Component {
                                                     </Card>
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{marginTop:"0px"}}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>

@@ -203,13 +203,13 @@ export default class navbar extends Component {
 
               {/* =============================  Student Panel  ============================================ */}
 
-              {this.state.panel === 'student' && (
+              {/* {this.state.panel === 'student' && (
 
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>
 
                 </MDBNavItem>
-              )}
+              )} */}
 
               {/* ========================================================================= */}
 
