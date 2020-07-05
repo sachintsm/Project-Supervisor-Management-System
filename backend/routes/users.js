@@ -307,6 +307,7 @@ router.get('/studentList/:id', async (req, res, next) => {
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
+    
     User
       .find({ isSupervisor: true, isDeleted: false, _id: id })
       .select('firstName lastName')
