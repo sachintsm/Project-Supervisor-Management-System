@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import {Modal, ModalHeader, ModalBody} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Row, Col } from 'reactstrap'
+import '../../css/shared/index.scss';
+
 const backendURI = require("./BackendURI");
 
-export default class Index extends Component{
-    constructor(props){
+export default class Index extends Component {
+    constructor(props) {
         super(props);
-        this.state = {MessageList: {}};
+        this.state = { MessageList: {} };
     }
 
     toggle = () => {
@@ -17,37 +20,100 @@ export default class Index extends Component{
             regNumber: '',
             email: '',
             image: '',
-            
+            index: ''
+
         });
-        axios.get(backendURI.url + '/indexInfo/'+this.props.index)
-          .then(res => {
-            this.setState({ 
-                firstName: res.data.firstName, 
-                lastName: res.data.lastName,
-                regNumber: res.data.regNumber,
-                email: res.data.email,
-                image: res.data.imageName,
-                cat: res.data.regNumber.substring(5,7).toUpperCase()
+
+        axios.get(backendURI.url + '/indexInfo/' + this.props.id)
+            .then(res => {
+                this.setState({
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName,
+                    regNumber: res.data.regNumber,
+                    email: res.data.email,
+                    image: res.data.imageName,
+                    index: res.data.indexNumber,
+                    cat: res.data.regNumber.substring(5, 7).toUpperCase(),
+                })
+                console.log(res.data);
             })
-            console.log(res.data);
-          }) 
+
     };
 
-    render(){
-        return(
-            <div>
-                <a onClick={this.toggle} href="#">
-                    {this.props.index}
+    render() {
+        return (
+            <div >
+                <a onClick={this.toggle} >
+                    <span style={{ cursor: "pointer", color: "rgb(16, 141, 212)" }}>{this.props.index}</span>
                 </a>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Students' Information</ModalHeader>
+                    <ModalHeader toggle={this.toggle} className="index-data">
+                        <span className="text-name">
+                            {this.state.firstName} {this.state.lastName}<br />
+                        </span>
+                    </ModalHeader>
                     <ModalBody>
-                        <div className="container">
-                            <img src={this.props.image}></img><br/><br/>
-                            Name : {this.state.firstName} {this.state.lastName}<br/><br/>
-                            Course Infomation : {this.state.cat}<br/><br/>
-                            Registration Number : {this.state.regNumber}<br/><br/>
-                            Email : {this.state.email}<br/><br/>
+                        <div className="container index-data">
+                            <Row className="data-div">
+                                <Col md={4}>
+                                    <img src={("http://localhost:4000/users/profileImage/" + this.state.image)} className="image"></img><br />
+                                </Col>
+                                <Col md={8} >
+
+                                    <span className="text">
+                                        <Row>
+
+                                            <Col md={4}>
+                                                Course &nbsp;&nbsp;:
+                                            </Col>
+                                            <Col md={8}>
+                                                <span className="text-cont">
+                                                    {this.state.cat}
+                                                </span>
+                                            </Col>
+                                        </Row>
+                                    </span>
+                                    <span className="text">
+                                        <Row>
+
+                                            <Col md={4}>
+                                                Reg No&nbsp; :
+                                            </Col>
+                                            <Col md={8}>
+                                                <span className="text-cont">
+                                                    {this.state.regNumber}
+                                                </span>
+                                            </Col>
+                                        </Row>
+
+                                    </span>
+
+                                    <span className="text">
+                                        <Row>
+                                            <Col md={4}>
+                                                Index &nbsp;&nbsp;&nbsp;&nbsp;:
+                                            </Col>
+                                            <Col md={8}>
+                                                <span className="text-cont">
+                                                    {this.state.index}
+                                                </span>
+                                            </Col>
+                                        </Row>
+                                    </span>
+                                    <span className="text">
+                                        <Row>
+                                            <Col md={4}>
+                                                Email &nbsp;&nbsp;&nbsp;&nbsp;:
+                                            </Col>
+                                            <Col md={8}>
+                                                <span className="text-cont">
+
+                                                    {this.state.email}</span>
+                                            </Col>
+                                        </Row>
+                                    </span>
+                                </Col>
+                            </Row>
                         </div>
                     </ModalBody>
                 </Modal>

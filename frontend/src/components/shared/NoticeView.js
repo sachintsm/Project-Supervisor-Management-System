@@ -89,7 +89,6 @@ class NoticeView extends Component {
 
     this.userType = localStorage.getItem("user-level");
     console.log(this.userType)
-
     const userId = getFromStorage('auth-id').id;
 
     if (this.userType === 'coordinator' || this.userType === 'supervisor') {
@@ -180,20 +179,6 @@ class NoticeView extends Component {
 
   render() {
 
-   
-
-    let noCoordinatorNotice;
-    if (this.state.noticeListBlock.length === 0 && this.state.noticeListBlock.userType ==="coordinator" ) {
-         noCoordinatorNotice= <p className="no-notice">Cordinators not published Notices</p>
-    }
-
-    let noAdminNotice;
-    if (this.state.allNoticeList.length === 0 && this.state.allNoticeList.userType === 'admin') {
-      noAdminNotice= <p className="no-notice">Cordinators not published Notices</p>
- }
-
-  
-
 
     if (this.userType === 'coordinator') {
 
@@ -223,7 +208,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                              <h6>{types.notice}</h6>
+                              <h6 className="crd_notice_content">{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
@@ -245,7 +230,7 @@ class NoticeView extends Component {
                 </Tab>
 
                 <Tab eventKey="admins" title="Published By Admins">
-                {noAdminNotice}
+              
                   {this.state.allNoticeList.length > 0 && (
                     <div>
                       {this.state.allNoticeList.map((types) => {
@@ -263,8 +248,8 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>
@@ -289,7 +274,7 @@ class NoticeView extends Component {
         </React.Fragment>
       )
 
-    } else if (this.userType === 'supervisor') {
+    } else if (this.userType ==='supervisor') {
 
       return (
         <React.Fragment>
@@ -300,7 +285,7 @@ class NoticeView extends Component {
             <div className="container">
               <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginBottom: "30px", marginTop: "30px", width: "100%" }}>
                 <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
-                {noCoordinatorNotice}
+                
                   {this.state.noticeListBlock.length > 0 && (
                     <div >
                       {this.state.noticeListBlock.map((types) => {
@@ -317,8 +302,8 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                                <h6>{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <h6 className="crd_notice_content">{types.notice}</h6>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.no}>
                                   Attachment
                             </a>
                               </div>
@@ -337,7 +322,7 @@ class NoticeView extends Component {
                   )}
                 </Tab>
                 <Tab eventKey="admins" title="Published By Admins">
-                {noAdminNotice}
+              
                   {this.state.allNoticeList.length > 0 && (
                     <div>
                       {this.state.allNoticeList.map((types) => {
@@ -355,8 +340,8 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>
@@ -407,8 +392,8 @@ class NoticeView extends Component {
                           </Row>
 
                           <div className="card-body">
-                            <h6>{types.notice}</h6>
-                            <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                            <h6 className="crd_notice_content">{types.notice}</h6>
+                            <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                               Attachment
                                   </a>
                           </div>
@@ -438,7 +423,7 @@ class NoticeView extends Component {
             <div className="container">
               <Tabs defaultActiveKey="Coordinators Notices" id="uncontrolled-tab-example" style={{ marginBottom: "30px", marginTop: "30px", width: "100%" }}>
                 <Tab eventKey="Coordinators Notices" title="Published By Coordinators" className="tb-style" >
-                {noCoordinatorNotice}
+                
                   {this.state.studentNoticeListBlock.length > 0 && (
                     <div >
                       {this.state.studentNoticeListBlock.map((types) => {
@@ -455,7 +440,7 @@ class NoticeView extends Component {
                               </Row>
 
                               <div className="card-body">
-                                <h6>{types.notice}</h6>
+                                <h6 className="crd_notice_content">{types.notice}</h6>
                                 <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                             </a>
@@ -476,7 +461,7 @@ class NoticeView extends Component {
                   )}
                 </Tab>
                 <Tab eventKey="admins" title="Published By Admins">
-                {noAdminNotice}
+                
                   {this.state.allNoticeList.length > 0 && (
                     <div>
                       {this.state.allNoticeList.map((types) => {
@@ -494,8 +479,8 @@ class NoticeView extends Component {
                                 </Row>
 
                                 <div className="card-body">
-                                  <h6>{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                  <h6 className="crd_notice_content">{types.notice}</h6>
+                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>

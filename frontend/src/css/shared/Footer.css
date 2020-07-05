@@ -27,3 +27,8 @@ hr {
   text-align: center;
   font-family: 'Courier New', Courier, monospace;
 }
+.footer-text{
+  color : #eaf3ff;
+  font-size: 13px;
+  text-align: justify;
+}

@@ -246,91 +246,91 @@ export default class Profile extends Component {
                                                 <form onSubmit={this.onSubmit}>
                                                 <Row>
                                                     <Col md={6} xs="12">
-                                                   
-                                                            <div className="form-group">
-                                                                <label>First Name:</label>
-                                                                <input type="text" className="form-control"
+                                                        <div className="form-group">
+                                                            <label>First Name:</label>
+                                                            <input type="text" className="form-control"
                                                                     value={this.state.firstName || ""}
                                                                     onChange={this.onChangeFirstName}
                                                                     readOnly />
-                                                            </div>
-                                                        </Col>
-                                                        <Col md={6} xs="12">
-                                                            <div className="form-group">
-                                                                <label>Last Name:</label>
-                                                                <input type="text" className="form-control"
-                                                                    value={this.state.lastName || ""}
-                                                                    onChange={this.onChangeLastName}
-                                                                    readOnly />
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                    <Col>
-                                                    <div className="form-group">
-                                                        <label>Email:</label>
-                                                        <input type="text" className="form-control"
-                                                            value={this.state.email || ""}
-                                                            onChange={this.onChangeEmail}
-                                                            required />
-                                                        <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
-                                                    </div>
+                                                        </div>
                                                     </Col>
-                                                    </Row>
-                                                    <Row>
                                                     <Col md={6} xs="12">
-                                                            <div className="form-group">
-                                                                <label> NIC Number:</label>
-                                                                <input type="text" className="form-control"
+                                                        <div className="form-group">
+                                                            <label>Last Name:</label>
+                                                            <input type="text" className="form-control"
+                                                                        value={this.state.lastName || ""}
+                                                                        onChange={this.onChangeLastName}
+                                                                        readOnly />
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        <div className="form-group">
+                                                            <label>Email:</label>
+                                                            <input type="text" className="form-control"
+                                                                value={this.state.email || ""}
+                                                                onChange={this.onChangeEmail}
+                                                                required />
+                                                            <div style={{ fontSize: 12, color: "red" }}>{this.state.emailError}</div>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col md={6} xs="12">
+                                                        <div className="form-group">
+                                                            <label> NIC Number:</label>
+                                                            <input type="text" className="form-control"
                                                                     value={this.state.nic || ""}
                                                                     onChange={this.onChangeNic}
                                                                     readOnly />
-                                                            </div>
-                                                        </Col>
-                                                        <Col md={6} xs="12">
-                                                            <div className="form-group">
-                                                                <label> Mobile Number:</label>
-                                                                <input type="text" className="form-control"
+                                                        </div>
+                                                    </Col>
+                                                    <Col md={6} xs="12">
+                                                        <div className="form-group">
+                                                            <label> Mobile Number:</label>
+                                                            <input type="text" className="form-control"
                                                                     value={this.state.mobile || ""}
                                                                     onChange={this.onChangeMobile}
                                                                     required />
-                                                                <div style={{ fontSize: 12, color: "red" }}>{this.state.mobileError}</div>
-                                                            </div>
-                                                         </Col>
-                                                    </Row>
-                                                    <Row>
-                                                    <Col>
-                                                    <div className="form-group">
-                                                        <label>Birthday:</label>
-                                                        <input type="text" className="form-control"
-                                                            value={this.state.birthday || ""}
-                                                            onChange={this.onChangeBirthday}
-                                                            readOnly />
-                                                    </div>
+                                                            <div style={{ fontSize: 12, color: "red" }}>{this.state.mobileError}</div>
+                                                        </div>
                                                     </Col>
-                                                    </Row>
-                                                    {this.state.stu === true ? (
-                                                        <Row>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        <div className="form-group">
+                                                            <label>Birthday:</label>
+                                                            <input type="text" className="form-control"
+                                                                value={this.state.birthday || ""}
+                                                                onChange={this.onChangeBirthday}
+                                                                readOnly />
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            {this.state.stu === true ? (
+                                                <Row>
                                                     <Col md={6} xs="12">
-                                                                <div className="form-group">
-                                                                    <label> Index Number:</label>
-                                                                    <input type="text" className="form-control"
+                                                        <div className="form-group">
+                                                            <label> Index Number:</label>
+                                                            <input type="text" className="form-control"
                                                                         value={this.state.indexNum || ""}
                                                                         onChange={this.onChangeIndex}
                                                                         readOnly />
-                                                                </div>
-                                                                </Col>
-                                                                <Col md={6} xs="12">
-                                                                <div className="form-group">
-                                                                    <label> Registration Number:</label>
-                                                                    <input type="text" className="form-control"
+                                                        </div>
+                                                    </Col>
+                                                    <Col md={6} xs="12">
+                                                        <div className="form-group">
+                                                            <label> Registration Number:</label>
+                                                            <input type="text" className="form-control"
                                                                         value={this.state.regNum || ""}
                                                                         onChange={this.onChangeReg}
                                                                         readOnly />
-                                                                </div>
+                                                        </div>
                                                                 
-                                                                </Col></Row> ) : null
-                                                    }
+                                                    </Col>
+                                                </Row> ) : null
+                                            }
                                                     <div className="from-group justify-content-center">
                                                         <input type="submit" value="Save" className="btn btn-info my-4" style={{width: "100%"}} />
                                                     </div>

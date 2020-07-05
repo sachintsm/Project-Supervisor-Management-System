@@ -5,6 +5,12 @@ import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
 import {Container, Col, Row} from "react-bootstrap";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { confirmAlert } from "react-confirm-alert";
+import { verifyAuth } from "../../utils/Authentication";
+import { getFromStorage } from "../../utils/Storage";
+import Snackpop from "../shared/Snackpop";
+
+
 
 const backendURI = require("../shared/BackendURI");
 
@@ -22,16 +28,68 @@ export default class MailBox extends Component {
       }) 
   }
 
+  onDeleteHandler = (id) => {
+
+   // console.log("jkdfndsn")
+    confirmAlert({
+      title: "Delete Mail",
+      message: "Are you sure?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+
+            const headers = {
+              'auth-token': getFromStorage('auth-token').token,
+            }
+            axios
+              .delete(backendURI.url + "/contactUs/mail_delete/" + id, { headers: headers })
+              .then((res) => {
+                this.setState({
+                  deleteSuccesAlert: true,
+                });
+                this.componentDidMount();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        },
+        {
+          label: "No",
+          onClick: () => { },
+        },
+     ],
+    });
+  };
+
+  closeAlert = () => {
+    this.setState({
+      succesAlert: false,
+      deleteSuccesAlert: false,
+    });
+  };
+
+
+
   render() {   
       return (
-        <React.Fragment>       
+        <React.Fragment> 
+        
+        <Snackpop
+        msg={"Deleted Successfully.."}
+        color={"success"}
+        time={2000}
+        status={this.state.deleteSuccesAlert}
+        closeAlert={this.closeAlert}
+      />
           <Container>
               <div style={{ marginTop: "20px" }}>
                 <h3>Mail Box </h3>
                 <div>
                   {this.state.MessageList.map(message => {
                     return (
-                      <Card style={{ marginTop: "20px", marginBottom: "10px" }}>
+                      <Card style={{ marginTop: "20px", marginBottom: "10px" }} key={message._id}>
                         <Row>
                           <Col xs="11">
                             <CardContent style={{ paddingBottom: "2px" }}>
