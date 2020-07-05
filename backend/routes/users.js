@@ -39,25 +39,30 @@ router.get('/verify', verify, function (req, res, next) {
 });
 
 //User registration
-router.post("/register", verify, async function (req, res) {
+router.post("/register", verify,async function (req, res) {
   upload(req, res, (err) = async () => {
 
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
 
-    // checking if the NIC is already in the database
+    // checking if the NIC is already in the database 
     const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
     if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
 
-    // checking if the NIC is already in the database
-    const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
-    if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+    // console.log(req.body.indexNumber);
+    
+    // // checking if the NIC is already in the database
+    // if (req.body.indexNumber !== undefined || req.body.indexNumber !== '' || req.body.indexNumber !== null) {
+    //   const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
+    //   if (userIndexExists) return res.json({ state: false, msg: "This index number already in use..!" })
+    // }
 
-    // checking if the NIC is already in the database
-    const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
-    if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
-
+    // // checking if the NIC is already in the database
+    // if (req.body.regNumber !== undefined || req.body.regNumber !== '' || req.body.regNumber !== null) {
+    //   const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
+    //   if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
+    // }
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
 
@@ -86,9 +91,6 @@ router.post("/register", verify, async function (req, res) {
 
     var fullPath = time + '-' + req.file.originalname;
 
-    console.log(req.body.courseType);
-    console.log(req.body.mobileNumber);
-
     //create a new user
     const newUser = new User({
       firstName: req.body.firstName,
@@ -98,8 +100,8 @@ router.post("/register", verify, async function (req, res) {
       birthday: req.body.birthday,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
-      indexNumber: req.body.indexNumber.toLowerCase(),
-      regNumber: req.body.regNumber.toLowerCase(),
+      indexNumber: req.body.indexNumber,
+      regNumber: req.body.regNumber,
       courseType: req.body.courseType,
       imageName: fullPath,
       isStudent: student,
@@ -128,6 +130,7 @@ router.post("/register", verify, async function (req, res) {
                   res.json({
                     state: true,
                     msg: "User Registered Successfully..!",
+                    data: newUser
                   });
                 })
                 .catch((err) => {
@@ -432,7 +435,227 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-//update user profile 
+///////// get project list for supervisor profile
+router.get('/getSupPro/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Projects
+    .find({supervisorList:id })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "No projects" });
+    })
+
+});
+//////////////////////////////////////request////////////////////////////////////////////////////////////////////
+//////////////get request list for supervisor panel
+router.get('/getSupReq/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request
+    .find({supId:id })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
+//////////update request state whether accept or reject
+router.post('/updateReqState/:id', async(req, res)=> {
+  let id = req.params.id;
+  console.log(id);
+  Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      request.state = req.body.state;
+
+      request.save().then(user => {
+        if(req.body.state=== 'accept'){
+           res.json({ state: true, msg: 'You accept this group' });
+        }else{
+           res.json({ state: true, msg: 'You reject this group' });
+        }
+      })
+        .catch(err => {
+          res.status(400).send("unable to accept");
+        });
+    }
+  });
+
+});
+////////check supervisor request/////////////////////
+router.post('/check', async (req, res) => {
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+  console.log(req.body.sup_id);
+  console.log(req.body.stu_id);
+
+  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
+  console.log(group.groupId);
+
+
+
+  Request.find({ groupId: group.groupId }).select().exec()
+    .then(data => {
+      console.log(data);
+      console.log(data.length);
+      var count = 0;
+      var stat = false;
+      for (var i = 0; i < data.length; i++) {
+        console.log(data[i].reqDate);
+        if (dateString == (data[i].reqDate)) {
+          count = count + 1;
+        }
+      }
+      console.log(count);
+      if (count < 2) {
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i].reqDate);
+          if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
+            stat = true;
+          }
+          else {
+            stat = false;
+          }
+        }
+        if (stat == true) {
+          res.json({ state: false, msg: "Your group have already requested..." });
+        }
+        else {
+          res.json({ state: true, msg: "You can request..." });
+        }
+
+    }else{
+          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+    }
+
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({ state: false, msg: "Request Failed..!" });
+    })
+
+
+})
+//////////////////////////request send supervisors//////////////////////////
+router.post('/add', async (req, res) => {
+
+  let ts = Date.now();
+  let date_ob = new Date(ts);
+  let dateString = new Date(date_ob).toUTCString();
+  dateString = dateString.split(' ').slice(0, 4).join(' ');
+
+  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+
+  const group = await CreateGroups.findOne({ projectId: req.body.project_id}).select("groupId")
+  console.log(group.groupId);
+
+  const Year = await Projects.findOne({_id: req.body.project_id}).select("projectYear")
+  console.log(Year);
+  const Type = await Projects.findOne({_id: req.body.project_id}).select("projectType")
+  
+  const Academic = await Projects.findOne({_id: req.body.project_id}).select("academicYear")
+  
+
+
+  //create a new request
+  const newReq = new Request({
+    supId: req.body.sup_id,
+    stuId: req.body.stu_id,
+    state: 'pending',
+    reqDate: dateString,
+    groupId: group.groupId,
+    projectId: req.body.project_id,
+    description: req.body.descript,
+    projectYear:Year.projectYear,
+    projectType:Type.projectType,
+    academicYear:Academic.academicYear
+  });
+
+  newReq.save()
+    .then(result => {
+      console.log(result)
+      res.json({ state: true, msg: "Request Successfull..!" });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Request Failed..!" });
+    })
+
+});
+
+/////get supervisors//////////////////
+router.get('/getSup/:id', async (req, res) => {
+
+  const id = req.params.id;
+
+  Projects
+    .find({ _id: id })
+    .exec()
+    .then(data => {
+
+      //console.log(data[0].supervisorList);
+      var supervisorIdList = data[0].supervisorList
+      // console.log(supervisorIdList.length);
+      if (supervisorIdList.length === 0) {
+        res.json({ state: false, msg: "No Supervisors!" });
+      } else {
+        var arr1 = [];
+        for (let i = 0; i < supervisorIdList.length; i++) {
+          var idS = supervisorIdList[i]
+          console.log(idS);
+          User.find({ _id: idS })
+            .exec()
+            .then(result => {
+              console.log(result[0]);
+              arr1.push(result[0]);
+
+              if (i === (supervisorIdList.length - 1)) {
+                console.log(arr1);
+                res.json({ state: true, msg: "Data Transfer Successfully..!", data: arr1 });
+              }
+              else {
+                console.log("no");
+              }
+            })
+            .catch(error => {
+              res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+            })
+        }
+        //console.log(arr1);
+      }
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+})
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//update user profile by user
 router.post('/update/:id', function (req, res) {
   let id = req.params.id;
   User.findById({ _id: id }, function (err, user) {
@@ -532,11 +755,17 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
+    if(p === ''){
+      console.log('No Image to delete');
+   
+  }
+  else{
     fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
       if (err) throw err;
       // if no error, file has been deleted successfully
       console.log('File deleted!');
     });
+  }
   }
 
 });
@@ -589,28 +818,8 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
-///// update no of projects
 
-router.post('/academic/:id', function (req, res) {
-  let id = req.params.id;
-  console.log(id);
-  User.findById({ _id: id }, function (err, user) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      console.log(req.body.pro);
-      user.noProject = req.body.pro;
 
-      user.save().then(user => {
-        res.json({ state: true, msg: 'Update Complete', data: user.noProject });
-
-      })
-        .catch(err => {
-          res.status(400).send("unable to update database");
-        });
-    }
-  });
-});
 //? check student available or not
 router.get('/student/:id', verify, async (req, res) => {
   const index = req.params.id;
@@ -663,157 +872,6 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
   }
 })
 
-
-////////check supervisor request/////////////////////
-router.post('/check', async (req, res) => {
-  let ts = Date.now();
-  let date_ob = new Date(ts);
-  let dateString = new Date(date_ob).toUTCString();
-  dateString = dateString.split(' ').slice(0, 4).join(' ');
-
-  console.log(req.body.sup_id);
-  console.log(req.body.stu_id);
-
-  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
-  const index = result.indexNumber
-  console.log(index);
-
-  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
-  console.log(group.groupId);
-
-
-
-  Request.find({ groupId: group.groupId }).select().exec()
-    .then(data => {
-      console.log(data);
-      console.log(data.length);
-      var count = 0;
-      var stat = false;
-      for (var i = 0; i < data.length; i++) {
-        console.log(data[i].reqDate);
-        if (dateString == (data[i].reqDate)) {
-          count = count + 1;
-        }
-      }
-      console.log(count);
-      if (count < 2) {
-        for (var i = 0; i < data.length; i++) {
-          console.log(data[i].reqDate);
-          if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
-            stat = true;
-          }
-          else {
-            stat = false;
-          }
-        }
-        if (stat == true) {
-          res.json({ state: false, msg: "Your group have already requested..." });
-        }
-        else {
-          res.json({ state: true, msg: "You can request..." });
-        }
-
-      } else {
-        res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
-      }
-
-    })
-    .catch(err => {
-      console.log(err);
-      res.json({ state: false, msg: "Request Failed..!" });
-    })
-
-
-})
-//////////////////////////request send supervisors//////////////////////////
-router.post('/add', async (req, res) => {
-
-  let ts = Date.now();
-  let date_ob = new Date(ts);
-  let dateString = new Date(date_ob).toUTCString();
-  dateString = dateString.split(' ').slice(0, 4).join(' ');
-
-  const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
-  const index = result.indexNumber
-  console.log(index);
-
-  const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
-  console.log(group.groupId);
-
-  //create a new request
-  const newReq = new Request({
-    supId: req.body.sup_id,
-    stuId: req.body.stu_id,
-    state: 'pending',
-    reqDate: dateString,
-    groupId: group.groupId,
-    projectId: req.body.project_id,
-    description: req.body.descript
-
-
-  });
-
-  newReq.save()
-    .then(result => {
-      console.log(result)
-      res.json({ state: true, msg: "Request Successfull..!" });
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Request Failed..!" });
-    })
-
-});
-
-/////get supervisors//////////////////
-router.get('/getSup/:id', async (req, res) => {
-
-  const id = req.params.id;
-
-  Projects
-    .find({ _id: id })
-    .exec()
-    .then(data => {
-
-      //console.log(data[0].supervisorList);
-      var supervisorIdList = data[0].supervisorList
-      // console.log(supervisorIdList.length);
-      if (supervisorIdList.length === 0) {
-        res.json({ state: false, msg: "No Supervisors!" });
-      } else {
-        var arr1 = [];
-        for (let i = 0; i < supervisorIdList.length; i++) {
-          var idS = supervisorIdList[i]
-          console.log(idS);
-          User.find({ _id: idS })
-            .exec()
-            .then(result => {
-              console.log(result[0]);
-              arr1.push(result[0]);
-
-              if (i === (supervisorIdList.length - 1)) {
-                console.log(arr1);
-                res.json({ state: true, msg: "Data Transfer Successfully..!", data: arr1 });
-              }
-              else {
-                console.log("no");
-              }
-              //res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
-            })
-            .catch(error => {
-              res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-            })
-        }
-        //console.log(arr1);
-      }
-
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-
-})
 
 //get user by id
 

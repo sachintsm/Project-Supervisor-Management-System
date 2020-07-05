@@ -330,7 +330,7 @@ export default class registration extends Component {
               formData.append('birthday', this.state.startDate);
               formData.append('mobileNumber', this.state.form.mobileNumber);
               formData.append('indexNumber', this.state.form.indexNumber)
-              formData.append('regNumber', this.state.form.regNumber)
+              formData.append('regNumber', this.state.form.regNumber.toLowerCase())
               formData.append('courseType', this.state.form.courseType)
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);

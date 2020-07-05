@@ -128,7 +128,7 @@ export default class ViewUsers extends Component {
         );
 
         return filteredUsers.map((currentStaff, i) => {
-            if (currentStaff.isStaff === true && currentStaff.isAdmin === true && currentStaff.isDeleted === false) {
+            if (currentStaff.isAdmin === true && currentStaff.isDeleted === false) {
                 return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
             }
             else return null

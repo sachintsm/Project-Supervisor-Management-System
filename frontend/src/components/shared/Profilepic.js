@@ -52,7 +52,7 @@ export default class Profilepic extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
-            imgName : '',
+            imgName: '',
 
         }
     }
@@ -73,7 +73,7 @@ export default class Profilepic extends Component {
         else {
             confirmAlert({
                 title: 'Confirm to submit',
-                message: 'Are you sure to do this.',
+                message: 'Are you sure to change?',
                 buttons: [
                     {
                         label: 'Yes',
@@ -89,6 +89,7 @@ export default class Profilepic extends Component {
                                         snackbarmsg: response.data.msg,
                                         snackbarcolor: 'success',
                                     })
+                                    window.location.reload(false);
                                     console.log(response);
                                 }).catch((error) => {
                                     this.setState({
@@ -96,8 +97,9 @@ export default class Profilepic extends Component {
                                         snackbarmsg: error.data.msg,
                                         snackbarcolor: 'error',
                                     })
+                                    window.location.reload(false);
                                 });
-                            window.location.reload(false);
+
                         }
                     },
                     {
@@ -134,9 +136,13 @@ export default class Profilepic extends Component {
                 />
                 <div className="card testimonial-card" style={{ backgroundColor: '#263238' }}>
                     <div className="card-body1">
-                        <img src={("http://localhost:4000/users/profileImage/" + this.state.mulImage)}
-                            className="avatar" style={{ width: "100%", padding: "10px" }} />
-                        <br></br>
+                        {this.state.mulImage === '' ?
+                            (<img src={require('../../assets/images/default.jpg')}
+                                className="avatar" style={{ width: "100%", padding: "10px" }} />
+                            ) : (<img src={("http://localhost:4000/users/profileImage/" + this.state.mulImage)}
+                                className="avatar" style={{ width: "100%", padding: "10px" }} />
+                            )
+                        }   <br></br>
                         <h3 className="card-title" style={{ color: 'white', marginLeft: "10px" }}>{this.state.username}</h3>
                     </div>
                 </div>
@@ -147,23 +153,23 @@ export default class Profilepic extends Component {
                                 {/* <input type="file" className="myImage" name="Image" onChange={this.onChangeP} /> */}
                                 {/* File input */}
                                 <Row>
-                                <Col md={12} xs="12">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text"> Upload </span>
-                                    </div>
-                                    <div className="custom-file">
-                                        <input
-                                            type="file"
-                                            className="custom-file-input"
-                                            id="inputGroupFile01"
-                                            onChange={this.onChangeP}
-                                        />
-                                        <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.multerImage}</label>
-                                    </div>
-                                </div>
-                                <button type="submit" className="btn btn-info my-4" style={{width: '100%'}}>Upload</button>
-                                </Col>
+                                    <Col md={12} xs="12">
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text"> Upload </span>
+                                            </div>
+                                            <div className="custom-file">
+                                                <input
+                                                    type="file"
+                                                    className="custom-file-input"
+                                                    id="inputGroupFile01"
+                                                    onChange={this.onChangeP}
+                                                />
+                                                <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.multerImage}</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" className="btn btn-info my-4" style={{ width: '100%' }}>Upload</button>
+                                    </Col>
                                 </Row>
                             </form>
                         </div>
