@@ -12,6 +12,10 @@ import {
 import { Row, Col } from "reactstrap";
 import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
+import TimePicker from 'react-time-picker';
+// import TimePicker from "rc-time-picker";
+// import 'rc-time-picker/assets/index.css';
+
 import { getFromStorage } from "../../../utils/Storage";
 import { verifyAuth } from "../../../utils/Authentication";
 
@@ -39,15 +43,15 @@ export default class ConfirmMeeting extends Component {
 
       groupId: "",
       purpose: "",
-      date:"",
+      date: "",
       time: "",
       supervisor: "",
-      super:"",
+      super: "",
       supervisorN: [],
       superOptionList: [],
       selectValue: "",
-      meetId : this.props.data,
-      meetings:[],
+      meetId: this.props.data,
+      meetings: [],
 
       purposeError: '',
       dateError: '',
@@ -62,6 +66,8 @@ export default class ConfirmMeeting extends Component {
       date: new Date(),
 
     };
+    this.onSubmit = this.onSubmit.bind(this);
+
     // console.log(this.state.group.supervisors);
     // this.handleDropdownChange = this.handleDropdownChange.bind(this);
 
@@ -72,21 +78,21 @@ export default class ConfirmMeeting extends Component {
     const authState = await verifyAuth();
 
     this.setState({
-        authState: authState,
-        groupDataBlock: [],
-        finalBlock: []
+      authState: authState,
+      groupDataBlock: [],
+      finalBlock: []
     });
     if (!authState) {  //!check user is logged in or not if not re-directed to the login form
-        this.props.history.push("/");
+      this.props.history.push("/");
     }
 
     const headers = {
-        'auth-token': getFromStorage('auth-token').token,
+      'auth-token': getFromStorage('auth-token').token,
     }
 
     const userId = getFromStorage('auth-id').id
     this.setState({
-        userId: userId,
+      userId: userId,
     })
 
 
@@ -94,21 +100,21 @@ export default class ConfirmMeeting extends Component {
 
 
     await axios.get(backendURI.url + '/requestMeeting/getmeet/' + this.state.meetId)
-        .then(response => {
-            // this.setState({ meetings: response.data.data });
-            this.setState({
-                purpose: response.data.data[0].purpose,
-                // firstName: response.data.data[0].firstName,
-                // lastName: response.data.data[0].lastName,
-                // email: response.data.data[0].email,
-                // nic: response.data.data[0].nic,
-                // mobile: response.data.data[0].mobile
+      .then(response => {
+        // this.setState({ meetings: response.data.data });
+        this.setState({
+          purpose: response.data.data[0].purpose,
+          // firstName: response.data.data[0].firstName,
+          // lastName: response.data.data[0].lastName,
+          // email: response.data.data[0].email,
+          // nic: response.data.data[0].nic,
+          // mobile: response.data.data[0].mobile
 
-            });
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
 
     console.log(this.state.meetings);
 
@@ -129,9 +135,33 @@ export default class ConfirmMeeting extends Component {
     }))
   }
 
+  onChangeTime = time => {
+    this.setState(prevState => ({
+      time: time
+    }))
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  onSubmit(e) {
+    e.preventDefault();
+
+
+    const obj = {
+      // _id: this.state._id,
+      date: this.state.date,
+      time: this.state.time,
+    };
+
+    axios.post(backendURI.url + '/requestMeeting/updateMeet/' + this.state.meetId, obj)
+      .then(res => console.log(res.data));
+
+    // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
+    window.location.reload();
+
+  }
 
 
 
@@ -174,62 +204,62 @@ export default class ConfirmMeeting extends Component {
   }
 
 
-  onSubmit(e) {
-    e.preventDefault()
-    const err = this.validate();
-    //?calling validation function
+  // onSubmit(e) {
+  //   e.preventDefault()
+  //   const err = this.validate();
+  //   //?calling validation function
 
-    if (!err) {
-      this.setState({
-        purposeError: '',
-        dateError: '',
-        timeError: '',
-        supervisorError: '',
-      })
-      const obj = {
-        groupId: this.state.group.groupId,
-        purpose: this.state.purpose,
-        date: this.state.date,
-        time: this.state.time,
+  //   if (!err) {
+  //     this.setState({
+  //       purposeError: '',
+  //       dateError: '',
+  //       timeError: '',
+  //       supervisorError: '',
+  //     })
+  //     const obj = {
+  //       groupId: this.state.group.groupId,
+  //       purpose: this.state.purpose,
+  //       date: this.state.date,
+  //       time: this.state.time,
 
 
-      };
-      console.log("abcd");
-      console.log(obj);
-      axios.post(backendURI.url + "/requestMeeting/add", obj)
-        .then((res) => {
-          console.log(res.data.state)
-          if (res.data.state === true) {
-            this.setState({
-              snackbaropen: true,
-              snackbarmsg: res.data.msg,
-              snackbarcolor: 'success',
-            })
-            window.location.reload()
-          }
-          else {
-            this.setState({
-              snackbaropen: true,
-              snackbarmsg: res.data.msg,
-              snackbarcolor: 'error',
-            })
-          }
-          console.log(res.data);
-        })
-        .catch((error) => {
-          this.setState({
-            snackbaropen: true,
-            snackbarmsg: error,
-            snackbarcolor: 'error',
-          })
-          console.log(error);
-        });
-      this.setState({
-        modal: false
-      })
-    }
+  //     };
+  //     console.log("abcd");
+  //     console.log(obj);
+  //     axios.post(backendURI.url + "/requestMeeting/add", obj)
+  //       .then((res) => {
+  //         console.log(res.data.state)
+  //         if (res.data.state === true) {
+  //           this.setState({
+  //             snackbaropen: true,
+  //             snackbarmsg: res.data.msg,
+  //             snackbarcolor: 'success',
+  //           })
+  //           window.location.reload()
+  //         }
+  //         else {
+  //           this.setState({
+  //             snackbaropen: true,
+  //             snackbarmsg: res.data.msg,
+  //             snackbarcolor: 'error',
+  //           })
+  //         }
+  //         console.log(res.data);
+  //       })
+  //       .catch((error) => {
+  //         this.setState({
+  //           snackbaropen: true,
+  //           snackbarmsg: error,
+  //           snackbarcolor: 'error',
+  //         })
+  //         console.log(error);
+  //       });
+  //     this.setState({
+  //       modal: false
+  //     })
+  //   }
 
-  }
+  // }
 
   render() {
 
@@ -283,8 +313,17 @@ export default class ConfirmMeeting extends Component {
                       <Col>
                         <div className="form-group">
                           <label className="text-label">Time </label>
-                          <input type="text" className="form-control" name="time" onChange={this.onChange} />
-                          <p className="reg-error">{this.state.lastNameError}</p>
+                          {/* <input type="text" className="form-control" name="time" onChange={this.onChange} />
+                          <p className="reg-error">{this.state.lastNameError}</p> */}
+                          <div className="form-group">
+                            <TimePicker
+                              className="form-control"
+                              value={this.state.time}
+                              // showSecond={false}
+                              onChange={this.onChangeTime}
+                              // timeFormat="hh:mm"
+                            />
+                          </div>
 
                         </div>
                       </Col>

@@ -28,6 +28,15 @@ const Meet = React.memo(props => (
     </tr>
 ));
 
+const MeetConfirmed = React.memo(props => (
+    <tr>
+        <td className="table-body">{props.meetconfirmed.groupId}</td>
+        <td className="table-body">{props.meetconfirmed.purpose}</td>
+        <td className="table-body">{props.meetconfirmed.date}</td>
+        <td className="table-body">{props.meetconfirmed.time}</td>
+    </tr>
+));
+
 class ViewMeetings extends Component {
 
     constructor(props) {
@@ -52,9 +61,6 @@ class ViewMeetings extends Component {
 
             meetings: [],
         }
-
-        // this.onChange = this.onChange.bind(this);
-        // this.confirm = this.confirm.bind(this);
 
 
     }
@@ -103,10 +109,22 @@ class ViewMeetings extends Component {
 
 
         return this.state.meetings.map((currentMeet, i) => {
-
+            if (currentMeet.state === "pending" ) {
             return <Meet confirm={this.confirm} meet={currentMeet} key={i} />;
+            }
+            else return null
+        })
 
-            return null
+    }
+
+    MeetList2() {
+
+
+        return this.state.meetings.map((currentMeetConfirmed, i) => {
+            if (currentMeetConfirmed.state === "confirmed" ) {
+            return <MeetConfirmed confirm={this.confirm} meetconfirmed={currentMeetConfirmed} key={i} />;
+            }
+            else return null
         })
 
     }
@@ -185,7 +203,7 @@ class ViewMeetings extends Component {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {/* {this.UserList2()} */}
+                                                                    {this.MeetList2()}
 
                                                                 </tbody>
                                                             </Table>
