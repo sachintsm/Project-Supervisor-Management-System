@@ -7,13 +7,13 @@ import { confirmAlert } from 'react-confirm-alert';
 import Footer from '../shared/Footer';
 import Navbar from "../shared/Navbar";
 import Snackpop from "../shared/Snackpop";
-import '../../css/students/ReqSupervisor.css';
+import '../../css/students/ReqSupervisor.scss';
 
 const backendURI = require('../shared/BackendURI');
 
 
 function ProjectModal(props) {
-    const { hide,re,re2,re3,re4,...rest } = props
+    const { hide,re,...rest } = props
     return (
     
         <Modal responsive="true"
@@ -21,6 +21,7 @@ function ProjectModal(props) {
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className="modal"
         >
                     
             <Modal.Header >
@@ -29,10 +30,25 @@ function ProjectModal(props) {
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <h5></h5>
-            <form >
-                <textarea className="area" value={re2} readOnly/>
-            </form>
+                <Table responsive >
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Type</th>
+                                    <th>Academic Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {re.map((result) => {
+                                return (<tr key={result._id}>
+                                    <td>{result.projectYear}</td>
+                                    <td>{result.projectType}</td>
+                                    <td>{result.academicYear}</td>
+                                    </tr> 
+                                    )
+                            })}
+                            </tbody>
+                </Table>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={hide}>Close</Button>
@@ -51,6 +67,7 @@ function CenteredModal(props) {
             size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            className="modal"
         >
                     
             <Modal.Header >
@@ -86,9 +103,6 @@ const Staff = React.memo( props =>(
                 show={props.stat2}
                 hide={props.hiden2}
                 re={props.result}
-                re2={props.result2}
-                re3={props.result3}
-                re4={props.result4}
                 />
                 </ButtonToolbar>
                 </td>
@@ -120,9 +134,6 @@ export default class Profile extends Component {
             search: '',
             userS: [],
             pro:[],
-            year:[],
-            type:[],
-            academic:[],
             project: props.location.state.projectDetails,
             snackbaropen: false,
             snackbarmsg: ' ',
@@ -198,9 +209,9 @@ export default class Profile extends Component {
 
         return filteredUsers.map((currentStaff, i) => {
            // if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
-                return <Staff request={this.requestSup} send={this.reqSend} view={this.viewPro} result={this.state.pro} result2={this.state.year}
-                result3={this.state.type} result4={this.state.academic} hiden={this.hideModal} hiden2={this.hideModal2} 
-                desHan={this.handleChange} descrip={this.state.descript} stat={this.state.show} stat2={this.state.show2} dis={this.state.dis}  staff={currentStaff} key={i} />;
+                return <Staff request={this.requestSup} send={this.reqSend} view={this.viewPro} result={this.state.pro} 
+                hiden={this.hideModal} hiden2={this.hideModal2} desHan={this.handleChange} descrip={this.state.descript} 
+                stat={this.state.show} stat2={this.state.show2} dis={this.state.dis}  staff={currentStaff} key={i} />;
            // }
         })
 
@@ -249,13 +260,10 @@ export default class Profile extends Component {
         
         axios.get(backendURI.url + "/users/getSupPro/"+sup)
                     .then(res => {
-                        console.log(res.data.data.projectYear);
+                        console.log(res.data.data);
                         if(res.data.state==true){
                             this.setState({
-                                pro:res.data.data,
-                                year:res.data.data.projectYear,
-                                type:res.data.data.projectType,
-                                academic:res.data.data.academicYear
+                                pro:res.data.data
                             })
                             this.showModal2();
                         }
