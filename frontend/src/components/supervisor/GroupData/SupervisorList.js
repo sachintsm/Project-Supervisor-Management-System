@@ -111,12 +111,10 @@ class StudentList extends Component {
                     return (
                         <div key={user.id} className="sl-card-super">
                             <Row >
-                                <Col md="10" xs="10">
+                                <Col md="12" xs="12">
                                     <p className="sl-text">{user.name}</p>
                                 </Col>
-                                <Col md="2" xs="2">
-                                    <DeleteForeverIcon className="gd-del-btn" onClick={() => this.delete(user.id)} />
-                                </Col>
+
                             </Row>
                         </div>
                     )

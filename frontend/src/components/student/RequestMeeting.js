@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Row, Col } from "reactstrap";
 import Snackpop from "../shared/Snackpop";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import { getFromStorage } from "../../utils/Storage";
 import Select from '@material-ui/core/Select';
 
@@ -238,12 +238,12 @@ export default class RequestMeeting extends Component {
                     </div>
 
 
-                    <Row>
+                    {/* <Row>
                       <Col>
                         <div className="form-group">
                           <label className="text-label">Date </label>
-                          {/* <input type="text" className="form-control" name="date" onChange={this.onChange} />
-                        <p className="reg-error">{this.state.firstNameError}</p> */}
+                          <input type="text" className="form-control" name="date" onChange={this.onChange} />
+                        <p className="reg-error">{this.state.firstNameError}</p>
                           <div className="form-group">
                             <DatePicker
                               className="form-control"
@@ -263,14 +263,9 @@ export default class RequestMeeting extends Component {
 
                         </div>
                       </Col>
-                    </Row>
+                    </Row> */}
 
-                    {/* <div className="form-group">
-                    <Label for="avatar">Supervisor</Label>
-                    <Input type="text" className="form-control" name="supervisor" onChange={this.onChange} />
-                    <p className="reg-error">{this.state.emailError}</p>
 
-                  </div> */}
                     <div className="form-group">
                       <Label for="avatar">Supervisor</Label>
 
