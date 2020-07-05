@@ -132,7 +132,7 @@ class ViewMeetings extends Component {
     render() {
         return (
             <React.Fragment >
-                <Navbar panel={"admin"} />
+                <Navbar panel={"supervisor"} />
                 <div className="container-fluid">
                     <Snackpop
                         msg={this.state.snackbarmsg}
