@@ -287,7 +287,7 @@ class GroupData extends Component {
     render() {
         return (
             <div className="gd-fullpage" >
-                <Navbar panel={"coordinator"} />
+                <Navbar panel={"supervisor"} />
                 <div className="container-fluid open-project open-project-background-color">
                     <Snackpop
                         msg={this.state.snackbarmsg}
