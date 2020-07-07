@@ -19,6 +19,7 @@ export default class Index extends Component {
             lastName: '',
             regNumber: '',
             email: '',
+            mobileNumber: '',
             image: '',
             index: ''
 
@@ -31,6 +32,7 @@ export default class Index extends Component {
                     lastName: res.data.lastName,
                     regNumber: res.data.regNumber,
                     email: res.data.email,
+                    mobile: res.data.mobile,
                     image: res.data.imageName,
                     index: res.data.indexNumber,
                     cat: res.data.regNumber.substring(5, 7).toUpperCase(),
@@ -109,6 +111,21 @@ export default class Index extends Component {
                                                 <span className="text-cont">
 
                                                     {this.state.email}</span>
+
+                                                    
+                                            </Col>
+                                        </Row>
+                                    </span>
+
+                                    <span className="text">
+                                        <Row>
+                                            <Col md={4}>
+                                                Mobile &nbsp;:
+                                            </Col>
+                                            <Col md={8}>
+                                                <span className="text-cont">
+                                                    {this.state.mobile}
+                                                </span>
                                             </Col>
                                         </Row>
                                     </span>
