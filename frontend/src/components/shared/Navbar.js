@@ -31,8 +31,10 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
+      count:1 /////
     };
     this.logout = this.logout.bind(this);
+    this.handleClick = this.handleClick.bind(this);/////////////
   }
 
   toggleCollapse = () => {
@@ -54,7 +56,11 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
-
+   handleClick(){/////////
+     this.setState({
+       count:0
+     })
+   }
   render() {
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
@@ -182,7 +188,15 @@ export default class navbar extends Component {
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
-                   RequestView
+                  <span onClick={ this.handleClick}> RequestView</span>
+                  {(this.state.count !== 0) ?
+                    ( <span class="badge" style={{ position: "absolute",
+                          top: "10px",
+                          right: "186px",
+                          padding: "5px 10px",
+                          borderRadius: "50%",
+                          background: "red",
+                          color: "white"}}>{this.state.count}</span>): null}
                   </Nav.Link>
                 </MDBNavItem>
 

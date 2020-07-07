@@ -72,7 +72,7 @@ export default class Profilepic extends Component {
         }
         else {
             confirmAlert({
-                title: 'Confirm to submit',
+                title: 'Confirm to change',
                 message: 'Are you sure to change?',
                 buttons: [
                     {
@@ -143,7 +143,6 @@ export default class Profilepic extends Component {
                                 className="avatar" style={{ width: "100%", padding: "10px" }} />
                             )
                         }   <br></br>
-                        <h3 className="card-title" style={{ color: 'white', marginLeft: "10px" }}>{this.state.username}</h3>
                     </div>
                 </div>
                 <div className="testimonial-card1">
