@@ -329,8 +329,7 @@ class NoticeView extends Component {
                         if (types.toSupervisor) {
                           return (
                             <div className="card container " style={{ margin: "0px 0px 20px 0px" }} key={types._id} >
-                              
-
+        
                                 <Row className="crd_notice-tittle-div">
                                   <p className="crd_notice-name">{types.noticeTittle}</p>
                                 </Row>
