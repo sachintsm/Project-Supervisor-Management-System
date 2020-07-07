@@ -54,7 +54,7 @@ class ProjectGroups extends Component {
 
     async componentDidMount() {
         const authState = await verifyAuth();
-
+        
         this.setState({
             authState: authState,
         });
@@ -144,7 +144,7 @@ class ProjectGroups extends Component {
 
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId , pId : this.state.projectId});
     }
 
     //?delete the group

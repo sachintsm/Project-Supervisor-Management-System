@@ -53,7 +53,7 @@ class SupervisorData extends Component {
         if (!authState) {  //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
-
+        console.log(this.props.location.state.projectId)
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
@@ -118,19 +118,19 @@ class SupervisorData extends Component {
             })
     }
     onClickGroup(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId, pId: this.props.location.state.projectId });
     }
 
     render() {
 
         const { spinnerDiv1, groupDataBlock } = this.state;   // ?load projects to dropdown menu this coordinator
-        
+
         let noProject;
         if (this.state.activeProjects.length === 0) {
             this.state.spinnerDiv1 = false
             noProject = <p className="sd-no-groups-tag">No active projects...</p>
         }
-        
+
         let supervisorProjectList = groupDataBlock.length > 0
             && groupDataBlock.map((item, i) => {
                 if (item.progress >= 75) {
