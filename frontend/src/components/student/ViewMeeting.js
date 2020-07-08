@@ -1,20 +1,8 @@
 import React, { Component } from "react";
-import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
 import Footer from '../shared/Footer';
-import '../../css/students/ViewMeeting.css';
-import { Row, Col } from 'reactstrap';
-
-import {
-  Input,
-  Label,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody
-} from 'reactstrap';
+import '../../css/students/ViewMeeting.scss';
 import RequestMeeting from "./RequestMeeting";
-import { Card, CardDeck } from 'react-bootstrap';
 import axios from 'axios';
 import ViewMeetBlock from "./ViewMeetBlock";
 const backendURI = require('../shared/BackendURI');
@@ -30,7 +18,6 @@ class meetBlock {
   }
 }
 
-
 class ViewMeeting extends Component {
 
   constructor(props) {
@@ -42,9 +29,7 @@ class ViewMeeting extends Component {
       superNa: [],
       meetB: [],
       viewMeetDiv: false,
-
     };
-
   }
 
   componentDidMount = async () => {
@@ -93,9 +78,6 @@ class ViewMeeting extends Component {
     this.setState({
       viewMeetDiv: true,
     })
-
-
-
   }
 
   render() {
@@ -104,22 +86,14 @@ class ViewMeeting extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"student"} />
-        <div className="container">
-          <div className="form-group">
+        <div className="container-fluid" styles={{ height: "1500px" }}>
+
+          <div className="container student-view-meeting">
             <RequestMeeting project={this.state.project} group={this.state.group} />
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <Col md={12} xs={12} sm={12} >
-                <Row>
-                  <Col md={12} xs={12} sm={12}>
-                  </Col>
-                  {viewMeetDiv &&
-                    <ViewMeetBlock data={this.state.meetB} />
-                  }
-                </Row>
-              </Col>
-            </div>
+            {viewMeetDiv &&
+            
+              <ViewMeetBlock data={this.state.meetB} />
+            }
           </div>
         </div>
         <Footer />
@@ -129,3 +103,4 @@ class ViewMeeting extends Component {
 }
 
 export default ViewMeeting;
+
