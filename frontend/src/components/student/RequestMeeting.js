@@ -9,16 +9,9 @@ import {
   ModalHeader,
   ModalBody
 } from 'reactstrap';
-import { Row, Col } from "reactstrap";
 import Snackpop from "../shared/Snackpop";
-// import DatePicker from "react-datepicker";
-import { getFromStorage } from "../../utils/Storage";
-import Select from '@material-ui/core/Select';
-
-
 
 const backendURI = require('../shared/BackendURI');
-
 
 export default class RequestMeeting extends Component {
 
@@ -26,7 +19,6 @@ export default class RequestMeeting extends Component {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
-
 
     this.state = {
       item: this.props.project,
@@ -39,11 +31,11 @@ export default class RequestMeeting extends Component {
       purpose: "",
       time: "",
       supervisor: "",
-      super:"",
+      super: "",
       supervisorN: [],
       superOptionList: [],
       selectValue: "",
-      state:"pending",
+      state: "pending",
 
       purposeError: '',
       dateError: '',
@@ -54,7 +46,6 @@ export default class RequestMeeting extends Component {
       endedList: [],
       project: '',
 
-
       date: new Date(),
 
     };
@@ -64,9 +55,7 @@ export default class RequestMeeting extends Component {
   }
 
   componentDidMount = async () => {
-
     for (let j = 0; j < this.state.group.supervisors.length; j++) {
-
       await axios.get(backendURI.url + '/users/getUserName/' + this.state.group.supervisors[j])
         .then((result) => {
           console.log(result.data.data[0]);
@@ -81,9 +70,6 @@ export default class RequestMeeting extends Component {
         });
 
     }
-    console.log(this.state.supervisorN);
-
-
   }
   closeAlert = () => {
     this.setState({ snackbaropen: false });
@@ -106,9 +92,10 @@ export default class RequestMeeting extends Component {
 
   handleDropdownChange(e) {
     console.log(e.target.value)
-    this.setState({ supervisor: e.target.value,
+    this.setState({
+      supervisor: e.target.value,
       super: e.target.value1
-     });
+    });
   }
 
   validate = () => {
@@ -221,9 +208,7 @@ export default class RequestMeeting extends Component {
           closeAlert={this.closeAlert}
         />
         <div className="container">
-          <Button className="btn btn-info" onClick={this.toggle} style={{ width: "100%", marginTop: "30px" }}>
-            New Meet
-       </Button>
+          <Button className="btn btn-info" onClick={this.toggle} style={{ width: "100%", marginTop: "30px" }}>New Meet</Button>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
             <ModalHeader toggle={this.toggle}>Request Meeting</ModalHeader>
             <ModalBody>
@@ -239,35 +224,6 @@ export default class RequestMeeting extends Component {
 
                     </div>
 
-
-                    {/* <Row>
-                      <Col>
-                        <div className="form-group">
-                          <label className="text-label">Date </label>
-                          <input type="text" className="form-control" name="date" onChange={this.onChange} />
-                        <p className="reg-error">{this.state.firstNameError}</p>
-                          <div className="form-group">
-                            <DatePicker
-                              className="form-control"
-                              selected={this.state.date}
-                              onChange={this.onChangeDate}
-                              dateFormat="yyyy-MM-dd"
-                            />
-                          </div>
-
-                        </div>
-                      </Col>
-                      <Col>
-                        <div className="form-group">
-                          <label className="text-label">Time </label>
-                          <input type="text" className="form-control" name="time" onChange={this.onChange} />
-                          <p className="reg-error">{this.state.lastNameError}</p>
-
-                        </div>
-                      </Col>
-                    </Row> */}
-
-
                     <div className="form-group">
                       <Label for="avatar">Supervisor</Label>
 
@@ -276,7 +232,7 @@ export default class RequestMeeting extends Component {
 
                         {this.state.supervisorN.map((data, i) => {
                           return (
-                            <option key={i}  value={data._id}>{data.firstName} {data.lastName}</option>
+                            <option key={i} value={data._id}>{data.firstName} {data.lastName}</option>
                           )
 
                         })}
@@ -297,4 +253,3 @@ export default class RequestMeeting extends Component {
     )
   }
 }
-
