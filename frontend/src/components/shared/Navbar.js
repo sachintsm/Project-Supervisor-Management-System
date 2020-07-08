@@ -35,10 +35,9 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
-      count:0 /////
+      count:0 
     };
     this.logout = this.logout.bind(this);
-    this.handleClick = this.handleClick.bind(this);/////////////
   }
 
   toggleCollapse = () => {
@@ -76,11 +75,7 @@ export default class navbar extends Component {
                     console.log(error)
                 })
   }
-   handleClick(){/////////
-     this.setState({
-       count:0
-     })
-   }
+  
   render() {
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
