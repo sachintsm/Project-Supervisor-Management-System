@@ -205,13 +205,7 @@ export default class navbar extends Component {
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
                   <span > RequestView</span>
                  
-                     <span className="badge" style={{ position: "absolute",
-                          top: "10px",
-                          right: "186px",
-                          padding: "5px 10px",
-                          borderRadius: "50%",
-                          background: "red",
-                          color: "white"}}>{this.state.count}</span>
+                     <span className="badge">{this.state.count}</span>
                   </Nav.Link>
                 </MDBNavItem>
 
