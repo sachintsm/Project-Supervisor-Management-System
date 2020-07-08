@@ -3,6 +3,8 @@ import '../../css/shared/Navbar.css';
 import { Redirect } from 'react-router';
 
 import { deleteStorage } from '../../utils/Storage';
+import { getFromStorage } from "../../utils/Storage";
+import axios from 'axios';
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -20,6 +22,8 @@ import { Nav } from 'react-bootstrap';
 import { FiSettings } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
+
+const backendURI = require("./BackendURI");
 export default class navbar extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +35,7 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
-      count:1 /////
+      count:0 /////
     };
     this.logout = this.logout.bind(this);
     this.handleClick = this.handleClick.bind(this);/////////////
@@ -55,6 +59,22 @@ export default class navbar extends Component {
 
     // let history = useHistory();
     // history.push('/');
+  }
+
+  async componentDidMount() {
+    const userData = getFromStorage('auth-id')
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+                .then(response => {
+                    console.log(response);
+                    console.log(response.data.data);
+          
+                    this.setState({
+                        count: response.data.data,
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
   }
    handleClick(){/////////
      this.setState({
@@ -188,15 +208,15 @@ export default class navbar extends Component {
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
-                  <span onClick={ this.handleClick}> RequestView</span>
-                  {(this.state.count !== 0) ?
-                    ( <span class="badge" style={{ position: "absolute",
+                  <span > RequestView</span>
+                 
+                     <span className="badge" style={{ position: "absolute",
                           top: "10px",
                           right: "186px",
                           padding: "5px 10px",
                           borderRadius: "50%",
                           background: "red",
-                          color: "white"}}>{this.state.count}</span>): null}
+                          color: "white"}}>{this.state.count}</span>
                   </Nav.Link>
                 </MDBNavItem>
 

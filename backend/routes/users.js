@@ -13,6 +13,7 @@ const verify = require('../authentication');
 const multer = require('multer');
 var path = require('path');
 var fs = require('fs');
+const { stubFalse } = require('lodash');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -647,6 +648,43 @@ router.get('/getSup/:id', async (req, res) => {
         }
         //console.log(arr1);
       }
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+})
+//////////count request notifications//////
+router.get('/countNotifyReq/:id', async (req, res) => {
+
+  const id = req.params.id;
+
+  Request
+    .find({ supId: id })
+    .exec()
+    .then(data => {
+            console.log(data);
+            console.log(data.length);
+            var count;
+            if(data !== 0 ){
+              count=0;
+            for (var i = 0; i < data.length; i++) {
+              if ((data[i].state == 'pending')) {
+                count = count + 1;
+              }
+            }
+            res.json({ state:true, data:count });
+            }
+           
+            
+            else{
+              count=0;
+              res.json({ state:false, data:count });
+              
+            }
+
 
     })
     .catch(error => {
