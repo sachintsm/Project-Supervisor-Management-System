@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import { verifyAuth } from "../../../utils/Authentication";
 import Navbar from "../../shared/Navbar";
@@ -22,7 +20,7 @@ const Meet = React.memo(props => (
         <td className="table-body">{props.meet.groupId}</td>
         <td className="table-body">{props.meet.purpose}</td>
 
-        <td className="table-body">
+        <td className="table-body" style={{width:"10%"}}>
             <ConfirmMeetings data={props.meet._id} />
         </td>
     </tr>
@@ -151,7 +149,7 @@ class ViewMeetings extends Component {
                         <div className="col-md-12" style={{ minHeight: "1000px" }}>
                             <div className="container">
 
-                                <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
+                                <Tabs defaultActiveKey="request" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
 
                                     <Tab eventKey="request" title="Meeting Requests" className="tit">
                                         <div className="row" style={{ marginTop: "20px" }}>
@@ -168,7 +166,7 @@ class ViewMeetings extends Component {
                                                                     <tr>
                                                                         <th className="table-head">Group</th>
                                                                         <th className="table-head">Purpose</th>
-                                                                        <th className="table-head">Actions</th>
+                                                                        <th className="table-head" style={{textAlign:"center"}}>Actions</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
