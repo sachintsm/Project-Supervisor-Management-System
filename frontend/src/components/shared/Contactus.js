@@ -103,9 +103,11 @@ export default class Contactus extends Component {
         emailError: '',
         messageError: ''
       })
+      const date = new Date();
 
 
-      const obj = {
+        const obj = {
+        date: date,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         contactNumber: this.state.contactNumber,
