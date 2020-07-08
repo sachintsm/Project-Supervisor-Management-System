@@ -77,7 +77,7 @@ class ViewProject extends Component {
     }
 
     viewProgress = (project) => {
-        this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: this.state.project, groupDetails: this.state.groupDetails })
     }
 
     viewChat = (project) => {
@@ -88,7 +88,6 @@ class ViewProject extends Component {
         this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     render() {
-
         return (
             <React.Fragment>
 

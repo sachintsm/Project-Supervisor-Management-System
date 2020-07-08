@@ -35,6 +35,7 @@ export default class ConfirmMeeting extends Component {
 
       groupId: "",
       purpose: "",
+      // date: "",
       time: "",
       supervisor: "",
       super: "",

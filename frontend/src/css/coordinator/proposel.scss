@@ -1,0 +1,77 @@
+.proposel-style{
+
+.pro-back{
+  background-color: #f5f5f5;
+  padding-top: 50px;
+ // padding-bottom: 50px;
+  min-height: 450px;
+     
+}
+.pro-head{
+  //width: 100%;
+  padding-left:1%;
+  background-color: #263238;
+}
+
+.pro-grp-name{
+
+  color: #FFFFFF;
+  font-family: roboto, sans;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+.pro-tabs{
+  font-size: 16px;
+  margin-top: "20px";
+}
+
+.pro-body{
+  padding-left:1%;
+
+}
+
+
+//link card
+
+.pro-link-crd{
+  width: 100%;
+}
+
+.pro-link-name{
+  padding-left:2%;
+  padding-top:1%;
+  font-family: roboto, sans;
+  font-size: 24px;
+  font-weight: 500;
+  
+}
+
+
+@media screen and (max-width: 500px) {
+
+  .pro-link-name{
+    padding-left:6%;
+    padding-top:1%;
+    font-family: roboto, sans;
+    font-size: 18px;
+    font-weight: 500;
+    
+  }
+
+  .pro-form{
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .pro-tabs{
+    font-size: 12px;
+    margin-top: "20px";
+    margin-bottom:"20px" ;
+  }
+  
+
+}
+
+}
