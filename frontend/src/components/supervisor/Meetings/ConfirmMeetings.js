@@ -12,19 +12,11 @@ import {
 import { Row, Col } from "reactstrap";
 import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
-import TimePicker from 'react-time-picker';
-// import TimePicker from "rc-time-picker";
-// import 'rc-time-picker/assets/index.css';
-
 import { getFromStorage } from "../../../utils/Storage";
 import { verifyAuth } from "../../../utils/Authentication";
-
-import Select from '@material-ui/core/Select';
-
-
+import TimeInput from 'material-ui-time-picker'
 
 const backendURI = require('../../shared/BackendURI');
-
 
 export default class ConfirmMeeting extends Component {
 
@@ -62,15 +54,10 @@ export default class ConfirmMeeting extends Component {
       endedList: [],
       project: '',
 
-
       date: new Date(),
 
     };
     this.onSubmit = this.onSubmit.bind(this);
-
-    // console.log(this.state.group.supervisors);
-    // this.handleDropdownChange = this.handleDropdownChange.bind(this);
-
   }
 
   componentDidMount = async () => {
@@ -135,20 +122,12 @@ export default class ConfirmMeeting extends Component {
     }))
   }
 
-  onChangeTime = time => {
-    this.setState(prevState => ({
-      time: time
-    }))
-  }
-
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit(e) {
     e.preventDefault();
-
-
     const obj = {
       // _id: this.state._id,
       date: this.state.date,
@@ -160,7 +139,6 @@ export default class ConfirmMeeting extends Component {
 
     // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
     window.location.reload();
-
   }
 
 
@@ -261,11 +239,20 @@ export default class ConfirmMeeting extends Component {
 
   // }
 
-  render() {
+  handleChange = time => {
 
+    console.log(time);
+    
+    this.setState({
+      time: time
+    })
+    console.log(this.state.time);
+
+  }
+
+  render() {
     return (
       <div>
-
         <Snackpop
           msg={this.state.snackbarmsg}
           color={this.state.snackbarcolor}
@@ -273,10 +260,10 @@ export default class ConfirmMeeting extends Component {
           status={this.state.snackbaropen}
           closeAlert={this.closeAlert}
         />
+        
         <div className="container">
-          <Button className="btn btn-info" onClick={this.toggle} style={{ width: "100%", marginTop: "30px" }}>
-            Confirm Meeting
-       </Button>
+          <Button className="btn btn-info" onClick={this.toggle} style={{ width: "100%", marginTop: "0px" }}>Confirm Meeting</Button>
+
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
             <ModalHeader toggle={this.toggle}>Confirm Meeting</ModalHeader>
             <ModalBody>
@@ -284,21 +271,15 @@ export default class ConfirmMeeting extends Component {
                 <div className="row">
                 </div><div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
                   <form onSubmit={this.onSubmit}>
-
                     <div className="form-group">
                       <Label for="avatar">Purpose</Label>
                       <Input type="textarea" className="form-control" name="purpose" value={this.state.purpose} onChange={this.onChange} />
                       <p className="reg-error">{this.state.messageError}</p>
-
                     </div>
-
-
                     <Row>
                       <Col>
                         <div className="form-group">
                           <label className="text-label">Date </label>
-                          {/* <input type="text" className="form-control" name="date" onChange={this.onChange} />
-                        <p className="reg-error">{this.state.firstNameError}</p> */}
                           <div className="form-group">
                             <DatePicker
                               className="form-control"
@@ -313,41 +294,15 @@ export default class ConfirmMeeting extends Component {
                       <Col>
                         <div className="form-group">
                           <label className="text-label">Time </label>
-                          {/* <input type="text" className="form-control" name="time" onChange={this.onChange} />
-                          <p className="reg-error">{this.state.lastNameError}</p> */}
-                          <div className="form-group">
-                            <TimePicker
-                              className="form-control"
-                              value={this.state.time}
-                              // showSecond={false}
-                              onChange={this.onChangeTime}
-                              // timeFormat="hh:mm"
-                            />
-                          </div>
-
+                          <TimeInput
+                            mode='12h'
+                            onChange={(time) => this.handleChange(time)}
+                          />
                         </div>
                       </Col>
                     </Row>
-
-
-                    {/* <div className="form-group">
-                      <Label for="avatar">Supervisor</Label>
-
-                      <select id="dropdown" onChange={this.handleDropdownChange} className="form-control" >
-                        <option value="N/A">Select Supervisor</option>
-
-                        {this.state.supervisorN.map((data, i) => {
-                          return (
-                            <option key={i}  value={data._id}>{data.firstName} {data.lastName}</option>
-                          )
-
-                        })}
-
-                      </select>
-                    </div> */}
-
                     <div className="form-group">
-                      <Button className="btn btn-info my-4" type="submit" block>Confirm Request</Button>
+                      <Button className="btn btn-info" type="submit" block>Confirm Request</Button>
                     </div>
                   </form>
                 </div>
@@ -359,4 +314,3 @@ export default class ConfirmMeeting extends Component {
     )
   }
 }
-
