@@ -63,7 +63,7 @@ export default class navbar extends Component {
   }
   handleClick(){
     const userData = getFromStorage('auth-id')
-   var ob = [];
+    var ob = [];
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
                 .then(response => {
                     console.log(response.data.data2);
@@ -74,22 +74,18 @@ export default class navbar extends Component {
                     for(var i =0 ; i<ob.length; i++){
                       var Id= ob[i]._id;
                       console.log(Id);
-                    
-                    axios.post(backendURI.url + '/users/readRequest/' + Id,Id)
-                                .then(response => {
-                                  console.log(response);
-                                })
-                                .catch(error => {
-                                    console.log(error)
-                                })
+                      axios.post(backendURI.url + '/users/readRequest/' + Id,Id)
+                                  .then(response => {
+                                    console.log(response);
+                                  })
+                                  .catch(error => {
+                                      console.log(error)
+                                  })
                     }
                 })
                 .catch(error => {
                     console.log(error)
                 })
-                
-    
-   
   }
   async componentDidMount() {
     const userData = getFromStorage('auth-id')
