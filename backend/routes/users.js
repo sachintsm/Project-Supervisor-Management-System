@@ -674,7 +674,8 @@ router.get('/countNotifyReq/:id', async (req, res) => {
             for (var i = 0; i < data.length; i++) {
               if ((data[i].state == 'pending')) {
                 count = count + 1;
-                arr1.push(data[i]._id);
+                arr1.push(data[i]);
+                console.log(arr1)
               }
             }
             res.json({ state:true, data:count, data2:arr1 });
@@ -695,6 +696,25 @@ router.get('/countNotifyReq/:id', async (req, res) => {
     })
 
 })
+///////read request by supervisor
+router.post('/readRequest/:id', function (req, res) {
+  let id = req.params.id;
+  console.log(id);
+  Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      request.state = 'read';
+      request.save().then(request => {
+        console.log(request);
+        res.json({ state: true, msg: 'Read Request' });
+      })
+        .catch(err => {
+          res.status(400).send("Unable to Read Request");
+        });
+    }
+  });
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //update user profile by user
 router.post('/update/:id', function (req, res) {

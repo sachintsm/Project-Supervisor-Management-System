@@ -39,6 +39,7 @@ export default class navbar extends Component {
       reqId:[]
     };
     this.logout = this.logout.bind(this);
+    this.handleClick = this.handleClick(this);
   }
 
   toggleCollapse = () => {
@@ -60,7 +61,36 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
+  handleClick(){
+    const userData = getFromStorage('auth-id')
+   var ob = [];
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+                .then(response => {
+                    console.log(response.data.data2);
+                    ob=response.data.data2
+                    console.log(ob)
+                    console.log(ob[0]._id);
 
+                    for(var i =0 ; i<ob.length; i++){
+                      var Id= ob[i]._id;
+                      console.log(Id);
+                    
+                    axios.post(backendURI.url + '/users/readRequest/' + Id,Id)
+                                .then(response => {
+                                  console.log(response);
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                
+    
+   
+  }
   async componentDidMount() {
     const userData = getFromStorage('auth-id')
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
@@ -73,6 +103,7 @@ export default class navbar extends Component {
                         count: response.data.data,
                         reqId: response.data.data2
                     })
+                    console.log(this.state.reqId)
                 })
                 .catch(error => {
                     console.log(error)
@@ -205,8 +236,8 @@ export default class navbar extends Component {
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
-                  <span > RequestView</span>
+                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.handleClick}>
+                  <span> RequestView</span>
                  
                      <span className="badge">{this.state.count}</span>
                   </Nav.Link>
