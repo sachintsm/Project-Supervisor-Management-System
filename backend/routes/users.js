@@ -668,14 +668,16 @@ router.get('/countNotifyReq/:id', async (req, res) => {
             console.log(data);
             console.log(data.length);
             var count;
+            var arr1 = [];
             if(data !== 0 ){
               count=0;
             for (var i = 0; i < data.length; i++) {
               if ((data[i].state == 'pending')) {
                 count = count + 1;
+                arr1.push(data[i]._id);
               }
             }
-            res.json({ state:true, data:count });
+            res.json({ state:true, data:count, data2:arr1 });
             }
            
             

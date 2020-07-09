@@ -35,7 +35,8 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
-      count:0 
+      count:0,
+      reqId:[]
     };
     this.logout = this.logout.bind(this);
   }
@@ -66,9 +67,11 @@ export default class navbar extends Component {
                 .then(response => {
                     console.log(response);
                     console.log(response.data.data);
+                    console.log(response.data.data2);
           
                     this.setState({
                         count: response.data.data,
+                        reqId: response.data.data2
                     })
                 })
                 .catch(error => {
