@@ -5,6 +5,7 @@ import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
+import CustomRegistration from "./admin/CustomRegistration.js";
 import { Col, Row } from 'reactstrap'
 import {
   Button,
@@ -205,7 +206,8 @@ export default class login extends Component {
                         <p className="lg-problem-text">Problem with login?</p>
                       </Col>
                       <Col lg={8} md={6} xs={6} sm={6}>
-                        <p className="lg-problem-admin">Contact admin</p>
+                        <p className="lg-problem-admin">Contact Admin</p>
+                        
                       </Col>
                     </Row>
                   </div>
