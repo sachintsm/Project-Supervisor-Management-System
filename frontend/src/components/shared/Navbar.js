@@ -39,6 +39,7 @@ export default class navbar extends Component {
       reqId:[]
     };
     this.logout = this.logout.bind(this);
+    this.readRequest = this.readRequest.bind(this);
   }
 
   toggleCollapse = () => {
@@ -60,7 +61,7 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
-  /*handle(){
+  readRequest(){
     const userData = getFromStorage('auth-id')
     var ob = [];
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
@@ -85,7 +86,7 @@ export default class navbar extends Component {
                 .catch(error => {
                     console.log(error)
                 })
-  }*/
+  }
   async componentDidMount() {
     const userData = getFromStorage('auth-id')
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
@@ -230,12 +231,12 @@ export default class navbar extends Component {
               )}
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
+                <MDBNavItem className="mr-4" >
+                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
+                  RequestView
                   {(this.state.count !== 0)? (
                     <span className="badge">{this.state.count}</span>):null
-                 }
-                  <span > RequestView</span>
+                  }
                   
                   </Nav.Link>
                 </MDBNavItem>
