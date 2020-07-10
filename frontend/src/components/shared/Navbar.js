@@ -39,7 +39,6 @@ export default class navbar extends Component {
       reqId:[]
     };
     this.logout = this.logout.bind(this);
-    this.handleClick = this.handleClick(this);
   }
 
   toggleCollapse = () => {
@@ -61,7 +60,7 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
-  handleClick(){
+  /*handle(){
     const userData = getFromStorage('auth-id')
     var ob = [];
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
@@ -86,7 +85,7 @@ export default class navbar extends Component {
                 .catch(error => {
                     console.log(error)
                 })
-  }
+  }*/
   async componentDidMount() {
     const userData = getFromStorage('auth-id')
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
@@ -97,7 +96,7 @@ export default class navbar extends Component {
           
                     this.setState({
                         count: response.data.data,
-                        reqId: response.data.data2
+                        //reqId: response.data.data2
                     })
                     console.log(this.state.reqId)
                 })
@@ -232,11 +231,12 @@ export default class navbar extends Component {
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.handleClick}>
-                  <span> RequestView</span>
+                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
                   {(this.state.count !== 0)? (
-                     <span className="badge">{this.state.count}</span>):null
-                  }
+                    <span className="badge">{this.state.count}</span>):null
+                 }
+                  <span > RequestView</span>
+                  
                   </Nav.Link>
                 </MDBNavItem>
 
