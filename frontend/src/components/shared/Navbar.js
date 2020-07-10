@@ -234,8 +234,9 @@ export default class navbar extends Component {
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.handleClick}>
                   <span> RequestView</span>
-                 
-                     <span className="badge">{this.state.count}</span>
+                  {(this.state.count !== 0)? (
+                     <span className="badge">{this.state.count}</span>):null
+                  }
                   </Nav.Link>
                 </MDBNavItem>
 
