@@ -103,7 +103,6 @@ export default class Academic extends Component {
                                                                 <th>Year</th>
                                                                 <th>Type</th>
                                                                 <th>Academic Year</th>
-                                                                <th>Count</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

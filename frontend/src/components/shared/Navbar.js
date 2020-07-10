@@ -249,7 +249,6 @@ export default class navbar extends Component {
 
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/shared/noticeView'>NoticeView</Nav.Link>
-
                 </MDBNavItem>
               )}
 
