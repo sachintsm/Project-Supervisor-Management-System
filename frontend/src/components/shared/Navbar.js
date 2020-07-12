@@ -178,7 +178,7 @@ export default class navbar extends Component {
 
               {this.state.panel === 'admin' && (
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'>MailBox</Nav.Link>
+                  <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'>Mail Box</Nav.Link>
 
                 </MDBNavItem>
               )}
@@ -224,13 +224,14 @@ export default class navbar extends Component {
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/shared/noticeView'>
-                    NoticeView
+                    Notice View
                   </Nav.Link>
                 </MDBNavItem>
 
               )}
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
+
                 <MDBNavItem className="mr-4" >
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
                   RequestView
@@ -249,7 +250,9 @@ export default class navbar extends Component {
               {this.state.panel === 'student' && (
 
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/shared/noticeView'>NoticeView</Nav.Link>
+                  <Nav.Link className="padding-zero" href='/shared/noticeView'>Notice View</Nav.Link>
+
+
                 </MDBNavItem>
               )}
 
