@@ -11,6 +11,8 @@ import Snackpop from "../../shared/Snackpop";
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
+import ProjectTotalProgress from '../../coordinator/GroupData/ProjectTotalProgress';
+
 
 import { IoIosPersonAdd } from 'react-icons/io';
 import { TiGroup } from 'react-icons/ti';
@@ -35,6 +37,8 @@ class GroupData extends Component {
             groupData: [],
             groupMembers: [],
             groupSupervisors: [],
+            loading: false,
+
 
             addStudentIndex: '',
             staffList: [],
@@ -86,7 +90,9 @@ class GroupData extends Component {
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
-                    groupSupervisors: res.data.data.supervisors
+                    groupSupervisors: res.data.data.supervisors,
+                    loading: true
+
                 })
             })
 
@@ -300,6 +306,11 @@ class GroupData extends Component {
                     <div className="card gd-card">
                         <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
+                        </div>
+                        <div className="container" style={{ marginTop: "0px" }}>
+                            {this.state.loading === true &&
+                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} />
+                            }
                         </div>
                         <div className="container">
                             <Row>
