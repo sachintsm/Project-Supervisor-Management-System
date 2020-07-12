@@ -28,7 +28,7 @@ class CreateProject extends Component {
 
     this.state = {
       componentType: 'add',
-      title: 'Creating New Project',
+      title: 'Assign Coordinators',
       projects: [],
       selectedTypeIndex: 0 ,
       academicYear: '',
@@ -594,7 +594,7 @@ class CreateProject extends Component {
                               style={{ width: '100%' }}
                           >
                             {this.state.componentType === 'add' &&
-                            'Create Project Now'}
+                            'Assign Now'}
                             {this.state.componentType === 'edit' &&
                             'Edit Now'}
                           </Button>
