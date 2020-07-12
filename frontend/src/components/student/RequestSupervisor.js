@@ -44,6 +44,7 @@ function ProjectModal(props) {
                                     <td>{result.projectYear}</td>
                                     <td>{result.projectType}</td>
                                     <td>{result.academicYear}</td>
+                                    <td>5</td>
                                     </tr> 
                                     )
                             })}
@@ -68,6 +69,7 @@ function CenteredModal(props) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             className="modal"
+            transparent={true}
         >
                     
             <Modal.Header >
@@ -96,7 +98,7 @@ const Staff = React.memo( props =>(
         
             <tr>
                 <td>{props.staff.firstName} {props.staff.lastName}</td>
-                <td>{props.staff.email}</td>
+                <td><a href="#" onClick={() => props.view(props.staff._id,props.result)}>{props.staff.email}</a></td>
                 <td><ButtonToolbar>
                 <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.view(props.staff._id)} >Projects</Button> 
                 <ProjectModal
@@ -254,7 +256,7 @@ export default class Profile extends Component {
                     })
         
     }
-    viewPro(sup){
+    viewPro(sup,k){
         const userData = getFromStorage('auth-id')
         console.log(sup);
         
@@ -266,6 +268,7 @@ export default class Profile extends Component {
                                 pro:res.data.data
                             })
                             this.showModal2();
+                            
                         }
                         else{
                             this.setState({
@@ -280,6 +283,11 @@ export default class Profile extends Component {
                     .catch((error) => {
                     console.log(error);
                     })
+               return <ProjectModal
+               show={ this.showModal2}
+               hide={this.hideModal2}
+               re={k}
+               />    
         
     }
     requestSup() {
@@ -350,7 +358,7 @@ export default class Profile extends Component {
         return(
             <React.Fragment >
             <Navbar panel={"student"} />
-            <div className="container-fluid">
+            <div className="card container">
                 <Snackpop
                 msg={this.state.snackbarmsg}
                 color={this.state.snackbarcolor}
