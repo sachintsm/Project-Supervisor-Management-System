@@ -3,6 +3,8 @@ import '../../css/shared/Navbar.css';
 import { Redirect } from 'react-router';
 
 import { deleteStorage } from '../../utils/Storage';
+import { getFromStorage } from "../../utils/Storage";
+import axios from 'axios';
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -20,6 +22,8 @@ import { Nav } from 'react-bootstrap';
 import { FiSettings } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
+
+const backendURI = require("./BackendURI");
 export default class navbar extends Component {
   constructor(props) {
     super(props);
@@ -31,8 +35,11 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
+      count:0,
+      reqId:[]
     };
     this.logout = this.logout.bind(this);
+    this.readRequest = this.readRequest.bind(this);
   }
 
   toggleCollapse = () => {
@@ -54,7 +61,51 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
+  readRequest(){
+    const userData = getFromStorage('auth-id')
+    var ob = [];
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+                .then(response => {
+                    console.log(response.data.data2);
+                    ob=response.data.data2
+                    console.log(ob)
+                    console.log(ob[0]._id);
 
+                    for(var i =0 ; i<ob.length; i++){
+                      var Id= ob[i]._id;
+                      console.log(Id);
+                      axios.post(backendURI.url + '/users/readRequest/' + Id,Id)
+                                  .then(response => {
+                                    console.log(response);
+                                  })
+                                  .catch(error => {
+                                      console.log(error)
+                                  })
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+  }
+  async componentDidMount() {
+    const userData = getFromStorage('auth-id')
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+                .then(response => {
+                    console.log(response);
+                    console.log(response.data.data);
+                    console.log(response.data.data2);
+          
+                    this.setState({
+                        count: response.data.data,
+                        //reqId: response.data.data2
+                    })
+                    console.log(this.state.reqId)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+  }
+  
   render() {
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
@@ -127,7 +178,7 @@ export default class navbar extends Component {
 
               {this.state.panel === 'admin' && (
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'>MailBox</Nav.Link>
+                  <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'>Mail Box</Nav.Link>
 
                 </MDBNavItem>
               )}
@@ -173,16 +224,21 @@ export default class navbar extends Component {
               {this.state.panel === 'supervisor' && (
                 <MDBNavItem className="mr-4">
                   <Nav.Link className="padding-zero" href='/shared/noticeView'>
-                    NoticeView
+                    Notice View
                   </Nav.Link>
                 </MDBNavItem>
 
               )}
               {/* ============================ Supervisor Panel ============================================= */}
               {this.state.panel === 'supervisor' && (
-                <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest'>
-                   RequestView
+
+                <MDBNavItem className="mr-4" >
+                  <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
+                  RequestView
+                  {(this.state.count !== 0)? (
+                    <span className="badge">{this.state.count}</span>):null
+                  }
+                  
                   </Nav.Link>
                 </MDBNavItem>
 
@@ -194,7 +250,8 @@ export default class navbar extends Component {
               {this.state.panel === 'student' && (
 
                 <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/shared/noticeView'>NoticeView</Nav.Link>
+                  <Nav.Link className="padding-zero" href='/shared/noticeView'>Notice View</Nav.Link>
+
 
                 </MDBNavItem>
               )}
