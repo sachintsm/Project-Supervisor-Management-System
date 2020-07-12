@@ -3,7 +3,7 @@
 .pro-back{
   background-color: #f5f5f5;
   padding-top: 50px;
- // padding-bottom: 50px;
+ padding-bottom: 20px;
   min-height: 450px;
      
 }
@@ -47,7 +47,11 @@
   font-weight: 500;
   
 }
-
+.pro-btn{
+  width: 40%;
+  align-items: center;
+  margin-left: 300px;
+}
 
 @media screen and (max-width: 500px) {
 
@@ -69,6 +73,12 @@
     font-size: 12px;
     margin-top: "20px";
     margin-bottom:"20px" ;
+  }
+
+  .pro-btn{
+    width: 80%;
+    align-items: center;
+    margin-left: 30px;
   }
   
 
