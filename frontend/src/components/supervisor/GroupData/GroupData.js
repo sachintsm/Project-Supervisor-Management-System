@@ -289,6 +289,10 @@ class GroupData extends Component {
         this.props.history.push('/supervisorhome/viewMeetings')
     }
 
+    viewProgress = (project) => {        
+        this.props.history.push('/supervisorhome/viewProgress', {groupDetails:this.state.groupData})
+    }
+
 
     render() {
         return (
