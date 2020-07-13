@@ -91,15 +91,11 @@ export default class navbar extends Component {
     const userData = getFromStorage('auth-id')
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
                 .then(response => {
-                    console.log(response);
-                    console.log(response.data.data);
-                    console.log(response.data.data2);
           
                     this.setState({
                         count: response.data.data,
                         //reqId: response.data.data2
                     })
-                    console.log(this.state.reqId)
                 })
                 .catch(error => {
                     console.log(error)
