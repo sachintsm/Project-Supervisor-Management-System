@@ -80,7 +80,6 @@ class Proposals extends Component {
 
            
         <Row > 
-            
             <Col  md={6} xs="12">
             <div className="form-group pro-form">
             <label for="exampleInputDate">Dead Line Date :</label>
@@ -135,12 +134,7 @@ class Proposals extends Component {
         
             </Col>
 
-        
-        
         </Row>
-
-            
-
             <Row style={{ marginTop: "10px", marginBottom: "20px" }}>
                 <Button
                 type="submit"
@@ -153,7 +147,6 @@ class Proposals extends Component {
             </form>
             
             </div>
-            
             </div>
             </Tab>
             </Tabs>
