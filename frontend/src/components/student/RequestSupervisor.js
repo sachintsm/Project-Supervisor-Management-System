@@ -424,79 +424,79 @@ export default class Profile extends Component {
                 closeAlert={this.closeAlert}
                />
                <Col md={12} xs="12" className="main-div">
-                <Tabs className="tab" defaultActiveKey="list" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
-                 <Tab eventKey="list" title="Request Supervisor">
-                 <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
-                        <div className="container">
-                            <div className="row" style={{ marginTop: "20px" }}>
-                                <div className="card">
-                                    <div>
-                                            <form>
-                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                    <Tabs className="tab" defaultActiveKey="list" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                        <Tab eventKey="list" title="Request Supervisor">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                        <div className="container">
+                                            <div className="row" style={{ marginTop: "20px" }}>
+                                                <div className="card">
+                                                    <div>
+                                                            <form>
+                                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                                                                </div>
+                                                            </form>
+                                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
+                                                                    <Table responsive >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Email</th>
+                                                                                <th>View Projects</th>
+                                                                                <th>Request</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.UserList4()}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
-                                                    <Table responsive >
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>View Projects</th>
-                                                                <th>Request</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {this.UserList4()}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                </Tab>
-                <Tab eventKey="status" title="Request Status">
-                <div className="container-fluid">
-                <div className="row">
-                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
-                        <div className="container">
-                            <div className="row" style={{ marginTop: "20px" }}>
-                                <div className="card">
-                                    <div>
-                                            <form>
-                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                        </Tab>
+                        <Tab eventKey="status" title="Request Status">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                        <div className="container">
+                                            <div className="row" style={{ marginTop: "20px" }}>
+                                                <div className="card">
+                                                    <div>
+                                                            <form>
+                                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                                                                </div>
+                                                            </form>
+                                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
+                                                                    <Table responsive >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Email</th>
+                                                                                <th>Status</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.StatusList4()}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
-                                                    <Table responsive >
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {this.StatusList4()}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                </Tab>
-                </Tabs>
+                        </Tab>
+                    </Tabs>
                 </Col>
             </div>
 
