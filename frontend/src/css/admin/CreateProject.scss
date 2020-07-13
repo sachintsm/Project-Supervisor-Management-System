@@ -1,14 +1,32 @@
-//.create-project-main{
+.create-project-main{
     .container-fluid-di {
         background-color: #f5f5f5;
-        width: 60%;
+        width: 100%;
     }
 
+    .csv-image{
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 0px 0px !important;
+        text-align: center;
+    }
 
+    .csv-reader-div{
+        padding: 30px 40px;
+        border: 1px solid #DDD;
+        border-radius: 10px;
+    }
+
+    .img-col{
+        text-align: center;
+    }
     .cp-text {
         color: rgb(129, 129, 129);
     }
-
+    .cp-text2 {
+        color: rgb(129, 129, 129);
+        padding-left: 100px;
+    }
     .cp-head{
         color: rgb(71, 71, 71);
         margin-top: 30px;
@@ -78,11 +96,45 @@
         cursor: pointer;
     }
 
+    .index-list-row{
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 20px;
+    }
+    .index-card-col{
+        padding: 10px 10px !important;
+    }
+    .index-card{
+        background-color: #F9F9F9;
+        padding: 1px 5px;
+        margin: 0px 0px !important
+    }
+    .index-card-body{
+        padding: 4px 5px !important;
+        text-align: start;
+        margin: 0px !important;
+    }
+    .index-delete-icon{
+        font-size: 24px;
+        color: indianred;
+        float: right;
+        display: flex;
+        align-items: center;
+    }
+    .index-delete-icon:hover{
+        color: red;
+        cursor: pointer;
+    }
 
     @media only screen and  (max-width: 767px) {
         .container-fluid-di {
             background-color: #f5f5f5;
             width: 100% !important;
+        }
+        .cp-text2 {
+            color: rgb(129, 129, 129);
+            color: rgb(129, 129, 129);
+            padding-left: 40px;
         }
         .full-width{
             width: 95% !important;
@@ -99,6 +151,11 @@
             margin-bottom: 20px  !important;
             width: 100% !important;
             padding: 20px 30px  !important;
+        }
+        .csv-reader-div{
+            padding: 30px 20px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
         }
 
         .card-2 {
@@ -204,5 +261,13 @@
     }
 
 
+    @media only screen and  (max-width: 767px) {
 
-//}
+        .csv-reader-div{
+            padding: 30px 8px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
+        }
+    }
+
+}
