@@ -717,16 +717,13 @@ router.post('/readRequest/:id', function (req, res) {
 /////////////get request status for students
 router.get('/getReqStatus/:id', async(req, res)=> {
   let id = req.params.id;
-  ///user.email = req.body.email;
+  
   console.log('hey');
   console.log(id);
-  //console.log(req.body.proId);
+  
   const result = await User.findOne({ _id:id }).select('indexNumber');
   const index = result.indexNumber
   console.log(index);
-
-  /*const group = await CreateGroups.findOne({ groupMembers: index}).select("groupId")
-  console.log(group.groupId);*/
 
   CreateGroups.findOne({ groupMembers: index})
   .exec()
@@ -739,20 +736,6 @@ router.get('/getReqStatus/:id', async(req, res)=> {
       console.log(error)
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
-
-
-  /*Request
-    .findOne({projectId: req.body.proId, groupId: group.groupId  })
-    .exec()
-    .then(data => {
-      console.log(data);
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
-
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })*/
 
 });
 //////////// get request states student 2
