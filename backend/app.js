@@ -66,6 +66,7 @@ const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
+const proposel = require('./routes/proposel');
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -80,6 +81,7 @@ app.use("/progress", progress);
 app.use("/groupChat", groupChat);
 app.use('/courseTypes', courseTypes);
 app.use('/indexInfo', indexInfo);
+app.use('/proposel',proposel);
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {
