@@ -583,12 +583,16 @@ router.post('/add', async (req, res) => {
   
   const Academic = await Projects.findOne({_id: req.body.project_id}).select("academicYear")
   
+  //const first =  await User.findOne({ _id: req.body.sup_id }).select('firstName');
 
+  //const email =  await User.findOne({ _id: req.body.sup_id }).select('email');
 
   //create a new request
   const newReq = new Request({
     supId: req.body.sup_id,
     stuId: req.body.stu_id,
+    //supName:first.firstName,
+   // supEmail:email.email,
     state: 'pending',
     reqDate: dateString,
     groupId: group.groupId,
