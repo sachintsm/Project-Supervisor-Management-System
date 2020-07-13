@@ -10,7 +10,7 @@ import Snackpop from "../../shared/Snackpop";
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
-import ProjectTotalProgress from './ProjectTotalProgress'
+import ProjectTotalProgress from './ProjectTotalProgress';
 import { Row, Col, Card } from 'react-bootstrap';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { Button, CardTitle, CardText } from 'reactstrap';

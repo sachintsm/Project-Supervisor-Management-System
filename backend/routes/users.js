@@ -13,6 +13,7 @@ const verify = require('../authentication');
 const multer = require('multer');
 var path = require('path');
 var fs = require('fs');
+const { stubFalse } = require('lodash');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -154,7 +155,8 @@ router.post('/bulkRegister', async (req, res, next) => {
   var student
   var admin
   var staff
-
+  // console.log(req.body);
+  
   if (req.body.userType === 'Admin') {
     admin = true
     student = false
@@ -179,9 +181,9 @@ router.post('/bulkRegister', async (req, res, next) => {
     birthday: req.body.birthday,
     nic: req.body.nic.toLowerCase(),
     mobile: req.body.mobileNumber,
-    indexNumber: req.body.indexNumber.toLowerCase(),
-    regNumber: req.body.regNumber.toLowerCase(),
-    courseType: req.body.courseType.toUpperCase(),
+    indexNumber: req.body.indexNumber,
+    regNumber: req.body.regNumber,
+    courseType: req.body.courseType,
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -197,12 +199,14 @@ router.post('/bulkRegister', async (req, res, next) => {
       if (err) {
         console.log(err);
       } else {
+        
         bcrypt.hash(newUser.password, salt, function (err, hash) {
           newUser.password = hash;
-
+          
           if (err) {
             throw err;
           } else {
+            console.log(newUser);
             newUser
               .save()
               .then((req) => {
@@ -655,6 +659,61 @@ router.get('/getSup/:id', async (req, res) => {
     })
 
 })
+//////////count request notifications//////
+router.get('/countNotifyReq/:id', async (req, res) => {
+
+  const id = req.params.id;
+
+  Request
+    .find({ supId: id })
+    .exec()
+    .then(data => {
+            console.log(data);
+            console.log(data.length);
+            var count;
+            var arr1 = [];
+            if(data !== 0 ){
+              count=0;
+              for (var i = 0; i < data.length; i++) {
+                if ((data[i].state == 'pending')) {
+                  count = count + 1;
+                  arr1.push(data[i]);
+                  console.log(arr1)
+                }
+              }
+            res.json({ state:true, data:count, data2:arr1 });
+            }
+            else{
+              count=0;
+              res.json({ state:false, data:count });
+              
+            }
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+})
+///////read request by supervisor
+router.post('/readRequest/:id', function (req, res) {
+  let id = req.params.id;
+  console.log(id);
+  Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+        request.state = 'read';
+        request.save().then(request => {
+          console.log(request);
+          res.json({ state: true, msg: 'Read Request' });
+        })
+          .catch(err => {
+            res.status(400).send("Unable to Read Request");
+          });
+    }
+  });
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //update user profile by user
 router.post('/update/:id', function (req, res) {

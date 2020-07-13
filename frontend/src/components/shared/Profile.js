@@ -170,8 +170,8 @@ export default class Profile extends Component {
         const isValid = this.validate();
         if (isValid) {
             confirmAlert({
-                title: 'Confirm to submit',
-                message: 'Are you sure to do this.',
+                title: 'Confirm to update',
+                message: 'Are you sure to update your details?',
                 buttons: [
                     {
                         label: 'Yes',
