@@ -155,7 +155,8 @@ router.post('/bulkRegister', async (req, res, next) => {
   var student
   var admin
   var staff
-
+  // console.log(req.body);
+  
   if (req.body.userType === 'Admin') {
     admin = true
     student = false
@@ -180,9 +181,9 @@ router.post('/bulkRegister', async (req, res, next) => {
     birthday: req.body.birthday,
     nic: req.body.nic.toLowerCase(),
     mobile: req.body.mobileNumber,
-    indexNumber: req.body.indexNumber.toLowerCase(),
-    regNumber: req.body.regNumber.toLowerCase(),
-    courseType: req.body.courseType.toUpperCase(),
+    indexNumber: req.body.indexNumber,
+    regNumber: req.body.regNumber,
+    courseType: req.body.courseType,
     imageName: '',
     isStudent: student,
     isAdmin: admin,
@@ -198,12 +199,14 @@ router.post('/bulkRegister', async (req, res, next) => {
       if (err) {
         console.log(err);
       } else {
+        
         bcrypt.hash(newUser.password, salt, function (err, hash) {
           newUser.password = hash;
-
+          
           if (err) {
             throw err;
           } else {
+            console.log(newUser);
             newUser
               .save()
               .then((req) => {

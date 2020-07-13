@@ -44,11 +44,11 @@ router.post("/addNotice", verify, async (req, res) => {
     req.body.toStudent = false;
 
 
-    if (
-      !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
-    ) {
-      req.body.toViewType = false;
-    }
+    // if (
+    //   !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
+    // ) {
+    //   req.body.toViewType = false;
+    // }
 
     upload(req, res, (err) => {
       let ts = Date.now();
@@ -73,7 +73,7 @@ router.post("/addNotice", verify, async (req, res) => {
         date: req.body.date,
         time: req.body.time,
         filePath: filePath,
-        toViewType: req.body.toViewType,
+        //toViewType: req.body.toViewType,
         toCordinator: req.body.toCordinator,
         toSupervisor: req.body.toSupervisor,
         toStudent: req.body.toStudent,
