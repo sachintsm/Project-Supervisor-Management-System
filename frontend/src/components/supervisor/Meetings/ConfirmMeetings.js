@@ -14,7 +14,7 @@ import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
 import { getFromStorage } from "../../../utils/Storage";
 import { verifyAuth } from "../../../utils/Authentication";
-import TimeInput from 'material-ui-time-picker'
+import TimeInput from 'material-ui-time-picker';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -36,7 +36,7 @@ export default class ConfirmMeeting extends Component {
       groupId: "",
       purpose: "",
       // date: "",
-      time: "",
+      timeConfirmed: "",
       supervisor: "",
       super: "",
       supervisorN: [],
@@ -242,11 +242,11 @@ export default class ConfirmMeeting extends Component {
   handleChange = time => {
 
     console.log(time);
-    
+
     this.setState({
-      time: time
+      timeConfirmed: time
     })
-    console.log(this.state.time);
+    console.log(this.state.timeConfirmed);
 
   }
 
@@ -260,7 +260,7 @@ export default class ConfirmMeeting extends Component {
           status={this.state.snackbaropen}
           closeAlert={this.closeAlert}
         />
-        
+
         <div className="container">
           <Button className="btn btn-info" onClick={this.toggle} style={{ width: "100%", marginTop: "0px" }}>Confirm Meeting</Button>
 
@@ -295,7 +295,8 @@ export default class ConfirmMeeting extends Component {
                         <div className="form-group">
                           <label className="text-label">Time </label>
                           <TimeInput
-                            mode='12h'
+                            className="form-control"
+                            mode='24h'
                             onChange={(time) => this.handleChange(time)}
                           />
                         </div>

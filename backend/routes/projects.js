@@ -80,6 +80,7 @@ router.patch("/:id", async (req, res, next) => {
       projectType: req.body.type,
       academicYear: req.body.academicYear,
       coordinatorList: idList,
+      studentList: req.body.studentList
     };
     const result = await Projects.findByIdAndUpdate(id, update, { new: true })
     res.send(result)
@@ -110,7 +111,7 @@ router.patch("/projecttype/:id", async (req, res, next) => {
     res.send(result)
   } catch (err) {
     console.log(err)
-  }
+}
 })
 
 
