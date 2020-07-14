@@ -132,7 +132,16 @@ const ReqState = React.memo( props =>(
     <tr>
         <td>{props.req.supFirstName}{props.req.supLastName}</td>
         <td>{props.req.supEmail}</td>
-        <td>{props.req.state}</td>
+        {(props.req.state === "pending")?
+            (<td>{props.req.state}</td>):
+                ((props.req.state === "read")?
+                    (<td style={{ color: "blue"}}>{props.req.state}</td>):
+                        ((props.req.state === "accept")?
+                            (<td style={{ color: "green"}}>{props.req.state}</td>):
+                                (<td style={{ color: "red"}}>{props.req.state}</td>)
+                        )
+                )
+        }
     </tr>
     
 )
