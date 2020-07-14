@@ -30,15 +30,9 @@ var storage = multer.diskStorage({
    
    const upload = multer({ storage: storage }).single("proposelAttachment");
    
-   router.post("/addProposel", verify, async (req, res) => {
+   router.post("/addProposel", async (req, res) => {
 
-    try {
-
-      req.body.isclose = false;
-      req.body.ispending = false;
-      req.body.isclose = false;
-  
-
+    console.log("call from frontend")
      upload(req, res, (err) => {
           let ts = Date.now();
           let date_ob = new Date(ts);
@@ -52,7 +46,7 @@ var storage = multer.diskStorage({
           if (req.file) {
             var filePath = "PROPOSEL_FILE -" + time + req.file.originalname;
           }
-   })
+   
 
    const newProposel = new proposel({
         projectId : req.body.projectId,
@@ -60,10 +54,7 @@ var storage = multer.diskStorage({
         deadDate : req.body.deadDate,
         deadTime : req.body.deadTime,
         filePath : filePath,
-        isopen : req.body.isopen,
-        ispending : req.body.ispending,
-        isclose : req.body.isclose,
-
+        state : req.body.state,
    })
 
    newProposel
@@ -77,11 +68,9 @@ var storage = multer.diskStorage({
         res.json({state : false , msg : "Data inserted unsuccessful.."})
         console.log(err)
    })
-
-  }catch(err){
-    console.log(err);  
-  }
-
+  })
+  
+  
 })
 
 module.exports = router;

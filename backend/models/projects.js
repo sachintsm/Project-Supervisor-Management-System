@@ -9,7 +9,8 @@ var projects = Schema({
     studentList: [{type: String}],
     supervisorList: [{type: String}],
     isDeleted: {type: Boolean},
-    projectState: {type: Boolean }
+    projectState: {type: Boolean}
+
 });
 
 const Projects = mongoose.model('projects', projects);
