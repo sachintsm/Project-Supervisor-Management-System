@@ -130,8 +130,8 @@ const ReqState = React.memo( props =>(
 
         
     <tr>
-        <td>{props.req.supId}</td>
-        <td>{props.req.stuId}</td>
+        <td>{props.req.supFirstName}{props.req.supLastName}</td>
+        <td>{props.req.supEmail}</td>
         <td>{props.req.state}</td>
     </tr>
     

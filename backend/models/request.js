@@ -4,7 +4,8 @@ const Schema  = mongoose.Schema;
 var requestSchema =mongoose.Schema({
     supId:{type:String},
     stuId:{type:String},
-    supName:{type:String},
+    supFirstName:{type:String},
+    supLastName:{type:String},
     supEmail:{type:String},
     state:{type:String},
     reqDate:{type: String},
