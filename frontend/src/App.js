@@ -111,7 +111,7 @@ function App() {
           <Route exact path='/studenthome/viewproject/progresstasks' component={Tasks}></Route>
           <Route exact path='/studenthome/viewproject/progresstasks/viewtask' component={ViewTask}></Route>
           <Route exact path='/shared/notice' component={NoticeView}></Route>
-          <Route exact path='/studenthome/requestsupervisor' component={RequestSupervisor}></Route>
+          <Route exact path='/studenthome/viewproject/requestsupervisor' component={RequestSupervisor}></Route>
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
 
 

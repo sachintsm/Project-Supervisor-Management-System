@@ -536,12 +536,11 @@ router.post('/check', async (req, res) => {
       if (count < 2) {
         for (var i = 0; i < data.length; i++) {
           console.log(data[i].reqDate);
-          if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
+          if ((group.groupId === (data[i].groupId)) && (req.body.sup_id === (data[i].supId))) {
             stat = true;
+           // break;
           }
-          else {
-            stat = false;
-          }
+
         }
         if (stat == true) {
           res.json({ state: false, msg: "Your group have already requested..." });

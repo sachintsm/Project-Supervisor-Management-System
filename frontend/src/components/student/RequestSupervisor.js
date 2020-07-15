@@ -27,7 +27,7 @@ function ProjectModal(props) {
             className="modal"
         >
                     
-            <Modal.Header >
+            <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
                  Projects
             </Modal.Title>
@@ -194,7 +194,7 @@ export default class Profile extends Component {
     };
     hideModal2 = () => {
         this.setState({ show2: false});
-        this.props.history.push('/studenthome/requestsupervisor');
+        this.props.history.push('/studenthome/viewproject/requestsupervisor');
     };
 
     async componentDidMount() {
