@@ -86,7 +86,7 @@ class ViewMeeting extends Component {
     return (
       <React.Fragment>
         <Navbar panel={"student"} />
-        <div className="container-fluid" styles={{ height: "1500px" }}>
+        <div className="container-fluid">
 
           <div className="container student-view-meeting">
             <RequestMeeting project={this.state.project} group={this.state.group} />
