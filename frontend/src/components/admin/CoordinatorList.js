@@ -32,7 +32,6 @@ class CoordinatorList extends Component {
             coordinatorNameList: []
         })
 
-        console.log(this.state.coordinatorIDList)
         
         const headers = {
             'auth-token': getFromStorage('auth-token').token,

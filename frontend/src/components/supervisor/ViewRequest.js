@@ -213,7 +213,7 @@ export default class ViewRequest extends Component {
 
         return filteredReq.map((currentReq, i) => {
             console.log(i);
-            if (currentReq.state === 'pending') {
+            if (currentReq.state === 'read') {
                 return <Pending sendAccept={this.reqSendAccept} sendReject={this.reqSendReject} req={currentReq} key={i} />;
             }
         })

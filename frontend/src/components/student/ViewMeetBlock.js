@@ -19,28 +19,30 @@ class viewMeetBlock extends Component {
                 return (
                     <div className="container" key={item.id}>
                         <Col md={12} xs={12} sm={12} >
-                            <Card style={{ marginBottom: "0px" }} className="view-meetings">
-                                <Card.Header className="gd-card-header">
-                                    {item.supervisor}
-                                    <div className="row">
-                                        <Col md={2} className="time">
-                                            {item.date.substring(0, 10)}
-                                        </Col>
-                                        <Col md={6} className="time">
-                                            {item.time}
-                                        </Col>
-                                    </div>
-                                </Card.Header>
-                                <Card.Body>
-                                    <p className="vm-purpose">{item.purpose}</p>
-                                </Card.Body>
-                            </Card>
+                            <div className="view-meetings">
+                                <Card>
+                                    <Card.Header style={{marginBottom:"px"}} className="gd-card-header" >
+                                        {item.supervisor}
+                                        <div className="row">
+                                            <Col md={2} className="time">
+                                                {item.date.substring(0, 10)}
+                                            </Col>
+                                            <Col md={6} className="time">
+                                                {item.time}
+                                            </Col>
+                                        </div>
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <p className="vm-purpose">{item.purpose}</p>
+                                    </Card.Body>
+                                </Card>
+                            </div>
                         </Col>
                     </div>
                 )
             })
         return (
-            <div className="row" style={{marginBottom:"20px"}}>
+            <div className="row" style={{ marginBottom :"20px"}}>
                 {supervisorProjectList}
             </div>
         );
