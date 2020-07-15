@@ -194,6 +194,7 @@ export default class Profile extends Component {
     };
     hideModal2 = () => {
         this.setState({ show2: false});
+        this.props.history.push('/studenthome/requestsupervisor');
     };
 
     async componentDidMount() {
