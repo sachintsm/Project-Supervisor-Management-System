@@ -8,9 +8,7 @@ var proposel = Schema({
      deadDate : {type : String},
      deadTime : {type : String},
      filePath: { type: String },
-     isopen : {type : Boolean},
-     ispending : {type : Boolean},
-     isclose : {type : Boolean}
+     state:{type:String},
 
 
      
