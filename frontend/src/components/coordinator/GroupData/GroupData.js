@@ -82,7 +82,7 @@ class GroupData extends Component {
                     loading: true
                 })
             })
-
+            console.log(this.props.location.state.projectId);
         await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.projectId, { headers: headers })
             .then(res => {
                 this.setState({

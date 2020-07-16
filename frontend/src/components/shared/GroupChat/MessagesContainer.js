@@ -15,19 +15,68 @@ class MessagesContainer extends Component {
             userId: '',
             imagename: '',
 
-            messages: this.props.messages
+            messages: this.props.messages,
+            groupDetails: this.props.groupDetails,
+            userData: [],
+
+            dataDiv: false,
+            finalBlock: [],
         }
     }
 
-    componentDidMount() {
-        console.log("saa")
+    async componentDidMount() {
+        const userId = getFromStorage('auth-id').id
+        this.setState({
+            userId: userId,
+        })
+        for (var i = 0; i < this.state.groupDetails.groupMembers.length; i++) {
+            await axios.get(backendURI.url + '/users/getStudentDetails/' + this.state.groupDetails.groupMembers[i])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data[0]._id,
+                        userName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
+                        profileImage: res.data.data[0].imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        for (var j = 0; j < this.state.groupDetails.supervisors.length; j++) {
+            await axios.get(backendURI.url + '/users/getUser/' + this.state.groupDetails.supervisors[j])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data._id,
+                        userName: res.data.data.firstName + ' ' + res.data.data.lastName,
+                        profileImage: res.data.data.imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        for (var k = 0; k < this.props.messages.length; k++) {
+            for (var l = 0; l < this.state.userData.length; l++) {
+                if (this.state.userData[l]._id === this.props.messages[k].userId) {
+                    const block = {
+                        userId: this.state.userData[l]._id,
+                        userName: this.state.userData[l].userName,
+                        profileImage: this.state.userData[l].profileImage,
+                        message: this.props.messages[k].message
+                    }
+                    this.setState({
+                        finalBlock: [...this.state.finalBlock, block]
+                    })
+                }
+            }
+        }
+        console.log(this.state.finalBlock);
     }
-    render() {
-        console.log("render")
 
+    render() {
         this.state.userId = getFromStorage('auth-id').id;
-        let messageContainer = this.props.messages.length > 0
-            && this.props.messages.map((message, i) => {             
+        let messageContainer = this.state.finalBlock.length > 0
+            && this.state.finalBlock.map((message, i) => {
                 if (message.userId === this.state.userId) {
                     return (
                         <div className="container x" key={i}>
@@ -51,9 +100,9 @@ class MessagesContainer extends Component {
                         <div className="container x" key={i}>
                             <Row>
                                 <Col md={1} xs={2}>
-                                   
+
                                     {/* <AccountCircleIcon style={{ fontSize: "35px" }} className="chat-propic" /> */}
-                                    <img  className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
+                                    <img className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
 
                                 </Col>
                                 <Col md={6} xs={8} className="mc-chat-card">

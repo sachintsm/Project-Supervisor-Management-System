@@ -19,7 +19,7 @@ class ProjectTotalProgress extends Component {
             loading: true,
             groupId: this.props.id,
             projectId: props.location.state.projectId,
-            project : [],
+            project: [],
         }
         this.getTotalProgress()
         this.individualProgressTask = this.individualProgressTask.bind(this);
@@ -50,20 +50,15 @@ class ProjectTotalProgress extends Component {
                 this.setState({
                     project: res.data.data
                 })
-                // console.log(res.data.data);
             })
     }
 
     individualProgressTask() {
         this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: this.state.project, groupDetails: this.state.groupDetails })
-
-        // this.props.history.push('/coordinatorhome/groupData/' + this.props.groupDetails._id + '/IndividualProgressTask', { groupDetails: this.props.groupDetails })
     }
 
     render() {
-        // console.log(this.props)
         return (
-            // <Container>
             <Row>
                 <Col md={12} className="total-progress-card-div-co">
                     <Card className="total-progress-card" onClick={() => this.individualProgressTask()}>
@@ -93,7 +88,6 @@ class ProjectTotalProgress extends Component {
                     </Card>
                 </Col>
             </Row>
-            // </Container>
         );
     }
 }
