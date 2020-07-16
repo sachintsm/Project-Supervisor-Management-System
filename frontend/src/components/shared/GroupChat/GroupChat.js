@@ -32,6 +32,10 @@ class GroupChat extends Component {
 
             groupMembers: [],
             supervisors: [],
+            userData: [],
+            finalBlock: [],
+
+            dataDiv: false
         }
 
         this.state.socket.on('message', (message) => {
@@ -42,16 +46,9 @@ class GroupChat extends Component {
     }
 
     async componentDidMount() {
-       
+
         const authState = await verifyAuth();
         const userId = getFromStorage('auth-id')
-        await axios.get(backendURI.url + '/users/getUserName/' + userId.id)
-            .then(res => {
-                var name = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
-                this.setState({
-                    userName: name
-                })
-            })
         this.setState({
             authState: authState,
         })
@@ -68,6 +65,35 @@ class GroupChat extends Component {
                     })
                 }
             })
+        for (var i = 0; i < this.state.groupDetails.groupMembers.length; i++) {
+            await axios.get(backendURI.url + '/users/getStudentDetails/' + this.state.groupDetails.groupMembers[i])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data[0]._id,
+                        userName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
+                        profileImage: res.data.data[0].imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        for (var j = 0; j < this.state.groupDetails.supervisors.length; j++) {
+            await axios.get(backendURI.url + '/users/getUser/' + this.state.groupDetails.supervisors[j])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data._id,
+                        userName: res.data.data.firstName + ' ' + res.data.data.lastName,
+                        profileImage: res.data.data.imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        this.setState({
+            dataDiv: true
+        })
     }
 
     handleSubmit = async (sender, content) => {
@@ -96,6 +122,8 @@ class GroupChat extends Component {
     }
 
     render() {
+        const { dataDiv } = this.state;
+
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -104,11 +132,15 @@ class GroupChat extends Component {
                         <Card.Header className="gd-card-header">
                             Chat Room
                         </Card.Header>
-                        <Card.Body className="gd-card-body messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
-                            {this.state.messages.length > 0 ?
-                                <MessagesContainer messages={this.state.messages} groupDetails={this.state.groupDetails}/>
-                                :
-                                <div />
+                        <Card.Body className="gd-card-body messages-container" 
+                       // style={{ overflow-y: 'auto', display: 'flex', flexDirection: 'column'}}
+                        >
+                            {
+                                this.state.dataDiv && this.state.messages.map(data => {
+                                    return (
+                                        <MessagesContainer messages={data} userData={this.state.userData} />
+                                    )
+                                })
                             }
                         </Card.Body>
                         <div className="input-container">
