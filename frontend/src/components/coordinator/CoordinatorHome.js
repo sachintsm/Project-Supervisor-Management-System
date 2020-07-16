@@ -182,22 +182,21 @@ class CoordinatorHome extends Component {
   supervisors(id) {
     this.props.history.push('/coordinatorhome/projectdata/Supervisors/' + id);
   }
-  groups(id) {
-    
-    this.props.history.push('/coordinatorhome/projectdata/Groups/' + id, { headers: id });
 
+  groups(id) {
+    this.props.history.push('/coordinatorhome/projectdata/Groups/' + id, { headers: id });
   }
+
   srs(id) {
     this.props.history.push('/coordinatorhome/projectdata/SRS/' + id);
-
   }
+
   proposals(id) {
     this.props.history.push('/coordinatorhome/projectdata/Proposals/' + id);
-
   }
+
   biWeeklys(id) {
     this.props.history.push('/coordinatorhome/projectdata/BiWeekly/' + id);
-
   }
 
   render() {
