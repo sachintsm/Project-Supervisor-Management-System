@@ -92,7 +92,7 @@ class GroupData extends Component {
         for (var i = 0; i < this.state.projectSupervisorList.length; i++) {
 
             await axios.get(backendURI.url + '/users/supervisorList/' + this.state.projectSupervisorList[i], { headers: headers })
-                .then((res) => { 
+                .then((res) => {
                     const option = {
                         label: res.data.data.firstName + ' ' + res.data.data.lastName,
                         value: res.data.data._id,
@@ -101,7 +101,7 @@ class GroupData extends Component {
                         staffOptionList: [...this.state.staffOptionList, option],
                     });
                 })
-                
+
                 .catch((err) => {
                     console.log(err);
                 });

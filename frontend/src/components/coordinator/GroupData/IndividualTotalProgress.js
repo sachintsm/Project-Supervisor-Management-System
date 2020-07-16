@@ -81,7 +81,11 @@ export default class IndividualTotalProgress extends Component {
     render() {
         return (
             <div className="individual-total-progress">
-                {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner" /></div>}
+                {
+                    this.state.loading && <div className="spinner-div">
+                        <Spinner animation="border" className="spinner" />
+                    </div>
+                }
                 <div>
                     <span className="gd-progress-users-name">{this.state.name} ({this.state.index})</span>
                     <Row>
