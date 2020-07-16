@@ -44,7 +44,7 @@ class GroupData extends Component {
 
             groupDetails: [],
             loading: false,
-            projectId: this.props.location.state.pId,
+            projectId: this.props.location.state.projectId,
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
@@ -62,6 +62,7 @@ class GroupData extends Component {
         });
     }
     componentDidMount = async () => {
+        console.log(this.props);
         const authState = await verifyAuth();
         this.setState({
             authState: authState,
@@ -82,7 +83,7 @@ class GroupData extends Component {
                 })
             })
 
-        await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.pId, { headers: headers })
+        await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.projectId, { headers: headers })
             .then(res => {
                 this.setState({
                     projectSupervisorList: res.data.data.supervisorList
@@ -288,7 +289,7 @@ class GroupData extends Component {
                         </div>
                         <div className="container" style={{ marginTop: "0px" }}>
                             {this.state.loading === true &&
-                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} />
+                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} projectId={this.state.projectId}/>
                             }
                         </div>
                         <div className="container">
