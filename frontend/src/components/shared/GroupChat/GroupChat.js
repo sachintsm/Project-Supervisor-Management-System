@@ -9,7 +9,7 @@ import openSocket from 'socket.io-client';
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
 import Navbar from '../../shared/Navbar'
-import { Row, Col, Card, Container, ProgressBar } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 const backendURI = require('../BackendURI');
 
@@ -23,12 +23,15 @@ class GroupChat extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
-            groupDetails: [],
+            groupDetails: this.props.location.state.groupDetails,
             messages: [],
 
             socket: openSocket(backendURI.url),
 
             userName: '',
+
+            groupMembers: [],
+            supervisors: [],
         }
 
         this.state.socket.on('message', (message) => {
@@ -39,6 +42,7 @@ class GroupChat extends Component {
     }
 
     async componentDidMount() {
+       
         const authState = await verifyAuth();
         const userId = getFromStorage('auth-id')
         await axios.get(backendURI.url + '/users/getUserName/' + userId.id)
@@ -56,7 +60,7 @@ class GroupChat extends Component {
         }
         await axios.get(backendURI.url + '/groupChat/' + this.props.location.state.groupDetails._id)
             .then(res => {
-                console.log(res.data.data);
+                // console.log(res.data.data);
 
                 if (res.data.data.length > 0) {
                     this.setState({
@@ -68,17 +72,17 @@ class GroupChat extends Component {
 
     handleSubmit = async (sender, content) => {
         const userId = getFromStorage('auth-id').id
-        var profileImage = ''
-        await axios.get(backendURI.url + '/users/getUserImage/' + userId)
-            .then(res => {
-                // console.log(res.data.data[0].imageName);
-                profileImage = res.data.data[0].imageName
-            })
+        // var profileImage = ''
+        // await axios.get(backendURI.url + '/users/getUserImage/' + userId)
+        //     .then(res => {
+        //         // console.log(res.data.data[0].imageName);
+        //         profileImage = res.data.data[0].imageName
+        //     })
         let reqBody = {
             userId: userId,
-            profileImage: profileImage,
+            // profileImage: profileImage,
             groupId: this.props.location.state.groupDetails._id,
-            sender: this.state.userName,
+            // sender: this.state.userName,
             content: content
         }
         const headers = {
@@ -102,14 +106,14 @@ class GroupChat extends Component {
                         </Card.Header>
                         <Card.Body className="gd-card-body messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
                             {this.state.messages.length > 0 ?
-                                <MessagesContainer messages={this.state.messages} />
+                                <MessagesContainer messages={this.state.messages} groupDetails={this.state.groupDetails}/>
                                 :
                                 <div />
                             }
                         </Card.Body>
-                            <div className="input-container">
-                                <InputContainer handleSubmit={this.handleSubmit} />
-                            </div>
+                        <div className="input-container">
+                            <InputContainer handleSubmit={this.handleSubmit} />
+                        </div>
                     </Card>
                 </div>
             </React.Fragment>
