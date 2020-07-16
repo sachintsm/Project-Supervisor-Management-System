@@ -17,7 +17,9 @@ class ProjectTotalProgress extends Component {
             totalProgressInt: 0,
             studentProgress: 0,
             loading: true,
-            groupId: this.props.id
+            groupId: this.props.id,
+            projectId: props.location.state.projectId,
+            project : [],
         }
         this.getTotalProgress()
         this.individualProgressTask = this.individualProgressTask.bind(this);
@@ -41,13 +43,25 @@ class ProjectTotalProgress extends Component {
 
         })
     }
-
-    individualProgressTask() {
-        this.props.history.push('/coordinatorhome/groupData/' + this.props.groupDetails._id + '/IndividualProgressTask', { groupDetails: this.props.groupDetails })
+    async componentDidMount() {
+        //? get project details
+        await axios.get(backendURI.url + '/projects/getProject/' + this.state.projectId)
+            .then(res => {
+                this.setState({
+                    project: res.data.data
+                })
+                // console.log(res.data.data);
+            })
     }
 
-    render() {  
-        console.log(this.props.groupDetails._id)
+    individualProgressTask() {
+        this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: this.state.project, groupDetails: this.state.groupDetails })
+
+        // this.props.history.push('/coordinatorhome/groupData/' + this.props.groupDetails._id + '/IndividualProgressTask', { groupDetails: this.props.groupDetails })
+    }
+
+    render() {
+        // console.log(this.props)
         return (
             // <Container>
             <Row>
