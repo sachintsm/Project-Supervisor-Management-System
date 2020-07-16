@@ -174,9 +174,6 @@ class SupervisorHome extends Component {
   render() {
 
     const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
-
-
-
     return (
       <div className="sh-fullpage">
         <Navbar panel={"supervisor"} />
@@ -213,12 +210,7 @@ class SupervisorHome extends Component {
                 )
               })}
             </Row>
-
-
-
-
           </div>
-
         </div>
         <Footer />
       </div>

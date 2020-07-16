@@ -285,14 +285,16 @@ class GroupData extends Component {
         return isError;  //! is not error return state 'false'
     }
 
-    viewMeetings = (project) => {        
+    viewMeetings = (project) => {
         this.props.history.push('/supervisorhome/viewMeetings')
     }
 
-    viewProgress = (project) => {        
-        this.props.history.push('/supervisorhome/viewProgress', {groupDetails:this.state.groupData})
+    viewProgress = (project) => {
+        this.props.history.push('/supervisorhome/viewProgress', { groupDetails: this.state.groupData })
     }
-
+    viewChat = (project) => {
+        this.props.history.push('/studenthome/chat/' + this.state.groupData._id, { groupDetails: this.state.groupData })
+    }
 
     render() {
         return (
@@ -349,41 +351,41 @@ class GroupData extends Component {
 
                             </Row>
                             <Row className="btn-row1">
-                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" onClick={() => this.viewChat(this.state.project)}>
-                                        <Card className="btn-card1">
-                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
-                                                <div>
-                                                    <QuestionAnswerIcon style={{ fontSize: 32 }} />
-                                                </div>
-                                            </IconContext.Provider><span className="btn-title1">Chat Box</span></Card>
-                                    </Col>
+                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                    <Card className="btn-card1" onClick={() => this.viewChat(this.state.project)}>
+                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                            <div>
+                                                <QuestionAnswerIcon style={{ fontSize: 32 }} />
+                                            </div>
+                                        </IconContext.Provider><span className="btn-title1">Chat Box</span></Card>
+                                </Col>
 
-                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" onClick={() => this.viewMeetings(this.state.project)}>
-                                        <Card className="btn-card1">
-                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
-                                                <div>
-                                                    <TiGroup />
-                                                </div>
-                                            </IconContext.Provider><span className="btn-title1">Meetings</span></Card>
-                                    </Col>
-                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
-                                        <Card className="btn-card1" onClick={() => { this.viewProgress(this.state.project) }}>
-                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
-                                                <div>
-                                                    <FaChartLine />
-                                                </div>
-                                            </IconContext.Provider><span className="btn-title1">Progress</span></Card>
-                                    </Col>
-                                    <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
-                                        <Card className="btn-card1">
-                                            <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
-                                                <div>
-                                                    <FiUploadCloud />
-                                                </div>
-                                            </IconContext.Provider><span className="btn-title1">Submissions</span></Card>
-                                    </Col>
+                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" >
+                                    <Card className="btn-card1" onClick={() => this.viewMeetings(this.state.project)}>
+                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                            <div>
+                                                <TiGroup />
+                                            </div>
+                                        </IconContext.Provider><span className="btn-title1">Meetings</span></Card>
+                                </Col>
+                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                    <Card className="btn-card1" onClick={() => { this.viewProgress(this.state.project) }}>
+                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                            <div>
+                                                <FaChartLine />
+                                            </div>
+                                        </IconContext.Provider><span className="btn-title1">Progress</span></Card>
+                                </Col>
+                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                    <Card className="btn-card1">
+                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                            <div>
+                                                <FiUploadCloud />
+                                            </div>
+                                        </IconContext.Provider><span className="btn-title1">Submissions</span></Card>
+                                </Col>
 
-                                </Row>
+                            </Row>
                         </div>
                     </div>
                 </div>
