@@ -1,9 +1,7 @@
-
-
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
-import '../../css/supervisor/SupervisorHome.css'
+import '../../css/supervisor/SupervisorHome.scss'
 import Footer from "../shared/Footer";
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
