@@ -486,7 +486,6 @@ router.post('/updateReqState/:id', async (req, res) => {
       res.status(404).send("data is not found");
     else {
       request.state = req.body.state;
-
       request.save().then(user => {
         if (req.body.state === 'accept') {
           res.json({ state: true, msg: 'You accept this group' });
