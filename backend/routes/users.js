@@ -703,8 +703,10 @@ router.get('/countNotifyReq/:id', async (req, res) => {
 })
 ///////read request by supervisor
 router.post('/readRequest/:id', function (req, res) {
+  console.log('devmi');
   let id = req.params.id;
   console.log(id);
+  console.log('hey');
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
