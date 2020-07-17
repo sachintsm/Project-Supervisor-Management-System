@@ -18,7 +18,6 @@ class AdminHome extends Component {
   };
 
   render() {
-    console.log(localStorage)
     return (
       <React.Fragment>
         <Navbar panel={"admin"} />

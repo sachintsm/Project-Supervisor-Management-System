@@ -40,7 +40,7 @@
 .userType {
     color: rgb(179, 179, 179);
     margin-top: 8px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
 /*@media only screen and  (max-width: 767px){
