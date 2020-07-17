@@ -14,69 +14,43 @@ class MessagesContainer extends Component {
         this.state = {
             userId: '',
             imagename: '',
-
-            messages: this.props.messages,
-            groupDetails: this.props.groupDetails,
             userData: [],
 
-            dataDiv: false,
             finalBlock: [],
         }
     }
 
     async componentDidMount() {
+        console.log(this.props.messages.userId);
+        console.log(this.props.userData[0]);
+
         const userId = getFromStorage('auth-id').id
         this.setState({
             userId: userId,
         })
-        for (var i = 0; i < this.state.groupDetails.groupMembers.length; i++) {
-            await axios.get(backendURI.url + '/users/getStudentDetails/' + this.state.groupDetails.groupMembers[i])
-                .then(res => {
-                    const data = {
-                        _id: res.data.data[0]._id,
-                        userName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
-                        profileImage: res.data.data[0].imageName
-                    }
-                    this.setState({
-                        userData: [...this.state.userData, data]
-                    })
-                })
-        }
-        for (var j = 0; j < this.state.groupDetails.supervisors.length; j++) {
-            await axios.get(backendURI.url + '/users/getUser/' + this.state.groupDetails.supervisors[j])
-                .then(res => {
-                    const data = {
-                        _id: res.data.data._id,
-                        userName: res.data.data.firstName + ' ' + res.data.data.lastName,
-                        profileImage: res.data.data.imageName
-                    }
-                    this.setState({
-                        userData: [...this.state.userData, data]
-                    })
-                })
-        }
-        for (var k = 0; k < this.props.messages.length; k++) {
-            for (var l = 0; l < this.state.userData.length; l++) {
-                if (this.state.userData[l]._id === this.props.messages[k].userId) {
-                    const block = {
-                        userId: this.state.userData[l]._id,
-                        userName: this.state.userData[l].userName,
-                        profileImage: this.state.userData[l].profileImage,
-                        message: this.props.messages[k].message
-                    }
-                    this.setState({
-                        finalBlock: [...this.state.finalBlock, block]
-                    })
+
+
+        for (var l = 0; l < this.props.userData.length; l++) {
+            if (this.props.userData[l]._id === this.props.messages.userId) {
+                const block = {
+                    userId: this.props.userData[l]._id,
+                    userName: this.props.userData[l].userName,
+                    profileImage: this.props.userData[l].profileImage,
+                    message: this.props.messages.message
                 }
+                this.setState({
+                    finalBlock: [...this.state.finalBlock, block]
+                })
             }
+
         }
-        console.log(this.state.finalBlock);
     }
 
     render() {
         this.state.userId = getFromStorage('auth-id').id;
         let messageContainer = this.state.finalBlock.length > 0
             && this.state.finalBlock.map((message, i) => {
+
                 if (message.userId === this.state.userId) {
                     return (
                         <div className="container x" key={i}>

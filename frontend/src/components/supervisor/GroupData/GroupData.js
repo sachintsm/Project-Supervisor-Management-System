@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import "../../../css/supervisor/ViewGroupDetails.css";
+import "../../../css/supervisor/ViewGroupDetails.scss";
 import Navbar from '../../shared/Navbar';
 import { verifyAuth } from "../../../utils/Authentication";
-import { Card, Row, Col, Spinner } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
-import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
 import ProjectTotalProgress from '../../coordinator/GroupData/ProjectTotalProgress';
-
-
-import { IoIosPersonAdd } from 'react-icons/io';
 import { TiGroup } from 'react-icons/ti';
 import { FaChartLine } from 'react-icons/fa';
 import { FiUploadCloud } from 'react-icons/fi';
@@ -309,7 +305,7 @@ class GroupData extends Component {
                         closeAlert={this.closeAlert}
                     />
 
-                    <div className="card gd-card">
+                    <div className="gd-card">
                         <div className="container gd-reg-head-div">
                             <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
                         </div>
@@ -321,28 +317,25 @@ class GroupData extends Component {
                         <div className="container">
                             <Row>
                                 <Col md="8" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic">Group Members</p>
-                                        </div>
-                                    </Row>
-                                    <Row>
-                                        <div className="container gd-stu-list">
-                                            {this.studentList()}
-                                        </div>
-                                    </Row>
+                                    <Card className="total-progress-card">
+                                        <Card.Header className="card-header">Group Members</Card.Header>
+                                        <Card.Body className="card-body">
+                                            <div className="container gd-stu-list">
+                                                {this.studentList()}
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
                                 <Col md="4" xs="12">
-                                    <Row>
-                                        <div className="container">
-                                            <p className="gd-topic">Supervisors</p>
-                                        </div>
-                                    </Row>
-                                    <Row>
-                                        <div className="container gd-stu-list">
-                                            {this.supervisorList()}
-                                        </div>
-                                    </Row>
+                                    <Card className="total-progress-card">
+                                        <Card.Header className="card-header">Supervisors</Card.Header>
+                                        <Card.Body className="card-body">
+                                            <div className="container gd-stu-list">
+                                                {this.supervisorList()}
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+
                                 </Col>
                             </Row>
 
@@ -357,7 +350,9 @@ class GroupData extends Component {
                                             <div>
                                                 <QuestionAnswerIcon style={{ fontSize: 32 }} />
                                             </div>
-                                        </IconContext.Provider><span className="btn-title1">Chat Box</span></Card>
+                                        </IconContext.Provider>
+                                        <span className="btn-title1">Chat Box</span>
+                                    </Card>
                                 </Col>
 
                                 <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" >
@@ -390,7 +385,7 @@ class GroupData extends Component {
                     </div>
                 </div>
                 <Footer />
-            </div>
+            </div >
         );
     }
 }
