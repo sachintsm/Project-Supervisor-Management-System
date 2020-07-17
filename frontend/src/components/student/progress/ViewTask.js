@@ -76,7 +76,8 @@ class ViewTask extends Component {
             defaultProgress: null,
             loading: true,
             updateLoading: true,
-            progressUpdates: []
+            progressUpdates: [],
+            userLevel: localStorage.getItem("user-level")
         }
     }
     componentDidMount() {
@@ -271,7 +272,7 @@ class ViewTask extends Component {
                         <div className="main-card">
 
                             <Row><TaskProgressCard groupDetails={this.state.groupDetails} taskDetails={this.state.task} /></Row>
-                            {this.state.projectDetails.projectState &&
+                            {this.state.projectDetails.projectState && this.state.userLevel==="student" &&
 
                                 <Row className="task-options">
                                     <Col lg={6} md={6} className="edit-card-div">

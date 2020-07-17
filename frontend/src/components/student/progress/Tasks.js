@@ -79,7 +79,8 @@ class Tasks extends Component {
             loading: true,
             progressUpdates: [],
             updateLoading: true,
-            taskTitleError: false
+            taskTitleError: false,
+            userLevel: localStorage.getItem("user-level")
         }
     }
 
@@ -215,7 +216,7 @@ class Tasks extends Component {
                                     </Col>
                                 )
                             })}
-                            {!this.state.loading && this.state.project.projectState &&
+                            {!this.state.loading && this.state.project.projectState &&  this.state.userLevel==="student" &&
                             <Col lg={3} md={3} xs={12} sm={12}>
 
                                 <BootstrapTooltip title="Add New Task"  placement="bottom">
