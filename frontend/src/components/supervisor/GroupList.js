@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap'
 import Card from "@material-ui/core/Card";
-import '../../css/supervisor/SupervisorHome.css'
+import '../../css/supervisor/SupervisorHome.scss'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router-dom";
