@@ -51,6 +51,9 @@ class GroupData extends Component {
         this.onSubmitAddStudent = this.onSubmitAddStudent.bind(this);
         this.setSelected = this.setSelected.bind(this);
         this.onSubmitAddSupervisor = this.onSubmitAddSupervisor.bind(this)
+        this.openBiweekly = this.openBiweekly.bind(this)
+        this.openProposal = this.openProposal.bind(this)
+        this.openSrs = this.openSrs.bind(this)
     }
     closeAlert = () => {
         this.setState({ snackbaropen: false });
@@ -269,7 +272,15 @@ class GroupData extends Component {
         return isError;  //! is not error return state 'false'
     }
 
-
+    openBiweekly() {
+        this.props.history.push('/coordinatorhome/gdata/biweekly/'+ this.state.groupId)
+    }
+    openProposal(){
+        this.props.history.push('/coordinatorhome/gdata/proposal/'+ this.state.groupId)
+    }
+    openSrs(){
+        this.props.history.push('/coordinatorhome/gdata/srs/'+ this.state.groupId)
+    }
     render() {
         return (
             <div className="gd-fullpage" >
@@ -372,7 +383,7 @@ class GroupData extends Component {
                                         <Card.Body className="gd-card-body">
                                             <Row style={{ marginBottom: "-50px" }}>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }} onClick={()=>this.openSrs()}>
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
                                                                 <DescriptionIcon fontSize="large" />
@@ -385,7 +396,7 @@ class GroupData extends Component {
 
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}  onClick={()=>this.openProposal()}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
@@ -399,7 +410,7 @@ class GroupData extends Component {
                                                     </Card>
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}  onClick={()=>this.openBiweekly()}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>

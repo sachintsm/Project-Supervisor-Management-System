@@ -59,8 +59,8 @@ class StudentList extends Component {
     delete(data) {
         let id = data
         confirmAlert({
-            title: 'Confirm to submit',
-            message: 'Are you sure to do this.',
+            title: 'Confirm to delete',
+            message: 'Are you sure to remove this supervisor from the group?',
             buttons: [
                 {
                     label: 'Yes',
