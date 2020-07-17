@@ -33,9 +33,6 @@ import SupervisorHome from './components/supervisor/SupervisorHome';
 import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeetings';
 import ViewProgressSupervisor from './components/supervisor/Progress/ViewProgress';
-
-
-
 import ViewRequest from './components/supervisor/ViewRequest';
 
 import NoticeView from './components/shared/NoticeView';
@@ -91,7 +88,6 @@ function App() {
           <Route path='/coordinatorhome/projectdata/Proposals/:id' component={Proposals}></Route>
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
-
 
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>

@@ -24,14 +24,20 @@ router.post('/', verify, async (req, res) => {
             groupId: req.body.groupId,
             messages: [{
                 userId: req.body.userId,
-                profileImage: req.body.profileImage,
-                userName: req.body.sender,
+                // profileImage: req.body.profileImage,
+                // userName: req.body.sender,
                 message: req.body.content
             }]
         })
         newChat.save()
             .then(data => {
-                res.json({ groupId: req.body.groupId, userName: req.body.sender, userId: req.body.userId, message: req.body.content, profileImage: req.body.profileImage })
+                res.json({
+                    groupId: req.body.groupId,
+                    // userName: req.body.sender,
+                    userId: req.body.userId,
+                    message: req.body.content,
+                    // profileImage: req.body.profileImage
+                })
             })
             .catch(err => {
                 res.send({ state: false, msg: err.message })
@@ -44,9 +50,9 @@ router.post('/', verify, async (req, res) => {
                 {
                     $push: {
                         messages: {
-                            profileImage: req.body.profileImage,
+                            // profileImage: req.body.profileImage,
                             userId: req.body.userId,
-                            userName: req.body.sender,
+                            // userName: req.body.sender,
                             message: req.body.content
                         }
                     }
@@ -54,7 +60,13 @@ router.post('/', verify, async (req, res) => {
             )
             .exec()
             .then(data => {
-                res.json({ groupId: req.body.groupId, userName: req.body.sender, userId: req.body.userId, message: req.body.content, profileImage: req.body.profileImage })
+                res.json({
+                    groupId: req.body.groupId,
+                    // userName: req.body.sender,
+                    userId: req.body.userId,
+                    message: req.body.content,
+                    // profileImage: req.body.profileImage
+                })
             })
             .catch(err => {
                 res.send({ state: false, msg: err.message })

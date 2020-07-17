@@ -40,7 +40,7 @@ router.get('/verify', verify, function (req, res, next) {
 });
 
 //User registration
-router.post("/register", verify,async function (req, res) {
+router.post("/register", verify, async function (req, res) {
   upload(req, res, (err) = async () => {
 
     // checking if the userId is already in the database
@@ -52,7 +52,7 @@ router.post("/register", verify,async function (req, res) {
     if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
 
     // console.log(req.body.indexNumber);
-    
+
     // // checking if the NIC is already in the database
     // if (req.body.indexNumber !== undefined || req.body.indexNumber !== '' || req.body.indexNumber !== null) {
     //   const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
@@ -156,7 +156,7 @@ router.post('/bulkRegister', async (req, res, next) => {
   var admin
   var staff
   // console.log(req.body);
-  
+
   if (req.body.userType === 'Admin') {
     admin = true
     student = false
@@ -199,10 +199,10 @@ router.post('/bulkRegister', async (req, res, next) => {
       if (err) {
         console.log(err);
       } else {
-        
+
         bcrypt.hash(newUser.password, salt, function (err, hash) {
           newUser.password = hash;
-          
+
           if (err) {
             throw err;
           } else {
@@ -311,7 +311,7 @@ router.get('/studentList/:id', async (req, res, next) => {
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    
+
     User
       .find({ isSupervisor: true, isDeleted: false, _id: id })
       .select('firstName lastName')
@@ -441,11 +441,11 @@ router.get('/get/:id', function (req, res) {
 });
 
 ///////// get project list for supervisor profile
-router.get('/getSupPro/:id', async(req, res)=> {
+router.get('/getSupPro/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
   Projects
-    .find({supervisorList:id })
+    .find({ supervisorList: id })
     .exec()
     .then(data => {
       console.log(data);
@@ -460,11 +460,11 @@ router.get('/getSupPro/:id', async(req, res)=> {
 });
 //////////////////////////////////////request////////////////////////////////////////////////////////////////////
 //////////////get request list for supervisor panel
-router.get('/getSupReq/:id', async(req, res)=> {
+router.get('/getSupReq/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
   Request
-    .find({supId:id })
+    .find({ supId: id })
     .exec()
     .then(data => {
       console.log(data);
@@ -478,7 +478,7 @@ router.get('/getSupReq/:id', async(req, res)=> {
 
 });
 //////////update request state whether accept or reject
-router.post('/updateReqState/:id', async(req, res)=> {
+router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
   Request.findById({ _id: id }, function (err, request) {
@@ -488,10 +488,10 @@ router.post('/updateReqState/:id', async(req, res)=> {
       request.state = req.body.state;
 
       request.save().then(user => {
-        if(req.body.state=== 'accept'){
-           res.json({ state: true, msg: 'You accept this group' });
-        }else{
-           res.json({ state: true, msg: 'You reject this group' });
+        if (req.body.state === 'accept') {
+          res.json({ state: true, msg: 'You accept this group' });
+        } else {
+          res.json({ state: true, msg: 'You reject this group' });
         }
       })
         .catch(err => {
@@ -549,9 +549,9 @@ router.post('/check', async (req, res) => {
           res.json({ state: true, msg: "You can request..." });
         }
 
-    }else{
-          res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
-    }
+      } else {
+        res.json({ state: false, msg: "You have exceed your  limit. You cannot request anymore today" });
+      }
 
     })
     .catch(err => {
@@ -576,7 +576,7 @@ router.post('/add', async (req, res) => {
   const group = await CreateGroups.findOne({ groupMembers: index}).select("groupId")
   console.log(group.groupId);
 
-  const Year = await Projects.findOne({_id: req.body.project_id}).select("projectYear")
+  const Year = await Projects.findOne({ _id: req.body.project_id }).select("projectYear")
   console.log(Year);
   const Type = await Projects.findOne({_id: req.body.project_id}).select("projectType")
   
@@ -600,9 +600,9 @@ router.post('/add', async (req, res) => {
     groupId: group.groupId,
     projectId: req.body.project_id,
     description: req.body.descript,
-    projectYear:Year.projectYear,
-    projectType:Type.projectType,
-    academicYear:Academic.academicYear
+    projectYear: Year.projectYear,
+    projectType: Type.projectType,
+    academicYear: Academic.academicYear
   });
 
   newReq.save()
@@ -674,26 +674,26 @@ router.get('/countNotifyReq/:id', async (req, res) => {
     .find({ supId: id })
     .exec()
     .then(data => {
-            console.log(data);
-            console.log(data.length);
-            var count;
-            var arr1 = [];
-            if(data !== 0 ){
-              count=0;
-              for (var i = 0; i < data.length; i++) {
-                if ((data[i].state == 'pending')) {
-                  count = count + 1;
-                  arr1.push(data[i]);
-                  console.log(arr1)
-                }
-              }
-            res.json({ state:true, data:count, data2:arr1 });
-            }
-            else{
-              count=0;
-              res.json({ state:false, data:count });
-              
-            }
+      console.log(data);
+      console.log(data.length);
+      var count;
+      var arr1 = [];
+      if (data !== 0) {
+        count = 0;
+        for (var i = 0; i < data.length; i++) {
+          if ((data[i].state == 'pending')) {
+            count = count + 1;
+            arr1.push(data[i]);
+            console.log(arr1)
+          }
+        }
+        res.json({ state: true, data: count, data2: arr1 });
+      }
+      else {
+        count = 0;
+        res.json({ state: false, data: count });
+
+      }
     })
     .catch(error => {
       console.log(error)
@@ -711,14 +711,14 @@ router.post('/readRequest/:id', function (req, res) {
     if (err)
       res.status(404).send("data is not found");
     else {
-        request.state = 'read';
-        request.save().then(request => {
-          console.log(request);
-          res.json({ state: true, msg: 'Read Request' });
-        })
-          .catch(err => {
-            res.status(400).send("Unable to Read Request");
-          });
+      request.state = 'read';
+      request.save().then(request => {
+        console.log(request);
+        res.json({ state: true, msg: 'Read Request' });
+      })
+        .catch(err => {
+          res.status(400).send("Unable to Read Request");
+        });
     }
   });
 });
@@ -865,17 +865,17 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
-    if(p === ''){
+    if (p === '') {
       console.log('No Image to delete');
-   
-  }
-  else{
-    fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
-      if (err) throw err;
-      // if no error, file has been deleted successfully
-      console.log('File deleted!');
-    });
-  }
+
+    }
+    else {
+      fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
+        if (err) throw err;
+        // if no error, file has been deleted successfully
+        console.log('File deleted!');
+      });
+    }
   }
 
 });
@@ -989,7 +989,7 @@ router.get('/getUser/:id', async (req, res) => {
 
   const userid = req.params.id;
   await User.find({ _id: userid })
-    .select('firstName lastName')
+    .select('firstName lastName imageName')
     .exec()
     .then(data => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: data[0] });
@@ -1008,6 +1008,21 @@ router.get('/getUserImage/:id', async (req, res) => {
 
   User.find({ _id: id })
     .select('imageName')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+//? get User data by student index
+//? (GroupChat.js)
+router.get('/getStudentDetails/:index', function (req, res) {
+  console.log("Student index is :   " + req.params.index);
+  User.find({ indexNumber: req.params.index })
+    .select('firstName lastName imageName')
     .exec()
     .then(data => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
