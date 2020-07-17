@@ -87,12 +87,6 @@ class TaskCard extends Component {
             message: 'Do you want to '+this.state.deleteTitle+" ?",
             buttons: [
                 {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
-                },
-                {
                     label: 'Yes',
                     onClick: async () => {
                         const headers = {
@@ -105,7 +99,13 @@ class TaskCard extends Component {
                         window.location.reload(false);
 
                     }
-                }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                },
             ]
         })
     }
