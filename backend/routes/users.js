@@ -51,7 +51,6 @@ router.post("/register", verify, async function (req, res) {
     const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
     if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
 
-    // console.log(req.body.indexNumber);
 
     // // checking if the NIC is already in the database
     // if (req.body.indexNumber !== undefined || req.body.indexNumber !== '' || req.body.indexNumber !== null) {
@@ -155,7 +154,6 @@ router.post('/bulkRegister', async (req, res, next) => {
   var student
   var admin
   var staff
-  // console.log(req.body);
 
   if (req.body.userType === 'Admin') {
     admin = true
@@ -233,7 +231,6 @@ router.post('/bulkRegister', async (req, res, next) => {
 //User Login
 router.post('/login', async function (req, res) {
   const password = req.body.password;
-  console.log(req.body)
   //checking if the userId is already in the database
   const user = await User.findOne({ email: req.body.email, isDeleted: false });
   if (!user)
@@ -371,13 +368,10 @@ router.route('/deleteUser/:id').post(function (req, res) {
 
 //admin update user password
 router.route('/updatePasswordA/:id').post(function (req, res) {
-  console.log('zxcvbn');
-  console.log(req.params.id);
 
   // var newPassword = req.body.nic
   let id = req.params.id;
   User.findById({ _id: id }, function (err, user) {    //find the user with respect to the userid
-    console.log(user.nic);
 
     var newPassword = user.nic
 
@@ -396,12 +390,10 @@ router.route('/updatePasswordA/:id').post(function (req, res) {
           })
             .exec()
             .then(data => {
-              console.log("Data Update Success..!")
               res.json({ state: true, msg: "Data Update Success..!" });
 
             })
             .catch(error => {
-              console.log("Data Updating Unsuccessfull..!")
               res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
             })
         }
@@ -443,12 +435,10 @@ router.get('/get/:id', function (req, res) {
 ///////// get project list for supervisor profile
 router.get('/getSupPro/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id);
   Projects
     .find({ supervisorList: id })
     .exec()
     .then(data => {
-      console.log(data);
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
 
     })
@@ -462,12 +452,10 @@ router.get('/getSupPro/:id', async (req, res) => {
 //////////////get request list for supervisor panel
 router.get('/getSupReq/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id);
   Request
     .find({ supId: id })
     .exec()
     .then(data => {
-      console.log(data);
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
 
     })
@@ -480,7 +468,6 @@ router.get('/getSupReq/:id', async (req, res) => {
 //////////update request state whether accept or reject
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
-  console.log(id);
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
@@ -508,8 +495,6 @@ router.post('/check', async (req, res) => {
   let dateString = new Date(date_ob).toUTCString();
   dateString = dateString.split(' ').slice(0, 4).join(' ');
 
-  console.log(req.body.sup_id);
-  console.log(req.body.stu_id);
 
   const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
   const index = result.indexNumber

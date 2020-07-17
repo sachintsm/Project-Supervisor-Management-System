@@ -5,7 +5,6 @@ const ProjectSupervisors = require('../models/projectSupervisors');
 
 //? add supervisor to project
 router.post('/add', verify, async (req, res) => {
-    console.log(req.body)
     const isExists = await ProjectSupervisors.findOne({ projectId: req.body.projectId })
     if (isExists) {
         const existSupervisor = await ProjectSupervisors.findOne({ supervisors: req.body.supervisors })
@@ -63,7 +62,6 @@ router.get("/getProjectId", (req, res, next) => {
       .select("projectId")
       .exec()
       .then((docs) => {
-        console.log("Data Transfer Successss.!");
         res.status(200).json(docs);
       })
       .catch((error) => {
