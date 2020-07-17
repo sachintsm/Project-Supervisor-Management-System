@@ -141,7 +141,6 @@ router.post('/removeStudentIndex', async (req, res) => {
 router.post('/removeSupervisorIndex', (req, res) => {
     const id = req.body._id
     const index = req.body.index
-    // console.log(req.body)
     CreateGroups
         .find({ _id: id })
         .update(
@@ -162,7 +161,6 @@ router.post('/removeSupervisorIndex', (req, res) => {
 router.post('/getsupervisorGroup', async (req, res) => {
     const projectId = req.body.projectId
     const supervisor = req.body.supervisor
-    // console.log(supervisor)
     CreateGroups
         .find({ projectId: projectId, supervisors: supervisor })
         .exec()
@@ -180,7 +178,6 @@ router.post('/remove-supervisor', verify, async (req, res) => {
     const projectId = req.body.projectId
     const supervisorId = req.body.supervisor
     const groupId = req.body.groupId
-    // console.log(req.body)
     await CreateGroups
         .find({ projectId: projectId, groupId: groupId})
         .update(
@@ -199,7 +196,6 @@ router.post('/remove-supervisor', verify, async (req, res) => {
 router.post('/active&groups', async (req, res) => {
     const supervisorId = req.body.supervisorId
     const projectId  = req.body.projectId
-    // console.log(req.body)
     await CreateGroups
         .find({supervisors : supervisorId, projectId : projectId, groupState : true})
         .exec()

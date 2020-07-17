@@ -79,7 +79,6 @@ export default class login extends Component {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         if (json.state) {
           setInStorage('auth-token', { token: json.token });
           setInStorage('auth-id', { id: json.userId });
@@ -88,28 +87,29 @@ export default class login extends Component {
             password: '',
             userId: '',
             token: json.token,
-          });
+        });
           if (json.isAdmin) {
+            localStorage.setItem("user-level", "admin")
             setInStorage('isAdmin', true);
           }
           if (json.isStudent) {
+            localStorage.setItem("user-level", "student")
             setInStorage('isStudent', true);
           }
           if (json.isSupervisor) {
+            localStorage.setItem("user-level", "supervisor")
             setInStorage('isSupervisor', true);
           }
           if (json.isCoordinator) {
+            localStorage.setItem("user-level", "coordinator")
             setInStorage('isCoordinator', true);
           }
 
           if (json.isAdmin) {
             this.props.history.push('/adminhome');
-            console.log("admin")
-
           } else if (json.isCoordinator) {
             this.props.history.push('/coordinatorhome');
           } else if (json.isSupervisor) {
-            console.log("supervisor")
             this.props.history.push('/supervisorhome');
           } else if (json.isStudent) {
             this.props.history.push('/studenthome');

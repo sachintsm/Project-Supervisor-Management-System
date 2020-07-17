@@ -34,6 +34,7 @@ class finalBlock {
 class SupervisorHome extends Component {
 
   constructor(props) {
+    localStorage.setItem("user-level", "supervisor")
     super(props);
     this.state = {
       snackbaropen: false,
@@ -57,6 +58,8 @@ class SupervisorHome extends Component {
   }
 
   componentDidMount = async () => {
+    localStorage.setItem("user-level", "supervisor")
+
     const authState = await verifyAuth();
 
     this.setState({
