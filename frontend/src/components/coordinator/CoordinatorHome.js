@@ -21,10 +21,12 @@ class coodinatorProjectBlock {
     this.supervisorCount = supervisorCount;
     this.groupCount = groupCount;
   }
+
 }
 class CoordinatorHome extends Component {
 
   constructor(props) {
+    localStorage.setItem("user-level", "coordinator")
     super(props);
     this.state = {
       userId: '',

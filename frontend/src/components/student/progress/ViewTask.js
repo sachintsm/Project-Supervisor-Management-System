@@ -76,7 +76,8 @@ class ViewTask extends Component {
             defaultProgress: null,
             loading: true,
             updateLoading: true,
-            progressUpdates: []
+            progressUpdates: [],
+            userLevel: localStorage.getItem("user-level")
         }
     }
     componentDidMount() {
@@ -162,12 +163,6 @@ class ViewTask extends Component {
                 message: 'Do you want to edit this Task?',
                 buttons: [
                     {
-                        label: 'No',
-                        onClick: () => {
-
-                        }
-                    },
-                    {
                         label: 'Yes',
                         onClick: async () => {
                             const object = {
@@ -184,7 +179,13 @@ class ViewTask extends Component {
                             })
                             this.props.history.goBack();
                         }
-                    }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    },
                 ]
             })
         }
@@ -197,12 +198,6 @@ class ViewTask extends Component {
                 title: 'Update Task',
                 message: 'Do you want to update the task progress?',
                 buttons: [
-                    {
-                        label: 'No',
-                        onClick: () => {
-
-                        }
-                    },
                     {
                         label: 'Yes',
                         onClick: async () => {
@@ -231,7 +226,13 @@ class ViewTask extends Component {
                             window.location.reload(false);
 
                         }
-                    }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    },
                 ]
             })
         }
@@ -245,18 +246,18 @@ class ViewTask extends Component {
             message: 'Reset to default values?',
             buttons: [
                 {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
-                },
-                {
                     label: 'Yes',
                     onClick: async () => {
                         window.location.reload(false);
 
                     }
-                }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                },
             ]
         })
     }
@@ -271,7 +272,7 @@ class ViewTask extends Component {
                         <div className="main-card">
 
                             <Row><TaskProgressCard groupDetails={this.state.groupDetails} taskDetails={this.state.task} /></Row>
-                            {this.state.projectDetails.projectState &&
+                            {this.state.projectDetails.projectState && this.state.userLevel==="student" &&
 
                                 <Row className="task-options">
                                     <Col lg={6} md={6} className="edit-card-div">

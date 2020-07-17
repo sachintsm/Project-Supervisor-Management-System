@@ -63,6 +63,7 @@ class TaskCard extends Component {
             task: this.props.task,
             groupDetails: this.props.groupDetails,
             projectDetails: this.props.projectDetails,
+            userLevel: localStorage.getItem("user-level")
         }
     }
 
@@ -86,12 +87,6 @@ class TaskCard extends Component {
             message: 'Do you want to '+this.state.deleteTitle+" ?",
             buttons: [
                 {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
-                },
-                {
                     label: 'Yes',
                     onClick: async () => {
                         const headers = {
@@ -104,7 +99,13 @@ class TaskCard extends Component {
                         window.location.reload(false);
 
                     }
-                }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                },
             ]
         })
     }
@@ -118,9 +119,11 @@ class TaskCard extends Component {
                         {this.state.projectDetails.projectState &&
                             <div>
                                 <Card.Header className="card-header">{this.state.task.taskTitle} ({this.state.task.totalProgress}%)
-                                    <BootstrapTooltip1 title={this.state.deleteTitle}  placement="bottom">
-                                        <span className="delete-span" onMouseEnter={()=>{this.setState({viewTitle: "",})}} onMouseLeave={()=>this.setState({viewTitle: "View "+this.state.task.taskTitle,})} onClick={this.deleteTask}><AiFillDelete/></span>
-                                    </BootstrapTooltip1>
+                                    {this.state.userLevel === "student" && (
+                                        <BootstrapTooltip1 title={this.state.deleteTitle}  placement="bottom">
+                                            <span className="delete-span" onMouseEnter={()=>{this.setState({viewTitle: "",})}} onMouseLeave={()=>this.setState({viewTitle: "View "+this.state.task.taskTitle,})} onClick={this.deleteTask}><AiFillDelete/></span>
+                                        </BootstrapTooltip1>
+                                    )}
                                 </Card.Header>
                             </div>
                         }

@@ -3,7 +3,6 @@ const router = express.Router();
 const RequsetMeeting = require('../models/RequestMeeting');
 
 router.post('/add', (req, res) => {
-  console.log(req.body);
   const newRequsetMeeting = new RequsetMeeting({
     groupId: req.body.groupId,
     purpose: req.body.purpose,
@@ -15,7 +14,6 @@ router.post('/add', (req, res) => {
 
   newRequsetMeeting.save()
     .then(result => {
-      console.log(result)
       res.json({ state: true, msg: "Request sent Successfully..!" });
     })
     .catch(error => {
@@ -74,12 +72,10 @@ router.post('/updateMeet/:id', function (req, res) {
   })
     .exec()
     .then(data => {
-      console.log("Data Update Success..!")
       res.json({ state: true, msg: "Data Update Success..!" });
 
     })
     .catch(error => {
-      console.log("Data Updating Unsuccessfull..!")
       res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
     })
 });

@@ -36,8 +36,8 @@ export default class navbar extends Component {
       panel: this.props.panel,
       logout: false,
       count: 0,
-      // userType: '',
-      reqId: []
+      reqId: [],
+      userLevel: localStorage.getItem("user-level")
     };
     this.logout = this.logout.bind(this);
     this.readRequest = this.readRequest.bind(this);
@@ -53,6 +53,7 @@ export default class navbar extends Component {
     deleteStorage('isStudent');
     deleteStorage('isCoordinator');
     deleteStorage('isSupervisor');
+    deleteStorage('user-level');
     this.setState({
       logout: true,
     });
@@ -69,8 +70,6 @@ export default class navbar extends Component {
       .then(response => {
         console.log(response.data.data2);
         ob = response.data.data2
-        console.log(ob)
-        console.log(ob[0]._id);
 
         for (var i = 0; i < ob.length; i++) {
           var Id = ob[i]._id;
@@ -107,6 +106,7 @@ export default class navbar extends Component {
   }
 
   render() {
+    console.log(this.state.userLevel)
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
     }
@@ -120,20 +120,20 @@ export default class navbar extends Component {
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav className='navbar-nav' right>
-            <MDBNavItem className="mr-4 userType"> {this.state.panel} *</MDBNavItem>
+            <MDBNavItem className="mr-4 userType"> {this.state.userLevel} *</MDBNavItem>
               <MDBNavItem className="mr-4">
-                {this.state.panel === 'admin' ? (
+                {this.state.userLevel === "admin" &&
                   <Nav.Link href='/adminhome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'student' ? (
+                }
+                {this.state.userLevel === "student" &&
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'supervisor' ? (
+                }
+                {this.state.userLevel === "supervisor" &&
                   <Nav.Link href='/supervisorhome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'coordinator' ? (
+                }
+                {this.state.userLevel === "coordinator"  &&
                   <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
-                ) : null}
+                }
               </MDBNavItem>
 
               {/* =============================== Coordinator Panel================================ */}
