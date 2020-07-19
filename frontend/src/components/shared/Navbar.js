@@ -106,7 +106,7 @@ export default class navbar extends Component {
   }
 
   render() {
-    console.log(this.state.userLevel)
+    // console.log(this.state.userLevel)
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
     }

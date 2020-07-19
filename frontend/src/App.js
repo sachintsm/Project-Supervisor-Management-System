@@ -28,6 +28,9 @@ import Groups from './components/coordinator/ProjectData/Groups';
 import Proposals from './components/coordinator/ProjectData/Proposals';
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
+import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
+import GroupSRS from './components/coordinator/GroupData/GroupSubmissions/SRS';
+import GroupProposal from './components/coordinator/GroupData/GroupSubmissions/Proposal';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
@@ -76,7 +79,6 @@ function App() {
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
-          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
           <Route exact path='/shared/notice' component={Notice}></Route>
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
@@ -89,13 +91,16 @@ function App() {
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
+          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
+          <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
+          <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
+          <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
+
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
           <Route path='/supervisorhome/groupData/:id' component={GroupDataSupervisor}></Route>
           <Route path='/supervisorhome/viewMeetings' component={ViewMeetingsSupervisor}></Route>
           <Route path='/supervisorhome/viewProgress' component={ViewProgressSupervisor}></Route>
-
-
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
