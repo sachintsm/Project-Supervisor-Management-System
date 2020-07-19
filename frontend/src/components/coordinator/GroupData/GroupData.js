@@ -13,7 +13,6 @@ import SupervisorList from './SupervisorList';
 import ProjectTotalProgress from './ProjectTotalProgress';
 import { Row, Col, Card } from 'react-bootstrap';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { Button, CardTitle, CardText } from 'reactstrap';
 import SubjectIcon from '@material-ui/icons/Subject';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 const backendURI = require('../../shared/BackendURI');
