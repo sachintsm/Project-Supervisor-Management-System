@@ -472,10 +472,28 @@ router.post('/updateReqState/:id', async (req, res) => {
 
   const group = await Request.findById({ _id: id }).select("groupId")
   console.log(group.groupId);
+
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
     else {
+
+      Request.updateMany({groupId: group.groupId }, {  
+        $set: {
+          state: 'reject'
+        }
+      })
+        .exec()
+        .then(data => {
+          
+        })
+        .catch(error => {
+         
+        })
+
+
+
+
       request.state = req.body.state;
       request.save().then(user => {
         if (req.body.state === 'accept') {
@@ -489,6 +507,10 @@ router.post('/updateReqState/:id', async (req, res) => {
         });
     }
   });
+  /*
+  
+  
+  */ 
 
 });
 ////////check supervisor request/////////////////////
