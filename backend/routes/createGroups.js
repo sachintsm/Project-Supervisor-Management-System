@@ -3,7 +3,7 @@ const router = express.Router();
 const CreateGroups = require('../models/createGroups');
 const User = require('../models/users');
 const verify = require('../authentication');
-
+const Projects = require('../models/projects');
 
 // ?create new group
 router.post('/add', verify, (req, res) => {
@@ -239,5 +239,19 @@ router.post("/groupDetails/:studentId", async(req,res,next)=>{
         console.log(e)
     }
 })
+
+//get form group notification
+router.get("/groupformnotification/:studentId",async(req,res,next)=>{
+    try{
+        const id = req.params.studentId;
+        const index = await User.findOne({ _id: id }).select('indexNumber');
+        const projects = await Projects.find({studentList:index.indexNumber, projectState: true})
+        res.send(projects)
+    }
+    catch(e){
+        console.log(e)
+    }
+})
+
 
 module.exports = router
