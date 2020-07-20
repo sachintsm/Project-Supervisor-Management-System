@@ -90,7 +90,6 @@ let server = app.listen(PORT, function () {
   console.log('listening to port ' + PORT);
 });
 
-
 // socket.io- chat module function
 var io = require('socket.io')(server);
 
@@ -100,7 +99,5 @@ io.sockets.on('connection', function (socket) {
     io.sockets.in(data.groupId).emit('message', data);
   });
 });
-
-
 
 module.exports = app;
