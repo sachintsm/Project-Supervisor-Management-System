@@ -72,7 +72,6 @@ function CenteredModal(props) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             className="modal"
-            transparent={true}
         >
                     
             <Modal.Header >

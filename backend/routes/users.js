@@ -536,6 +536,7 @@ router.post('/check', async (req, res) => {
       console.log(data.length);
       var count = 0;
       var stat = false;
+      var st=true;
       for (var i = 0; i < data.length; i++) {
         console.log(data[i].reqDate);
         if (dateString == (data[i].reqDate)) {
@@ -556,7 +557,24 @@ router.post('/check', async (req, res) => {
           res.json({ state: false, msg: "Your group have already requested..." });
         }
         else {
-          res.json({ state: true, msg: "You can request..." });
+          
+         
+                    for (var i = 0; i < data.length; i++) {
+                          console.log(data[i].state);
+                          if ((data[i].state) == 'accept') {
+                              st=false;
+                          }
+                    }
+                    if(st == false){
+                      res.json({ state: false, msg: "Already your group have a supervisor.You cannot request further more....." });
+                    }
+                    else{
+                      res.json({ state: true, msg: "You can request..." });
+                    }
+          
+             
+          
+         // res.json({ state: true, msg: "You can request..." });
         }
 
       } else {
