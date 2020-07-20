@@ -51,6 +51,7 @@ import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
 import ViewTask from "./components/student/progress/ViewTask";
 import GroupNotification from "./components/student/formgroups/GroupNotification";
+import FormGroups from "./components/student/formgroups/FormGroups";
 
 require('dotenv').config();
 
@@ -116,6 +117,7 @@ function App() {
           <Route exact path='/studenthome/requestsupervisor' component={RequestSupervisor}></Route>
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
           <Route exact path='/studenthome/notifications' component={GroupNotification}></Route>
+          <Route exact path='/studenthome/formgroups/:projectId' component={FormGroups}></Route>
 
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>

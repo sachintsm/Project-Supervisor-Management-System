@@ -67,7 +67,6 @@ class ProjectDetailsCard extends Component {
     }
 
     openProject(item){
-        console.log(item)
         this.props.history.push('/studenthome/viewproject',{projectDetails:item})
     }
 
