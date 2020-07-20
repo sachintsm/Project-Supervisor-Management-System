@@ -92,6 +92,9 @@ router.get('/gettotalprogress/:groupId', async(req,res,next) =>{
             totalWeight = totalWeight + tasks[i].taskWeight
         }
         const totalProgress = percentSum/totalWeight
+        if(tasks.length==0){
+            res.send(""+0)
+        }
         res.send(""+Math.round(totalProgress * 100) / 100)
     }
     catch (e) {
