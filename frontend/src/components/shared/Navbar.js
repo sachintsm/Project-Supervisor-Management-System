@@ -35,8 +35,9 @@ export default class navbar extends Component {
       isSupervisor: localStorage.getItem('isSupervisor'),
       panel: this.props.panel,
       logout: false,
-      count:0,
-      reqId:[]
+      count: 0,
+      reqId: [],
+      userLevel: localStorage.getItem("user-level")
     };
     this.logout = this.logout.bind(this);
     this.readRequest = this.readRequest.bind(this);
@@ -52,6 +53,7 @@ export default class navbar extends Component {
     deleteStorage('isStudent');
     deleteStorage('isCoordinator');
     deleteStorage('isSupervisor');
+    deleteStorage('user-level');
     this.setState({
       logout: true,
     });
@@ -61,49 +63,51 @@ export default class navbar extends Component {
     // let history = useHistory();
     // history.push('/');
   }
-  readRequest(){
+  readRequest() {
     const userData = getFromStorage('auth-id')
     var ob = [];
     console.log('hasi');
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
-                .then(response => {
-                    console.log(response.data.data2);
-                    ob=response.data.data2
-                    console.log(ob)
-                    console.log(ob[0]._id);
+      .then(response => {
+        console.log(response.data.data2);
+        ob = response.data.data2
 
-                    for(var i =0 ; i<ob.length; i++){
-                      var Id= ob[i]._id;
-                      console.log(Id);
-                      axios.post(backendURI.url + '/users/readRequest/' + Id,Id)
-                                  .then(response => {
-                                    console.log(response);
-                                  })
-                                  .catch(error => {
-                                      console.log(error)
-                                  })
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+        for (var i = 0; i < ob.length; i++) {
+          var Id = ob[i]._id;
+          console.log(Id);
+          axios.post(backendURI.url + '/users/readRequest/' + Id, Id)
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
   async componentDidMount() {
     const userData = getFromStorage('auth-id')
+    // const userType = getFromStorage('user-level')
+    // alert(this.state.panel);
+    // this.setState({ userType: userType })
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
-                .then(response => {
-          
-                    this.setState({
-                        count: response.data.data,
-                        //reqId: response.data.data2
-                    })
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+      .then(response => {
+
+        this.setState({
+          count: response.data.data,
+          //reqId: response.data.data2
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
-  
+
   render() {
+    // console.log(this.state.userLevel)
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
     }
@@ -117,19 +121,20 @@ export default class navbar extends Component {
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav className='navbar-nav' right>
+            <MDBNavItem className="mr-4 userType"> {this.state.userLevel} *</MDBNavItem>
               <MDBNavItem className="mr-4">
-                {this.state.panel === 'admin' ? (
+                {this.state.userLevel === "admin" &&
                   <Nav.Link href='/adminhome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'student' ? (
+                }
+                {this.state.userLevel === "student" &&
                   <Nav.Link href='/studenthome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'supervisor' ? (
+                }
+                {this.state.userLevel === "supervisor" &&
                   <Nav.Link href='/supervisorhome'>Home</Nav.Link>
-                ) : null}
-                {this.state.panel === 'coordinator' ? (
+                }
+                {this.state.userLevel === "coordinator"  &&
                   <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
-                ) : null}
+                }
               </MDBNavItem>
 
               {/* =============================== Coordinator Panel================================ */}
@@ -231,11 +236,11 @@ export default class navbar extends Component {
 
                 <MDBNavItem className="mr-4" >
                   <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
-                  RequestView
-                  {(this.state.count !== 0)? (
-                    <span className="badge">{this.state.count}</span>):null
-                  }
-                  
+                    RequestView
+                  {(this.state.count !== 0) ? (
+                      <span className="badge">{this.state.count}</span>) : null
+                    }
+
                   </Nav.Link>
                 </MDBNavItem>
 
@@ -341,7 +346,7 @@ export default class navbar extends Component {
                     </MDBDropdown>
                   ) : (
                     <Nav.Link className="padding-zero" href='/profile'>Profile</Nav.Link>
-                  )}
+                    )}
               </MDBNavItem>
               <MDBNavItem>
                 <Nav.Link className="padding-zero" onClick={this.logout}>Logout</Nav.Link>

@@ -105,9 +105,7 @@ router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
         const index = req.params.studentIndex
         const groupId = req.body.groupId
         const userId = await User.findOne({indexNumber:index}).select('_id');
-        // console.log(userId)
         const tasks = await ProgressTasks.find({studentList:userId._id, groupId:groupId})
-        // console.log(tasks)
         let progress = 0;
         let totalWeight = 0;
         for(let i in tasks){
@@ -187,7 +185,6 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
         }
         let studentProgress = task.studentProgress;
         studentProgress[studentIndex] = newProgress;
-        console.log(studentProgress)
 
         const obj = {
             totalProgress: totalProgress,

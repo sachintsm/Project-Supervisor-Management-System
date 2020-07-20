@@ -1,38 +1,48 @@
-.nav-button{
+.nav-button {
     color: white;
     cursor: pointer;
 }
-.navbar{
+
+.navbar {
     background-color: #263238;
 }
-.navbar-nav{
+
+.navbar-nav {
     justify-content: center;
 }
 
-.mr-2{
+.mr-2 {
     margin-right: 2rem;
 }
 
-.mr-3{
+.mr-3 {
     margin-right: 3rem;
 }
 
-.mr-4{
+.mr-4 {
     margin-right: 4rem;
 }
 
-.mr-5{
+.mr-5 {
     margin-right: 5rem;
 }
-.badge{
+
+.badge {
     position: absolute;
-     top: 10px;
-     right: 186px;
+    top: 10px;
+    right: 186px;
     padding: 5px 10px;
     border-radius: 50%;
     background: red;
     color: white;
 }
+
+.userType {
+    color: rgb(179, 179, 179);
+    margin-top: 8px;
+    /*text-transform: uppercase;*/
+}
+
 /*@media only screen and  (max-width: 767px){
     .badge{
         position: absolute;
