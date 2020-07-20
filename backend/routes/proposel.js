@@ -60,7 +60,7 @@ var storage = multer.diskStorage({
    .save()
    .then((resulst) =>{
      res.json({ state: true, msg: "Data inserted successful.." });
-     console.log(resulst)
+     // console.log(resulst)
 
    })
    .catch((err) =>{

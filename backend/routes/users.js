@@ -204,7 +204,7 @@ router.post('/bulkRegister', async (req, res, next) => {
           if (err) {
             throw err;
           } else {
-            console.log(newUser);
+            // console.log(newUser);
             newUser
               .save()
               .then((req) => {
@@ -498,29 +498,29 @@ router.post('/check', async (req, res) => {
 
   const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
   const index = result.indexNumber
-  console.log(index);
+  // console.log(index);
 
   const group = await CreateGroups.findOne({ projectId: req.body.project_id, groupMembers: index }).select("groupId")
-  console.log(group.groupId);
+  // console.log(group.groupId);
 
 
 
   Request.find({ groupId: group.groupId }).select().exec()
     .then(data => {
-      console.log(data);
-      console.log(data.length);
+      // console.log(data);
+      // console.log(data.length);
       var count = 0;
       var stat = false;
       for (var i = 0; i < data.length; i++) {
-        console.log(data[i].reqDate);
+        // console.log(data[i].reqDate);
         if (dateString == (data[i].reqDate)) {
           count = count + 1;
         }
       }
-      console.log(count);
+      // console.log(count);
       if (count < 2) {
         for (var i = 0; i < data.length; i++) {
-          console.log(data[i].reqDate);
+          // console.log(data[i].reqDate);
           if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
             stat = true;
           }
@@ -557,13 +557,13 @@ router.post('/add', async (req, res) => {
 
   const result = await User.findOne({ _id: req.body.stu_id }).select('indexNumber');
   const index = result.indexNumber
-  console.log(index);
+  // console.log(index);
 
   const group = await CreateGroups.findOne({ projectId: req.body.project_id }).select("groupId")
-  console.log(group.groupId);
+  // console.log(group.groupId);
 
   const Year = await Projects.findOne({ _id: req.body.project_id }).select("projectYear")
-  console.log(Year);
+  // console.log(Year);
   const Type = await Projects.findOne({ _id: req.body.project_id }).select("projectType")
 
   const Academic = await Projects.findOne({ _id: req.body.project_id }).select("academicYear")
@@ -586,7 +586,7 @@ router.post('/add', async (req, res) => {
 
   newReq.save()
     .then(result => {
-      console.log(result)
+      // console.log(result)
       res.json({ state: true, msg: "Request Successfull..!" });
     })
     .catch(error => {
@@ -615,19 +615,19 @@ router.get('/getSup/:id', async (req, res) => {
         var arr1 = [];
         for (let i = 0; i < supervisorIdList.length; i++) {
           var idS = supervisorIdList[i]
-          console.log(idS);
+          // console.log(idS);
           User.find({ _id: idS })
             .exec()
             .then(result => {
-              console.log(result[0]);
+              // console.log(result[0]);
               arr1.push(result[0]);
 
               if (i === (supervisorIdList.length - 1)) {
-                console.log(arr1);
+                // console.log(arr1);
                 res.json({ state: true, msg: "Data Transfer Successfully..!", data: arr1 });
               }
               else {
-                console.log("no");
+                // console.log("no");
               }
             })
             .catch(error => {
@@ -653,8 +653,8 @@ router.get('/countNotifyReq/:id', async (req, res) => {
     .find({ supId: id })
     .exec()
     .then(data => {
-      console.log(data);
-      console.log(data.length);
+      // console.log(data);
+      // console.log(data.length);
       var count;
       var arr1 = [];
       if (data !== 0) {
@@ -663,7 +663,7 @@ router.get('/countNotifyReq/:id', async (req, res) => {
           if ((data[i].state == 'pending')) {
             count = count + 1;
             arr1.push(data[i]);
-            console.log(arr1)
+            // console.log(arr1)
           }
         }
         res.json({ state: true, data: count, data2: arr1 });
@@ -683,14 +683,14 @@ router.get('/countNotifyReq/:id', async (req, res) => {
 ///////read request by supervisor
 router.post('/readRequest/:id', function (req, res) {
   let id = req.params.id;
-  console.log(id);
+  // console.log(id);
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
     else {
       request.state = 'read';
       request.save().then(request => {
-        console.log(request);
+        // console.log(request);
         res.json({ state: true, msg: 'Read Request' });
       })
         .catch(err => {
@@ -746,9 +746,9 @@ router.post('/updateUser/:id', function (req, res) {
 
 ////////////////get user profile pic
 router.get("/profileImage/:filename", function (req, res) {
-  console.log(req.params.filename)
+  // console.log(req.params.filename)
   const filename = req.params.filename;
-  console.log(filename)
+  // console.log(filename)
   res.sendFile(path.join(__dirname, '../local_storage/profile_Images/' + filename));
 
 });
@@ -758,14 +758,14 @@ router.get("/profileImage/:filename", function (req, res) {
 ////update user profile pic
 router.post('/uploadmulter/:id', async function (req, res) {
   let id = req.params.id;
-  console.log(id);
+  // console.log(id);
 
   const userIdExists = await User.findOne({ _id: id });
-  console.log(userIdExists);
+  // console.log(userIdExists);
   if (userIdExists) {
-    console.log("true")
+    // console.log("true")
     var p = userIdExists.imageName;
-    console.log(p);
+    // console.log(p);
 
 
     upload(req, res, (err) = async () => {
@@ -774,7 +774,7 @@ router.post('/uploadmulter/:id', async function (req, res) {
       const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
 
       var fullPath = time + '-' + req.file.originalname;
-      console.log(fullPath);
+      // console.log(fullPath);
 
       User.findById({ _id: id }, function (err, user) {
         if (err) {
@@ -801,14 +801,14 @@ router.post('/uploadmulter/:id', async function (req, res) {
 
     })
     if (p === '') {
-      console.log('No Image to delete');
+      // console.log('No Image to delete');
 
     }
     else {
       fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
         if (err) throw err;
         // if no error, file has been deleted successfully
-        console.log('File deleted!');
+        // console.log('File deleted!');
       });
     }
   }
@@ -827,7 +827,7 @@ router.post('/reset/:id', function (req, res) {
         throw err;
       }
       if (match) {    //if userid and password mached
-        console.log("Userid and Password match...!");
+        // console.log("Userid and Password match...!");
         bcrypt.genSalt(10, function (err, salt) {
           bcrypt.hash(newPassword, salt, function (err, hash) {   //hash the new password
             newPassword = hash;
@@ -842,12 +842,12 @@ router.post('/reset/:id', function (req, res) {
               })
                 .exec()
                 .then(data => {
-                  console.log("Data Update Success..!")
+                  // console.log("Data Update Success..!")
                   res.json({ state: true, msg: "Data Update Success..!" });
 
                 })
                 .catch(error => {
-                  console.log("Data Updating Unsuccessfull..!")
+                  // console.log("Data Updating Unsuccessfull..!")
                   res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
                 })
             }
