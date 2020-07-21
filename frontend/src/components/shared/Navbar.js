@@ -97,10 +97,13 @@ export default class navbar extends Component {
     }
 
     const userData = getFromStorage('auth-id')
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
     // const userType = getFromStorage('user-level')
     // alert(this.state.panel);
     // this.setState({ userType: userType })
-    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id,{headers: headers})
       .then(response => {
 
         this.setState({
@@ -268,10 +271,10 @@ export default class navbar extends Component {
                     <MDBNavItem className="mr-4" >
                       <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
                         RequestView
-                        {(this.state.count !== 0) ? (
+                      {/* {(this.state.count !== 0) ? (
                             <span className="badge">{this.state.count}</span>) : null
-                        }
-
+                        }*/}
+                        <span className="icon">{this.state.count>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.count}</Badge>}</span>
                       </Nav.Link>
                     </MDBNavItem>
 
