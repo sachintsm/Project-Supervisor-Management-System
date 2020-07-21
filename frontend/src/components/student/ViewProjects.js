@@ -7,6 +7,7 @@ import {getFromStorage} from "../../utils/Storage";
 import CoordinatorList from "../admin/CoordinatorList";
 import { withRouter } from "react-router-dom";
 import ProjectDetailsCard from "./ProjectDetailsCard";
+import GroupNotification from "./formgroups/GroupNotification";
 
 const backendURI = require('../shared/BackendURI');
 
