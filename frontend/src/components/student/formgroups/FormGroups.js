@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import Navbar from "../../shared/Navbar";
 import Footer from "../../shared/Footer";
 import axios from 'axios';
-import { Row, Col, FormControl, Card, Container, Button } from 'react-bootstrap';
+import { Row, Col, FormControl, Card, Container, Button,Spinner } from 'react-bootstrap';
 import {getFromStorage} from "../../../utils/Storage";
 import "../../../css/students/formgroups/FormGroups.scss"
 import StudentInfoCard from "./StudentInfoCard";
 import StudentInfoCard2 from "./StudentInfoCard2";
 import { confirmAlert } from 'react-confirm-alert';
+import Snackpop from "../../shared/Snackpop";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -201,7 +202,13 @@ class FormGroups extends Component {
                             'auth-token':getFromStorage('auth-token').token,
                         }
                         axios.post(backendURI.url+'/createGroups/grouprequest/',request,{headers: headers}).then(res=>{
-                            this.getRequestDetails()
+
+                            this.setState({
+                                successAlert: true,
+                            },()=>{
+
+                                this.getRequestDetails()
+                            });
                         })
 
                     }
@@ -237,6 +244,12 @@ class FormGroups extends Component {
                             'auth-token':getFromStorage('auth-token').token,
                         }
                         axios.patch(backendURI.url+'/createGroups/grouprequest/'+this.state.groupRequest._id,request,{headers: headers}).then(res=>{
+                            this.setState({
+                                successAlert: true,
+                            },()=>{
+
+                                this.getRequestDetails()
+                            });
                         })
 
                     }
@@ -252,26 +265,46 @@ class FormGroups extends Component {
 
     }
 
+    closeAlert = () => {
+        this.setState({
+            successAlert: false,
+        });
+    };
+
     render() {
         return (
             <React.Fragment>
+
+                <Snackpop
+                    msg={'Requesting Success'}
+                    color={'success'}
+                    time={3000}
+                    status={this.state.successAlert}
+                    closeAlert={this.closeAlert}
+                />
+
                 <Navbar panel={"student"} />
                 <div className="container-fluid form-groups-css">
                     <Container>
                         <div className="project-detail-card-div">
-                            <Card className="project-detail-card">
-                                {!this.state.loading && (
+                            {!this.state.loading && (
+                                <Card className="project-detail-card">
                                     <Card.Body className="card-body">
                                         <div className="title">
-                                            <h4>Project Details</h4>
+                                            <h3>Project Details</h3>
                                         </div>
-                                        <div>Project Year: {this.state.projectDetails.projectYear}</div>
-                                        <div>Project Type: {this.state.projectDetails.projectType}</div>
-                                        <div>Academic Year: {this.state.projectDetails.academicYear}</div>
+                                        <h5>Project Year: {this.state.projectDetails.projectYear}</h5>
+                                        <h5>Project Type: {this.state.projectDetails.projectType}</h5>
+                                        <h5>Academic Year: {this.state.projectDetails.academicYear}</h5>
                                     </Card.Body>
-                                )}
-                            </Card>
+                                </Card>
+                            )}
                         </div>
+
+                        {this.state.loading2 &&
+                        <div style={{textAlign:'center', paddingTop: "30px"}}>
+                            <Spinner animation="border" className="spinner" style={{alignContent:'center'}}/>
+                        </div>}
 
                         {/*Adding New Request  */}
                         {!this.state.loading2 && this.state.groupRequest===null && (
