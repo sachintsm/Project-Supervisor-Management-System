@@ -468,12 +468,33 @@ router.get('/getSupReq/:id', async (req, res) => {
 //////////update request state whether accept or reject
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
+  console.log(id);
+
+  const group = await Request.findById({ _id: id }).select("groupId")
+  console.log(group.groupId);
+
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
     else {
-      request.state = req.body.state;
 
+      Request.updateMany({groupId: group.groupId }, {  
+        $set: {
+          state: 'reject'
+        }
+      })
+        .exec()
+        .then(data => {
+          
+        })
+        .catch(error => {
+         
+        })
+
+
+
+
+      request.state = req.body.state;
       request.save().then(user => {
         if (req.body.state === 'accept') {
           res.json({ state: true, msg: 'You accept this group' });
@@ -486,6 +507,10 @@ router.post('/updateReqState/:id', async (req, res) => {
         });
     }
   });
+  /*
+  
+  
+  */ 
 
 });
 ////////check supervisor request/////////////////////
@@ -511,6 +536,7 @@ router.post('/check', async (req, res) => {
       // console.log(data.length);
       var count = 0;
       var stat = false;
+      var st=true;
       for (var i = 0; i < data.length; i++) {
         // console.log(data[i].reqDate);
         if (dateString == (data[i].reqDate)) {
@@ -520,19 +546,35 @@ router.post('/check', async (req, res) => {
       // console.log(count);
       if (count < 2) {
         for (var i = 0; i < data.length; i++) {
-          // console.log(data[i].reqDate);
-          if ((group.groupId == (data[i].groupId)) && (req.body.sup_id == (data[i].supId))) {
+          console.log(data[i].reqDate);
+          if ((group.groupId === (data[i].groupId)) && (req.body.sup_id === (data[i].supId))) {
             stat = true;
+           // break;
           }
-          else {
-            stat = false;
-          }
+
         }
         if (stat == true) {
           res.json({ state: false, msg: "Your group have already requested..." });
         }
         else {
-          res.json({ state: true, msg: "You can request..." });
+          
+         
+                    for (var i = 0; i < data.length; i++) {
+                          console.log(data[i].state);
+                          if ((data[i].state) == 'accept') {
+                              st=false;
+                          }
+                    }
+                    if(st == false){
+                      res.json({ state: false, msg: "Already your group have a supervisor.You cannot request further more....." });
+                    }
+                    else{
+                      res.json({ state: true, msg: "You can request..." });
+                    }
+          
+             
+          
+         // res.json({ state: true, msg: "You can request..." });
         }
 
       } else {
@@ -559,21 +601,28 @@ router.post('/add', async (req, res) => {
   const index = result.indexNumber
   // console.log(index);
 
-  const group = await CreateGroups.findOne({ projectId: req.body.project_id }).select("groupId")
-  // console.log(group.groupId);
+  const group = await CreateGroups.findOne({ groupMembers: index}).select("groupId")
+  console.log(group.groupId);
 
   const Year = await Projects.findOne({ _id: req.body.project_id }).select("projectYear")
-  // console.log(Year);
-  const Type = await Projects.findOne({ _id: req.body.project_id }).select("projectType")
+  console.log(Year);
+  const Type = await Projects.findOne({_id: req.body.project_id}).select("projectType")
+  
+  const Academic = await Projects.findOne({_id: req.body.project_id}).select("academicYear")
+  
+  const first =  await User.findOne({ _id: req.body.sup_id }).select('firstName');
 
-  const Academic = await Projects.findOne({ _id: req.body.project_id }).select("academicYear")
+  const second =  await User.findOne({ _id: req.body.sup_id }).select('lastName');
 
-
+  const sEmail =  await User.findOne({ _id: req.body.sup_id }).select('email');
 
   //create a new request
   const newReq = new Request({
     supId: req.body.sup_id,
     stuId: req.body.stu_id,
+    supFirstName:first.firstName,
+    supLastName:second.lastName,
+    supEmail:sEmail.email,
     state: 'pending',
     reqDate: dateString,
     groupId: group.groupId,
@@ -682,8 +731,10 @@ router.get('/countNotifyReq/:id', async (req, res) => {
 })
 ///////read request by supervisor
 router.post('/readRequest/:id', function (req, res) {
+  console.log('devmi');
   let id = req.params.id;
-  // console.log(id);
+  console.log(id);
+  console.log('hey');
   Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
@@ -698,6 +749,48 @@ router.post('/readRequest/:id', function (req, res) {
         });
     }
   });
+});
+/////////////get request status for students
+router.get('/getReqStatus/:id', async(req, res)=> {
+  let id = req.params.id;
+  
+  console.log('hey');
+  console.log(id);
+  
+  const result = await User.findOne({ _id:id }).select('indexNumber');
+  const index = result.indexNumber
+  console.log(index);
+
+  CreateGroups.findOne({ groupMembers: index})
+  .exec()
+    .then(data => {
+      console.log(data.groupId);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data.groupId });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
+//////////// get request states student 2
+router.post('/getStatus/:id', function (req, res) {
+  let id = req.params.id;
+  console.log(id);
+  console.log(req.body.groID);
+  Request
+    .find({projectId: id, groupId: req.body.groID })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //update user profile by user
