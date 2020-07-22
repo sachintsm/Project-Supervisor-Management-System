@@ -1,9 +1,9 @@
 .form-groups-css{
   min-height: 700px;
   background-color: #F5F5F5;
-  padding: 50px 0px;
+  padding: 30px 0px;
 
-  .project-detail-card-body{
+  .project-detail-card-div{
     padding: 0% 30%;
   }
 
@@ -11,8 +11,44 @@
     margin: 0px;
   }
 
-  .title{
+  .main-title{
     text-align: center;
     margin-bottom: 20px;
   }
+
+  .title{
+    margin-bottom: 20px;
+  }
+
+  .group-form-card-div{
+  }
+
+  .group-form-card{
+    padding: 20px 30px;
+  }
+
+
+  .border-span{
+    border-bottom: 1px solid #CCC;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .error-div{
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-control-div{
+    padding: 10px 10%;
+    margin-bottom: 20px;
+  }
+
+  @media only screen and  (max-width: 767px){
+    .project-detail-card-body{
+      padding: 0% 4%;
+    }
+  }
+
 }
