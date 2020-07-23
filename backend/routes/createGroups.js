@@ -246,8 +246,19 @@ router.get("/groupformnotification/:studentId",async(req,res,next)=>{
     try{
         const id = req.params.studentId;
         const index = await User.findOne({ _id: id }).select('indexNumber');
-        const projects = await Projects.find({studentList:index.indexNumber, projectState: true})
-        res.send(projects)
+        const groups = await CreateGroups.find({groupMembers:index.indexNumber},{'_id':false}).select("projectId")
+
+        const groups2 = await CreateGroups.find({groupMembers:index.indexNumber},{'_id':false})
+        var projectIds = []
+        groups.map(id=>projectIds.push(JSON.stringify(id.projectId)))
+        const projects = await Projects.find({studentList:index.indexNumber, projectState: true, })
+        let projectList = []
+        projects.map(project=>{
+            if(!projectIds.includes(JSON.stringify(project._id))){
+                projectList.push(project)
+            }
+        })
+        res.send(projectList)
     }
     catch(e){
         console.log(e)
