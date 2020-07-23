@@ -14,6 +14,7 @@ class StudentInfoCard extends Component {
         super(props);
         this.state= {
             index: this.props.index,
+            type: this.props.type
         }
     }
 
@@ -38,12 +39,41 @@ class StudentInfoCard extends Component {
     render() {
         return (
             <Col md={3} lg={3} className="student-card-2-css">
-                <Card className="student-info-card">
-                    <Card.Body className="card-body">
-                        <span>{this.state.index} </span>
-                        <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
-                    </Card.Body>
-                </Card>
+                {this.state.type==="accepted" && (
+                    <Card className="student-info-card-accepted">
+                        <Card.Body className="card-body">
+                            <span>{this.state.index} </span>
+                            <span className="span-text">(Accepted) </span>
+                            <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
+                        </Card.Body>
+                    </Card>
+                )}
+                {this.state.type==="declined" && (
+                    <Card className="student-info-card-declined">
+                        <Card.Body className="card-body">
+                            <span>{this.state.index} </span>
+                            <span className="span-text">(Declined) </span>
+                            <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
+                        </Card.Body>
+                    </Card>
+                )}
+                {this.state.type==="pending" && (
+                    <Card className="student-info-card-pending">
+                        <Card.Body className="card-body">
+                            <span>{this.state.index} </span>
+                            <span className="span-text">(Pending) </span>
+                            <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
+                        </Card.Body>
+                    </Card>
+                )}
+                {this.state.type==="normal" && (
+                    <Card className="student-info-card">
+                        <Card.Body className="card-body">
+                            <span>{this.state.index} </span>
+                            <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
+                        </Card.Body>
+                    </Card>
+                )}
             </Col>
         );
     }

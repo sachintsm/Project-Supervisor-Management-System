@@ -4,6 +4,7 @@ const CreateGroups = require('../models/createGroups');
 const User = require('../models/users');
 const verify = require('../authentication');
 const Projects = require('../models/projects');
+const GroupRequests = require('../models/grouprequests');
 
 // ?create new group
 router.post('/add', verify, (req, res) => {
@@ -252,6 +253,46 @@ router.get("/groupformnotification/:studentId",async(req,res,next)=>{
         console.log(e)
     }
 })
+
+//add group request
+router.post("/grouprequest", async(req,res,next)=>{
+    try{
+        const data = req.body;
+        data.allStudentList.push(data.leaderIndex)
+        const request = new GroupRequests(data);
+        const result = await request.save();
+        res.send(result)
+    }
+    catch(e){
+        console.log(e)
+    }
+})
+
+//get request details by user Id Number
+router.post("/grouprequest/:userId", async(req,res,next) => {
+    try{
+        const userId = req.params.userId
+        const projectId = req.body.id
+        let userIndex = await User.findOne({_id:userId}).select("indexNumber")
+        let result = await GroupRequests.findOne({projectId: projectId, allStudentList: userIndex.indexNumber})
+        res.send(result)
+    }
+    catch(e){
+        console.log(e)
+    }
+} )
+
+//edit request details
+router.patch("/grouprequest/:id", async(req,res,next) => {
+    try{
+        const id = req.params.id
+        let result = await GroupRequests.findByIdAndUpdate(id, req.body, { new: true })
+        res.send(result)
+    }
+    catch(e){
+        console.log(e)
+    }
+} )
 
 
 module.exports = router
