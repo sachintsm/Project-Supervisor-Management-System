@@ -91,7 +91,7 @@ class FormGroups extends Component {
             'auth-token':getFromStorage('auth-token').token,
         }
         axios.get(backendURI.url+'/projects/getProject/'+this.state.projectId,{headers: headers}).then(res=>{
-            let studentList = res.data.data.studentList.filter(item=>item!=this.state.userIndex)
+            let studentList = res.data.data.studentList.filter(item=>item!==this.state.userIndex)
 
             this.setState({
                 projectDetails: res.data.data,
@@ -111,13 +111,13 @@ class FormGroups extends Component {
             this.setState({
                 pendingList: [...this.state.pendingList,index],
                 allStudentList: [...this.state.allStudentList,index],
-                studentList: this.state.studentList.filter(item=>item!=index) // remove new index
+                studentList: this.state.studentList.filter(item=>item!==index) // remove new index
             })
         }
         else{
             this.setState({
                 addedList: [...this.state.addedList, index],     // add new index
-                studentList: this.state.studentList.filter(item=>item!=index) // remove new index
+                studentList: this.state.studentList.filter(item=>item!==index) // remove new index
             })
         }
 
@@ -135,30 +135,30 @@ class FormGroups extends Component {
                         if(this.state.groupRequest){ //edit menu
                             if(this.state.acceptedList.includes(index)){
                                 this.setState({
-                                    acceptedList: this.state.acceptedList.filter(item=>item!=index),
+                                    acceptedList: this.state.acceptedList.filter(item=>item!==index),
                                     studentList: [...this.state.studentList,index]
                                 })
                             }
                             if(this.state.declinedList.includes(index)){
                                 this.setState({
-                                    declinedList: this.state.declinedList.filter(item=>item!=index),
+                                    declinedList: this.state.declinedList.filter(item=>item!==index),
                                     studentList: [...this.state.studentList,index]
                                 })
                             }
                             if(this.state.pendingList.includes(index)){
                                 this.setState({
-                                    pendingList: this.state.pendingList.filter(item=>item!=index),
+                                    pendingList: this.state.pendingList.filter(item=>item!==index),
                                     studentList: [...this.state.studentList,index]
                                 })
                             }
                             if(this.state.allStudentList.includes(index)){
                                 this.setState({
-                                    allStudentList: this.state.allStudentList.filter(item=>item!=index)
+                                    allStudentList: this.state.allStudentList.filter(item=>item!==index)
                                 })
                             }
                         }
                         else{
-                            let newAddedList = this.state.addedList.filter(item=>item!=index)
+                            let newAddedList = this.state.addedList.filter(item=>item!==index)
                             this.setState({
                                 addedList: newAddedList,
                                 studentList: [...this.state.studentList,index]
