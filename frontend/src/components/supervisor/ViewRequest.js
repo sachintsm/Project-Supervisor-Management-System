@@ -7,6 +7,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import { Row, Col } from "reactstrap";
 import '../../css/shared/Profile.scss';
+import { supervisorRequestEmail } from "../shared/emailTemplates"
 import Footer from '../shared/Footer';
 import Navbar from "../shared/Navbar";
 import { confirmAlert } from 'react-confirm-alert';
@@ -128,6 +129,13 @@ export default class ViewRequest extends Component {
                                                 snackbarmsg: res.data.msg,
                                                 snackbarcolor: 'success',
                                             })
+
+                                            const email = await supervisorRequestEmail(this.state.email,this.state.reqS.groupId, this.state.reqS.supFirstName,this.state.reqS.supLastName)
+                                            axios.post(backendURI.url + '/mail/sendmail', email)
+                                              .then(res => {
+                                                console.log(res);
+                                              })
+                        
                                             window.location.reload(false);
                                         }
                                         else {
