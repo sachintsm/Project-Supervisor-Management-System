@@ -248,7 +248,7 @@ router.get("/groupformnotification/:studentId",async(req,res,next)=>{
         const index = await User.findOne({ _id: id }).select('indexNumber');
         const groups = await CreateGroups.find({groupMembers:index.indexNumber},{'_id':false}).select("projectId")
 
-        const groups2 = await CreateGroups.find({groupMembers:index.indexNumber},{'_id':false})
+
         var projectIds = []
         groups.map(id=>projectIds.push(JSON.stringify(id.projectId)))
         const projects = await Projects.find({studentList:index.indexNumber, projectState: true, })
@@ -279,7 +279,28 @@ router.post("/grouprequest", async(req,res,next)=>{
     }
 })
 
-//get request details by user Id Number
+//get request details by user Id ( Not sending leader request )
+router.get("/allgrouprequest/:userId", async(req,res,next) => {
+    try{
+        const userId = req.params.userId
+        let userIndex = await User.findOne({_id:userId}).select("indexNumber")
+        let result1 = await GroupRequests.findOne({pendingList: userIndex.indexNumber})
+        let result2 = await GroupRequests.findOne({acceptedList: userIndex.indexNumber})
+        let result = null
+        if(result1){
+            result = result1
+        }
+        if(result2){
+            result = result2
+        }
+        res.send(result)
+    }
+    catch(e){
+        console.log(e)
+    }
+} )
+
+//get request details by user Id & project Id
 router.post("/grouprequest/:userId", async(req,res,next) => {
     try{
         const userId = req.params.userId
