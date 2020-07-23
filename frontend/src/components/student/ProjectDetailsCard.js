@@ -82,7 +82,9 @@ class ProjectDetailsCard extends Component {
                 {!this.state.loading &&
                 <div>
                     <Card className="project-details-card"   onClick={()=>this.openProject(this.state.item)}>
-                        <Card.Header className="card-header">{this.state.groupDetails.groupName}</Card.Header>
+                        {this.state.groupDetails.groupName && <Card.Header className="card-header">{this.state.groupDetails.groupName}</Card.Header>}
+                        {!this.state.groupDetails.groupName && <Card.Header className="card-header2">Project Name Not Defined</Card.Header>}
+
                         <Card.Body className="card-body">
                             <Row>
                                 <Col md={3} lg={3} xs={12} sm={12} className="circular-progressbar-col">

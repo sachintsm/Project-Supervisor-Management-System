@@ -28,9 +28,25 @@ class GroupNotification extends Component {
             'auth-token':getFromStorage('auth-token').token,
         }
         const userId = getFromStorage("auth-id").id
+
+        axios.get(backendURI.url+'/createGroups/allgrouprequest/'+userId,{headers: headers}).then(res=>{
+            console.log(res.data)
+        })
+
         axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
+            res.data.map(item => {
+
+                axios.get(backendURI.url+'/createGroups/allgrouprequest/'+userId,{headers: headers}).then(res2=>{
+                    if(res2.data){
+                    }
+                    else{
+                        this.setState({
+                            projects: [...this.state.projects,item]
+                        })
+                    }
+                })
+            })
             this.setState({
-                projects: res.data,
                 loading:false
             })
         })
@@ -42,6 +58,7 @@ class GroupNotification extends Component {
     }
 
     render() {
+        console.log(this.state.projects)
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -58,8 +75,10 @@ class GroupNotification extends Component {
 
                             <div className="card card-div">
 
-                                {this.state.projects.map(item=>{
-                                    return <Card className="notification-card" key={item._id}>
+                                {this.state.projects.length==0 && <div style={{textAlign: "center", padding: "20px 0px"}}>No Any Notifications</div>}
+
+                                {this.state.projects.map((item,key)=>{
+                                    return <Card className="notification-card" key={key}>
                                         <Card.Body className="card-body">
                                             <Row className="details-row">
                                                 <Col>
