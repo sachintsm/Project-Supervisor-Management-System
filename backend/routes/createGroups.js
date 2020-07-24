@@ -7,12 +7,28 @@ const Projects = require('../models/projects');
 const GroupRequests = require('../models/grouprequests');
 
 // ?create new group
-router.post('/add', verify, (req, res) => {
+router.post('/add', async (req, res) => {
+    const maxNumber = await CreateGroups
+        .find({ projectId: req.body.projectId })
+        .select('groupId')
+
+    var dataArray = new Array();     //all data push to this array
+    for (var i = 0; i < maxNumber.length; i++) {
+        dataArray.push(maxNumber[i].groupId) //push data to the dataArray
+    }
+
+    //sort max value
+    function getMaxOfArray(dataArray) {
+        return Math.max.apply(null, dataArray);
+    }
+    const maxId = getMaxOfArray(dataArray)
+
+    //data object
     const newGroup = new CreateGroups({
-        groupId: req.body.groupId,
+        groupId: maxId + 1,
         projectId: req.body.projectId,
         groupMembers: req.body.groupMembers,
-        groupState : true
+        groupState: true
     })
 
     newGroup.save()
@@ -92,7 +108,7 @@ router.post('/addStudentIndex', async (req, res) => {
     }
 })
 //? add supervisor index to a group
-router.post('/addSupervisorIndex',verify, async (req, res) => {
+router.post('/addSupervisorIndex', verify, async (req, res) => {
     console.log(req.body)
     const id = req.body._id
     const index = req.body.index
@@ -180,7 +196,7 @@ router.post('/remove-supervisor', verify, async (req, res) => {
     const supervisorId = req.body.supervisor
     const groupId = req.body.groupId
     await CreateGroups
-        .find({ projectId: projectId, groupId: groupId})
+        .find({ projectId: projectId, groupId: groupId })
         .update(
             { $pull: { supervisors: supervisorId } }
         )
@@ -196,12 +212,12 @@ router.post('/remove-supervisor', verify, async (req, res) => {
 //? get one supervisor active all projects
 router.post('/active&groups', async (req, res) => {
     const supervisorId = req.body.supervisorId
-    const projectId  = req.body.projectId
+    const projectId = req.body.projectId
     await CreateGroups
-        .find({supervisors : supervisorId, projectId : projectId, groupState : true})
+        .find({ supervisors: supervisorId, projectId: projectId, groupState: true })
         .exec()
         .then(data => {
-            res.json({ state: true, msg: 'Data successfully Transfered..!' , data : data})
+            res.json({ state: true, msg: 'Data successfully Transfered..!', data: data })
         })
         .catch(err => {
             res.send({ state: false, msg: err.message })
@@ -213,26 +229,26 @@ router.post('/active&groups', async (req, res) => {
 router.get('/groupCount/:id', async (req, res) => {
     const projectId = req.params.id
     await CreateGroups
-      .find({ projectId: projectId , groupState: true })
-      .count()
-      .exec()
-      .then(data => {
-        res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-      })
-      .catch(error => {
-        console.log(error)
-        res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-      })
-  })
+        .find({ projectId: projectId, groupState: true })
+        .count()
+        .exec()
+        .then(data => {
+            res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
+        })
+        .catch(error => {
+            console.log(error)
+            res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+        })
+})
 
 //getGroup details by userId & projectId
-router.post("/groupDetails/:studentId", async(req,res,next)=>{
+router.post("/groupDetails/:studentId", async (req, res, next) => {
 
-    try{
+    try {
         const id = req.params.studentId;
         const projectId = req.body.projectId;
-        const indexNumber = await User.findOne({_id:id}).select('indexNumber')
-        const result = await CreateGroups.findOne({groupMembers:indexNumber.indexNumber,projectId:projectId})
+        const indexNumber = await User.findOne({ _id: id }).select('indexNumber')
+        const result = await CreateGroups.findOne({ groupMembers: indexNumber.indexNumber, projectId: projectId })
 
         res.send(result)
     }
@@ -242,89 +258,89 @@ router.post("/groupDetails/:studentId", async(req,res,next)=>{
 })
 
 //get form group notification
-router.get("/groupformnotification/:studentId",async(req,res,next)=>{
-    try{
+router.get("/groupformnotification/:studentId", async (req, res, next) => {
+    try {
         const id = req.params.studentId;
         const index = await User.findOne({ _id: id }).select('indexNumber');
-        const groups = await CreateGroups.find({groupMembers:index.indexNumber},{'_id':false}).select("projectId")
+        const groups = await CreateGroups.find({ groupMembers: index.indexNumber }, { '_id': false }).select("projectId")
 
 
         var projectIds = []
-        groups.map(id=>projectIds.push(JSON.stringify(id.projectId)))
-        const projects = await Projects.find({studentList:index.indexNumber, projectState: true, })
+        groups.map(id => projectIds.push(JSON.stringify(id.projectId)))
+        const projects = await Projects.find({ studentList: index.indexNumber, projectState: true, })
         let projectList = []
-        projects.map(project=>{
-            if(!projectIds.includes(JSON.stringify(project._id))){
+        projects.map(project => {
+            if (!projectIds.includes(JSON.stringify(project._id))) {
                 projectList.push(project)
             }
         })
         res.send(projectList)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
 })
 
 //add group request
-router.post("/grouprequest", async(req,res,next)=>{
-    try{
+router.post("/grouprequest", async (req, res, next) => {
+    try {
         const data = req.body;
         data.allStudentList.push(data.leaderIndex)
         const request = new GroupRequests(data);
         const result = await request.save();
         res.send(result)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
 })
 
 //get request details by user Id ( Not sending leader request )
-router.get("/allgrouprequest/:userId", async(req,res,next) => {
-    try{
+router.get("/allgrouprequest/:userId", async (req, res, next) => {
+    try {
         const userId = req.params.userId
-        let userIndex = await User.findOne({_id:userId}).select("indexNumber")
-        let result1 = await GroupRequests.findOne({pendingList: userIndex.indexNumber})
-        let result2 = await GroupRequests.findOne({acceptedList: userIndex.indexNumber})
+        let userIndex = await User.findOne({ _id: userId }).select("indexNumber")
+        let result1 = await GroupRequests.findOne({ pendingList: userIndex.indexNumber })
+        let result2 = await GroupRequests.findOne({ acceptedList: userIndex.indexNumber })
         let result = null
-        if(result1){
+        if (result1) {
             result = result1
         }
-        if(result2){
+        if (result2) {
             result = result2
         }
         res.send(result)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
-} )
+})
 
 //get request details by user Id & project Id
-router.post("/grouprequest/:userId", async(req,res,next) => {
-    try{
+router.post("/grouprequest/:userId", async (req, res, next) => {
+    try {
         const userId = req.params.userId
         const projectId = req.body.id
-        let userIndex = await User.findOne({_id:userId}).select("indexNumber")
-        let result = await GroupRequests.findOne({projectId: projectId, allStudentList: userIndex.indexNumber})
+        let userIndex = await User.findOne({ _id: userId }).select("indexNumber")
+        let result = await GroupRequests.findOne({ projectId: projectId, allStudentList: userIndex.indexNumber })
         res.send(result)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
-} )
+})
 
 //edit request details
-router.patch("/grouprequest/:id", async(req,res,next) => {
-    try{
+router.patch("/grouprequest/:id", async (req, res, next) => {
+    try {
         const id = req.params.id
         let result = await GroupRequests.findByIdAndUpdate(id, req.body, { new: true })
         res.send(result)
     }
-    catch(e){
+    catch (e) {
         console.log(e)
     }
-} )
+})
 
 
 module.exports = router

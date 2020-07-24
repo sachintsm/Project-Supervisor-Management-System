@@ -46,6 +46,9 @@ class AssignSupervisors extends Component {
 
             supervisorIdList: [],
             finalBlockArray: [],
+
+            mouseState: false,
+
         };
         this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
@@ -217,7 +220,7 @@ class AssignSupervisors extends Component {
                 spinnerDiv2: true,
                 finalBlockArray: [],
             })
-            
+
             const headers = {
                 'auth-token': getFromStorage('auth-token').token,
             }
@@ -276,12 +279,12 @@ class AssignSupervisors extends Component {
         }
         //? gett the groups that one supercviser supervised
         await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
-        .then(res => {
-            for (let j = 0; j < res.data.data.length; j++) {
-                var group = res.data.data[j].groupId
-                array1.push(group)
-            }
-        })
+            .then(res => {
+                for (let j = 0; j < res.data.data.length; j++) {
+                    var group = res.data.data[j].groupId
+                    array1.push(group)
+                }
+            })
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Supervisor will also removed from the Groups!',
@@ -334,7 +337,9 @@ class AssignSupervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/supervisorData/' + data, {projectId : this.state.projectId});
+        if (this.state.mouseState == false) {
+            this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
+        }
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -431,12 +436,13 @@ class AssignSupervisors extends Component {
                                         {this.state.finalBlockArray.map((item) => {
                                             return (
                                                 <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
-
                                                     <td className="table-body">{item.name}</td>
                                                     <td className="table-body">{item.groups}</td>
                                                     <td className="table-body">{item.length}</td>
                                                     <td className="table-body">
-                                                        <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                        <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
+                                                            <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             )
