@@ -31,6 +31,11 @@ class CoordinatorList extends Component {
             supervisorNameList: []
         })
 
+        if(this.props.idList.length==0){
+            this.setState({
+                loading:false
+            })
+        }
         
         const headers = {
             'auth-token': getFromStorage('auth-token').token,

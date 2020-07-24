@@ -37,6 +37,8 @@ export default class Groups extends Component {
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
+
+            projectId: '',
         }
     }
     closeAlert = () => {
@@ -44,7 +46,9 @@ export default class Groups extends Component {
     };
 
     componentDidMount = async () => {
-        console.log(this.props);
+        this.setState({
+            projectId: this.props.match.params.id
+        })
 
         const authState = await verifyAuth();
 
@@ -119,7 +123,7 @@ export default class Groups extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId , pId : this.props.match.params.id});
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId});
     }
 
     //?delete the group
@@ -183,7 +187,7 @@ export default class Groups extends Component {
         }
         return (
             <React.Fragment>
-                <Navbar panel={"coordinator"}/>
+                <Navbar panel={"coordinator"} />
                 <Snackpop
                     msg={this.state.snackbarmsg}
                     color={this.state.snackbarcolor}

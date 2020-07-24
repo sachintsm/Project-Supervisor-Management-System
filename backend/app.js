@@ -67,6 +67,7 @@ const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
 const proposel = require('./routes/proposel');
+const mail = require('./mail')
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -82,12 +83,14 @@ app.use("/groupChat", groupChat);
 app.use('/courseTypes', courseTypes);
 app.use('/indexInfo', indexInfo);
 app.use('/proposel',proposel);
+app.use('/mail', mail);
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {
   console.log('listening to port ' + PORT);
 });
 
+// socket.io- chat module function
 var io = require('socket.io')(server);
 
 io.sockets.on('connection', function (socket) {

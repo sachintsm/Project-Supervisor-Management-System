@@ -52,7 +52,7 @@ class ViewProject extends Component {
 
 
     requestSup(item){
-        this.props.history.push('/studenthome/requestsupervisor',{projectDetails:item});
+        this.props.history.push('/studenthome/viewproject/requestsupervisor',{projectDetails:item});
     }
 
 

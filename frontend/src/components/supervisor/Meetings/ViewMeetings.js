@@ -8,9 +8,9 @@ import { getFromStorage } from '../../../utils/Storage';
 import Snackpop from "../../shared/Snackpop";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Table, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { Row, Col } from 'reactstrap';
+import { Table} from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
+// import { Row, Col } from 'reactstrap';
 import ConfirmMeetings from "./ConfirmMeetings";
 
 const backendURI = require('../../shared/BackendURI');

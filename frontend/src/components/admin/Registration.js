@@ -15,6 +15,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { userRagistrationEmail } from "../shared/emailTemplates"
+import { Spinner } from 'react-bootstrap'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -46,6 +48,7 @@ export default class registration extends Component {
         imgName: '',
         courseType: '',
       },
+      spinnerDiv: false,
 
       //!decalaring error state variables
       firstNameError: '',
@@ -105,7 +108,9 @@ export default class registration extends Component {
 
               var myHeaders = new Headers();
               myHeaders.append("auth-token", obj.token);
-
+              this.setState({
+                spinnerDiv: true
+              })
               for (var i = 0; i < this.state.csvData.length - 1; i++) {
                 var firstName = this.state.csvData[i][0];
                 var lastName = this.state.csvData[i][1];
@@ -132,7 +137,7 @@ export default class registration extends Component {
                   regNumber: regNumber,
                   courseType: courseType,
                 }
-                
+
                 await fetch(backendURI.url + "/users/bulkRegister", {
                   method: 'POST',
                   headers: {
@@ -142,12 +147,19 @@ export default class registration extends Component {
                   body: JSON.stringify(data),
                 })
                   .then(res => res.json())
-                  .then(json => {
+                  .then(async json => {
                     this.setState({
                       snackbaropen: true,
                       snackbarmsg: json.msg,
                       snackbarcolor: 'success',
                     })
+
+                    //send email notification to the clients
+                    const email = await userRagistrationEmail(this.state.csvData[i][2], this.state.csvData[i][0], this.state.csvData[i][1])
+                    axios.post(backendURI.url + '/mail/sendmail', email)
+                      .then(res => {
+                        console.log(res);
+                      })
                   })
                   .catch(err => {
                     console.log(err)
@@ -158,6 +170,9 @@ export default class registration extends Component {
                     })
                   })
               }
+              this.setState({
+                spinnerDiv: false
+              })
             }
           },
           {
@@ -293,7 +308,7 @@ export default class registration extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    console.log("sachin mthumala")
     const err = this.validate();  //?calling validation function
 
     if (!err) {
@@ -344,13 +359,20 @@ export default class registration extends Component {
 
               fetch(backendURI.url + "/users/register", requestOptions)
                 .then((res) => res.json())
-                .then((json) => {
+                .then(async (json) => {
                   if (json.state === true) {
                     this.setState({
                       snackbaropen: true,
                       snackbarmsg: json.msg,
                       snackbarcolor: 'success',
                     })
+                    //send email to the client
+                    const email = await userRagistrationEmail(this.state.form.email, this.state.form.firstName, this.state.form.lastName)
+                    axios.post(backendURI.url + '/mail/sendmail', email)
+                      .then(res => {
+                        console.log(res);
+                      })
+
                     window.location.reload();
                   }
                   else {
@@ -385,7 +407,7 @@ export default class registration extends Component {
 
 
   render() {
-    const { form, indexDiv } = this.state;
+    const { form, indexDiv, spinnerDiv } = this.state;
 
     //? loading csv file data into csvData array ...
     const handleForce = data => {
@@ -457,7 +479,11 @@ export default class registration extends Component {
                             />
                           </Row>
                         </div>
-
+                        {spinnerDiv && (
+                          <div className="spinner">
+                            <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
+                          </div>
+                        )}
                         <div className="form-group">
                           <button
                             className="btn btn-info my-4  "

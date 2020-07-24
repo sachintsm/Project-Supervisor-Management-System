@@ -32,7 +32,6 @@ var storage = multer.diskStorage({
    
    router.post("/addProposel", async (req, res) => {
 
-    console.log("call from frontend")
      upload(req, res, (err) => {
           let ts = Date.now();
           let date_ob = new Date(ts);
@@ -61,7 +60,7 @@ var storage = multer.diskStorage({
    .save()
    .then((resulst) =>{
      res.json({ state: true, msg: "Data inserted successful.." });
-     console.log(resulst)
+     // console.log(resulst)
 
    })
    .catch((err) =>{

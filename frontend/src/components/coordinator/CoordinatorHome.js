@@ -21,10 +21,12 @@ class coodinatorProjectBlock {
     this.supervisorCount = supervisorCount;
     this.groupCount = groupCount;
   }
+
 }
 class CoordinatorHome extends Component {
 
   constructor(props) {
+    localStorage.setItem("user-level", "coordinator")
     super(props);
     this.state = {
       userId: '',
@@ -126,8 +128,8 @@ class CoordinatorHome extends Component {
 
   endProject(id) {
     confirmAlert({
-      title: 'Confirm to Delete?',
-      message: 'Are you sure to do this ?',
+      title: 'End Project',
+      message: 'Are you sure to end the project?',
       buttons: [{
         label: 'Yes',
         onClick: () => {
@@ -184,7 +186,7 @@ class CoordinatorHome extends Component {
   }
   groups(id) {
     
-    this.props.history.push('/coordinatorhome/projectdata/Groups/' + id, { headers: id });
+    this.props.history.push('/coordinatorhome/projectdata/Groups/' + id);
 
   }
   srs(id) {

@@ -79,7 +79,8 @@ class Tasks extends Component {
             loading: true,
             progressUpdates: [],
             updateLoading: true,
-            taskTitleError: false
+            taskTitleError: false,
+            userLevel: localStorage.getItem("user-level")
         }
     }
 
@@ -150,12 +151,6 @@ class Tasks extends Component {
                 message: 'Do you want to Add this Task?',
                 buttons: [
                     {
-                        label: 'No',
-                        onClick: () => {
-
-                        }
-                    },
-                    {
                         label: 'Yes',
                         onClick: async () => {
 
@@ -178,6 +173,12 @@ class Tasks extends Component {
                             })
 
                             window.location.reload(false);
+
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
 
                         }
                     }
@@ -215,7 +216,7 @@ class Tasks extends Component {
                                     </Col>
                                 )
                             })}
-                            {!this.state.loading && this.state.project.projectState &&
+                            {!this.state.loading && this.state.project.projectState &&  this.state.userLevel==="student" &&
                             <Col lg={3} md={3} xs={12} sm={12}>
 
                                 <BootstrapTooltip title="Add New Task"  placement="bottom">
