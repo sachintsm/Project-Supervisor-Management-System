@@ -25,7 +25,7 @@ const Pending = React.memo( props =>(
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
         <td><ButtonToolbar>
-        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id)} >Accept</Button> 
+        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId)} >Accept</Button> 
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
@@ -66,6 +66,7 @@ export default class ViewRequest extends Component {
             isSupervisor: '',
             search: '',
             reqS: [],
+            emailA:[],
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
@@ -105,7 +106,7 @@ export default class ViewRequest extends Component {
                 console.log(error);
             })
     }
-    reqSendAccept(req){
+    reqSendAccept(req,group){
         const id = req;
         confirmAlert({
             title: 'Confirm to submit',
@@ -120,7 +121,7 @@ export default class ViewRequest extends Component {
                         };
                         console.log(req);
                         axios.post(backendURI.url + "/users/updateReqState/" +id, obj)
-                                    .then(res => {
+                                    .then(res=> {
                                         
                                         console.log(res.data)
                                         if (res.data.state === true) {
@@ -130,13 +131,37 @@ export default class ViewRequest extends Component {
                                                 snackbarcolor: 'success',
                                             })
 
-                                            const email = await supervisorRequestEmail(this.state.email,this.state.reqS.groupId, this.state.reqS.supFirstName,this.state.reqS.supLastName)
+                                            axios.post(backendURI.url + '/users/getIndexNumbers/' + id,obj)
+                                                .then(async(response) => {
+                                                    console.log(response.data.data[0]);
+                                                    this.setState({
+                                                        emailA: response.data.data
+                                                    })
+                                                    if(this.state.emailA.length === 0){
+                                                        console.log('no data');
+                                                    }
+                                                    else{
+                                                        for(var i=0; i<this.state.emailA.length; i++){
+                                                            const email = await supervisorRequestEmail(this.state.emailA[i],group, this.state.reqS.supFirstName,this.state.reqS.supLastName)
+                                                                axios.post(backendURI.url + '/mail/sendmail', email)
+                                                                .then(res => {
+                                                                    console.log(res);
+                                                                })
+                                                        }
+                                                    }
+
+                                                })
+                                                .catch(function (error) {
+                                                    console.log(error);
+                                                })
+
+                                           /* const email = await supervisorRequestEmail(this.state.email,this.state.reqS.groupId, this.state.reqS.supFirstName,this.state.reqS.supLastName)
                                             axios.post(backendURI.url + '/mail/sendmail', email)
                                               .then(res => {
                                                 console.log(res);
-                                              })
+                                              })*/
                         
-                                            window.location.reload(false);
+                                            //window.location.reload(false);
                                         }
                                         else {
                                             this.setState({

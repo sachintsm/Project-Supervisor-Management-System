@@ -103,7 +103,7 @@ export default class navbar extends Component {
     // const userType = getFromStorage('user-level')
     // alert(this.state.panel);
     // this.setState({ userType: userType })
-    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id,{headers: headers})
+    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
       .then(response => {
 
         this.setState({

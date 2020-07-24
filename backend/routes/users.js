@@ -792,6 +792,45 @@ router.post('/getStatus/:id', function (req, res) {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
 });
+//get all group members by userId of one student
+router.post("/getIndexNumbers/:id", async (req, res, next) => {
+  try{
+    const requestId = req.params.id;
+
+    const studentId = await Request.findOne({ _id: requestId }).select('stuId');
+    const sId = studentId.stuId;
+
+    const proId = await Request.findOne({ _id: requestId }).select('projectId');
+    const projId = proId.projectId;
+
+    const result = await User.findOne({ _id: sId }).select('indexNumber');
+    const index = result.indexNumber
+
+    const group = await CreateGroups.findOne({ projectId: projId, groupMembers: index }).select("groupMembers")
+    const mem = group.groupMembers
+    console.log(mem);
+    
+    if(mem.length === 0){
+      res.json({ state: false, msg: "No data", data: mem.length });
+     // res.send(mem.length);
+    }
+    else{
+      var arr2 = [];
+    for(var i=0; i<mem.length; i++){
+      const mail = await User.findOne({ indexNumber: mem[i]}).select('email');
+      const emailAdd = mail.email;
+      arr2.push(emailAdd);
+    }
+    console.log(arr2);
+    res.json({ state: true, msg: "data", data: arr2 });
+   // res.send(arr2);
+  }
+}
+  catch (err) {
+    console.log(err)
+  }
+  
+})
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //update user profile by user
 router.post('/update/:id', function (req, res) {
