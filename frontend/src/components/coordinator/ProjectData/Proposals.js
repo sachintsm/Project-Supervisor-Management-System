@@ -207,7 +207,7 @@ class Proposals extends Component {
 
 
 
-            <Tab eventKey="Create Link" title="Create Proposel Link" className="pro-tab">
+            <Tab eventKey="Create Link" title="Create Proposel" className="pro-tab">
             
             <div>
             <div className="card container pro-link-crd">
