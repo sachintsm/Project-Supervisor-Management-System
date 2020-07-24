@@ -18,6 +18,7 @@
 
   .title{
     margin-bottom: 20px;
+    text-align: center;
   }
 
   .group-form-card-div{
@@ -27,6 +28,14 @@
     padding: 20px 30px;
   }
 
+  .btn-div{
+    text-align: center;
+    margin: 10px 0px 20px 0px;
+  }
+
+  .my-btn1{
+    width: 40%;
+  }
 
   .border-span{
     border-bottom: 1px solid #CCC;
@@ -43,6 +52,10 @@
   .form-control-div{
     padding: 10px 10%;
     margin-bottom: 20px;
+  }
+
+  .spinner{
+    align-content: center !important;
   }
 
   @media only screen and  (max-width: 767px){

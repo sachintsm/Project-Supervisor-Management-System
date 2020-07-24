@@ -1,38 +1,55 @@
 .student-card-2-css{
   .student-info-card{
+    border-color: #999;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  .student-info-card-accepted{
     background-color: #ebffe0;
     border-color: #00e600;
     margin: 0;
     margin-bottom: 10px;
-
-    .card-body{
-      padding: 10px 20px;
-    }
-
-
-    .span-item{
-      padding-left: 10px;
-    }
-
-    .icon-span{
-      float: right;
-      cursor: pointer;
-      color: red !important;
-      font-size: 30px;
-      display: flex;
-      align-items: center;
-    }
-    .icon-span:hover{
-      transform: scale(1.2);
-      //transition-duration: 0.5s;
-    }
-    .add-icon{
-      color: #17A2B8;
-      font-size: 28px;
-    }
+  }
+  .student-info-card-declined{
+    background-color: #ffd7d4;
+    border-color: palevioletred;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  .student-info-card-pending{
+    margin: 0;
+    margin-bottom: 10px;
+    border-color: #999;
+  }
+  .span-text{
+    font-size: 13px;
+  }
+  .card-body{
+    padding: 10px 20px;
   }
 
+
+  .span-item{
+    padding-left: 10px;
+  }
+
+  .icon-span{
+    float: right;
+    cursor: pointer;
+    color: red !important;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+  }
+  .icon-span:hover{
+    transform: scale(1.2);
+    //transition-duration: 0.5s;
+  }
+  .add-icon{
+    color: #17A2B8;
+    font-size: 28px;
+  }
   .student-info-card:hover{
-    background-color: #dbffc7;
+    background-color: #FBFBFB;
   }
 }
