@@ -25,7 +25,7 @@ const Pending = React.memo( props =>(
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
         <td><ButtonToolbar>
-        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId)} >Accept</Button> 
+        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId,props.req.supFirstName,props.req.supLastName)} >Accept</Button> 
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
@@ -106,7 +106,7 @@ export default class ViewRequest extends Component {
                 console.log(error);
             })
     }
-    reqSendAccept(req,group){
+    reqSendAccept(req,group,fName,lName){
         const id = req;
         confirmAlert({
             title: 'Confirm to submit',
@@ -142,26 +142,22 @@ export default class ViewRequest extends Component {
                                                     }
                                                     else{
                                                         for(var i=0; i<this.state.emailA.length; i++){
-                                                            const email = await supervisorRequestEmail(this.state.emailA[i],group, this.state.reqS.supFirstName,this.state.reqS.supLastName)
+                                                            const email = await supervisorRequestEmail(this.state.emailA[i],group, fName, lName)
                                                                 axios.post(backendURI.url + '/mail/sendmail', email)
                                                                 .then(res => {
                                                                     console.log(res);
                                                                 })
                                                         }
                                                     }
+                                                    window.location.reload();
 
                                                 })
                                                 .catch(function (error) {
                                                     console.log(error);
                                                 })
 
-                                           /* const email = await supervisorRequestEmail(this.state.email,this.state.reqS.groupId, this.state.reqS.supFirstName,this.state.reqS.supLastName)
-                                            axios.post(backendURI.url + '/mail/sendmail', email)
-                                              .then(res => {
-                                                console.log(res);
-                                              })*/
-                        
-                                            //window.location.reload(false);
+                                          
+                                          
                                         }
                                         else {
                                             this.setState({
