@@ -7,6 +7,9 @@ import Navbar from "../../shared/Navbar";
 import ProjectDetailsCard from "../ProjectDetailsCard";
 import Footer from "../../shared/Footer";
 import RequestInfo from "./RequestInfo";
+import Snackpop from "../../shared/Snackpop";
+import { confirmAlert } from 'react-confirm-alert';
+
 const backendURI = require('../../shared/BackendURI');
 
 class GroupNotification extends Component {
@@ -86,17 +89,58 @@ class GroupNotification extends Component {
     }
 
     acceptRequest = (item) => {
-        const userIndex = this.state.userIndex
-        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
-        item.acceptedList.push(userIndex)
-        this.updateRequest(item, true)
+
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Accept this Request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const userIndex = this.state.userIndex
+                        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+                        item.acceptedList.push(userIndex)
+                        this.updateRequest(item, true)
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
     }
 
     declineRequest = (item) => {
-        const userIndex = this.state.userIndex
-        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
-        item.declinedList.push(userIndex)
-        this.updateRequest(item, false)
+
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Decline this Request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const userIndex = this.state.userIndex
+                        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+                        item.declinedList.push(userIndex)
+                        this.updateRequest(item, false)
+
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
     }
 
     updateRequest = (item, state) => {
@@ -104,28 +148,56 @@ class GroupNotification extends Component {
             'auth-token':getFromStorage('auth-token').token,
         }
         axios.patch(backendURI.url+'/createGroups/grouprequest/'+item._id,item,{headers: headers}).then(res=>{
+
             if(state){
                 this.setState({
                     acceptedAlert: true,
+                },()=> {
+                    window.location.reload(false);
                 });
             }
             else{
                 this.setState({
-                    declinedAlert: false
+                    declinedAlert: true
+                },()=> {
+                    window.location.reload(false);
                 })
             }
         })
 
     }
 
-
     formGroups = (id) =>{
         this.props.history.push('/studenthome/formgroups/'+id)
     }
 
+    closeAlert = () => {
+        this.setState({
+            acceptedAlert: false,
+            declinedAlert: false,
+        });
+    };
     render() {
         return (
             <React.Fragment>
+
+
+                <Snackpop
+                    msg={'Accepted'}
+                    color={'success'}
+                    time={3000}
+                    status={this.state.acceptedAlert}
+                    closeAlert={this.closeAlert}
+                />
+
+                <Snackpop
+                    msg={'Declined'}
+                    color={'success'}
+                    time={3000}
+                    status={this.state.declinedAlert}
+                    closeAlert={this.closeAlert}
+                />
+
                 <Navbar panel={"student"} />
                 <div className="container-fluid group-notifications">
                     <div className="title-div">
