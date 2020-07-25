@@ -23,7 +23,7 @@ class GroupNotification extends Component {
 
     componentDidMount() {
         this.getGroupFormNotifications();
-        // this.getGroupRequestNotifications();
+        this.getGroupRequestNotifications();
     }
 
     getGroupFormNotifications = () => {
@@ -34,12 +34,14 @@ class GroupNotification extends Component {
         console.log(userId)
 
         axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
+
             res.data.map(item => {
-                console.log(item)
-                axios.get(backendURI.url+'/createGroups/allgrouprequest/'+userId,{headers: headers}).then(res2=>{
+                let project = {
+                    projectId: item._id
+                }
+                axios.post(backendURI.url+'/createGroups/allgrouprequest/'+userId,{project},{headers: headers}).then(res2=>{
                     if(res2.data){
 
-                        console.log("hello")
                     }
                     else{
                         this.setState({
