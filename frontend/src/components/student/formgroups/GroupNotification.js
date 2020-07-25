@@ -24,6 +24,20 @@ class GroupNotification extends Component {
     componentDidMount() {
         this.getGroupFormNotifications();
         this.getGroupRequestNotifications();
+        this.getUserIndex()
+    }
+
+    getUserIndex = () => {
+        const userId = getFromStorage("auth-id").id
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.get(backendURI.url+'/users/get/'+userId,{headers: headers}).then(res=>{
+            let indexNumber = res.data.data[0].indexNumber
+            this.setState({
+                userIndex: indexNumber
+            })
+        })
     }
 
     getGroupFormNotifications = () => {
@@ -31,7 +45,6 @@ class GroupNotification extends Component {
             'auth-token':getFromStorage('auth-token').token,
         }
         const userId = getFromStorage("auth-id").id
-        console.log(userId)
 
         axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
 
@@ -72,6 +85,39 @@ class GroupNotification extends Component {
 
     }
 
+    acceptRequest = (item) => {
+        const userIndex = this.state.userIndex
+        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+        item.acceptedList.push(userIndex)
+        this.updateRequest(item, true)
+    }
+
+    declineRequest = (item) => {
+        const userIndex = this.state.userIndex
+        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+        item.declinedList.push(userIndex)
+        this.updateRequest(item, false)
+    }
+
+    updateRequest = (item, state) => {
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.patch(backendURI.url+'/createGroups/grouprequest/'+item._id,item,{headers: headers}).then(res=>{
+            if(state){
+                this.setState({
+                    acceptedAlert: true,
+                });
+            }
+            else{
+                this.setState({
+                    declinedAlert: false
+                })
+            }
+        })
+
+    }
+
 
     formGroups = (id) =>{
         this.props.history.push('/studenthome/formgroups/'+id)
@@ -106,8 +152,8 @@ class GroupNotification extends Component {
                                                     <RequestInfo details={item}/>
                                                 </Col>
                                                 <Col lg={3} md={3} className="btn-col">
-                                                    <Button className="btn btn-info my-btn1" >Accept</Button>
-                                                    <Button className="btn btn-danger my-btn1 mt-2" >Decline</Button>
+                                                    <Button className="btn btn-info my-btn1" onClick={()=>this.acceptRequest(item)}>Accept</Button>
+                                                    <Button className="btn btn-danger my-btn1 mt-2" onClick={()=>this.declineRequest(item)} >Decline</Button>
                                                 </Col>
                                             </Row>
                                         </Card.Body>
