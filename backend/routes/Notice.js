@@ -119,7 +119,7 @@ router.get("/noticeAttachment/:filename", function (req, res) {
   );
 });
 
-//delte notice feom database
+//delte notice from database
 router.delete("/delteNotice/:_id", verify, async (req, res) => {
   const id = req.params._id;
 
