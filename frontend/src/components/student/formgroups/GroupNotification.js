@@ -6,6 +6,7 @@ import "../../../css/students/formgroups/GroupNotification.scss"
 import Navbar from "../../shared/Navbar";
 import ProjectDetailsCard from "../ProjectDetailsCard";
 import Footer from "../../shared/Footer";
+import RequestInfo from "./RequestInfo";
 const backendURI = require('../../shared/BackendURI');
 
 class GroupNotification extends Component {
@@ -14,30 +15,31 @@ class GroupNotification extends Component {
         super(props);
         this.state = {
             projects: [],
+            groupRequests: [],
             loading: true
         }
 
     }
 
     componentDidMount() {
-        this.getNotifications();
+        this.getGroupFormNotifications();
+        // this.getGroupRequestNotifications();
     }
 
-    getNotifications = () => {
+    getGroupFormNotifications = () => {
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
         }
         const userId = getFromStorage("auth-id").id
-
-        axios.get(backendURI.url+'/createGroups/allgrouprequest/'+userId,{headers: headers}).then(res=>{
-            console.log(res.data)
-        })
+        console.log(userId)
 
         axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
             res.data.map(item => {
-
+                console.log(item)
                 axios.get(backendURI.url+'/createGroups/allgrouprequest/'+userId,{headers: headers}).then(res2=>{
                     if(res2.data){
+
+                        console.log("hello")
                     }
                     else{
                         this.setState({
@@ -53,12 +55,27 @@ class GroupNotification extends Component {
 
     }
 
+    getGroupRequestNotifications = () => {
+
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        const userId = getFromStorage("auth-id").id
+
+        axios.get(backendURI.url + '/createGroups/groupacceptingrequest/' + userId, {headers: headers}).then(res => {
+            this.setState({
+                groupRequests: res.data
+            })
+        })
+
+    }
+
+
     formGroups = (id) =>{
         this.props.history.push('/studenthome/formgroups/'+id)
     }
 
     render() {
-        console.log(this.state.projects)
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -75,14 +92,33 @@ class GroupNotification extends Component {
 
                             <div className="card card-div">
 
-                                {this.state.projects.length==0 && <div style={{textAlign: "center", padding: "20px 0px"}}>No Any Notifications</div>}
+                                {this.state.projects.length===0 && this.state.groupRequests.length===0 && <div style={{textAlign: "center", padding: "20px 0px"}}>No Any Notifications</div>}
 
+                                {/*Group Requests Notifications*/}
+                                {this.state.groupRequests.map((item,key)=>{
+                                    return <Card className="notification-card" key={key}>
+                                        <Card.Body className="card-body">
+                                            <Row className="details-row">
+                                                <Col>
+                                                    <h5>You have New Group Request</h5>
+                                                    <RequestInfo details={item}/>
+                                                </Col>
+                                                <Col lg={3} md={3} className="btn-col">
+                                                    <Button className="btn btn-info my-btn1" >Accept</Button>
+                                                    <Button className="btn btn-danger my-btn1 mt-2" >Decline</Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                })}
+
+                                {/*Group Form Notifications*/}
                                 {this.state.projects.map((item,key)=>{
                                     return <Card className="notification-card" key={key}>
                                         <Card.Body className="card-body">
                                             <Row className="details-row">
                                                 <Col>
-                                                    <h5>You Can Form Groups by Yourselves Now...</h5>
+                                                    <h5>You Can Form Groups by Yourselves Now</h5>
                                                     <div>Project Year: {item.projectYear}</div>
                                                     <div>Project Type: {item.projectType}</div>
                                                     <div>Academic Year: {item.academicYear}</div>

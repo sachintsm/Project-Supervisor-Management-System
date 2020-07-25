@@ -342,5 +342,19 @@ router.patch("/grouprequest/:id", async (req, res, next) => {
     }
 })
 
+//get group accepting request by studentId
+router.get("/groupacceptingrequest/:userId",async(req,res,next)=> {
+    try{
+
+        const userId = req.params.userId
+        const index = await User.findOne({_id:userId}).select("indexNumber")
+        const result = await GroupRequests.find({pendingList: index.indexNumber})
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
 
 module.exports = router
