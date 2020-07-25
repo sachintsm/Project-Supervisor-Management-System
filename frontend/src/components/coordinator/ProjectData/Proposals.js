@@ -7,8 +7,10 @@ import { getFromStorage } from "../../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Snackpop from "../../shared/Snackpop";
-
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -21,8 +23,10 @@ import {
     Container,
     Col,
     Row,
-    FormControl,
     FormGroup,
+    FormControl,
+
+
   } from "react-bootstrap";
   const backendURI = require("../../shared/BackendURI");
 
@@ -36,21 +40,29 @@ class Proposals extends Component {
         super(props);
 
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeproposelDiscription = this.onChangeproposelDiscription.bind(this);
         this.onChangeProposelTittle = this.onChangeProposelTittle.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onChangeTime = this.onChangeTime.bind(this);
         this.onChangeFile = this.onChangeFile.bind(this);
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
+        this.getProposel = this.getProposel.bind(this);
+        this.onDeleteHandler= this.onDeleteHandler.bind(this);
 
     
         this.state = {
 
           proposelTittle:"",
+          proposelDiscription:"",
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
           imgname: '',
           state : "",
+
+          toLateSubmision:false,
+
+          propselList :[],
 
              
         }
@@ -67,6 +79,11 @@ class Proposals extends Component {
       this.setState({
         proposelTittle: e.target.value,
       });
+    }
+    onChangeproposelDiscription(e){
+      this.setState({
+        proposelDiscription:e.target.value,
+      })
     }
 
     onChangeDate = (e)=>{
@@ -88,6 +105,61 @@ class Proposals extends Component {
       })
     }
 
+    componentDidMount(){
+
+      this.getProposel();
+
+    }
+
+    getProposel(){
+      axios.get(backendURI.url +'/proposel/getSubmisionLink')
+      .then((res=>{
+       // console.log("ssssssssssssss", res.data.data)
+        this.setState({
+          propselList : res.data.data
+        })
+        console.log("sss",this.state.propselList);
+      })).catch(err=>{
+        console.log(err)
+      })
+
+    }
+
+    onDeleteHandler = (id) => {
+      confirmAlert({
+        title: "Delete Notice",
+        message: "Are you sure?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: async () => {
+  
+              const headers = {
+                'auth-token': getFromStorage('auth-token').token,
+              }
+              axios
+                .delete(backendURI.url + "/proposel/deleteSubmision/" + id, { headers: headers })
+                .then((res) => {
+                  this.setState({
+                    deleteSuccesAlert: true,
+                  });
+                  window.location.reload();
+                  this.getNoticeList();
+                  this.getProjectDetails();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+  
+            },
+          },
+          {
+            label: "No",
+            onClick: () => { },
+          },
+        ],
+      });
+    }
 
     onSubmit(e) {
       e.preventDefault();
@@ -104,7 +176,9 @@ class Proposals extends Component {
                     'auth-token': getFromStorage('auth-token').token,
                   }
   
-                  const date = new Date();
+                  var date = new Date();
+                  const dateString = date.toLocaleDateString()
+                  const timeString = date.toLocaleTimeString()
                   
   
                   const userType = localStorage.getItem("user-level");
@@ -116,11 +190,14 @@ class Proposals extends Component {
   
                   formData.append("userId",userId);
                   formData.append("userType",userType);
+                  formData.append("date", dateString);
+                  formData.append("time", timeString);
                   formData.append("proposelTittle",this.state.proposelTittle);
+                  formData.append("proposelDiscription",this.state.proposelDiscription);
                   formData.append("deadDate",this.state.deadDate);
                   formData.append("deadTime",this.state.deadTime);
                   formData.append("proposelAttachment",this.state.proposelAttachment);
-                  formData.append("state",this.state.state);
+                  formData.append("toLateSubmision",this.state.toLateSubmision);
     
   
                   axios
@@ -140,9 +217,9 @@ class Proposals extends Component {
                       console.log(error);
                     });
   
-  
                   this.setState({
                     proposelTittle:"",
+                    proposelDiscription:"",
                     deadDate:"",
                     deadTime:"",
                     proposelAttachment:""
@@ -157,9 +234,11 @@ class Proposals extends Component {
             ],
           });
         }
+        
 
 
     render() {
+
 
         return (
             <React.Fragment>
@@ -207,7 +286,7 @@ class Proposals extends Component {
 
 
 
-            <Tab eventKey="Create Link" title="Create Proposel Link" className="pro-tab">
+            <Tab eventKey="Create Link" title="Create Proposel" className="pro-tab">
             
             <div>
             <div className="card container pro-link-crd">
@@ -222,6 +301,12 @@ class Proposals extends Component {
             <label >Proposel Tittle :</label>
             <input type="text" className="form-control" id="exampleInputProposel" placeholder="Proposel Tittle"
             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
+            </div>
+
+            <div className="form-group pro-form">
+            <label >Proposel Discription :</label>
+            <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
+            name="proposelTittle" value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription}/>
             </div>
 
 
@@ -269,18 +354,30 @@ class Proposals extends Component {
           </FormGroup>
             </Col>
 
-            <Col  md={6} xs="12">
-            <div className="form-group pro-form">
-                    <label className="text-label">State : </label>
-                    <div className="form-group">
-                        <select className="form-control" id="dropdown" value={this.state.state} onChange={this.handleDropdownChange} >
-                            <option>Select State</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Open">Open</option>
-                            <option value="Close">Close</option>
-                        </select>
-                    </div>
-                    </div>
+            <Col className="col-padding-5 check-box"  md={6} xs={12}>
+            
+            <FormControlLabel
+              className="form-control-label"
+              control={
+                <Checkbox
+                  fontSize="5px"
+                  checked={this.state.toLateSubmision}
+                  onChange={() => {
+                    this.setState({
+                      toLateSubmision: !this.state.toLateSubmision,
+                    });
+                  }}
+                  name="checkedB"
+                  color="default"
+                />
+              }
+              label={
+                <span style={{ fontSize: "14px" }}>
+                Permision For Late Submision
+                </span>
+              }
+            />
+          
         
             </Col>
 
@@ -297,13 +394,69 @@ class Proposals extends Component {
             </form>
             
             </div>
-            </div>
+
+            <div>  </div>
+            {this.state.propselList.length > 0 && (
+              <div>
+              <div>
+              {this.state.propselList.map((type) => {
+
+                return(
+                  <div className="card container  pcrd-style" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
+                 
+                  <Row className="pcrd_proposel-tittle-div">
+                    <Col md={10} xs={10}>
+                      <p className="pcrd_proposel-name">{type.proposelTittle}</p>
+                    </Col>
+                    <Col className="pcrd_btn-row" md={2} xs={2}>
+                    <EditIcon style={{marginTop: "5px" }} className="edit-btn" fontSize="large" onClick={() => this.onEditHandler(type._id)} />
+                    <DeleteForeverIcon style={{marginTop: "5px" }} className="delete-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} />
+                    </Col>
+                    
+                  </Row>
+
+                  <Row className="pcrd_user-name-div">
+                    <Col md={11} xs={10}>
+                        <p className="pcrd_date">&nbsp;{type.date}&nbsp;&nbsp;{type.time}</p>
+                    </Col>
+                  </Row>
+                  <div >
+                      <p className="pcrd_discription">{type.proposelDiscription}</p>
+                      <p className="dead_date">Dead Line Date :{type.deadDate}</p>
+                      <p className="dead_time">Dead Line Time :{type.deadTime}</p>
+                  </div>
+
+                  <div className="fille_attach">
+                  <a className="crd_atchmnt" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
+                    Attachment
+              </a>
+                </div>
+                  
+                  </div>
+
+                )
+                
+
+
+              })}
+
+              
+              </div>
+              
+              </div>
+
+            )}
+
+            
+          
+
+           </div>
             </Tab>
             </Tabs>
+          
             </div>
             </div>
             </div>
-
             <Footer />
            </React.Fragment>
         );
