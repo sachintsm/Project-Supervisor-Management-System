@@ -159,7 +159,8 @@ class CreateProject extends Component {
               }
 
               if(this.state.componentType==='edit'){
-                axios.patch(backendURI.url + '/projects/' + this.state.id, this.state,{headers: headers}).then(res => {
+                
+                axios.patch(backendURI.url + '/projects/' + this.state._id, this.state,{headers: headers}).then(res => {
                 }).catch(err => {
                   console.log(err)
                 })

@@ -116,4 +116,35 @@ router.delete('/deleteSubmision/:_id', verify , async (req,res)=>{
 
 })
 
+//update proposel
+router.patch("/:_id", async (req,res)=>{
+// console.log("ssssssssssssss")
+  try{
+    const id = req.params._id;
+    console.log(id)
+    if(!req.body.toLateSubmision){
+      req.body.toLateSubmision = false;
+    }
+
+    const updateProposel = new proposel({
+      projectId : req.body.projectId,
+      date: req.body.date,
+      time: req.body.time,
+      proposelTittle : req.body.proposelTittle,
+      proposelDiscription:req.body.proposelDiscription,
+      deadDate : req.body.deadDate,
+      deadTime : req.body.deadTime,
+     // filePath : filePath,
+      toLateSubmision: req.body.toLateSubmision,
+ });
+
+ const result = await proposel.findByIdAndUpdate(id , updateProposel , {new:true})
+ res.send(result)
+  }catch(err){
+    console.log(err)
+  }
+})
+
+
+
 module.exports = router;

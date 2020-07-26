@@ -52,17 +52,18 @@ class Proposals extends Component {
     
         this.state = {
 
+          componentType: 'add',
+          tittle : "Create New Submision",
           proposelTittle:"",
           proposelDiscription:"",
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
           imgname: '',
-          state : "",
-
           toLateSubmision:false,
 
           propselList :[],
+          proId : "",
 
              
         }
@@ -143,7 +144,7 @@ class Proposals extends Component {
                   this.setState({
                     deleteSuccesAlert: true,
                   });
-                  window.location.reload();
+                 // window.location.reload();
                   this.getNoticeList();
                   this.getProjectDetails();
                 })
@@ -199,14 +200,14 @@ class Proposals extends Component {
                   formData.append("proposelAttachment",this.state.proposelAttachment);
                   formData.append("toLateSubmision",this.state.toLateSubmision);
     
-  
+                  if(this.state.componentType === 'add'){
                   axios
                     .post(backendURI.url + "/proposel/addProposel", formData, { headers: headers })
                     .then((res) => {
                       this.setState({
                         succesAlert: true,
                       });
-                      window.location.reload();
+                     // window.location.reload();
                      
                     })
                     .catch((error) => {
@@ -225,7 +226,24 @@ class Proposals extends Component {
                     proposelAttachment:""
   
                   });
-                },
+                  
+                } if(this.state.componentType === 'edit'){
+                  
+                  axios.patch(backendURI.url + "/proposel/" + this.state.id, this.state,{headers:headers})
+                  .then(res=>{
+
+                  }).catch(err =>{
+                    console.log(err)
+                  })
+                  window.location.reload(false);
+
+                  this.setState({
+                    editAlert : true,
+                  })
+
+                }
+
+              }
               },
               {
                 label: "No",
@@ -233,6 +251,24 @@ class Proposals extends Component {
               },
             ],
           });
+        }
+
+
+        onEditHandler = (type) =>{
+
+          this.setState({
+            componentType: 'edit',
+            tittle: 'Edit Submision',
+            proposelTittle:type.proposelTittle,
+            proposelDiscription:type.proposelDiscription,
+            deadDate:type.deadDate,
+            deadTime:type.deadTime,
+            proposelAttachment:type.filePath,
+            toLateSubmision:type.toLateSubmision,
+            proId : type._id
+
+          }, () => { window.scrollTo(0, 0) })
+
         }
         
 
@@ -257,6 +293,14 @@ class Proposals extends Component {
             status={this.state.deleteSuccesAlert}
             closeAlert={this.closeAlert}
           />
+
+          <Snackpop
+          msg={'Edited Successfully'}
+          color={'success'}
+          time={3000}
+          status={this.state.editAlert}
+          closeAlert={this.closeAlert}
+      />
 
             <Navbar panel={"coordinator"} />
 
@@ -294,7 +338,7 @@ class Proposals extends Component {
             <form onSubmit={this.onSubmit}>
 
             <Row>
-            <p className="pro-link-name">Crate New Proposel</p>
+            <p className="pro-link-name">{this.state.tittle}</p>
             </Row>
 
             <div className="form-group pro-form">
@@ -382,21 +426,42 @@ class Proposals extends Component {
             </Col>
 
         </Row>
-            <Row style={{ marginTop: "10px", marginBottom: "20px" }}>
-                <Button
-                type="submit"
-                className="pro-btn"
-                variant="info"
-                onClick={this.onSubmit}>Add Proposel
-                </Button>
-            </Row>
-            
+        <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
+        <Col md={1}></Col>
+        {this.state.componentType === 'edit' &&
+        <Col>
+          <Button
+              variant='danger'
+              onClick={this.goBack}
+              style={{ width: '100%' }}
+          >
+            Cancel
+          </Button>
+        </Col>}
+        <Col>
+          <Button
+              variant='info'
+              onClick={this.onSubmit}
+              style={{ width: '100%' }}
+          >
+            {this.state.componentType === 'add' &&
+            'Add Submision Now'}
+            {this.state.componentType === 'edit' &&
+            'Edit Now'}
+          </Button>
+        </Col>
+        <Col md={1}></Col>
+      </Row>
+
             </form>
             
             </div>
 
+            
+
             <div>  </div>
-            {this.state.propselList.length > 0 && (
+
+            {this.state.propselList.length > 0 && this.state.componentType === 'add' && (
               <div>
               <div>
               {this.state.propselList.map((type) => {
@@ -409,7 +474,7 @@ class Proposals extends Component {
                       <p className="pcrd_proposel-name">{type.proposelTittle}</p>
                     </Col>
                     <Col className="pcrd_btn-row" md={2} xs={2}>
-                    <EditIcon style={{marginTop: "5px" }} className="edit-btn" fontSize="large" onClick={() => this.onEditHandler(type._id)} />
+                    <EditIcon style={{marginTop: "5px" }} className="edit-btn" fontSize="large" onClick={() => this.onEditHandler(type)} />
                     <DeleteForeverIcon style={{marginTop: "5px" }} className="delete-btn" fontSize="large" onClick={() => this.onDeleteHandler(type._id)} />
                     </Col>
                     
