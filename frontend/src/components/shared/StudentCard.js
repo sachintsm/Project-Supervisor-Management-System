@@ -25,17 +25,17 @@ export default class Index extends Component {
 
         });
 
-        axios.get(backendURI.url + '/indexInfo/' + this.props.id)
+        axios.get(backendURI.url + '/users/getstudentdetails/' + this.props.index)
             .then(res => {
                 this.setState({
-                    firstName: res.data.firstName,
-                    lastName: res.data.lastName,
-                    regNumber: res.data.regNumber,
-                    email: res.data.email,
-                    image: res.data.imageName,
-                    index: res.data.indexNumber,
-                    mobile: res.data.mobile,
-                    cat: res.data.regNumber.substring(5, 7).toUpperCase(),
+                    firstName: res.data.data.firstName,
+                    lastName: res.data.data.lastName,
+                    regNumber: res.data.data.regNumber,
+                    email: res.data.data.email,
+                    image: res.data.data.imageName,
+                    index: res.data.data.indexNumber,
+                    mobile: res.data.data.mobile,
+                    cat: res.data.data.regNumber.substring(5, 7).toUpperCase(),
                 })
             })
 
@@ -43,10 +43,10 @@ export default class Index extends Component {
 
     render() {
         return (
-            <div >
-                <a onClick={this.toggle} >
+            <span >
+                <span onClick={this.toggle} >
                     <span style={{ cursor: "pointer", color: "rgb(16, 141, 212)" }}>{this.props.index}</span>
-                </a>
+                </span>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle} className="index-data">
                         <span className="text-name">
@@ -131,7 +131,7 @@ export default class Index extends Component {
                         </div>
                     </ModalBody>
                 </Modal>
-            </div>
+            </span>
         )
     }
 }

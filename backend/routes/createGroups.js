@@ -296,12 +296,13 @@ router.post("/grouprequest", async (req, res, next) => {
 })
 
 //get request details by user Id ( Not sending leader request )
-router.get("/allgrouprequest/:userId", async (req, res, next) => {
+router.post("/allgrouprequest/:userId", async (req, res, next) => {
     try {
         const userId = req.params.userId
+        const projectId = req.body.project.projectId
         let userIndex = await User.findOne({ _id: userId }).select("indexNumber")
-        let result1 = await GroupRequests.findOne({ pendingList: userIndex.indexNumber })
-        let result2 = await GroupRequests.findOne({ acceptedList: userIndex.indexNumber })
+        let result1 = await GroupRequests.findOne({ pendingList: userIndex.indexNumber, projectId:projectId })
+        let result2 = await GroupRequests.findOne({ acceptedList: userIndex.indexNumber,projectId:projectId })
         let result = null
         if (result1) {
             result = result1
@@ -335,6 +336,20 @@ router.patch("/grouprequest/:id", async (req, res, next) => {
     try {
         const id = req.params.id
         let result = await GroupRequests.findByIdAndUpdate(id, req.body, { new: true })
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
+//get group accepting request by studentId
+router.get("/groupacceptingrequest/:userId",async(req,res,next)=> {
+    try{
+
+        const userId = req.params.userId
+        const index = await User.findOne({_id:userId}).select("indexNumber")
+        const result = await GroupRequests.find({pendingList: index.indexNumber})
         res.send(result)
     }
     catch (e) {
