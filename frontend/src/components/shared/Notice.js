@@ -185,7 +185,7 @@ class Notice extends Component {
     //? load all the active project names from
     axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
       .then((res => {
-        console.log("project List", res.data.data)
+       // console.log("project List", res.data.data)
         this.setState({
           activeProjects: res.data.data
 

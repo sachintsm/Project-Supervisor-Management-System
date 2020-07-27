@@ -1067,6 +1067,19 @@ router.get('/getUser/:id', async (req, res) => {
     })
 })
 
+router.get('/getstudentdetails/:index', async (req, res) => {
+
+  const index = req.params.index;
+  await User.find({ indexNumber: index })
+      .exec()
+      .then(data => {
+        res.json({ state: true, msg: "Data Transfer Successfully..!", data: data[0] });
+      })
+      .catch(error => {
+        res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+      })
+})
+
 
 //? get  user profile image names
 //? (MesasageContainer.js)

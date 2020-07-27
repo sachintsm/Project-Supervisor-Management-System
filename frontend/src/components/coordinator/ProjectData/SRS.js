@@ -46,7 +46,7 @@ export default class SRS extends Component {
         </Tab>
 
 
-        <Tab eventKey="Create Link" title="Create SRS Link" className="pro-tab">
+        <Tab eventKey="Create Link" title="Create SRS" className="pro-tab">
         
         <div>
         <div className="card container pro-link-crd">
