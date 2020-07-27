@@ -30,7 +30,13 @@ var storage = multer.diskStorage({
    
    const upload = multer({ storage: storage }).single("proposelAttachment");
    
+  
+
    router.post("/addProposel", async (req, res) => {
+
+    try {
+
+      req.body.toLateSubmision = false;
 
      upload(req, res, (err) => {
           let ts = Date.now();
@@ -49,11 +55,14 @@ var storage = multer.diskStorage({
 
    const newProposel = new proposel({
         projectId : req.body.projectId,
+        date: req.body.date,
+        time: req.body.time,
         proposelTittle : req.body.proposelTittle,
+        proposelDiscription:req.body.proposelDiscription,
         deadDate : req.body.deadDate,
         deadTime : req.body.deadTime,
         filePath : filePath,
-        state : req.body.state,
+        toLateSubmision: req.body.toLateSubmision,
    })
 
    newProposel
@@ -68,8 +77,74 @@ var storage = multer.diskStorage({
         console.log(err)
    })
   })
-  
-  
+}catch (err) {
+  console.log(err);
+}  
 })
+
+router.get("/proposelAttachment/:filename", function (req, res) {
+  const filename = req.params.filename;
+  res.sendFile(
+    path.join(__dirname, "../local_storage/proposel_Attachment/" + filename)
+  );
+});
+
+router.get('/getSubmisionLink',async (req,res) =>{
+
+  proposel.find()
+  .sort({date:-1}&&{time:-1})
+  .then(data =>{
+    res.send({state:true , data:data , msg:"data transfer successfully.."})
+  }).catch(err=>{
+    res.send({state:false,msg:'data transfer unsuccessfully..'})
+})
+})
+
+router.delete('/deleteSubmision/:_id', verify , async (req,res)=>{
+
+  const proID = req.params._id;
+  proposel.remove({_id : proID})
+  .then((result) =>{
+    res.status(200).json({
+      message: "Deleted Successfully..",
+    });
+  }).catch((error)=>{
+    res.status(500).json({
+      message: "Deleted Unsuccessfully..",
+    });
+  })
+
+})
+
+//update proposel
+router.patch("/:_id", async (req,res)=>{
+// console.log("ssssssssssssss")
+  try{
+    const id = req.params._id;
+    console.log(id)
+    if(!req.body.toLateSubmision){
+      req.body.toLateSubmision = false;
+    }
+
+    const updateProposel = new proposel({
+      projectId : req.body.projectId,
+      date: req.body.date,
+      time: req.body.time,
+      proposelTittle : req.body.proposelTittle,
+      proposelDiscription:req.body.proposelDiscription,
+      deadDate : req.body.deadDate,
+      deadTime : req.body.deadTime,
+     // filePath : filePath,
+      toLateSubmision: req.body.toLateSubmision,
+ });
+
+ const result = await proposel.findByIdAndUpdate(id , updateProposel , {new:true})
+ res.send(result)
+  }catch(err){
+    console.log(err)
+  }
+})
+
+
 
 module.exports = router;
