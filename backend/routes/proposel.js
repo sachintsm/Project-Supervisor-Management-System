@@ -57,6 +57,7 @@ var storage = multer.diskStorage({
         projectId : req.body.projectId,
         date: req.body.date,
         time: req.body.time,
+        projectId : req.body.projectId,
         proposelTittle : req.body.proposelTittle,
         proposelDiscription:req.body.proposelDiscription,
         deadDate : req.body.deadDate,

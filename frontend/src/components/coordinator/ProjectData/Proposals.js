@@ -49,18 +49,27 @@ class Proposals extends Component {
         this.getProposel = this.getProposel.bind(this);
         this.onDeleteHandler= this.onDeleteHandler.bind(this);
 
-    
+   //console.log("Ashan",this.props.match.params.id);
+
         this.state = {
 
           componentType: 'add',
           tittle : "Create New Submision",
-          proposelTittle:"",
+          projectId:this.props.match.params.id,
+          proposelTittle: "",
           proposelDiscription:"",
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
           imgname: '',
           toLateSubmision:false,
+
+
+          // succesAlert: false,
+          // deleteSuccesAlert: false,
+          // warnAlert: false,
+          // snackbaropen: false,
+          // snackbarmsg: "",
 
           propselList :[],
           proId : "",
@@ -145,8 +154,8 @@ class Proposals extends Component {
                     deleteSuccesAlert: true,
                   });
                  // window.location.reload();
-                  this.getNoticeList();
-                  this.getProjectDetails();
+                  this.getProposel();
+                  
                 })
                 .catch((err) => {
                   console.log(err);
@@ -193,6 +202,7 @@ class Proposals extends Component {
                   formData.append("userType",userType);
                   formData.append("date", dateString);
                   formData.append("time", timeString);
+                  formData.append("projectId",this.state.projectId);
                   formData.append("proposelTittle",this.state.proposelTittle);
                   formData.append("proposelDiscription",this.state.proposelDiscription);
                   formData.append("deadDate",this.state.deadDate);
@@ -208,7 +218,7 @@ class Proposals extends Component {
                         succesAlert: true,
                       });
                      // window.location.reload();
-                     
+                     this.getProposel();
                     })
                     .catch((error) => {
                       this.setState({

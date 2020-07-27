@@ -6,6 +6,7 @@ var proposel = Schema({
      projectId : {type: String},
      date: { type: String },
      time:{type:String},
+     projectId:{type:String},
      proposelTittle : {type : String},
      proposelDiscription:{type:String},
      deadDate : {type : String},
