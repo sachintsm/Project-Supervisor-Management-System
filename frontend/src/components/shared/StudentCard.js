@@ -45,7 +45,7 @@ export default class Index extends Component {
         return (
             <span >
                 <span onClick={this.toggle} >
-                    <span style={{ cursor: "pointer", color: "rgb(16, 141, 212)" }}>{this.props.index}</span>
+                    <span style={{ cursor: "pointer", }}>{this.props.index} </span>
                 </span>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle} className="index-data">

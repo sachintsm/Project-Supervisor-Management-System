@@ -7,6 +7,9 @@ import Navbar from "../../shared/Navbar";
 import ProjectDetailsCard from "../ProjectDetailsCard";
 import Footer from "../../shared/Footer";
 import RequestInfo from "./RequestInfo";
+import Snackpop from "../../shared/Snackpop";
+import { confirmAlert } from 'react-confirm-alert';
+
 const backendURI = require('../../shared/BackendURI');
 
 class GroupNotification extends Component {
@@ -24,6 +27,20 @@ class GroupNotification extends Component {
     componentDidMount() {
         this.getGroupFormNotifications();
         this.getGroupRequestNotifications();
+        this.getUserIndex()
+    }
+
+    getUserIndex = () => {
+        const userId = getFromStorage("auth-id").id
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.get(backendURI.url+'/users/get/'+userId,{headers: headers}).then(res=>{
+            let indexNumber = res.data.data[0].indexNumber
+            this.setState({
+                userIndex: indexNumber
+            })
+        })
     }
 
     getGroupFormNotifications = () => {
@@ -31,7 +48,6 @@ class GroupNotification extends Component {
             'auth-token':getFromStorage('auth-token').token,
         }
         const userId = getFromStorage("auth-id").id
-        console.log(userId)
 
         axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
 
@@ -72,14 +88,116 @@ class GroupNotification extends Component {
 
     }
 
+    acceptRequest = (item) => {
+
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Accept this Request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const userIndex = this.state.userIndex
+                        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+                        item.acceptedList.push(userIndex)
+                        this.updateRequest(item, true)
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
+    }
+
+    declineRequest = (item) => {
+
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Decline this Request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const userIndex = this.state.userIndex
+                        item.pendingList = item.pendingList.filter(index=>index!==userIndex)
+                        item.declinedList.push(userIndex)
+                        this.updateRequest(item, false)
+
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
+    }
+
+    updateRequest = (item, state) => {
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
+        axios.patch(backendURI.url+'/createGroups/grouprequest/'+item._id,item,{headers: headers}).then(res=>{
+
+            if(state){
+                this.setState({
+                    acceptedAlert: true,
+                },()=> {
+                    window.location.reload(false);
+                });
+            }
+            else{
+                this.setState({
+                    declinedAlert: true
+                },()=> {
+                    window.location.reload(false);
+                })
+            }
+        })
+
+    }
 
     formGroups = (id) =>{
         this.props.history.push('/studenthome/formgroups/'+id)
     }
 
+    closeAlert = () => {
+        this.setState({
+            acceptedAlert: false,
+            declinedAlert: false,
+        });
+    };
     render() {
         return (
             <React.Fragment>
+
+
+                <Snackpop
+                    msg={'Accepted'}
+                    color={'success'}
+                    time={3000}
+                    status={this.state.acceptedAlert}
+                    closeAlert={this.closeAlert}
+                />
+
+                <Snackpop
+                    msg={'Declined'}
+                    color={'success'}
+                    time={3000}
+                    status={this.state.declinedAlert}
+                    closeAlert={this.closeAlert}
+                />
+
                 <Navbar panel={"student"} />
                 <div className="container-fluid group-notifications">
                     <div className="title-div">
@@ -106,8 +224,8 @@ class GroupNotification extends Component {
                                                     <RequestInfo details={item}/>
                                                 </Col>
                                                 <Col lg={3} md={3} className="btn-col">
-                                                    <Button className="btn btn-info my-btn1" >Accept</Button>
-                                                    <Button className="btn btn-danger my-btn1 mt-2" >Decline</Button>
+                                                    <Button className="btn btn-info my-btn1" onClick={()=>this.acceptRequest(item)}>Accept</Button>
+                                                    <Button className="btn btn-danger my-btn1 mt-2" onClick={()=>this.declineRequest(item)} >Decline</Button>
                                                 </Col>
                                             </Row>
                                         </Card.Body>
