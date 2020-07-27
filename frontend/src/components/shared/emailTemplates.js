@@ -20,8 +20,9 @@ export function supervisorRequestEmail(email, groupNumber,supervisorFirstName,su
         content: `  <div style="background-color: #D5D5D5; width: 100%;">
                         <h1 style="color:#1A3A94; text-align:center; font-weight:bold;">E-supervision</h1>
                     </div>
+                    <h3>by:  ${supervisorFirstName} ${supervisorLastName}</h3>
                     <h3>Dear ${groupNumber},</h3>
-                    <p>Your project request has been accepted by supervisor ${supervisorFirstName} ${supervisorLastName}.You can check it by using following link <link>http://localhost:3000/studenthome/viewproject/requestsupervisor</link></p>
+                    <p>Your project request has been accepted.You can check it by using following link <link>http://localhost:3000/studenthome/viewproject/requestsupervisor</link></p>
                 `
     }
     return mail;
