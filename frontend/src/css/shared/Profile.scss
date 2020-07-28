@@ -276,3 +276,25 @@
         font-weight: 500;
     }
 }
+
+@media  (min-width: 1580px) {
+    .profilepic {
+        //vertical-align: middle;
+        margin-left:20px;
+         width: 250px; 
+         height: 330px; 
+        ///border-radius: 50%;
+    }
+    .password-icon {
+        cursor: pointer;
+        float: right;
+        margin-top: -28px;
+        margin-right: 8px;
+    }
+
+    .testimonial-card {
+        width: 250px;
+        height: 350px;
+    }
+    
+}
