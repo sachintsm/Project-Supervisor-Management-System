@@ -7,6 +7,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import { Row, Col } from "reactstrap";
 import '../../css/shared/Profile.scss';
+import { supervisorRequestEmail } from "../shared/emailTemplates"
 import Footer from '../shared/Footer';
 import Navbar from "../shared/Navbar";
 import { confirmAlert } from 'react-confirm-alert';
@@ -24,7 +25,7 @@ const Pending = React.memo( props =>(
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
         <td><ButtonToolbar>
-        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id)} >Accept</Button> 
+        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId,props.req.supFirstName,props.req.supLastName)} >Accept</Button> 
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
@@ -65,6 +66,7 @@ export default class ViewRequest extends Component {
             isSupervisor: '',
             search: '',
             reqS: [],
+            emailA:[],
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
@@ -104,7 +106,7 @@ export default class ViewRequest extends Component {
                 console.log(error);
             })
     }
-    reqSendAccept(req){
+    reqSendAccept(req,group,fName,lName){
         const id = req;
         confirmAlert({
             title: 'Confirm to submit',
@@ -119,7 +121,7 @@ export default class ViewRequest extends Component {
                         };
                         console.log(req);
                         axios.post(backendURI.url + "/users/updateReqState/" +id, obj)
-                                    .then(res => {
+                                    .then(res=> {
                                         
                                         console.log(res.data)
                                         if (res.data.state === true) {
@@ -128,7 +130,34 @@ export default class ViewRequest extends Component {
                                                 snackbarmsg: res.data.msg,
                                                 snackbarcolor: 'success',
                                             })
-                                            window.location.reload(false);
+
+                                            axios.post(backendURI.url + '/users/getIndexNumbers/' + id,obj)
+                                                .then(async(response) => {
+                                                    console.log(response.data.data[0]);
+                                                    this.setState({
+                                                        emailA: response.data.data
+                                                    })
+                                                    if(this.state.emailA.length === 0){
+                                                        console.log('no data');
+                                                    }
+                                                    else{
+                                                        for(var i=0; i<this.state.emailA.length; i++){
+                                                            const email = await supervisorRequestEmail(this.state.emailA[i],group, fName, lName)
+                                                                axios.post(backendURI.url + '/mail/sendmail', email)
+                                                                .then(res => {
+                                                                    console.log(res);
+                                                                })
+                                                        }
+                                                    }
+                                                    window.location.reload();
+
+                                                })
+                                                .catch(function (error) {
+                                                    console.log(error);
+                                                })
+
+                                          
+                                          
                                         }
                                         else {
                                             this.setState({
