@@ -57,6 +57,7 @@ var storage = multer.diskStorage({
         projectId : req.body.projectId,
         date: req.body.date,
         time: req.body.time,
+        projectId : req.body.projectId,
         proposelTittle : req.body.proposelTittle,
         proposelDiscription:req.body.proposelDiscription,
         deadDate : req.body.deadDate,
@@ -89,9 +90,12 @@ router.get("/proposelAttachment/:filename", function (req, res) {
   );
 });
 
-router.get('/getSubmisionLink',async (req,res) =>{
+router.get('/getSubmisionLink/:_id', async (req,res) =>{
 
-  proposel.find()
+  projectId = req.params._id
+  console.log(projectId)
+
+  proposel.find({projectId : projectId})
   .sort({date:-1}&&{time:-1})
   .then(data =>{
     res.send({state:true , data:data , msg:"data transfer successfully.."})
@@ -116,34 +120,81 @@ router.delete('/deleteSubmision/:_id', verify , async (req,res)=>{
 
 })
 
-//update proposel
-router.patch("/:_id", async (req,res)=>{
-// console.log("ssssssssssssss")
-  try{
-    const id = req.params._id;
-    console.log(id)
-    if(!req.body.toLateSubmision){
-      req.body.toLateSubmision = false;
-    }
-
-    const updateProposel = new proposel({
-      projectId : req.body.projectId,
-      date: req.body.date,
-      time: req.body.time,
-      proposelTittle : req.body.proposelTittle,
-      proposelDiscription:req.body.proposelDiscription,
-      deadDate : req.body.deadDate,
-      deadTime : req.body.deadTime,
-     // filePath : filePath,
-      toLateSubmision: req.body.toLateSubmision,
- });
-
- const result = await proposel.findByIdAndUpdate(id , updateProposel , {new:true})
- res.send(result)
-  }catch(err){
-    console.log(err)
+router.delete("/proposelAttachment/:filename", function (req, res) {
+  const filename = req.params.filename;
+  // console.log('djankv' , filename)
+  const path = 'local_storage/proposel_Attachment/' + filename;
+  try {
+      fs.unlinkSync(path)
+      res.status(200).json({
+          message: 'Delete the file successfully..!'
+      })
+      //file removed
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({
+          msg:'deleted unsuccessful..'
+      });
   }
-})
+});
+
+
+
+
+router.post('/updateProposel/:_id', (req, res) => {  // update methord 
+  const proId = req.params._id;
+ console.log(proId)
+ try {
+  //const proId = req.params._id;
+
+  req.body.toLateSubmision = false;
+
+ upload(req, res, (err) => {
+
+  let ts = Date.now();
+       let date_ob = new Date(ts);
+       const time =
+         date_ob.getDate() +
+         date_ob.getMonth() +
+         1 +
+         date_ob.getFullYear() +
+         date_ob.getHours() +
+         date_ob.getSeconds();
+
+  const fullPath = "PROPOSEL_FILE - " + time + req.file.originalname;
+  
+          const input = {  
+
+            projectId : req.body.projectId,
+            date: req.body.date,
+            time: req.body.time,
+            projectId : req.body.projectId,
+            proposelTittle : req.body.proposelTittle,
+            proposelDiscription:req.body.proposelDiscription,
+            deadDate : req.body.deadDate,
+            deadTime : req.body.deadTime,
+            filePath : fullPath,
+            toLateSubmision: req.body.toLateSubmision,
+              
+          }
+         // console.log("Id",proId);
+
+          proposel.update({ _id: proId}, { $set: input }
+              )
+              .exec()
+              .then(data => {
+                  console.log('Proposel update successe.')
+                  res.json({ state: true, msg: 'Proposel update success..' });
+              })
+              .catch(error => {
+                  console.log('Proposel update unsuccessfull..')
+                  res.json({ state: false, msg: 'Peoposel update unsuccess..' });
+              })
+  });
+}catch(err){
+  console.log(err);
+}  
+});
 
 
 

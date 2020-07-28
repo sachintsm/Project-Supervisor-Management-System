@@ -83,6 +83,9 @@ class ViewProject extends Component {
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupDetails._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
+    submisionView = (project) => {
+        this.props.history.push('/studenthome/submisionview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+    }
 
     viewMeetings = (project) => {        
         this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
@@ -130,7 +133,7 @@ class ViewProject extends Component {
                         </Col>
                         <Col lg={4} md={4} xs={3} sm={3} className="btn-card-col"></Col>
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
-                            <Card className="btn-card">
+                            <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <FiUploadCloud />
