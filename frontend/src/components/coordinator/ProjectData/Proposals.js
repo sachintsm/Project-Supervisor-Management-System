@@ -358,7 +358,7 @@ class Proposals extends Component {
 
             <div className="form-group pro-form">
             <label >Proposel Tittle :</label>
-            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Proposel Tittle"
+            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper"
             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
             </div>
 
