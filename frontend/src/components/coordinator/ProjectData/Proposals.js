@@ -122,7 +122,7 @@ class Proposals extends Component {
     }
 
     getProposel(){
-      axios.get(backendURI.url +'/proposel/getSubmisionLink')
+      axios.get(backendURI.url +'/proposel/getSubmisionLink/'+ this.state.projectId)
       .then((res=>{
        // console.log("ssssssssssssss", res.data.data)
         this.setState({
@@ -239,7 +239,7 @@ class Proposals extends Component {
                   
                 } if(this.state.componentType === 'edit'){
                   
-                  axios.patch(backendURI.url + "/proposel/" + this.state.id, this.state,{headers:headers})
+                  axios.post(backendURI.url + "/proposel/updateProposel/" + this.state.proId,formData,{headers:headers})
                   .then(res=>{
 
                   }).catch(err =>{
@@ -281,7 +281,12 @@ class Proposals extends Component {
 
         }
         
-
+        closeAlert = () => {
+          this.setState({
+            succesAlert: false,
+            deleteSuccesAlert: false,
+          });
+        }
 
     render() {
 
