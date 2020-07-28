@@ -49,18 +49,27 @@ class Proposals extends Component {
         this.getProposel = this.getProposel.bind(this);
         this.onDeleteHandler= this.onDeleteHandler.bind(this);
 
-    
+   //console.log("Ashan",this.props.match.params.id);
+
         this.state = {
 
           componentType: 'add',
           tittle : "Create New Submision",
-          proposelTittle:"",
+          projectId:this.props.match.params.id,
+          proposelTittle: "",
           proposelDiscription:"",
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
           imgname: '',
           toLateSubmision:false,
+
+
+          // succesAlert: false,
+          // deleteSuccesAlert: false,
+          // warnAlert: false,
+          // snackbaropen: false,
+          // snackbarmsg: "",
 
           propselList :[],
           proId : "",
@@ -113,7 +122,7 @@ class Proposals extends Component {
     }
 
     getProposel(){
-      axios.get(backendURI.url +'/proposel/getSubmisionLink')
+      axios.get(backendURI.url +'/proposel/getSubmisionLink/'+ this.state.projectId)
       .then((res=>{
        // console.log("ssssssssssssss", res.data.data)
         this.setState({
@@ -145,8 +154,8 @@ class Proposals extends Component {
                     deleteSuccesAlert: true,
                   });
                  // window.location.reload();
-                  this.getNoticeList();
-                  this.getProjectDetails();
+                  this.getProposel();
+                  
                 })
                 .catch((err) => {
                   console.log(err);
@@ -193,6 +202,7 @@ class Proposals extends Component {
                   formData.append("userType",userType);
                   formData.append("date", dateString);
                   formData.append("time", timeString);
+                  formData.append("projectId",this.state.projectId);
                   formData.append("proposelTittle",this.state.proposelTittle);
                   formData.append("proposelDiscription",this.state.proposelDiscription);
                   formData.append("deadDate",this.state.deadDate);
@@ -208,7 +218,7 @@ class Proposals extends Component {
                         succesAlert: true,
                       });
                      // window.location.reload();
-                     
+                     this.getProposel();
                     })
                     .catch((error) => {
                       this.setState({
@@ -229,7 +239,7 @@ class Proposals extends Component {
                   
                 } if(this.state.componentType === 'edit'){
                   
-                  axios.patch(backendURI.url + "/proposel/" + this.state.id, this.state,{headers:headers})
+                  axios.post(backendURI.url + "/proposel/updateProposel/" + this.state.proId,formData,{headers:headers})
                   .then(res=>{
 
                   }).catch(err =>{
@@ -271,7 +281,12 @@ class Proposals extends Component {
 
         }
         
-
+        closeAlert = () => {
+          this.setState({
+            succesAlert: false,
+            deleteSuccesAlert: false,
+          });
+        }
 
     render() {
 
@@ -343,7 +358,7 @@ class Proposals extends Component {
 
             <div className="form-group pro-form">
             <label >Proposel Tittle :</label>
-            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Proposel Tittle"
+            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper"
             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
             </div>
 

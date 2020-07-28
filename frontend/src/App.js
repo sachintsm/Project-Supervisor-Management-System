@@ -46,6 +46,7 @@ import ViewProject from "./components/student/ViewProject";
 import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
+import SubmisionView from "./components/student/SubmisionView"
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -118,6 +119,8 @@ function App() {
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
           <Route exact path='/studenthome/notifications' component={GroupNotification}></Route>
           <Route exact path='/studenthome/formgroups/:projectId' component={FormGroups}></Route>
+          <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
+
 
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>
