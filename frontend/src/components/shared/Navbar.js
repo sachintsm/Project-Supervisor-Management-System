@@ -39,7 +39,8 @@ export default class navbar extends Component {
       logout: false,
       count: 0,
       reqId: [],
-      userLevel: localStorage.getItem("user-level")
+      userLevel: localStorage.getItem("user-level"),
+      groupNotificationCount: 0
     };
     this.logout = this.logout.bind(this);
     this.readRequest = this.readRequest.bind(this);
@@ -93,7 +94,7 @@ export default class navbar extends Component {
   async componentDidMount() {
 
     if(this.state.userLevel=="student"){
-      this.getGroupFormNotificationCount()
+      this.getStudentNotificationCount()
     }
 
     const userData = getFromStorage('auth-id')
@@ -115,18 +116,42 @@ export default class navbar extends Component {
         console.log(error)
       })
   }
-  getGroupFormNotificationCount = () => {
+
+  getStudentNotificationCount = () => {
     const headers = {
       'auth-token':getFromStorage('auth-token').token,
     }
     const userId = getFromStorage("auth-id").id
+
     axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
+
+      res.data.map(item => {
+        let project = {
+          projectId: item._id
+        }
+        axios.post(backendURI.url+'/createGroups/allgrouprequest/'+userId,{project},{headers: headers}).then(res2=>{
+          if(res2.data){
+
+          }
+          else{
+            this.setState({
+              groupNotificationCount: this.state.groupNotificationCount +1
+            })
+          }
+        })
+      })
       this.setState({
-        groupNotificationCount: res.data.length
+        loading:false
       })
     })
 
+    axios.get(backendURI.url + '/createGroups/groupacceptingrequest/' + userId, {headers: headers}).then(res => {
+      this.setState({
+        groupNotificationCount: this.state.groupNotificationCount + res.data.length
+      })
+    })
   }
+
   render() {
     // console.log(this.state.userLevel)
     if (this.state.logout) {
