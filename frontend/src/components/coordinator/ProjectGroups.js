@@ -43,6 +43,9 @@ class ProjectGroups extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
+            mouseState: false,
+
+
         }
         this.deleteGroup = this.deleteGroup.bind(this)
         this.searchGroups = this.searchGroups.bind(this);
@@ -54,7 +57,7 @@ class ProjectGroups extends Component {
 
     async componentDidMount() {
         const authState = await verifyAuth();
-        
+
         this.setState({
             authState: authState,
         });
@@ -67,7 +70,7 @@ class ProjectGroups extends Component {
         //? load all the active project names from
         axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
             .then((res => {
-                console.log("ddddd",res.data.data)
+                console.log("ddddd", res.data.data)
                 this.setState({
                     activeProjects: res.data.data
                 })
@@ -81,7 +84,7 @@ class ProjectGroups extends Component {
             projectId: val
         })
 
-        
+
     }
 
     async searchGroups() {
@@ -93,7 +96,7 @@ class ProjectGroups extends Component {
         await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
             .then(res => {
 
-           
+
                 this.setState({
                     groupData: res.data.data
                 })
@@ -144,7 +147,9 @@ class ProjectGroups extends Component {
 
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId , pId : this.state.projectId});
+        if (this.state.mouseState == false) {
+            this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId, pId: this.state.projectId });
+        }
     }
 
     //?delete the group
@@ -223,59 +228,65 @@ class ProjectGroups extends Component {
 
                     <div className="card pg-search-card">
                         <div className="container">
-                            <p className="pg-reg-head">Project Group Details</p>
-
-                            <Row >
-                                <Col md="10" xs="12">
-                                    <div className="form-group pg-dropdown-select">
-                                        <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                            <option>Select the project</option>
-                                            {activeProjectsList}
-                                        </select>
-                                    </div>
-                                </Col>
-                                <Col md="2" xs="12">
-                                    <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
-                                </Col>
-                            </Row>
-                        </div>
-                        {spinnerDiv && (
-                            <div className="spinner">
-                                <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
-                            </div>
-                        )}
-                        {dataDiv && (
                             <div className="container">
-                                <p className="pg-details-head">Project Groups</p>
 
-                                {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                <Table hover className="pg-table project-groups" >
+                                <p className="pg-reg-head">Project Group Details</p>
 
-                                    <thead>
-                                        <tr>
-                                            <th className="table-head">Group</th>
-                                            <th className="table-head">Members' Ids</th>
-                                            <th className="table-head">Supervisors</th>
-                                            <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.groupDataBlock.map((item) => {
-                                            return (
-                                                <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                    <td className="table-body">{item.groupId}</td>
-                                                    <td className="table-body">{item.groupMembers}</td>
-                                                    <td className="table-body">{item.supervisors}</td>
-                                                    <td style={{ textAlign: 'center' }}><DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} /></td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </Table>
+                                <Row >
+                                    <Col md="10" xs="12">
+                                        <div className="form-group pg-dropdown-select">
+                                            <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                                <option>Select the project</option>
+                                                {activeProjectsList}
+                                            </select>
+                                        </div>
+                                    </Col>
+                                    <Col md="2" xs="12">
+                                        <button className="btn btn-info pg-btn" style={{ width: '100%' }} onClick={this.searchGroups}>Search</button>
+                                    </Col>
+                                </Row>
                             </div>
-                        )}
-                    </div>
+                            {spinnerDiv && (
+                                <div className="spinner">
+                                    <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
+                                </div>
+                            )}
+                            {dataDiv && (
+                                <div className="container">
+                                    <p className="pg-details-head">Project Groups</p>
 
+                                    {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
+                                    <Table hover className="pg-table project-groups" >
+
+                                        <thead>
+                                            <tr>
+                                                <th className="table-head">Group</th>
+                                                <th className="table-head">Members' Ids</th>
+                                                <th className="table-head">Supervisors</th>
+                                                <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.state.groupDataBlock.map((item) => {
+                                                return (
+                                                    <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
+                                                        <td className="table-body">{item.groupId}</td>
+                                                        <td className="table-body">{item.groupMembers}</td>
+                                                        <td className="table-body">{item.supervisors}</td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
+                                                                <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} />
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 <Footer />

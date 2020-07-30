@@ -4,13 +4,15 @@ const Schema  = mongoose.Schema;
 var proposel = Schema({
 
      projectId : {type: String},
+     date: { type: String },
+     time:{type:String},
+     projectId:{type:String},
      proposelTittle : {type : String},
+     proposelDiscription:{type:String},
      deadDate : {type : String},
      deadTime : {type : String},
      filePath: { type: String },
-     isopen : {type : Boolean},
-     ispending : {type : Boolean},
-     isclose : {type : Boolean}
+     toLateSubmision:{type: Boolean},
 
 
      

@@ -118,7 +118,7 @@ class SupervisorData extends Component {
             })
     }
     onClickGroup(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId, pId: this.props.location.state.projectId });
+        this.props.history.push('/coordinatorhome/groupData/' + data, {  projectId: this.props.location.state.projectId });
     }
 
     render() {

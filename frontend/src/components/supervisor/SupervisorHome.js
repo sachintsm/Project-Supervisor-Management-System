@@ -1,9 +1,7 @@
-
-
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
-import '../../css/supervisor/SupervisorHome.css'
+import '../../css/supervisor/SupervisorHome.scss'
 import Footer from "../shared/Footer";
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios';
@@ -36,6 +34,7 @@ class finalBlock {
 class SupervisorHome extends Component {
 
   constructor(props) {
+    localStorage.setItem("user-level", "supervisor")
     super(props);
     this.state = {
       snackbaropen: false,
@@ -59,6 +58,8 @@ class SupervisorHome extends Component {
   }
 
   componentDidMount = async () => {
+    localStorage.setItem("user-level", "supervisor")
+
     const authState = await verifyAuth();
 
     this.setState({
@@ -174,9 +175,6 @@ class SupervisorHome extends Component {
   render() {
 
     const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
-
-
-
     return (
       <div className="sh-fullpage">
         <Navbar panel={"supervisor"} />
@@ -213,12 +211,7 @@ class SupervisorHome extends Component {
                 )
               })}
             </Row>
-
-
-
-
           </div>
-
         </div>
         <Footer />
       </div>

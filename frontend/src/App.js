@@ -28,14 +28,14 @@ import Groups from './components/coordinator/ProjectData/Groups';
 import Proposals from './components/coordinator/ProjectData/Proposals';
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
+import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
+import GroupSRS from './components/coordinator/GroupData/GroupSubmissions/SRS';
+import GroupProposal from './components/coordinator/GroupData/GroupSubmissions/Proposal';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeetings';
 import ViewProgressSupervisor from './components/supervisor/Progress/ViewProgress';
-
-
-
 import ViewRequest from './components/supervisor/ViewRequest';
 
 import NoticeView from './components/shared/NoticeView';
@@ -46,10 +46,13 @@ import ViewProject from "./components/student/ViewProject";
 import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
+import SubmisionView from "./components/student/SubmisionView"
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
 import ViewTask from "./components/student/progress/ViewTask";
+import GroupNotification from "./components/student/formgroups/GroupNotification";
+import FormGroups from "./components/student/formgroups/FormGroups";
 
 require('dotenv').config();
 
@@ -79,7 +82,6 @@ function App() {
           <Route exact path='/coordinatorhome' component={CoordinatorHome}></Route>
           <Route exact path='/coordinatorhome/createGroups' component={CreateGroup}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
-          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
           <Route exact path='/shared/notice' component={Notice}></Route>
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/coordinatorhome/projectGroups' component={ProjectGroups}></Route>
@@ -92,14 +94,16 @@ function App() {
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
+          <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
+          <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
+          <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
+          <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
 
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
           <Route path='/supervisorhome/groupData/:id' component={GroupDataSupervisor}></Route>
           <Route path='/supervisorhome/viewMeetings' component={ViewMeetingsSupervisor}></Route>
           <Route path='/supervisorhome/viewProgress' component={ViewProgressSupervisor}></Route>
-
-
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
@@ -111,8 +115,12 @@ function App() {
           <Route exact path='/studenthome/viewproject/progresstasks' component={Tasks}></Route>
           <Route exact path='/studenthome/viewproject/progresstasks/viewtask' component={ViewTask}></Route>
           <Route exact path='/shared/notice' component={NoticeView}></Route>
-          <Route exact path='/studenthome/requestsupervisor' component={RequestSupervisor}></Route>
+          <Route exact path='/studenthome/viewproject/requestsupervisor' component={RequestSupervisor}></Route>
           <Route exact path='/student/viewMeeting' component={ViewMeeting}></Route>
+          <Route exact path='/studenthome/notifications' component={GroupNotification}></Route>
+          <Route exact path='/studenthome/formgroups/:projectId' component={FormGroups}></Route>
+          <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
+
 
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>

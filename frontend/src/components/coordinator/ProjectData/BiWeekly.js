@@ -58,7 +58,7 @@ export default class BiWeekly extends Component {
                 </Tab>
     
     
-                <Tab eventKey="Create Link" title="Create BiWeekly Link" className="pro-tab">
+                <Tab eventKey="Create Link" title="Create BiWeekly" className="pro-tab">
                 
                 <div>
                 <div className="card container pro-link-crd">

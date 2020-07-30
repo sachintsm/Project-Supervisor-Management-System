@@ -37,6 +37,10 @@ export default class Groups extends Component {
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
+
+            projectId: '',
+            mouseState: false,
+
         }
     }
     closeAlert = () => {
@@ -44,7 +48,9 @@ export default class Groups extends Component {
     };
 
     componentDidMount = async () => {
-        console.log(this.props);
+        this.setState({
+            projectId: this.props.match.params.id
+        })
 
         const authState = await verifyAuth();
 
@@ -119,7 +125,9 @@ export default class Groups extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId , pId : this.props.match.params.id});
+        if (this.state.mouseState == false) {
+            this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
+        }
     }
 
     //?delete the group
@@ -176,14 +184,14 @@ export default class Groups extends Component {
     }
 
     render() {
-        const { spinnerDiv, dataDiv } = this.state;
+        const { spinnerDiv, dataDiv, mouseState } = this.state;
         let noProject;
         if (this.state.groupData.length === 0) {
             noProject = <p className="no-projects">No active groups...</p>
         }
         return (
             <React.Fragment>
-                <Navbar panel={"coordinator"}/>
+                <Navbar panel={"coordinator"} />
                 <Snackpop
                     msg={this.state.snackbarmsg}
                     color={this.state.snackbarcolor}
@@ -223,7 +231,11 @@ export default class Groups extends Component {
                                                 <td className="table-body">{item.groupId}</td>
                                                 <td className="table-body">{item.groupMembers}</td>
                                                 <td className="table-body">{item.supervisors}</td>
-                                                <td style={{ textAlign: 'center' }}><DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} /></td>
+                                                <td style={{ textAlign: 'center' }}>
+                                                    <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
+                                                        <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} />
+                                                    </span>
+                                                </td>
                                             </tr>
                                         )
                                     })}

@@ -33,12 +33,12 @@ export default class CreateGroups extends Component {
 
             csvData: [],
 
-            groupId: '',
+            // groupId: '',
             projectId: '',
             grpMembers: [],
 
             selectProjectError: '',
-            groupIdError: '',
+            // groupIdError: '',
         };
     }
 
@@ -66,11 +66,11 @@ export default class CreateGroups extends Component {
                 })
             }))
     }
-    onChangeGroupId = (e) => {
-        this.setState({
-            groupId: e.target.value
-        })
-    }
+    // onChangeGroupId = (e) => {
+    //     this.setState({
+    //         groupId: e.target.value
+    //     })
+    // }
 
     //? Bulk user registration function reading csv file
     fileUpload = (e) => {
@@ -113,7 +113,7 @@ export default class CreateGroups extends Component {
                                 }
                                 var data = {
                                     projectId: this.state.projectId,
-                                    groupId: this.state.csvData[i][0],
+                                    // groupId: this.state.csvData[i][0],
                                     groupMembers: this.state.grpMembers
                                 }
 
@@ -180,17 +180,17 @@ export default class CreateGroups extends Component {
         let isError = false;
         const errors = {
             selectProjectError: '',
-            groupIdError: '',
+            // groupIdError: '',
         };
         if (this.state.projectId.length === 0) {
             console.log('Error: key is missing..!')
             isError = true;
             errors.selectProjectError = 'Please select a project *'
         }
-        if (this.state.groupId.length === 0) {
-            isError = true;
-            errors.groupIdError = 'Please specify group ID *'
-        }
+        // if (this.state.groupId.length === 0) {
+        //     isError = true;
+        //     errors.groupIdError = 'Please specify group ID *'
+        // }
         this.setState({
             ...this.state,
             ...errors
@@ -206,7 +206,7 @@ export default class CreateGroups extends Component {
         if (!err) {
             this.setState({
                 selectProjectError: '',
-                groupIdError: '',
+                // groupIdError: '',
             })
             confirmAlert({
                 title: 'Confirm to submit',
@@ -219,7 +219,7 @@ export default class CreateGroups extends Component {
 
                             const data = {
                                 projectId: this.state.projectId,
-                                groupId: this.state.groupId,
+                                // groupId: this.state.groupId,
                                 groupMembers: this.state.grpMembers
                             }
 
@@ -403,7 +403,7 @@ export default class CreateGroups extends Component {
                                                         </div>
                                                     </Col>
                                                 </Row>
-                                                <Row>
+                                                {/* <Row>
                                                     <Col>
                                                         <div className="form-group">
                                                             <input className="form-control" type="text" name="groupId" placeholder="Enter group id ..."
@@ -412,7 +412,7 @@ export default class CreateGroups extends Component {
                                                             <p className="reg-error">{this.state.groupIdError}</p>
                                                         </div>
                                                     </Col>
-                                                </Row>
+                                                </Row> */}
 
                                                 <label className="text-label">Group Member Index: </label>
                                                 {

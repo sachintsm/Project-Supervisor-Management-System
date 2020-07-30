@@ -7,6 +7,7 @@ const ProgressTasks = require('../models/progresstasks');
 const User = require('../models/users');
 const ProgressUpdates = require('../models/progressupdates');
 
+
 //add project tasks
 router.post('/addtask', verify, async (req, res, next) => {
     try {
@@ -64,7 +65,7 @@ router.get('/gettasks/:id',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+        console.log(e)
     }
 })
 
@@ -76,7 +77,7 @@ router.get('/gettaskdetails/:id',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+        console.log(e)
     }
 })
 
@@ -92,7 +93,11 @@ router.get('/gettotalprogress/:groupId', async(req,res,next) =>{
             totalWeight = totalWeight + tasks[i].taskWeight
         }
         const totalProgress = percentSum/totalWeight
-        res.send(""+Math.round(totalProgress * 100) / 100)
+        var string  = ""+Math.round(totalProgress * 100) / 100
+        if(tasks.length==0){
+            string = ""+0
+        }
+        res.send(string)
     }
     catch (e) {
         console.log(e)
@@ -105,9 +110,7 @@ router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
         const index = req.params.studentIndex
         const groupId = req.body.groupId
         const userId = await User.findOne({indexNumber:index}).select('_id');
-        // console.log(userId)
         const tasks = await ProgressTasks.find({studentList:userId._id, groupId:groupId})
-        // console.log(tasks)
         let progress = 0;
         let totalWeight = 0;
         for(let i in tasks){
@@ -169,7 +172,6 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
         let prevTotalProgress = task.totalProgress;
         for(let j in task.studentList){ //get the array index of student
             if(task.studentList[j] == userId){
-                console.log(j)
                 studentIndex = j;
                 prevStudentProgress = task.studentProgress[j]; // individual progress of the student
             }
@@ -187,7 +189,6 @@ router.post('/addprogressupdate', verify, async (req, res, next) => {
         }
         let studentProgress = task.studentProgress;
         studentProgress[studentIndex] = newProgress;
-        console.log(studentProgress)
 
         const obj = {
             totalProgress: totalProgress,
@@ -211,7 +212,7 @@ router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+        console.log(e)
     }
 })
 
@@ -222,7 +223,7 @@ router.get('/getprojectprogressupdates/:groupId',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+        console.log(e)
     }
 })
 
@@ -233,7 +234,7 @@ router.get('/gettaskprogressupdates/:taskId',async(req,res,next) =>{
         res.send(result)
     }
     catch (e) {
-
+        console.log(e)
     }
 })
 

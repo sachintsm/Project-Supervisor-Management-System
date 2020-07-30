@@ -53,9 +53,15 @@
         color: red;
         font-size: 10px;
     }
+    .spinner {
+        margin: auto;
+    }
 }
 
 .user-registration{
+    .spinner {
+        margin: auto;
+    }
     @media screen and (max-width: 500px) {
         .image-div {
             display: none;

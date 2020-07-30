@@ -4,7 +4,6 @@ const ContactUs = require('../models/contactUs');
 
 //Get all
 router.route('/').get(function(req, res) {
-    console.log("Message requested");
     ContactUs.find(function(err, message) {
         if (err) {
             console.log(err);
@@ -17,7 +16,6 @@ router.route('/').get(function(req, res) {
 
 //Post
 router.post('/add', (req, res) => {
-    console.log(req.body);
     const newContactUs = new ContactUs({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -29,7 +27,6 @@ router.post('/add', (req, res) => {
 
     newContactUs.save()
         .then(result => {
-            console.log(result)
             res.json({ state: true, msg: "Message sent Successfully..!" });
         })
         .catch(error => {

@@ -14,20 +14,43 @@ class MessagesContainer extends Component {
         this.state = {
             userId: '',
             imagename: '',
+            userData: [],
 
-            messages: this.props.messages
+            finalBlock: [],
         }
     }
 
-    componentDidMount() {
-        console.log("saa")
-    }
-    render() {
-        console.log("render")
+    async componentDidMount() {
+        console.log(this.props.messages.userId);
+        console.log(this.props.userData[0]);
 
+        const userId = getFromStorage('auth-id').id
+        this.setState({
+            userId: userId,
+        })
+
+
+        for (var l = 0; l < this.props.userData.length; l++) {
+            if (this.props.userData[l]._id === this.props.messages.userId) {
+                const block = {
+                    userId: this.props.userData[l]._id,
+                    userName: this.props.userData[l].userName,
+                    profileImage: this.props.userData[l].profileImage,
+                    message: this.props.messages.message
+                }
+                this.setState({
+                    finalBlock: [...this.state.finalBlock, block]
+                })
+            }
+
+        }
+    }
+
+    render() {
         this.state.userId = getFromStorage('auth-id').id;
-        let messageContainer = this.props.messages.length > 0
-            && this.props.messages.map((message, i) => {             
+        let messageContainer = this.state.finalBlock.length > 0
+            && this.state.finalBlock.map((message, i) => {
+
                 if (message.userId === this.state.userId) {
                     return (
                         <div className="container x" key={i}>
@@ -51,9 +74,9 @@ class MessagesContainer extends Component {
                         <div className="container x" key={i}>
                             <Row>
                                 <Col md={1} xs={2}>
-                                   
+
                                     {/* <AccountCircleIcon style={{ fontSize: "35px" }} className="chat-propic" /> */}
-                                    <img  className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
+                                    <img className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
 
                                 </Col>
                                 <Col md={6} xs={8} className="mc-chat-card">
