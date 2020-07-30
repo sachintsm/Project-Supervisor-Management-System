@@ -72,10 +72,10 @@ class ProgressUpdates extends Component {
                                 <Col lg={9} md={9} sm={12}>
                                     { this.renderDate(item) }
                                     <Row>
-                                        <Col md={4} lg={4} sm={12} xs={12}>
+                                        <Col md={6} lg={6} sm={12} xs={12}>
                                             <span className="description">{ item.description}</span>
                                         </Col>
-                                        <Col md={8} lg={8} sm={12} xs={12}>
+                                        <Col md={6} lg={6} sm={12} xs={12}>
                                             {this.state.taskTitleShow && <span className="task-title"><span className="task-title-span">{item.taskTitle} </span></span>}
                                         </Col>
                                     </Row>
