@@ -27,10 +27,17 @@ const Meet = React.memo(props => (
 ));
 
 const MeetConfirmed = React.memo(props => (
+
+    // const date :  new Date(props.meetconfirmed.date)
+
+    // var dt : date.toDateString()
+
+    // console.log(dt);
+
     <tr>
         <td className="table-body">{props.meetconfirmed.groupId}</td>
         <td className="table-body">{props.meetconfirmed.purpose}</td>
-        <td className="table-body">{props.meetconfirmed.date}</td>
+        <td className="table-body">{props.meetconfirmed.date.substring(0, 10)}</td>
         <td className="table-body">{props.meetconfirmed.time}</td>
     </tr>
 ));
@@ -59,6 +66,7 @@ class ViewMeetings extends Component {
 
             meetings: [],
         }
+
 
 
     }
@@ -91,6 +99,15 @@ class ViewMeetings extends Component {
 
         await axios.get(backendURI.url + '/requestMeeting/getsupervisor/' + this.state.userId)
             .then(response => {
+                console.log(response.data.data[0].date);
+                
+
+                let date =  new Date(response.data.data[0].date)
+                let dt = date.toDateString()
+
+                console.log(dt);
+                
+
                 this.setState({ meetings: response.data.data });
             })
             .catch(function (error) {
@@ -101,7 +118,10 @@ class ViewMeetings extends Component {
 
 
 
+
+
     }
+
 
     MeetList() {
 
