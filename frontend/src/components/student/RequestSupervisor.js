@@ -47,7 +47,6 @@ function ProjectModal(props) {
                                     <td>{result.projectYear}</td>
                                     <td>{result.projectType}</td>
                                     <td>{result.academicYear}</td>
-                                    <td>5</td>
                                     </tr> 
                                     )
                             })}

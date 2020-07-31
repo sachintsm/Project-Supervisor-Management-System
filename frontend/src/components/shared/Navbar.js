@@ -23,9 +23,27 @@ import { FiSettings } from 'react-icons/fi';
 import { BsPerson } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import Icon from '@material-ui/core/Icon';
+import {makeStyles} from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 const backendURI = require("./BackendURI");
+
+const useStylesBootstrap1 = makeStyles((theme) => ({
+  arrow: {
+    color: "#263238",
+  },
+  tooltip: {
+    backgroundColor: "#263238",
+    fontSize: "14px",
+    color: '#CCC'
+  },
+}));
+function BootstrapTooltip1(props) {
+  const classes = useStylesBootstrap1();
+  return <Tooltip arrow classes={classes} {...props} />;
+}
+
 export default class navbar extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +57,8 @@ export default class navbar extends Component {
       logout: false,
       count: 0,
       reqId: [],
-      userLevel: localStorage.getItem("user-level")
+      userLevel: localStorage.getItem("user-level"),
+      groupNotificationCount: 0
     };
     this.logout = this.logout.bind(this);
     this.readRequest = this.readRequest.bind(this);
@@ -93,10 +112,13 @@ export default class navbar extends Component {
   async componentDidMount() {
 
     if(this.state.userLevel=="student"){
-      this.getGroupFormNotificationCount()
+      this.getStudentNotificationCount()
     }
 
     const userData = getFromStorage('auth-id')
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
     // const userType = getFromStorage('user-level')
     // alert(this.state.panel);
     // this.setState({ userType: userType })
@@ -112,18 +134,42 @@ export default class navbar extends Component {
         console.log(error)
       })
   }
-  getGroupFormNotificationCount = () => {
+
+  getStudentNotificationCount = () => {
     const headers = {
       'auth-token':getFromStorage('auth-token').token,
     }
     const userId = getFromStorage("auth-id").id
+
     axios.get(backendURI.url+'/createGroups/groupformnotification/'+userId,{headers: headers}).then(res=>{
+
+      res.data.map(item => {
+        let project = {
+          projectId: item._id
+        }
+        axios.post(backendURI.url+'/createGroups/allgrouprequest/'+userId,{project},{headers: headers}).then(res2=>{
+          if(res2.data){
+
+          }
+          else{
+            this.setState({
+              groupNotificationCount: this.state.groupNotificationCount +1
+            })
+          }
+        })
+      })
       this.setState({
-        groupNotificationCount: res.data.length
+        loading:false
       })
     })
 
+    axios.get(backendURI.url + '/createGroups/groupacceptingrequest/' + userId, {headers: headers}).then(res => {
+      this.setState({
+        groupNotificationCount: this.state.groupNotificationCount + res.data.length
+      })
+    })
   }
+
   render() {
     // console.log(this.state.userLevel)
     if (this.state.logout) {
@@ -136,6 +182,7 @@ export default class navbar extends Component {
 
           <MDBNavbar color='special-color-dark' dark expand='md' className='navbar'   >
             <MDBNavbarBrand>
+
               {this.state.userLevel === "admin" &&
               <Nav.Link className="navlink-icon" href='/adminhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
@@ -240,7 +287,9 @@ export default class navbar extends Component {
 
                 {this.state.panel === 'admin' && (
                     <MDBNavItem className="mr-4">
-                      <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'><span className="icon"><Icon style={{ fontSize:30 }} >drafts</Icon></span></Nav.Link>
+                      <BootstrapTooltip1 title="Mailbox" placement="bottom">
+                        <Nav.Link className="padding-zero" href='/adminhome/viewmailbox'><span className="icon"><Icon style={{ fontSize:30 }} >drafts</Icon></span></Nav.Link>
+                      </BootstrapTooltip1>
 
                     </MDBNavItem>
                 )}
@@ -268,10 +317,10 @@ export default class navbar extends Component {
                     <MDBNavItem className="mr-4" >
                       <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
                         RequestView
-                        {(this.state.count !== 0) ? (
+                      {/* {(this.state.count !== 0) ? (
                             <span className="badge">{this.state.count}</span>) : null
-                        }
-
+                        }*/}
+                        <span className="icon">{this.state.count>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.count}</Badge>}</span>
                       </Nav.Link>
                     </MDBNavItem>
 
@@ -304,15 +353,24 @@ export default class navbar extends Component {
                 {/* ========================================================================= */}
 
                 <MDBNavItem className="mr-3">
-                  <Nav.Link className="padding-zeroo" href='/studenthome/notifications'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.groupNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.groupNotificationCount}</Badge>}</span></Nav.Link>
+                  {this.state.isStudent ? (
+                    <BootstrapTooltip1 title="Notifications" placement="bottom">
+                          <Nav.Link className="padding-zeroo" href='/studenthome/notifications'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.groupNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.groupNotificationCount}</Badge>}</span></Nav.Link>
+                    </BootstrapTooltip1>
+                  ) : (
+
+                    <BootstrapTooltip1 title="Notifications" placement="bottom">
+                      <Nav.Link className="padding-zeroo" href='#'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.groupNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.groupNotificationCount}</Badge>}</span></Nav.Link>
+                    </BootstrapTooltip1>
+                  )}
                 </MDBNavItem>
                 <MDBNavItem>
-                  {this.state.isCoordinator ||
-                  this.state.isSupervisor ||
-                  this.state.isAdmin ? (
+                  {this.state.isCoordinator ||  this.state.isSupervisor  ? (
                       <MDBDropdown style={{ backgroundColor: 'red' }} dark className="mr-3">
                         <MDBDropdownToggle nav >
-                          <span className="icon"><Icon style={{ fontSize:30 }} >person</Icon></span>
+                          <BootstrapTooltip1 title="Profile" placement="bottom">
+                            <span className="icon"><Icon style={{ fontSize:30 }} >person</Icon></span>
+                          </BootstrapTooltip1>
                         </MDBDropdownToggle>
                         <MDBDropdownMenu className="dropdown-menu">
                           <MDBDropdownItem href='/profile' className="dropdown-item">
@@ -332,18 +390,11 @@ export default class navbar extends Component {
                               </div>
                             </IconContext.Provider>
                           </MDBDropdownItem>
-                          {((this.state.isSupervisor && this.state.isCoordinator) ||
-                              (this.state.isSupervisor && this.state.isAdmin) ||
-                              (this.state.isAdmin && this.state.isCoordinator)) && (
+                          {(this.state.isSupervisor && this.state.isCoordinator) && (
                               <MDBDropdownItem divider className="my-divider"/>
                           )}
 
-                          {this.state.panel === 'supervisor' &&
-                          this.state.isAdmin && (
-                              <MDBDropdownItem href='/adminhome'  className="dropdown-item">
-                                Switch to Admin
-                              </MDBDropdownItem>
-                          )}
+
                           {this.state.panel === 'supervisor' &&
                           this.state.isCoordinator && (
                               <MDBDropdownItem href='/coordinatorhome'>
@@ -352,25 +403,6 @@ export default class navbar extends Component {
                           )}
 
                           {this.state.panel === 'coordinator' &&
-                          this.state.isAdmin && (
-                              <MDBDropdownItem href='/adminHome'>
-                                Switch to Admin
-                              </MDBDropdownItem>
-                          )}
-                          {this.state.panel === 'coordinator' &&
-                          this.state.isSupervisor && (
-                              <MDBDropdownItem href='/supervisorhome'>
-                                Switch to Supervisor
-                              </MDBDropdownItem>
-                          )}
-
-                          {this.state.panel === 'admin' &&
-                          this.state.isCoordinator && (
-                              <MDBDropdownItem href='/coordinatorhome'>
-                                Switch to Coordinator
-                              </MDBDropdownItem>
-                          )}
-                          {this.state.panel === 'admin' &&
                           this.state.isSupervisor && (
                               <MDBDropdownItem href='/supervisorhome'>
                                 Switch to Supervisor
@@ -379,11 +411,15 @@ export default class navbar extends Component {
                         </MDBDropdownMenu>
                       </MDBDropdown>
                   ) : (
-                      <Nav.Link  className="padding-zero mr-3" href='/profile'><span className="icon"><Icon style={{ fontSize:30 }} >person</Icon></span></Nav.Link>
+                      <BootstrapTooltip1 title="Profile" placement="bottom">
+                        <Nav.Link  className="padding-zero mr-3" href='/profile'><span className="icon"><Icon style={{ fontSize:30 }} >person</Icon></span></Nav.Link>
+                      </BootstrapTooltip1>
                   )}
                 </MDBNavItem>
                 <MDBNavItem>
-                  <Nav.Link className="padding-zeroo" onClick={this.logout}><span className="icon"><Icon style={{ fontSize:30 }} >logout</Icon></span></Nav.Link>
+                  <BootstrapTooltip1 title="Logout" placement="bottom">
+                    <Nav.Link className="padding-zeroo" onClick={this.logout}><span className="icon"><Icon style={{ fontSize:30 }} >logout</Icon></span></Nav.Link>
+                  </BootstrapTooltip1>
                 </MDBNavItem>
 
               </MDBNavbarNav>
