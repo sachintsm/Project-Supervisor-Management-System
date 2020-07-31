@@ -11,6 +11,12 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { IoIosPersonAdd } from 'react-icons/io';
+import { TiGroup } from 'react-icons/ti';
+import { FaChartLine } from 'react-icons/fa';
+import { FiUploadCloud } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -25,7 +31,7 @@ import {
     Row,
     FormGroup,
     FormControl,
-
+    Card
 
   } from "react-bootstrap";
   const backendURI = require("../../shared/BackendURI");
@@ -34,7 +40,7 @@ import {
 
 
 
-class Proposals extends Component {
+class Submission extends Component {
 
     constructor(props) {
         super(props);
@@ -61,6 +67,7 @@ class Proposals extends Component {
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
+         // file :"",
           imgname: '',
           toLateSubmision:false,
 
@@ -208,6 +215,7 @@ class Proposals extends Component {
                   formData.append("deadDate",this.state.deadDate);
                   formData.append("deadTime",this.state.deadTime);
                   formData.append("proposelAttachment",this.state.proposelAttachment);
+                 // formData.append("file" , this.state.file);
                   formData.append("toLateSubmision",this.state.toLateSubmision);
     
                   if(this.state.componentType === 'add'){
@@ -266,6 +274,8 @@ class Proposals extends Component {
 
         onEditHandler = (type) =>{
 
+          console.log(type.file);
+
           this.setState({
             componentType: 'edit',
             tittle: 'Edit Submision',
@@ -273,7 +283,7 @@ class Proposals extends Component {
             proposelDiscription:type.proposelDiscription,
             deadDate:type.deadDate,
             deadTime:type.deadTime,
-            proposelAttachment:type.filePath,
+            proposelAttachment: type.proposelAttachment,
             toLateSubmision:type.toLateSubmision,
             proId : type._id
 
@@ -287,6 +297,26 @@ class Proposals extends Component {
             deleteSuccesAlert: false,
           });
         }
+
+        goBack = () =>{
+
+          this.setState({
+            componentType: "add",
+            tittle: 'Create New Submision',
+            proposelTittle:"",
+            proposelDiscription:"",
+            deadDate:"",
+            deadTime:"",
+            proposelAttachment:"",
+            toLateSubmision:false,
+           // selectedStaffList: []
+          })
+        }
+
+        // othersubmission(data) {
+        //   this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
+        //   }
+
 
     render() {
 
@@ -323,29 +353,64 @@ class Proposals extends Component {
             <div className="container-fluid pro-back">
             <div className="container">
 
-            <Tabs defaultActiveKey="Submited Proposel" id="uncontrolled-tab-example"  className="pro-tabs" style={{marginBottom:"30px"}}>
+            <Tabs defaultActiveKey="Submited Submissions" id="uncontrolled-tab-example"  className="pro-tabs" style={{marginBottom:"30px"}}>
 
-            <Tab eventKey="Submited Proposel" title="Submited Proposel" className="pro-tab">
+            <Tab eventKey="Submited Submissions" title="Submited Submissions" className="pro-tab">
             
-            <div className="card conatiner" style={{ margin: "0px 0px 20px 0px" }}>
+            <div>  </div>
 
-            <div className="pro-head">
-            <p className="pro-grp-name">G-08</p>
-            </div>
+            {this.state.propselList.length > 0 && this.state.componentType === 'add' && (
+              <div>
+              <div>
+              {this.state.propselList.map((type) => {
 
-            <div className="pro-body">
-                <h6>Proposel Details</h6>
-                <a>Attachment </a>
-            </div>
+                return(
+                  <div className="card container  pcrd-style" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
+                 
+                  <Row className="pcrd_proposel-tittle-div">
+                    <Col md={12} xs={12}>
+                      <p className="pcrd_proposel-name">{type.proposelTittle}</p>
+                    </Col>
+                   
+                  </Row>
 
-            </div>
-            
+                  <Row className="pcrd_user-name-div">
+                    <Col md={11} xs={10}>
+                        <p className="pcrd_date">&nbsp;{type.date}&nbsp;&nbsp;{type.time}</p>
+                    </Col>
+                  </Row>
+                  <div >
+                      <p className="pcrd_discription">{type.proposelDiscription}</p>
+                      <p className="dead_date">Dead Line Date :{type.deadDate}</p>
+                      <p className="dead_time">Dead Line Time :{type.deadTime}</p>
+                  </div>
+                  <Row>
+
+                  <Col md={3} xs={12}>
+                  <Button className="viw-btn" size="sm" variant="success">View Submision</Button>
+                  </Col>
+                  </Row>
+                  </div>
+
+                )
+                
+
+
+              })}
+
+              
+              </div>
+              
+              </div>
+
+            )}
+
             </Tab>
 
 
 
 
-            <Tab eventKey="Create Link" title="Create Proposel" className="pro-tab">
+            <Tab eventKey="Create Link" title="Create Submissions" className="pro-tab">
             
             <div>
             <div className="card container pro-link-crd">
@@ -358,7 +423,7 @@ class Proposals extends Component {
 
             <div className="form-group pro-form">
             <label >Proposel Tittle :</label>
-            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper"
+            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
             </div>
 
@@ -405,6 +470,7 @@ class Proposals extends Component {
                   id="exampleFile"
                   onChange={this.onChangeFile}
                   name="proposelAttachment"
+                 //value={this.state.proposelAttachment}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
               </div>
@@ -543,4 +609,4 @@ class Proposals extends Component {
     }
 }
 
-export default Proposals;
+export default Submission;
