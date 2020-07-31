@@ -30,7 +30,7 @@
     padding-top: 110px;
 }
 
-.abc{
+.abc {
     flex: 1 1 auto;
 }
 
@@ -44,7 +44,7 @@
 .login-card-div {
     vertical-align: middle;
     margin-left: 0px !important;
-    margin-right:  0px !important ;
+    margin-right: 0px !important;
 }
 
 .forgot-password-btn {
@@ -114,6 +114,21 @@
     font-weight: 500;
     margin-left: -40px;
 }
+    
+
+.white-logo {
+    width: 20%;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+}
+.spinner{
+    width : 0%;
+    position: fixed;
+    top: 51%;
+    left: 49%;
+    color : rgb(1, 34, 94);
+}
 
 @media only screen and (max-width: 1024px) {
     .vertical-center {
@@ -122,7 +137,7 @@
     .login-card-div {
         padding: 0px 30px;
         margin-left: 0px !important;
-        margin-right:  0px !important ;
+        margin-right: 0px !important;
     }
     .login-card {
         width: 100% !important;
@@ -145,7 +160,6 @@
         /* margin-left: -40px; */
     }
 }
-
 
 @media only screen and (max-width: 767px) {
     .logo {
@@ -197,17 +211,15 @@
         width: 100%;
         cursor: pointer;
     }
-
-    .lg-problem{
+    .lg-problem {
         margin-top: 10px;
     }
-    .lg-problem-text{
+    .lg-problem-text {
         color: rgb(112, 112, 112);
         font-size: 12px;
         font-weight: 400;
     }
-    
-    .lg-problem-admin{
+    .lg-problem-admin {
         color: rgb(0, 177, 177);
         font-size: 12px;
         cursor: pointer;
