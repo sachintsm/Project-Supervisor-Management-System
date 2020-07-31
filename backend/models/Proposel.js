@@ -13,6 +13,7 @@ var proposel = Schema({
      deadDate : {type : String},
      deadTime : {type : String},
      filePath: { type: String },
+     file : {type:String},
      toLateSubmision:{type: Boolean},
 
 

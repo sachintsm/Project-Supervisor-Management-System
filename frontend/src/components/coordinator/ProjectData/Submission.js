@@ -59,8 +59,6 @@ class Submission extends Component {
 
         this.state = {
 
-          userTypes: '',
-          userId: "",
           componentType: 'add',
           tittle : "Create New Submision",
           projectId:this.props.match.params.id,
@@ -69,6 +67,7 @@ class Submission extends Component {
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
+         // file :"",
           imgname: '',
           toLateSubmision:false,
 
@@ -126,8 +125,6 @@ class Submission extends Component {
     componentDidMount(){
 
       this.getProposel();
-      this.userTypes = localStorage.getItem("user-level");
-      this.userId = localStorage.getItem("auth-id");
 
     }
 
@@ -218,6 +215,7 @@ class Submission extends Component {
                   formData.append("deadDate",this.state.deadDate);
                   formData.append("deadTime",this.state.deadTime);
                   formData.append("proposelAttachment",this.state.proposelAttachment);
+                 // formData.append("file" , this.state.file);
                   formData.append("toLateSubmision",this.state.toLateSubmision);
     
                   if(this.state.componentType === 'add'){
@@ -276,7 +274,7 @@ class Submission extends Component {
 
         onEditHandler = (type) =>{
 
-          console.log(type.filePath);
+          console.log(type.file);
 
           this.setState({
             componentType: 'edit',
@@ -285,7 +283,7 @@ class Submission extends Component {
             proposelDiscription:type.proposelDiscription,
             deadDate:type.deadDate,
             deadTime:type.deadTime,
-            proposelAttachment: type.filePath,
+            proposelAttachment: type.proposelAttachment,
             toLateSubmision:type.toLateSubmision,
             proId : type._id
 
@@ -299,6 +297,26 @@ class Submission extends Component {
             deleteSuccesAlert: false,
           });
         }
+
+        goBack = () =>{
+
+          this.setState({
+            componentType: "add",
+            tittle: 'Create New Submision',
+            proposelTittle:"",
+            proposelDiscription:"",
+            deadDate:"",
+            deadTime:"",
+            proposelAttachment:"",
+            toLateSubmision:false,
+           // selectedStaffList: []
+          })
+        }
+
+        // othersubmission(data) {
+        //   this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
+        //   }
+
 
     render() {
 
@@ -335,36 +353,64 @@ class Submission extends Component {
             <div className="container-fluid pro-back">
             <div className="container">
 
-            <Tabs defaultActiveKey="Submited Proposel" id="uncontrolled-tab-example"  className="pro-tabs" style={{marginBottom:"30px"}}>
+            <Tabs defaultActiveKey="Submited Submissions" id="uncontrolled-tab-example"  className="pro-tabs" style={{marginBottom:"30px"}}>
 
-            <Tab eventKey="Submited Proposel" title="Submited Proposel" className="pro-tab">
+            <Tab eventKey="Submited Submissions" title="Submited Submissions" className="pro-tab">
             
-            <Row className="pro-btn-row">
-            <Col lg={4} md={4} xs={6} sm={6} className="pro-btn-card-col">
-                            <Card className="pro-btn-card" onClick={() => { this.submisionView(this.state.project)}} >
-                                <IconContext.Provider value={{ className: 'pro-btn-icon', size: "2em" }}>
-                                    <div>
-                                        <FiUploadCloud />
-                                    </div>
-                                </IconContext.Provider><span className="pro-btn-title">View Submited Proposels</span></Card>
-                        </Col>
+            <div>  </div>
 
-                        <Col lg={4} md={4} xs={6} sm={6} className="pro-btn-card-col">
-                        <Card className="pro-btn-card" onClick={() => { this.submisionView(this.state.project)}} >
-                            <IconContext.Provider value={{ className: 'pro-btn-icon', size: "2em" }}>
-                                <div>
-                                    <FiUploadCloud />
-                                </div>
-                            </IconContext.Provider><span className="pro-btn-title">View Submited Concept Papper</span></Card>
+            {this.state.propselList.length > 0 && this.state.componentType === 'add' && (
+              <div>
+              <div>
+              {this.state.propselList.map((type) => {
+
+                return(
+                  <div className="card container  pcrd-style" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
+                 
+                  <Row className="pcrd_proposel-tittle-div">
+                    <Col md={12} xs={12}>
+                      <p className="pcrd_proposel-name">{type.proposelTittle}</p>
                     </Col>
-            </Row>
+                   
+                  </Row>
+
+                  <Row className="pcrd_user-name-div">
+                    <Col md={11} xs={10}>
+                        <p className="pcrd_date">&nbsp;{type.date}&nbsp;&nbsp;{type.time}</p>
+                    </Col>
+                  </Row>
+                  <div >
+                      <p className="pcrd_discription">{type.proposelDiscription}</p>
+                      <p className="dead_date">Dead Line Date :{type.deadDate}</p>
+                      <p className="dead_time">Dead Line Time :{type.deadTime}</p>
+                  </div>
+                  <Row>
+
+                  <Col md={3} xs={12}>
+                  <Button className="viw-btn" size="sm" variant="success">View Submision</Button>
+                  </Col>
+                  </Row>
+                  </div>
+
+                )
+                
+
+
+              })}
+
+              
+              </div>
+              
+              </div>
+
+            )}
 
             </Tab>
 
 
 
 
-            <Tab eventKey="Create Link" title="Create Proposel" className="pro-tab">
+            <Tab eventKey="Create Link" title="Create Submissions" className="pro-tab">
             
             <div>
             <div className="card container pro-link-crd">
@@ -377,7 +423,7 @@ class Submission extends Component {
 
             <div className="form-group pro-form">
             <label >Proposel Tittle :</label>
-            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper"
+            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
             </div>
 
@@ -424,6 +470,7 @@ class Submission extends Component {
                   id="exampleFile"
                   onChange={this.onChangeFile}
                   name="proposelAttachment"
+                 //value={this.state.proposelAttachment}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
               </div>

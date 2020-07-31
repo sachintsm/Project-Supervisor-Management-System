@@ -31,11 +31,11 @@ export default class BiWeekly extends Component {
           componentType: 'add',
           tittle : "Create New Byweekly",
           projectId:this.props.match.params.id,
-          byweeklylTittle: "",
-          byweeklyDiscription:"",
+          biweeklylTittle: "",
+          biweeklyDiscription:"",
           deadDate :"",
           deadTime :"",
-          byweeklyAttachment : "",
+          biweeklyAttachment : "",
           imgname: '',
           toLateSubmision:false,
 
@@ -92,15 +92,15 @@ export default class BiWeekly extends Component {
             </Row>
 
             <div className="form-group pro-form">
-            <label >Byweekly Tittle :</label>
-            <input type="text" className="form-control" id="exampleInputByweekly" placeholder="Ex :- Bi-Weekly Report"
-            name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle}/>
+            <label >Bi-weekly Tittle :</label>
+            <input type="text" className="form-control" id="exampleInputBiweekly" placeholder="Ex :- Bi-Weekly Report #01 Submission"
+            name="biweeklyTittle" value={this.state.biweeklyTittle} onChange={this.onChangeBiweklyTittle}/>
             </div>
 
             <div className="form-group pro-form">
-            <label >Proposel Discription :</label>
-            <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
-            name="proposelTittle" value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription}/>
+            <label >Bi-weekly Discription :</label>
+            <textarea type="text" className="form-control" id="exampleInputbyweekly" placeholder="Discription"
+            name="bi-weeklyDescription" value={this.state.biweeklyDiscription} onChange={this.onChangeBiweeklyDiscription}/>
             </div>
 
 
@@ -139,7 +139,7 @@ export default class BiWeekly extends Component {
                   className="custom-file-input"
                   id="exampleFile"
                   onChange={this.onChangeFile}
-                  name="proposelAttachment"
+                  name="biweeklyAttachment"
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
               </div>
@@ -195,7 +195,7 @@ export default class BiWeekly extends Component {
               style={{ width: '100%' }}
           >
             {this.state.componentType === 'add' &&
-            'Add Submision Now'}
+            'Add Now'}
             {this.state.componentType === 'edit' &&
             'Edit Now'}
           </Button>
