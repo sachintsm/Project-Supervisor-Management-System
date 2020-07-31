@@ -276,7 +276,7 @@ class CoordinatorHome extends Component {
                       <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                     </Col>
                     <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Other Submissions</Button>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Submissions</Button>
                     </Col>
                     <Col md={2}>
                       <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>

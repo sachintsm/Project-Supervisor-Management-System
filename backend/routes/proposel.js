@@ -65,6 +65,7 @@ var storage = multer.diskStorage({
         deadDate : req.body.deadDate,
         deadTime : req.body.deadTime,
         filePath : filePath,
+        file : req.file.originalname,
         toLateSubmision: req.body.toLateSubmision,
    })
 
