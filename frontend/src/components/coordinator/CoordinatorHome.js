@@ -193,12 +193,8 @@ class CoordinatorHome extends Component {
     this.props.history.push('/coordinatorhome/projectdata/SRS/' + id);
 
   }
-  proposals(data) {
-  console.log('sdadas',data._id)
-  this.props.history.push('/coordinatorhome/projectdata/Proposals/' + data._id);
-
-
-
+  othersubmission(data) {
+  this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
   }
   biWeeklys(id) {
     this.props.history.push('/coordinatorhome/projectdata/BiWeekly/' + id);
@@ -280,10 +276,7 @@ class CoordinatorHome extends Component {
                       <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                     </Col>
                     <Col md={2}>
-                      <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRS Documents</Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data)}>Proposals</Button>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Other Submissions</Button>
                     </Col>
                     <Col md={2}>
                       <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>
