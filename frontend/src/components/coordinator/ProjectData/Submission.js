@@ -11,6 +11,12 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { IoIosPersonAdd } from 'react-icons/io';
+import { TiGroup } from 'react-icons/ti';
+import { FaChartLine } from 'react-icons/fa';
+import { FiUploadCloud } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -25,7 +31,7 @@ import {
     Row,
     FormGroup,
     FormControl,
-
+    Card
 
   } from "react-bootstrap";
   const backendURI = require("../../shared/BackendURI");
@@ -34,7 +40,7 @@ import {
 
 
 
-class Proposals extends Component {
+class Submission extends Component {
 
     constructor(props) {
         super(props);
@@ -53,6 +59,8 @@ class Proposals extends Component {
 
         this.state = {
 
+          userTypes: '',
+          userId: "",
           componentType: 'add',
           tittle : "Create New Submision",
           projectId:this.props.match.params.id,
@@ -118,6 +126,8 @@ class Proposals extends Component {
     componentDidMount(){
 
       this.getProposel();
+      this.userTypes = localStorage.getItem("user-level");
+      this.userId = localStorage.getItem("auth-id");
 
     }
 
@@ -266,6 +276,8 @@ class Proposals extends Component {
 
         onEditHandler = (type) =>{
 
+          console.log(type.filePath);
+
           this.setState({
             componentType: 'edit',
             tittle: 'Edit Submision',
@@ -273,7 +285,7 @@ class Proposals extends Component {
             proposelDiscription:type.proposelDiscription,
             deadDate:type.deadDate,
             deadTime:type.deadTime,
-            proposelAttachment:type.filePath,
+            proposelAttachment: type.filePath,
             toLateSubmision:type.toLateSubmision,
             proId : type._id
 
@@ -327,19 +339,26 @@ class Proposals extends Component {
 
             <Tab eventKey="Submited Proposel" title="Submited Proposel" className="pro-tab">
             
-            <div className="card conatiner" style={{ margin: "0px 0px 20px 0px" }}>
+            <Row className="pro-btn-row">
+            <Col lg={4} md={4} xs={6} sm={6} className="pro-btn-card-col">
+                            <Card className="pro-btn-card" onClick={() => { this.submisionView(this.state.project)}} >
+                                <IconContext.Provider value={{ className: 'pro-btn-icon', size: "2em" }}>
+                                    <div>
+                                        <FiUploadCloud />
+                                    </div>
+                                </IconContext.Provider><span className="pro-btn-title">View Submited Proposels</span></Card>
+                        </Col>
 
-            <div className="pro-head">
-            <p className="pro-grp-name">G-08</p>
-            </div>
+                        <Col lg={4} md={4} xs={6} sm={6} className="pro-btn-card-col">
+                        <Card className="pro-btn-card" onClick={() => { this.submisionView(this.state.project)}} >
+                            <IconContext.Provider value={{ className: 'pro-btn-icon', size: "2em" }}>
+                                <div>
+                                    <FiUploadCloud />
+                                </div>
+                            </IconContext.Provider><span className="pro-btn-title">View Submited Concept Papper</span></Card>
+                    </Col>
+            </Row>
 
-            <div className="pro-body">
-                <h6>Proposel Details</h6>
-                <a>Attachment </a>
-            </div>
-
-            </div>
-            
             </Tab>
 
 
@@ -543,4 +562,4 @@ class Proposals extends Component {
     }
 }
 
-export default Proposals;
+export default Submission;

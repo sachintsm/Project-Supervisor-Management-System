@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Schema  = mongoose.Schema;
 
 var proposel = Schema({
-
+     userType:{type:String},
+     userId:{type:String},
      projectId : {type: String},
      date: { type: String },
      time:{type:String},

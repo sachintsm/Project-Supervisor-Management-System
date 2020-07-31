@@ -15,6 +15,21 @@ import {
    } from "react-bootstrap";
 
 export class SubmisionView extends Component {
+
+     constructor(props) {
+          super(props)
+     
+          this.state = {
+                projectId: this.props.match.params.id,
+          }
+     }
+     
+     proposelView = () => {
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + this.state.projectId)
+      }
+
+    
+
      render() {
           return (
                <React.Fragment>
@@ -44,7 +59,7 @@ export class SubmisionView extends Component {
                <div >
                <a>
                <span>@</span>
-               <span className="sub-link">Project Proposal Submission (Deadline - 2020-05-11 : 11.55 PM)</span>
+               <span className="sub-link" onClick={() => {this.proposelView(this.state.project)}}>Project Proposal Submission (Deadline - 2020-05-11 : 11.55 PM)</span>
                </a>
                </div>
                </div>
