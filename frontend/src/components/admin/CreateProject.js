@@ -119,12 +119,6 @@ class CreateProject extends Component {
       message: 'Are you sure?',
       buttons: [
         {
-          label: 'No',
-          onClick: () => {
-
-          }
-        },
-        {
           label: 'Yes',
           onClick: async () => {
 
@@ -160,7 +154,7 @@ class CreateProject extends Component {
 
               if(this.state.componentType==='edit'){
                 
-                axios.patch(backendURI.url + '/projects/' + this.state._id, this.state,{headers: headers}).then(res => {
+                axios.patch(backendURI.url + '/projects/' + this.state.id, this.state,{headers: headers}).then(res => {
                 }).catch(err => {
                   console.log(err)
                 })
@@ -183,6 +177,12 @@ class CreateProject extends Component {
                 warnAlert: true,
               }))
             }
+
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
 
           }
         },
@@ -432,17 +432,18 @@ class CreateProject extends Component {
       message: 'Are you sure you want to delete this Index?',
       buttons: [
 
-        {
-          label: 'No',
-          onClick: () => {
 
-          }
-        },
         {
           label: 'Yes',
           onClick: async () => {
 
             this.setState( {studentList: this.state.studentList.filter((item)=>{return item!==index })  })
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
           }
         },
       ]
@@ -745,7 +746,7 @@ class CreateProject extends Component {
                             {this.state.componentType === 'add' &&
                             'Assign Now'}
                             {this.state.componentType === 'edit' &&
-                            'Edit Now'}
+                            'Save Now'}
                           </Button>
                         </Col>
                         <Col md={1}></Col>

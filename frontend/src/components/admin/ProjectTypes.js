@@ -415,7 +415,7 @@ class ProjectTypes extends Component {
                         {this.state.componentType === 'add' &&
                           'Add Category Now'}
                         {this.state.componentType === 'edit' &&
-                          'Edit Now'}
+                          'Save Now'}
                       </Button>
                     </Col>
                     <Col md={3}></Col>
