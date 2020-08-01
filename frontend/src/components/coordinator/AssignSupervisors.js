@@ -15,6 +15,7 @@ import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
 import MultiSelect from 'react-multi-select-component';
 
+import StaffList from './StaffList'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -57,7 +58,6 @@ class AssignSupervisors extends Component {
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.deleteSupervisor = this.deleteSupervisor.bind(this);
     }
 
@@ -105,7 +105,8 @@ class AssignSupervisors extends Component {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
                         value: user._id,
-                        checked: false
+                        added: true,
+                        email: user.email
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
@@ -117,9 +118,6 @@ class AssignSupervisors extends Component {
             .catch((err) => {
                 console.log(err);
             });
-        console.log(this.state.staffOptionList);
-
-
     }
 
     //? select project drop down change
@@ -349,34 +347,7 @@ class AssignSupervisors extends Component {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // selectAllCheckboxes = checked => {
-    //     Object.keys(this.state.checkboxes).forEach(checkbox => {
-    //         // BONUS: Can you explain why we pass updater function to setState instead of an object?
-    //         this.setState(prevState => ({
-    //             checkboxes: {
-    //                 ...prevState.checkboxes,
-    //                 [checkbox]: checked
-    //             }
-    //         }));
-    //     });
-    // };
-
-    // selectAll = () => {
-    //     this.selectAllCheckboxes(true)
-    //     console.log(this.state.checkboxes);
-    // }
-
-    // deselectAll = () => {
-    //     this.selectAllCheckboxes(false);
-    //     console.log(this.state.checkboxes);
-    // }
-
-    handleCheckboxChange = (event, val) => {
-
-
-    }
 
     render() {
         const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
@@ -422,31 +393,16 @@ class AssignSupervisors extends Component {
                                             Deselect All
                                         </button>
                                     </div>
-                                    <Table>
-                                        <thead>
-                                            <tr>
-                                                <th className="table-head">Selection</th>
-                                                <th className="table-head">Supervisor Name</th>
-                                                <th className="table-head">Description</th>
-                                            </tr>
+                                    <div className="container" style={{ width: "100%" }}>
+                                        {this.state.staffOptionList.map(data => {
+                                            return (
+                                                <div key={data.value} >
+                                                    <StaffList data={data} />
+                                                </div>
 
-                                        </thead>
-                                        <tbody>
-                                            {this.state.staffOptionList.map(data => {
-                                                return (
-                                                    <tr key={data.value}>
-                                                        <td className="table-body">
-                                                            {/* <Checkbox value={true} theme="fancy"></Checkbox> */}
-                                                            {/* <input type="checkbox" name={data.value} onChange={this.handleCheckboxChange}
-                                                                checked={data.checked} /> */}
-                                                        </td>
-                                                        <td className="table-body">{data.label}</td>
-                                                        <td className="table-body">Description</td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </Table>
+                                            )
+                                        })}
+                                    </div>
                                 </Row >
 
                                 <Row >
