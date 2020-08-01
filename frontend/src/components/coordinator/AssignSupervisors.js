@@ -14,7 +14,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
 import MultiSelect from 'react-multi-select-component';
-import Checkbox from '@material-ui/core/Checkbox';
+
+
 const backendURI = require('../shared/BackendURI');
 
 class finalBlock {
@@ -104,7 +105,7 @@ class AssignSupervisors extends Component {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
                         value: user._id,
-                        checked: true
+                        checked: false
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
@@ -372,19 +373,9 @@ class AssignSupervisors extends Component {
     //     console.log(this.state.checkboxes);
     // }
 
-    handleCheckboxChange(val) {
+    handleCheckboxChange = (event, val) => {
 
-        console.log(val);
-        for (let i = 0; i < this.state.staffOptionList.length; i++) {
-            if (this.state.staffOptionList[i].value === val) {
 
-                this.setState(prevState => ({
-                    ...prevState.staffOptionList, 
-                    // staffOptionList: !prevState.staffOptionList[i].checked
-                }))
-            }
-        }
-        console.log(this.state.staffOptionList);
     }
 
     render() {
@@ -445,8 +436,9 @@ class AssignSupervisors extends Component {
                                                 return (
                                                     <tr key={data.value}>
                                                         <td className="table-body">
-                                                            <input type="checkbox" name={data.value} onChange={() => this.handleCheckboxChange(data.value)}
-                                                                checked={data.checked} />
+                                                            {/* <Checkbox value={true} theme="fancy"></Checkbox> */}
+                                                            {/* <input type="checkbox" name={data.value} onChange={this.handleCheckboxChange}
+                                                                checked={data.checked} /> */}
                                                         </td>
                                                         <td className="table-body">{data.label}</td>
                                                         <td className="table-body">Description</td>

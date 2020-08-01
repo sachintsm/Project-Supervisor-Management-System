@@ -161,8 +161,9 @@ export default class login extends Component {
 
                 </div>
                 <div className="row">
-                  <div className="spinner">
-                    <Spinner animation="border" />
+                  <div class="spinner-loading">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
                   </div>
                 </div>
 
@@ -173,7 +174,7 @@ export default class login extends Component {
 
 
         {loginDiv && (
-          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}  animationInDuration={2000} >
+          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true} animationInDuration={2000} >
             <div>
               <div
                 className='container-fluid login-page'
