@@ -32,7 +32,13 @@ function CenteredModal(props) {
             <Modal.Body>
             <h5></h5>
             <form >
-                <input className="form-control" value={des} onChange={desH} />
+            <Row>
+            <Col md={4} xs="12">
+                <button >+</button></Col>
+                <Col md={4} xs="12">
+                <input className="form-control" value={des} onChange={desH} /></Col>
+                <Col md={4} xs="12">
+                <button >-</button></Col></Row>
             </form>
             </Modal.Body>
             <Modal.Footer>
@@ -79,7 +85,7 @@ export default class Academic extends Component {
             isSupervisor: '',
             search: '',
             proS: [],
-            descript:'',
+            descript:'0',
             show:false,
             dis:false
         }
