@@ -13,7 +13,7 @@ const backendURI = require("./BackendURI");
 
 
 function CenteredModal(props) {
-    const { hide,des,desH,re,...rest } = props
+    const { hide,des,desH,re,increase,decrease,...rest } = props
     return (
     
         <Modal responsive="true"
@@ -34,11 +34,11 @@ function CenteredModal(props) {
             <form >
             <Row>
             <Col md={4} xs="12">
-                <button >+</button></Col>
+                <Button onClick={increase}>+</Button></Col>
                 <Col md={4} xs="12">
                 <input className="form-control" value={des} onChange={desH} /></Col>
                 <Col md={4} xs="12">
-                <button >-</button></Col></Row>
+                <Button onClick={decrease} >-</Button></Col></Row>
             </form>
             </Modal.Body>
             <Modal.Footer>
@@ -69,6 +69,8 @@ const ProList = React.memo( props =>(
                 hide={props.hiden}
                 des={props.descrip}
                 desH={props.desHan}
+                increase={props.in}
+                decrease={props.de}
             />
         </td>
     </tr>
@@ -85,7 +87,7 @@ export default class Academic extends Component {
             isSupervisor: '',
             search: '',
             proS: [],
-            descript:'0',
+            descript:0,
             show:false,
             dis:false
         }
@@ -94,6 +96,8 @@ export default class Academic extends Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.requestSup = this.requestSup.bind(this);
+        this.IncrementItem = this.IncrementItem.bind(this);
+        this.DecreaseItem = this.DecreaseItem.bind(this);
     } 
     handleSearch = e => {
         this.setState({ search: e.target.value.substr(0, 20) });
@@ -116,6 +120,29 @@ export default class Academic extends Component {
         store[e.target.name] = e.target.value
         this.setState(store);
     }
+
+    IncrementItem = () => {
+        this.setState({/*prevState => {
+          if(prevState.descript < 9) {
+            return {*/
+                descript: (this.state.descript + 1)
+           /* }
+          } else {
+            return null;
+          }*/
+        });
+    }
+    DecreaseItem = () => {
+      this.setState({/*prevState => {
+        if(prevState.descript >= 0) {
+          return {*/
+            descript: (this.state.descript - 1)
+         /* }
+        } else {
+          return null;
+        }*/
+      });
+    }
     ProList1() {
         
         let filteredProjects = this.state.proS.filter(
@@ -129,7 +156,8 @@ export default class Academic extends Component {
             console.log(i);
             if (currentProj.isDeleted === false) {
                 return <ProList  pr={currentProj} key={i}  hiden={this.hideModal}  send={this.requestSup}
-                    dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange}/>;
+                    dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange} 
+                    in={this.IncrementItem} de={this.DecreaseItem} descrip={this.state.descript}/>;
            }
         })
     }
