@@ -5,6 +5,7 @@ import { Card, Col} from 'react-bootstrap';
 import "../../../css/students/formgroups/StudentInfoCard2.scss"
 import Icon from '@material-ui/core/Icon';
 import { RiDeleteBin2Line } from 'react-icons/ri';
+import StudentCard from "../../shared/StudentCard";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -42,7 +43,7 @@ class StudentInfoCard extends Component {
                 {this.state.type==="accepted" && (
                     <Card className="student-info-card-accepted">
                         <Card.Body className="card-body">
-                            <span>{this.state.index} </span>
+                            <span><StudentCard index={this.state.index}/></span>
                             <span className="span-text">(Accepted) </span>
                             <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
                         </Card.Body>
@@ -51,7 +52,7 @@ class StudentInfoCard extends Component {
                 {this.state.type==="declined" && (
                     <Card className="student-info-card-declined">
                         <Card.Body className="card-body">
-                            <span>{this.state.index} </span>
+                            <span><StudentCard index={this.state.index}/></span>
                             <span className="span-text">(Declined) </span>
                             <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
                         </Card.Body>
@@ -60,7 +61,7 @@ class StudentInfoCard extends Component {
                 {this.state.type==="pending" && (
                     <Card className="student-info-card-pending">
                         <Card.Body className="card-body">
-                            <span>{this.state.index} </span>
+                            <span><StudentCard index={this.state.index}/></span>
                             <span className="span-text">(Pending) </span>
                             <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
                         </Card.Body>
@@ -69,7 +70,7 @@ class StudentInfoCard extends Component {
                 {this.state.type==="normal" && (
                     <Card className="student-info-card">
                         <Card.Body className="card-body">
-                            <span>{this.state.index} </span>
+                            <span><StudentCard index={this.state.index}/></span>
                             <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><RiDeleteBin2Line/></span>
                         </Card.Body>
                     </Card>
