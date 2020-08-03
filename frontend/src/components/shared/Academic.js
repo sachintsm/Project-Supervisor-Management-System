@@ -18,6 +18,8 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectYear}</td>
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
+        <td></td>
+        <td> <Button type="submit" value="Mod" className="btn btn-info">Set</Button> </td>
     </tr>
     
 )
@@ -102,7 +104,9 @@ export default class Academic extends Component {
                                                             <tr>
                                                                 <th>Year</th>
                                                                 <th>Type</th>
-                                                                <th>Academic Year</th>
+                                                                <th> Year</th>
+                                                                <th>Maximum Projects</th>
+                                                                <th>Set Projects</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
