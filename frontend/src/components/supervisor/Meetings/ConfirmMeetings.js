@@ -35,8 +35,6 @@ export default class ConfirmMeeting extends Component {
 
       groupId: "",
       purpose: "",
-      // date: "",
-      timeConfirmed: "",
       supervisor: "",
       super: "",
       supervisorN: [],
@@ -55,9 +53,11 @@ export default class ConfirmMeeting extends Component {
       project: '',
 
       date: new Date(),
+      time: '',
 
     };
     this.onSubmit = this.onSubmit.bind(this);
+    this.onTimeChange = this.onTimeChange.bind(this);
   }
 
   componentDidMount = async () => {
@@ -83,11 +83,12 @@ export default class ConfirmMeeting extends Component {
     })
 
 
-    console.log(this.state.meetId);
+    // console.log(this.state.meetId);
 
 
     await axios.get(backendURI.url + '/requestMeeting/getmeet/' + this.state.meetId)
       .then(response => {
+
         // this.setState({ meetings: response.data.data });
         this.setState({
           purpose: response.data.data[0].purpose,
@@ -103,7 +104,7 @@ export default class ConfirmMeeting extends Component {
         console.log(error);
       })
 
-    console.log(this.state.meetings);
+    // console.log(this.state.meetings);
 
 
   }
@@ -133,7 +134,7 @@ export default class ConfirmMeeting extends Component {
       date: this.state.date,
       time: this.state.time,
     };
-
+    console.log(obj.time);
     axios.post(backendURI.url + '/requestMeeting/updateMeet/' + this.state.meetId, obj)
       .then(res => console.log(res.data));
 
@@ -181,74 +182,13 @@ export default class ConfirmMeeting extends Component {
     // return isError;  //! is not error return state 'false'
   }
 
-
-  // onSubmit(e) {
-  //   e.preventDefault()
-  //   const err = this.validate();
-  //   //?calling validation function
-
-  //   if (!err) {
-  //     this.setState({
-  //       purposeError: '',
-  //       dateError: '',
-  //       timeError: '',
-  //       supervisorError: '',
-  //     })
-  //     const obj = {
-  //       groupId: this.state.group.groupId,
-  //       purpose: this.state.purpose,
-  //       date: this.state.date,
-  //       time: this.state.time,
-
-
-  //     };
-  //     console.log("abcd");
-  //     console.log(obj);
-  //     axios.post(backendURI.url + "/requestMeeting/add", obj)
-  //       .then((res) => {
-  //         console.log(res.data.state)
-  //         if (res.data.state === true) {
-  //           this.setState({
-  //             snackbaropen: true,
-  //             snackbarmsg: res.data.msg,
-  //             snackbarcolor: 'success',
-  //           })
-  //           window.location.reload()
-  //         }
-  //         else {
-  //           this.setState({
-  //             snackbaropen: true,
-  //             snackbarmsg: res.data.msg,
-  //             snackbarcolor: 'error',
-  //           })
-  //         }
-  //         console.log(res.data);
-  //       })
-  //       .catch((error) => {
-  //         this.setState({
-  //           snackbaropen: true,
-  //           snackbarmsg: error,
-  //           snackbarcolor: 'error',
-  //         })
-  //         console.log(error);
-  //       });
-  //     this.setState({
-  //       modal: false
-  //     })
-  //   }
-
-  // }
-
-  handleChange = time => {
-
-    console.log(time);
-
-    this.setState({
-      timeConfirmed: time
-    })
-    console.log(this.state.timeConfirmed);
-
+  onTimeChange(e) {
+    this.setState({ time: e.target.value })
+    console.log(this.state.time);
+    
   }
+
+
 
   render() {
     return (
@@ -273,7 +213,7 @@ export default class ConfirmMeeting extends Component {
                   <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                       <Label for="avatar">Purpose</Label>
-                      <Input type="textarea" className="form-control" name="purpose" value={this.state.purpose} onChange={this.onChange} />
+                      <Input type="textarea" className="form-control" name="purpose" value={this.state.purpose} readOnly/>
                       <p className="reg-error">{this.state.messageError}</p>
                     </div>
                     <Row>
@@ -294,11 +234,7 @@ export default class ConfirmMeeting extends Component {
                       <Col>
                         <div className="form-group">
                           <label className="text-label">Time </label>
-                          <TimeInput
-                            className="form-control"
-                            mode='24h'
-                            onChange={(time) => this.handleChange(time)}
-                          />
+                          <input className="form-control" type="time" name="time" onChange={this.onTimeChange}></input>
                         </div>
                       </Col>
                     </Row>
