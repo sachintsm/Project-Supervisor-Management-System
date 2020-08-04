@@ -999,11 +999,29 @@ router.post('/reset/:id', function (req, res) {
 // set no of projects by supervisor using profile
 router.post('/setLimit', async (req, res) => {
 
+  const id = req.body. project_id;
+  const supId = req.body.sup_id;
+  const ifExist = await Limits.findOne({ projectId: id, supervisorId:supId});
+  if (ifExist){
+    Limits.findOne({ projectId: id, supervisorId:supId }, function (err, limit) {
+      if (err)
+        res.status(404).send("data is not found");
+      else {
+        limit.noProjects = req.body.descript;
+        limit.save().then(limit => {
+          res.json({ state: true, msg: 'Update Complete' });
+        })
+          .catch(err => {
+            res.status(400).send("unable to update database");
+          });
+      }
+    });
+  }else{
   const newLimit = new Limits({
     projectId: req.body. project_id,
     academicYear: req.body.academic_year,
     supervisorId: req.body.sup_id,
-    noProjects: req.body. descript,
+    noProjects: req.body.descript,
   });
 
   newLimit.save()
@@ -1015,6 +1033,7 @@ router.post('/setLimit', async (req, res) => {
       console.log(error)
       res.json({ state: false, msg: "Set limit Failed..!" });
     })
+ }
 })
 
 //? check student available or not
