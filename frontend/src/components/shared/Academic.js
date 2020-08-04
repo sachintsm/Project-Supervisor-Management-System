@@ -13,7 +13,7 @@ const backendURI = require("./BackendURI");
 
 
 function CenteredModal(props) {
-    const { hide,des,desH,re,increase,decrease,...rest } = props
+    const { hide,des,desH,re,increase,decrease,up,...rest } = props
     return (
     
         <Modal responsive="true"
@@ -42,7 +42,7 @@ function CenteredModal(props) {
             </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button>Set</Button>
+                <Button onClick={up}>Set</Button>
                 <Button onClick={hide}>Close</Button>
             </Modal.Footer>
         </Modal>
@@ -63,7 +63,7 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
         <td></td>
-        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send()}>Set</Button> 
+        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear)}>Set</Button> 
             <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -71,6 +71,7 @@ const ProList = React.memo( props =>(
                 desH={props.desHan}
                 increase={props.in}
                 decrease={props.de}
+                up={props.update}
             />
         </td>
     </tr>
@@ -89,13 +90,16 @@ export default class Academic extends Component {
             proS: [],
             descript:0,
             show:false,
-            dis:false
+            dis:false,
+            proId:'',
+            acaYear:''
         }
 
         this.onChange = this.onChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.requestSup = this.requestSup.bind(this);
+        this.setPro= this.setPro.bind(this);
+        this.changePro= this.changePro.bind(this);
         this.IncrementItem = this.IncrementItem.bind(this);
         this.DecreaseItem = this.DecreaseItem.bind(this);
     } 
@@ -111,7 +115,7 @@ export default class Academic extends Component {
         this.setState({show: true});
     };
     hideModal = () => {
-        this.setState({ show: false,descript:'' });
+        this.setState({ show: false,descript:0 });
     };
 
     onChange = (e) => {
@@ -143,6 +147,70 @@ export default class Academic extends Component {
         }*/
       });
     }
+
+    changePro(){
+        console.log(this.state.proId);
+        const userData = getFromStorage('auth-id')
+        this.setState({
+            show:false
+        })
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to set limit?',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => {
+                    const obj = {
+                        sup_id: userData.id,
+                        project_id:this.state.proId,
+                        academic_year:this.state.acaYear,
+                        descript:this.state.descript
+                    };
+                    console.log(obj);
+                    axios.post(backendURI.url + "/users/setLimit" , obj)
+                    .then(res => {
+                        
+                        console.log(res.data)
+                        if(res.data.state==true){
+                            this.setState({
+                                snackbaropen: true,
+                                snackbarmsg: res.data.msg,
+                                snackbarcolor: 'success',
+                                descript:0,
+                                
+                            })
+                        }
+                        else{
+                            this.setState({
+                                /*snackbaropen: true,
+                                snackbarmsg:res.data.msg,
+                                snackbarcolor: 'error',*/
+                                descript:0
+                            })
+                            
+                        }
+                    })
+                    .catch((error) => {
+                    console.log(error);
+                    this.setState({
+                       /* snackbaropen: true,
+                        snackbarmsg:'Something went wrong',
+                        snackbarcolor: 'error',*/
+                        descript:0
+                    })
+                    })
+                }
+              },
+              {
+                label: 'No',
+                onClick: () => {
+                    window.location.reload(false);
+                }
+              }
+            ]
+          })
+    }
     ProList1() {
         
         let filteredProjects = this.state.proS.filter(
@@ -155,8 +223,8 @@ export default class Academic extends Component {
         return filteredProjects.map((currentProj, i) => {
             console.log(i);
             if (currentProj.isDeleted === false) {
-                return <ProList  pr={currentProj} key={i}  hiden={this.hideModal}  send={this.requestSup}
-                    dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange} 
+                return <ProList  pr={currentProj} key={i}  hiden={this.hideModal}  send={this.setPro}
+                    dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange} update={this.changePro}
                     in={this.IncrementItem} de={this.DecreaseItem} descrip={this.state.descript}/>;
            }
         })
@@ -177,8 +245,12 @@ export default class Academic extends Component {
             })
     }
    
-    requestSup() {
+    setPro(id,year) {
         const userData = getFromStorage('auth-id')
+        this.setState({
+            proId:id,
+            acaYear:year
+        })
         this.showModal();
     }
     render() {

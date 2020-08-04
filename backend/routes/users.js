@@ -996,7 +996,26 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
+// set no of projects by supervisor using profile
+router.post('/setLimit', async (req, res) => {
 
+  const newLimit = new Limits({
+    projectId: req.body. project_id,
+    academicYear: req.body.academic_year,
+    supervisorId: req.body.sup_id,
+    noProjects: req.body. descript,
+  });
+
+  newLimit.save()
+    .then(result => {
+      // console.log(result)
+      res.json({ state: true, msg: "Set limit Successfull..!" });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Set limit Failed..!" });
+    })
+})
 
 //? check student available or not
 router.get('/student/:id', verify, async (req, res) => {
