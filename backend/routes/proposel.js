@@ -54,6 +54,8 @@ var storage = multer.diskStorage({
    
 
    const newProposel = new proposel({
+        userType: req.body.userType,
+        userId: req.body.userId,
         projectId : req.body.projectId,
         date: req.body.date,
         time: req.body.time,
@@ -63,6 +65,7 @@ var storage = multer.diskStorage({
         deadDate : req.body.deadDate,
         deadTime : req.body.deadTime,
         filePath : filePath,
+        file : req.file.originalname,
         toLateSubmision: req.body.toLateSubmision,
    })
 
@@ -164,7 +167,8 @@ router.post('/updateProposel/:_id', (req, res) => {  // update methord
   const fullPath = "PROPOSEL_FILE - " + time + req.file.originalname;
   
           const input = {  
-
+            userType: req.body.userType,
+            userId: req.body.userId,
             projectId : req.body.projectId,
             date: req.body.date,
             time: req.body.time,

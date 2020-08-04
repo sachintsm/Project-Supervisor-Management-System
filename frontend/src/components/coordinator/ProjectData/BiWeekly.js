@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -22,7 +25,22 @@ export default class BiWeekly extends Component {
         super(props)
     
         this.state = {
-             
+
+          userTypes: '',
+          userId: "",
+          componentType: 'add',
+          tittle : "Create New Byweekly",
+          projectId:this.props.match.params.id,
+          biweeklylTittle: "",
+          biweeklyDiscription:"",
+          deadDate :"",
+          deadTime :"",
+          biweeklyAttachment : "",
+          imgname: '',
+          toLateSubmision:false,
+
+          byweeklyList :[],
+          byweeklyId : "",
         }
     }
     
@@ -61,93 +79,131 @@ export default class BiWeekly extends Component {
                 <Tab eventKey="Create Link" title="Create BiWeekly" className="pro-tab">
                 
                 <div>
-                <div className="card container pro-link-crd">
+
+
+
+            <div className="card container pro-link-crd">
     
-                <form>
-    
-                <Row>
-                <p className="pro-link-name">Crate New BiWeekly</p>
-                </Row>
-    
-                <div className="form-group pro-form">
-                <label for="exampleInputProposel">BiWeekly Tittle :</label>
-                <input type="text" className="form-control" id="exampleInputProposel" placeholder="BiWeekly Tittle"/>
-                </div>
-    
-    
-               
-            <Row > 
                 
-                <Col  md={6} xs="12">
-                <div className="form-group pro-form">
-                <label for="exampleInputDate">Dead Line Date :</label>
-                <input type="date" className="form-control" id="exampleInputDate"/>
-                </div>
-                </Col>
-    
-                <Col md={6} xs="12">
-                <div className="form-group pro-form">
-                <label for="exampleInputTime">Dead Line Time :</label>
-                <input type="time" className="form-control" id="exampleInputTime"/>
-                </div>
-                </Col>
-    
-            </Row>
-    
+            <form onSubmit={this.onSubmit}>
+
             <Row>
-                <Col md={6} xs="12">
-                <label className="verticle-align-middle  pro-form">File Attach :{" "}</label>
-                <FormGroup  className="pro-form">
-    
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text"> Upload </span>
-                  </div>
-                  <div className="custom-file">
-                    <input
-                      type="file"
-                      className="custom-file-input"
-                      id="exampleFile"
-                      name="noticeAttachment"
-                    />
-                    <label className="custom-file-label" htmlFor="inputGroupFile01"></label>
-                  </div>
-                </div>
-    
-              </FormGroup>
-                </Col>
-    
-                <Col  md={6} xs="12">
-                <div className="form-group pro-form">
-                        <label className="text-label">State : </label>
-                        <div className="form-group">
-                            <select className="form-control" id="dropdown" >
-                                <option>Select State</option>
-                                <option value="Student">Pending</option>
-                                <option value="Staff">Open</option>
-                                <option value="Admin">Close</option>
-                            </select>
-                        </div>
-                        </div>
-            
-                </Col>
-    
-            
-            
+            <p className="pro-link-name">{this.state.tittle}</p>
             </Row>
-    
-                
-    
-                <Row style={{ marginTop: "10px", marginBottom: "20px" }}>
-                    <Button
-                    type="submit"
-                    className="pro-btn"
-                    variant="info"
-                    onClick={this.onSubmit}>Add New BiWeekly
-                    </Button>
-                </Row>
-                
-                </form>
+
+            <div className="form-group pro-form">
+            <label >Bi-weekly Tittle :</label>
+            <input type="text" className="form-control" id="exampleInputBiweekly" placeholder="Ex :- Bi-Weekly Report #01 Submission"
+            name="biweeklyTittle" value={this.state.biweeklyTittle} onChange={this.onChangeBiweklyTittle}/>
+            </div>
+
+            <div className="form-group pro-form">
+            <label >Bi-weekly Discription :</label>
+            <textarea type="text" className="form-control" id="exampleInputbyweekly" placeholder="Discription"
+            name="bi-weeklyDescription" value={this.state.biweeklyDiscription} onChange={this.onChangeBiweeklyDiscription}/>
+            </div>
+
+
+           
+        <Row > 
+            <Col  md={6} xs="12">
+            <div className="form-group pro-form">
+            <label >Dead Line Date :</label>
+            <input type="date" className="form-control" id="exampleInputDate" name="deadDate"
+            value={this.state.deadDate} onChange={this.onChangeDate}/>
+            </div>
+            </Col>
+
+            <Col md={6} xs="12">
+            <div className="form-group pro-form">
+            <label >Dead Line Time :</label>
+            <input type="time" className="form-control" id="exampleInputTime" name="deadTime"
+            value={this.state.deadTime} onChange={this.onChangeTime}/>
+            </div>
+            </Col>
+
+        </Row>
+
+        <Row>
+            <Col md={6} xs="12">
+            <label className="verticle-align-middle  pro-form">File Attach :{" "}</label>
+            <FormGroup  className="pro-form">
+
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text"> Upload </span>
+              </div>
+              <div className="custom-file">
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  id="exampleFile"
+                  onChange={this.onChangeFile}
+                  name="biweeklyAttachment"
+                />
+                <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
+              </div>
+            </div>
+
+          </FormGroup>
+            </Col>
+
+            <Col className="col-padding-5 check-box"  md={6} xs={12}>
+            
+            <FormControlLabel
+              className="form-control-label"
+              control={
+                <Checkbox
+                  fontSize="5px"
+                  checked={this.state.toLateSubmision}
+                  onChange={() => {
+                    this.setState({
+                      toLateSubmision: !this.state.toLateSubmision,
+                    });
+                  }}
+                  name="checkedB"
+                  color="default"
+                />
+              }
+              label={
+                <span style={{ fontSize: "14px" }}>
+                Permision For Late Submision
+                </span>
+              }
+            />
+          
+        
+            </Col>
+
+        </Row>
+        <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
+        <Col md={1}></Col>
+        {this.state.componentType === 'edit' &&
+        <Col>
+          <Button
+              variant='danger'
+              onClick={this.goBack}
+              style={{ width: '100%' }}
+          >
+            Cancel
+          </Button>
+        </Col>}
+        <Col>
+          <Button
+              variant='info'
+              onClick={this.onSubmit}
+              style={{ width: '100%' }}
+          >
+            {this.state.componentType === 'add' &&
+            'Add Now'}
+            {this.state.componentType === 'edit' &&
+            'Edit Now'}
+          </Button>
+        </Col>
+        <Col md={1}></Col>
+      </Row>
+
+            </form>
                 
                 </div>
                 

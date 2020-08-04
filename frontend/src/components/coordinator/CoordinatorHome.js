@@ -185,7 +185,7 @@ class CoordinatorHome extends Component {
     this.props.history.push('/coordinatorhome/projectdata/Supervisors/' + id);
   }
   groups(id) {
-    
+
     this.props.history.push('/coordinatorhome/projectdata/Groups/' + id);
 
   }
@@ -193,12 +193,8 @@ class CoordinatorHome extends Component {
     this.props.history.push('/coordinatorhome/projectdata/SRS/' + id);
 
   }
-  proposals(data) {
-  console.log('sdadas',data._id)
-  this.props.history.push('/coordinatorhome/projectdata/Proposals/' + data._id);
-
-
-
+  othersubmission(data) {
+    this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
   }
   biWeeklys(id) {
     this.props.history.push('/coordinatorhome/projectdata/BiWeekly/' + id);
@@ -270,20 +266,22 @@ class CoordinatorHome extends Component {
                   </Row>
 
                   <Row className="container">
-                    <Col md={2}>
-                      <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRS Documents</Button>
-                    </Col>
-                    <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data)}>Proposals</Button>
+                    <Col md={10}>
+                      <Row>
+
+                        <Col md={3}>
+                          <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
+                        </Col>
+                        <Col md={3}>
+                          <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
+                        </Col>
+                        <Col md={3}>
+                          <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
+                        </Col>
+                        <Col md={3}>
+                          <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Submissions</Button>
+                        </Col>
+                      </Row>
                     </Col>
                     <Col md={2}>
                       <Button className="btn btn-danger ch-btn-btn" onClick={() => this.endProject(data._id)}>End Project</Button>
@@ -291,8 +289,7 @@ class CoordinatorHome extends Component {
                   </Row>
                 </Card.Body>
               </Card>
-              // <div className="card container ch-card-ch-div" key={data._id} style={{ marginTop: "10px", marginBottom: "20px" }}>
-              // </div>
+
             )
           })}
           <div className="ch-topic-div">
@@ -345,26 +342,22 @@ class CoordinatorHome extends Component {
                   </Row>
 
                   <Row className="container">
-                    <Col md={2}>
+                    <Col md={3}>
                       <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
                     </Col>
-                    <Col md={2}>
+                    <Col md={3}>
                       <Button className="btn  ch-btn-btn" onClick={() => this.groups(data._id)}>Groups</Button>
                     </Col>
-                    <Col md={2}>
+                    <Col md={3}>
                       <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                     </Col>
-                    <Col md={2}>
-                      <Button className="btn ch-btn-btn" onClick={() => this.srs(data._id)}>SRS Documents</Button>
+                    <Col md={3}>
+                      <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Submissions</Button>
                     </Col>
-                    <Col md={2}>
-                      <Button className="btn  ch-btn-btn" onClick={() => this.proposals(data._id)}>Proposals</Button>
-                    </Col>
-
                   </Row>
                 </Card.Body>
               </Card>
-             
+
             )
           })}
         </div>

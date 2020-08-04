@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Schema  = mongoose.Schema;
 
 var proposel = Schema({
-
+     userType:{type:String},
+     userId:{type:String},
      projectId : {type: String},
      date: { type: String },
      time:{type:String},
@@ -12,6 +13,7 @@ var proposel = Schema({
      deadDate : {type : String},
      deadTime : {type : String},
      filePath: { type: String },
+     file : {type:String},
      toLateSubmision:{type: Boolean},
 
 

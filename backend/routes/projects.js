@@ -68,7 +68,6 @@ router.patch("/delete/:id", async (req, res, next) => {
 // Update Project API
 router.patch("/:id", async (req, res, next) => {
   try {
-    console.log(req.params.id)
     const id = req.params.id;
     const idList = []
     req.body.selectedStaffList.map(item => {
