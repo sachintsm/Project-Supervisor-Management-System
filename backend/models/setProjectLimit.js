@@ -5,7 +5,7 @@ var limits = Schema({
     projectId: {type: String},
     academicYear: {type: String},
     supervisorId: {type: String},
-    noProjects: {type: String},
+    noProjects: {type: Number},
 });
 
 const Limits = mongoose.model('setLimits', limits);

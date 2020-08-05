@@ -466,6 +466,26 @@ router.get('/getSupReq/:id', async (req, res) => {
     })
 
 });
+////// get maximum projects of supervisor in user profile
+router.post('/getLimit/:id', async (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  let proId= req.body.pro;
+  console.log(proId);
+  Limits
+    .find({ supervisorId: id,projectId: proId })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
 //////////update request state whether accept or reject
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;

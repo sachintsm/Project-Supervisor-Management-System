@@ -63,7 +63,7 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
         <td></td>
-        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear)}>Set</Button> 
+        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit)}>Set</Button> 
             <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -88,6 +88,7 @@ export default class Academic extends Component {
             isSupervisor: '',
             search: '',
             proS: [],
+            proL:[],
             descript:0,
             show:false,
             dis:false,
@@ -223,7 +224,7 @@ export default class Academic extends Component {
         return filteredProjects.map((currentProj, i) => {
             console.log(i);
             if (currentProj.isDeleted === false) {
-                return <ProList  pr={currentProj} key={i}  hiden={this.hideModal}  send={this.setPro}
+                return <ProList  pr={currentProj} key={i} limit={this.state.proL} hiden={this.hideModal}  send={this.setPro}
                     dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange} update={this.changePro}
                     in={this.IncrementItem} de={this.DecreaseItem} descrip={this.state.descript}/>;
            }
@@ -236,22 +237,72 @@ export default class Academic extends Component {
 
         axios.get(backendURI.url + '/users/getSupPro/' + userData.id)
             .then(response => {
-                console.log(response.data.data);
-
+                console.log(response.data.data[0]._id);
+                var l =(response.data.data).length;
+                console.log(l);
                 this.setState({ proS: response.data.data });
+                var arr1 = [];
+                for(var i=0; i<l; i++){
+                   const ob = {
+                         pro : response.data.data[i]._id
+                    }
+                  
+                   
+                   axios.post(backendURI.url + "/users/getLimit/" +userData.id , ob)
+                    .then(res => {  
+                        console.log(res.data.data[0].noProjects);
+                        arr1.push(res.data.data[0]);
+                        
+                    })
+                    .catch((error) => {
+                    console.log(error);
+                    })
+                }
+                console.log(arr1);
+                this.setState({ proL: arr1 });
+                console.log(this.state.proL);
+                
             })
             .catch(function (error) {
                 console.log(error);
             })
     }
    
-    setPro(id,year) {
+    setPro(id,year,k) {
         const userData = getFromStorage('auth-id')
-        this.setState({
-            proId:id,
-            acaYear:year
-        })
-        this.showModal();
+        console.log(k);
+        console.log(year)
+        if(k.length ===0){
+            this.setState({
+                proId:id,
+                acaYear:year,
+                descript:0
+            })
+            this.showModal();
+        }else{
+        for(var i=0;i<k.length;i++){
+            if(year === k[i].academicYear){
+                console.log('yes');
+                this.setState({
+                    proId:id,
+                    acaYear:year,
+                    descript:k[i].noProjects
+                })
+                this.showModal();
+                return;
+            }
+            else{
+                this.setState({
+                    proId:id,
+                    acaYear:year,
+                    descript:0
+                })
+                this.showModal();
+            }
+        }
+    }
+       
+        
     }
     render() {
         return(
