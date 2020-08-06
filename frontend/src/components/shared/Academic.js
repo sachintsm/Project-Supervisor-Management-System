@@ -93,7 +93,10 @@ export default class Academic extends Component {
             show:false,
             dis:false,
             proId:'',
-            acaYear:''
+            acaYear:'',
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
         }
 
         this.onChange = this.onChange.bind(this);
@@ -104,6 +107,9 @@ export default class Academic extends Component {
         this.IncrementItem = this.IncrementItem.bind(this);
         this.DecreaseItem = this.DecreaseItem.bind(this);
     } 
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
     handleSearch = e => {
         this.setState({ search: e.target.value.substr(0, 20) });
     };
@@ -127,6 +133,7 @@ export default class Academic extends Component {
     }
 
     IncrementItem = () => {
+        if(this.state.descript < 10){
         this.setState({/*prevState => {
           if(prevState.descript < 9) {
             return {*/
@@ -136,8 +143,17 @@ export default class Academic extends Component {
             return null;
           }*/
         });
+    }else{
+        this.setState({
+            snackbaropen: true,
+            snackbarmsg: 'You cannot set more than 10 !',
+            snackbarcolor: 'error',
+            descript:this.state.descript,
+        })
+    }
     }
     DecreaseItem = () => {
+        if(this.state.descript > 0){
       this.setState({/*prevState => {
         if(prevState.descript >= 0) {
           return {*/
@@ -147,6 +163,14 @@ export default class Academic extends Component {
           return null;
         }*/
       });
+     }else{
+        this.setState({
+        snackbaropen: true,
+        snackbarmsg: 'Always set the value greater than 0 !',
+        snackbarcolor: 'error',
+        descript:0,
+        })
+     }
     }
 
     changePro(){
@@ -184,9 +208,9 @@ export default class Academic extends Component {
                         }
                         else{
                             this.setState({
-                                /*snackbaropen: true,
+                                snackbaropen: true,
                                 snackbarmsg:res.data.msg,
-                                snackbarcolor: 'error',*/
+                                snackbarcolor: 'error',
                                 descript:0
                             })
                             
@@ -195,9 +219,9 @@ export default class Academic extends Component {
                     .catch((error) => {
                     console.log(error);
                     this.setState({
-                       /* snackbaropen: true,
+                        snackbaropen: true,
                         snackbarmsg:'Something went wrong',
-                        snackbarcolor: 'error',*/
+                        snackbarcolor: 'error',
                         descript:0
                     })
                     })
@@ -307,6 +331,13 @@ export default class Academic extends Component {
     render() {
         return(
             <div className="container-fluid">
+            <Snackpop
+            msg={this.state.snackbarmsg}
+            color={this.state.snackbarcolor}
+            time={3000}
+            status={this.state.snackbaropen}
+            closeAlert={this.closeAlert}
+            />
             <div className="row">
                     <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
                         <div className="container">

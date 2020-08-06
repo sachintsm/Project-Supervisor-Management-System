@@ -1032,7 +1032,7 @@ router.post('/setLimit', async (req, res) => {
           res.json({ state: true, msg: 'Update Complete' });
         })
           .catch(err => {
-            res.status(400).send("unable to update database");
+            res.json({ state: false, msg: "Update Failed..!" });
           });
       }
     });
