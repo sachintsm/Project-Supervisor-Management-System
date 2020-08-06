@@ -134,14 +134,8 @@ export default class Academic extends Component {
 
     IncrementItem = () => {
         if(this.state.descript < 10){
-        this.setState({/*prevState => {
-          if(prevState.descript < 9) {
-            return {*/
+        this.setState({
                 descript: (this.state.descript + 1)
-           /* }
-          } else {
-            return null;
-          }*/
         });
     }else{
         this.setState({
@@ -154,14 +148,8 @@ export default class Academic extends Component {
     }
     DecreaseItem = () => {
         if(this.state.descript > 0){
-      this.setState({/*prevState => {
-        if(prevState.descript >= 0) {
-          return {*/
+      this.setState({
             descript: (this.state.descript - 1)
-         /* }
-        } else {
-          return null;
-        }*/
       });
      }else{
         this.setState({
@@ -215,6 +203,7 @@ export default class Academic extends Component {
                             })
                             
                         }
+                        window.location.reload(false);
                     })
                     .catch((error) => {
                     console.log(error);
@@ -224,6 +213,7 @@ export default class Academic extends Component {
                         snackbarcolor: 'error',
                         descript:0
                     })
+                    window.location.reload(false);
                     })
                 }
               },
