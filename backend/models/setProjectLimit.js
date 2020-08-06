@@ -4,6 +4,7 @@ const Schema  = mongoose.Schema;
 var limits = Schema({
     projectId: {type: String},
     academicYear: {type: String},
+    projectType:{type: String},
     supervisorId: {type: String},
     noProjects: {type: Number},
 });

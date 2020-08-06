@@ -1040,6 +1040,7 @@ router.post('/setLimit', async (req, res) => {
   const newLimit = new Limits({
     projectId: req.body. project_id,
     academicYear: req.body.academic_year,
+    projectType:req.body.proType,
     supervisorId: req.body.sup_id,
     noProjects: req.body.descript,
   });

@@ -26,18 +26,18 @@ function CenteredModal(props) {
                     
             <Modal.Header >
             <Modal.Title id="contained-modal-title-vcenter">
-                Set Projects
+                
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <h5></h5>
             <form >
             <Row>
-            <Col md={4} xs="12">
+            <Col md={3} xs="12">
                 <Button onClick={increase}>+</Button></Col>
-                <Col md={4} xs="12">
-                <input className="form-control" value={des} onChange={desH} /></Col>
-                <Col md={4} xs="12">
+                <Col md={6} xs="12">
+                <input className="form-control" value={des} onChange={desH} readOnly/></Col>
+                <Col md={3} xs="12">
                 <Button onClick={decrease} >-</Button></Col></Row>
             </form>
             </Modal.Body>
@@ -63,7 +63,7 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
         <td></td>
-        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit)}>Set</Button> 
+        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit,props.pr.projectType)}>Set</Button> 
             <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -94,6 +94,7 @@ export default class Academic extends Component {
             dis:false,
             proId:'',
             acaYear:'',
+            type:'',
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
@@ -178,7 +179,8 @@ export default class Academic extends Component {
                         sup_id: userData.id,
                         project_id:this.state.proId,
                         academic_year:this.state.acaYear,
-                        descript:this.state.descript
+                        descript:this.state.descript,
+                        proType:this.state.type
                     };
                     console.log(obj);
                     axios.post(backendURI.url + "/users/setLimit" , obj)
@@ -282,7 +284,7 @@ export default class Academic extends Component {
             })
     }
    
-    setPro(id,year,k) {
+    setPro(id,year,k,proType) {
         const userData = getFromStorage('auth-id')
         console.log(k);
         console.log(year)
@@ -290,26 +292,30 @@ export default class Academic extends Component {
             this.setState({
                 proId:id,
                 acaYear:year,
-                descript:0
+                descript:0,
+                type:proType
             })
             this.showModal();
         }else{
         for(var i=0;i<k.length;i++){
-            if(year === k[i].academicYear){
+            if((year === k[i].academicYear) && (proType === k[i].projectType)){
                 console.log('yes');
                 this.setState({
                     proId:id,
                     acaYear:year,
-                    descript:k[i].noProjects
+                    descript:k[i].noProjects,
+                    type:proType
                 })
                 this.showModal();
                 return;
             }
             else{
+                console.log(proType);
                 this.setState({
                     proId:id,
                     acaYear:year,
-                    descript:0
+                    descript:0,
+                    type:proType
                 })
                 this.showModal();
             }
@@ -334,7 +340,7 @@ export default class Academic extends Component {
                             <div className="row" style={{ marginTop: "20px" }}>
                                 <div className="card">
                                     <div>
-                                        <h3 className="sp_head">List of Projects</h3>
+                                        <h3 className="sp_head"></h3>
                                             <form>
                                                 <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
                                                     <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
@@ -346,7 +352,7 @@ export default class Academic extends Component {
                                                             <tr>
                                                                 <th>Year</th>
                                                                 <th>Type</th>
-                                                                <th> Year</th>
+                                                                <th> Academic Year</th>
                                                                 <th>Maximum Projects</th>
                                                                 <th>Set Projects</th>
                                                             </tr>
