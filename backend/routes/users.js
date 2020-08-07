@@ -490,9 +490,48 @@ router.post('/getLimit/:id', async (req, res) => {
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
+  let proId=req.body.projId;
+  let sId=req.body.supId;
+  console.log(proId);
+  console.log(sId);
 
   const group = await Request.findById({ _id: id }).select("groupId")
   console.log(group.groupId);
+
+  const noPro = await Limits.findOne({projectId: proId,supervisorId: sId}).select("noProjects")
+  const proNumber = noPro.noProjects;
+  console.log(proNumber);
+
+ /* var arr3 =[];
+  Request.find({projectId: proId,supId: sId}, function(err,request){
+    
+    if (err)
+      res.status(404).send("data is not found");
+    else{
+
+
+      if (request !== 0) {
+        
+        for (var i = 0; i < request.length; i++) {
+          if ((request[i].state == 'accept')) {
+            arr3.push(request[i]);
+          }
+        }
+      }
+
+     /* console.log("data found");
+      console.log(request[0].supFirstName);
+      arr3.push(request[0]);*/
+
+     /* console.log("array is");
+      console.log(arr3);
+    }
+  })
+  
+
+  for(var i =0; i<arr3.length;i++){
+
+  }*/
 
   Request.findById({ _id: id }, function (err, request) {
     if (err)
