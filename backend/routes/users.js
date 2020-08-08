@@ -490,8 +490,10 @@ router.post('/getLimit/:id', async (req, res) => {
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
+
   let proId=req.body.projId;
   let sId=req.body.supId;
+
   console.log(proId);
   console.log(sId);
 
@@ -502,36 +504,37 @@ router.post('/updateReqState/:id', async (req, res) => {
   const proNumber = noPro.noProjects;
   console.log(proNumber);
 
- /* var arr3 =[];
-  Request.find({projectId: proId,supId: sId}, function(err,request){
-    
-    if (err)
-      res.status(404).send("data is not found");
-    else{
-
-
-      if (request !== 0) {
-        
-        for (var i = 0; i < request.length; i++) {
-          if ((request[i].state == 'accept')) {
-            arr3.push(request[i]);
+  
+  Request
+    .find({projectId: proId,supId: sId })
+    .exec()
+    .then(data => {
+      var l =0;
+      var arr3 = [];
+      if (data !== 0) {
+        for (var i = 0; i < data.length; i++) {
+          if ((data[i].state == 'accept')) {
+            arr3.push(data[i]);
           }
         }
+        l= arr3.length;
+        console.log(l);
       }
+      else {
+        l=0;
+        console.log('data length is zero');
+      }
+      console.log(l);
+      if(l<proNumber){
+        console.log(l);
+        console.log(proNumber);
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
 
-     /* console.log("data found");
-      console.log(request[0].supFirstName);
-      arr3.push(request[0]);*/
-
-     /* console.log("array is");
-      console.log(arr3);
-    }
-  })
-  
-
-  for(var i =0; i<arr3.length;i++){
-
-  }*/
+ 
 
   Request.findById({ _id: id }, function (err, request) {
     if (err)
@@ -550,9 +553,6 @@ router.post('/updateReqState/:id', async (req, res) => {
         .catch(error => {
          
         })
-
-
-
 
       request.state = req.body.state;
       request.save().then(user => {
