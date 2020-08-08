@@ -30,16 +30,20 @@ function CenteredModal(props) {
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <h5></h5>
-            <form >
-            <Row>
-            <Col md={3} xs="12">
-                <Button onClick={increase}>+</Button></Col>
-                <Col md={6} xs="12">
-                <input className="form-control" value={des} onChange={desH} readOnly/></Col>
-                <Col md={3} xs="12">
-                <Button onClick={decrease} >-</Button></Col></Row>
-            </form>
+                <h5></h5>
+                <form >
+                    <Row>
+                        <Col md={3} xs="12">
+                            <Button onClick={increase}>+</Button>
+                        </Col>
+                        <Col md={6} xs="12">
+                            <input className="form-control" value={des} onChange={desH} readOnly/>
+                        </Col>
+                        <Col md={3} xs="12">
+                            <Button onClick={decrease} >-</Button>
+                        </Col>
+                    </Row>
+                </form>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={up}>Set</Button>
@@ -50,14 +54,7 @@ function CenteredModal(props) {
     );
   }
   
-
-
-
-
-
-const ProList = React.memo( props =>(
-
-        
+const ProList = React.memo( props =>(       
     <tr>
         <td>{props.pr.projectYear}</td>
         <td>{props.pr.projectType}</td>
@@ -135,31 +132,31 @@ export default class Academic extends Component {
 
     IncrementItem = () => {
         if(this.state.descript < 10){
-        this.setState({
+            this.setState({
                 descript: (this.state.descript + 1)
-        });
-    }else{
-        this.setState({
-            snackbaropen: true,
-            snackbarmsg: 'You cannot set more than 10 !',
-            snackbarcolor: 'error',
-            descript:this.state.descript,
-        })
-    }
+            });
+        }else{
+            this.setState({
+                snackbaropen: true,
+                snackbarmsg: 'You cannot set more than 10 !',
+                snackbarcolor: 'error',
+                descript:this.state.descript,
+            })
+        }
     }
     DecreaseItem = () => {
         if(this.state.descript > 0){
-      this.setState({
-            descript: (this.state.descript - 1)
-      });
-     }else{
-        this.setState({
-        snackbaropen: true,
-        snackbarmsg: 'Always set the value greater than 0 !',
-        snackbarcolor: 'error',
-        descript:0,
-        })
-     }
+            this.setState({
+                descript: (this.state.descript - 1)
+            });
+        }else{
+            this.setState({
+                snackbaropen: true,
+                snackbarmsg: 'Always set the value greater than 0 !',
+                snackbarcolor: 'error',
+                descript:0,
+            })
+        }
     }
 
     changePro(){
@@ -208,14 +205,14 @@ export default class Academic extends Component {
                         window.location.reload(false);
                     })
                     .catch((error) => {
-                    console.log(error);
-                    this.setState({
-                        snackbaropen: true,
-                        snackbarmsg:'Something went wrong',
-                        snackbarcolor: 'error',
-                        descript:0
-                    })
-                    window.location.reload(false);
+                        console.log(error);
+                        this.setState({
+                            snackbaropen: true,
+                            snackbarmsg:'Something went wrong',
+                            snackbarcolor: 'error',
+                            descript:0
+                        })
+                        window.location.reload(false);
                     })
                 }
               },
@@ -262,7 +259,6 @@ export default class Academic extends Component {
                    const ob = {
                          pro : response.data.data[i]._id
                     }
-                  
                    
                    axios.post(backendURI.url + "/users/getLimit/" +userData.id , ob)
                     .then(res => {  
@@ -271,7 +267,7 @@ export default class Academic extends Component {
                         
                     })
                     .catch((error) => {
-                    console.log(error);
+                        console.log(error);
                     })
                 }
                 console.log(arr1);
@@ -358,7 +354,7 @@ export default class Academic extends Component {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {this.ProList1()}
+                                                            {this.ProList1()}
                                                         </tbody>
                                                     </Table>
                                                 </div>
