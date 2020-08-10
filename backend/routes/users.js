@@ -509,52 +509,55 @@ router.post('/updateReqState/:id', async (req, res) => {
     .find({projectId: proId,supId: sId })
     .exec()
     .then(data => {
-      var l =0;
-      var arr3 = [];
-      if (data !== 0) {
-        for (var i = 0; i < data.length; i++) {
-          if ((data[i].state == 'accept')) {
-            arr3.push(data[i]);
+          var l =0;
+          var arr3 = [];
+          if (data !== 0) {
+            for (var i = 0; i < data.length; i++) {
+              if ((data[i].state == 'accept')) {
+                arr3.push(data[i]);
+              }
+            }
+            l= arr3.length;
+            console.log(l);
           }
-        }
-        l= arr3.length;
-        console.log(l);
-      }
-      else {
-        l=0;
-        console.log('data length is zero');
-      }
-      console.log(l);
-      if(l<proNumber){
-        console.log(l);
-        console.log(proNumber);
-      }
-    /* Request.findById({ _id: id }, function (err, request) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      Request.updateMany({groupId: group.groupId }, {  
-        $set: {
-          state: 'reject'
-        }
-      })
-        .exec()
-        .then(data => {})
-        .catch(error => {})
+          else {
+            l=0;
+            console.log('data length is zero');
+          }
+          console.log(l);
+          /*if(l<proNumber){
+            console.log(l);
+            console.log(proNumber);
+          }*/
+        Request.findById({ _id: id }, function (err, request) {
+          if (err)
+            res.status(404).send("data is not found");
+          else {
+            Request.updateMany({groupId: group.groupId }, {  
+              $set: {
+                state: 'reject'
+              }
+            })
+              .exec()
+              .then(data => {})
+              .catch(error => {})
 
-      request.state = req.body.state;
-      if (req.body.state === 'accept') {
-         if(l<proNumber){
-        request.save().then(user => {
-            res.json({ state: true, msg: 'You accept this group' });
-        })
-      }
-      }else{
-        request.save().then(user => {
-           res.json({ state: true, msg: 'You reject this group' });
-        })
-      }
-  });*/
+            request.state = req.body.state;
+            if (req.body.state === 'accept') {
+              if(l<proNumber){
+                request.save().then(user => {
+                    res.json({ state: true, msg: 'You accept this group' });
+                })
+              }else{
+                  res.json({ state: false, msg: 'You cannot accept further more.You have exceed your  group limit' });
+              }
+            }else{
+              request.save().then(user => {
+                res.json({ state: true, msg: 'You reject this group' });
+              })
+            }
+          }
+        });
     })
     .catch(error => {
       console.log(error)

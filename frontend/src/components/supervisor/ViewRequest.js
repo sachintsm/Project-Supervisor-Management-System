@@ -167,7 +167,7 @@ export default class ViewRequest extends Component {
                                         else {
                                             this.setState({
                                                 snackbaropen: true,
-                                                snackbarmsg: 'Unable to accept',
+                                                snackbarmsg: res.data.msg,
                                                 snackbarcolor: 'error',
                                             })
                                             window.location.reload(false);
