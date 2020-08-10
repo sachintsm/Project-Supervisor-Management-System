@@ -529,6 +529,32 @@ router.post('/updateReqState/:id', async (req, res) => {
         console.log(l);
         console.log(proNumber);
       }
+    /* Request.findById({ _id: id }, function (err, request) {
+    if (err)
+      res.status(404).send("data is not found");
+    else {
+      Request.updateMany({groupId: group.groupId }, {  
+        $set: {
+          state: 'reject'
+        }
+      })
+        .exec()
+        .then(data => {})
+        .catch(error => {})
+
+      request.state = req.body.state;
+      if (req.body.state === 'accept') {
+         if(l<proNumber){
+        request.save().then(user => {
+            res.json({ state: true, msg: 'You accept this group' });
+        })
+      }
+      }else{
+        request.save().then(user => {
+           res.json({ state: true, msg: 'You reject this group' });
+        })
+      }
+  });*/
     })
     .catch(error => {
       console.log(error)
@@ -536,23 +562,18 @@ router.post('/updateReqState/:id', async (req, res) => {
 
  
 
-  Request.findById({ _id: id }, function (err, request) {
+ /* Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
     else {
-
       Request.updateMany({groupId: group.groupId }, {  
         $set: {
           state: 'reject'
         }
       })
         .exec()
-        .then(data => {
-          
-        })
-        .catch(error => {
-         
-        })
+        .then(data => {})
+        .catch(error => {})
 
       request.state = req.body.state;
       request.save().then(user => {
@@ -566,12 +587,8 @@ router.post('/updateReqState/:id', async (req, res) => {
           res.status(400).send("unable to accept");
         });
     }
-  });
-  /*
-  
-  
-  */ 
-
+  });*/
+ 
 });
 ////////check supervisor request/////////////////////
 router.post('/check', async (req, res) => {
