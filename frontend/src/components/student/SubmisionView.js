@@ -3,6 +3,7 @@ import Navbar from "../shared/Navbar";
 import Footer from '../shared/Footer';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import axios from 'axios';
 
 import '../../css/students/Submision.scss'
 import {
@@ -15,6 +16,7 @@ import {
  
  
    } from "react-bootstrap";
+   const backendURI = require("../shared/BackendURI");
 
 export class SubmisionView extends Component {
 
@@ -23,77 +25,89 @@ export class SubmisionView extends Component {
      
           this.state = {
                 projectId: this.props.match.params.id,
+                submissionList:[],
           }
+
+          this.getSubmission = this.getSubmission.bind(this);
+
+          //console.log('Ashan',this.state.submissionList);
+
      }
      
+
+     //button for view upcomming submission
      proposelView = () => {
           this.props.history.push('/studenthome/submisionview/submisionpanal/' + this.state.projectId)
       }
 
-    
+      componentDidMount(){
+
+          this.getSubmission()
+         
+      }
+
+      //get submision details from database
+      getSubmission(){
+          axios.get(backendURI.url +'/proposel/getSubmisionLink/'+ this.state.projectId)
+          .then((res=>{
+           console.log("ssssssssssssss", res.data.data)
+            this.setState({
+               submissionList : res.data.data
+            })
+          })).catch(err=>{
+            console.log(err)
+          })
+        }
 
      render() {
+          //console.log("sss",this.state.submissionList);
           return (
                <React.Fragment>
                <Navbar panel={"student"} />
 
-               <div className="sub-style">
-               <div className="sub-background">
-               <div className=" card container" style={{marginBottom:10}}>
+               <div className=" sub-style ">
+               <div className=" container-fluid  sub-background ">               
+               <div className="container">
+               {this.state.submissionList.length>0 &&(
+               <div>
+               {this.state.submissionList.map((type)=>{
+               return(
+               <div className=" card container" style={{margin: "0px 0px 20px 0px"}} key={type._id}>
                <div  className="row">
-               <div  className="col-xm-1" style={{backgroundColor:'#263238' , height:137, width:35}}>
+               <div  className="col-xm-1" style={{backgroundColor:'#263238' , width:35}}>
                </div>
                <div className="col-sm-11">
-               <h2 className="sup-tittle">Project Proposal </h2>
+               <h2 className="sup-tittle">{type.proposelTittle}</h2>
                <div >
-               <a>
                <span><AttachmentIcon/></span>
-               <span className="sub-link">Project Proposal Template File</span>
+               <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
+               {type.proposelTittle} Template
                </a>
                </div>
-
-               <div >
+               <Row>
+               <Col md={10} xs={10} >
                <a>
                <span><AssignmentIcon/></span>
-               <span className="sub-content" >Project Proposal Submission (Deadline - 2020-05-11 : 11.55 PM)</span>
+               <span className="sub-content" >{type.proposelTittle} Submission (Deadline - {type.deadDate}: {type.deadTime})</span>
                </a>
+               </Col>
+               <Col md={2} xs={2}>
+            
+               <Button style={{alignItems:'right', marginBottom:5}}  onClick={() => {this.proposelView(this.state.project)}}>Add Submission</Button>
+               </Col>
+               </Row>
+               </div>
+               </div>
+  
+               </div>
+               )
+          })}
+          
+               </div>
+               )}
+               </div>
                </div>
 
-               <Button style={{marginLeft:910,marginBottom:5}}  onClick={() => {this.proposelView(this.state.project)}}>Add Submission</Button>
-               </div>
-               </div>
-               </div>
-
-
-               <div className=" card container" style={{marginTop:20}}>
-
-               <div  className="row">
-               <div  className="col-xm-1" style={{backgroundColor:'#263238' , height:137,width:35}}>
-
-               </div>
-
-               <div className="col-sm-11">
-               <h2 className="sup-tittle">Concept Paper </h2>
-
-               <div >
-               <a>
-               <span><AttachmentIcon/></span>
-               <span className="sub-link">Concept Paper Template</span>
-               </a>
-               </div>
-
-               <div >
-               <a>
-               <span><AssignmentIcon/></span>
-               <span className="sub-content">Concept Paper Submission (Deadline - 2020-05-06 : 11.55 PM) Assignment</span>
-               </a>
-               </div>
-
-               <Button style={{marginLeft:910,marginBottom:5}}  onClick={() => {this.proposelView(this.state.project)}}>Add Submission</Button>
-               </div>
-               </div>
-               </div>
-               </div>
                </div>
                
 
