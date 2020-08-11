@@ -11,12 +11,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { IoIosPersonAdd } from 'react-icons/io';
-import { TiGroup } from 'react-icons/ti';
-import { FaChartLine } from 'react-icons/fa';
-import { FiUploadCloud } from 'react-icons/fi';
-import { IconContext } from 'react-icons';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -70,14 +65,6 @@ class Submission extends Component {
          // file :"",
           imgname: '',
           toLateSubmision:false,
-
-
-          // succesAlert: false,
-          // deleteSuccesAlert: false,
-          // warnAlert: false,
-          // snackbaropen: false,
-          // snackbarmsg: "",
-
           propselList :[],
           proId : "",
 
@@ -135,7 +122,7 @@ class Submission extends Component {
         this.setState({
           propselList : res.data.data
         })
-        console.log("sss",this.state.propselList);
+        //console.log("sss",this.state.propselList);
       })).catch(err=>{
         console.log(err)
       })
