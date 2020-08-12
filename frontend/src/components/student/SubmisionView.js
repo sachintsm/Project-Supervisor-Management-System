@@ -34,10 +34,9 @@ export class SubmisionView extends Component {
 
      }
      
-
      //button for view upcomming submission
-     proposelView = () => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + this.state.projectId)
+     proposelView = (id) => {
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + id ,{ projectId: this.state.projectId} )
       }
 
       componentDidMount(){
@@ -79,6 +78,7 @@ export class SubmisionView extends Component {
                <div className="col-sm-11">
                <h2 className="sup-tittle">{type.proposelTittle}</h2>
                <div >
+               
                <span><AttachmentIcon/></span>
                <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
                {type.proposelTittle} Template
@@ -93,7 +93,7 @@ export class SubmisionView extends Component {
                </Col>
                <Col md={2} xs={2}>
             
-               <Button style={{alignItems:'right', marginBottom:5}}  onClick={() => {this.proposelView(this.state.project)}}>Add Submission</Button>
+               <Button style={{alignItems:'right', marginBottom:5}}  onClick={() => {this.proposelView(type._id)}}>Add Submission</Button>
                </Col>
                </Row>
                </div>

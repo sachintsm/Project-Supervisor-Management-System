@@ -62,7 +62,7 @@ class Submission extends Component {
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
-         // file :"",
+          file :"",
           imgname: '',
           toLateSubmision:false,
           propselList :[],
@@ -106,6 +106,7 @@ class Submission extends Component {
       this.setState ({
         imgname: e.target.files[0].name,
         proposelAttachment: e.target.files[0],
+       // file : e.target.files[0],
       })
     }
 
@@ -202,7 +203,7 @@ class Submission extends Component {
                   formData.append("deadDate",this.state.deadDate);
                   formData.append("deadTime",this.state.deadTime);
                   formData.append("proposelAttachment",this.state.proposelAttachment);
-                 // formData.append("file" , this.state.file);
+                  formData.append("file" , this.state.proposelAttachment);
                   formData.append("toLateSubmision",this.state.toLateSubmision);
     
                   if(this.state.componentType === 'add'){
@@ -457,7 +458,7 @@ class Submission extends Component {
                   id="exampleFile"
                   onChange={this.onChangeFile}
                   name="proposelAttachment"
-                 //value={this.state.proposelAttachment}
+               //  value={this.state.proposelAttachment}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
               </div>
