@@ -5,13 +5,14 @@ import Footer from '../shared/Footer';
 import axios from 'axios';
 import {getFromStorage} from "../../utils/Storage";
 import {DropzoneArea} from 'material-ui-dropzone';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import {DropzoneDialog} from 'material-ui-dropzone';
 import '../../css/students/submissions.scss'
 
 
+
 import {
-    // Button,
+     Button,
      Container,
      Col,
      Row,
@@ -22,27 +23,50 @@ import {
    } from "react-bootstrap";
 
    const backendURI = require("../shared/BackendURI");
+   var dateFormat = require('dateformat');
+   var now = new Date();
 
 class SubmitPanal extends Component {
-
-   
 
      constructor(props) {
           super(props)
      
           this.state = {
                projectId : this.props.location.state.projectId,
+               proposelTittle : this.props.location.state.submissionDetails.proposelTittle,
+               deadDate : this.props.location.state.submissionDetails.deadDate,
+               deadTime : this.props.location.state.submissionDetails.deadTime,
+               proposelDiscription: this.props.location.state.submissionDetails.proposelDiscription, 
                SubmissionId : this.props.match.params.id,
-               name:'',
-               files: [],
-               files: []
 
-                
+               name:'',
+               files: '',
+               open:false,
           }
 
           this.onSubmit = this.onSubmit.bind(this)
+          console.log(this.props.location.state)
 
          
+     }
+
+     componentDidMount(){
+
+          // var date = new Date();
+          //const dateString = date.toLocaleDateString()
+          const dateString = dateFormat(now, "yyyy-mm-dd");
+          const setDate =Math.ceil((dateString - this.state.deadDate)/(1000 * 60 * 60 * 24))
+
+          console.log(this.state.deadDate)
+          console.log(setDate)
+
+          // const date1 = new Date('7-13-2010');
+          // const date2 = new Date('12-15-2010');
+          //const diffTime = Math.abs(date2 - date1);
+          //const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+          // console.log(diffTime + " milliseconds");
+          // console.log(diffDays + " days");
+
      }
      handleClose() {
           this.setState({
@@ -72,18 +96,11 @@ class SubmitPanal extends Component {
 
      onSubmit(e){
           e.preventDefault();
-          console.log("aaaaaaaaaaaaaaaaaa");
+          //console.log("aaaaaaaaaaaaaaaaaa");
           const userId = getFromStorage("auth-id").id;
           const headers = {
                'auth-token':getFromStorage('auth-token').token,
            }
-
-          //  const formData = new FormData();
-
-          //  formData.append('userId',userId);
-          //  formData.append('projectId', this.state.projectId);
-          //  formData.append('submissionId' , this.state.SubmissionId);
-          //  formData.append('name',this.state.name);
           const obj = {
                userId : userId,
                projectId : this.state.projectId,
@@ -105,14 +122,25 @@ class SubmitPanal extends Component {
           return (
                <React.Fragment>
                <Navbar panel={"student"} />
-               <div className="container">
+              
                <div className="sub_style">
+               <div  className="container-fluid sub_background" style={{backgroundColor:'#f5f5f5'}}>
+               <div className="container">
 
-               <div className='card'>
-               <p>Submite your Submission</p>
-               <Button  onClick={this.handleOpen.bind(this)}>
-               Add File
-             </Button>
+               <p className="sub_tittle">{this.state.proposelTittle} Submission <small> ( DeadLine - {this.state.deadDate} : {this.state.deadTime} ) </small></p>
+
+               <hr></hr>
+
+               <p className="sub_status">Submission Status</p>
+
+               <div className='card sub_crd'>
+               <h6>Due Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <tab></tab> Wednesday, 6 May 2020, 11:55 PM</h6>
+               <h6>Time remaining &nbsp;&nbsp;&nbsp;&nbsp; fsf </h6>
+              <div>
+               <Button size='sm' className="sub_btn1"  onClick={this.handleOpen.bind(this)}>
+               Add Submission
+               </Button>
+               </div>
              </div>
              <DropzoneDialog
                  open={this.state.open}
@@ -124,6 +152,8 @@ class SubmitPanal extends Component {
              />
                </div>
              </div>
+             </div>
+             <Footer />
                </React.Fragment>
           )
      }
