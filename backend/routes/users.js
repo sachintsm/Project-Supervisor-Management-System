@@ -433,8 +433,24 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-///////// get project list for supervisor profile
+///////// get project list for student 
 router.get('/getSupPro/:id', async (req, res) => {
+  let id = req.params.id;
+  Limits
+    .find({ supervisorId: id })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "No projects" });
+    })
+
+});
+///////get project list for supervisor profile
+router.get('/getSupProAca/:id', async (req, res) => {
   let id = req.params.id;
   Projects
     .find({ supervisorList: id })
@@ -1102,6 +1118,7 @@ router.post('/setLimit', async (req, res) => {
     projectType:req.body.proType,
     supervisorId: req.body.sup_id,
     noProjects: req.body.descript,
+    projYear: req.body.proYear
   });
 
   newLimit.save()

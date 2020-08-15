@@ -60,7 +60,7 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
         <td></td>
-        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit,props.pr.projectType)}>Set</Button> 
+        <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit,props.pr.projectType,props.pr.projectYear)}>Set</Button> 
             <CenteredModal
                 show={props.stat}
                 hide={props.hiden}
@@ -92,6 +92,7 @@ export default class Academic extends Component {
             proId:'',
             acaYear:'',
             type:'',
+            year:'',
             snackbaropen: false,
             snackbarmsg: '',
             snackbarcolor: '',
@@ -177,7 +178,8 @@ export default class Academic extends Component {
                         project_id:this.state.proId,
                         academic_year:this.state.acaYear,
                         descript:this.state.descript,
-                        proType:this.state.type
+                        proType:this.state.type,
+                        proYear:this.state.year,
                     };
                     console.log(obj);
                     axios.post(backendURI.url + "/users/setLimit" , obj)
@@ -248,7 +250,7 @@ export default class Academic extends Component {
         this.setState({ authState: authState });
         const userData = getFromStorage('auth-id')
 
-        axios.get(backendURI.url + '/users/getSupPro/' + userData.id)
+        axios.get(backendURI.url + '/users/getSupProAca/' + userData.id)
             .then(response => {
                 console.log(response.data.data[0]._id);
                 var l =(response.data.data).length;
@@ -280,7 +282,7 @@ export default class Academic extends Component {
             })
     }
    
-    setPro(id,year,k,proType) {
+    setPro(id,year,k,proType,proYear) {
         const userData = getFromStorage('auth-id')
         console.log(k);
         console.log(year)
@@ -289,7 +291,8 @@ export default class Academic extends Component {
                 proId:id,
                 acaYear:year,
                 descript:0,
-                type:proType
+                type:proType,
+                year:proYear
             })
             this.showModal();
         }else{
@@ -300,7 +303,8 @@ export default class Academic extends Component {
                     proId:id,
                     acaYear:year,
                     descript:k[i].noProjects,
-                    type:proType
+                    type:proType,
+                    year:proYear
                 })
                 this.showModal();
                 return;
@@ -311,7 +315,8 @@ export default class Academic extends Component {
                     proId:id,
                     acaYear:year,
                     descript:0,
-                    type:proType
+                    type:proType,
+                    year:proYear
                 })
                 this.showModal();
             }
