@@ -94,7 +94,7 @@ router.get("/proposelAttachment/:filename", function (req, res) {
 });
 
 router.get('/getSubmisionLink/:_id', async (req,res) =>{
-
+ 
   projectId = req.params._id
   console.log(projectId)
 
