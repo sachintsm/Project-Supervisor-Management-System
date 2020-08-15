@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/Submision.scss'
+import '../../css/students/SubmisionView.scss'
 import {
      Button,
      Container,

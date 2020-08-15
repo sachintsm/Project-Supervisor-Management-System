@@ -7,7 +7,7 @@ import {getFromStorage} from "../../utils/Storage";
 import {DropzoneArea} from 'material-ui-dropzone';
 //import Button from '@material-ui/core/Button';
 import {DropzoneDialog} from 'material-ui-dropzone';
-import '../../css/students/submissions.scss'
+import '../../css/students/SubmissionPanel.scss'
 
 
 
@@ -55,13 +55,15 @@ class SubmitPanal extends Component {
           // var date = new Date();
           //const dateString = date.toLocaleDateString()
           const dateString = dateFormat(now, "yyyy-mm-dd");
-          const setDate =Math.ceil((dateString - this.state.deadDate)/(1000 * 60 * 60 * 24))
+          //const setDate =Math.ceil((dateString - this.state.deadDate)/(1000 * 60 * 60 * 24))
 
+          let timeDiff = Math.abs(dateString - this.state.deadDate);
+          let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
           console.log(this.state.deadDate)
-          console.log(setDate)
+          console.log(diffDays)
 
-          // const date1 = new Date('7-13-2010');
-          // const date2 = new Date('12-15-2010');
+          // const date1 = new Date('7/13/2010');
+          // const date2 = new Date('12/15/2010');
           //const diffTime = Math.abs(date2 - date1);
           //const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
           // console.log(diffTime + " milliseconds");
