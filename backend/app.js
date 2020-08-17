@@ -67,6 +67,7 @@ const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
 const proposel = require('./routes/proposel');
+const submission = require('./routes/submissions');
 const mail = require('./mail')
 
 //routing path in routers
@@ -83,6 +84,7 @@ app.use("/groupChat", groupChat);
 app.use('/courseTypes', courseTypes);
 app.use('/indexInfo', indexInfo);
 app.use('/proposel',proposel);
+app.use('/submission',submission);
 app.use('/mail', mail);
 
 const PORT = process.env.PORT || 4000;

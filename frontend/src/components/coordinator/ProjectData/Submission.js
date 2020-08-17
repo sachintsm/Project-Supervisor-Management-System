@@ -11,12 +11,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { IoIosPersonAdd } from 'react-icons/io';
-import { TiGroup } from 'react-icons/ti';
-import { FaChartLine } from 'react-icons/fa';
-import { FiUploadCloud } from 'react-icons/fi';
-import { IconContext } from 'react-icons';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+
 
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
@@ -35,10 +30,6 @@ import {
 
   } from "react-bootstrap";
   const backendURI = require("../../shared/BackendURI");
-
-
-
-
 
 class Submission extends Component {
 
@@ -67,17 +58,9 @@ class Submission extends Component {
           deadDate :"",
           deadTime :"",
           proposelAttachment : "",
-         // file :"",
+          file :"",
           imgname: '',
           toLateSubmision:false,
-
-
-          // succesAlert: false,
-          // deleteSuccesAlert: false,
-          // warnAlert: false,
-          // snackbaropen: false,
-          // snackbarmsg: "",
-
           propselList :[],
           proId : "",
 
@@ -119,6 +102,7 @@ class Submission extends Component {
       this.setState ({
         imgname: e.target.files[0].name,
         proposelAttachment: e.target.files[0],
+       // file : e.target.files[0],
       })
     }
 
@@ -135,7 +119,7 @@ class Submission extends Component {
         this.setState({
           propselList : res.data.data
         })
-        console.log("sss",this.state.propselList);
+        //console.log("sss",this.state.propselList);
       })).catch(err=>{
         console.log(err)
       })
@@ -215,7 +199,7 @@ class Submission extends Component {
                   formData.append("deadDate",this.state.deadDate);
                   formData.append("deadTime",this.state.deadTime);
                   formData.append("proposelAttachment",this.state.proposelAttachment);
-                 // formData.append("file" , this.state.file);
+                  formData.append("file" , this.state.proposelAttachment);
                   formData.append("toLateSubmision",this.state.toLateSubmision);
     
                   if(this.state.componentType === 'add'){
@@ -316,6 +300,14 @@ class Submission extends Component {
         // othersubmission(data) {
         //   this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
         //   }
+        viewSubmission(data){
+          try {
+            this.props.history.push('/coordinatorhome/projectdata/submission/viewsubmission/'+ this.state.projectId,{submissionData:data});
+            console.log("ashan")
+          } catch (error) {
+            console.log(error)
+          }
+        }
 
 
     render() {
@@ -387,7 +379,7 @@ class Submission extends Component {
                   <Row>
 
                   <Col md={3} xs={12}>
-                  <Button className="viw-btn" size="sm" variant="success">View Submision</Button>
+                  <Button className="viw-btn" size="sm" variant="success" onClick={()=>{this.viewSubmission(type)}}>View Submision</Button>
                   </Col>
                   </Row>
                   </div>
@@ -439,7 +431,7 @@ class Submission extends Component {
             <Col  md={6} xs="12">
             <div className="form-group pro-form">
             <label >Dead Line Date :</label>
-            <input type="date" className="form-control" id="exampleInputDate" name="deadDate"
+            <input type="date" data-format="mm/dd/YYYY"className="form-control" id="exampleInputDate" name="deadDate"
             value={this.state.deadDate} onChange={this.onChangeDate}/>
             </div>
             </Col>
@@ -470,7 +462,7 @@ class Submission extends Component {
                   id="exampleFile"
                   onChange={this.onChangeFile}
                   name="proposelAttachment"
-                 //value={this.state.proposelAttachment}
+               //  value={this.state.proposelAttachment}
                 />
                 <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
               </div>

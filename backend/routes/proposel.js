@@ -34,6 +34,8 @@ var storage = multer.diskStorage({
 
    router.post("/addProposel", async (req, res) => {
 
+ // console.log("file name : " , req.file.originalname)
+
     try {
 
       req.body.toLateSubmision = false;
@@ -94,7 +96,7 @@ router.get("/proposelAttachment/:filename", function (req, res) {
 });
 
 router.get('/getSubmisionLink/:_id', async (req,res) =>{
-
+ 
   projectId = req.params._id
   console.log(projectId)
 
