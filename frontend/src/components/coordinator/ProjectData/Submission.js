@@ -61,6 +61,8 @@ class Submission extends Component {
       file: "",
       imgname: '',
       toLateSubmision: false,
+      submssionFileSize: 1,
+      setFileLimit: 1,
       propselList: [],
       proId: "",
 
@@ -105,6 +107,15 @@ class Submission extends Component {
       // file : e.target.files[0],
     })
   }
+
+  onChangesubmssionFileSize = (e) => {
+    this.setState({ submssionFileSize: e.target.value })
+  }
+
+  onChangesetFileLimit = (e) => {
+    this.setState({ setFileLimit: e.target.value })
+  }
+
 
   componentDidMount() {
 
@@ -183,12 +194,9 @@ class Submission extends Component {
 
 
             const userType = localStorage.getItem("user-level");
-
             const userId = getFromStorage('auth-id').id;
 
             const formData = new FormData();
-
-
             formData.append("userId", userId);
             formData.append("userType", userType);
             formData.append("date", dateString);
@@ -201,6 +209,8 @@ class Submission extends Component {
             formData.append("proposelAttachment", this.state.proposelAttachment);
             formData.append("file", this.state.proposelAttachment);
             formData.append("toLateSubmision", this.state.toLateSubmision);
+            formData.append("submssionFileSize", this.state.submssionFileSize);
+            formData.append("setFileLimit", this.state.setFileLimit);
 
             if (this.state.componentType === 'add') {
               axios
@@ -269,6 +279,8 @@ class Submission extends Component {
       deadTime: type.deadTime,
       proposelAttachment: type.proposelAttachment,
       toLateSubmision: type.toLateSubmision,
+      submssionFileSize: type.submssionFileSize / 1000000,
+      setFileLimit: type.setFileLimit,
       proId: type._id
 
     }, () => { window.scrollTo(0, 0) })
@@ -301,9 +313,9 @@ class Submission extends Component {
   //   this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
   //   }
   viewSubmission(data) {
-    console.log(data);
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewsubmission/' + this.state.projectId, { submissionData: data });
+      console.log("ashan")
     } catch (error) {
       console.log(error)
     }
@@ -379,7 +391,7 @@ class Submission extends Component {
                               <Row>
 
                                 <Col md={3} xs={12}>
-                                  <Button className="viw-btn" size="sm" variant="success" onClick={() => { this.viewSubmission(type)}}>View Submision</Button>
+                                  <Button className="viw-btn" size="sm" variant="success" onClick={() => { this.viewSubmission(type) }}>View Submision</Button>
                                 </Col>
                               </Row>
                             </div>
@@ -407,129 +419,145 @@ class Submission extends Component {
                   <div>
                     <div className="card container pro-link-crd">
 
-                      <form onSubmit={this.onSubmit}>
+                      <div className="container">
 
-                        <Row>
-                          <p className="pro-link-name">{this.state.tittle}</p>
-                        </Row>
+                        <form onSubmit={this.onSubmit}>
 
-                        <div className="form-group pro-form">
-                          <label >Proposel Tittle :</label>
-                          <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
-                            name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
-                        </div>
+                          <Row>
+                            <p className="pro-link-name">{this.state.tittle}</p>
+                          </Row>
 
-                        <div className="form-group pro-form">
-                          <label >Proposel Discription :</label>
-                          <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
-                            name="proposelTittle" value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
-                        </div>
+                          <div className="form-group pro-form">
+                            <label >Proposel Tittle :</label>
+                            <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
+                              name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
+                          </div>
+
+                          <div className="form-group pro-form">
+                            <label >Proposel Discription :</label>
+                            <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
+                              name="proposelTittle" value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
+                          </div>
 
 
 
-                        <Row >
-                          <Col md={6} xs="12">
-                            <div className="form-group pro-form">
-                              <label >Dead Line Date :</label>
-                              <input type="date" data-format="mm/dd/YYYY" className="form-control" id="exampleInputDate" name="deadDate"
-                                value={this.state.deadDate} onChange={this.onChangeDate} />
-                            </div>
-                          </Col>
-
-                          <Col md={6} xs="12">
-                            <div className="form-group pro-form">
-                              <label >Dead Line Time :</label>
-                              <input type="time" className="form-control" id="exampleInputTime" name="deadTime"
-                                value={this.state.deadTime} onChange={this.onChangeTime} />
-                            </div>
-                          </Col>
-
-                        </Row>
-
-                        <Row>
-                          <Col md={6} xs="12">
-                            <label className="verticle-align-middle  pro-form">File Attach :{" "}</label>
-                            <FormGroup className="pro-form">
-
-                              <div className="input-group">
-                                <div className="input-group-prepend">
-                                  <span className="input-group-text"> Upload </span>
-                                </div>
-                                <div className="custom-file">
-                                  <input
-                                    type="file"
-                                    className="custom-file-input"
-                                    id="exampleFile"
-                                    onChange={this.onChangeFile}
-                                    name="proposelAttachment"
-                                  //  value={this.state.proposelAttachment}
-                                  />
-                                  <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
-                                </div>
+                          <Row >
+                            <Col md={6} xs="12">
+                              <div className="form-group pro-form">
+                                <label >Dead Line Date :</label>
+                                <input type="date" data-format="mm/dd/YYYY" className="form-control" id="exampleInputDate" name="deadDate"
+                                  value={this.state.deadDate} onChange={this.onChangeDate} />
                               </div>
+                            </Col>
 
-                            </FormGroup>
-                          </Col>
+                            <Col md={6} xs="12">
+                              <div className="form-group pro-form">
+                                <label >Dead Line Time :</label>
+                                <input type="time" className="form-control" id="exampleInputTime" name="deadTime"
+                                  value={this.state.deadTime} onChange={this.onChangeTime} />
+                              </div>
+                            </Col>
 
-                          <Col className="col-padding-5 check-box" md={6} xs={12}>
+                          </Row>
 
-                            <FormControlLabel
-                              className="form-control-label"
-                              control={
-                                <Checkbox
-                                  fontSize="5px"
-                                  checked={this.state.toLateSubmision}
-                                  onChange={() => {
-                                    this.setState({
-                                      toLateSubmision: !this.state.toLateSubmision,
-                                    });
-                                  }}
-                                  name="checkedB"
-                                  color="default"
-                                />
-                              }
-                              label={
-                                <span style={{ fontSize: "14px" }}>
-                                  Permision For Late Submision
+                          <Row>
+                            <Col md={6} xs="12">
+                              <label className="verticle-align-middle  pro-form">File Attach :{" "}</label>
+                              <FormGroup className="pro-form">
+
+                                <div className="input-group">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text"> Upload </span>
+                                  </div>
+                                  <div className="custom-file">
+                                    <input
+                                      type="file"
+                                      className="custom-file-input"
+                                      id="exampleFile"
+                                      onChange={this.onChangeFile}
+                                      name="proposelAttachment"
+                                    //  value={this.state.proposelAttachment}
+                                    />
+                                    <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgname}</label>
+                                  </div>
+                                </div>
+
+                              </FormGroup>
+                            </Col>
+
+                            <Col className="col-padding-5 check-box" md={6} xs={12}>
+
+                              <FormControlLabel
+                                className="form-control-label"
+                                control={
+                                  <Checkbox
+                                    fontSize="5px"
+                                    checked={this.state.toLateSubmision}
+                                    onChange={() => {
+                                      this.setState({
+                                        toLateSubmision: !this.state.toLateSubmision,
+                                      });
+                                    }}
+                                    name="checkedB"
+                                    color="default"
+                                  />
+                                }
+                                label={
+                                  <span style={{ fontSize: "14px" }}>
+                                    Permision For Late Submision
                 </span>
-                              }
-                            />
+                                }
+                              />
 
 
-                          </Col>
+                            </Col>
 
-                        </Row>
-                        <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
-                          <Col md={1}></Col>
-                          {this.state.componentType === 'edit' &&
+                          </Row>
+                          <Row>
+                            <Col md={4} xs={12}>
+                              <label>Set File Size :</label>
+                              <input type="number" className="form-control" id="examplesubmssionFileSize" placeholder="1 MB" value={this.state.submssionFileSize} onChange={this.onChangesubmssionFileSize} />
+                              <small className="smallTag">Input file size in MB</small>
+                            </Col>
+
+                            <Col md={4}>
+                              <label>Set Files Limit :</label>
+                              <input type="number" className="form-control" id="examplesetFileLimit" placeholder="1" value={this.state.setFileLimit} onChange={this.onChangesetFileLimit} />
+                            </Col>
+
+
+                          </Row>
+                          <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
+                            <Col md={1}></Col>
+                            {this.state.componentType === 'edit' &&
+                              <Col>
+                                <Button
+                                  variant='danger'
+                                  onClick={this.goBack}
+                                  style={{ width: '100%' }}
+                                >
+                                  Cancel
+                                </Button>
+                              </Col>}
                             <Col>
                               <Button
-                                variant='danger'
-                                onClick={this.goBack}
+                                variant='info'
+                                onClick={this.onSubmit}
                                 style={{ width: '100%' }}
                               >
-                                Cancel
-          </Button>
-                            </Col>}
-                          <Col>
-                            <Button
-                              variant='info'
-                              onClick={this.onSubmit}
-                              style={{ width: '100%' }}
-                            >
-                              {this.state.componentType === 'add' &&
-                                'Add Submision Now'}
-                              {this.state.componentType === 'edit' &&
-                                'Edit Now'}
-                            </Button>
-                          </Col>
-                          <Col md={1}></Col>
-                        </Row>
+                                {this.state.componentType === 'add' &&
+                                  'Add Submision Now'}
+                                {this.state.componentType === 'edit' &&
+                                  'Edit Now'}
+                              </Button>
+                            </Col>
+                            <Col md={1}></Col>
+                          </Row>
 
-                      </form>
+                        </form>
 
+                      </div>
                     </div>
-
 
 
                     <div>  </div>
@@ -584,14 +612,9 @@ class Submission extends Component {
                       </div>
 
                     )}
-
-
-
-
                   </div>
                 </Tab>
               </Tabs>
-
             </div>
           </div>
         </div>

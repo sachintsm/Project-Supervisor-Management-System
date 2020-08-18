@@ -69,23 +69,25 @@ router.post("/addProposel", async (req, res) => {
         filePath: filePath,
         file: req.file.originalname,
         toLateSubmision: req.body.toLateSubmision,
-      })
+        submssionFileSize: req.body.submssionFileSize*1000000,
+        setFileLimit: req.body.setFileLimit,
+   })
 
-      newProposel
-        .save()
-        .then((resulst) => {
-          res.json({ state: true, msg: "Data inserted successful.." });
-          // console.log(resulst)
+   newProposel
+   .save()
+   .then((resulst) =>{
+     res.json({ state: true, msg: "Data inserted successful.." });
+     // console.log(resulst)
 
-        })
-        .catch((err) => {
-          res.json({ state: false, msg: "Data inserted unsuccessful.." })
-          console.log(err)
-        })
-    })
-  } catch (err) {
-    console.log(err);
-  }
+   })
+   .catch((err) =>{
+        res.json({state : false , msg : "Data inserted unsuccessful.."})
+        console.log(err)
+   })
+  })
+}catch (err) {
+  console.log(err);
+}  
 })
 
 router.get("/proposelAttachment/:filename", function (req, res) {

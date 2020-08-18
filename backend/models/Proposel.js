@@ -15,6 +15,8 @@ var proposel = Schema({
      filePath: { type: String },
      file : {type:String},
      toLateSubmision:{type: Boolean},
+     submssionFileSize: { type:String},
+     setFileLimit: { type:String}
 
 
      
