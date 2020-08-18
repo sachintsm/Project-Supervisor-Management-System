@@ -353,12 +353,12 @@ class AssignSupervisors extends Component {
             // this.setState(state => {
             // const staffOptionList = state.staffOptionList.map((item) => {
 
-            for (let j = 0; j < state.staffOptionList.length; j++) {
-                if (state.staffOptionList[j].value === id) {
-                    let arr = [...this.state.staffOptionList]
-                    arr[]
-                }
-            }
+            // for (let j = 0; j < state.staffOptionList.length; j++) {
+                // if (state.staffOptionList[j].value === id) {
+                    // let arr = [...this.state.staffOptionList]
+                    // arr[]
+                // }
+            // }
             // return state.staffOptionList;
             // });
             // })
