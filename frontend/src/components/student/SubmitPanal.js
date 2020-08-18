@@ -38,7 +38,8 @@ class SubmitPanal extends Component {
                deadTime: this.props.location.state.submissionDetails.deadTime,
                proposelDiscription: this.props.location.state.submissionDetails.proposelDiscription,
                submissionId: this.props.match.params.id,
-
+               fileSize : this.props.location.state.submissionDetails.submssionFileSize,
+               fileLimit : this.props.location.state.submissionDetails.setFileLimit,
                name: '',
                files: '',
                open: false,
@@ -167,9 +168,9 @@ class SubmitPanal extends Component {
                                         onSave={this.handleSave.bind(this)}
                                         acceptedFiles={['image/jpeg', 'image/png', 'image/bmp', 'image/JPG', '.pdf', '.zip', '.rar']}
                                         showPreviews={true}
-                                        maxFileSize={100000000}
+                                        maxFileSize={this.state.fileSize}
                                         onClose={this.handleClose.bind(this)}
-                                        filesLimit={5}
+                                        filesLimit={this.state.fileLimit}
                                         fullWidth={true}
                                    />
 
