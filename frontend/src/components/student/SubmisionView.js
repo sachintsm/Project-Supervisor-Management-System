@@ -92,8 +92,10 @@ export class SubmisionView extends Component {
                                                                                 </a>
                                                                            </Col>
                                                                            <Col md={2} xs={2}>
+                                                                                <div style={{ position: 'relative' }}>
 
-                                                                                <Button style={{ alignItems: 'right', marginBottom: 5 }} onClick={() => { this.proposelView(type) }}>Add Submission</Button>
+                                                                                     <Button className="btn btn-info" style={{ marginBottom: 10, width: "100%", textAlign: "right", marginLeft: "60px"}} onClick={() => { this.proposelView(type) }}>Add Submission</Button>
+                                                                                </div>
                                                                            </Col>
                                                                       </Row>
                                                                  </div>
