@@ -279,7 +279,7 @@ class Submission extends Component {
       deadTime: type.deadTime,
       proposelAttachment: type.proposelAttachment,
       toLateSubmision: type.toLateSubmision,
-      submssionFileSize: type.submssionFileSize/1000000,
+      submssionFileSize: type.submssionFileSize / 1000000,
       setFileLimit: type.setFileLimit,
       proId: type._id
 

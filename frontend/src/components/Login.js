@@ -161,9 +161,9 @@ export default class login extends Component {
 
                 </div>
                 <div className="row">
-                  <div class="spinner-loading">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
+                  <div className="spinner-loading">
+                    <div className="double-bounce1"></div>
+                    <div className="double-bounce2"></div>
                   </div>
                 </div>
 

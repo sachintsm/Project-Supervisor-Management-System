@@ -41,6 +41,7 @@
     "react-csv-reader": "^3.0.6",
     "react-datepicker": "^2.16.0",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.3",
     "react-fontawesome": "^1.7.1",
     "react-froala-wysiwyg": "^3.1.1-1",
     "react-icons": "^3.10.0",

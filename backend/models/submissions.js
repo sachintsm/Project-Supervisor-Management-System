@@ -1,15 +1,12 @@
 const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 
-
-var submission = Schema({
-
+var SubmissionSchema = Schema({
      userId : {type:String},
      projectId : {type:String},
      submissionId : {type:String},
-     name : {type:String},
-
+     files : [{type:String}],
+     date : { type: String },
 })
 
-const submissions = mongoose.model('submission' , submission);
-module.exports = submissions;
+const Submission = (module.exports = mongoose.model('Submission', SubmissionSchema));
