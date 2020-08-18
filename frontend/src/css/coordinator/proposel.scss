@@ -46,7 +46,7 @@
 
 .pro-link-name{
   padding-left:2%;
-  padding-top:1%;
+  padding-top:3%;
   font-family: roboto, sans;
   font-size: 24px;
   font-weight: 500;
@@ -171,6 +171,9 @@
   margin-top: 10px;
   padding-top: 10px;
   color: #263238;
+}
+.smallTag{
+  color: grey;
 }
 @media screen and (max-width: 500px) {
 

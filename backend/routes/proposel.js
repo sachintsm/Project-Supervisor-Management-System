@@ -69,6 +69,8 @@ var storage = multer.diskStorage({
         filePath : filePath,
         file : req.file.originalname,
         toLateSubmision: req.body.toLateSubmision,
+        submssionFileSize: req.body.submssionFileSize*1000000,
+        setFileLimit: req.body.setFileLimit,
    })
 
    newProposel
