@@ -68,7 +68,7 @@ class SubmitPanal extends Component {
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           console.log(diffTime + " milliseconds");
           console.log(diffDays + " days");
-
+          console.log(this.props)
      }
      handleClose() {
           this.setState({
@@ -82,10 +82,9 @@ class SubmitPanal extends Component {
                files: files,
                open: false
           });
-          const userId = localStorage.getItem("auth-id").id;
+          const userId = getFromStorage("auth-id").id;
 
-          console.log("dmaui");
-
+          console.log(userId);
           for (let i = 0; i < files.length; i++) {
                console.log("sachin");
                const formData = new FormData();
@@ -95,7 +94,7 @@ class SubmitPanal extends Component {
                formData.append("projectId", this.state.projectId)
                formData.append("submissionFile", files[i])
 
-               await axios.get(backendURI.url + '/submission/add', formData)
+               await axios.post(backendURI.url + '/submission/add', formData)
                     .then(res => {
                          console.log(res);
                     })
@@ -118,7 +117,6 @@ class SubmitPanal extends Component {
 
      onSubmit(e) {
           e.preventDefault();
-          //console.log("aaaaaaaaaaaaaaaaaa");
           const userId = getFromStorage("auth-id").id;
           const headers = {
                'auth-token': getFromStorage('auth-token').token,
@@ -169,7 +167,7 @@ class SubmitPanal extends Component {
                                         onSave={this.handleSave.bind(this)}
                                         acceptedFiles={['image/jpeg', 'image/png', 'image/bmp', 'image/JPG', '.pdf', '.zip', '.rar']}
                                         showPreviews={true}
-                                        maxFileSize={10000000}
+                                        maxFileSize={100000000}
                                         onClose={this.handleClose.bind(this)}
                                         filesLimit={5}
                                         fullWidth={true}

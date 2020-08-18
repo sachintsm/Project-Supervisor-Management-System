@@ -18,8 +18,10 @@ var storage = multer.diskStorage({
                date_ob.getMonth() +
                1 +
                date_ob.getFullYear() +
-               date_ob.getHours();
-          cb(null, time + '-' + file.originalname); //set the file neme
+               date_ob.getHours() +
+               date_ob.getMinutes();
+
+          cb(null, 'PROJECT_SUBMISSION -' + time + file.originalname); //set the file neme
      },
 });
 
@@ -28,52 +30,64 @@ const upload = multer({ storage: storage }).single('submissionFile');
 
 router.post("/add", async (req, res) => {
 
-     const existing = await Submission.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
-
-
      try {
-          if (!existing) {
-               upload(req, res, (err) => {
-                    let ts = Date.now();
-                    let date_ob = new Date(ts);
-                    const time =
-                         date_ob.getDate() +
-                         date_ob.getMonth() +
-                         1 +
-                         date_ob.getFullYear() +
-                         date_ob.getHours() +
-                         date_ob.getSeconds();
-                    if (req.file) {
-                         var filePath = "PROJECT_SUBMISSION -" + time + req.file.originalname;
-                    }
+          upload(req, res, async (err,) => {
+               let ts = Date.now();
+               let date_ob = new Date(ts);
+               const time =
+                    date_ob.getDate() +
+                    date_ob.getMonth() +
+                    1 +
+                    date_ob.getFullYear() +
+                    date_ob.getHours() +
+                    date_ob.getMinutes();
+               if (req.file) {
+                    var filePath = "PROJECT_SUBMISSION -" + time + req.file.originalname;
+               }
+               
+               const existing = await Submission.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
+               if (!existing) {
+
 
                     const newSubmission = new Submission({
                          userId: req.body.userId,
                          projectId: req.body.projectId,
                          submissionId: req.body.submissionId,
                          date_ob: req.body.date_ob,
-                         fileName: filePath,
+                         files: filePath,
                     })
-                    console.log(newSubmission);
-                    // newProposel
-                    //      .save()
-                    //      .then((resulst) => {
-                    //           res.json({ state: true, msg: "Data inserted successful.." });
-                    //           // console.log(resulst)
+                    newSubmission
+                         .save()
+                         .then((resulst) => {
+                              res.json({ state: true, msg: "Data inserted successful.." });
+                         })
+                         .catch((err) => {
+                              res.json({ state: false, msg: "Data inserted unsuccessful.." })
+                              console.log(err)
+                         })
+               }
+               else {
+                    Submission
+                         .find({ userId: req.body.userId, submissionId: req.body.submissionId })
+                         .updateOne(
+                              {
+                                   $push: {
+                                        files: filePath
+                                   }
+                              }
+                         )
+                         .exec()
+                         .then((resulst) => {
+                              res.json({ state: true, msg: "Data inserted successful.." });
+                         })
+                         .catch((err) => {
+                              res.json({ state: false, msg: "Data inserted unsuccessful.." })
+                              console.log(err)
+                         })
 
-                    //      })
-                    //      .catch((err) => {
-                    //           res.json({ state: false, msg: "Data inserted unsuccessful.." })
-                    //           console.log(err)
-                    //      })
-               })
-          }
-          else {
+               }
+          })
 
-               upload(req, res, (err) => {
-                    console.log("file path : "+ req.file.originalname);
-               })
-          }
      } catch (err) {
           console.log(err);
      }
