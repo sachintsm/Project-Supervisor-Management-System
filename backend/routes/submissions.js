@@ -7,16 +7,14 @@ const verify = require('../authentication');
 
 
 router.post("/addSubmission" ,verify, async  (req, res) => {
-
     // console.log("Ashan3")
-
      try {
 
           const newSubmission = new submissions({
                userId : req.body.userId,
                projectId : req.body.projectId,
                submissionId : req.body.submissionId,
-               name : req.body.name
+              // name : req.body.name
           })
 
           newSubmission

@@ -93,7 +93,7 @@ function App() {
           <Route path='/coordinatorhome/projectdata/BiWeekly/:id' component={BiWeekly}></Route>
           <Route path='/coordinatorhome/projectdata/Groups/:id' component={Groups}></Route>
           <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
-          <Route path='/coordinatorhome/projectdata/submission/viewsubmission/:id' component={ViewSubmission}></Route>
+          <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
 
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
