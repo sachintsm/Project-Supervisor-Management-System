@@ -26,6 +26,7 @@ import SupervisorData from './components/coordinator/SupervisorData/SupervisorDa
 import BiWeekly from './components/coordinator/ProjectData/BiWeekly';
 import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
+import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission'
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
@@ -91,7 +92,9 @@ function App() {
 
           <Route path='/coordinatorhome/projectdata/BiWeekly/:id' component={BiWeekly}></Route>
           <Route path='/coordinatorhome/projectdata/Groups/:id' component={Groups}></Route>
-          <Route path='/coordinatorhome/projectdata/othersubmission/:id' component={Submission}></Route>
+          <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
+          <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
+
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 

@@ -347,11 +347,39 @@ class AssignSupervisors extends Component {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
+    changeState = (st, id) => {
+        console.log(st);
+        if (st === true) {
+            // this.setState(state => {
+            // const staffOptionList = state.staffOptionList.map((item) => {
+
+            // for (let j = 0; j < state.staffOptionList.length; j++) {
+                // if (state.staffOptionList[j].value === id) {
+                    // let arr = [...this.state.staffOptionList]
+                    // arr[]
+                // }
+            // }
+            // return state.staffOptionList;
+            // });
+            // })
+        }
+        else {
+            this.setState(state => {
+                // const staffOptionList = state.staffOptionList.map((item) => {
+                for (let j = 0; j < state.staffOptionList.length; j++) {
+                    if (state.staffOptionList[j].value === id) {
+                        state.staffOptionList[j].added = true;
+                    }
+                }
+                // return state.staffOptionList;
+                // });
+            })
+        }
+    }
 
 
     render() {
         const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
-
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (
@@ -397,7 +425,7 @@ class AssignSupervisors extends Component {
                                         {this.state.staffOptionList.map(data => {
                                             return (
                                                 <div key={data.value} >
-                                                    <StaffList data={data} />
+                                                    <StaffList data={data} state={data.added} changeState={this.changeState} />
                                                 </div>
 
                                             )
