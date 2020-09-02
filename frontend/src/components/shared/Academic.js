@@ -59,7 +59,6 @@ const ProList = React.memo( props =>(
         <td>{props.pr.projectYear}</td>
         <td>{props.pr.projectType}</td>
         <td>{props.pr.academicYear}</td>
-        <td></td>
         <td> <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.send(props.pr._id,props.pr.academicYear,props.limit,props.pr.projectType,props.pr.projectYear)}>Set</Button> 
             <CenteredModal
                 show={props.stat}
@@ -238,7 +237,7 @@ export default class Academic extends Component {
 
         return filteredProjects.map((currentProj, i) => {
             console.log(i);
-            if (currentProj.isDeleted === false) {
+            if (currentProj.isDeleted === false && currentProj.projectState === true) {
                 return <ProList  pr={currentProj} key={i} limit={this.state.proL} hiden={this.hideModal}  send={this.setPro}
                     dis={this.state.dis}  stat={this.state.show} desHan={this.handleChange} update={this.changePro}
                     in={this.IncrementItem} de={this.DecreaseItem} descrip={this.state.descript}/>;
@@ -354,7 +353,6 @@ export default class Academic extends Component {
                                                                 <th>Year</th>
                                                                 <th>Type</th>
                                                                 <th> Academic Year</th>
-                                                                <th>Maximum Projects</th>
                                                                 <th>Set Projects</th>
                                                             </tr>
                                                         </thead>
