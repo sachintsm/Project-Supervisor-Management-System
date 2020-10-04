@@ -231,6 +231,7 @@ export default class Academic extends Component {
         let filteredProjects = this.state.proS.filter(
             (currentProj) => {
                 console.log(currentProj);
+                console.log(currentProj);
                 return currentProj.projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
