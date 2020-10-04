@@ -19,8 +19,6 @@ import {
 } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Nav , Badge} from 'react-bootstrap';
-import { FiSettings } from 'react-icons/fi';
-import { BsPerson } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import Icon from '@material-ui/core/Icon';
 import {makeStyles} from "@material-ui/core/styles";

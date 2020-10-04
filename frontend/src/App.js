@@ -16,7 +16,7 @@ import CourseRegistration from './components/admin/CourseRegistration';
 import Profile from "./components/shared/Profile";
 import EditProfile from "./components/admin/EditUser";
 import ViewMailBox from "./components/admin/ViewMailBox";
-import CustomRegistration from "./components/admin/CustomRegistration";
+import CustomRegistration from "./components/shared/CustomRegistration";
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
@@ -68,6 +68,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Login}></Route>
+          <Route exact path='/customregistration' component={CustomRegistration}></Route>
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
@@ -76,7 +77,6 @@ function App() {
 
           <Route exact path='/adminhome/viewusers' component={ViewUsers}></Route>
           <Route exact path='/adminhome/viewmailbox' component={ViewMailBox}></Route>
-          <Route exact path='/adminhome/customregistration' component={CustomRegistration}></Route>
           <Route exact path='/adminhome/createproject' component={CreateProject}></Route>
           <Route exact path='/adminhome/projecttypes' component={ProjectTypes}></Route>
           <Route exact path='/adminhome/registration/course' component={CourseRegistration}></Route>
