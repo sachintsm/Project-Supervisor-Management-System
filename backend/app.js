@@ -66,6 +66,7 @@ const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
+const customReg = require('./routes/customReg');
 const proposel = require('./routes/proposel');
 const submission = require('./routes/submissions');
 const mail = require('./mail')
@@ -78,6 +79,7 @@ app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
 app.use("/indexInfo", indexInfo);
+// app.use("/customReg", customReg);
 app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);

@@ -83,6 +83,8 @@ export default class MailBox extends Component {
         status={this.state.deleteSuccesAlert}
         closeAlert={this.closeAlert}
       />
+
+
           <Container>
               <div style={{ marginTop: "20px" }}>
                 <h3>Mail Box </h3>
