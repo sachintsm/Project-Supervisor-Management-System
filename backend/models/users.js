@@ -20,6 +20,8 @@ var userSchema = mongoose.Schema({
   isSupervisor: { type: Boolean },
   imageName: { type: String },
   courseType :{ type: String},
+  educationalQualifications : { type: String },
+  jobDescription : { type: String}
 });
 
 const Users = (module.exports = mongoose.model('Users', userSchema));
