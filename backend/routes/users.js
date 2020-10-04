@@ -7,6 +7,7 @@ const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
 const Request = require('../models/request');
 const Projects = require('../models/projects');
+const Limits = require('../models/setProjectLimit');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const verify = require('../authentication');
@@ -432,8 +433,24 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-///////// get project list for supervisor profile
+///////// get project list for student 
 router.get('/getSupPro/:id', async (req, res) => {
+  let id = req.params.id;
+  Limits
+    .find({ supervisorId: id })
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "No projects" });
+    })
+
+});
+///////get project list for supervisor profile
+router.get('/getSupProAca/:id', async (req, res) => {
   let id = req.params.id;
   Projects
     .find({ supervisorList: id })
@@ -465,34 +482,117 @@ router.get('/getSupReq/:id', async (req, res) => {
     })
 
 });
+////// get maximum projects of supervisor in user profile
+router.post('/getLimit/:id', async (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  let proId= req.body.pro;
+  console.log(proId);
+  Limits
+    .find({ supervisorId: id,projectId: proId })
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+
+});
 //////////update request state whether accept or reject
 router.post('/updateReqState/:id', async (req, res) => {
   let id = req.params.id;
   console.log(id);
 
+  let proId=req.body.projId;
+  let sId=req.body.supId;
+
+  console.log(proId);
+  console.log(sId);
+
   const group = await Request.findById({ _id: id }).select("groupId")
   console.log(group.groupId);
 
-  Request.findById({ _id: id }, function (err, request) {
+  const noPro = await Limits.findOne({projectId: proId,supervisorId: sId}).select("noProjects")
+  const proNumber = noPro.noProjects;
+  console.log(proNumber);
+
+  
+  Request
+    .find({projectId: proId,supId: sId })
+    .exec()
+    .then(data => {
+          var l =0;
+          var arr3 = [];
+          if (data !== 0) {
+            for (var i = 0; i < data.length; i++) {
+              if ((data[i].state == 'accept')) {
+                arr3.push(data[i]);
+              }
+            }
+            l= arr3.length;
+            console.log(l);
+          }
+          else {
+            l=0;
+            console.log('data length is zero');
+          }
+          console.log(l);
+          /*if(l<proNumber){
+            console.log(l);
+            console.log(proNumber);
+          }*/
+        Request.findById({ _id: id }, function (err, request) {
+          if (err)
+            res.status(404).send("data is not found");
+          else {
+            Request.updateMany({groupId: group.groupId }, {  
+              $set: {
+                state: 'reject'
+              }
+            })
+              .exec()
+              .then(data => {})
+              .catch(error => {})
+
+            request.state = req.body.state;
+            if (req.body.state === 'accept') {
+              if(l<proNumber){
+                request.save().then(user => {
+                    res.json({ state: true, msg: 'You accept this group' });
+                })
+              }else{
+                  res.json({ state: false, msg: 'You cannot accept further more.You have exceed your  group limit' });
+              }
+            }else{
+              request.save().then(user => {
+                res.json({ state: true, msg: 'You reject this group' });
+              })
+            }
+          }
+        });
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+ 
+
+ /* Request.findById({ _id: id }, function (err, request) {
     if (err)
       res.status(404).send("data is not found");
     else {
-
       Request.updateMany({groupId: group.groupId }, {  
         $set: {
           state: 'reject'
         }
       })
         .exec()
-        .then(data => {
-          
-        })
-        .catch(error => {
-         
-        })
-
-
-
+        .then(data => {})
+        .catch(error => {})
 
       request.state = req.body.state;
       request.save().then(user => {
@@ -506,12 +606,8 @@ router.post('/updateReqState/:id', async (req, res) => {
           res.status(400).send("unable to accept");
         });
     }
-  });
-  /*
-  
-  
-  */ 
-
+  });*/
+ 
 });
 ////////check supervisor request/////////////////////
 router.post('/check', async (req, res) => {
@@ -995,7 +1091,47 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
+// set no of projects by supervisor using profile
+router.post('/setLimit', async (req, res) => {
 
+  const id = req.body. project_id;
+  const supId = req.body.sup_id;
+  const ifExist = await Limits.findOne({ projectId: id, supervisorId:supId});
+  if (ifExist){
+    Limits.findOne({ projectId: id, supervisorId:supId }, function (err, limit) {
+      if (err)
+        res.status(404).send("data is not found");
+      else {
+        limit.noProjects = req.body.descript;
+        limit.save().then(limit => {
+          res.json({ state: true, msg: 'Update Complete' });
+        })
+          .catch(err => {
+            res.json({ state: false, msg: "Update Failed..!" });
+          });
+      }
+    });
+  }else{
+  const newLimit = new Limits({
+    projectId: req.body. project_id,
+    academicYear: req.body.academic_year,
+    projectType:req.body.proType,
+    supervisorId: req.body.sup_id,
+    noProjects: req.body.descript,
+    projYear: req.body.proYear
+  });
+
+  newLimit.save()
+    .then(result => {
+      // console.log(result)
+      res.json({ state: true, msg: "Set limit Successfull..!" });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Set limit Failed..!" });
+    })
+ }
+})
 
 //? check student available or not
 router.get('/student/:id', verify, async (req, res) => {

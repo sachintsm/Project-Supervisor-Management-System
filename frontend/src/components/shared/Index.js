@@ -37,6 +37,7 @@ export default class Index extends Component {
                     mobile: res.data.mobile,
                     cat: res.data.regNumber.substring(5, 7).toUpperCase(),
                 })
+                console.log(res.data);
             })
 
     };
