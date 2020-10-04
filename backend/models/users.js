@@ -9,7 +9,6 @@ var userSchema = mongoose.Schema({
   birthday: { type: String },
   nic: { type: String },
   mobile: { type: String },
-  noProject:{type: String},
   indexNumber: { type:String},
   regNumber: { type:String },
   isDeleted: { type: Boolean },

@@ -12,8 +12,10 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "../shared/Snackpop";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
-import { Table, Spinner } from 'react-bootstrap'
+import { Table, Spinner, Card } from 'react-bootstrap'
 import MultiSelect from 'react-multi-select-component';
+
+import StaffList from './StaffList'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -46,13 +48,17 @@ class AssignSupervisors extends Component {
 
             supervisorIdList: [],
             finalBlockArray: [],
+
+            mouseState: false,
+
+            checkboxes: []
+
         };
         this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
-        this.searchGroups = this.searchGroups.bind(this)
+        this.searchGroups = this.searchGroups.bind(this);
         this.deleteSupervisor = this.deleteSupervisor.bind(this);
-        this.groupDataHandler = this.groupDataHandler.bind(this)
     }
 
     closeAlert = () => {
@@ -99,12 +105,15 @@ class AssignSupervisors extends Component {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
                         value: user._id,
+                        added: true,
+                        email: user.email
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
                     });
                     return null;
                 });
+
             })
             .catch((err) => {
                 console.log(err);
@@ -217,7 +226,7 @@ class AssignSupervisors extends Component {
                 spinnerDiv2: true,
                 finalBlockArray: [],
             })
-            
+
             const headers = {
                 'auth-token': getFromStorage('auth-token').token,
             }
@@ -276,12 +285,12 @@ class AssignSupervisors extends Component {
         }
         //? gett the groups that one supercviser supervised
         await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
-        .then(res => {
-            for (let j = 0; j < res.data.data.length; j++) {
-                var group = res.data.data[j].groupId
-                array1.push(group)
-            }
-        })
+            .then(res => {
+                for (let j = 0; j < res.data.data.length; j++) {
+                    var group = res.data.data[j].groupId
+                    array1.push(group)
+                }
+            })
         confirmAlert({
             title: 'Confirm to Delete?',
             message: 'Supervisor will also removed from the Groups!',
@@ -334,13 +343,43 @@ class AssignSupervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/supervisorData/' + data, {projectId : this.state.projectId});
+        if (this.state.mouseState == false) {
+            this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
+        }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    changeState = (st, id) => {
+        console.log(st);
+        if (st === true) {
+            // this.setState(state => {
+            // const staffOptionList = state.staffOptionList.map((item) => {
+
+            // for (let j = 0; j < state.staffOptionList.length; j++) {
+                // if (state.staffOptionList[j].value === id) {
+                    // let arr = [...this.state.staffOptionList]
+                    // arr[]
+                // }
+            // }
+            // return state.staffOptionList;
+            // });
+            // })
+        }
+        else {
+            this.setState(state => {
+                // const staffOptionList = state.staffOptionList.map((item) => {
+                for (let j = 0; j < state.staffOptionList.length; j++) {
+                    if (state.staffOptionList[j].value === id) {
+                        state.staffOptionList[j].added = true;
+                    }
+                }
+                // return state.staffOptionList;
+                // });
+            })
+        }
+    }
+
 
     render() {
         const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
-
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (
@@ -359,96 +398,116 @@ class AssignSupervisors extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
-                    <div className="card">
-                        <div className="container">
-                            <p className="as-reg-head">Assign Supervisors</p>
-                            <Row >
-                                <Col md="5" xs="12">
-                                    <div className="form-group as-dropdown-select">
-                                        <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                            <option>Select the project</option>
-                                            {activeProjectsList}
-                                        </select>
+                    <div className="container">
+                        <Card className="task-card-gd">
+                            <Card.Header className="gd-card-header">Assign Supervisors</Card.Header>
+                            <Card.Body className="gd-card-body">
+                                <Row >
+                                    <Col md="12" xs="12">
+                                        <div className="form-group as-dropdown-select">
+                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                                <option>Select the project</option>
+                                                {activeProjectsList}
+                                            </select>
+                                        </div>
+                                    </Col>
+                                </Row >
+                                <Row className="container">
+                                    <div className="container" style={{ marginBottom: "20px" }}>
+                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.selectAll}>
+                                            Select All
+                                        </button>
+                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.deselectAll}>
+                                            Deselect All
+                                        </button>
                                     </div>
-                                </Col>
-                                <Col md="5" xs="12">
-                                    <div className="form-group as-dropdown-select">
-                                        <MultiSelect
-                                            options={this.state.staffOptionList}
-                                            value={this.state.selectedStaffList}
-                                            onChange={this.setSelected}
-                                            labelledBy={'Select'}
-                                            hasSelectAll={false}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col md="2" xs="12">
-                                    <button className="btn btn-info as-btn" onClick={this.addSupervisors}>Add Now</button>
-                                </Col>
-                            </Row>
-                        </div>
-
-                        {spinnerDiv1 && (
-                            <div className="spinner">
-                                <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
-                            </div>
-                        )}
-                    </div>
-                    <div className="card">
-                        <div className="container">
-                            <p className="as-reg-head">Project Supervisors List</p>
-                            <Row >
-                                <Col md="10" xs="12">
-                                    <div className="form-group as-dropdown-select">
-                                        <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                            <option>Select the project</option>
-                                            {activeProjectsList}
-                                        </select>
-                                    </div>
-                                </Col>
-                                <Col md="2" xs="12">
-                                    <button className="btn btn-info as-btn" onClick={this.searchGroups}>Search</button>
-                                </Col>
-                            </Row>
-                        </div>
-                        {spinnerDiv2 && (
-                            <div className="spinner">
-                                <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
-                            </div>
-                        )}
-                        {dataDiv && (
-                            <div className="container">
-                                <Table hover className="as-table" >
-                                    <thead>
-                                        <tr>
-                                            <th className="table-head">Supervisor</th>
-                                            <th className="table-head">Groups</th>
-                                            <th className="table-head">Count</th>
-                                            <th className="table-head">Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.finalBlockArray.map((item) => {
+                                    <div className="container" style={{ width: "100%" }}>
+                                        {this.state.staffOptionList.map(data => {
                                             return (
-                                                <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
+                                                <div key={data.value} >
+                                                    <StaffList data={data} state={data.added} changeState={this.changeState} />
+                                                </div>
 
-                                                    <td className="table-body">{item.name}</td>
-                                                    <td className="table-body">{item.groups}</td>
-                                                    <td className="table-body">{item.length}</td>
-                                                    <td className="table-body">
-                                                        <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
-                                                    </td>
-                                                </tr>
                                             )
                                         })}
-                                    </tbody>
-                                </Table>
-                            </div>
-                        )}
+                                    </div>
+                                </Row >
+
+                                <Row >
+
+                                    <Col md="12" xs="12">
+                                        <button style={{ width: '100%' }} className="btn btn-info as-btn" onClick={this.addSupervisors}>Add Now</button>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
                     </div>
-                </div>
+
+                    {spinnerDiv1 && (
+                        <div className="spinner">
+                            <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
+                        </div>
+                    )}
+                    {/* /***************************************************************************************************************************** */}
+                    <div className="container">
+                        <Card className="task-card-gd">
+                            <Card.Header className="gd-card-header">Project Supervisors List</Card.Header>
+                            <Card.Body className="gd-card-body">
+                                <Row >
+                                    <Col md="10" xs="12">
+                                        <div className="form-group as-dropdown-select">
+                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                                <option>Select the project</option>
+                                                {activeProjectsList}
+                                            </select>
+                                        </div>
+                                    </Col>
+                                    <Col md="2" xs="12">
+                                        <button className="btn btn-info as-btn" onClick={this.searchGroups}>Search</button>
+                                    </Col>
+                                </Row>
+
+                                {spinnerDiv2 && (
+                                    <div className="spinner">
+                                        <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
+                                    </div>
+                                )}
+                                {dataDiv && (
+                                    <div className="container">
+                                        <Table hover className="as-table" >
+                                            <thead>
+                                                <tr>
+                                                    <th className="table-head">Supervisor</th>
+                                                    <th className="table-head">Groups</th>
+                                                    <th className="table-head">Count</th>
+                                                    <th className="table-head">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.state.finalBlockArray.map((item) => {
+                                                    return (
+                                                        <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
+                                                            <td className="table-body">{item.name}</td>
+                                                            <td className="table-body">{item.groups}</td>
+                                                            <td className="table-body">{item.length}</td>
+                                                            <td className="table-body">
+                                                                <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
+                                                                    <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                )}
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div >
                 <Footer />
-            </div >
+            </div>
         );
     }
 }

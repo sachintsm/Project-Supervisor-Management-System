@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { Row, Col } from "reactstrap";
 import axios from 'axios';
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
@@ -24,7 +27,7 @@ function ProjectModal(props) {
             className="modal"
         >
                     
-            <Modal.Header >
+            <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
                  Projects
             </Modal.Title>
@@ -36,14 +39,16 @@ function ProjectModal(props) {
                                     <th>Year</th>
                                     <th>Type</th>
                                     <th>Academic Year</th>
+                                    <th>Projects</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {re.map((result) => {
                                 return (<tr key={result._id}>
-                                    <td>{result.projectYear}</td>
+                                    <td>{result.projYear}</td>
                                     <td>{result.projectType}</td>
                                     <td>{result.academicYear}</td>
+                                    <td>{result.noProjects}</td>
                                     </tr> 
                                     )
                             })}
@@ -96,7 +101,7 @@ const Staff = React.memo( props =>(
         
             <tr>
                 <td>{props.staff.firstName} {props.staff.lastName}</td>
-                <td>{props.staff.email}</td>
+                <td><a href="#" onClick={() => props.view(props.staff._id,props.result)}>{props.staff.email}</a></td>
                 <td><ButtonToolbar>
                 <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.view(props.staff._id)} >Projects</Button> 
                 <ProjectModal
@@ -121,6 +126,26 @@ const Staff = React.memo( props =>(
             
        )
 );
+const ReqState = React.memo( props =>(
+
+        
+    <tr>
+        <td>{props.req.supFirstName}{props.req.supLastName}</td>
+        <td>{props.req.supEmail}</td>
+        {(props.req.state === "pending")?
+            (<td>{props.req.state}</td>):
+                ((props.req.state === "read")?
+                    (<td style={{ color: "blue"}}>{props.req.state}</td>):
+                        ((props.req.state === "accept")?
+                            (<td style={{ color: "green"}}>{props.req.state}</td>):
+                                (<td style={{ color: "red"}}>{props.req.state}</td>)
+                        )
+                )
+        }
+    </tr>
+    
+)
+);
 
 export default class Profile extends Component {
 
@@ -134,6 +159,8 @@ export default class Profile extends Component {
             search: '',
             userS: [],
             pro:[],
+            reqSt:[],
+            group:'',
             project: props.location.state.projectDetails,
             snackbaropen: false,
             snackbarmsg: ' ',
@@ -167,17 +194,42 @@ export default class Profile extends Component {
     };
     hideModal2 = () => {
         this.setState({ show2: false});
+        this.props.history.push('/studenthome/viewproject/requestsupervisor');
     };
 
     async componentDidMount() {
         const authState = await verifyAuth();
         this.setState({ authState: authState });
-
+        const userData = getFromStorage('auth-id')
+       
+       
         axios.get(backendURI.url + '/users/getSup/' + this.state.project._id)
             .then(response => {
                 console.log(response.data.data);
 
                 this.setState({ userS: response.data.data });
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        
+            axios.get(backendURI.url + '/users/getReqStatus/' + userData.id)
+            .then(response => {
+                console.log(response.data.data);
+                const group= response.data.data;
+                console.log(group);
+                this.setState({ group: response.data.data })
+                const obj = {
+                    groID: this.state.group
+                };
+                axios.post(backendURI.url + '/users/getStatus/' + this.state.project._id,obj)
+                .then(response => {
+                    console.log(response.data.data);
+                    this.setState({ reqSt: response.data.data })
+                })
+                 .catch(function (error) {
+                        console.log(error);
+                 })
             })
             .catch(function (error) {
                 console.log(error);
@@ -215,6 +267,23 @@ export default class Profile extends Component {
            // }
         })
 
+    }
+    StatusList4(){
+        
+      
+            console.log(this.state.reqSt);
+            let filteredStatus = this.state.reqSt.filter(
+                (currentStatus) => {
+                    console.log(currentStatus.state);
+                    return currentStatus. projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                }
+            );
+    
+            return filteredStatus.map((currentStatus, i) => {
+               // if (currentStaff.isStaff === true && currentStaff.isSupervisor === true && currentStaff.isDeleted === false) {
+                    return <ReqState  req={currentStatus} key={i} />;
+               // }
+            })
     }
     reqSend(sup){
         const userData = getFromStorage('auth-id')
@@ -254,7 +323,7 @@ export default class Profile extends Component {
                     })
         
     }
-    viewPro(sup){
+    viewPro(sup,k){
         const userData = getFromStorage('auth-id')
         console.log(sup);
         
@@ -266,6 +335,7 @@ export default class Profile extends Component {
                                 pro:res.data.data
                             })
                             this.showModal2();
+                            
                         }
                         else{
                             this.setState({
@@ -280,6 +350,11 @@ export default class Profile extends Component {
                     .catch((error) => {
                     console.log(error);
                     })
+               return <ProjectModal
+               show={ this.showModal2}
+               hide={this.hideModal2}
+               re={k}
+               />    
         
     }
     requestSup() {
@@ -350,7 +425,7 @@ export default class Profile extends Component {
         return(
             <React.Fragment >
             <Navbar panel={"student"} />
-            <div className="container-fluid">
+            <div className="card container">
                 <Snackpop
                 msg={this.state.snackbarmsg}
                 color={this.state.snackbarcolor}
@@ -358,39 +433,81 @@ export default class Profile extends Component {
                 status={this.state.snackbaropen}
                 closeAlert={this.closeAlert}
                />
-                <div className="row">
-                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
-                        <div className="container">
-                            <div className="row" style={{ marginTop: "20px" }}>
-                                <div className="card">
-                                    <div>
-                                        <h3 className="sp_head">List of Supervisors</h3>
-                                            <form>
-                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
-                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+               <Col md={12} xs="12" className="main-div">
+                    <Tabs className="tab" defaultActiveKey="list" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
+                        <Tab eventKey="list" title="Request Supervisor">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                        <div className="container">
+                                            <div className="row" style={{ marginTop: "20px" }}>
+                                                <div className="card">
+                                                    <div>
+                                                            <form>
+                                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                                                                </div>
+                                                            </form>
+                                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
+                                                                    <Table responsive >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Email</th>
+                                                                                <th>View Projects</th>
+                                                                                <th>Request</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.UserList4()}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
-                                                    <Table responsive >
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Email</th>
-                                                                <th>View Projects</th>
-                                                                <th>Request</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {this.UserList4()}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </Tab>
+                        <Tab eventKey="status" title="Request Status">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                        <div className="container">
+                                            <div className="row" style={{ marginTop: "20px" }}>
+                                                <div className="card">
+                                                    <div>
+                                                            <form>
+                                                                <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
+                                                                    <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch}/>
+                                                                </div>
+                                                            </form>
+                                                                <div className="container" style={{marginLeft:"24px", width:"95.5%"}}>
+                                                                    <Table responsive >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Email</th>
+                                                                                <th>Status</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {this.StatusList4()}
+                                                                        </tbody>
+                                                                    </Table>
+                                                                </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Tab>
+                    </Tabs>
+                </Col>
             </div>
 
             <Footer />

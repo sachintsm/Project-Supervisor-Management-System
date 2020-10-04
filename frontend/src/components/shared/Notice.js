@@ -1,16 +1,7 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-
-// import 'froala-editor/css/froala_style.min.css';
-// import 'froala-editor/css/froala_editor.pkgd.min.css';
-// import FroalaEditorComponent from 'react-froala-wysiwyg';
-
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
@@ -189,7 +180,7 @@ class Notice extends Component {
     //? load all the active project names from
     axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
       .then((res => {
-        console.log("project List", res.data.data)
+       // console.log("project List", res.data.data)
         this.setState({
           activeProjects: res.data.data
 

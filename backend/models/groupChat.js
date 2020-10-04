@@ -5,8 +5,6 @@ var groupChatSchema = mongoose.Schema({
     groupId: { type: String },
     messages: [{
         userId : { type: String},
-        profileImage : { type: String},
-        userName: { type:String},
         message : { type: String}
     }]
 });

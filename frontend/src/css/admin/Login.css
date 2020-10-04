@@ -30,7 +30,7 @@
     padding-top: 110px;
 }
 
-.abc{
+.abc {
     flex: 1 1 auto;
 }
 
@@ -44,7 +44,7 @@
 .login-card-div {
     vertical-align: middle;
     margin-left: 0px !important;
-    margin-right:  0px !important ;
+    margin-right: 0px !important;
 }
 
 .forgot-password-btn {
@@ -115,6 +115,69 @@
     margin-left: -40px;
 }
 
+.white-logo {
+    width: 20%;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+}
+
+/* .spinnerX {
+    width: 0%;
+    position: fixed;
+    top: 51%;
+    left: 49%;
+    color: rgb(1, 34, 94);
+} */
+
+.spinner-loading {
+    width: 0%;
+    position: fixed;
+    top: 51%;
+    left: 49%;
+    color: rgb(1, 34, 94);
+    width: 40px;
+    height: 40px;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgb(1, 34, 94);
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    50% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
 @media only screen and (max-width: 1024px) {
     .vertical-center {
         padding-top: 30px !important;
@@ -122,7 +185,7 @@
     .login-card-div {
         padding: 0px 30px;
         margin-left: 0px !important;
-        margin-right:  0px !important ;
+        margin-right: 0px !important;
     }
     .login-card {
         width: 100% !important;
@@ -145,7 +208,6 @@
         /* margin-left: -40px; */
     }
 }
-
 
 @media only screen and (max-width: 767px) {
     .logo {
@@ -197,17 +259,15 @@
         width: 100%;
         cursor: pointer;
     }
-
-    .lg-problem{
+    .lg-problem {
         margin-top: 10px;
     }
-    .lg-problem-text{
+    .lg-problem-text {
         color: rgb(112, 112, 112);
         font-size: 12px;
         font-weight: 400;
     }
-    
-    .lg-problem-admin{
+    .lg-problem-admin {
         color: rgb(0, 177, 177);
         font-size: 12px;
         cursor: pointer;

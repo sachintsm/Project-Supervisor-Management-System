@@ -41,7 +41,8 @@ class StudentList extends Component {
             'auth-token': getFromStorage('auth-token').token,
         }
 
-        await axios.get(backendURI.url + '/users/supervisorList/' + this.props.obj, { headers: headers }).then(res => {
+        await axios.get(backendURI.url + '/users/supervisorList/' + this.props.obj, { headers: headers })
+        .then(res => {
             if (res) {
                 
                 if (res.data.data !== undefined) {

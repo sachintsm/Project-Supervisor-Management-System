@@ -39,6 +39,8 @@ class Supervisors extends Component {
             projectName: '',
             supervisorIdList: [],
             finalBlockArray: [],
+
+            mouseState : false,
         }
     }
     closeAlert = () => {
@@ -115,9 +117,13 @@ class Supervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
+        if(this.state.mouseState == false){
+            this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
+        }
     }
     async deleteSupervisor(data, groups) {
+        console.log(this.state.mouseState);
+
         const projectId = this.state.projectId;
         const userId = data;
         var array1 = []
@@ -191,7 +197,7 @@ class Supervisors extends Component {
         if (this.state.supervisorIdList.length === 0) {
             noProject = <p className="no-projects">No active supervisors...</p>
         }
-        const { dataDiv, spinnerDiv } = this.state;
+        const { dataDiv, spinnerDiv , mouseState} = this.state;
         return (
             <React.Fragment>
                 <Snackpop
@@ -232,7 +238,10 @@ class Supervisors extends Component {
                                                 <td className="table-body">{item.groups}</td>
                                                 <td className="table-body">{item.length}</td>
                                                 <td className="table-body">
-                                                    <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                    
+                                                    <span onMouseEnter={() => this.setState({mouseState : true})} onMouseLeave={() => this.setState({mouseState : false})}>
+                                                        <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
+                                                    </span>
                                                 </td>
                                             </tr>
                                         )

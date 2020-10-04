@@ -4,13 +4,15 @@ import Navbar from '../shared/Navbar';
 import axios from 'axios';
 import MultiSelect from 'react-multi-select-component';
 import Footer from '../shared/Footer';
-import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, Table, Container } from 'react-bootstrap';
+import { Button, Col, Row, Dropdown, DropdownButton, ButtonGroup, Table, Container, FormControl, Card } from 'react-bootstrap';
 import Snackpop from "../shared/Snackpop";
 import {getFromStorage} from "../../utils/Storage";
 import { confirmAlert } from 'react-confirm-alert';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Create from '@material-ui/icons/Create';
 import CoordinatorList from "./CoordinatorList";
+import CSVReader from "react-csv-reader";
+import { AiFillDelete } from 'react-icons/ai';
 
 const backendURI = require('../shared/BackendURI');
 const date_ob = new Date();
@@ -28,7 +30,7 @@ class CreateProject extends Component {
 
     this.state = {
       componentType: 'add',
-      title: 'Creating New Project',
+      title: 'Assign Coordinators & Students',
       projects: [],
       selectedTypeIndex: 0 ,
       academicYear: '',
@@ -41,7 +43,8 @@ class CreateProject extends Component {
       projectTypeList: [],
       successAlert: false,
       warnAlert: false,
-      typeWarnAlert: false
+      typeWarnAlert: false,
+      newIndex: ""
     };
   }
   //   const [selected, setSelected] = useState([]);
@@ -134,7 +137,8 @@ class CreateProject extends Component {
                 projectYear: this.state.year,
                 projectType: this.state.type,
                 academicYear: this.state.academicYear,
-                coordinatorList: coordinators
+                coordinatorList: coordinators,
+                studentList: this.state.studentList
               }
               if(this.state.componentType==='add'){
 
@@ -149,6 +153,7 @@ class CreateProject extends Component {
               }
 
               if(this.state.componentType==='edit'){
+                
                 axios.patch(backendURI.url + '/projects/' + this.state.id, this.state,{headers: headers}).then(res => {
                 }).catch(err => {
                   console.log(err)
@@ -180,7 +185,7 @@ class CreateProject extends Component {
           onClick: () => {
 
           }
-        }
+        },
       ]
     })
   }
@@ -196,7 +201,6 @@ class CreateProject extends Component {
         this.setState({
           projects: result.data.map(project=>project)
         })
-        console.log("sss",this.state.projects)
       }
       else{
         this.setState({
@@ -311,6 +315,13 @@ class CreateProject extends Component {
       title: 'Delete Project',
       message: 'This will delete the entire project. Are you sure?',
       buttons: [
+
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        },
         {
           label: 'Yes',
           onClick: async () => {
@@ -323,18 +334,12 @@ class CreateProject extends Component {
             }).catch(err => console.log(err))
           }
         },
-        {
-          label: 'No',
-          onClick: () => {
-
-          }
-        }
       ]
     })
   }
 
   onEditHandler = (project) => {
-    // console.log(project)
+    console.log(project)
     this.state.projectTypeList.map((type,index)=>{
       if(type.projectType===project.projectType){
         this.setState({
@@ -375,6 +380,7 @@ class CreateProject extends Component {
       type: project.projectType,
       year: project.projectYear,
       academicYear: project.academicYear,
+      studentList: project.studentList,
       id: project._id,
     }, () => { window.scrollTo(0, 0) })
   }
@@ -383,7 +389,7 @@ class CreateProject extends Component {
 
     this.setState({
       componentType: "add",
-      title: 'Create Project Now',
+      title: 'Assign Coordinators & Students',
       selectedTypeIndex : 0,
       selectedStaffList: []
     })
@@ -397,6 +403,53 @@ class CreateProject extends Component {
       typeWarnAlert: false
     });
   };
+
+  handleForce = data => {
+    let studenList = []
+    data.map(row =>{
+      if(row[0]!=""){
+        studenList.push(row[0])
+      }
+    })
+    this.setState({
+      studentList: studenList
+    })
+  };
+
+  addIndex = () => {
+    if(this.state.studentList.includes(this.state.newIndex)){ //index already exists
+    }
+    else{
+      this.setState({
+        studentList: [...this.state.studentList, this.state.newIndex]
+      })
+    }
+  }
+
+  deleteIndex = (index) => {
+    confirmAlert({
+      title: 'Delete Index',
+      message: 'Are you sure you want to delete this Index?',
+      buttons: [
+
+
+        {
+          label: 'Yes',
+          onClick: async () => {
+
+            this.setState( {studentList: this.state.studentList.filter((item)=>{return item!==index })  })
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
+          }
+        },
+      ]
+    })
+  }
+
   render() {
 
     const { yearsArray } = this.state;
@@ -519,7 +572,7 @@ class CreateProject extends Component {
                         {(this.state.projectTypeList.length>0 && this.state.projectTypeList[this.state.selectedTypeIndex].isAcademicYear)?
                             <Col  lg="4" md="4" sm="12" xs="12" >
                               <Row>
-                                <p className="cp-text cp-text2">
+                                <p className="cp-text cp-text">
                                   Academic Year
                                 </p>
                               </Row>
@@ -557,7 +610,7 @@ class CreateProject extends Component {
 
                       </Row>
 
-                      <Row style={{ marginLeft: '15px', marginTop: '20px' }}>
+                      <Row style={{ paddingLeft: '30px', marginTop: '20px' }}>
                         <Row>
                           <p className="cp-text">
                             Assign Coordinators into the Project
@@ -575,16 +628,113 @@ class CreateProject extends Component {
                         </Col>
                       </Row>
 
+
+                      <div style={{   marginTop: '20px', textAlign:"center" }}>
+
+                        <Row style={{paddingLeft: '15px',}}>
+                          <p className="cp-text">
+                            Assign Students into the Project
+                          </p>
+                        </Row>
+                        {this.state.componentType=="add" &&
+                          <div>
+                          <Row style={{paddingLeft: '15px',}}>
+                            <p className="cp-text2">
+                              CSV File Format :
+                            </p>
+                          </Row>
+                          <Row className="img-col">
+
+                            <Col md={2} lg={3} xs={0} sm={0}></Col>
+                            <Col md={8} lg={6} xs={12} sm={12}>
+                              <img
+                                  alt='background'
+                                  src={require('../../assets/images/Student Assign-CSV-Format.PNG')}
+                                  className='csv-image'
+                              />
+                            </Col>
+                            <Col md={2} lg={3} xs={0} sm={0}></Col>
+                          </Row>
+                          <Row style={{paddingLeft: '15px',}}>
+                            <p className="cp-text2">
+                              Choose CSV File :
+                            </p>
+                          </Row>
+
+                          <Row className="img-col">
+
+                            <Col md={2} lg={3} xs={0} sm={0}></Col>
+                            <Col md={8} lg={6} xs={12} sm={12}>
+                              <div className="csv-reader-div">
+                                <CSVReader
+                                    cssClass="react-csv-input"
+                                    onFileLoaded={this.handleForce}
+                                    inputStyle={{ color: 'grey' }}
+                                />
+                              </div>
+                            </Col>
+                            <Col md={2} lg={3} xs={0} sm={0}></Col>
+                          </Row>
+                        </div>
+                        }
+
+                        {this.state.componentType=="edit" &&
+                          <div>
+                            <Row style={{paddingLeft: '15px',}}>
+                              <Col lg={2} md={2} xs={0}></Col>
+                              <Col lg={5} md={6} xs={12} sm={12}>
+                                <FormControl
+                                    type='text'
+                                    className="placeholder-text"
+                                    placeholder='Eg :- 17000001'
+                                    value={this.state.newIndex}
+                                    onChange={(e) => {
+                                      this.setState({ newIndex: e.target.value });
+                                    }}
+                                ></FormControl>
+                              </Col>
+                              <Col lg={3} md={4} xs={12} sm={12}>
+                                <Button
+                                    variant='info'
+                                    onClick={this.addIndex}
+                                    style={{ width: '100%' }}
+                                >
+                                  Add Index
+                                </Button>
+                              </Col>
+                              <Col lg={2} md={2} xs={0}></Col>
+                            </Row>
+
+                            <Row className="index-list-row">
+                              {this.state.studentList.map((index,key)=>{
+                                return (
+                                    <Col key={key} lg={3} md={4} xs={12} sm={12} className="index-card-col">
+                                      {/*<Row>*/}
+                                        <Card className="index-card">
+                                          <Card.Body className="index-card-body">
+                                            {index} <span className="index-delete-icon" onClick={()=>this.deleteIndex(index)}><AiFillDelete/></span>
+                                          </Card.Body>
+                                        </Card>
+                                      {/*</Row>*/}
+                                    </Col>
+                                )
+                              })}
+                            </Row>
+                          </div>
+                        }
+
+                      </div>
+
                       <Row style={{ marginTop: '40px', marginBottom: '30px' }}>
-                        <Col md={3}></Col>
+                        <Col md={1}></Col>
                         {this.state.componentType === 'edit' &&
                         <Col>
                           <Button
-                              variant='outline-danger'
+                              variant='danger'
                               onClick={this.goBack}
                               style={{ width: '100%' }}
                           >
-                            Go Back
+                            Cancel
                           </Button>
                         </Col>}
                         <Col>
@@ -594,12 +744,12 @@ class CreateProject extends Component {
                               style={{ width: '100%' }}
                           >
                             {this.state.componentType === 'add' &&
-                            'Create Project Now'}
+                            'Assign Now'}
                             {this.state.componentType === 'edit' &&
-                            'Edit Now'}
+                            'Save Now'}
                           </Button>
                         </Col>
-                        <Col md={3}></Col>
+                        <Col md={1}></Col>
                       </Row>
 
                     </div>

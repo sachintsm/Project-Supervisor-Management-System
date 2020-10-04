@@ -9,7 +9,7 @@ import openSocket from 'socket.io-client';
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
 import Navbar from '../../shared/Navbar'
-import { Row, Col, Card, Container, ProgressBar } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 const backendURI = require('../BackendURI');
 
@@ -23,12 +23,19 @@ class GroupChat extends Component {
             snackbarmsg: '',
             snackbarcolor: '',
 
-            groupDetails: [],
+            groupDetails: this.props.location.state.groupDetails,
             messages: [],
 
             socket: openSocket(backendURI.url),
 
             userName: '',
+
+            groupMembers: [],
+            supervisors: [],
+            userData: [],
+            finalBlock: [],
+
+            dataDiv: false
         }
 
         this.state.socket.on('message', (message) => {
@@ -39,15 +46,9 @@ class GroupChat extends Component {
     }
 
     async componentDidMount() {
+
         const authState = await verifyAuth();
         const userId = getFromStorage('auth-id')
-        await axios.get(backendURI.url + '/users/getUserName/' + userId.id)
-            .then(res => {
-                var name = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
-                this.setState({
-                    userName: name
-                })
-            })
         this.setState({
             authState: authState,
         })
@@ -56,7 +57,7 @@ class GroupChat extends Component {
         }
         await axios.get(backendURI.url + '/groupChat/' + this.props.location.state.groupDetails._id)
             .then(res => {
-                console.log(res.data.data);
+                // console.log(res.data.data);
 
                 if (res.data.data.length > 0) {
                     this.setState({
@@ -64,21 +65,50 @@ class GroupChat extends Component {
                     })
                 }
             })
+        for (var i = 0; i < this.state.groupDetails.groupMembers.length; i++) {
+            await axios.get(backendURI.url + '/users/getStudentDetails/' + this.state.groupDetails.groupMembers[i])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data[0]._id,
+                        userName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
+                        profileImage: res.data.data[0].imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        for (var j = 0; j < this.state.groupDetails.supervisors.length; j++) {
+            await axios.get(backendURI.url + '/users/getUser/' + this.state.groupDetails.supervisors[j])
+                .then(res => {
+                    const data = {
+                        _id: res.data.data._id,
+                        userName: res.data.data.firstName + ' ' + res.data.data.lastName,
+                        profileImage: res.data.data.imageName
+                    }
+                    this.setState({
+                        userData: [...this.state.userData, data]
+                    })
+                })
+        }
+        this.setState({
+            dataDiv: true
+        })
     }
 
     handleSubmit = async (sender, content) => {
         const userId = getFromStorage('auth-id').id
-        var profileImage = ''
-        await axios.get(backendURI.url + '/users/getUserImage/' + userId)
-            .then(res => {
-                // console.log(res.data.data[0].imageName);
-                profileImage = res.data.data[0].imageName
-            })
+        // var profileImage = ''
+        // await axios.get(backendURI.url + '/users/getUserImage/' + userId)
+        //     .then(res => {
+        //         // console.log(res.data.data[0].imageName);
+        //         profileImage = res.data.data[0].imageName
+        //     })
         let reqBody = {
             userId: userId,
-            profileImage: profileImage,
+            // profileImage: profileImage,
             groupId: this.props.location.state.groupDetails._id,
-            sender: this.state.userName,
+            // sender: this.state.userName,
             content: content
         }
         const headers = {
@@ -92,6 +122,8 @@ class GroupChat extends Component {
     }
 
     render() {
+        const { dataDiv } = this.state;
+
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -100,16 +132,20 @@ class GroupChat extends Component {
                         <Card.Header className="gd-card-header">
                             Chat Room
                         </Card.Header>
-                        <Card.Body className="gd-card-body messages-container" style={{ overflow: 'auto', display: 'flex', flexDirection: 'column-reverse' }}>
-                            {this.state.messages.length > 0 ?
-                                <MessagesContainer messages={this.state.messages} />
-                                :
-                                <div />
+                        <Card.Body className="gd-card-body messages-container" 
+                       // style={{ overflow-y: 'auto', display: 'flex', flexDirection: 'column'}}
+                        >
+                            {
+                                this.state.dataDiv && this.state.messages.map(data => {
+                                    return (
+                                        <MessagesContainer messages={data} userData={this.state.userData} />
+                                    )
+                                })
                             }
                         </Card.Body>
-                            <div className="input-container">
-                                <InputContainer handleSubmit={this.handleSubmit} />
-                            </div>
+                        <div className="input-container">
+                            <InputContainer handleSubmit={this.handleSubmit} />
+                        </div>
                     </Card>
                 </div>
             </React.Fragment>

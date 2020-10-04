@@ -1,9 +1,9 @@
 @media  (max-width: 480px) {
-    .avatar {
+    .profilepic {
         vertical-align: middle;
-        width: 110px;
+        width: 90px;
         height: 110px;
-        border-radius: 25%;
+       // border-radius: 25%;
     }
     
 }
@@ -27,11 +27,11 @@
         float: none;
         margin-bottom: 10px;
     }
-    .avatar {
+    .profilepic {
         vertical-align: middle;
-        width: 110px;
+        width: 90px;
         height: 110px;
-        border-radius: 25%;
+        //border-radius: 25%;
     }
     .tab {
         margin-left: 20px;
@@ -109,11 +109,11 @@
         float: none;
         margin-bottom: 10px;
     }
-    .avatar {
+    .profilepic {
         vertical-align: middle;
-        width: 190px;
+        width: 185px;
         height: 212px;
-        border-radius: 50%;
+      //  border-radius: 50%;
     }
     .tab {
         margin-left: 20px;
@@ -188,11 +188,11 @@
         float: none; 
         margin-Top: 50px;
     }
-    .avatar {
+    .profilepic {
         vertical-align: middle;
-        width: 260px; 
+        width: 200px; 
         height: 270px; 
-        border-radius: 50%;
+        //border-radius: 50%;
     }
     .tab {
         margin-left: 20px;
@@ -262,11 +262,11 @@
         float: none;
         margin-bottom: 10px;
     }
-    .avatar {
+    .profilepic {
         vertical-align: middle;
-         width: 295px; 
+         width: 250px; 
          height: 330px; 
-        border-radius: 50%;
+        ///border-radius: 50%;
     }
     .reg-head {
         margin-left: 20px;
@@ -275,4 +275,26 @@
         color: #3a3a3a;
         font-weight: 500;
     }
+}
+
+@media  (min-width: 1580px) {
+    .profilepic {
+        //vertical-align: middle;
+        margin-left:20px;
+         width: 250px; 
+         height: 330px; 
+        ///border-radius: 50%;
+    }
+    .password-icon {
+        cursor: pointer;
+        float: right;
+        margin-top: -28px;
+        margin-right: 8px;
+    }
+
+    .testimonial-card {
+        width: 250px;
+        height: 350px;
+    }
+    
 }

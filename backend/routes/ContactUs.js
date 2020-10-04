@@ -22,7 +22,6 @@ router.get("/", (req, res) => {
 
 //Post
 router.post('/add', (req, res) => {
-    console.log(req.body);
     const newContactUs = new ContactUs({
       date: req.body.date,
       firstName: req.body.firstName,
@@ -35,7 +34,6 @@ router.post('/add', (req, res) => {
 
     newContactUs.save()
         .then(result => {
-            console.log(result)
             res.json({ state: true, msg: "Message sent Successfully..!" });
         })
         .catch(error => {

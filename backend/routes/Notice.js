@@ -44,11 +44,11 @@ router.post("/addNotice", verify, async (req, res) => {
     req.body.toStudent = false;
 
 
-    if (
-      !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
-    ) {
-      req.body.toViewType = false;
-    }
+    // if (
+    //   !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
+    // ) {
+    //   req.body.toViewType = false;
+    // }
 
     upload(req, res, (err) => {
       let ts = Date.now();
@@ -73,7 +73,7 @@ router.post("/addNotice", verify, async (req, res) => {
         date: req.body.date,
         time: req.body.time,
         filePath: filePath,
-        toViewType: req.body.toViewType,
+        //toViewType: req.body.toViewType,
         toCordinator: req.body.toCordinator,
         toSupervisor: req.body.toSupervisor,
         toStudent: req.body.toStudent,
@@ -82,7 +82,6 @@ router.post("/addNotice", verify, async (req, res) => {
       newNotice
         .save()
         .then((result) => {
-         // console.log(result);
           res.json({ state: true, msg: "Data inserted successful.." });
         })
         .catch((error) => {
@@ -102,7 +101,6 @@ router.get("/viewNotice", (req, res, next) => {
     .select("noticeTittle notice date time filePath userType toCordinator toStudent toSupervisor projectId userId ")
     .exec()
     .then((docs) => {
-      console.log("Data Transfer Successss.!");
       res.status(200).json(docs);
     })
     .catch((error) => {
@@ -116,16 +114,14 @@ router.get("/viewNotice", (req, res, next) => {
 //Get notice attchment from database
 router.get("/noticeAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
- //console.log(filename);
   res.sendFile(
     path.join(__dirname, "../local_storage/notice_Attachment/" + filename)
   );
 });
 
-//delte notice feom database
+//delte notice from database
 router.delete("/delteNotice/:_id", verify, async (req, res) => {
   const id = req.params._id;
-  console.log(req.params._id);
 
   Notice.remove({ _id: id })
     .exec()
@@ -145,7 +141,6 @@ router.delete("/delteNotice/:_id", verify, async (req, res) => {
 
 router.delete("/noticeAttachment/:filename", (req, res) => {
   const filename = req.params.filename;
-  console.log(filename);
   const path = "local_storage/notice_Attachment/" + filename;
 
   try {
@@ -168,7 +163,6 @@ router.get('/NoticeView/:userId', (req, res) => {
     .find({ userId: userId })
     .sort({date:-1 }&&{time:-1})
     .then(data => {
-     // console.log(data)
       res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {
@@ -245,7 +239,6 @@ router.get("/getAdminNotice", (req, res, next) => {
     .sort({date:-1 }&&{time:-1})
     .exec()
     .then((docs) => {
-      console.log("Data Transfer Successss.!");
       res.status(200).json(docs);
     })
     .catch((error) => {
@@ -264,8 +257,7 @@ router.get("/getNoticeByStudent/:id" , async (req,res)=>{
     const sId = req.params.id
     const result1 = await User.findOne({_id:sId , isStudent :true}).select('indexNumber')
    
-    // res.json(result1.indexNumber)
-    // console.log(result1.indexNumber)
+
     const result2 = await createGroups.find({groupMembers : result1.indexNumber , groupState:true}).select('projectId')
     let idList = []
     for(let i in result2){

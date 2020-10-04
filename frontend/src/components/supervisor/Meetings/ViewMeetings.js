@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import { verifyAuth } from "../../../utils/Authentication";
 import Navbar from "../../shared/Navbar";
@@ -10,23 +8,26 @@ import { getFromStorage } from '../../../utils/Storage';
 import Snackpop from "../../shared/Snackpop";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Table, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { Row, Col } from 'reactstrap';
+import { Table } from 'react-bootstrap';
 import ConfirmMeetings from "./ConfirmMeetings";
+import '../../../css/supervisor/Meeting.scss'
+import UrgentMeeting from "./UrgentMeetings";
+
+
 
 const backendURI = require('../../shared/BackendURI');
+
 
 const Meet = React.memo(props => (
     <tr>
         <td className="table-body">{props.meet.groupId}</td>
         <td className="table-body">{props.meet.purpose}</td>
-
-        <td className="table-body">
+        <td className="table-body" style={{ width: "10%" }}>
             <ConfirmMeetings data={props.meet._id} />
         </td>
     </tr>
 ));
+
 
 const MeetConfirmed = React.memo(props => (
     <tr>
@@ -37,20 +38,29 @@ const MeetConfirmed = React.memo(props => (
     </tr>
 ));
 
-class ViewMeetings extends Component {
 
+
+class ViewMeetings extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
+
             // snackbaropen: false,
+
             // snackbarmsg: '',
+
             // snackbarcolor: '',
 
+
+
             // authState: '',
+
             // snackbaropen: false,
+
             // snackbarmsg: '',
-            groupId: this.props.match.params.id,
+
+            groupId: this.props.location.state.groupDetails._id,
+            groupNumber: this.props.location.state.groupDetails.groupId,
             purpose: "",
             time: "",
             supervisor: "",
@@ -58,38 +68,36 @@ class ViewMeetings extends Component {
             supervisorN: [],
             superOptionList: [],
             selectValue: "",
-
             meetings: [],
+            urgentMeetings: [],
         }
-
-
     }
 
+
+
     componentDidMount = async () => {
-
         const authState = await verifyAuth();
-
         this.setState({
             authState: authState,
             groupDataBlock: [],
             finalBlock: []
         });
+
         if (!authState) {  //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
+
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
 
+
+
         const userId = getFromStorage('auth-id').id
         this.setState({
             userId: userId,
         })
-
-
-        console.log(this.state.userId);
-
 
         await axios.get(backendURI.url + '/requestMeeting/getsupervisor/' + this.state.userId)
             .then(response => {
@@ -98,36 +106,39 @@ class ViewMeetings extends Component {
             .catch(function (error) {
                 console.log(error);
             })
+        //! get urgent meetings
 
-        console.log(this.state.meetings);
-
-
-
+        await axios.get(backendURI.url + '/requestMeeting/geturgent/' + this.state.userId)
+            .then(res => {
+                this.setState({
+                    urgentMeetings: res.data.data
+                })
+            })
     }
+
+
 
     MeetList() {
-
-
         return this.state.meetings.map((currentMeet, i) => {
-            if (currentMeet.state === "pending" ) {
-            return <Meet confirm={this.confirm} meet={currentMeet} key={i} />;
+            if (currentMeet.state === "pending") {
+                return <Meet confirm={this.confirm} meet={currentMeet} key={i} />;
             }
             else return null
         })
-
     }
+
+
 
     MeetList2() {
-
-
         return this.state.meetings.map((currentMeetConfirmed, i) => {
-            if (currentMeetConfirmed.state === "confirmed" ) {
-            return <MeetConfirmed confirm={this.confirm} meetconfirmed={currentMeetConfirmed} key={i} />;
+            if (currentMeetConfirmed.state === "confirmed") {
+                return <MeetConfirmed confirm={this.confirm} meetconfirmed={currentMeetConfirmed} key={i} />;
             }
             else return null
         })
-
     }
+
+
 
     render() {
         return (
@@ -141,39 +152,35 @@ class ViewMeetings extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
-
                     {/* ************************************************************************************************************************************************************************** */}
-
                     <div className="row">
                         {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
+
                             <Sidebar />
+
                         </div> */}
+
                         <div className="col-md-12" style={{ minHeight: "1000px" }}>
+
                             <div className="container">
-
-                                <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
-
+                                <Tabs defaultActiveKey="urgent" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
                                     <Tab eventKey="request" title="Meeting Requests" className="tit">
                                         <div className="row" style={{ marginTop: "20px" }}>
-
                                             <div className="card">
                                                 <div>
                                                     <h3 className="sp_head">Meeting Requests</h3>
-
                                                     <div className="container">
                                                         <div className=" vu-table">
-
                                                             <Table hover className="vu-table-hover" >
                                                                 <thead>
                                                                     <tr>
                                                                         <th className="table-head">Group</th>
                                                                         <th className="table-head">Purpose</th>
-                                                                        <th className="table-head">Actions</th>
+                                                                        <th className="table-head" style={{ textAlign: "center" }}>Actions</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     {this.MeetList()}
-
                                                                 </tbody>
                                                             </Table>
                                                         </div>
@@ -181,15 +188,12 @@ class ViewMeetings extends Component {
                                                 </div>
                                             </div>
                                         </div>
-
                                     </Tab>
-
                                     <Tab eventKey="confirm" title="Confirmed Meetings">
                                         <div className="row" style={{ marginTop: "20px" }}>
                                             <div className="card">
                                                 <div>
                                                     <h3 className="sp_head">Confirmed Meetings</h3>
-
                                                     <div className="container">
                                                         <div className=" vu-table">
                                                             <Table hover className="vu-table-hover" >
@@ -199,27 +203,26 @@ class ViewMeetings extends Component {
                                                                         <th>Purpose</th>
                                                                         <th>Date</th>
                                                                         <th>Time</th>
-
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     {this.MeetList2()}
-
                                                                 </tbody>
                                                             </Table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </Tab>
                                     <Tab eventKey="urgent" title="Urgent Meetings">
                                         <div className="row" style={{ marginTop: "20px" }}>
+                                            <div className="ug-meeeting-div">
+                                                <UrgentMeeting groupId={this.state.groupId} groupNumber={this.state.groupNumber} />
+                                            </div>
                                             <div className="card">
                                                 <div>
                                                     <h3 className="sp_head">Urgent Meetings</h3>
-
                                                     <div className="container">
                                                         <div className=" vu-table">
                                                             <Table hover className="vu-table-hover" >
@@ -229,19 +232,27 @@ class ViewMeetings extends Component {
                                                                         <th>Purpose</th>
                                                                         <th>Date</th>
                                                                         <th>Time</th>
-
+                                                                        <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {/* {this.UserList2()} */}
-
+                                                                    {this.state.urgentMeetings.map(data => {
+                                                                        return (
+                                                                            <tr>
+                                                                                <td>{data.groupNumber}</td>
+                                                                                <td>{data.purpose}</td>
+                                                                                <td>{(data.date).substring(0, 10)}</td>
+                                                                                <td>{data.time}</td>
+                                                                                <td><button className="btn btn-danger">Cancel Meeting</button></td>
+                                                                            </tr>
+                                                                        )
+                                                                    })}
                                                                 </tbody>
                                                             </Table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </Tab>
                                 </Tabs>
@@ -250,9 +261,17 @@ class ViewMeetings extends Component {
                     </div>
                 </div>
                 <Footer />
+
             </React.Fragment >
+
         )
+
     }
+
 }
 
+
+
 export default ViewMeetings;
+
+

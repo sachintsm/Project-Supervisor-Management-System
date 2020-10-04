@@ -274,7 +274,7 @@ class NoticeView extends Component {
         </React.Fragment>
       )
 
-    } else if (this.userType ==='supervisor') {
+    }else if (this.userType === 'supervisor') {
 
       return (
         <React.Fragment>
@@ -303,7 +303,7 @@ class NoticeView extends Component {
 
                               <div className="card-body">
                                 <h6 className="crd_notice_content">{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.no}>
+                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                             </a>
                               </div>
@@ -329,8 +329,7 @@ class NoticeView extends Component {
                         if (types.toSupervisor) {
                           return (
                             <div className="card container " style={{ margin: "0px 0px 20px 0px" }} key={types._id} >
-                              
-
+        
                                 <Row className="crd_notice-tittle-div">
                                   <p className="crd_notice-name">{types.noticeTittle}</p>
                                 </Row>

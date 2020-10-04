@@ -10,10 +10,9 @@ import Snackpop from "../../shared/Snackpop";
 import MultiSelect from 'react-multi-select-component';
 import StudentList from './StudentList';
 import SupervisorList from './SupervisorList';
-import ProjectTotalProgress from './ProjectTotalProgress'
+import ProjectTotalProgress from './ProjectTotalProgress';
 import { Row, Col, Card } from 'react-bootstrap';
 import DescriptionIcon from '@material-ui/icons/Description';
-import { Button, CardTitle, CardText } from 'reactstrap';
 import SubjectIcon from '@material-ui/icons/Subject';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 const backendURI = require('../../shared/BackendURI');
@@ -44,13 +43,16 @@ class GroupData extends Component {
 
             groupDetails: [],
             loading: false,
-            projectId: this.props.location.state.pId,
+            projectId: this.props.location.state.projectId,
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)
         this.onSubmitAddStudent = this.onSubmitAddStudent.bind(this);
         this.setSelected = this.setSelected.bind(this);
         this.onSubmitAddSupervisor = this.onSubmitAddSupervisor.bind(this)
+        this.openBiweekly = this.openBiweekly.bind(this)
+        this.openProposal = this.openProposal.bind(this)
+        this.openSrs = this.openSrs.bind(this)
     }
     closeAlert = () => {
         this.setState({ snackbaropen: false });
@@ -62,6 +64,7 @@ class GroupData extends Component {
         });
     }
     componentDidMount = async () => {
+        console.log(this.props);
         const authState = await verifyAuth();
         this.setState({
             authState: authState,
@@ -81,8 +84,8 @@ class GroupData extends Component {
                     loading: true
                 })
             })
-
-        await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.pId, { headers: headers })
+            console.log(this.props.location.state.projectId);
+        await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.projectId, { headers: headers })
             .then(res => {
                 this.setState({
                     projectSupervisorList: res.data.data.supervisorList
@@ -92,7 +95,7 @@ class GroupData extends Component {
         for (var i = 0; i < this.state.projectSupervisorList.length; i++) {
 
             await axios.get(backendURI.url + '/users/supervisorList/' + this.state.projectSupervisorList[i], { headers: headers })
-                .then((res) => { 
+                .then((res) => {
                     const option = {
                         label: res.data.data.firstName + ' ' + res.data.data.lastName,
                         value: res.data.data._id,
@@ -101,7 +104,7 @@ class GroupData extends Component {
                         staffOptionList: [...this.state.staffOptionList, option],
                     });
                 })
-                
+
                 .catch((err) => {
                     console.log(err);
                 });
@@ -268,7 +271,15 @@ class GroupData extends Component {
         return isError;  //! is not error return state 'false'
     }
 
-
+    openBiweekly() {
+        this.props.history.push('/coordinatorhome/gdata/biweekly/'+ this.state.groupId)
+    }
+    openProposal(){
+        this.props.history.push('/coordinatorhome/gdata/proposal/'+ this.state.groupId)
+    }
+    openSrs(){
+        this.props.history.push('/coordinatorhome/gdata/srs/'+ this.state.groupId)
+    }
     render() {
         return (
             <div className="gd-fullpage" >
@@ -288,7 +299,7 @@ class GroupData extends Component {
                         </div>
                         <div className="container" style={{ marginTop: "0px" }}>
                             {this.state.loading === true &&
-                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} />
+                                < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} projectId={this.state.projectId}/>
                             }
                         </div>
                         <div className="container">
@@ -371,7 +382,7 @@ class GroupData extends Component {
                                         <Card.Body className="gd-card-body">
                                             <Row style={{ marginBottom: "-50px" }}>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }} onClick={()=>this.openSrs()}>
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
                                                                 <DescriptionIcon fontSize="large" />
@@ -384,7 +395,7 @@ class GroupData extends Component {
 
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}  onClick={()=>this.openProposal()}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
@@ -398,7 +409,7 @@ class GroupData extends Component {
                                                     </Card>
                                                 </Col>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "0px" }}  onClick={()=>this.openBiweekly()}>
 
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>

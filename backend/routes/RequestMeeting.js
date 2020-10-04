@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const RequsetMeeting = require('../models/RequestMeeting');
 
+ 
 router.post('/add', (req, res) => {
-  console.log(req.body);
   const newRequsetMeeting = new RequsetMeeting({
     groupId: req.body.groupId,
     purpose: req.body.purpose,
@@ -11,11 +11,13 @@ router.post('/add', (req, res) => {
     time: req.body.time,
     supervisor: req.body.supervisor,
     state: req.body.state,
+
   })
+
+ 
 
   newRequsetMeeting.save()
     .then(result => {
-      console.log(result)
       res.json({ state: true, msg: "Request sent Successfully..!" });
     })
     .catch(error => {
@@ -24,10 +26,13 @@ router.post('/add', (req, res) => {
     })
 })
 
+ 
+
 //get details to user profile
+
 router.get('/get/:id', function (req, res) {
   let id = req.params.id;
-  RequsetMeeting.find({ groupId: id, state:"confirmed" })
+  RequsetMeetingfind({ groupId: id, state: "confirmed" })
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
@@ -37,6 +42,7 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
+ 
 router.get('/getsupervisor/:id', function (req, res) {
   let id = req.params.id;
   RequsetMeeting.find({ supervisor: id })
@@ -48,6 +54,7 @@ router.get('/getsupervisor/:id', function (req, res) {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
 });
+
 
 router.get('/getmeet/:id', function (req, res) {
   let id = req.params.id;
@@ -61,26 +68,72 @@ router.get('/getmeet/:id', function (req, res) {
     })
 });
 
+ 
 
 router.post('/updateMeet/:id', function (req, res) {
   let id = req.params.id;
 
-  RequsetMeeting.update({ _id: id }, { 
+  RequsetMeeting.update({ _id: id }, {
     $set: {
       date: req.body.date,
       time: req.body.time,
-      state:"confirmed"
+      state: "confirmed"
     }
   })
     .exec()
     .then(data => {
-      console.log("Data Update Success..!")
       res.json({ state: true, msg: "Data Update Success..!" });
-
     })
     .catch(error => {
-      console.log("Data Updating Unsuccessfull..!")
       res.json({ state: false, msg: "Data Updating Unsuccessfull..!" });
     })
 });
+
+ 
+
+//? create urgent meeting
+
+//? Urgent Meeting.js Supervisor
+
+router.post('/urgentMeeting', (req, res) => {
+  const newRequsetMeeting = new RequsetMeeting({
+    groupId: req.body.groupId,
+    groupNumber: req.body.groupNumber,
+    purpose: req.body.purpose,
+    date: req.body.date,
+    time: req.body.time,
+    supervisor: req.body.supervisor,
+    meetingType: 'Urgent'
+  })
+
+ 
+
+  newRequsetMeeting.save()
+    .then(result => {
+      res.json({ state: true, msg: "Request sent Successfully..!" });
+    })
+    .catch(error => {
+      console.log(error)
+      res.json({ state: false, msg: "Request Sending Failed..!" });
+    })
+})
+
+ 
+
+//? gte uegent meetings
+
+//? ViewMeetings.js
+
+router.get('/geturgent/:id', function (req, res) {
+  let id = req.params.id;
+  RequsetMeeting.find({ supervisor: id, meetingType: 'Urgent' })
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+});
+
 module.exports = router
