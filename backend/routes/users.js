@@ -1248,5 +1248,67 @@ router.get('/getStudentDetails/:index', function (req, res) {
     })
 })
 
+//? custom registration 
+//? CustomRegistration.js
+router.post('/customregistration', async (req, res) => {  
+  upload(req, res, (err) = async () => {
+    // checking if the userId is already in the database
+    const userEmailExists = await User.findOne({ email: req.body.email });
+    if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
 
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()
+
+    var fullPath = time + '-' + req.file.originalname;
+
+    //create a new user
+    const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email.toLowerCase(),
+      password: req.body.password,
+      nic: req.body.nic.toLowerCase(),
+      mobile: req.body.mobileNumber,
+      educationalQualifications : req.body.educationalQualifications,
+      jobDescription : req.body.jobDescription,
+      imageName: fullPath,
+      isSupervisor: true,
+    });
+
+    bcrypt.genSalt(
+      10,
+      await function (err, salt) {
+        if (err) {
+          console.log(err);
+        } else {
+          bcrypt.hash(newUser.password, salt, function (err, hash) {
+            newUser.password = hash;
+
+            if (err) {
+              throw err;
+            } else {
+              newUser
+                .save()
+                .then((req) => {
+                  res.json({
+                    state: true,
+                    msg: "User Registered Successfully..!",
+                    data: newUser
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.json({
+                    state: false,
+                    msg: "User Registration Unsuccessfull..!",
+                  });
+                });
+            }
+          });
+        }
+      }
+    );
+  })
+})
 module.exports = router;
