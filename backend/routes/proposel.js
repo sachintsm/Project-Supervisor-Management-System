@@ -38,15 +38,14 @@ router.post("/addProposel", async (req, res) => {
 
   try {
 
-    req.body.toLateSubmision = false;
+    const tolateSub = req.body.toLateSubmision;
 
     upload(req, res, (err) => {
       let ts = Date.now();
       let date_ob = new Date(ts);
       const time =
         date_ob.getDate() +
-        date_ob.getMonth() +
-        1 +
+        date_ob.getMonth() + 1 +
         date_ob.getFullYear() +
         date_ob.getHours() +
         date_ob.getSeconds();
@@ -67,8 +66,8 @@ router.post("/addProposel", async (req, res) => {
         deadDate: req.body.deadDate,
         deadTime: req.body.deadTime,
         filePath: filePath,
-        file: req.file.originalname,
-        toLateSubmision: req.body.toLateSubmision,
+        //file: req.file.originalname,
+        toLateSubmision: tolateSub, 
         submssionFileSize: req.body.submssionFileSize*1000000,
         setFileLimit: req.body.setFileLimit,
    })
@@ -168,7 +167,8 @@ router.post('/updateProposel/:_id', (req, res) => {  // update methord
         date_ob.getHours() +
         date_ob.getSeconds();
 
-      const fullPath = "PROPOSEL_FILE - " + time + req.file.originalname;
+      const fillPath = "PROPOSEL_FILE - " + time + req.file.originalname;
+    
 
       const input = {
         userType: req.body.userType,
@@ -181,7 +181,7 @@ router.post('/updateProposel/:_id', (req, res) => {  // update methord
         proposelDiscription: req.body.proposelDiscription,
         deadDate: req.body.deadDate,
         deadTime: req.body.deadTime,
-        filePath: fullPath,
+        filePath: fillPath,
         toLateSubmision: req.body.toLateSubmision,
 
       }
