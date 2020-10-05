@@ -130,7 +130,7 @@ const ReqState = React.memo( props =>(
 
         
     <tr>
-        <td>{props.req.supFirstName}{props.req.supLastName}</td>
+        <td>{props.req.supFirstName}{" "}{props.req.supLastName}</td>
         <td>{props.req.supEmail}</td>
         {(props.req.state === "pending")?
             (<td>{props.req.state}</td>):
