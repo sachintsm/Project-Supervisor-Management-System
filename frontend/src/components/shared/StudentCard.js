@@ -9,7 +9,24 @@ const backendURI = require("./BackendURI");
 export default class Index extends Component {
     constructor(props) {
         super(props);
-        this.state = { MessageList: {} };
+        this.state = { MessageList: {}, loading:true };
+        this.getDetails()
+    }
+
+    getDetails = () => {
+        axios.get(backendURI.url + '/users/getstudentdetails/' + this.props.index)
+            .then(res => {
+                this.setState({
+                    firstName: res.data.data.firstName,
+                    lastName: res.data.data.lastName,
+                    regNumber: res.data.data.regNumber,
+                    email: res.data.data.email,
+                    image: res.data.data.imageName,
+                    index: res.data.data.indexNumber,
+                    mobile: res.data.data.mobile,
+                    cat: res.data.data.regNumber.substring(5, 7).toUpperCase(),
+                })
+            })
     }
 
     toggle = () => {
@@ -45,7 +62,7 @@ export default class Index extends Component {
         return (
             <span >
                 <span onClick={this.toggle} >
-                    <span style={{ cursor: "pointer", }}>{this.props.index} </span>
+                    <span style={{ cursor: "pointer", }}>{this.props.index} ({this.state.cat}) </span>
                 </span>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle} className="index-data">

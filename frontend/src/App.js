@@ -56,7 +56,7 @@ import GroupChat from "./components/shared/GroupChat/GroupChat";
 import ViewTask from "./components/student/progress/ViewTask";
 import GroupNotification from "./components/student/formgroups/GroupNotification";
 import FormGroups from "./components/student/formgroups/FormGroups";
-import CoordinatorNotifications from "./components/coordinator/CoordinatorNotifications";
+import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
 
 require('dotenv').config();
 
