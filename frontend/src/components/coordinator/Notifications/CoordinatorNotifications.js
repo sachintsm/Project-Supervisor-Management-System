@@ -7,6 +7,7 @@ import axios from "axios";
 import Snackpop from "../../shared/Snackpop";
 import RequestInfo from "../../student/formgroups/RequestInfo";
 import RequestDetails from "./RequestDetails";
+import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require("../../shared/BackendURI");
 
@@ -16,7 +17,9 @@ class CoordinatorNotifications extends Component {
         super(props);
         this.state = {
             groupRequests: [],
-            loading: true
+            loading: true,
+            declinedAlert: false,
+            acceptedAlert: false
         }
     }
 
@@ -31,7 +34,6 @@ class CoordinatorNotifications extends Component {
         const userId = getFromStorage("auth-id").id
 
         axios.get(backendURI.url+"/createGroups/coordinatorgrouprequests/"+userId, {headers: headers}).then(res=>{
-            console.log(res.data)
             this.setState({
                 groupRequests: res.data,
                 loading: false
@@ -45,7 +47,49 @@ class CoordinatorNotifications extends Component {
 
     declineRequest = (item) => {
 
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Are you sure you want to decline this request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const requestId = item._id
+                        const headers = {
+                            'auth-token':getFromStorage('auth-token').token,
+                        }
+
+                        axios.delete(backendURI.url+"/createGroups/grouprequests/"+requestId, {headers:headers}).then(res=>{
+                            this.setState({
+                                declinedAlert: true
+                            },()=>{
+                                this.getGroupRequestNotification()
+                            })
+
+                        })
+
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
+
+
     }
+
+    closeAlert = () => {
+        this.setState({
+            acceptedAlert: false,
+            declinedAlert: false,
+        });
+    };
 
     render() {
         return (
