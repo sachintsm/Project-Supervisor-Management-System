@@ -42,7 +42,51 @@ class CoordinatorNotifications extends Component {
     }
 
     acceptRequest = (item) => {
-        console.log(item)
+
+        confirmAlert({
+            title: 'Group Request',
+            message: 'Are you sure you want to accept this request?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+
+                        const headers = {
+                            'auth-token':getFromStorage('auth-token').token,
+                        }
+                        const data = {
+                            projectId: item.projectId,
+                            groupMembers: item.allStudentList
+                        }
+
+                        axios.post(backendURI.url+"/createGroups/add/",data, {headers: headers}).then(res=>{
+                            const requestId = item._id
+
+                            axios.delete(backendURI.url+"/createGroups/grouprequests/"+requestId, {headers:headers}).then(res=>{
+                                this.setState({
+                                    acceptedAlert: true
+                                },()=>{
+                                    this.getGroupRequestNotification()
+                                })
+
+                            })
+                        })
+
+
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
+        })
+
+
+
+
     }
 
     declineRequest = (item) => {
@@ -95,7 +139,6 @@ class CoordinatorNotifications extends Component {
         return (
             <React.Fragment>
 
-
                 <Snackpop
                     msg={'Accepted'}
                     color={'success'}
@@ -112,7 +155,7 @@ class CoordinatorNotifications extends Component {
                     closeAlert={this.closeAlert}
                 />
 
-                <Navbar/>
+                <Navbar panel={"coordinator"} />
 
                 <div className="container-fluid group-notifications">
                     <div className="title-div">
