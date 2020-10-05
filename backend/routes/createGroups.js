@@ -357,7 +357,31 @@ router.get("/groupacceptingrequest/:userId",async(req,res,next)=> {
     }
 })
 
+//get group accepting request by coordinatorId
+router.get("/coordinatorgrouprequests/:userId",async(req,res,next)=> {
+    try{
+
+        const userId = req.params.userId
+        const projects = await Projects.find({coordinatorList:userId})
+        let projectIdArray = []
+        projects.map(project=>{
+            projectIdArray.push(project._id)
+        })
+
+        const groupRequests = await GroupRequests.find({pendingList:[],declinedList:[],projectId:projectIdArray})
+
+        res.send(groupRequests)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
+
 
 
 
 module.exports = router
+
+
+// 5ebd7e83293b6456109d67fc
+// 5eb286484db10d32e0233c78
