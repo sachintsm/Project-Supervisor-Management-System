@@ -5,7 +5,7 @@ import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
-import CustomRegistration from "./admin/CustomRegistration.js";
+import CustomRegistration from "./shared/CustomRegistration.js";
 import { Col, Row } from 'reactstrap'
 import {
   Button,
@@ -41,6 +41,7 @@ export default class login extends Component {
     this.onSignIn = this.onSignIn.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onRegister = this.onRegister.bind(this);
   }
   onChangeEmail(e) {
     this.setState({
@@ -147,6 +148,9 @@ export default class login extends Component {
     }, 2000);
   }
 
+  onRegister = () =>{
+    this.props.history.push('/customregistration');
+  }
 
   render() {
     const { spinnerDiv, loginDiv } = this.state
@@ -247,11 +251,11 @@ export default class login extends Component {
                         </Form>
                         <div>
                           <Row className="lg-problem">
-                            <Col lg={4} md={6} xs={6} sm={6}>
-                              <p className="lg-problem-text">Problem with login?</p>
+                            <Col lg={5} md={5} xs={6} sm={6}>
+                              <p className="lg-problem-text">Don't have an account?</p>
                             </Col>
-                            <Col lg={8} md={6} xs={6} sm={6}>
-                              <p className="lg-problem-admin">Contact admin</p>
+                            <Col lg={6} md={6} xs={6} sm={6}>
+                              <p className="lg-problem-admin" onClick={this.onRegister}>Sign Up</p>
                             </Col>
                           </Row>
                         </div>

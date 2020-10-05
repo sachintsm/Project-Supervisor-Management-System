@@ -11,8 +11,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
 
@@ -192,7 +190,6 @@ class Submission extends Component {
             const dateString = date.toLocaleDateString()
             const timeString = date.toLocaleTimeString()
 
-
             const userType = localStorage.getItem("user-level");
             const userId = getFromStorage('auth-id').id;
 
@@ -207,7 +204,7 @@ class Submission extends Component {
             formData.append("deadDate", this.state.deadDate);
             formData.append("deadTime", this.state.deadTime);
             formData.append("proposelAttachment", this.state.proposelAttachment);
-            formData.append("file", this.state.proposelAttachment);
+            //formData.append("file", this.state.proposelAttachment);
             formData.append("toLateSubmision", this.state.toLateSubmision);
             formData.append("submssionFileSize", this.state.submssionFileSize);
             formData.append("setFileLimit", this.state.setFileLimit);
@@ -219,7 +216,7 @@ class Submission extends Component {
                   this.setState({
                     succesAlert: true,
                   });
-                  // window.location.reload();
+                  //window.location.reload();
                   this.getProposel();
                 })
                 .catch((error) => {
@@ -235,7 +232,11 @@ class Submission extends Component {
                 proposelDiscription: "",
                 deadDate: "",
                 deadTime: "",
-                proposelAttachment: ""
+                proposelAttachment: "",
+                toLateSubmision: false,
+                submssionFileSize:"",
+                setFileLimit:""
+
 
               });
 
