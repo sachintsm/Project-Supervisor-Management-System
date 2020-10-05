@@ -377,6 +377,17 @@ router.get("/coordinatorgrouprequests/:userId",async(req,res,next)=> {
     }
 })
 
+router.delete("/grouprequests/:id",async (req,res)=> {
+    try{
+        const id= req.params.id;
+        console.log(id)
+        const result = await GroupRequests.findOneAndDelete({_id:id})
+        res.send(result)
+    }
+    catch (e) {
+        console.log(e)
+    }
+})
 
 
 
