@@ -47,7 +47,8 @@ class Submission extends Component {
     //console.log("Ashan",this.props.match.params.id);
 
     this.state = {
-
+      userTypes:'',
+      userId:'',
       componentType: 'add',
       tittle: "Create New Submision",
       projectId: this.props.match.params.id,
@@ -63,6 +64,15 @@ class Submission extends Component {
       setFileLimit: 1,
       propselList: [],
       proId: "",
+
+
+      proposelTittleError : '',
+      proposelDescriptionError:'',
+      deadDateError:'',
+      deadTimeError:'',
+      proposelAttachmentError:'',
+
+
 
 
     }
@@ -116,6 +126,8 @@ class Submission extends Component {
 
 
   componentDidMount() {
+    this.userTypes = localStorage.getItem("user-level");
+    this.userId = localStorage.getItem("auth-id");
 
     this.getProposel();
 
@@ -171,9 +183,59 @@ class Submission extends Component {
     });
   }
 
+  validate = () => {
+    let isError = false;
+    const errors = {
+      proposelTittleError : '',
+      proposelDescriptionError:'',
+      deadDateError:'',
+      deadTimeError:'',
+      proposelAttachmentError:'',
+
+    }
+  
+      if (this.state.proposelTittle.length < 1) {
+        isError = true;
+        errors.proposelTittleError = 'Proposel Tittle required *'
+      }
+      if (this.state.proposelDiscription.length < 1) {
+        isError = true;
+        errors.proposelDescriptionError = 'Proposel Description required *'
+      }
+      if (this.state.deadDate.length < 1) {
+        isError = true;
+        errors.deadDateError = 'DeadLine Date required *'
+      }
+      if (this.state.deadTime.length < 1) {
+        isError = true;
+        errors.deadTimeError = 'DeadLine Time required *'
+      }
+
+
+      this.setState({
+        ...this.state,
+        ...errors
+      })
+      return isError;
+
+    
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
+  
+      const err = this.validate();
+
+      if (!err) {
+        this.setState({
+          proposelTittleError : '',
+          proposelDescriptionError:'',
+          deadDateError:'',
+          deadTimeError:'',
+          proposelAttachmentError:'',
+        })
+      
     confirmAlert({
       title: 'Confirm to submit',
       message: "Are you sure?",
@@ -264,6 +326,8 @@ class Submission extends Component {
         },
       ],
     });
+  
+  }
   }
 
 
@@ -431,23 +495,25 @@ class Submission extends Component {
                           <div className="form-group pro-form">
                             <label >Proposel Tittle :</label>
                             <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
-                              name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
+                            errortext={this.proposelTittleError}
+                            name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
+                            <p className="reg-error">{this.state.proposelTittleError}</p>
                           </div>
 
                           <div className="form-group pro-form">
                             <label >Proposel Discription :</label>
                             <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
-                              name="proposelTittle" value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
+                              name="proposelDescription" errortext={this.state.proposelDescriptionError} value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
+                              <p className="reg-error">{this.state.proposelDescriptionError}</p>
                           </div>
-
-
 
                           <Row >
                             <Col md={6} xs="12">
                               <div className="form-group pro-form">
                                 <label >Dead Line Date :</label>
                                 <input type="date" data-format="mm/dd/YYYY" className="form-control" id="exampleInputDate" name="deadDate"
-                                  value={this.state.deadDate} onChange={this.onChangeDate} />
+                                  value={this.state.deadDate} onChange={this.onChangeDate} errortext={this.state.deadDateError}/>
+                                  <p className="reg-error">{this.state.deadDateError}</p>
                               </div>
                             </Col>
 
@@ -455,7 +521,8 @@ class Submission extends Component {
                               <div className="form-group pro-form">
                                 <label >Dead Line Time :</label>
                                 <input type="time" className="form-control" id="exampleInputTime" name="deadTime"
-                                  value={this.state.deadTime} onChange={this.onChangeTime} />
+                                  value={this.state.deadTime} onChange={this.onChangeTime} errortext={this.state.deadTimeError} />
+                                  <p className="reg-error">{this.state.deadTimeError}</p>
                               </div>
                             </Col>
 
