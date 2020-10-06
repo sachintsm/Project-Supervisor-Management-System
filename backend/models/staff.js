@@ -15,6 +15,7 @@ var staffSchema = mongoose.Schema({
   isAdmin: { type: Boolean },
   isCoordinator: { type: Boolean },
   isSupervisor: { type: Boolean },
+  isGuest: { type: Boolean },
 });
 
 const Staff = (module.exports = mongoose.model('users', staffSchema));

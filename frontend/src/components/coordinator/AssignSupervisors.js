@@ -13,9 +13,7 @@ import Snackpop from "../shared/Snackpop";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
-import MultiSelect from 'react-multi-select-component';
-
-// import StaffList from './StaffList'
+import SupervisorDetails from './SupervisorDetails';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -101,12 +99,18 @@ class AssignSupervisors extends Component {
                 }
             })
             .then((a) => {
+                console.log(this.state.staffList);
                 this.state.staffList.map((user) => {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
                         value: user._id,
-                        added: true,
-                        email: user.email
+                        added: false,
+                        email: user.email,
+                        jobDescription: user.jobDescription,
+                        educationalQualifications: user.educationalQualifications,
+                        isStaff: user.isStaff,
+                        isGuest: user.isGuest,
+
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
@@ -134,8 +138,8 @@ class AssignSupervisors extends Component {
 
         let selectedStaff = []
 
-        this.state.staffOptionList.map(item=> {
-            if(item.added){
+        this.state.staffOptionList.map(item => {
+            if (item.added) {
                 selectedStaff.push(item)
             }
         })
@@ -164,10 +168,10 @@ class AssignSupervisors extends Component {
                             'auth-token': getFromStorage('auth-token').token,
                         }
 
-                        for (let i = 0; i < this.state.selectedStaffList.length; i++) {
+                        for (let i = 0; i < selectedStaff.length; i++) {
                             const data = {
                                 projectId: this.state.projectId,
-                                supervisors: this.state.selectedStaffList[i].value
+                                supervisors: selectedStaff[i].value
                             }
 
                             //? add supervisors array at project document
@@ -187,7 +191,7 @@ class AssignSupervisors extends Component {
                                             snackbarcolor: 'success',
                                         })
                                         //? set isSupervisor -> true
-                                        await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
+                                        await axios.get(backendURI.url + '/users/updateSupervisor/' + selectedStaff[i].value)
                                             .then(res => {
                                                 if (res.data.state === false) {
                                                     this.setState({
@@ -210,7 +214,7 @@ class AssignSupervisors extends Component {
                                     }
                                 })
                         }
-                        // window.location.reload()
+                        window.location.reload()
                     }
                 },
                 {
@@ -356,7 +360,7 @@ class AssignSupervisors extends Component {
         }
     }
 
-    changeState(item){
+    changeState(item) {
         item.added = !item.added
 
     }
@@ -367,8 +371,8 @@ class AssignSupervisors extends Component {
 
         this.setState({
             staffOptionList: []
-        }, ()=> {
-            newList.map(item=>{
+        }, () => {
+            newList.map(item => {
                 item.added = true
                 this.setState({
                     staffOptionList: newList
@@ -384,8 +388,8 @@ class AssignSupervisors extends Component {
 
         this.setState({
             staffOptionList: []
-        }, ()=> {
-            newList.map(item=>{
+        }, () => {
+            newList.map(item => {
                 item.added = false
                 this.setState({
                     staffOptionList: newList
@@ -406,27 +410,34 @@ class AssignSupervisors extends Component {
 
 
         let list = staffOptionList.length > 0 && staffOptionList.map((item, i) => {
-                return (
-                    <div key={i}>
-                        <Row style={{ marginBottom: "2px" }}>
-                            <Col md={4}>
-                                {item.label}
-                            </Col>
-                            <Col md={7}>
-                                <Row>
-                                    {item.email}
-                                </Row>
-                                <Row>
-                                    {/* {this.props.data.email} */}
-                                </Row>
-                            </Col>
-                            <Col md={1}>
-                                <input type="checkbox" defaultChecked={item.added} onChange={() =>this.changeState(item)}/>
-                            </Col>
-                        </Row>
-                    </div>
-                )
-            })
+            return (
+                <div key={i}>
+                    <Row style={{ marginBottom: "2px" }}>
+                        <Col md={1}>
+                            {item.isGuest && (
+                                <p className="guestSup">Guest</p>
+                            )}
+                            {item.isStaff && (
+                                <p className="staffSup">Staff</p>
+                            )}
+                        </Col>
+                        <Col md={3}>
+                            {/* {item.label} */}
+                            <SupervisorDetails id={item.value} name={item.label} />
+                        </Col>
+                        <Col md={7}>
+                            <Row>
+                                {item.email}
+                            </Row>
+                        </Col>
+                        <Col md={1}>
+                            <input type="checkbox" defaultChecked={item.added} onChange={() => this.changeState(item)} />
+                        </Col>
+                    </Row>
+                    <hr style={{ width: "105%" }}></hr>
+                </div>
+            )
+        })
         return (
             <div>
                 <Navbar panel={"coordinator"} />
