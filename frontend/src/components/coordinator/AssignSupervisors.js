@@ -15,7 +15,7 @@ import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
 import MultiSelect from 'react-multi-select-component';
 
-import StaffList from './StaffList'
+// import StaffList from './StaffList'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -54,7 +54,7 @@ class AssignSupervisors extends Component {
             checkboxes: []
 
         };
-        this.setSelected = this.setSelected.bind(this);
+        // this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this);
@@ -64,11 +64,11 @@ class AssignSupervisors extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    setSelected(obj) {
-        this.setState({
-            selectedStaffList: obj,
-        });
-    }
+    // setSelected(obj) {
+    //     this.setState({
+    //         selectedStaffList: obj,
+    //     });
+    // }
     async componentDidMount() {
         const authState = await verifyAuth();
 
@@ -110,6 +110,7 @@ class AssignSupervisors extends Component {
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
+                        selectedStaffList: [...this.state.selectedStaffList, option],
                     });
                     return null;
                 });
@@ -130,6 +131,18 @@ class AssignSupervisors extends Component {
 
     //? assing supervisors to the projects
     addSupervisors() {
+
+        let selectedStaff = []
+
+        this.state.staffOptionList.map(item=> {
+            if(item.added){
+                selectedStaff.push(item)
+            }
+        })
+
+        console.log(selectedStaff)
+
+
         if (this.state.projectId === '') {
             this.setState({
                 snackbaropen: true,
@@ -160,7 +173,6 @@ class AssignSupervisors extends Component {
                             //? add supervisors array at project document
                             await axios.post(backendURI.url + '/projects/addSupervisor', data, { headers: headers })
                                 .then(async res => {
-                                    console.log(res)
                                     if (res.data.state === false) {
                                         this.setState({
                                             snackbaropen: true,
@@ -177,7 +189,6 @@ class AssignSupervisors extends Component {
                                         //? set isSupervisor -> true
                                         await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
                                             .then(res => {
-                                                console.log(res)
                                                 if (res.data.state === false) {
                                                     this.setState({
                                                         snackbaropen: true,
@@ -297,14 +308,11 @@ class AssignSupervisors extends Component {
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
-                    console.log(dt)
                     // //? remove supervisor from the project supervisor list
                     await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
                         .then(res => {
-                            console.log(res)
                         })
                     for (let j = 0; j < array1.length; j++) {
-                        console.log(array1.length)
                         data = {
                             projectId: projectId,
                             supervisor: userId,
@@ -341,15 +349,49 @@ class AssignSupervisors extends Component {
             }]
         })
     }
-    //? opent the gropuData window
+    //? open the gropuData window
     groupDataHandler(data) {
         if (this.state.mouseState == false) {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
 
-    changeState(id, state){
-        console.log(id);
+    changeState(item){
+        item.added = !item.added
+
+    }
+
+    selectAll = () => {
+
+        let newList = this.state.staffOptionList
+
+        this.setState({
+            staffOptionList: []
+        }, ()=> {
+            newList.map(item=>{
+                item.added = true
+                this.setState({
+                    staffOptionList: newList
+                })
+            })
+        })
+
+    }
+
+    deselectAll = () => {
+
+        let newList = this.state.staffOptionList
+
+        this.setState({
+            staffOptionList: []
+        }, ()=> {
+            newList.map(item=>{
+                item.added = false
+                this.setState({
+                    staffOptionList: newList
+                })
+            })
+        })
     }
 
 
@@ -363,8 +405,7 @@ class AssignSupervisors extends Component {
             }, this)
 
 
-        let list = staffOptionList.length > 0
-            && staffOptionList.map((item, i) => {
+        let list = staffOptionList.length > 0 && staffOptionList.map((item, i) => {
                 return (
                     <div key={i}>
                         <Row style={{ marginBottom: "2px" }}>
@@ -380,7 +421,7 @@ class AssignSupervisors extends Component {
                                 </Row>
                             </Col>
                             <Col md={1}>
-                                <input type="checkbox" defaultChecked={item.added} onChange={() =>this.changeState(item.value, item.added)}/>
+                                <input type="checkbox" defaultChecked={item.added} onChange={() =>this.changeState(item)}/>
                             </Col>
                         </Row>
                     </div>
