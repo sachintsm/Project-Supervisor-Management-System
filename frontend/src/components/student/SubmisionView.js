@@ -24,9 +24,11 @@ export class SubmisionView extends Component {
           super(props)
 
           this.state = {
+               groupDetails: props.location.state.groupDetails,
                projectId: this.props.match.params.id,
                submissionList: [],
           }
+
 
           this.getSubmission = this.getSubmission.bind(this);
 
@@ -36,7 +38,7 @@ export class SubmisionView extends Component {
 
      //button for view upcomming submission
      proposelView = (data) => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data })
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {

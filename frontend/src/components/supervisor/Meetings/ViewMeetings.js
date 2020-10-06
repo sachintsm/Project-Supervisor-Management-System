@@ -23,7 +23,7 @@ const Meet = React.memo(props => (
         <td className="table-body">{props.meet.groupId}</td>
         <td className="table-body">{props.meet.purpose}</td>
         <td className="table-body" style={{ width: "10%" }}>
-            <ConfirmMeetings data={props.meet._id} />
+            <ConfirmMeetings data={props.meet._id}  />
         </td>
     </tr>
 ));
@@ -163,7 +163,7 @@ class ViewMeetings extends Component {
                         <div className="col-md-12" style={{ minHeight: "1000px" }}>
 
                             <div className="container">
-                                <Tabs defaultActiveKey="urgent" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
+                                <Tabs defaultActiveKey="request" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
                                     <Tab eventKey="request" title="Meeting Requests" className="tit">
                                         <div className="row" style={{ marginTop: "20px" }}>
                                             <div className="card">
@@ -238,7 +238,7 @@ class ViewMeetings extends Component {
                                                                 <tbody>
                                                                     {this.state.urgentMeetings.map(data => {
                                                                         return (
-                                                                            <tr>
+                                                                            <tr key={data._id}>
                                                                                 <td>{data.groupNumber}</td>
                                                                                 <td>{data.purpose}</td>
                                                                                 <td>{(data.date).substring(0, 10)}</td>
