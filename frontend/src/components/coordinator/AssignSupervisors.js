@@ -347,45 +347,45 @@ class AssignSupervisors extends Component {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
-    changeState = (st, id) => {
-        console.log(st);
-        if (st === true) {
-            // this.setState(state => {
-            // const staffOptionList = state.staffOptionList.map((item) => {
 
-            // for (let j = 0; j < state.staffOptionList.length; j++) {
-                // if (state.staffOptionList[j].value === id) {
-                    // let arr = [...this.state.staffOptionList]
-                    // arr[]
-                // }
-            // }
-            // return state.staffOptionList;
-            // });
-            // })
-        }
-        else {
-            this.setState(state => {
-                // const staffOptionList = state.staffOptionList.map((item) => {
-                for (let j = 0; j < state.staffOptionList.length; j++) {
-                    if (state.staffOptionList[j].value === id) {
-                        state.staffOptionList[j].added = true;
-                    }
-                }
-                // return state.staffOptionList;
-                // });
-            })
-        }
+    changeState(id, state){
+        console.log(id);
     }
 
 
     render() {
-        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2, staffOptionList } = this.state;   // ?load projects to dropdown menu this coordinator
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (
                     <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
                 )
             }, this)
+
+
+        let list = staffOptionList.length > 0
+            && staffOptionList.map((item, i) => {
+                return (
+                    <div key={i}>
+                        <Row style={{ marginBottom: "2px" }}>
+                            <Col md={4}>
+                                {item.label}
+                            </Col>
+                            <Col md={7}>
+                                <Row>
+                                    {item.email}
+                                </Row>
+                                <Row>
+                                    {/* {this.props.data.email} */}
+                                </Row>
+                            </Col>
+                            <Col md={1}>
+                                <input type="checkbox" defaultChecked={item.added} onChange={() =>this.changeState(item.value, item.added)}/>
+                            </Col>
+                        </Row>
+                    </div>
+                )
+            })
         return (
             <div>
                 <Navbar panel={"coordinator"} />
@@ -422,14 +422,15 @@ class AssignSupervisors extends Component {
                                         </button>
                                     </div>
                                     <div className="container" style={{ width: "100%" }}>
-                                        {this.state.staffOptionList.map(data => {
+                                        {list}
+                                        {/* {this.state.staffOptionList.map(data => {
                                             return (
                                                 <div key={data.value} >
-                                                    <StaffList data={data} state={data.added} changeState={this.changeState} />
+                                                    <StaffList data={data} state={data.added} />
                                                 </div>
 
                                             )
-                                        })}
+                                        })} */}
                                     </div>
                                 </Row >
 
