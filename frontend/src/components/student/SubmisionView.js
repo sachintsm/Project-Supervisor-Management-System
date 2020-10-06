@@ -49,7 +49,7 @@ export class SubmisionView extends Component {
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    console.log("ssssssssssssss", res.data.data)
+                    //jconsole.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })

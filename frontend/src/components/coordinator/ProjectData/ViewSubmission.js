@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
-
-
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
+import axios from 'axios';
+import { getFromStorage } from '../../../utils/Storage';
+
+
 
 import '../../../css/coordinator/SubmissionView.scss';
 
+const backendURI = require("../../shared/BackendURI");
 
 class ViewSubmission extends Component {
 
@@ -15,8 +18,52 @@ class ViewSubmission extends Component {
 
           this.state = {
 
+               submissionDetails:[],
+               projectId:this.props.location.state.submissionData.projectId,
+               submissionId : this.props.location.state.submissionData._id,
+               projectName:"",
+               groupData:[],
+
           }
+
+        //console.log("Ashan", this.props.location.state.submissionData._id);
      }
+
+     componentDidMount = async () => {
+
+          this.userType = localStorage.getItem("user-level");
+          //console.log(this.userType)
+          const userId = getFromStorage('auth-id').id;
+
+          const dt = {
+               projectId: this.state.projectId,
+               submissionId: this.state.submissionId
+           }
+
+          await axios.post(backendURI.url + '/Submission/getSubmission/',dt)
+          .then(res => {
+          this.setState({ submissionDetails: res.data.data})
+        })
+
+        await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
+            .then(res => {
+                this.setState({
+                    projectName: res.data.data.projectYear + ' ' + res.data.data.projectType + ' ' + res.data.data.academicYear
+                })
+            })
+
+            await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
+            .then(res => {
+                this.setState({
+                    groupData: res.data.data
+                })
+            })
+            console.log("AShan",this.state.groupData)
+
+        //console.log(this.state.submissionDetails);
+     }
+
+
 
      render() {
           return (
@@ -24,21 +71,31 @@ class ViewSubmission extends Component {
                     <Navbar panel={"coordinator"} />
 
                     <div className="SubView_style">
-
                          <div className="container-fluid page_style">
-
                               <div className="container">
-
-                                   <Table>
-
+                              <h3 className="header_style">{this.state.projectName}</h3>
+                                   <Table hover>
                                         <thead>
                                              <tr>
-                                                  <th className="table-head">Group</th>
-                                                  <th className="table-head">Members' Ids</th>
-                                                  <th className="table-head">Supervisors</th>
+                                                  <th className="table-head">Group No</th>
+                                                  <th className="table-head">Group Name</th>
+                                                  <th className="table-head">Group Members ID</th>
                                              </tr>
                                         </thead>
-
+                                        <tbody>
+                                    {this.state.submissionDetails.map((item) => {
+                                        return (
+                                            <tr className="as-table-row" key={item.id}>
+                                                <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionAttachment/" + item.file}>
+                                                Attachment
+                                              </a></td>
+                                                <td className="table-body">{item.userId}</td>
+                                                <td className="table-body">{item.submissionId}</td>
+                                               
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
                                    </Table>
                               </div>
                          </div>

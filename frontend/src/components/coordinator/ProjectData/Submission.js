@@ -316,7 +316,7 @@ class Submission extends Component {
   viewSubmission(data) {
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewsubmission/' + this.state.projectId, { submissionData: data });
-      console.log("ashan")
+     // console.log("ashan")
     } catch (error) {
       console.log(error)
     }
@@ -392,7 +392,7 @@ class Submission extends Component {
                               <Row>
 
                                 <Col md={3} xs={12}>
-                                  <Button className="viw-btn" size="sm" variant="success" onClick={() => { this.viewSubmission(type) }}>View Submision</Button>
+                                  <Button className="viw-btn" size="sm" variant="primary" onClick={() => { this.viewSubmission(type) }}>View Submision</Button>
                                 </Col>
                               </Row>
                             </div>
