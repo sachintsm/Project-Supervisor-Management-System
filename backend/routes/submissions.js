@@ -90,25 +90,10 @@ router.post("/add", async (req, res) => {
      }
 })
 
-// router.get('/getSubmission/:projectId', (req, res) => {
-//      const pId = req.params.projectId;
-//      Submission
-//        .find({projectId: pId  })
-//        .then(data => {
-//          res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
-//        })
-//        .catch(err => {
-//          res.send({ state: false, msg: err.message })
-//          console.log(err)
-//        })
-//    })
-
-
    router.post('/getSubmission', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
-
-     console.log(req.body)
+     //console.log(req.body)
      Submission
          .find({ projectId: projectId, submissionId: submissionId })
          .exec()

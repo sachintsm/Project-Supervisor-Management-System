@@ -79,7 +79,7 @@ class ViewSubmission extends Component {
                                              <tr>
                                                   <th className="table-head">Group No</th>
                                                   <th className="table-head">Group Name</th>
-                                                  <th className="table-head">Group Members ID</th>
+                                                  <th className="table-head">Group Members' ids</th>
                                              </tr>
                                         </thead>
                                         <tbody>
