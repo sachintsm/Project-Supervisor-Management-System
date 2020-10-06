@@ -13,9 +13,7 @@ import Snackpop from "../shared/Snackpop";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
-import MultiSelect from 'react-multi-select-component';
-
-// import StaffList from './StaffList'
+import SupervisorDetails from './SupervisorDetails';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -108,7 +106,8 @@ class AssignSupervisors extends Component {
                         value: user._id,
                         added: false,
                         email: user.email,
-                        description: user.jobDescription,
+                        jobDescription: user.jobDescription,
+                        educationalQualifications: user.educationalQualifications,
                         isStaff: user.isStaff,
                         isGuest: user.isGuest,
 
@@ -415,7 +414,7 @@ class AssignSupervisors extends Component {
                 <div key={i}>
                     <Row style={{ marginBottom: "2px" }}>
                         <Col md={1}>
-                            { item.isGuest && (
+                            {item.isGuest && (
                                 <p className="guestSup">Guest</p>
                             )}
                             {item.isStaff && (
@@ -423,21 +422,19 @@ class AssignSupervisors extends Component {
                             )}
                         </Col>
                         <Col md={3}>
-                            {item.label}
+                            {/* {item.label} */}
+                            <SupervisorDetails id={item.value} name={item.label} />
                         </Col>
                         <Col md={7}>
                             <Row>
                                 {item.email}
                             </Row>
-                            {/* <Row>
-                                {item.description}
-                            </Row> */}
                         </Col>
                         <Col md={1}>
                             <input type="checkbox" defaultChecked={item.added} onChange={() => this.changeState(item)} />
                         </Col>
                     </Row>
-                    <hr style={{width : "105%"}}></hr>
+                    <hr style={{ width: "105%" }}></hr>
                 </div>
             )
         })
