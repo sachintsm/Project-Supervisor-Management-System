@@ -8,6 +8,7 @@ var createGroupsSchema = mongoose.Schema({
     supervisors:  [{type: String}],
     groupMembers : [{type: String}],
     groupState: {type: String},
+    groupEmail: {type: String}
 })
 
 const CreateGroups = (module.exports = mongoose.model("CreateGroups", createGroupsSchema));

@@ -383,6 +383,7 @@ router.get("/coordinatorgrouprequests/:userId",async(req,res,next)=> {
     }
 })
 
+//delete group request by coordinator
 router.delete("/grouprequests/:id",async (req,res)=> {
     try{
         const id= req.params.id;
@@ -392,6 +393,18 @@ router.delete("/grouprequests/:id",async (req,res)=> {
     }
     catch (e) {
         console.log(e)
+    }
+})
+
+//update group name and group email
+router.patch("/groupDetails/:groupId", async (req, res, next) => {
+    try {
+        const id = req.params.groupId;
+        const update = req.body;
+        const result = await CreateGroups.findByIdAndUpdate(id, update, { new: true })
+        res.send(result)
+    } catch (err) {
+        console.log(err)
     }
 })
 
