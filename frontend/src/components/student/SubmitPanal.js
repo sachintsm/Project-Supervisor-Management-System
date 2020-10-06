@@ -33,6 +33,7 @@ class SubmitPanal extends Component {
           super(props)
 
           this.state = {
+               groupDetails: props.location.state.groupDetails,
                projectId: this.props.location.state.projectId,
                proposelTittle: this.props.location.state.submissionDetails.proposelTittle,
                deadDate: this.props.location.state.submissionDetails.deadDate,
@@ -48,8 +49,11 @@ class SubmitPanal extends Component {
 
           this.onSubmit = this.onSubmit.bind(this)
           // console.log(this.props)
-          console.log(this.props.location.state.submissionDetails._id);
+          // console.log(this.props.location.state.submissionDetails._id);
 
+
+          console.log(this.state.groupDetails)
+          console.log(this.state.groupDetails.groupId)
 
      }
 
