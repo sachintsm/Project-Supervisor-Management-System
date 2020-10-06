@@ -56,6 +56,7 @@ import GroupChat from "./components/shared/GroupChat/GroupChat";
 import ViewTask from "./components/student/progress/ViewTask";
 import GroupNotification from "./components/student/formgroups/GroupNotification";
 import FormGroups from "./components/student/formgroups/FormGroups";
+import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
 
 require('dotenv').config();
 
@@ -104,6 +105,7 @@ function App() {
           <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
           <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
           <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
+          <Route path='/coordinatorhome/notifications' component={CoordinatorNotifications}></Route>
 
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
