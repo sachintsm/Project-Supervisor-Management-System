@@ -31,7 +31,7 @@ export class SubmisionView extends Component {
 
 
           this.getSubmission = this.getSubmission.bind(this);
-
+          console.log("Ashan",this.state.groupDetails);
           //console.log('Ashan',this.state.submissionList);
 
      }

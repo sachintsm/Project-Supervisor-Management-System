@@ -17,8 +17,6 @@ import {
      Row,
      FormGroup,
      FormControl,
-
-
 } from "react-bootstrap";
 
 const backendURI = require("../shared/BackendURI");
@@ -27,13 +25,14 @@ var now = new Date();
 
 class SubmitPanal extends Component {
 
-     constructor(props) {
-
-         
+     constructor(props) {        
           super(props)
 
           this.state = {
-               groupDetails: props.location.state.groupDetails,
+               groupDetails: this.props.location.state.groupDetails,
+               groupNo:this.props.location.state.groupDetails.groupId,
+               groupName:this.props.location.state.groupDetails.groupName,
+               groupMembers : this.props.location.state.groupDetails.groupMembers,
                projectId: this.props.location.state.projectId,
                proposelTittle: this.props.location.state.submissionDetails.proposelTittle,
                deadDate: this.props.location.state.submissionDetails.deadDate,
@@ -49,7 +48,6 @@ class SubmitPanal extends Component {
 
           this.onSubmit = this.onSubmit.bind(this)
           // console.log(this.props)
-          // console.log(this.props.location.state.submissionDetails._id);
 
 
           console.log(this.state.groupDetails)
@@ -100,6 +98,9 @@ class SubmitPanal extends Component {
                formData.append("submissionId", this.state.submissionId)
                formData.append("projectId", this.state.projectId)
                formData.append("submissionFile", files[i])
+               formData.append("groupno", this.state.groupNo)
+               formData.append("groupname", this.state.groupName)
+               formData.append("groupmember", this.state.groupMembers)
 
                await axios.post(backendURI.url + '/submission/add', formData)
                     .then(res => {

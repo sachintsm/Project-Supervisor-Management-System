@@ -22,7 +22,7 @@ export default class Index extends Component {
             mobile: '',
             image: '',
             index: ''
-
+            
         });
 
         axios.get(backendURI.url + '/indexInfo/' + this.props.id)

@@ -383,7 +383,6 @@ router.get("/coordinatorgrouprequests/:userId",async(req,res,next)=> {
     }
 })
 
-//delete group request by coordinator
 router.delete("/grouprequests/:id",async (req,res)=> {
     try{
         const id= req.params.id;
@@ -408,7 +407,28 @@ router.patch("/groupDetails/:groupId", async (req, res, next) => {
     }
 })
 
+//request group Email
+//Confirm meeting.js
+router.get('/requestemail/:id', (req,res)=>{
+    console.log(req.params.id);
+    try{
+        const id = req.params.id;
 
+        CreateGroups
+        .find({ _id: id })
+        .select('groupEmail')
+        .exec()
+        .then(data => {
+            res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+    }
+    catch(e){
+        console.log(e);
+    }
+})
 
 module.exports = router
 

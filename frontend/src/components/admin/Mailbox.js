@@ -101,8 +101,8 @@ export default class MailBox extends Component {
                           <Col xs="1">
                                 <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(message._id)} />
                                 
-                              {message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Read</td>}
-                              {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>}
+                              {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green' }}>Read</td>}
+                              {/* {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>} */}
                               </Col>
 
                             </Row>

@@ -268,7 +268,7 @@ router.post('/login', async function (req, res) {
 
 router.get('/stafflist', async (req, res, next) => {
   try {
-    const results = await Staff.find({ isStudent: false, isDeleted: false });
+    const results = await Staff.find({ isStudent: false, isDeleted: false, isAdmin: false});
     res.send(results);
   } catch (error) {
     console.log(error);
@@ -1250,7 +1250,7 @@ router.get('/getStudentDetails/:index', function (req, res) {
 
 //? custom registration 
 //? CustomRegistration.js
-router.post('/customregistration', async (req, res) => {  
+router.post('/customregistration', async (req, res) => {
   upload(req, res, (err) = async () => {
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
@@ -1270,10 +1270,15 @@ router.post('/customregistration', async (req, res) => {
       password: req.body.password,
       nic: req.body.nic.toLowerCase(),
       mobile: req.body.mobileNumber,
-      educationalQualifications : req.body.educationalQualifications,
-      jobDescription : req.body.jobDescription,
+      educationalQualifications: req.body.educationalQualifications,
+      jobDescription: req.body.jobDescription,
       imageName: fullPath,
       isSupervisor: true,
+      isGuest: true, 
+      isStaff: false,
+      isStudent : false,
+      isDeleted : false,
+      isAdmin: false,
     });
 
     bcrypt.genSalt(
