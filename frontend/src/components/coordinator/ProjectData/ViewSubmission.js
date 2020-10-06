@@ -63,13 +63,10 @@ class ViewSubmission extends Component {
         //console.log(this.state.submissionDetails);
      }
 
-
-
      render() {
           return (
                <React.Fragment>
                     <Navbar panel={"coordinator"} />
-
                     <div className="SubView_style">
                          <div className="container-fluid page_style">
                               <div className="container">
@@ -79,18 +76,18 @@ class ViewSubmission extends Component {
                                              <tr>
                                                   <th className="table-head">Group No</th>
                                                   <th className="table-head">Group Name</th>
-                                                  <th className="table-head">Group Members ID</th>
+                                                  <th className="table-head">Group Members' ids</th>
+                                                  <th className="table-head">Submission File</th>
                                              </tr>
                                         </thead>
                                         <tbody>
                                     {this.state.submissionDetails.map((item) => {
                                         return (
                                             <tr className="as-table-row" key={item.id}>
-                                                <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionAttachment/" + item.file}>
-                                                Attachment
-                                              </a></td>
-                                                <td className="table-body">{item.userId}</td>
-                                                <td className="table-body">{item.submissionId}</td>
+                                                <td className="table-body">{item.groupno}</td>
+                                                <td className="table-body">{item.groupname}</td>
+                                                <td className="table-body">{item.groupmember}</td>
+                                                <td className="table-body">Attachment</td>
                                                
                                             </tr>
                                         )
@@ -100,9 +97,6 @@ class ViewSubmission extends Component {
                               </div>
                          </div>
                     </div>
-
-
-
                     <Footer />
                </React.Fragment>
           )
