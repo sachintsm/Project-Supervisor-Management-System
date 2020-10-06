@@ -63,13 +63,10 @@ class ViewSubmission extends Component {
         //console.log(this.state.submissionDetails);
      }
 
-
-
      render() {
           return (
                <React.Fragment>
                     <Navbar panel={"coordinator"} />
-
                     <div className="SubView_style">
                          <div className="container-fluid page_style">
                               <div className="container">
@@ -100,9 +97,6 @@ class ViewSubmission extends Component {
                               </div>
                          </div>
                     </div>
-
-
-
                     <Footer />
                </React.Fragment>
           )
