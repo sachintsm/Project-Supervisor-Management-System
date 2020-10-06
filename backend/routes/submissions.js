@@ -47,11 +47,15 @@ router.post("/add", async (req, res) => {
                if (!existing) {
 
                     const newSubmission = new Submission({
+                         date:req.body.date,
                          userId: req.body.userId,
                          projectId: req.body.projectId,
                          submissionId: req.body.submissionId,
                          date_ob: req.body.date_ob,
                          files: filePath,
+                         groupno: req.body.groupno,
+                         groupname: req.body.groupname,
+                         groupmember: req.body.groupmember,
                     })
                     newSubmission
                          .save()
