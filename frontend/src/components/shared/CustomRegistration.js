@@ -34,6 +34,8 @@ export default class CustomRegistration extends Component {
         email: '',
         nic: '',
         mobileNumber: '',
+        password: '',
+        confirmPassword: '',
         educationalQualifications: '',
         jobDescription: '',
 
@@ -46,6 +48,8 @@ export default class CustomRegistration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      passwordError: '',
+      confirmPasswordError: '',
       educationalQualificationsError: '',
       jobDescriptionError: '',
 
@@ -87,6 +91,8 @@ export default class CustomRegistration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      passwordError: '',
+      confirmPasswordError: '',
       educationalQualificationsError: '',
       jobDescriptionError: '',
 
@@ -112,6 +118,14 @@ export default class CustomRegistration extends Component {
     if (this.state.form.mobileNumber.length !== 10) {
       isError = true;
       errors.mobileNumberError = 'Invalied mobile number!'
+    }
+    if (this.state.form.password.length < 8) {
+      isError = true;
+      errors.passwordError = 'Please enter password!'
+    }
+    if (this.state.form.password.length < 8) {
+      isError = true;
+      errors.confirmPasswordError = 'Please confirm password!'
     }
     if (this.state.form.educationalQualifications.length < 1) {
       isError = true;
@@ -141,6 +155,8 @@ export default class CustomRegistration extends Component {
         emailError: '',
         nicError: '',
         mobileNumberError: '',
+        passwordError: '',
+        confirmPasswordError: '',
         educationalQualificationsError: '',
         jobDescriptionError: '',
       })
@@ -162,6 +178,8 @@ export default class CustomRegistration extends Component {
               formData.append('nic', this.state.form.nic);
               formData.append('email', this.state.form.email);
               formData.append('mobileNumber', this.state.form.mobileNumber);
+              formData.append('password', this.state.form.password);
+              formData.append('confirmPassword', this.state.form.confirmPassword);
               formData.append('educationalQualifications', this.state.form.educationalQualifications);
               formData.append('jobDescription', this.state.form.jobDescription);
               var myHeaders = new Headers();
@@ -335,6 +353,38 @@ export default class CustomRegistration extends Component {
                         </div>
                       </Col>
                     </Row>
+
+                    <Row style={{ marginTop: "20px" }} >
+                      <Col md={4} xs="12">
+                        <div className="form-group">
+                          <label className="text-label">Password : </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            value={form.password}
+                            onChange={this.onChange}
+                          ></input>
+                          <p className="reg-error">{this.state.passwordError}</p>
+
+                        </div>
+                      </Col>
+
+                      <Col md={4} xs="12">
+                        <div className="form-group">
+                          <label className="text-label">Confirm Password : </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={this.onChange}
+                          ></input>
+                          <p className="reg-error">{this.state.confirmPasswordError}</p>
+
+                        </div>
+                      </Col>
+                      </Row>
 
                     <Row>
                       <Col md={12} xs="12">
