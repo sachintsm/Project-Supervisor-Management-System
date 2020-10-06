@@ -19,8 +19,6 @@ import {
 } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Nav , Badge} from 'react-bootstrap';
-import { FiSettings } from 'react-icons/fi';
-import { BsPerson } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import Icon from '@material-ui/core/Icon';
 import {makeStyles} from "@material-ui/core/styles";
@@ -58,7 +56,8 @@ export default class navbar extends Component {
       count: 0,
       reqId: [],
       userLevel: localStorage.getItem("user-level"),
-      groupNotificationCount: 0
+      groupNotificationCount: 0,
+      coordinatorNotificationCount: 0
     };
     this.logout = this.logout.bind(this);
     this.readRequest = this.readRequest.bind(this);
@@ -87,7 +86,6 @@ export default class navbar extends Component {
   readRequest() {
     const userData = getFromStorage('auth-id')
     var ob = [];
-    console.log('hasi');
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
       .then(response => {
         console.log(response.data.data2);
@@ -113,6 +111,9 @@ export default class navbar extends Component {
 
     if(this.state.userLevel=="student"){
       this.getStudentNotificationCount()
+    }
+    if(this.state.userLevel=="coordinator"){
+      this.getCoordinatorNotificationCount()
     }
 
     const userData = getFromStorage('auth-id')
@@ -168,6 +169,21 @@ export default class navbar extends Component {
         groupNotificationCount: this.state.groupNotificationCount + res.data.length
       })
     })
+  }
+
+  getCoordinatorNotificationCount = () => {
+
+    const headers = {
+      'auth-token':getFromStorage('auth-token').token,
+    }
+    const userId = getFromStorage("auth-id").id
+
+    axios.get(backendURI.url+"/createGroups/coordinatorgrouprequests/"+userId, {headers: headers}).then(res=>{
+      this.setState({
+        coordinatorNotificationCount: res.data.length
+      })
+    })
+
   }
 
   render() {
@@ -266,7 +282,7 @@ export default class navbar extends Component {
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
                         <MDBDropdownItem href='/adminhome/projecttypes'>Project Categories</MDBDropdownItem>
-                        <MDBDropdownItem href='/adminhome/createproject'>Projects</MDBDropdownItem>
+                        <MDBDropdownItem href='/adminhome/createproject'>Create Project</MDBDropdownItem>
                       </MDBDropdownMenu>
                     </MDBDropdown>
                 )}
@@ -353,15 +369,17 @@ export default class navbar extends Component {
                 {/* ========================================================================= */}
 
                 <MDBNavItem className="mr-3">
-                  {this.state.isStudent ? (
+                  {this.state.isStudent && (
                     <BootstrapTooltip1 title="Notifications" placement="bottom">
                           <Nav.Link className="padding-zeroo" href='/studenthome/notifications'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.groupNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.groupNotificationCount}</Badge>}</span></Nav.Link>
                     </BootstrapTooltip1>
-                  ) : (
+                  )}
 
-                    <BootstrapTooltip1 title="Notifications" placement="bottom">
-                      <Nav.Link className="padding-zeroo" href='#'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.groupNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.groupNotificationCount}</Badge>}</span></Nav.Link>
-                    </BootstrapTooltip1>
+
+                  {this.state.isCoordinator && (
+                      <BootstrapTooltip1 title="Notifications" placement="bottom">
+                        <Nav.Link className="padding-zeroo" href='/coordinatorhome/notifications'><span className="icon"><Icon style={{ fontSize:30 }} >notifications </Icon>{this.state.coordinatorNotificationCount>0 && <Badge style={{verticalAlign: "top"}} variant="danger">{this.state.coordinatorNotificationCount}</Badge>}</span></Nav.Link>
+                      </BootstrapTooltip1>
                   )}
                 </MDBNavItem>
                 <MDBNavItem>

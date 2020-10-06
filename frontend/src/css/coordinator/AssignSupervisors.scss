@@ -41,11 +41,34 @@
     width: 100%;
     margin-top: 20px;
 }
-
+.staffSup {
+    background-color: rgb(12, 147, 201);
+    position: absolute;
+    width: 50px;
+    margin: auto;
+    margin-top: 5px;
+    padding-left : 9px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+}
+.guestSup {
+    background-color: rgb(201, 12, 12);
+    position: absolute;
+    width: 50px;
+    margin: auto;
+    margin-top: 5px;
+    padding-left : 7px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+}
 /* On screens that are 600px or less, set the background color to olive */
 
 @media screen and (max-width: 500px) {
-    .spinner{
+    .spinner {
         margin-top: 20px;
     }
     .as-dropdown-select {
@@ -63,7 +86,12 @@
         text-align: left;
     }
     .as-table {
-        table, thead, tbody, th, td, tr {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
             display: block;
             font-size: 13px;
         }
@@ -77,7 +105,7 @@
             border: 1px solid rgb(212, 212, 212);
             border-radius: 3px;
             padding: 3% 5%;
-            margin-bottom : 10px;
+            margin-bottom: 10px;
         }
         p {
             margin: 0px !important;
@@ -99,7 +127,7 @@
             color: rgb(49, 49, 49);
             font-weight: bold;
         }
-        
+
         td:nth-of-type(1):before {
             content: "Supervisor";
         }
@@ -112,6 +140,5 @@
         td:nth-of-type(4):before {
             content: "Delete";
         }
-        
     }
 }

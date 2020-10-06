@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.schema;
 
 var contactUsSchema = mongoose.Schema({
+    date: { type: String },
     firstName: { type: String },
     lastName: { type: String},
     contactNumber: { type: String },

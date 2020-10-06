@@ -48,8 +48,10 @@ class SubmitPanal extends Component {
 
           this.onSubmit = this.onSubmit.bind(this)
           // console.log(this.props)
-         //console.log("Ashan",this.state.groupMembers);
 
+
+          console.log(this.state.groupDetails)
+          console.log(this.state.groupDetails.groupId)
 
      }
 
