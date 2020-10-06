@@ -46,7 +46,6 @@ router.post("/add", async (req, res) => {
                const existing = await Submission.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
                if (!existing) {
 
-
                     const newSubmission = new Submission({
                          userId: req.body.userId,
                          projectId: req.body.projectId,
@@ -91,17 +90,35 @@ router.post("/add", async (req, res) => {
      }
 })
 
-router.get('/getSubmission/:projectId', (req, res) => {
-     const pId = req.params.projectId;
+// router.get('/getSubmission/:projectId', (req, res) => {
+//      const pId = req.params.projectId;
+//      Submission
+//        .find({projectId: pId  })
+//        .then(data => {
+//          res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
+//        })
+//        .catch(err => {
+//          res.send({ state: false, msg: err.message })
+//          console.log(err)
+//        })
+//    })
+
+
+   router.post('/getSubmission', async (req, res) => {
+     const projectId = req.body.projectId
+     const submissionId = req.body.submissionId
+
+     console.log(req.body)
      Submission
-       .find({projectId: pId })
-       .then(data => {
-         res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
-       })
-       .catch(err => {
-         res.send({ state: false, msg: err.message })
-         console.log(err)
-       })
-   })
+         .find({ projectId: projectId, submissionId: submissionId })
+         .exec()
+         .then(data => {
+             res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+         })
+         .catch(err => {
+             res.send({ state: false, msg: err.message })
+         })
+ })
+ 
 
 module.exports = router;

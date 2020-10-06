@@ -20,12 +20,13 @@ class ViewSubmission extends Component {
 
                submissionDetails:[],
                projectId:this.props.location.state.submissionData.projectId,
+               submissionId : this.props.location.state.submissionData._id,
                projectName:"",
                groupData:[],
 
           }
 
-        // console.log("Ashan", this.state.projectId);
+        //console.log("Ashan", this.props.location.state.submissionData._id);
      }
 
      componentDidMount = async () => {
@@ -34,7 +35,12 @@ class ViewSubmission extends Component {
           //console.log(this.userType)
           const userId = getFromStorage('auth-id').id;
 
-          await axios.get(backendURI.url + '/Submission/getSubmission/' + this.state.projectId)
+          const dt = {
+               projectId: this.state.projectId,
+               submissionId: this.state.submissionId
+           }
+
+          await axios.post(backendURI.url + '/Submission/getSubmission/',dt)
           .then(res => {
           this.setState({ submissionDetails: res.data.data})
         })
