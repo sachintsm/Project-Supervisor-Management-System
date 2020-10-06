@@ -10,11 +10,12 @@ import {
   ModalBody
 } from 'reactstrap';
 import { Row, Col } from "reactstrap";
-import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
 import { getFromStorage } from "../../../utils/Storage";
 import { verifyAuth } from "../../../utils/Authentication";
 import TimeInput from 'material-ui-time-picker';
+import { meetingRequestConfirmEmail } from "../../shared/emailTemplates"
+import Snackpop from "../../shared/Snackpop";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -27,6 +28,10 @@ export default class ConfirmMeeting extends Component {
 
 
     this.state = {
+      snackbaropen: false,
+      snackbarmsg: '',
+      snackbarcolor: '',
+
       item: this.props.project,
       group: this.props.group,
       snackbaropen: false,
@@ -34,6 +39,8 @@ export default class ConfirmMeeting extends Component {
       snackbarcolor: '',
 
       groupId: "",
+      gId: '',
+      groupEmail: '',
       purpose: "",
       supervisor: "",
       super: "",
@@ -47,9 +54,9 @@ export default class ConfirmMeeting extends Component {
       dateError: '',
       timeError: '',
       supervisorError: '',
-      groupDetails: [],
-      activeList: [],
-      endedList: [],
+      // groupDetails: [],
+      // activeList: [],
+      // endedList: [],
       project: '',
 
       date: new Date(),
@@ -60,10 +67,14 @@ export default class ConfirmMeeting extends Component {
     this.onTimeChange = this.onTimeChange.bind(this);
   }
 
+  closeAlert = () => {
+    this.setState({ snackbaropen: false });
+  };
+
   componentDidMount = async () => {
 
+    console.log(this.state.meetId);
     const authState = await verifyAuth();
-
     this.setState({
       authState: authState,
       groupDataBlock: [],
@@ -88,25 +99,26 @@ export default class ConfirmMeeting extends Component {
 
     await axios.get(backendURI.url + '/requestMeeting/getmeet/' + this.state.meetId)
       .then(response => {
-
-        // this.setState({ meetings: response.data.data });
         this.setState({
           purpose: response.data.data[0].purpose,
+          groupId: response.data.data[0].groupId,
+          gId: response.data.data[0].gId,
           // firstName: response.data.data[0].firstName,
           // lastName: response.data.data[0].lastName,
           // email: response.data.data[0].email,
           // nic: response.data.data[0].nic,
           // mobile: response.data.data[0].mobile
-
         });
       })
       .catch(function (error) {
         console.log(error);
       })
-
-    // console.log(this.state.meetings);
-
-
+    await axios.get(backendURI.url + '/createGroups/requestemail/' + this.state.gId)
+      .then(res => {
+        this.setState({
+          groupEmail: res.data.data[0].groupEmail
+        })
+      })
   }
   closeAlert = () => {
     this.setState({ snackbaropen: false });
@@ -127,7 +139,7 @@ export default class ConfirmMeeting extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
     const obj = {
       // _id: this.state._id,
@@ -135,8 +147,32 @@ export default class ConfirmMeeting extends Component {
       time: this.state.time,
     };
     console.log(obj.time);
+
     axios.post(backendURI.url + '/requestMeeting/updateMeet/' + this.state.meetId, obj)
-      .then(res => console.log(res.data));
+      .then(res => {
+        console.log(res);
+        if (res.data.state === true) {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: 'Meeting successfully confirmed!',
+            snackbarcolor: 'success'
+          })
+        }
+        else {
+          this.setState({
+            snackbaropen: true,
+            snackbarmsg: 'Confirmation error!',
+            snackbarcolor: 'error'
+          })
+        }
+      }
+      );
+
+    const email = await meetingRequestConfirmEmail(this.state.groupEmail, this.state.groupId, this.state.date, this.state.time)
+    axios.post(backendURI.url + '/mail/sendmail', email)
+      .then(res => {
+        console.log(res);
+      })
 
     // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
     window.location.reload();
@@ -185,7 +221,7 @@ export default class ConfirmMeeting extends Component {
   onTimeChange(e) {
     this.setState({ time: e.target.value })
     console.log(this.state.time);
-    
+
   }
 
 
@@ -213,7 +249,7 @@ export default class ConfirmMeeting extends Component {
                   <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                       <Label for="avatar">Purpose</Label>
-                      <Input type="textarea" className="form-control" name="purpose" value={this.state.purpose} readOnly/>
+                      <Input type="textarea" className="form-control" name="purpose" value={this.state.purpose} readOnly />
                       <p className="reg-error">{this.state.messageError}</p>
                     </div>
                     <Row>

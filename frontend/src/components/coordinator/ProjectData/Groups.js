@@ -77,6 +77,7 @@ export default class Groups extends Component {
                     groupData: res.data.data
                 })
             })
+            console.log("Ashan",this.state.groupData)
         if (this.state.groupData.length === 0) {
             this.setState({ spinnerDiv: false })
         } else {

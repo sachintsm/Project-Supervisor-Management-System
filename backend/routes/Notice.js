@@ -163,7 +163,7 @@ router.get('/NoticeView/:userId', (req, res) => {
     .find({ userId: userId })
     .sort({date:-1 }&&{time:-1})
     .then(data => {
-      res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
+      res.send({ state: true, data:data, msg: 'Data Transfer Success..!' })
     })
     .catch(err => {
       res.send({ state: false, msg: err.message })

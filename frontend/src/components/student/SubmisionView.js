@@ -24,9 +24,11 @@ export class SubmisionView extends Component {
           super(props)
 
           this.state = {
+               groupDetails: props.location.state.groupDetails,
                projectId: this.props.match.params.id,
                submissionList: [],
           }
+
 
           this.getSubmission = this.getSubmission.bind(this);
 
@@ -36,7 +38,7 @@ export class SubmisionView extends Component {
 
      //button for view upcomming submission
      proposelView = (data) => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data })
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {
@@ -49,7 +51,7 @@ export class SubmisionView extends Component {
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    console.log("ssssssssssssss", res.data.data)
+                    //jconsole.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })

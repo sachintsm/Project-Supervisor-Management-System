@@ -32,7 +32,21 @@ router.post('/add', (req, res) => {
 
 router.get('/get/:id', function (req, res) {
   let id = req.params.id;
-  RequsetMeetingfind({ groupId: id, state: "confirmed" })
+  RequsetMeeting.find({ groupId: id, state: "confirmed" })
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+});
+
+//get urgent meetings to user profile
+
+router.get('/geturgent/:id', function (req, res) {
+  let id = req.params.id;
+  RequsetMeeting.find({ groupId: id, state: "urgent" })
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
