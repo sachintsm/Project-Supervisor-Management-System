@@ -89,12 +89,8 @@ router.post('/updateMeet/:id', function (req, res) {
     })
 });
 
- 
-
 //? create urgent meeting
-
 //? Urgent Meeting.js Supervisor
-
 router.post('/urgentMeeting', (req, res) => {
   const newRequsetMeeting = new RequsetMeeting({
     groupId: req.body.groupId,
@@ -105,9 +101,6 @@ router.post('/urgentMeeting', (req, res) => {
     supervisor: req.body.supervisor,
     meetingType: 'Urgent'
   })
-
- 
-
   newRequsetMeeting.save()
     .then(result => {
       res.json({ state: true, msg: "Request sent Successfully..!" });
@@ -118,12 +111,8 @@ router.post('/urgentMeeting', (req, res) => {
     })
 })
 
- 
-
 //? gte uegent meetings
-
 //? ViewMeetings.js
-
 router.get('/geturgent/:id', function (req, res) {
   let id = req.params.id;
   RequsetMeeting.find({ supervisor: id, meetingType: 'Urgent' })

@@ -12,6 +12,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "./Snackpop";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import NavbarGuest from './NavbarGuest';
 
 const backendURI = require('./BackendURI');
 
@@ -220,7 +221,7 @@ export default class CustomRegistration extends Component {
 
     return (
       <div>
-        {/* <Navbar panel={""} /> */}
+        <NavbarGuest />
         <div className="container-fluid ">
 
           <Snackpop
