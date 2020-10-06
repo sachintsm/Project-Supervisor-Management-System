@@ -1256,6 +1256,10 @@ router.post('/customregistration', async (req, res) => {
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
 
+    // checking if the NIC is already in the database 
+    const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
+    if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
+
     let ts = Date.now();
     let date_ob = new Date(ts);
     const time = date_ob.getDate() + date_ob.getMonth() + 1 + date_ob.getFullYear() + date_ob.getHours()

@@ -53,6 +53,7 @@ class SupervisorHome extends Component {
       userId: '',
 
       finalBlock: [],
+      emptyMessage : '',
     }
 
   }
@@ -82,7 +83,11 @@ class SupervisorHome extends Component {
     //! get active project the this supervosor In
     await axios.get(backendURI.url + '/projects/getAllActiveProjectDataS/' + this.state.userId)
       .then(async res => {
-
+        if(res.data.data.length == 0){
+          this.setState({
+            emptyMessage : 'No active projects!'
+          })
+        }
         this.setState({ activeProjects: res.data.data })
         for (let i = 0; i < this.state.activeProjects.length; i++) {
 
@@ -190,7 +195,7 @@ class SupervisorHome extends Component {
             {/* <p className="sd-topic">{this.state.superName}</p> */}
           </div>
           <div className="container">
-
+            <p style={{ textalign: "left", color: " #6d6d6d" , marginTop : "100px",textAlign: "center", marginBottom : "-100px"}}>{this.state.emptyMessage}</p>
             <Row className="card-row-sh">
               {spinnerDiv1 && (
                 <div className="spinner">
