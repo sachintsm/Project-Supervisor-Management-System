@@ -386,8 +386,8 @@ class Submission extends Component {
                               </Row>
                               <div >
                                 <p className="pcrd_discription">{type.proposelDiscription}</p>
-                                <p className="dead_date">Dead Line Date :{type.deadDate}</p>
-                                <p className="dead_time">Dead Line Time :{type.deadTime}</p>
+                                <p className="dead_date">Dead Line:{type.deadDate} : {type.deadTime}</p>
+                              
                               </div>
                               <Row>
 
