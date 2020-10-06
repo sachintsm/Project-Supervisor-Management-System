@@ -15,7 +15,7 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import { FiMail, FiLock } from 'react-icons/fi';
-import { Spinner } from 'react-bootstrap'
+import LoginContactus from './shared/LogninContactus';
 import { Animated } from "react-animated-css";
 
 const backendURI = require('./shared/BackendURI');
@@ -148,7 +148,7 @@ export default class login extends Component {
     }, 2000);
   }
 
-  onRegister = () =>{
+  onRegister = () => {
     this.props.history.push('/customregistration');
   }
 
@@ -251,12 +251,22 @@ export default class login extends Component {
                         </Form>
                         <div>
                           <Row className="lg-problem">
-                            <Col lg={5} md={5} xs={6} sm={6}>
-                              <p className="lg-problem-text">Don't have an account?</p>
+                            <Col lg={12} md={12} xs={12} sm={12}>
+                              <p className="lg-problem-text">Don't have an account?
+                              <label className="lg-problem-admin" onClick={this.onRegister}> &nbsp;Sign Up Now</label>
+                              </p>
                             </Col>
-                            <Col lg={6} md={6} xs={6} sm={6}>
-                              <p className="lg-problem-admin" onClick={this.onRegister}>Sign Up</p>
+
+                          </Row>
+                        </div>
+                        <div>
+                          <Row className="lg-problem">
+                            <Col lg={12} md={12} xs={12} sm={12}>
+
+                              <p className="lg-problem-text" style={{ marginTop:"-40px", marginBottom:"-50px"}}>Problem with login?
+                              <label className="lg-problem-admin">&nbsp; <LoginContactus/></label></p>
                             </Col>
+
                           </Row>
                         </div>
                       </Card>
