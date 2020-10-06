@@ -9,7 +9,6 @@ var userSchema = mongoose.Schema({
   birthday: { type: String },
   nic: { type: String },
   mobile: { type: String },
-  noProject:{type: String},
   indexNumber: { type:String},
   regNumber: { type:String },
   isDeleted: { type: Boolean },
@@ -21,6 +20,9 @@ var userSchema = mongoose.Schema({
   isSupervisor: { type: Boolean },
   imageName: { type: String },
   courseType :{ type: String},
+  educationalQualifications : { type: String },
+  jobDescription : { type: String},
+  isGuest : { type: Boolean}
 });
 
 const Users = (module.exports = mongoose.model('Users', userSchema));

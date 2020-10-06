@@ -25,7 +25,7 @@ const Pending = React.memo( props =>(
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
         <td><ButtonToolbar>
-        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId,props.req.supFirstName,props.req.supLastName)} >Accept</Button> 
+        <Button type="submit" value="Mod" className="btn btn-info" onClick={() => props.sendAccept(props.req._id,props.req.groupId,props.req.supFirstName,props.req.supLastName,props.req.projectId)} >Accept</Button> 
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
@@ -106,8 +106,11 @@ export default class ViewRequest extends Component {
                 console.log(error);
             })
     }
-    reqSendAccept(req,group,fName,lName){
+    reqSendAccept(req,group,fName,lName,proId){
+        console.log(proId);
         const id = req;
+        const userData = getFromStorage('auth-id');
+        console.log(userData.id)
         confirmAlert({
             title: 'Confirm to submit',
             message: 'Are you sure to accept this group?',
@@ -118,6 +121,8 @@ export default class ViewRequest extends Component {
                         const obj = {
                             req_id: req,
                             state:'accept',
+                            projId:proId,
+                            supId:userData.id
                         };
                         console.log(req);
                         axios.post(backendURI.url + "/users/updateReqState/" +id, obj)
@@ -162,7 +167,7 @@ export default class ViewRequest extends Component {
                                         else {
                                             this.setState({
                                                 snackbaropen: true,
-                                                snackbarmsg: 'Unable to accept',
+                                                snackbarmsg: res.data.msg,
                                                 snackbarcolor: 'error',
                                             })
                                             window.location.reload(false);

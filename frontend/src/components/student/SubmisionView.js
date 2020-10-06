@@ -29,6 +29,7 @@ export class SubmisionView extends Component {
                submissionList: [],
           }
 
+
           this.getSubmission = this.getSubmission.bind(this);
           console.log("Ashan",this.state.groupDetails);
           //console.log('Ashan',this.state.submissionList);
@@ -37,7 +38,7 @@ export class SubmisionView extends Component {
 
      //button for view upcomming submission
      proposelView = (data) => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data , groupDetails: this.state.groupDetails})
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {

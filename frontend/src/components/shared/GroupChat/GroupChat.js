@@ -68,10 +68,11 @@ class GroupChat extends Component {
         for (var i = 0; i < this.state.groupDetails.groupMembers.length; i++) {
             await axios.get(backendURI.url + '/users/getStudentDetails/' + this.state.groupDetails.groupMembers[i])
                 .then(res => {
+                    console.log(res.data.data._id);
                     const data = {
-                        _id: res.data.data[0]._id,
-                        userName: res.data.data[0].firstName + ' ' + res.data.data[0].lastName,
-                        profileImage: res.data.data[0].imageName
+                        _id: res.data.data._id,
+                        userName: res.data.data.firstName + ' ' + res.data.data.lastName,
+                        profileImage: res.data.data.imageName
                     }
                     this.setState({
                         userData: [...this.state.userData, data]
