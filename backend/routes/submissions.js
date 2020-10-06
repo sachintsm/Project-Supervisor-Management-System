@@ -26,8 +26,6 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('submissionFile');
-
-
 router.post("/add", async (req, res) => {
 
      try {
@@ -92,5 +90,18 @@ router.post("/add", async (req, res) => {
           console.log(err);
      }
 })
+
+router.get('/getSubmission/:projectId', (req, res) => {
+     const pId = req.params.projectId;
+     Submission
+       .find({projectId: pId })
+       .then(data => {
+         res.send({ state: true, data: data, msg: 'Data Transfer Success..!' })
+       })
+       .catch(err => {
+         res.send({ state: false, msg: err.message })
+         console.log(err)
+       })
+   })
 
 module.exports = router;
