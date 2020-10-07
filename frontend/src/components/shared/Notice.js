@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-
-// import 'froala-editor/css/froala_style.min.css';
-// import 'froala-editor/css/froala_editor.pkgd.min.css';
-// import FroalaEditorComponent from 'react-froala-wysiwyg';
-
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
@@ -295,7 +290,7 @@ class Notice extends Component {
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.userTypes)
+   // console.log(this.userTypes)
 
     if (this.userTypes === "coordinator") {
       const err = this.validate();
@@ -599,7 +594,7 @@ class Notice extends Component {
                             placeholder="Notice Tittle"
                             value={this.state.noticeTittle}
                             onChange={this.onChangeTittle}
-                            errortext={this.noticeTittleError}
+                           c
                             errortext={this.noticeTittleLenthError}
                           ></FormControl>
                           <p className="reg-error">{this.state.noticeTittleError}</p>

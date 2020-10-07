@@ -13,9 +13,7 @@ import Snackpop from "../shared/Snackpop";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 import { Table, Spinner, Card } from 'react-bootstrap'
-import MultiSelect from 'react-multi-select-component';
-
-import StaffList from './StaffList'
+import SupervisorDetails from './SupervisorDetails';
 
 const backendURI = require('../shared/BackendURI');
 
@@ -54,7 +52,7 @@ class AssignSupervisors extends Component {
             checkboxes: []
 
         };
-        this.setSelected = this.setSelected.bind(this);
+        // this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this);
@@ -64,11 +62,11 @@ class AssignSupervisors extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    setSelected(obj) {
-        this.setState({
-            selectedStaffList: obj,
-        });
-    }
+    // setSelected(obj) {
+    //     this.setState({
+    //         selectedStaffList: obj,
+    //     });
+    // }
     async componentDidMount() {
         const authState = await verifyAuth();
 
@@ -101,15 +99,22 @@ class AssignSupervisors extends Component {
                 }
             })
             .then((a) => {
+                console.log(this.state.staffList);
                 this.state.staffList.map((user) => {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
                         value: user._id,
-                        added: true,
-                        email: user.email
+                        added: false,
+                        email: user.email,
+                        jobDescription: user.jobDescription,
+                        educationalQualifications: user.educationalQualifications,
+                        isStaff: user.isStaff,
+                        isGuest: user.isGuest,
+
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
+                        selectedStaffList: [...this.state.selectedStaffList, option],
                     });
                     return null;
                 });
@@ -130,6 +135,18 @@ class AssignSupervisors extends Component {
 
     //? assing supervisors to the projects
     addSupervisors() {
+
+        let selectedStaff = []
+
+        this.state.staffOptionList.map(item => {
+            if (item.added) {
+                selectedStaff.push(item)
+            }
+        })
+
+        console.log(selectedStaff)
+
+
         if (this.state.projectId === '') {
             this.setState({
                 snackbaropen: true,
@@ -151,16 +168,15 @@ class AssignSupervisors extends Component {
                             'auth-token': getFromStorage('auth-token').token,
                         }
 
-                        for (let i = 0; i < this.state.selectedStaffList.length; i++) {
+                        for (let i = 0; i < selectedStaff.length; i++) {
                             const data = {
                                 projectId: this.state.projectId,
-                                supervisors: this.state.selectedStaffList[i].value
+                                supervisors: selectedStaff[i].value
                             }
 
                             //? add supervisors array at project document
                             await axios.post(backendURI.url + '/projects/addSupervisor', data, { headers: headers })
                                 .then(async res => {
-                                    console.log(res)
                                     if (res.data.state === false) {
                                         this.setState({
                                             snackbaropen: true,
@@ -175,9 +191,8 @@ class AssignSupervisors extends Component {
                                             snackbarcolor: 'success',
                                         })
                                         //? set isSupervisor -> true
-                                        await axios.get(backendURI.url + '/users/updateSupervisor/' + this.state.selectedStaffList[i].value)
+                                        await axios.get(backendURI.url + '/users/updateSupervisor/' + selectedStaff[i].value)
                                             .then(res => {
-                                                console.log(res)
                                                 if (res.data.state === false) {
                                                     this.setState({
                                                         snackbaropen: true,
@@ -199,7 +214,7 @@ class AssignSupervisors extends Component {
                                     }
                                 })
                         }
-                        // window.location.reload()
+                        window.location.reload()
                     }
                 },
                 {
@@ -297,14 +312,11 @@ class AssignSupervisors extends Component {
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
-                    console.log(dt)
                     // //? remove supervisor from the project supervisor list
                     await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
                         .then(res => {
-                            console.log(res)
                         })
                     for (let j = 0; j < array1.length; j++) {
-                        console.log(array1.length)
                         data = {
                             projectId: projectId,
                             supervisor: userId,
@@ -341,23 +353,91 @@ class AssignSupervisors extends Component {
             }]
         })
     }
-    //? opent the gropuData window
+    //? open the gropuData window
     groupDataHandler(data) {
         if (this.state.mouseState == false) {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
 
+    changeState(item) {
+        item.added = !item.added
+
+    }
+
+    selectAll = () => {
+
+        let newList = this.state.staffOptionList
+
+        this.setState({
+            staffOptionList: []
+        }, () => {
+            newList.map(item => {
+                item.added = true
+                this.setState({
+                    staffOptionList: newList
+                })
+            })
+        })
+
+    }
+
+    deselectAll = () => {
+
+        let newList = this.state.staffOptionList
+
+        this.setState({
+            staffOptionList: []
+        }, () => {
+            newList.map(item => {
+                item.added = false
+                this.setState({
+                    staffOptionList: newList
+                })
+            })
+        })
+    }
+
 
     render() {
-        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2 } = this.state;   // ?load projects to dropdown menu this coordinator
-
+        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2, staffOptionList } = this.state;   // ?load projects to dropdown menu this coordinator
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (
                     <option key={i} value={item._id}>{item.projectYear} - {item.projectType} - {item.academicYear}</option>
                 )
             }, this)
+
+
+        let list = staffOptionList.length > 0 && staffOptionList.map((item, i) => {
+            return (
+                <div key={i}>
+                    <Row style={{ marginBottom: "2px" }}>
+                        <Col md={1}>
+                            {item.isGuest && (
+                                <p className="guestSup">Guest</p>
+                            )}
+                            {item.isStaff && (
+                                <p className="staffSup">Staff</p>
+                            )}
+                        </Col>
+                        <Col md={3}>
+                            {/* {item.label} */}
+                            <SupervisorDetails id={item.value} name={item.label} />
+                        </Col>
+                        <Col md={7}>
+                            <Row>
+                                {item.email}
+                            </Row>
+                        </Col>
+                        <Col md={1}>
+                            <input type="checkbox" defaultChecked={item.added} onChange={() => this.changeState(item)} />
+                        </Col>
+                    </Row>
+                    <hr style={{ width: "105%" }}></hr>
+                </div>
+            )
+        })
         return (
             <div>
                 <Navbar panel={"coordinator"} />
@@ -394,14 +474,15 @@ class AssignSupervisors extends Component {
                                         </button>
                                     </div>
                                     <div className="container" style={{ width: "100%" }}>
-                                        {this.state.staffOptionList.map(data => {
+                                        {list}
+                                        {/* {this.state.staffOptionList.map(data => {
                                             return (
                                                 <div key={data.value} >
-                                                    <StaffList data={data} />
+                                                    <StaffList data={data} state={data.added} />
                                                 </div>
 
                                             )
-                                        })}
+                                        })} */}
                                     </div>
                                 </Row >
 

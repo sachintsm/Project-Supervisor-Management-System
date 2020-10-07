@@ -5,6 +5,7 @@ import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
+import CustomRegistration from "./shared/CustomRegistration.js";
 import { Col, Row } from 'reactstrap'
 import {
   Button,
@@ -14,7 +15,7 @@ import {
   InputGroup,
 } from 'react-bootstrap';
 import { FiMail, FiLock } from 'react-icons/fi';
-import { Spinner } from 'react-bootstrap'
+import LoginContactus from './shared/LogninContactus';
 import { Animated } from "react-animated-css";
 
 const backendURI = require('./shared/BackendURI');
@@ -40,6 +41,7 @@ export default class login extends Component {
     this.onSignIn = this.onSignIn.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onRegister = this.onRegister.bind(this);
   }
   onChangeEmail(e) {
     this.setState({
@@ -146,6 +148,9 @@ export default class login extends Component {
     }, 2000);
   }
 
+  onRegister = () => {
+    this.props.history.push('/customregistration');
+  }
 
   render() {
     const { spinnerDiv, loginDiv } = this.state
@@ -161,9 +166,9 @@ export default class login extends Component {
 
                 </div>
                 <div className="row">
-                  <div class="spinner-loading">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
+                  <div className="spinner-loading">
+                    <div className="double-bounce1"></div>
+                    <div className="double-bounce2"></div>
                   </div>
                 </div>
 
@@ -246,12 +251,22 @@ export default class login extends Component {
                         </Form>
                         <div>
                           <Row className="lg-problem">
-                            <Col lg={4} md={6} xs={6} sm={6}>
-                              <p className="lg-problem-text">Problem with login?</p>
+                            <Col lg={12} md={12} xs={12} sm={12}>
+                              <p className="lg-problem-text">Don't have an account?
+                              <label className="lg-problem-admin" onClick={this.onRegister}> &nbsp;Sign Up Now</label>
+                              </p>
                             </Col>
-                            <Col lg={8} md={6} xs={6} sm={6}>
-                              <p className="lg-problem-admin">Contact admin</p>
+
+                          </Row>
+                        </div>
+                        <div>
+                          <Row className="lg-problem">
+                            <Col lg={12} md={12} xs={12} sm={12}>
+
+                              <p className="lg-problem-text" style={{ marginTop:"-40px", marginBottom:"-50px"}}>Problem with login?
+                              <label className="lg-problem-admin">&nbsp; <LoginContactus/></label></p>
                             </Col>
+
                           </Row>
                         </div>
                       </Card>

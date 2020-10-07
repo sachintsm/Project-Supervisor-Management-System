@@ -12,7 +12,9 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { IoIosPersonAdd } from 'react-icons/io';
 import { TiGroup } from 'react-icons/ti';
 import { FaChartLine } from 'react-icons/fa';
-import { FiUploadCloud } from 'react-icons/fi';
+import { FiUploadCloud } from 'react-icons/all';
+import { BsFileEarmarkText } from 'react-icons/bs';
+import { BsChatSquareDots } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
@@ -96,18 +98,10 @@ class ViewProject extends Component {
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
-                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers}/>}
+                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers} groupDetails={this.state.groupDetails}/>}
 
                     <Row className="btn-row">
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewChat(this.state.project)}>
-                            <Card className="btn-card">
-                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
-                                    <div>
-                                        <QuestionAnswerIcon style={{ fontSize: 32 }} />
-                                    </div>
-                                </IconContext.Provider><span className="btn-title">Chat Box</span></Card>
-                        </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={()=>this.requestSup(this.state.project)}>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={()=>this.requestSup(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
@@ -115,7 +109,15 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title" onClick={()=>this.requestSup(this.state.project)}>Request Supervisors</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewMeetings(this.state.project)}>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewChat(this.state.project)}>
+                            <Card className="btn-card">
+                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                    <div>
+                                        <BsChatSquareDots />
+                                    </div>
+                                </IconContext.Provider><span className="btn-title">Chat Box</span></Card>
+                        </Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewMeetings(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
@@ -123,15 +125,7 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Meetings</span></Card>
                         </Col>
-                        <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col">
-                            <Card className="btn-card" onClick={() => { this.viewProgress(this.state.project) }}>
-                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
-                                    <div>
-                                        <FaChartLine />
-                                    </div>
-                                </IconContext.Provider><span className="btn-title">Progress</span></Card>
-                        </Col>
-                        <Col lg={4} md={4} xs={3} sm={3} className="btn-card-col"></Col>
+                        {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
@@ -140,7 +134,23 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Submissions</span></Card>
                         </Col>
-                        <Col lg={4} md={4} xs={3} sm={3} className="btn-card-col"></Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
+                            <Card className="btn-card" onClick={() => { this.viewProgress(this.state.project) }}>
+                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                    <div>
+                                        <FaChartLine />
+                                    </div>
+                                </IconContext.Provider><span className="btn-title">Progress</span></Card>
+                        </Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
+                            <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
+                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                    <div>
+                                        <BsFileEarmarkText />
+                                    </div>
+                                </IconContext.Provider><span className="btn-title">Biweekly Reports</span></Card>
+                        </Col>
+                        {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
 
                     </Row>
                 </div>

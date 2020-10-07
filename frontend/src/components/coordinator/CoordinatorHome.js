@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import { getFromStorage } from '../../utils/Storage';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { Row, Col, Card } from 'react-bootstrap';
+import Footer from '../shared/Footer'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -193,8 +194,8 @@ class CoordinatorHome extends Component {
     this.props.history.push('/coordinatorhome/projectdata/SRS/' + id);
 
   }
-  othersubmission(data) {
-    this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
+  submission(data) {
+    this.props.history.push('/coordinatorhome/projectdata/submission/' + data._id);
   }
   biWeeklys(id) {
     this.props.history.push('/coordinatorhome/projectdata/BiWeekly/' + id);
@@ -279,7 +280,7 @@ class CoordinatorHome extends Component {
                           <Button className="btn  ch-btn-btn" onClick={() => this.biWeeklys(data._id)}>Bi-Weekly</Button>
                         </Col>
                         <Col md={3}>
-                          <Button className="btn  ch-btn-btn" onClick={() => this.othersubmission(data)}>Submissions</Button>
+                          <Button className="btn  ch-btn-btn" onClick={() => this.submission(data)}>Submissions</Button>
                         </Col>
                       </Row>
                     </Col>
@@ -360,7 +361,9 @@ class CoordinatorHome extends Component {
 
             )
           })}
+
         </div>
+        <Footer />
       </React.Fragment >
     );
   }

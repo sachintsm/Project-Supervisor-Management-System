@@ -112,7 +112,7 @@
     font-size: 12px;
     cursor: pointer;
     font-weight: 500;
-    margin-left: -40px;
+    /* margin-left: -40px; */
 }
 
 .white-logo {
@@ -272,6 +272,6 @@
         font-size: 12px;
         cursor: pointer;
         font-weight: 500;
-        margin-left: -35px;
+        /* margin-left: -35px; */
     }
 }

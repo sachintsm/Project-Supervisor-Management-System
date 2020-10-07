@@ -39,14 +39,16 @@ function ProjectModal(props) {
                                     <th>Year</th>
                                     <th>Type</th>
                                     <th>Academic Year</th>
+                                    <th>Projects</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {re.map((result) => {
                                 return (<tr key={result._id}>
-                                    <td>{result.projectYear}</td>
+                                    <td>{result.projYear}</td>
                                     <td>{result.projectType}</td>
                                     <td>{result.academicYear}</td>
+                                    <td>{result.noProjects}</td>
                                     </tr> 
                                     )
                             })}
@@ -128,7 +130,7 @@ const ReqState = React.memo( props =>(
 
         
     <tr>
-        <td>{props.req.supFirstName}{props.req.supLastName}</td>
+        <td>{props.req.supFirstName}{" "}{props.req.supLastName}</td>
         <td>{props.req.supEmail}</td>
         {(props.req.state === "pending")?
             (<td>{props.req.state}</td>):
