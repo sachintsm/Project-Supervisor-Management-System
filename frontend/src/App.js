@@ -115,6 +115,7 @@ function App() {
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
+          {/*<Route path='/supervisorhome/notifications' component={Supe}></Route>*/}
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>
