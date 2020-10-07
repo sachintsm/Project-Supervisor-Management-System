@@ -121,11 +121,15 @@ export default class CustomRegistration extends Component {
     }
     if (this.state.form.password.length < 8) {
       isError = true;
-      errors.passwordError = 'Please enter password!'
+      errors.passwordError = 'Password should be longer than 8 characters!'
     }
-    if (this.state.form.password.length < 8) {
+    if (this.state.form.confirmPassword.length < 8) {
       isError = true;
-      errors.confirmPasswordError = 'Please confirm password!'
+      errors.confirmPasswordError = 'Password should be longer than 8 characters!'
+    }
+    if (this.state.form.password != this.state.form.confirmPassword) {
+      isError = true;
+      errors.confirmPasswordError = "Password does not match *";
     }
     if (this.state.form.educationalQualifications.length < 1) {
       isError = true;
@@ -147,7 +151,7 @@ export default class CustomRegistration extends Component {
   onSubmit(e) {
     e.preventDefault();
     const err = this.validate();  //?calling validation function
-    
+
     if (!err) {
       this.setState({
         firstNameError: '',
@@ -160,7 +164,7 @@ export default class CustomRegistration extends Component {
         educationalQualificationsError: '',
         jobDescriptionError: '',
       })
-      
+
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to do this.',
@@ -168,56 +172,66 @@ export default class CustomRegistration extends Component {
           {
             label: 'Yes',
             onClick: () => {
-              
-              const formData = new FormData();
 
-              formData.append('profileImage', this.state.form.file);
-              formData.append('firstName', this.state.form.firstName);
-              formData.append('lastName', this.state.form.lastName);
-              formData.append('password', this.state.form.nic);
-              formData.append('nic', this.state.form.nic);
-              formData.append('email', this.state.form.email);
-              formData.append('mobileNumber', this.state.form.mobileNumber);
-              formData.append('password', this.state.form.password);
-              formData.append('confirmPassword', this.state.form.confirmPassword);
-              formData.append('educationalQualifications', this.state.form.educationalQualifications);
-              formData.append('jobDescription', this.state.form.jobDescription);
-              var myHeaders = new Headers();
+              if (this.state.form.file == null) {
+                this.setState({
+                  snackbaropen: true,
+                  snackbarmsg: "Please select a profile image!",
+                  snackbarcolor: 'error',
+                })
+              }
+              else {
 
-              var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: formData,
-                redirect: 'follow'
-              };
 
-              fetch(backendURI.url + "/users/customregistration", requestOptions)
-                .then((res) => res.json())
-                .then((json) => {
-                  if (json.state === true) {
+                const formData = new FormData();
+
+                formData.append('profileImage', this.state.form.file);
+                formData.append('firstName', this.state.form.firstName);
+                formData.append('lastName', this.state.form.lastName);
+                formData.append('nic', this.state.form.nic);
+                formData.append('email', this.state.form.email);
+                formData.append('mobileNumber', this.state.form.mobileNumber);
+                formData.append('password', this.state.form.password);
+                formData.append('educationalQualifications', this.state.form.educationalQualifications);
+                formData.append('jobDescription', this.state.form.jobDescription);
+                var myHeaders = new Headers();
+
+                var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: formData,
+                  redirect: 'follow'
+                };
+
+                fetch(backendURI.url + "/users/customregistration", requestOptions)
+                  .then((res) => res.json())
+                  .then((json) => {
+                    if (json.state === true) {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'success',
+                      })
+                      this.props.history.push('/');
+
+                    }
+                    else {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'error',
+                      })
+                    }
+                  })
+                  .catch(error => {
                     this.setState({
                       snackbaropen: true,
-                      snackbarmsg: json.msg,
-                      snackbarcolor: 'success',
-                    })
-                    window.location.reload();
-                  }
-                  else {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: json.msg,
+                      snackbarmsg: error,
                       snackbarcolor: 'error',
                     })
-                  }
-                })
-                .catch(error => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: error,
-                    snackbarcolor: 'error',
-                  })
-                  console.log('error', error)
-                });
+                    console.log('error', error)
+                  });
+              }
             }
           },
           {
@@ -235,7 +249,7 @@ export default class CustomRegistration extends Component {
 
   render() {
 
-    const { form} = this.state;
+    const { form } = this.state;
 
     return (
       <div>
@@ -252,7 +266,7 @@ export default class CustomRegistration extends Component {
           <Col md="12" xs="12" className="main-div">
             <div>
               <div className="container">
-                <p className="reg-head">User Registration</p>
+                <p className="reg-head">External Supervisor Registration</p>
                 <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                 </div>
                 <div className="container">
@@ -384,7 +398,7 @@ export default class CustomRegistration extends Component {
 
                         </div>
                       </Col>
-                      </Row>
+                    </Row>
 
                     <Row>
                       <Col md={12} xs="12">

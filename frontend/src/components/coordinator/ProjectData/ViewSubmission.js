@@ -4,7 +4,7 @@ import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
 import axios from 'axios';
 import { getFromStorage } from '../../../utils/Storage';
-
+import "../../../css/coordinator/SubmissionView.scss";
 
 
 import '../../../css/coordinator/SubmissionView.scss';
@@ -45,6 +45,8 @@ class ViewSubmission extends Component {
           this.setState({ submissionDetails: res.data.data})
         })
 
+        //console.log(this.state.submissionDetails)
+
         await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
             .then(res => {
                 this.setState({
@@ -58,7 +60,7 @@ class ViewSubmission extends Component {
                     groupData: res.data.data
                 })
             })
-            console.log("AShan",this.state.groupData)
+           // console.log("AShan",this.state.groupData)
 
         //console.log(this.state.submissionDetails);
      }
@@ -70,7 +72,8 @@ class ViewSubmission extends Component {
                     <div className="SubView_style">
                          <div className="container-fluid page_style">
                               <div className="container">
-                              <h3 className="header_style">{this.state.projectName}</h3>
+                              <p className="header_style">{this.state.projectName}</p>
+                              <p className="sub_de">Submission Details</p>
                                    <Table hover>
                                         <thead>
                                              <tr>
@@ -83,11 +86,13 @@ class ViewSubmission extends Component {
                                         <tbody>
                                     {this.state.submissionDetails.map((item) => {
                                         return (
-                                            <tr className="as-table-row" key={item.id}>
+                                            <tr className="as-table-row" key={item._id}>
                                                 <td className="table-body">{item.groupno}</td>
                                                 <td className="table-body">{item.groupname}</td>
                                                 <td className="table-body">{item.groupmember}</td>
-                                                <td className="table-body">Attachment</td>
+                                                <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/project_submissions/" + item.files}>
+                                                File Attachment
+                                                </a></td>
                                                
                                             </tr>
                                         )
