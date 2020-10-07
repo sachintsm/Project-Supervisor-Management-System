@@ -12,22 +12,19 @@ import { Table } from 'react-bootstrap';
 import ConfirmMeetings from "./ConfirmMeetings";
 import '../../../css/supervisor/Meeting.scss'
 import UrgentMeeting from "./UrgentMeetings";
-
-
+import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../../shared/BackendURI');
-
 
 const Meet = React.memo(props => (
     <tr>
         <td className="table-body">{props.meet.groupId}</td>
         <td className="table-body">{props.meet.purpose}</td>
         <td className="table-body" style={{ width: "10%" }}>
-            <ConfirmMeetings data={props.meet._id}  />
+            <ConfirmMeetings data={props.meet._id} />
         </td>
     </tr>
 ));
-
 
 const MeetConfirmed = React.memo(props => (
     <tr>
@@ -38,26 +35,13 @@ const MeetConfirmed = React.memo(props => (
     </tr>
 ));
 
-
-
 class ViewMeetings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-            // snackbaropen: false,
-
-            // snackbarmsg: '',
-
-            // snackbarcolor: '',
-
-
-
-            // authState: '',
-
-            // snackbaropen: false,
-
-            // snackbarmsg: '',
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
 
             groupId: this.props.location.state.groupDetails._id,
             groupNumber: this.props.location.state.groupDetails.groupId,
@@ -71,9 +55,12 @@ class ViewMeetings extends Component {
             meetings: [],
             urgentMeetings: [],
         }
+        this.cancelMeeting = this.cancelMeeting.bind(this);
     }
 
-
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
 
     componentDidMount = async () => {
         const authState = await verifyAuth();
@@ -87,7 +74,6 @@ class ViewMeetings extends Component {
             this.props.history.push("/");
         }
 
-
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
@@ -98,6 +84,7 @@ class ViewMeetings extends Component {
         this.setState({
             userId: userId,
         })
+        console.log(this.state.userId);
 
         await axios.get(backendURI.url + '/requestMeeting/getsupervisor/' + this.state.userId)
             .then(response => {
@@ -110,11 +97,15 @@ class ViewMeetings extends Component {
 
         await axios.get(backendURI.url + '/requestMeeting/geturgent/' + this.state.userId)
             .then(res => {
+                console.log(res.data);
                 this.setState({
                     urgentMeetings: res.data.data
+
                 })
             })
     }
+
+
 
 
 
@@ -135,6 +126,45 @@ class ViewMeetings extends Component {
                 return <MeetConfirmed confirm={this.confirm} meetconfirmed={currentMeetConfirmed} key={i} />;
             }
             else return null
+        })
+    }
+
+    cancelMeeting(data) {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        axios.post(backendURI.url + "/requestMeeting/cancelMeeting/" + data)
+                            .then(res => {
+                                console.log(res)
+                                if (res.data.state === true) {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'success',
+                                    })
+                                }
+                                else {
+                                    this.setState({
+                                        snackbaropen: true,
+                                        snackbarmsg: res.data.msg,
+                                        snackbarcolor: 'error',
+                                    })
+                                }
+                            });
+                        window.location.reload();
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {
+
+                    }
+                }
+            ]
         })
     }
 
@@ -237,13 +267,15 @@ class ViewMeetings extends Component {
                                                                 </thead>
                                                                 <tbody>
                                                                     {this.state.urgentMeetings.map(data => {
+
+
                                                                         return (
                                                                             <tr key={data._id}>
                                                                                 <td>{data.groupNumber}</td>
                                                                                 <td>{data.purpose}</td>
                                                                                 <td>{(data.date).substring(0, 10)}</td>
                                                                                 <td>{data.time}</td>
-                                                                                <td><button className="btn btn-danger">Cancel Meeting</button></td>
+                                                                                <td><button className="btn btn-danger" onClick={() => this.cancelMeeting(data._id)} >Cancel Meeting</button></td>
                                                                             </tr>
                                                                         )
                                                                     })}

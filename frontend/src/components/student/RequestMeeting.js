@@ -55,6 +55,9 @@ export default class RequestMeeting extends Component {
   }
 
   componentDidMount = async () => {
+
+    console.log(this.state.group);
+
     for (let j = 0; j < this.state.group.supervisors.length; j++) {
       await axios.get(backendURI.url + '/users/getUserName/' + this.state.group.supervisors[j])
         .then((result) => {
@@ -150,6 +153,7 @@ export default class RequestMeeting extends Component {
         supervisorError: '',
       })
       const obj = {
+        gId: this.state.group._id,
         groupId: this.state.group.groupId,
         purpose: this.state.purpose,
         date: this.state.date,

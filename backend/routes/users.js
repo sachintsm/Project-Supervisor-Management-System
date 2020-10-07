@@ -535,6 +535,7 @@ router.post('/updateReqState/:id', async (req, res) => {
         }
         l = arr3.length;
         console.log(l);
+        console.log('d');
       }
       else {
         l = 0;
@@ -549,14 +550,14 @@ router.post('/updateReqState/:id', async (req, res) => {
         if (err)
           res.status(404).send("data is not found");
         else {
-          Request.updateMany({ groupId: group.groupId }, {
+        /*  Request.updateMany({ groupId: group.groupId }, {
             $set: {
               state: 'reject'
             }
           })
             .exec()
             .then(data => { })
-            .catch(error => { })
+            .catch(error => { })*/
 
           request.state = req.body.state;
           if (req.body.state === 'accept') {
@@ -1255,6 +1256,7 @@ router.post('/customregistration', async (req, res) => {
     // checking if the userId is already in the database
     const userEmailExists = await User.findOne({ email: req.body.email });
     if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
+
 
     // checking if the NIC is already in the database 
     const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
