@@ -5,16 +5,14 @@ const RequsetMeeting = require('../models/RequestMeeting');
  
 router.post('/add', (req, res) => {
   const newRequsetMeeting = new RequsetMeeting({
+    gId: req.body.gId,
     groupId: req.body.groupId,
     purpose: req.body.purpose,
     date: req.body.date,
     time: req.body.time,
     supervisor: req.body.supervisor,
     state: req.body.state,
-
   })
-
- 
 
   newRequsetMeeting.save()
     .then(result => {
@@ -26,13 +24,10 @@ router.post('/add', (req, res) => {
     })
 })
 
- 
-
 //get details to user profile
-
 router.get('/get/:id', function (req, res) {
   let id = req.params.id;
-  RequsetMeeting.find({ groupId: id, state: "confirmed" })
+  RequsetMeeting.find({ gId: id, state: "confirmed" })
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
@@ -42,19 +37,6 @@ router.get('/get/:id', function (req, res) {
     })
 });
 
-//get urgent meetings to user profile
-
-router.get('/geturgent/:id', function (req, res) {
-  let id = req.params.id;
-  RequsetMeeting.find({ groupId: id, state: "urgent" })
-    .exec()
-    .then(result => {
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
-    })
-    .catch(error => {
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-});
 
  
 router.get('/getsupervisor/:id', function (req, res) {
@@ -134,13 +116,14 @@ router.post('/urgentMeeting', (req, res) => {
 
  
 
-//? gte uegent meetings
-
+//? gte urgent meetings
 //? ViewMeetings.js
 
 router.get('/geturgent/:id', function (req, res) {
+  console.log("my id : " + req.params.id);
+
   let id = req.params.id;
-  RequsetMeeting.find({ supervisor: id, meetingType: 'Urgent' })
+  RequsetMeeting.find({ supervisor: id, meetingType: "Urgent" })
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
@@ -148,6 +131,27 @@ router.get('/geturgent/:id', function (req, res) {
     .catch(error => {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
     })
+});
+
+
+//cancel urgent meetings
+//delete user
+router.route('/cancelMeeting/:id').post(function (req, res) {
+  RequsetMeeting.findById(req.params.id, function (err, urgentm) {
+    if (!urgentm) {
+      res.status(404).send("data is not found");
+    }
+    else {
+      urgentm.meetingType = "cancel";
+
+      urgentm.save().then(user => {
+        res.send({ state: true, msg: "Successfully deleted!" })
+      })
+        .catch(err => {
+          res.status(400).send({ msg: "Delete not possible", state: false });
+        });
+    }
+  });
 });
 
 module.exports = router
