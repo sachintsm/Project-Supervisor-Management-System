@@ -395,6 +395,18 @@ router.delete("/grouprequests/:id",async (req,res)=> {
     }
 })
 
+//update group name and group email
+router.patch("/groupDetails/:groupId", async (req, res, next) => {
+    try {
+        const id = req.params.groupId;
+        const update = req.body;
+        const result = await CreateGroups.findByIdAndUpdate(id, update, { new: true })
+        res.send(result)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 //request group Email
 //Confirm meeting.js
 router.get('/requestemail/:id', (req,res)=>{
@@ -411,7 +423,7 @@ router.get('/requestemail/:id', (req,res)=>{
         })
         .catch(err => {
             res.send({ state: false, msg: err.message })
-        }) 
+        })
     }
     catch(e){
         console.log(e);

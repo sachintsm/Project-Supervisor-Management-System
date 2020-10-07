@@ -96,7 +96,7 @@ class ViewProject extends Component {
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
-                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers}/>}
+                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers} groupDetails={this.state.groupDetails}/>}
 
                     <Row className="btn-row">
                         <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewChat(this.state.project)}>
