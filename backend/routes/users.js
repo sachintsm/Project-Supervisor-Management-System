@@ -535,6 +535,7 @@ router.post('/updateReqState/:id', async (req, res) => {
         }
         l = arr3.length;
         console.log(l);
+        console.log('d');
       }
       else {
         l = 0;
@@ -549,14 +550,14 @@ router.post('/updateReqState/:id', async (req, res) => {
         if (err)
           res.status(404).send("data is not found");
         else {
-          Request.updateMany({ groupId: group.groupId }, {
+        /*  Request.updateMany({ groupId: group.groupId }, {
             $set: {
               state: 'reject'
             }
           })
             .exec()
             .then(data => { })
-            .catch(error => { })
+            .catch(error => { })*/
 
           request.state = req.body.state;
           if (req.body.state === 'accept') {
