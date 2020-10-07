@@ -69,6 +69,7 @@ const indexInfo = require('./routes/IndexInfo');
 const customReg = require('./routes/customReg');
 const proposel = require('./routes/proposel');
 const submission = require('./routes/submissions');
+const biweekly = require('./routes/BiweeklyLink');
 const mail = require('./mail')
 const biweeksubmissions = require('./routes/biweeksubmissions')
 
@@ -88,6 +89,7 @@ app.use('/courseTypes', courseTypes);
 app.use('/indexInfo', indexInfo);
 app.use('/proposel',proposel);
 app.use('/submission',submission);
+app.use('/biweekly',biweekly);
 app.use('/mail', mail);
 app.use('/biweeksubmissions', biweeksubmissions);
 
