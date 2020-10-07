@@ -201,7 +201,9 @@ class Tasks extends Component {
                 <div className="container-fluid tasks tasks-background-color">
                     <div className="main-card">
                         <div className="title-div">
-                            <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName}  )</h2>
+                            {this.state.groupDetails.groupName && <h2 className="project-task-title">Progress ( {this.state.groupDetails.groupName} -  Group {this.state.groupDetails.groupId} )</h2>}
+                            {!this.state.groupDetails.groupName && <h2 className="project-task-title">Progress ( Group {this.state.groupDetails.groupId}  )</h2>}
+
                         </div>
                         {this.state.currentTasks.length>0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails}/></Row>}
 

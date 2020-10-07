@@ -26,8 +26,6 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('submissionFile');
-
-
 router.post("/add", async (req, res) => {
 
      try {
@@ -44,17 +42,20 @@ router.post("/add", async (req, res) => {
                if (req.file) {
                     var filePath = "PROJECT_SUBMISSION -" + time + req.file.originalname;
                }
-               
+
                const existing = await Submission.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
                if (!existing) {
 
-
                     const newSubmission = new Submission({
+                         date: req.body.date,
                          userId: req.body.userId,
                          projectId: req.body.projectId,
                          submissionId: req.body.submissionId,
                          date_ob: req.body.date_ob,
                          files: filePath,
+                         groupno: req.body.groupno,
+                         groupname: req.body.groupname,
+                         groupmember: req.body.groupmember,
                     })
                     newSubmission
                          .save()
@@ -92,5 +93,21 @@ router.post("/add", async (req, res) => {
           console.log(err);
      }
 })
+
+router.post('/getSubmission', async (req, res) => {
+     const projectId = req.body.projectId
+     const submissionId = req.body.submissionId
+     //console.log(req.body)
+     Submission
+          .find({ projectId: projectId, submissionId: submissionId })
+          .exec()
+          .then(data => {
+               res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+          })
+          .catch(err => {
+               res.send({ state: false, msg: err.message })
+          })
+})
+
 
 module.exports = router;

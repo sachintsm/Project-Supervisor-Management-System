@@ -36,6 +36,28 @@ const Staff = React.memo(props => (
     </tr>
 ));
 
+const Students = React.memo(props => (
+    <tr>
+        <td className="table-body">{props.students.firstName} {props.students.lastName}</td>
+        <td className="table-body">{props.students.email}</td>
+        <td className="table-body">{props.students.nic}</td>
+        <td className="table-body">{props.students.mobile}</td>
+        <td className="table-body">{props.students.indexNumber}</td>
+        <td className="table-body">{props.students.regNumber}</td>
+        <td className="table-body">{props.students.courseType}</td>
+        <td className="table-body">
+            <Row>
+                <Col>
+                    <Link to={"/editprofile/" + props.students._id}><Create className="edit-btn" fontSize="default" /></Link>
+                </Col>
+                <Col>
+                    <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => props.delete(props.students._id)} />
+                </Col>
+            </Row>
+        </td>
+    </tr>
+));
+
 
 
 export default class ViewUsers extends Component {
@@ -176,14 +198,14 @@ export default class ViewUsers extends Component {
     UserList5() {
 
         let filteredUsers = this.state.userS.filter(
-            (currentStaff) => {
-                return currentStaff.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            (currentStudents) => {
+                return currentStudents.firstName.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
             }
         );
 
-        return filteredUsers.map((currentStaff, i) => {
-            if (currentStaff.isStudent === true && currentStaff.isDeleted === false) {
-                return <Staff delete={this.deleteUser} staff={currentStaff} key={i} />;
+        return filteredUsers.map((currentStudents, i) => {
+            if (currentStudents.isStudent === true && currentStudents.isDeleted === false) {
+                return <Students delete={this.deleteUser} students={currentStudents} key={i} />;
             }
             else return null
 
@@ -420,6 +442,9 @@ export default class ViewUsers extends Component {
                                                                         <th>Email</th>
                                                                         <th>Nic</th>
                                                                         <th>Mobile</th>
+                                                                        <th>Index Number</th>
+                                                                        <th>Registration Number</th>
+                                                                        <th>Course Type</th>
                                                                         <th>Actions</th>
                                                                     </tr>
                                                                 </thead>

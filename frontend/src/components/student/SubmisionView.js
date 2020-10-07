@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/SubmisionView.scss'
+import '../../css/students/SubmisionViewStu.scss'
 import {
      Button,
      Container,
@@ -24,19 +24,21 @@ export class SubmisionView extends Component {
           super(props)
 
           this.state = {
+               groupDetails: props.location.state.groupDetails,
                projectId: this.props.match.params.id,
                submissionList: [],
           }
 
-          this.getSubmission = this.getSubmission.bind(this);
 
+          this.getSubmission = this.getSubmission.bind(this);
+          console.log("Ashan",this.state.groupDetails);
           //console.log('Ashan',this.state.submissionList);
 
      }
 
      //button for view upcomming submission
      proposelView = (data) => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data })
+          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {
@@ -49,7 +51,7 @@ export class SubmisionView extends Component {
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    console.log("ssssssssssssss", res.data.data)
+                    //jconsole.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })
@@ -82,19 +84,19 @@ export class SubmisionView extends Component {
                                                                            <span><AttachmentIcon /></span>
                                                                            <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
                                                                                 {type.proposelTittle} Template
-               </a>
+                                                                           </a>
                                                                       </div>
                                                                       <Row>
-                                                                           <Col md={10} xs={10} >
+                                                                           <Col md={10} xs={12} >
                                                                                 <a>
                                                                                      <span><AssignmentIcon /></span>
                                                                                      <span className="sub-content" >{type.proposelTittle} Submission (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
-                                                                           <Col md={2} xs={2}>
-                                                                                <div style={{ position: 'relative' }}>
+                                                                           <Col md={2} xs={0}>
+                                                                                <div>
 
-                                                                                     <Button className="btn btn-info" style={{ marginBottom: 10, width: "100%", textAlign: "right", marginLeft: "60px"}} onClick={() => { this.proposelView(type) }}>Add Submission</Button>
+                                                                                     <Button size="sm" className="btn btn-info btn-sub"  onClick={() => { this.proposelView(type) }}>Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>

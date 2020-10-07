@@ -290,7 +290,7 @@ class Notice extends Component {
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.userTypes)
+   // console.log(this.userTypes)
 
     if (this.userTypes === "coordinator") {
       const err = this.validate();
@@ -594,7 +594,7 @@ class Notice extends Component {
                             placeholder="Notice Tittle"
                             value={this.state.noticeTittle}
                             onChange={this.onChangeTittle}
-                            errortext={this.noticeTittleError}
+                           c
                             errortext={this.noticeTittleLenthError}
                           ></FormControl>
                           <p className="reg-error">{this.state.noticeTittleError}</p>

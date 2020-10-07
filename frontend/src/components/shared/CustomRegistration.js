@@ -12,6 +12,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "./Snackpop";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import NavbarGuest from './NavbarGuest';
 
 const backendURI = require('./BackendURI');
 
@@ -33,6 +34,8 @@ export default class CustomRegistration extends Component {
         email: '',
         nic: '',
         mobileNumber: '',
+        password: '',
+        confirmPassword: '',
         educationalQualifications: '',
         jobDescription: '',
 
@@ -45,6 +48,8 @@ export default class CustomRegistration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      passwordError: '',
+      confirmPasswordError: '',
       educationalQualificationsError: '',
       jobDescriptionError: '',
 
@@ -86,6 +91,8 @@ export default class CustomRegistration extends Component {
       emailError: '',
       nicError: '',
       mobileNumberError: '',
+      passwordError: '',
+      confirmPasswordError: '',
       educationalQualificationsError: '',
       jobDescriptionError: '',
 
@@ -112,6 +119,18 @@ export default class CustomRegistration extends Component {
       isError = true;
       errors.mobileNumberError = 'Invalied mobile number!'
     }
+    if (this.state.form.password.length < 8) {
+      isError = true;
+      errors.passwordError = 'Password should be longer than 8 characters!'
+    }
+    if (this.state.form.confirmPassword.length < 8) {
+      isError = true;
+      errors.confirmPasswordError = 'Password should be longer than 8 characters!'
+    }
+    if (this.state.form.password != this.state.form.confirmPassword) {
+      isError = true;
+      errors.confirmPasswordError = "Password does not match *";
+    }
     if (this.state.form.educationalQualifications.length < 1) {
       isError = true;
       errors.educationalQualificationsError = 'Educational qualifications required *'
@@ -132,7 +151,7 @@ export default class CustomRegistration extends Component {
   onSubmit(e) {
     e.preventDefault();
     const err = this.validate();  //?calling validation function
-    
+
     if (!err) {
       this.setState({
         firstNameError: '',
@@ -140,10 +159,12 @@ export default class CustomRegistration extends Component {
         emailError: '',
         nicError: '',
         mobileNumberError: '',
+        passwordError: '',
+        confirmPasswordError: '',
         educationalQualificationsError: '',
         jobDescriptionError: '',
       })
-      
+
       confirmAlert({
         title: 'Confirm to submit',
         message: 'Are you sure to do this.',
@@ -151,54 +172,66 @@ export default class CustomRegistration extends Component {
           {
             label: 'Yes',
             onClick: () => {
-              
-              const formData = new FormData();
 
-              formData.append('profileImage', this.state.form.file);
-              formData.append('firstName', this.state.form.firstName);
-              formData.append('lastName', this.state.form.lastName);
-              formData.append('password', this.state.form.nic);
-              formData.append('nic', this.state.form.nic);
-              formData.append('email', this.state.form.email);
-              formData.append('mobileNumber', this.state.form.mobileNumber);
-              formData.append('educationalQualifications', this.state.form.educationalQualifications);
-              formData.append('jobDescription', this.state.form.jobDescription);
-              var myHeaders = new Headers();
+              if (this.state.form.file == null) {
+                this.setState({
+                  snackbaropen: true,
+                  snackbarmsg: "Please select a profile image!",
+                  snackbarcolor: 'error',
+                })
+              }
+              else {
 
-              var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: formData,
-                redirect: 'follow'
-              };
 
-              fetch(backendURI.url + "/users/customregistration", requestOptions)
-                .then((res) => res.json())
-                .then((json) => {
-                  if (json.state === true) {
+                const formData = new FormData();
+
+                formData.append('profileImage', this.state.form.file);
+                formData.append('firstName', this.state.form.firstName);
+                formData.append('lastName', this.state.form.lastName);
+                formData.append('nic', this.state.form.nic);
+                formData.append('email', this.state.form.email);
+                formData.append('mobileNumber', this.state.form.mobileNumber);
+                formData.append('password', this.state.form.password);
+                formData.append('educationalQualifications', this.state.form.educationalQualifications);
+                formData.append('jobDescription', this.state.form.jobDescription);
+                var myHeaders = new Headers();
+
+                var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: formData,
+                  redirect: 'follow'
+                };
+
+                fetch(backendURI.url + "/users/customregistration", requestOptions)
+                  .then((res) => res.json())
+                  .then((json) => {
+                    if (json.state === true) {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'success',
+                      })
+                      this.props.history.push('/');
+
+                    }
+                    else {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'error',
+                      })
+                    }
+                  })
+                  .catch(error => {
                     this.setState({
                       snackbaropen: true,
-                      snackbarmsg: json.msg,
-                      snackbarcolor: 'success',
-                    })
-                    window.location.reload();
-                  }
-                  else {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: json.msg,
+                      snackbarmsg: error,
                       snackbarcolor: 'error',
                     })
-                  }
-                })
-                .catch(error => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: error,
-                    snackbarcolor: 'error',
-                  })
-                  console.log('error', error)
-                });
+                    console.log('error', error)
+                  });
+              }
             }
           },
           {
@@ -216,11 +249,11 @@ export default class CustomRegistration extends Component {
 
   render() {
 
-    const { form} = this.state;
+    const { form } = this.state;
 
     return (
       <div>
-        {/* <Navbar panel={""} /> */}
+        <NavbarGuest />
         <div className="container-fluid ">
 
           <Snackpop
@@ -233,7 +266,7 @@ export default class CustomRegistration extends Component {
           <Col md="12" xs="12" className="main-div">
             <div>
               <div className="container">
-                <p className="reg-head">User Registration</p>
+                <p className="reg-head">External Supervisor Registration</p>
                 <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                 </div>
                 <div className="container">
@@ -330,6 +363,38 @@ export default class CustomRegistration extends Component {
                             value={form.mobileNumber}
                           ></input>
                           <p className="reg-error">{this.state.mobileNumberError}</p>
+
+                        </div>
+                      </Col>
+                    </Row>
+
+                    <Row style={{ marginTop: "20px" }} >
+                      <Col md={4} xs="12">
+                        <div className="form-group">
+                          <label className="text-label">Password : </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            value={form.password}
+                            onChange={this.onChange}
+                          ></input>
+                          <p className="reg-error">{this.state.passwordError}</p>
+
+                        </div>
+                      </Col>
+
+                      <Col md={4} xs="12">
+                        <div className="form-group">
+                          <label className="text-label">Confirm Password : </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="confirmPassword"
+                            value={form.confirmPassword}
+                            onChange={this.onChange}
+                          ></input>
+                          <p className="reg-error">{this.state.confirmPasswordError}</p>
 
                         </div>
                       </Col>

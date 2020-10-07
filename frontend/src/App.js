@@ -57,6 +57,7 @@ import ViewTask from "./components/student/progress/ViewTask";
 import GroupNotification from "./components/student/formgroups/GroupNotification";
 import FormGroups from "./components/student/formgroups/FormGroups";
 import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
+import SupervisorNotifications from "./components/supervisor/Notifications/SupervisorNotifications";
 
 require('dotenv').config();
 
@@ -115,6 +116,7 @@ function App() {
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
+          <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>
