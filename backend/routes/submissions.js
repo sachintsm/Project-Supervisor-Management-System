@@ -42,12 +42,12 @@ router.post("/add", async (req, res) => {
                if (req.file) {
                     var filePath = "PROJECT_SUBMISSION -" + time + req.file.originalname;
                }
-               
+
                const existing = await Submission.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
                if (!existing) {
 
                     const newSubmission = new Submission({
-                         date:req.body.date,
+                         date: req.body.date,
                          userId: req.body.userId,
                          projectId: req.body.projectId,
                          submissionId: req.body.submissionId,
@@ -94,20 +94,20 @@ router.post("/add", async (req, res) => {
      }
 })
 
-   router.post('/getSubmission', async (req, res) => {
+router.post('/getSubmission', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      //console.log(req.body)
      Submission
-         .find({ projectId: projectId, submissionId: submissionId })
-         .exec()
-         .then(data => {
-             res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
-         })
-         .catch(err => {
-             res.send({ state: false, msg: err.message })
-         })
- })
- 
+          .find({ projectId: projectId, submissionId: submissionId })
+          .exec()
+          .then(data => {
+               res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+          })
+          .catch(err => {
+               res.send({ state: false, msg: err.message })
+          })
+})
+
 
 module.exports = router;
