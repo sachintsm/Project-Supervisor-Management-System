@@ -29,7 +29,7 @@ export default class BiWeekly extends Component {
       userTypes: '',
       userId: "",
       componentType: 'add',
-      tittle: "Create New Byweekly",
+      tittle: "Create New Biweekly Report",
       projectId: this.props.match.params.id,
       biweeklylTittle: "",
       biweeklyDiscription: "",
@@ -98,8 +98,8 @@ export default class BiWeekly extends Component {
                         </div>
 
                         <div className="form-group pro-form">
-                          <label >Bi-weekly Discription :</label>
-                          <textarea type="text" className="form-control" id="exampleInputbyweekly" placeholder="Discription"
+                          <label >Bi-weekly Description :</label>
+                          <textarea type="text" className="form-control" id="exampleInputbyweekly" placeholder="Description"
                             name="bi-weeklyDescription" value={this.state.biweeklyDiscription} onChange={this.onChangeBiweeklyDiscription} />
                         </div>
 
