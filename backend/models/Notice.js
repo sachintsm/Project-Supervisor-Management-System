@@ -3,6 +3,8 @@ const Schema = mongoose.schema;
 
 var noticeSchema = mongoose.Schema({
   
+  userType:{ type: String},
+  userId:{ type: String },
   projectId:{type:String},
   noticeTittle: { type: String },
   notice: { type: String },
