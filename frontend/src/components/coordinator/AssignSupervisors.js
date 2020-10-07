@@ -450,66 +450,19 @@ class AssignSupervisors extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
-                    <div className="container">
-                        <Card className="task-card-gd">
-                            <Card.Header className="gd-card-header">Assign Supervisors</Card.Header>
-                            <Card.Body className="gd-card-body">
-                                <Row >
-                                    <Col md="12" xs="12">
-                                        <div className="form-group as-dropdown-select">
-                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                                <option>Select the project</option>
-                                                {activeProjectsList}
-                                            </select>
-                                        </div>
-                                    </Col>
-                                </Row >
-                                <Row className="container">
-                                    <div className="container" style={{ marginBottom: "20px" }}>
-                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.selectAll}>
-                                            Select All
-                                        </button>
-                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.deselectAll}>
-                                            Deselect All
-                                        </button>
-                                    </div>
-                                    <div className="container" style={{ width: "100%" }}>
-                                        {list}
-                                        {/* {this.state.staffOptionList.map(data => {
-                                            return (
-                                                <div key={data.value} >
-                                                    <StaffList data={data} state={data.added} />
-                                                </div>
-
-                                            )
-                                        })} */}
-                                    </div>
-                                </Row >
-
-                                <Row >
-
-                                    <Col md="12" xs="12">
-                                        <button style={{ width: '100%' }} className="btn btn-info as-btn" onClick={this.addSupervisors}>Add Now</button>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </div>
-
-                    {spinnerDiv1 && (
+                     {spinnerDiv1 && (
                         <div className="spinner">
                             <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                         </div>
                     )}
-                    {/* /***************************************************************************************************************************** */}
                     <div className="container">
                         <Card className="task-card-gd">
-                            <Card.Header className="gd-card-header">Project Supervisors List</Card.Header>
+                            <Card.Header className="gd-card-header">Selected Supervisors List</Card.Header>
                             <Card.Body className="gd-card-body">
                                 <Row >
                                     <Col md="10" xs="12">
                                         <div className="form-group as-dropdown-select">
-                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange} >
                                                 <option>Select the project</option>
                                                 {activeProjectsList}
                                             </select>
@@ -558,6 +511,56 @@ class AssignSupervisors extends Component {
                             </Card.Body>
                         </Card>
                     </div>
+
+                    <div className="container">
+                        <Card className="task-card-gd">
+                            <Card.Header className="gd-card-header">Assign Supervisors</Card.Header>
+                            <Card.Body className="gd-card-body">
+                                <Row >
+                                    <Col md="12" xs="12">
+                                        <div className="form-group as-dropdown-select">
+                                            <select className="form-control as-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
+                                                <option>Select the project</option>
+                                                {activeProjectsList}
+                                            </select>
+                                        </div>
+                                    </Col>
+                                </Row >
+                                <Row className="container">
+                                    <div className="container" style={{ marginBottom: "20px" }}>
+                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.selectAll}>
+                                            Select All
+                                        </button>
+                                        <button type="button" className="btn btn-outline-primary mr-2" onClick={this.deselectAll}>
+                                            Deselect All
+                                        </button>
+                                    </div>
+                                    <div className="container" style={{ width: "100%" }}>
+                                        {list}
+                                        {/* {this.state.staffOptionList.map(data => {
+                                            return (
+                                                <div key={data.value} >
+                                                    <StaffList data={data} state={data.added} />
+                                                </div>
+
+                                            )
+                                        })} */}
+                                    </div>
+                                </Row >
+
+                                <Row >
+
+                                    <Col md="12" xs="12">
+                                        <button style={{ width: '100%' }} className="btn btn-info as-btn" onClick={this.addSupervisors}>Add Now</button>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    </div>
+
+                   
+                    {/* /***************************************************************************************************************************** */}
+                    
                 </div >
                 <Footer />
             </div>
