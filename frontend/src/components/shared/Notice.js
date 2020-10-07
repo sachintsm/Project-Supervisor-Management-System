@@ -115,7 +115,7 @@ class Notice extends Component {
 
   getNoticeListCordinator = async () => {
     this.userType = localStorage.getItem("user-level");
-    console.log(this.userType)
+   //console.log(this.userType)
 
     const userId = getFromStorage('auth-id').id;
 
@@ -327,11 +327,14 @@ class Notice extends Component {
 
                 const userId = getFromStorage('auth-id').id;
 
+                console.log(userType)
+                console.log(userId)
+
                 const formData = new FormData();
 
 
                 formData.append("userId", userId);
-                formData.append("userType", userType);
+                formData.append("userType",userType);
                 formData.append("projectId", this.state.projectId);
                 formData.append("noticeTittle", this.state.noticeTittle);
                 formData.append("notice", this.state.notice);
@@ -412,6 +415,8 @@ class Notice extends Component {
 
                 const userType = localStorage.getItem("user-level");
                 const userId = getFromStorage('auth-id').id;
+
+                console.log(userType)
 
                 const formData = new FormData();
 

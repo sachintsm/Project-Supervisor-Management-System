@@ -49,8 +49,10 @@ import ViewProject from "./components/student/ViewProject";
 import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
-import SubmisionView from "./components/student/SubmisionView"
+import SubmisionView from "./components/student/SubmisionView";
 import SubmisionPanel from "./components/student/SubmitPanal";
+import BiweeklyView from "./components/student/BiweeklyView";
+import BiweeklySubmissionPanel from "./components/student/BiweeklySubmissionPanel";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -133,6 +135,8 @@ function App() {
           <Route exact path='/studenthome/formgroups/:projectId' component={FormGroups}></Route>
           <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
           <Route exact path='/studenthome/submisionview/submisionpanal/:id' component={SubmisionPanel}></Route>
+          <Route exact path='/studenthome/biweeklyview/:id' component={BiweeklyView}></Route>
+          <Route exact path='/studenthome/biweeklyView/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
 
 
 
