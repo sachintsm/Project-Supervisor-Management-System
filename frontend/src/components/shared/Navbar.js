@@ -94,13 +94,10 @@ export default class navbar extends Component {
 
         for (var i = 0; i < ob.length; i++) {
           var Id = ob[i]._id;
-          console.log(Id);
           axios.post(backendURI.url + '/users/readRequest/' + Id, Id)
             .then(response => {
-              console.log(response);
             })
             .catch(error => {
-              console.log(error)
             })
         }
       })
