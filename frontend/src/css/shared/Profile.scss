@@ -1,11 +1,9 @@
-@media  (max-width: 480px) {
+@media (max-width: 480px) {
     .profilepic {
-        vertical-align: middle;
-        width: 90px;
-        height: 110px;
-       // border-radius: 25%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
-    
 }
 @media (min-width: 320px) and (max-width: 480px) {
     .form-group {
@@ -28,10 +26,9 @@
         margin-bottom: 10px;
     }
     .profilepic {
-        vertical-align: middle;
-        width: 90px;
-        height: 110px;
-        //border-radius: 25%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
     .tab {
         margin-left: 20px;
@@ -55,6 +52,8 @@
     .testimonial-card {
         width: 350px;
         height: 100px;
+        margin-top: 50px;
+
     }
     .card-body1 {
         height: 100%;
@@ -72,7 +71,7 @@
     }
     .card2 {
         width: 220px;
-        margin-Top: 50px;
+        margin-top: 50px;
     }
     .card3 {
         width: 200px;
@@ -110,10 +109,9 @@
         margin-bottom: 10px;
     }
     .profilepic {
-        vertical-align: middle;
-        width: 185px;
-        height: 212px;
-      //  border-radius: 50%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
     .tab {
         margin-left: 20px;
@@ -134,6 +132,7 @@
     .testimonial-card {
         width: 310px;
         height: 230px;
+        margin-top: 50px;
     }
     .card-body1 {
         height: 200px;
@@ -142,10 +141,10 @@
         margin-bottom: 10px;
         /* width: 10px; */
     }
-    .card-body2{
-        margin: 0 auto; 
-        float: none; 
-        margin-Top: 50px;
+    .card-body2 {
+        margin: 0 auto;
+        float: none;
+        margin-top: 50px;
     }
     .testimonial-card1 {
         width: 240px;
@@ -156,7 +155,7 @@
     }
     .card2 {
         width: 100%;
-        margin-Top: 50px;
+        margin-top: 50px;
     }
     .card3 {
         width: 100%;
@@ -183,16 +182,15 @@
         float: none;
         margin-bottom: 10px;
     }
-    .card-body2{
-        margin: 0 auto; 
-        float: none; 
-        margin-Top: 50px;
+    .card-body2 {
+        margin: 0 auto;
+        float: none;
+        margin-top: 50px;
     }
     .profilepic {
-        vertical-align: middle;
-        width: 200px; 
-        height: 270px; 
-        //border-radius: 50%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
     .tab {
         margin-left: 20px;
@@ -229,22 +227,22 @@
     }
     .card2 {
         width: 100%;
-        margin-Top: 50px;
+        margin-top: 50px;
     }
     .card3 {
         width: 550px;
     }
 }
-@media (min-width: 1281px) and (max-width: 1580px){
+@media (min-width: 1281px) and (max-width: 1580px) {
     .card2 {
         width: 100%;
-        margin-Top: 50px;
+        margin-top: 50px;
     }
-    .card-body2{
-        margin: 0 auto; 
-        float: none; 
+    .card-body2 {
+        margin: 0 auto;
+        float: none;
         width: 100%;
-        margin-Top: 50px;
+        margin-top: 50px;
     }
     .password-icon {
         cursor: pointer;
@@ -253,6 +251,8 @@
         margin-right: 8px;
     }
     .testimonial-card {
+        margin-top: 50px;
+        display : block;
         width: 250px;
         height: 350px;
     }
@@ -263,10 +263,9 @@
         margin-bottom: 10px;
     }
     .profilepic {
-        vertical-align: middle;
-         width: 250px; 
-         height: 330px; 
-        ///border-radius: 50%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
     .reg-head {
         margin-left: 20px;
@@ -277,13 +276,11 @@
     }
 }
 
-@media  (min-width: 1580px) {
+@media (min-width: 1580px) {
     .profilepic {
-        //vertical-align: middle;
-        margin-left:20px;
-         width: 250px; 
-         height: 330px; 
-        ///border-radius: 50%;
+        display: block;
+        width: 300px;
+        border : 1px solid rgb(211, 211, 211);
     }
     .password-icon {
         cursor: pointer;
@@ -293,8 +290,9 @@
     }
 
     .testimonial-card {
+        margin-top: 50px;
+
         width: 250px;
         height: 350px;
     }
-    
 }

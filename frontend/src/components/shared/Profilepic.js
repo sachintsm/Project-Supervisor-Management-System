@@ -134,7 +134,7 @@ export default class Profilepic extends Component {
                     status={this.state.snackbaropen}
                     closeAlert={this.closeAlert}
                 />
-                <div className="card testimonial-card" style={{ backgroundColor: '#263238' }}>
+                <div className="testimonial-card" style={{ backgroundColor: 'white' }}>
                     <div className="card-body1">
                         {this.state.mulImage === '' ?
                             (<img src={require('../../assets/images/default.jpg')}

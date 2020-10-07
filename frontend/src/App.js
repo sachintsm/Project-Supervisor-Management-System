@@ -16,6 +16,7 @@ import CourseRegistration from './components/admin/CourseRegistration';
 import Profile from "./components/shared/Profile";
 import EditProfile from "./components/admin/EditUser";
 import ViewMailBox from "./components/admin/ViewMailBox";
+import CustomRegistration from "./components/shared/CustomRegistration";
 
 import CoordinatorHome from './components/coordinator/CoordinatorHome';
 import CreateGroup from './components/coordinator/CreateGroups'
@@ -26,6 +27,7 @@ import SupervisorData from './components/coordinator/SupervisorData/SupervisorDa
 import BiWeekly from './components/coordinator/ProjectData/BiWeekly';
 import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
+import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission'
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
@@ -54,6 +56,8 @@ import GroupChat from "./components/shared/GroupChat/GroupChat";
 import ViewTask from "./components/student/progress/ViewTask";
 import GroupNotification from "./components/student/formgroups/GroupNotification";
 import FormGroups from "./components/student/formgroups/FormGroups";
+import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
+import SupervisorNotifications from "./components/supervisor/Notifications/SupervisorNotifications";
 
 require('dotenv').config();
 
@@ -66,6 +70,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Login}></Route>
+          <Route exact path='/customregistration' component={CustomRegistration}></Route>
           {/* ======================= Admin Routes =============================== */}
           <Route exact path='/adminhome' component={AdminHome}></Route>
           <Route exact path='/adminhome/registration' component={Registration}></Route>
@@ -91,7 +96,9 @@ function App() {
 
           <Route path='/coordinatorhome/projectdata/BiWeekly/:id' component={BiWeekly}></Route>
           <Route path='/coordinatorhome/projectdata/Groups/:id' component={Groups}></Route>
-          <Route path='/coordinatorhome/projectdata/othersubmission/:id' component={Submission}></Route>
+          <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
+          <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
+
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
@@ -99,6 +106,7 @@ function App() {
           <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
           <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
           <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
+          <Route path='/coordinatorhome/notifications' component={CoordinatorNotifications}></Route>
 
           {/* ================== Supervisor Routes========================= */}
           <Route exact path='/supervisorhome' component={SupervisorHome}></Route>
@@ -108,6 +116,7 @@ function App() {
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
+          <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>

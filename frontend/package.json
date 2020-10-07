@@ -13,14 +13,16 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.9.3",
     "d3-ease": "^1.0.6",
+    "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
+    "ember-cli-dropzonejs": "^1.3.6",
     "font-awesome": "^4.7.0",
+    "material-ui-dropzone": "^3.3.1",
     "material-ui-time-picker": "^1.3.0",
     "mdbootstrap": "^4.18.0",
     "mdbreact": "^4.26.1",
@@ -38,6 +40,7 @@
     "react-csv-reader": "^3.0.6",
     "react-datepicker": "^2.16.0",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.3",
     "react-fontawesome": "^1.7.1",
     "react-froala-wysiwyg": "^3.1.1-1",
     "react-icons": "^3.10.0",
@@ -78,5 +81,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.5.0",
+    "jest-dom": "^4.0.0",
+    "react-test-render": "^1.1.2"
   }
 }

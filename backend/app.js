@@ -66,8 +66,12 @@ const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
+const customReg = require('./routes/customReg');
 const proposel = require('./routes/proposel');
+const submission = require('./routes/submissions');
+const biweekly = require('./routes/BiweeklyLink');
 const mail = require('./mail')
+const biweeksubmissions = require('./routes/biweeksubmissions')
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -77,13 +81,17 @@ app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
 app.use("/indexInfo", indexInfo);
+// app.use("/customReg", customReg);
 app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);
 app.use('/courseTypes', courseTypes);
 app.use('/indexInfo', indexInfo);
 app.use('/proposel',proposel);
+app.use('/submission',submission);
+app.use('/biweekly',biweekly);
 app.use('/mail', mail);
+app.use('/biweeksubmissions', biweeksubmissions);
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {
