@@ -125,14 +125,6 @@ class ViewProject extends Component {
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Meetings</span></Card>
                         </Col>
-                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
-                            <Card className="btn-card" onClick={() => { this.viewProgress(this.state.project) }}>
-                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
-                                    <div>
-                                        <FaChartLine />
-                                    </div>
-                                </IconContext.Provider><span className="btn-title">Progress</span></Card>
-                        </Col>
                         {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
@@ -141,6 +133,14 @@ class ViewProject extends Component {
                                         <FiUploadCloud />
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Submissions</span></Card>
+                        </Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
+                            <Card className="btn-card" onClick={() => { this.viewProgress(this.state.project) }}>
+                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                    <div>
+                                        <FaChartLine />
+                                    </div>
+                                </IconContext.Provider><span className="btn-title">Progress</span></Card>
                         </Col>
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
