@@ -10,7 +10,6 @@ const CreateGroups = require('../models/createGroups');
 router.get("/getsubmissions/:id",async(req,res) => {
     try{
         const userId = req.params.id
-        console.log(userId)
         const groups = await CreateGroups.find({supervisors: userId, groupState: true}).select("_id")
         let groupIdList = []
         groups.map(item => {
@@ -35,6 +34,18 @@ router.get("/getsubmissions/:id",async(req,res) => {
     }
     catch(e){
         console.log(e)
+    }
+})
+
+//update submission request
+router.patch("/updateRequest/:reqId", async (req, res, next) => {
+    try {
+        const id = req.params.reqId;
+        const update = req.body;
+        const result = await BiweekSubmissions.findByIdAndUpdate(id, update, { new: true })
+        res.send(result)
+    } catch (err) {
+        console.log(err)
     }
 })
 
