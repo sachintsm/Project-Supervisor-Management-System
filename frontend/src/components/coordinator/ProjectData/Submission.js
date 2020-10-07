@@ -217,16 +217,11 @@ class Submission extends Component {
         ...errors
       })
       return isError;
-
-    
   }
 
   onSubmit(e) {
     e.preventDefault();
-
-  
       const err = this.validate();
-
       if (!err) {
         this.setState({
           proposelTittleError : '',
