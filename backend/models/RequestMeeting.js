@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.schema;
 
 var requestMeetingSchema = mongoose.Schema({
+    gId: { type: String },
     groupId: { type: String },
     groupNumber: { type: String },
     purpose: { type: String },

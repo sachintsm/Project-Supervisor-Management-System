@@ -27,7 +27,8 @@ import SupervisorData from './components/coordinator/SupervisorData/SupervisorDa
 import BiWeekly from './components/coordinator/ProjectData/BiWeekly';
 import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
-import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission'
+import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission';
+//import ViewBiweekly from './components/coordinator/projectData/ViewBiweekly';
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
@@ -48,8 +49,10 @@ import ViewProject from "./components/student/ViewProject";
 import RequestSupervisor from "./components/student/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
-import SubmisionView from "./components/student/SubmisionView"
+import SubmisionView from "./components/student/SubmisionView";
 import SubmisionPanel from "./components/student/SubmitPanal";
+import BiweeklyView from "./components/student/BiweeklyView";
+import BiweeklySubmissionPanel from "./components/student/BiweeklySubmissionPanel";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -98,6 +101,7 @@ function App() {
           <Route path='/coordinatorhome/projectdata/Groups/:id' component={Groups}></Route>
           <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
           <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
+          
 
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
@@ -131,6 +135,8 @@ function App() {
           <Route exact path='/studenthome/formgroups/:projectId' component={FormGroups}></Route>
           <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
           <Route exact path='/studenthome/submisionview/submisionpanal/:id' component={SubmisionPanel}></Route>
+          <Route exact path='/studenthome/biweeklyview/:id' component={BiweeklyView}></Route>
+          <Route exact path='/studenthome/biweeklyView/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
 
 
 
