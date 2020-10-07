@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/SubmisionView.scss'
+import '../../css/students/SubmisionViewStu.scss'
 import {
      Button,
      Container,
@@ -84,19 +84,19 @@ export class SubmisionView extends Component {
                                                                            <span><AttachmentIcon /></span>
                                                                            <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
                                                                                 {type.proposelTittle} Template
-               </a>
+                                                                           </a>
                                                                       </div>
                                                                       <Row>
-                                                                           <Col md={10} xs={10} >
+                                                                           <Col md={10} xs={12} >
                                                                                 <a>
                                                                                      <span><AssignmentIcon /></span>
                                                                                      <span className="sub-content" >{type.proposelTittle} Submission (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
-                                                                           <Col md={2} xs={2}>
-                                                                                <div style={{ position: 'relative' }}>
+                                                                           <Col md={2} xs={0}>
+                                                                                <div>
 
-                                                                                     <Button className="btn btn-info" style={{ marginBottom: 10, width: "100%", textAlign: "right", marginLeft: "60px"}} onClick={() => { this.proposelView(type) }}>Add Submission</Button>
+                                                                                     <Button size="sm" className="btn btn-info btn-sub"  onClick={() => { this.proposelView(type) }}>Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>
