@@ -13,7 +13,6 @@ import { Row, Col } from "reactstrap";
 import DatePicker from "react-datepicker";
 import { getFromStorage } from "../../../utils/Storage";
 import { verifyAuth } from "../../../utils/Authentication";
-import TimeInput from 'material-ui-time-picker';
 import { meetingRequestConfirmEmail } from "../../shared/emailTemplates"
 import Snackpop from "../../shared/Snackpop";
 
@@ -140,6 +139,7 @@ export default class ConfirmMeeting extends Component {
   };
 
   async onSubmit(e) {
+    
     e.preventDefault();
     const obj = {
       // _id: this.state._id,
