@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import { getFromStorage } from '../../utils/Storage';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { Row, Col, Card } from 'react-bootstrap';
+import Footer from '../shared/Footer'
 
 const backendURI = require('../shared/BackendURI');
 
@@ -360,7 +361,9 @@ class CoordinatorHome extends Component {
 
             )
           })}
+
         </div>
+        <Footer />
       </React.Fragment >
     );
   }

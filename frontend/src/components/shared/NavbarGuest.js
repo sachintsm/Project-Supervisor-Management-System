@@ -22,10 +22,6 @@ const useStylesBootstrap1 = makeStyles((theme) => ({
     color: '#CCC'
   },
 }));
-function BootstrapTooltip1(props) {
-  const classes = useStylesBootstrap1();
-  return <Tooltip arrow classes={classes} {...props} />;
-}
 
 export default class navbarGuest extends Component {
   constructor(props) {
