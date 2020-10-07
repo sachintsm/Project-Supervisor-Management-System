@@ -295,7 +295,7 @@ export default class navbar extends Component {
                         <span className='mr-2'>Projects</span>
                       </MDBDropdownToggle>
                       <MDBDropdownMenu>
-                        <MDBDropdownItem href='/adminhome/projecttypes'>Project Categories</MDBDropdownItem>
+                        <MDBDropdownItem href='/adminhome/projecttypes'>Project Types</MDBDropdownItem>
                         <MDBDropdownItem href='/adminhome/createproject'>Create Project</MDBDropdownItem>
                       </MDBDropdownMenu>
                     </MDBDropdown>
