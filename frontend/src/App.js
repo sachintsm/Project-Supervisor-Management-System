@@ -136,7 +136,7 @@ function App() {
           <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
           <Route exact path='/studenthome/submisionview/submisionpanal/:id' component={SubmisionPanel}></Route>
           <Route exact path='/studenthome/biweeklyview/:id' component={BiweeklyView}></Route>
-          <Route exact path='/studenthome/biweeklyView/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
+          <Route exact path='/studenthome/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
 
 
 
