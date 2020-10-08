@@ -151,7 +151,6 @@ export default class Contactus extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <Snackpop
@@ -169,8 +168,8 @@ export default class Contactus extends Component {
                     <ModalHeader toggle={this.toggle}>Send your Message</ModalHeader>
                     <ModalBody>
                         <div className="container">
-                            <div className="row">
-                            </div><div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
+                            
+                            <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
                                 <form onSubmit={this.onSubmit}>
 
                                     <Row>
