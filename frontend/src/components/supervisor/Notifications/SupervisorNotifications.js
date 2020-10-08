@@ -173,7 +173,6 @@ class SupervisorNotifications extends Component {
                                         <Card.Body className="card-body">
                                             <Row className="details-row">
                                                 <Col>
-                                                    <h5>New Biweekly Report Request</h5>
                                                     <BiweekRequest details={item}/>
 
                                                 </Col>

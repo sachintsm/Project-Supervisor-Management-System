@@ -46,7 +46,7 @@ class ProjectTypes extends Component {
       warnAlert: false,
       editAlert: false,
       componentType: 'add',
-      title: 'Add New Project Category',
+      title: 'Add New Project Type',
       isAcademicYear: true,
       isFirstYear: false,
       isSecondYear: false,
@@ -93,7 +93,7 @@ class ProjectTypes extends Component {
       })
     }
     confirmAlert({
-      title: 'Project Category',
+      title: 'Project Type',
       message: 'Are you sure?',
       buttons: [
         {
@@ -130,7 +130,7 @@ class ProjectTypes extends Component {
                 this.setState({
                   editAlert: true,
                   componentType: "add",
-                  title: 'Add New Project Category',
+                  title: 'Add New Project Type',
                 })
                 this.getCategoryList()
               }
@@ -155,13 +155,13 @@ class ProjectTypes extends Component {
   goBack() {
     this.setState({
       componentType: "add",
-      title: 'Add New Project Category',
+      title: 'Add New Project Type',
     })
   }
 
   onDeleteHandler = (id) => {
     confirmAlert({
-      title: 'Delete Category',
+      title: 'Delete Type',
       message: 'Are you sure?',
       buttons: [
         {
@@ -190,7 +190,7 @@ class ProjectTypes extends Component {
     // console.log(type)
     this.setState({
       componentType: 'edit',
-      title: 'Edit Category',
+      title: 'Edit Project Type',
       isAcademicYear: type.isAcademicYear,
       isFirstYear: type.isFirstYear,
       isSecondYear: type.isSecondYear,
@@ -230,7 +230,7 @@ class ProjectTypes extends Component {
         />
 
         <Snackpop
-          msg={'Please define a Category Name'}
+          msg={'Please define a Project Type Name'}
           color={'error'}
           time={3000}
           status={this.state.warnAlert}
@@ -248,7 +248,7 @@ class ProjectTypes extends Component {
                   <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
-                        Category Name{' '}
+                        Type Name{' '}
                       </label>
                       <FormControl
                         type='text'
@@ -264,7 +264,7 @@ class ProjectTypes extends Component {
                   <Row className='mt-30'>
                     <Col >
                       <label className='verticle-align-middle cp-text'>
-                        Sub Category Name (optional){' '}
+                        Sub Type Name (optional){' '}
                       </label>
                       <FormControl
                         type='text'
@@ -413,7 +413,7 @@ class ProjectTypes extends Component {
                         style={{ width: '100%' }}
                       >
                         {this.state.componentType === 'add' &&
-                          'Add Category Now'}
+                          'Add Type Now'}
                         {this.state.componentType === 'edit' &&
                           'Save Now'}
                       </Button>

@@ -267,7 +267,7 @@ export default class ViewRequest extends Component {
             if(k === true){
         return filteredReq.map((currentReq, i) => {
             console.log(i);
-            if (currentReq.state === 'read') {
+            if (currentReq.state === 'read' || currentReq.state === 'pending') {
                 return <Pending sendAccept={this.reqSendAccept} sendReject={this.reqSendReject} req={currentReq} key={i} />;
             }
         })

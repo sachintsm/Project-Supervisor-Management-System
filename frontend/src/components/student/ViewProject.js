@@ -22,7 +22,7 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 const backendURI = require('../shared/BackendURI');
 
 
-class ViewProject extends Component {
+class ViewProject extends Component {v
     constructor(props) {
         super(props);
         this.state = {
