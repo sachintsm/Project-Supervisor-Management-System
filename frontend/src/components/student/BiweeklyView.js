@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/SubmisionViewStu.scss'
+import '../../css/students/BiweeklyView.scss'
 import {
      Button,
      Container,
@@ -38,13 +38,12 @@ export class BiweeklyView extends Component {
 
      //button for view upcomming submission
      biweeklyView = (data) => {
-          this.props.history.push('/studenthome/biweeklyview/biweeklysubmisionpanel/' + data._id)
+
+          this.props.history.push('/studenthome/biweeklysubmissionpanel/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {
-
           this.getBiweekly()
-
      }
 
      //get submision details from database
@@ -59,7 +58,7 @@ export class BiweeklyView extends Component {
                     console.log(err)
                })
 
-               console.log(this.state.biweeklyList)
+          console.log(this.state.biweeklyList)
      }
 
      render() {
@@ -70,17 +69,17 @@ export class BiweeklyView extends Component {
 
                     <div className=" sub-style ">
                          <div className=" container-fluid  sub-background ">
-                          <div className="container">
-                            {this.state.biweeklyList.length > 0 && (
-                            <div>
-                            {this.state.biweeklyList.map((type) => {
+                              <div className="container">
+                                   {this.state.biweeklyList.length > 0 && (
+                                        <div>
+                                             {this.state.biweeklyList.map((type) => {
                                                   return (
-                                                     <div className=" card container" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
+                                                       <div className=" card container" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
                                                             <div className="row">
                                                                  <div className="col-xm-1" style={{ backgroundColor: '#263238', width: 35 }}>
                                                                  </div>
                                                                  <div className="col-sm-11">
-                                                                    <h2 className="sup-tittle">Biweekly Report #{type.biweeklyNumber}</h2>
+                                                                      <h2 className="sup-tittle">Biweekly Report #{type.biweeklyNumber}</h2>
                                                                       <div >
 
                                                                            <span><AttachmentIcon /></span>
@@ -89,16 +88,22 @@ export class BiweeklyView extends Component {
                                                                            </a>
                                                                       </div>
                                                                       <Row>
-                                                                           <Col md={10} xs={1} >
+                                                                           <Col md={10} xs={10} >
                                                                                 <a>
                                                                                      <span><AssignmentIcon /></span>
                                                                                      <span className="sub-content" >{type.proposelTittle} Biweekly Submite (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
-                                                                           <Col md={2} xs={2}>
-                                                                                <div>
+                                                                           
+                                                                      </Row>
 
-                                                                                     <Button size="sm" className="btn btn-info "  onClick={() => { this.biweeklyView(type) }}>Add Submission</Button>
+                                                                      <Row>
+                                                                      <Col md={10} xs={0}>
+                                                                      </Col>
+                                                                      
+                                                                      <Col md={2} xs={12}>
+                                                                                <div>
+                                                                                     <Button className="viw-btn" size="sm" variant="primary" onClick={() => { this.biweeklyView(type) }} >Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>
