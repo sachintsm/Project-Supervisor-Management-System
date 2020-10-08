@@ -166,6 +166,20 @@ router.get("/getgroupsubmissions/:id",async(req,res) => {
     }
 })
 
+//get biweek submissions by submission link id
+router.get("/getbiweeklinksubmissions/:id",async(req,res) => {
+     try{
+          const linkId = req.params.id
+
+          const result = await BiweekSubmissions.find({submissionId: linkId})
+
+          res.send(result)
+     }
+     catch(e){
+          console.log(e)
+     }
+})
+
 //update submission request
 router.patch("/updateRequest/:reqId", async (req, res, next) => {
      try {
@@ -197,8 +211,9 @@ router.post('/getBiweekly', async (req, res) => {
 //Get notice attchment from database
 router.get("/getsubmission/:filename", function (req, res) {
      const filename = req.params.filename;
+     console.log(filename)
      res.sendFile(
-          path.join(__dirname, "../local_storage/biweekly_Attachment/" + filename)
+          path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
      );
 });
 
