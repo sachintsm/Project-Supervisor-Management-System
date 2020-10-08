@@ -5,6 +5,7 @@ const Projects = require('../models/projects');
 const User = require('../models/users');
 const BiweekSubmissions = require('../models/biweeksubmissions');
 const CreateGroups = require('../models/createGroups');
+const BiweeklyLink = require("../models/BiweeklyLink");
 const multer = require("multer")
 
 
@@ -44,12 +45,22 @@ router.post("/add", async (req, res) => {
               if (req.file) {
                    var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
               }
-              console.log(filePath)
 
 
               const existing = await BiweekSubmissions.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
               if (!existing) {
 
+
+                  const data = await CreateGroups.findOne({_id:req.body.groupId}).select('supervisors')
+                  let status=[]
+                  let supervisors = []
+                  data.supervisors.map(item=>{
+                      supervisors.push(item)
+                      status.push("Pending")
+                  })
+
+                  const biweekly = await BiweeklyLink.findOne({_id:req.body.submissionId})
+                  console.log(biweekly)
                
                    const newSubmission = new BiweekSubmissions({
                         date: req.body.date,
@@ -59,9 +70,19 @@ router.post("/add", async (req, res) => {
                         submissionId: req.body.submissionId,
                         groupId:req.body.groupId,
                         date_ob: req.body.date_ob,
+                        originalFileName: req.file.originalname,
                         files: filePath,
+                        supervisors: supervisors,
+                        status: status,
+                        biweeklyNumber: biweekly.biweeklyNumber,
+                        biweeklyDiscription: biweekly.biweeklyDescription,
+                        deadDate: biweekly.deadDate,
+                        deadTime: biweekly.deadTime
                        
                    })
+
+
+
                    newSubmission
                         .save()
                         .then((resulst) => {
@@ -78,8 +99,9 @@ router.post("/add", async (req, res) => {
                         .updateOne(
                              {
                                   $push: {
-                                       files: filePath
-                                  }
+                                       files: filePath,
+                                  },
+                                 originalFileName: req.file.originalname,
                              }
                         )
                         .exec()
@@ -142,6 +164,12 @@ router.patch("/updateRequest/:reqId", async (req, res, next) => {
     }
 })
 
-
+//Get notice attchment from database
+router.get("/getsubmission/:filename", function (req, res) {
+    const filename = req.params.filename;
+    res.sendFile(
+        path.join(__dirname, "../local_storage/biweekly_Attachment/" + filename)
+    );
+});
 
 module.exports = router;

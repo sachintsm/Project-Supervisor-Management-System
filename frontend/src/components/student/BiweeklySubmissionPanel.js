@@ -50,12 +50,6 @@ class SubmitPanal extends Component {
           }
 
           this.onSubmit = this.onSubmit.bind(this)
-          console.log(this.props)
-
-
-          console.log(this.state.groupDetails)
-          console.log(this.state.groupDetails.groupId)
-
      }
 
      componentDidMount() {
@@ -80,10 +74,10 @@ class SubmitPanal extends Component {
           const dateString = date.toLocaleDateString()
           const timeString =date.toLocaleTimeString()
 
-          console.log(userId);
           for (let i = 0; i < files.length; i++) {
                //console.log("sachin");
                const formData = new FormData();
+
 
                formData.append("date",dateString)
                formData.append("time",timeString)
@@ -96,9 +90,10 @@ class SubmitPanal extends Component {
                formData.append("groupname", this.state.groupName)
                formData.append("groupmember", this.state.groupMembers)
 
+
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {
-                         console.log(res);
+                         console.log(res)
                     })
           }
      }
@@ -121,12 +116,15 @@ class SubmitPanal extends Component {
           const headers = {
                'auth-token': getFromStorage('auth-token').token,
           }
+
           const obj = {
                userId: userId,
                projectId: this.state.projectId,
                submissionId: this.state.submissionId,
                name: this.state.name,
+               supervisors: this.state.groupDetails.supervisors,
           }
+
 
           axios.post(backendURI.url + '/submission/addSubmission', obj, { headers: headers })
                .then((res) => {
@@ -160,24 +158,24 @@ class SubmitPanal extends Component {
                          </div>
                     
 
-                    <div className="container-fluid sub_backgrounds" style={{ backgroundColor: '#f5f5f5' }}>
-                    <div className="container">
-                    <div>
-                    <Button size='sm' className="sub_btn1" onClick={this.handleOpen.bind(this)}>Add Submission</Button>
-                    </div>
-                         <DropzoneDialog
-                              open={this.state.open}
-                              onSave={this.handleSave.bind(this)}
-                              acceptedFiles={['image/jpeg', 'image/png', 'image/bmp', 'image/JPG', '.pdf', '.zip', '.rar','.txt']}
-                              showPreviews={true}
-                              maxFileSize={this.state.fileSize}
-                              onClose={this.handleClose.bind(this)}
-                              filesLimit={this.state.fileLimit}
-                              fullWidth={true}
-                         />
+                         <div className="container-fluid sub_backgrounds" style={{ backgroundColor: '#f5f5f5' }}>
+                              <div className="container">
+                                   <div>
+                                   <Button size='sm' className="sub_btn1" onClick={this.handleOpen.bind(this)}>Add Submission</Button>
+                                   </div>
+                                   <DropzoneDialog
+                                        open={this.state.open}
+                                        onSave={this.handleSave.bind(this)}
+                                        acceptedFiles={['image/jpeg', 'image/png', 'image/bmp', 'image/JPG', '.pdf', '.zip', '.rar','.txt']}
+                                        showPreviews={true}
+                                        maxSize={this.state.fileSize}
+                                        onClose={this.handleClose.bind(this)}
+                                        filesLimit={parseInt(this.state.fileLimit, 10)}
+                                        fullWidth={true}
+                                   />
 
-                    </div>
-                    </div>
+                              </div>
+                         </div>
                     </div>
                     
                     <Footer />
