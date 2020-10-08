@@ -362,7 +362,6 @@ export default class BiWeekly extends Component {
   viewBiweekly(data) {
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewbiweekly/' + this.state.projectId, { biweeklyData: data });
-     // console.log("ashan")
     } catch (error) {
       console.log(error)
     }

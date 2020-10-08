@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {getFromStorage} from "../../utils/Storage";
+import {getFromStorage} from "../../../utils/Storage";
 import axios from "axios";
-import StudentCard from "../shared/StudentCard";
-import SupervisorName from "./Notifications/SupervisorName";
-import { Row } from 'react-bootstrap';
+import SupervisorName from "./SupervisorName";
 
-const backendURI = require('../shared/BackendURI');
+const backendURI = require('../../shared/BackendURI');
 
 class BiweekData extends Component {
 
@@ -55,7 +53,7 @@ class BiweekData extends Component {
     }
 
     render() {
-        console.log(this.state.groupDetails)
+
         let status = this.state.request.supervisors.map((item, index) => {
 
             return(
@@ -68,28 +66,26 @@ class BiweekData extends Component {
             )
         })
 
-
         return (
-
-            <div>
+            <React.Fragment>
                 {!this.state.loading1 && !this.state.loading2 && (
-                    <div>
-                        <div className="mb-1">Project : {this.state.projectDetails.projectYear} - {this.state.projectDetails.projectType} - {this.state.projectDetails.academicYear}</div>
-                        <div className="mb-1">Group : {this.state.groupDetails.groupName} ( G{this.state.groupDetails.groupId} )</div>
-                        <div className="mb-1">Group Members : {this.state.groupDetails.groupMembers.map(index=>{
-                            return <span  key={index}><StudentCard index={index}/> ,</span>
-                        })}</div>
-                        <div className="mb-1">Attachment : &nbsp;
+
+                    <tr>
+                        <td>G{this.state.groupDetails.groupId}</td>
+                        <td>{this.state.groupDetails.groupName}</td>
+                        <td>{this.state.request.deadDate}</td>
+                        <td>{this.state.request.deadTime}</td>
+                        <td>{status}</td>
+                        <td>
                             <a className="crd_atchmnt" href={backendURI.url+"/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
                                 {this.state.request.originalFileName}
-                            </a></div>
-                        <div className="mb-1" style={{fontWeight:"bold"}}>Supervisor Approvals</div>
-                        {status}
-                    </div>
+                            </a>
+                        </td>
+                    </tr>
                 )}
-            </div>
-        );
+            </React.Fragment>
 
+        );
     }
 }
 
