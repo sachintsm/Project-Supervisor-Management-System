@@ -112,7 +112,7 @@ export default class ConfirmMeeting extends Component {
       .catch(function (error) {
         console.log(error);
       })
-    await axios.get(backendURI.url + '/createGroups/requestemail/' + this.state.gId)
+    await axios.get(backendURI.url + '/createGroups/requestemail/' + this.state.groupId)
       .then(res => {
         this.setState({
           groupEmail: res.data.data[0].groupEmail
