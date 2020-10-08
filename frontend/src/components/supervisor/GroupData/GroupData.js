@@ -344,7 +344,7 @@ class GroupData extends Component {
 
                             </Row>
                             <Row className="btn-row1">
-                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                <Col lg={4} md={4} xs={4} sm={12} className="btn-card-col1">
                                     <Card className="btn-card1" onClick={() => this.viewChat(this.state.project)}>
                                         <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
                                             <div>
@@ -355,7 +355,7 @@ class GroupData extends Component {
                                     </Card>
                                 </Col>
 
-                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1" >
+                                <Col lg={4} md={4} xs={6} sm={12} className="btn-card-col1" >
                                     <Card className="btn-card1" onClick={() => this.viewMeetings(this.state.project)}>
                                         <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
                                             <div>
@@ -363,7 +363,7 @@ class GroupData extends Component {
                                             </div>
                                         </IconContext.Provider><span className="btn-title1">Meetings</span></Card>
                                 </Col>
-                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
+                                <Col lg={4} md={4} xs={6} sm={12} className="btn-card-col1">
                                     <Card className="btn-card1" onClick={() => { this.viewProgress(this.state.project) }}>
                                         <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
                                             <div>
@@ -371,15 +371,7 @@ class GroupData extends Component {
                                             </div>
                                         </IconContext.Provider><span className="btn-title1">Progress</span></Card>
                                 </Col>
-                                <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
-                                    <Card className="btn-card1">
-                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
-                                            <div>
-                                                <FiUploadCloud />
-                                            </div>
-                                        </IconContext.Provider><span className="btn-title1">Submissions</span></Card>
-                                </Col>
-
+                                
                             </Row>
                         </div>
                     </div>
