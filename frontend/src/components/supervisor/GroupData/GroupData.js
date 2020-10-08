@@ -16,6 +16,7 @@ import { FaChartLine } from 'react-icons/fa';
 import { FiUploadCloud } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import {BsFileEarmarkText} from "react-icons/bs";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -291,7 +292,9 @@ class GroupData extends Component {
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupData._id, { groupDetails: this.state.groupData })
     }
-
+    biweeklyView = (project) => {
+        this.props.history.push('/supervisorhome/biweeklyview/' + this.state.groupData._id, { groupDetails: this.state.groupData })
+    }
     render() {
         return (
             <div className="gd-fullpage" >

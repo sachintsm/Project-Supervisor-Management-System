@@ -738,9 +738,9 @@ class Notice extends Component {
                       <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                         <Button
                           type="submit"
-                          className="cp-btn btn_style"
+                          className="btn_style"
                           variant="info"
-                          style={{ width: '50%' }}
+                          style={{ width: '80%' }}
                           onClick={this.onSubmit}
                         >
                           Add Notice
@@ -987,9 +987,9 @@ class Notice extends Component {
                       <Row style={{ marginTop: "40px", marginBottom: "30px" }}>
                         <Button
                           type="submit"
-                          className="cp-btn"
+                          className="btn_style"
                           variant="info"
-                          style={{ width: '50%' }}
+                          style={{ width: '80%' }}
                           onClick={this.onSubmit}
                         >
                           Add Notice

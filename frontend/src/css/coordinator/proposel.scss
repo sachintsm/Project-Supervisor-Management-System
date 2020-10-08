@@ -102,7 +102,7 @@
 
 .pcrd_date{
   font-size: 12px;
- // margin-left :11px;
+
   font-weight: 350;
   font-family: roboto, sans;
   color: 	#FFFFFF;
@@ -114,16 +114,22 @@
 }
 .dead_date{
   margin-bottom: 2px;
-  color: red;
+  color: rgb(37, 34, 34);
+  font-family: roboto, sans;
+  font-size:14px;
 }
 .dead_time{
-  color: red;
+  color: rgb(37, 34, 34);
   margin-bottom:2px;
+  font-family: roboto, sans;
+  font-size:14px;
 }
 
 .pcrd_discription{
   margin-top: 4px;
   margin-bottom: 4px;
+  font-family: roboto, sans;
+  font-size:14px;
 }
 
 .pro-btn-card-col{

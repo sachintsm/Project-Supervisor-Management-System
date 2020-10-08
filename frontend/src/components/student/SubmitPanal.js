@@ -160,8 +160,9 @@ class SubmitPanal extends Component {
                                    <p className="sub_status">Submission Status</p>
 
                                    <div className='card sub_crd'>
-                                        <h6>Due Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;<small>{this.state.deadDate} : {this.state.deadTime}</small></h6>
-                                        <h6>Time remaining &nbsp;&nbsp;&nbsp;&nbsp;</h6>  
+                                        <p>Due Date    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;<small>{this.state.deadDate} : {this.state.deadTime}</small></p>
+                                        <p>Status      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : {this.state.proposelDiscription}</p> 
+                                        <p>File Submission :</p> 
                                    </div>
                               </div>
                          </div>

@@ -15,7 +15,7 @@ import { verifyAuth } from "../../../utils/Authentication";
 import { getFromStorage } from "../../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 
-import '../../../css/coordinator/proposel.scss';
+import '../../../css/coordinator/Biweekly.scss';
 
 import {
   Button,
@@ -360,9 +360,9 @@ export default class BiWeekly extends Component {
   }
 
   viewBiweekly(data) {
+    console.log(data)
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewbiweekly/' + this.state.projectId, { biweeklyData: data });
-     // console.log("ashan")
     } catch (error) {
       console.log(error)
     }
@@ -402,9 +402,9 @@ export default class BiWeekly extends Component {
             <div className="container-fluid pro-back">
               <div className="container">
   
-                <Tabs defaultActiveKey="Submited Submissions" id="uncontrolled-tab-example" className="pro-tabs" style={{ marginBottom: "30px" }}>
+                <Tabs defaultActiveKey="Submited Biweekly" id="uncontrolled-tab-example" className="pro-tabs" style={{ marginBottom: "30px" }}>
   
-                  <Tab eventKey="Submited Submissions" title="Submited Submissions" className="pro-tab">
+                  <Tab eventKey="Submited Biweekly" title="Submited Biweekly" className="pro-tab">
   
                     <div>  </div>
   
@@ -429,7 +429,7 @@ export default class BiWeekly extends Component {
                                   </Col>
                                 </Row>
                                 <div >
-                                  <p className="pcrd_discription">{type.biweeklyDescriptionError}</p>
+                                  <p className="pcrd_discription">{type.biweeklyDiscription}</p>
                                   <p className="dead_date">Dead Line:{type.deadDate} : {type.deadTime}</p>
                                 
                                 </div>
@@ -449,7 +449,7 @@ export default class BiWeekly extends Component {
   
   
   
-                  <Tab eventKey="Create Link" title="Create Submissions" className="pro-tab">
+                  <Tab eventKey="Create Link" title="Create Biweekly" className="pro-tab">
   
                     <div>
                       <div className="card container pro-link-crd">
@@ -471,7 +471,7 @@ export default class BiWeekly extends Component {
                             </div>
   
                             <div className="form-group pro-form">
-                              <label >Biweekly Discription :</label>
+                              <label >Biweekly Description :</label>
                               <textarea type="text" className="form-control" id="exampleInputBiweekly" placeholder="Discription"
                                 name="biweeklyDiscription" errortext={this.state.biweeklyDescriptionError} value={this.state.biweeklyDiscription} onChange={this.onChangebiweeklyDiscription} />
                                 <p className="reg-error">{this.state.biweeklyDiscriptionError}</p>

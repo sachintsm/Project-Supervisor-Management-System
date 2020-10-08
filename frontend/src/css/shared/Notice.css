@@ -31,6 +31,7 @@
 
 .btn_style{
 width:50px;
+margin-left: 10%;
   }
 
  
@@ -104,6 +105,7 @@ width:50px;
 
 .crd_notice_content{
   font-weight:380;
+  font-family: roboto, sans;
 }
 .crd_btn-row{
   text-align:right;

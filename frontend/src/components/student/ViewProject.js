@@ -22,7 +22,7 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 const backendURI = require('../shared/BackendURI');
 
 
-class ViewProject extends Component {
+class ViewProject extends Component {v
     constructor(props) {
         super(props);
         this.state = {
@@ -89,7 +89,7 @@ class ViewProject extends Component {
         this.props.history.push('/studenthome/submisionview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     biweeklyView = (project) => {
-        this.props.history.push('/studenthome/biweeklyview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/biweeklyview/' + project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
 
     viewMeetings = (project) => {        
