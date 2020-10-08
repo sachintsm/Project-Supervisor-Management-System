@@ -92,10 +92,8 @@ router.get("/biweeklyAttachment/:filename", function (req, res) {
 });
 
 router.get('/getBiweeklyLink/:_id', async (req, res) => {
-
   projectId = req.params._id
-  //console.log(projectId)
-
+    console.log(projectId)
   biweekly.find({ projectId: projectId })
     .sort({ date: -1 } && { time: -1 })
     .then(data => {
