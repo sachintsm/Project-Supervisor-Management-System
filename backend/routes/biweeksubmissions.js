@@ -152,6 +152,20 @@ router.get("/getsubmissions/:id", async (req, res) => {
      }
 })
 
+//get biweek submissions by groupId
+router.get("/getgroupsubmissions/:id",async(req,res) => {
+    try{
+        const groupId = req.params.id
+
+        const result = await BiweekSubmissions.find({groupId: groupId})
+
+        res.send(result)
+    }
+    catch(e){
+        console.log(e)
+    }
+})
+
 //update submission request
 router.patch("/updateRequest/:reqId", async (req, res, next) => {
      try {

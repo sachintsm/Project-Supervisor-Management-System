@@ -89,7 +89,7 @@ class ViewProject extends Component {v
         this.props.history.push('/studenthome/submisionview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     biweeklyView = (project) => {
-        this.props.history.push('/studenthome/biweeklyview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/biweeklyview/' + this.state.groupDetails._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
 
     viewMeetings = (project) => {        
