@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage }).single('submissionsFile');
+const upload = multer({ storage: storage }).single('missionsFilesub');
 router.post("/add", async (req, res) => {
 
     try {
@@ -56,7 +56,7 @@ router.post("/add", async (req, res) => {
                         time: req.body.time,
                         userId: req.body.userId,
                         projectId: req.body.projectId,
-                        submissionId: req.body.submissionId,
+                        biweeklyId: req.body.biweeklyId,
                         groupId:req.body.groupId,
                         date_ob: req.body.date_ob,
                         files: filePath,
@@ -140,6 +140,21 @@ router.patch("/updateRequest/:reqId", async (req, res, next) => {
     } catch (err) {
         console.log(err)
     }
+})
+
+router.post('/getBiweekly', async (req, res) => {
+     const projectId = req.body.projectId
+     const submissionId = req.body.submissionId
+     console.log(req.body)
+     BiweekSubmissions
+          .find({ projectId: projectId, submissionId : submissionId })
+          .exec()
+          .then(data => {
+               res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+          })
+          .catch(err => {
+               res.send({ state: false, msg: err.message })
+          })
 })
 
 

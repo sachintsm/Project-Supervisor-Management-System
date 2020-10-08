@@ -23,10 +23,11 @@ class ViewSubmission extends Component {
                submissionId: this.props.location.state.submissionData._id,
                projectName: "",
                groupData: [],
+              // length : this.props.location.state.submissionData.files.length-1
 
           }
 
-          //console.log("Ashan", this.props.location.state.submissionData._id);
+          //console.log("Ashan", this.props.location.state.submissionData.files);
      }
 
      componentDidMount = async () => {
@@ -90,7 +91,7 @@ class ViewSubmission extends Component {
                                                             <td className="table-body">{item.groupno}</td>
                                                             <td className="table-body">{item.groupname}</td>
                                                             <td className="table-body">{item.groupmember}</td>
-                                                            <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionFile/" + item.files}>
+                                                            <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionFile/" + item.files[0]}>
                                                                  File Attachment
                                                 </a></td>
 
