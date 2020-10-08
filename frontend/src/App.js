@@ -40,6 +40,7 @@ import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
 import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeetings';
 import ViewProgressSupervisor from './components/supervisor/Progress/ViewProgress';
 import ViewRequest from './components/supervisor/ViewRequest';
+import SupervisorBiWeeklyView from './components/supervisor/BiWeekly';
 
 import NoticeView from './components/shared/NoticeView';
 
@@ -122,6 +123,7 @@ function App() {
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
           <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
+          <Route path='/supervisorhome/biweeklyview' component={SupervisorBiWeeklyView}></Route>
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>

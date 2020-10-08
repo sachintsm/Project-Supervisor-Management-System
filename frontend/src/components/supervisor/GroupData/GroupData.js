@@ -293,10 +293,9 @@ class GroupData extends Component {
         this.props.history.push('/studenthome/chat/' + this.state.groupData._id, { groupDetails: this.state.groupData })
     }
     biweeklyView = (project) => {
-        this.props.history.push('/studenthome/biweeklyview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/supervisorhome/biweeklyview/' + this.state.groupData._id, { groupDetails: this.state.groupData })
     }
-    rend
-    er() {
+    render() {
         return (
             <div className="gd-fullpage" >
                 <Navbar panel={"supervisor"} />
@@ -376,12 +375,12 @@ class GroupData extends Component {
                                         </IconContext.Provider><span className="btn-title1">Progress</span></Card>
                                 </Col>
                                 <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
-                                    <Card className="btn-card" onClick={() => { this.biweeklyView(this.state.project)}} >
+                                    <Card className="btn-card1" onClick={() => { this.biweeklyView(this.state.project)}} >
                                         <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                             <div>
                                                 <BsFileEarmarkText />
                                             </div>
-                                        </IconContext.Provider><span className="btn-title">Biweekly Reports</span></Card>
+                                        </IconContext.Provider><span className="btn-title1">Biweekly Reports</span></Card>
                                 </Col>
 
                             </Row>
