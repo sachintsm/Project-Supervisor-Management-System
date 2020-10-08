@@ -95,6 +95,15 @@ router.post("/add", async (req, res) => {
      }
 })
 
+router.get("/submissionFile/:filename", function (req, res) {
+     const filename = req.params.filename;
+
+     console.log("Ashan",filename)
+     res.sendFile(
+       path.join(__dirname, "../local_storage/project_submissions/" + filename)
+     );
+   });
+
 router.post('/getSubmission', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
