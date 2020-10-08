@@ -6,7 +6,7 @@ var biweeksubmissions = Schema({
     time: {type: String},
     userId: {type: String},
     projectId: {type: String},
-    biweeklyId: {type: String},
+    submissionId: {type: String},
     groupId: {type: String},
     files : [{type:String}],
     originalFileName: {type: String},
