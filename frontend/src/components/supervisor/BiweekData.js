@@ -83,7 +83,7 @@ class BiweekData extends Component {
                             <a className="crd_atchmnt" href={backendURI.url+"/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
                                 {this.state.request.originalFileName}
                             </a></div>
-                        <div className="mb-1" style={{fontWeight:"bold"}}>Other Supervisor Approvals</div>
+                        <div className="mb-1" style={{fontWeight:"bold"}}>Supervisor Approvals</div>
                         {status}
                     </div>
                 )}

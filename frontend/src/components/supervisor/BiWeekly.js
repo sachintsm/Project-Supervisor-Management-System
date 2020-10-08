@@ -72,7 +72,7 @@ class BiWeekly extends Component {
                         return <Card className="margin-bottom-20" key={key}>
 
 
-                            <Card.Header className="card-header">Biweekly #{item.biweeklyNumber} Report</Card.Header>
+                            <Card.Header className="card-header">Biweekly Report {item.biweeklyNumber} </Card.Header>
 
                             <Card.Body className="card-body">
                                 <Row className="details-row">
