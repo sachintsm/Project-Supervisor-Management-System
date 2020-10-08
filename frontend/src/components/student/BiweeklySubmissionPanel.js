@@ -93,18 +93,16 @@ class SubmitPanal extends Component {
                //console.log("sachin");
                const formData = new FormData();
 
-
                formData.append("date", dateString)
                formData.append("time", timeString)
                formData.append("userId", userId)
-               formData.append("biweeklyId", this.state.biweeklyId)
+               formData.append("submissionId", this.state.submissionId)
                formData.append("projectId", this.state.projectId)
                formData.append("groupId", this.state.groupId)
                formData.append("submissionsFile", files[i])
                formData.append("groupno", this.state.groupNo)
                formData.append("groupname", this.state.groupName)
                formData.append("groupmember", this.state.groupMembers)
-
 
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {

@@ -8,6 +8,8 @@ const CreateGroups = require('../models/createGroups');
 const BiweeklyLink = require("../models/BiweeklyLink");
 const multer = require("multer")
 
+var path = require("path");
+const fs = require("fs");
 
 var storage = multer.diskStorage({
      destination: function (req, file, cb) {
@@ -28,7 +30,7 @@ var storage = multer.diskStorage({
      },
 });
 
-const upload = multer({ storage: storage }).single('missionsFilesub');
+const upload = multer({ storage: storage }).single('submissionsFile');
 router.post("/add", async (req, res) => {
 
      try {
@@ -42,6 +44,9 @@ router.post("/add", async (req, res) => {
                     date_ob.getFullYear() +
                     date_ob.getHours() +
                     date_ob.getMinutes();
+
+               console.log(req.file)
+
                if (req.file) {
                     var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
                }
@@ -59,15 +64,15 @@ router.post("/add", async (req, res) => {
                          status.push("Pending")
                     })
 
+                    console.log(req.body.submissionId)
                     const biweekly = await BiweeklyLink.findOne({ _id: req.body.submissionId })
-                    console.log(biweekly)
 
                     const newSubmission = new BiweekSubmissions({
                          date: req.body.date,
                          time: req.body.time,
                          userId: req.body.userId,
                          projectId: req.body.projectId,
-                         biweeklyId: req.body.biweeklyId,
+                         submissionId: req.body.submissionId,
                          groupId: req.body.groupId,
                          date_ob: req.body.date_ob,
                          originalFileName: req.file.originalname,
@@ -80,6 +85,8 @@ router.post("/add", async (req, res) => {
                          deadTime: biweekly.deadTime
 
                     })
+
+                    console.log(newSubmission)
 
 
 
@@ -208,7 +215,7 @@ router.post('/getBiweekly', async (req, res) => {
 })
 
 
-//Get notice attchment from database
+//Get submission attchment from database
 router.get("/getsubmission/:filename", function (req, res) {
      const filename = req.params.filename;
      console.log(filename)

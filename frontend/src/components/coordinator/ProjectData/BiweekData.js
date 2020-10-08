@@ -77,7 +77,7 @@ class BiweekData extends Component {
                         <td>{this.state.request.deadTime}</td>
                         <td>{status}</td>
                         <td>
-                            <a className="crd_atchmnt" href={backendURI.url+"/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
+                            <a className="crd_atchmnt" href={"http://localhost:4000/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
                                 {this.state.request.originalFileName}
                             </a>
                         </td>
