@@ -14,7 +14,8 @@ class BiweekRequest extends Component {
             request: this.props.details,
             loading1: true,
             loading2: true,
-            userId: getFromStorage('auth-id').id
+            userId: getFromStorage('auth-id').id,
+            length: this.props.details.files.length - 1
         }
     }
 
@@ -75,12 +76,16 @@ class BiweekRequest extends Component {
             <div>
                 {!this.state.loading1 && !this.state.loading2 && (
                     <div>
+                        <h5>Biweekly #{this.state.request.biweeklyNumber} Report Request</h5>
                         <div className="mb-1">Project : {this.state.projectDetails.projectYear} - {this.state.projectDetails.projectType} - {this.state.projectDetails.academicYear}</div>
                         <div className="mb-1">Group : {this.state.groupDetails.groupName} ( G{this.state.groupDetails.groupId} )</div>
                         <div className="mb-1">Group Members : {this.state.groupDetails.groupMembers.map(index=>{
                             return <span  key={index}><StudentCard index={index}/> ,</span>
                         })}</div>
-                        <div className="mb-1">Attachment : </div>
+                        <div className="mb-1">Attachment : &nbsp;
+                            <a className="crd_atchmnt" href={backendURI.url+"/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
+                                {this.state.request.originalFileName}
+                            </a></div>
                         <div className="mb-1" style={{fontWeight:"bold"}}>Other Supervisor Approvals</div>
                         {status}
                     </div>

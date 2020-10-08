@@ -16,6 +16,7 @@ import { FaChartLine } from 'react-icons/fa';
 import { FiUploadCloud } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import {BsFileEarmarkText} from "react-icons/bs";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -291,8 +292,11 @@ class GroupData extends Component {
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupData._id, { groupDetails: this.state.groupData })
     }
-
-    render() {
+    biweeklyView = (project) => {
+        this.props.history.push('/studenthome/biweeklyview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+    }
+    rend
+    er() {
         return (
             <div className="gd-fullpage" >
                 <Navbar panel={"supervisor"} />
@@ -372,12 +376,12 @@ class GroupData extends Component {
                                         </IconContext.Provider><span className="btn-title1">Progress</span></Card>
                                 </Col>
                                 <Col lg={3} md={3} xs={6} sm={6} className="btn-card-col1">
-                                    <Card className="btn-card1">
-                                        <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
+                                    <Card className="btn-card" onClick={() => { this.biweeklyView(this.state.project)}} >
+                                        <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                             <div>
-                                                <FiUploadCloud />
+                                                <BsFileEarmarkText />
                                             </div>
-                                        </IconContext.Provider><span className="btn-title1">Submissions</span></Card>
+                                        </IconContext.Provider><span className="btn-title">Biweekly Reports</span></Card>
                                 </Col>
 
                             </Row>
