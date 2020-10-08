@@ -28,7 +28,7 @@ import BiWeekly from './components/coordinator/ProjectData/BiWeekly';
 import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
 import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission';
-//import ViewBiweekly from './components/coordinator/projectData/ViewBiweekly';
+import ViewBiweekly from './components/coordinator/ProjectData/ViewBiweekly';
 import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
@@ -101,6 +101,7 @@ function App() {
           <Route path='/coordinatorhome/projectdata/Groups/:id' component={Groups}></Route>
           <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
           <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
+          <Route path='/coordinatorhome/projectdata/viewbiweekly/:id' component={ViewBiweekly}></Route>
           
 
           <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>

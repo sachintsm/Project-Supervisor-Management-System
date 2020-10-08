@@ -31,7 +31,7 @@ export class SubmisionView extends Component {
 
 
           this.getSubmission = this.getSubmission.bind(this);
-          console.log("Ashan",this.state.groupDetails);
+          //console.log("Ashan",this.state.groupDetails);
           //console.log('Ashan',this.state.submissionList);
 
      }
@@ -45,19 +45,21 @@ export class SubmisionView extends Component {
 
           this.getSubmission()
 
+
      }
 
      //get submision details from database
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    //jconsole.log("ssssssssssssss", res.data.data)
+                    console.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })
                })).catch(err => {
                     console.log(err)
                })
+
      }
 
      render() {
@@ -93,10 +95,16 @@ export class SubmisionView extends Component {
                                                                                      <span className="sub-content" >{type.proposelTittle} Submission (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
-                                                                           <Col md={2} xs={0}>
-                                                                                <div>
+                                                                           
+                                                                      </Row>
 
-                                                                                     <Button size="sm" className="btn btn-info btn-sub"  onClick={() => { this.proposelView(type) }}>Add Submission</Button>
+                                                                      <Row>
+                                                                      <Col md={10} xs={0}>
+                                                                      </Col>
+                                                                      
+                                                                      <Col md={2} xs={12}>
+                                                                                <div>
+                                                                                     <Button className="viw-btn" size="sm" variant="primary"onClick={() => { this.proposelView(type) }} >Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>

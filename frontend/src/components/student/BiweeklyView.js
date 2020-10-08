@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/SubmisionViewStu.scss'
+import '../../css/students/BiweeklyView.scss'
 import {
      Button,
      Container,
@@ -88,16 +88,22 @@ export class BiweeklyView extends Component {
                                                                            </a>
                                                                       </div>
                                                                       <Row>
-                                                                           <Col md={10} xs={1} >
+                                                                           <Col md={10} xs={10} >
                                                                                 <a>
                                                                                      <span><AssignmentIcon /></span>
                                                                                      <span className="sub-content" >{type.proposelTittle} Biweekly Submite (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
-                                                                           <Col md={2} xs={2}>
-                                                                                <div>
+                                                                           
+                                                                      </Row>
 
-                                                                                     <Button size="sm" className="btn btn-info " onClick={() => { this.biweeklyView(type) }}>Add Submission</Button>
+                                                                      <Row>
+                                                                      <Col md={10} xs={0}>
+                                                                      </Col>
+                                                                      
+                                                                      <Col md={2} xs={12}>
+                                                                                <div>
+                                                                                     <Button className="viw-btn" size="sm" variant="primary" onClick={() => { this.biweeklyView(type) }} >Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>
