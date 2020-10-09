@@ -1207,6 +1207,23 @@ router.get('/getUser/:id', async (req, res) => {
     })
 })
 
+//get supervisor email
+
+router.get('/getSupervisorEmail/:id', async (req, res) => {
+
+  const userid = req.params.id;
+  await User.find({ _id: userid })
+    .select('email firstName lastName ')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+      // console.log("dd",result.data)
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
 router.get('/getstudentdetails/:index', async (req, res) => {
 
   const index = req.params.index;

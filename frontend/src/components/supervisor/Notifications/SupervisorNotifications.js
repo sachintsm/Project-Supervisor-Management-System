@@ -12,7 +12,7 @@ import '../../../css/supervisor/Notifications.scss'
 const backendURI = require("../../shared/BackendURI");
 
 class reqMeetBlock {
-    constructor(id, projectName, groupName, groupNumber, purpose, date, time) {
+    constructor(id, projectName, groupName, groupNumber, purpose, date, time,groupId) {
         this.id = id
         this.projectName = projectName
         this.groupName = groupName
@@ -20,6 +20,7 @@ class reqMeetBlock {
         this.purpose = purpose
         this.date = date
         this.time = time
+        this.groupId = groupId
     }
 }
 
@@ -39,6 +40,7 @@ class SupervisorNotifications extends Component {
             requestMeetings: [],
             reqMeetBlock: [],
             loading2: false,
+            groupData: [],
         }
     }
 
@@ -93,16 +95,15 @@ class SupervisorNotifications extends Component {
                                     this.state.requestMeetings[i].groupNumber,
                                     this.state.requestMeetings[i].purpose,
                                     this.state.requestMeetings[i].date,
-                                    this.state.requestMeetings[i].time
+                                    this.state.requestMeetings[i].time,
+                                    this.state.requestMeetings[i].groupId
                                 )
 
                                 this.setState({
                                     reqMeetBlock: [...this.state.reqMeetBlock, block]
                                 })
-
                             })
                     })
-
             }
             this.setState({
                 loading2: true
@@ -110,8 +111,19 @@ class SupervisorNotifications extends Component {
         })
     }
 
-    viewRequest(data) {
-        this.props.history.push('')
+    async viewRequest(data) {
+        const headers =
+        {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        await axios.get(backendURI.url + '/createGroups/getGroupData/' + data, { headers: headers })
+            .then(res => {
+                console.log(res.data.data)
+                this.setState({
+                    groupData: res.data.data,
+                })
+            })
+        this.props.history.push('/supervisorhome/viewMeetings', { groupDetails: this.state.groupData })
     }
 
     acceptRequest = (item) => {
@@ -152,7 +164,6 @@ class SupervisorNotifications extends Component {
         })
     }
 
-
     declineRequest = (item) => {
         confirmAlert({
             title: 'Biweekly Report',
@@ -190,7 +201,6 @@ class SupervisorNotifications extends Component {
             ]
         })
     }
-
 
     closeAlert = () => {
         this.setState({
@@ -257,7 +267,7 @@ class SupervisorNotifications extends Component {
                                                         </Row>
                                                     </Col>
                                                     <Col lg={3} md={3} className="btn-col-2">
-                                                        <Button className="btn btn-info my-btn1" onClick={() => this.viewRequest(item.id)}>View Request</Button>
+                                                        <Button className="btn btn-info my-btn1" onClick={() => this.viewRequest(item.groupId)}>View Request</Button>
                                                     </Col>
                                                 </Row>
                                             </Card.Body>

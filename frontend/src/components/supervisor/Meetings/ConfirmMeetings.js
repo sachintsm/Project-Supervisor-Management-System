@@ -49,6 +49,7 @@ export default class ConfirmMeeting extends Component {
       groupId: "",
 
       groupEmail: "",
+      groupNumber:"",
 
       purpose: "",
 
@@ -107,6 +108,8 @@ export default class ConfirmMeeting extends Component {
           purpose: response.data.data[0].purpose,
 
           groupId: response.data.data[0].groupId,
+          groupNumber: response.data.data[0].groupNumber,
+
         });
       })
 
@@ -183,9 +186,11 @@ export default class ConfirmMeeting extends Component {
         }
       });
 
+
     const email = await meetingRequestConfirmEmail(
+
       this.state.groupEmail,
-      this.state.groupId,
+      this.state.groupNumber,
       this.state.date,
       this.state.time
     );
