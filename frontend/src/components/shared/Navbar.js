@@ -191,13 +191,14 @@ export default class navbar extends Component {
     const headers = {
       'auth-token':getFromStorage('auth-token').token,
     }
-    const userId = getFromStorage("auth-id").id
+    const userId = getFromStorage("auth-id").id;
 
     axios.get(backendURI.url+"/biweeksubmissions/getsubmissions/"+userId, {headers: headers}).then(res=>{
       this.setState({
         supervisorNotificationCount: res.data.length
       })
     })
+
   }
 
   render() {

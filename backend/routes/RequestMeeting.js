@@ -3,9 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const RequsetMeeting = require('../models/RequestMeeting');
-
-
-
+const verify = require('../authentication');
 
 
 router.post('/add', (req, res) => {
@@ -68,8 +66,6 @@ router.get('/get/:id', function (req, res) {
 
 
 
-
-
 router.get('/getsupervisor/:id', function (req, res) {
 
   let id = req.params.id;
@@ -115,10 +111,6 @@ router.get('/getmeet/:id', function (req, res) {
     })
 
 });
-
-
-
-
 
 
 
@@ -302,6 +294,18 @@ router.route('/cancelMeeting/:id').post(function (req, res) {
 
 });
 
-
+//get pending meeting to a supervisor
+//SupervisorNotificaion.js
+router.get('/getPending/:id', (req, res) => {
+  RequsetMeeting
+    .find({ supervisor: req.params.id , state : 'pending'})
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
 
 module.exports = router
