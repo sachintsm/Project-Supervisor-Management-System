@@ -341,7 +341,16 @@ export default class navbar extends Component {
                     </MDBNavItem>
 
                 )}
-                {/* ============================ Supervisor Panel ============================================= */}
+
+                {this.state.panel === 'supervisor' && (
+                    <MDBNavItem className="mr-4">
+                      <Nav.Link className="padding-zero" href='/supervisorhome/givepresentationfeedback'>
+                        Presentation Feedback
+                      </Nav.Link>
+                    </MDBNavItem>
+
+                )}
+
                 {this.state.panel === 'supervisor' && (
 
                     <MDBNavItem className="mr-4" >

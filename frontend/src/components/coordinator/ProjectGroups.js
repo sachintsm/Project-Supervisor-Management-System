@@ -83,8 +83,6 @@ class ProjectGroups extends Component {
         this.setState({
             projectId: val
         })
-
-
     }
 
     async searchGroups() {
