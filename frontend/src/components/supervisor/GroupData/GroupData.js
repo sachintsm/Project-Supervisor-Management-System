@@ -118,9 +118,6 @@ class GroupData extends Component {
             });
     }
 
-    viewMeetings = (project) => {
-        // this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
-    }
 
     studentList() {
         let groupId = this.state.groupId
