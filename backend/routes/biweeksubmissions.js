@@ -83,7 +83,6 @@ router.post("/add", async (req, res) => {
                          biweeklyDiscription: biweekly.biweeklyDescription,
                          deadDate: biweekly.deadDate,
                          deadTime: biweekly.deadTime
-
                     })
 
                     console.log(newSubmission)
