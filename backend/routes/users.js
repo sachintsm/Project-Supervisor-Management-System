@@ -52,7 +52,6 @@ router.post("/register", verify, async function (req, res) {
     const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
     if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
 
-
     // // checking if the NIC is already in the database
     // if (req.body.indexNumber !== undefined || req.body.indexNumber !== '' || req.body.indexNumber !== null) {
     //   const userIndexExists = await User.findOne({ indexNumber: req.body.indexNumber.toLowerCase() });
@@ -64,22 +63,26 @@ router.post("/register", verify, async function (req, res) {
     //   const userRegExists = await User.findOne({ regNumber: req.body.regNumber.toLowerCase() });
     //   if (userRegExists) return res.json({ state: false, msg: "This registration number already in use..!" })
     // }
+
     //check file empty
     if (req.file == null) return res.json({ state: false, msg: "Profile Image is empty..!" })
 
     var student
     var admin
     var staff
+
     if (req.body.userType === 'Admin') {
       admin = true
       student = false
       staff = false
     }
+    
     else if (req.body.userType === 'Staff') {
       staff = true
       admin = false
       student = false
     }
+    
     else if (req.body.userType === 'Student') {
       student = true
       staff = false
@@ -268,7 +271,7 @@ router.post('/login', async function (req, res) {
 
 router.get('/stafflist', async (req, res, next) => {
   try {
-    const results = await Staff.find({ isStudent: false, isDeleted: false, isAdmin: false});
+    const results = await Staff.find({ isStudent: false, isDeleted: false, isAdmin: false });
     res.send(results);
   } catch (error) {
     console.log(error);
@@ -550,14 +553,14 @@ router.post('/updateReqState/:id', async (req, res) => {
         if (err)
           res.status(404).send("data is not found");
         else {
-        /*  Request.updateMany({ groupId: group.groupId }, {
-            $set: {
-              state: 'reject'
-            }
-          })
-            .exec()
-            .then(data => { })
-            .catch(error => { })*/
+          /*  Request.updateMany({ groupId: group.groupId }, {
+              $set: {
+                state: 'reject'
+              }
+            })
+              .exec()
+              .then(data => { })
+              .catch(error => { })*/
 
           request.state = req.body.state;
           if (req.body.state === 'accept') {
@@ -1204,6 +1207,23 @@ router.get('/getUser/:id', async (req, res) => {
     })
 })
 
+//get supervisor email
+
+router.get('/getSupervisorEmail/:id', async (req, res) => {
+
+  const userid = req.params.id;
+  await User.find({ _id: userid })
+    .select('email firstName lastName ')
+    .exec()
+    .then(data => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+      // console.log("dd",result.data)
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
 router.get('/getstudentdetails/:index', async (req, res) => {
 
   const index = req.params.index;
@@ -1280,10 +1300,10 @@ router.post('/customregistration', async (req, res) => {
       jobDescription: req.body.jobDescription,
       imageName: fullPath,
       isSupervisor: true,
-      isGuest: true, 
+      isGuest: true,
       isStaff: false,
-      isStudent : false,
-      isDeleted : false,
+      isStudent: false,
+      isDeleted: false,
       isAdmin: false,
     });
 

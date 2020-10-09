@@ -10,6 +10,8 @@ import {
   ModalBody,
 } from "reactstrap";
 import Snackpop from "../shared/Snackpop";
+import { meetingRequestEmail } from "../shared/emailTemplates";
+
 
 const backendURI = require("../shared/BackendURI");
 
@@ -29,6 +31,9 @@ export default class RequestMeeting extends Component {
       purpose: "",
       time: "",
       supervisor: "",
+      supervisorEmail: "",
+      supervisorFname: "",
+      supervisorLname: "",
       super: "",
       supervisorN: [],
       superOptionList: [],
@@ -45,7 +50,6 @@ export default class RequestMeeting extends Component {
 
       date: new Date(),
     };
-    console.log(this.state.group.supervisors);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
@@ -55,11 +59,10 @@ export default class RequestMeeting extends Component {
       await axios
         .get(
           backendURI.url +
-            "/users/getUserName/" +
-            this.state.group.supervisors[j]
+          "/users/getUserName/" +
+          this.state.group.supervisors[j]
         )
         .then((result) => {
-          console.log(result.data.data[0]);
 
           this.setState({
             supervisorN: [...this.state.supervisorN, result.data.data[0]],
@@ -69,6 +72,7 @@ export default class RequestMeeting extends Component {
           console.log(err);
         });
     }
+
   };
 
   closeAlert = () => {
@@ -90,15 +94,24 @@ export default class RequestMeeting extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleDropdownChange(e) {
-    console.log(e.target.value);
+  async handleDropdownChange(e) {
     this.setState({
       supervisor: e.target.value,
-      super: e.target.value1,
     });
+    await axios.get(backendURI.url + '/users/getSupervisorEmail/' + e.target.value)
+      .then(res => {
+        this.setState({
+          supervisorEmail: res.data.data[0].email,
+          supervisorFname: res.data.data[0].firstName,
+          supervisorLname: res.data.data[0].lastName
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
     //?calling validation function
     const obj = {
@@ -114,7 +127,6 @@ export default class RequestMeeting extends Component {
     axios
       .post(backendURI.url + "/requestMeeting/add", obj)
       .then((res) => {
-        console.log(res.data.state);
         if (res.data.state === true) {
           this.setState({
             snackbaropen: true,
@@ -129,7 +141,6 @@ export default class RequestMeeting extends Component {
             snackbarcolor: "error",
           });
         }
-        console.log(res.data);
       })
       .catch((error) => {
         this.setState({
@@ -142,6 +153,23 @@ export default class RequestMeeting extends Component {
     this.setState({
       modal: false,
     });
+
+
+    const email = await meetingRequestEmail(
+      this.state.supervisorEmail,
+      this.state.group.groupId,
+      this.state.purpose,
+      this.state.supervisorFname,
+      this.state.supervisorLname,
+
+    );
+
+    axios
+      .post(backendURI.url + "/mail/sendmail", email)
+
+      .then((res) => {
+        console.log(res);
+      });
   }
 
   render() {
