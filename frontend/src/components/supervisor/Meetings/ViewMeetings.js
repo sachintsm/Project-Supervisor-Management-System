@@ -178,7 +178,7 @@ class ViewMeetings extends Component {
 
   cancelMeeting(data) {
     confirmAlert({
-      title: "Confirm to submit",
+      title: "Confirm to cancel",
 
       message: "Are you sure to do this.",
 
@@ -219,7 +219,7 @@ class ViewMeetings extends Component {
         {
           label: "No",
 
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });

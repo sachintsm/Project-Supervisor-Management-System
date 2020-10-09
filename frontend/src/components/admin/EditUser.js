@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 import IconButton from "@material-ui/core/IconButton";
 
-import Snackbar from "@material-ui/core/Snackbar";
-
+import Snackpop from "../shared/Snackpop";
 import axios from "axios";
 
 import Navbar from "../shared/Navbar";
@@ -11,7 +10,8 @@ import Navbar from "../shared/Navbar";
 import "../../css/admin/EditUser.css";
 
 import Footer from "../shared/Footer";
-
+import { passwordResetEmail } from "../shared/emailTemplates";
+import { confirmAlert } from "react-confirm-alert";
 import { verifyAuth } from "../../utils/Authentication";
 
 import {
@@ -37,6 +37,8 @@ class EditUser extends Component {
       snackbaropen: false,
 
       snackbarmsg: "",
+
+      snackbarcolor: "",
 
       id: "",
 
@@ -72,7 +74,8 @@ class EditUser extends Component {
     this.ResetUserPassword = this.ResetUserPassword.bind(this);
   }
 
-  snackbarClose = (event) => {
+
+  closeAlert = () => {
     this.setState({ snackbaropen: false });
   };
 
@@ -92,15 +95,10 @@ class EditUser extends Component {
 
         this.setState({
           id: response.data.data[0]._id,
-
           firstName: response.data.data[0].firstName,
-
           lastName: response.data.data[0].lastName,
-
           email: response.data.data[0].email,
-
           nic: response.data.data[0].nic,
-
           mobile: response.data.data[0].mobile,
         });
       })
@@ -111,12 +109,9 @@ class EditUser extends Component {
   }
 
   onChange = (e) => {
-    e.persist = () => {};
-
+    e.persist = () => { };
     let store = this.state;
-
     store[e.target.name] = e.target.value;
-
     this.setState(store);
   };
 
@@ -127,38 +122,103 @@ class EditUser extends Component {
       // _id: this.state._id,
 
       firstName: this.state.firstName,
-
       lastName: this.state.lastName,
-
       email: this.state.email,
-
       nic: this.state.nic,
-
       mobile: this.state.mobile,
     };
 
-    axios
-      .post(
-        backendURI.url + "/users/updateUser/" + this.props.match.params.id,
-        obj
-      )
+    confirmAlert({
+      title: "Confirm to update",
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
 
-      .then((res) => console.log(res.data));
+            axios.post(
+                backendURI.url + "/users/updateUser/" + this.props.match.params.id,
+                obj
+              )
+              .then(res => {
+                console.log(res.data.state);
+                if (res.data.state === true) {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "success",
+                  });
+                } else {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "error",
+                  });
+                }
+              });
 
-    // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
-
-    window.location.reload();
+           // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
+           
+           
+           window.location.reload();
+          },
+        },
+        {
+          label: "No",
+          onClick: () => { },
+        },
+      ],
+    });
   }
 
-  ResetUserPassword(data) {
-    axios
-      .post(backendURI.url + "/users/updatePasswordA/" + data)
+  async ResetUserPassword(data) {
+    confirmAlert({
+      title: "Confirm to reset",
+      message: "Are you sure to do this.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            axios.post(backendURI.url + "/users/updatePasswordA/" + data)
+              .then(async (res) => {
+                // console.log(res.data));
 
-      .then((res) => console.log(res.data));
+                if (res.data.state === true) {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: res.data.msg,
+                      snackbarcolor: "success",
+                    });
+                  } else {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: res.data.msg,
+                      snackbarcolor: "error",
+                    });
+                  }
 
-    // this.props.history.push('adminhome/viewusers/');
+                const email = await passwordResetEmail(
+                  this.state.email,
+                  this.state.firstName,
+                  this.state.lastName,
+                );
+                axios
+                  .post(backendURI.url + "/mail/sendmail", email)
+                  .then((res) => {
+                    console.log(res);
+                  });
 
-    window.location.reload();
+                // this.props.history.push('adminhome/viewusers/');
+                window.location.reload();
+              })
+          },
+        },
+        {
+          label: "No",
+          onClick: () => { },
+        },
+      ],
+    });
   }
 
   render() {
@@ -167,22 +227,12 @@ class EditUser extends Component {
         <Navbar panel={"admin"} />
 
         <div className="container-fluid">
-          <Snackbar
-            open={this.state.snackbaropen}
-            autoHideDuration={2000}
-            onClose={this.snackbarClose}
-            message={<span id="message-id">{this.state.snackbarmsg}</span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="secondary"
-                onClick={this.snackbarClose}
-              >
-                {" "}
-                x{" "}
-              </IconButton>,
-            ]}
+        <Snackpop
+            msg={this.state.snackbarmsg}
+            color={this.state.snackbarcolor}
+            time={4000}
+            status={this.state.snackbaropen}
+            closeAlert={this.closeAlert}
           />
 
           {/* ************************************************************************************************************************************************************************** */}
