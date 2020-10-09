@@ -202,9 +202,10 @@ router.patch("/updateRequest/:reqId", async (req, res, next) => {
 router.post('/getBiweekly', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
+     const groupId = req.body.groupId
      console.log(req.body)
      BiweekSubmissions
-          .find({ projectId: projectId, submissionId: submissionId })
+          .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()
           .then(data => {
                res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
