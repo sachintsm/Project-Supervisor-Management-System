@@ -32,7 +32,7 @@ const backendURI = require("../../shared/BackendURI");
 
 const Meet = React.memo((props) => (
   <tr>
-    <td className="table-body">{props.meetgroupNumber}</td>
+    <td className="table-body">{props.meet.groupNumber}</td>
 
     <td className="table-body">{props.meet.purpose}</td>
 
@@ -181,7 +181,7 @@ class ViewMeetings extends Component {
 
   cancelMeeting(data) {
     confirmAlert({
-      title: "Confirm to submit",
+      title: "Confirm to cancel",
 
       message: "Are you sure to do this.",
 
@@ -222,7 +222,7 @@ class ViewMeetings extends Component {
         {
           label: "No",
 
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
