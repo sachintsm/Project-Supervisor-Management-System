@@ -250,7 +250,7 @@ router.get("/getAdminNotice", (req, res, next) => {
 });
 
 //get notice by student 
-
+ 
 router.get("/getNoticeByStudent/:id" , async (req,res)=>{
 
   try {
