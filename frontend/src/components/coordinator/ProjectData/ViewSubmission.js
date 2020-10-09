@@ -18,15 +18,16 @@ class ViewSubmission extends Component {
 
           this.state = {
 
-               submissionDetails:[],
-               projectId:this.props.location.state.submissionData.projectId,
-               submissionId : this.props.location.state.submissionData._id,
-               projectName:"",
-               groupData:[],
+               submissionDetails: [],
+               projectId: this.props.location.state.submissionData.projectId,
+               submissionId: this.props.location.state.submissionData._id,
+               projectName: "",
+               groupData: [],
+              // length : this.props.location.state.submissionData.files.length-1
 
           }
 
-        //console.log("Ashan", this.props.location.state.submissionData._id);
+          //console.log("Ashan", this.props.location.state.submissionData.files);
      }
 
      componentDidMount = async () => {
@@ -38,31 +39,31 @@ class ViewSubmission extends Component {
           const dt = {
                projectId: this.state.projectId,
                submissionId: this.state.submissionId
-           }
+          }
 
-          await axios.post(backendURI.url + '/Submission/getSubmission/',dt)
-          .then(res => {
-          this.setState({ submissionDetails: res.data.data})
-        })
+          await axios.post(backendURI.url + '/Submission/getSubmission/', dt)
+               .then(res => {
+                    this.setState({ submissionDetails: res.data.data })
+               })
 
-        //console.log(this.state.submissionDetails)
+          console.log(this.state.submissionDetails)
 
-        await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
-            .then(res => {
-                this.setState({
-                    projectName: res.data.data.projectYear + ' ' + res.data.data.projectType + ' ' + res.data.data.academicYear
-                })
-            })
+          await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
+               .then(res => {
+                    this.setState({
+                         projectName: res.data.data.projectYear + ' ' + res.data.data.projectType + ' ' + res.data.data.academicYear
+                    })
+               })
 
-            await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
-            .then(res => {
-                this.setState({
-                    groupData: res.data.data
-                })
-            })
-           // console.log("AShan",this.state.groupData)
+          await axios.get(backendURI.url + '/createGroups/get/' + this.state.projectId)
+               .then(res => {
+                    this.setState({
+                         groupData: res.data.data
+                    })
+               })
+          // console.log("AShan",this.state.groupData)
 
-        //console.log(this.state.submissionDetails);
+          //console.log(this.state.submissionDetails);
      }
 
      render() {
@@ -72,8 +73,8 @@ class ViewSubmission extends Component {
                     <div className="SubView_style">
                          <div className="container-fluid page_style">
                               <div className="container">
-                              <p className="header_style">{this.state.projectName}</p>
-                              <p className="sub_de">Submission Details</p>
+                                   <p className="header_style">{this.state.projectName}</p>
+                                   <p className="sub_de">Submission Details</p>
                                    <Table hover>
                                         <thead>
                                              <tr>
@@ -84,20 +85,20 @@ class ViewSubmission extends Component {
                                              </tr>
                                         </thead>
                                         <tbody>
-                                    {this.state.submissionDetails.map((item) => {
-                                        return (
-                                            <tr className="as-table-row" key={item._id}>
-                                                <td className="table-body">{item.groupno}</td>
-                                                <td className="table-body">{item.groupname}</td>
-                                                <td className="table-body">{item.groupmember}</td>
-                                                <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/project_submissions/" + item.files}>
-                                                File Attachment
+                                             {this.state.submissionDetails.map((item) => {
+                                                  return (
+                                                       <tr className="as-table-row" key={item._id}>
+                                                            <td className="table-body">{item.groupno}</td>
+                                                            <td className="table-body">{item.groupname}</td>
+                                                            <td className="table-body">{item.groupmember}</td>
+                                                            <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionFile/" + item.files[0]}>
+                                                                 File Attachment
                                                 </a></td>
-                                               
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
+
+                                                       </tr>
+                                                  )
+                                             })}
+                                        </tbody>
                                    </Table>
                               </div>
                          </div>

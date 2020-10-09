@@ -488,7 +488,7 @@ class Submission extends Component {
                           </Row>
 
                           <div className="form-group pro-form">
-                            <label >Proposel Tittle :</label>
+                            <label >Submission Tittle :</label>
                             <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
                             errortext={this.proposelTittleError}
                             name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
@@ -496,7 +496,7 @@ class Submission extends Component {
                           </div>
 
                           <div className="form-group pro-form">
-                            <label >Proposel Discription :</label>
+                            <label >Submission Description :</label>
                             <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
                               name="proposelDescription" errortext={this.state.proposelDescriptionError} value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
                               <p className="reg-error">{this.state.proposelDescriptionError}</p>

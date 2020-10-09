@@ -45,11 +45,8 @@ const Meet = React.memo((props) => (
 const MeetConfirmed = React.memo((props) => (
   <tr>
     <td className="table-body">{props.meetconfirmed.groupNumber}</td>
-
     <td className="table-body">{props.meetconfirmed.purpose}</td>
-
     <td className="table-body">{props.meetconfirmed.date.substring(0, 10)}</td>
-
     <td className="table-body">{props.meetconfirmed.time}</td>
   </tr>
 ));

@@ -197,7 +197,7 @@ export default class login extends Component {
               />
 
               {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
-              <div className='row login-panel vertical-center login-card-div'>
+              <div data-testid="login" className='row login-panel vertical-center login-card-div'>
                 <div className='container abc'>
                   <Row>
                     <Col md={2} lg={3} xs={0} sm={0}></Col>
@@ -263,10 +263,12 @@ export default class login extends Component {
                           <Row className="lg-problem">
                             <Col lg={12} md={12} xs={12} sm={12}>
 
-                              <p className="lg-problem-text" style={{ marginTop:"-40px", marginBottom:"-50px"}}>Problem with login?
-                              <label className="lg-problem-admin">&nbsp; <LoginContactus/></label></p>
+                              <p className="lg-problem-text" style={{ marginTop: "-40px", marginBottom: "-50px" }}>
+                                <a>
+                                  Problem with login?
+                                </a>
+                                <label className="lg-problem-admin">&nbsp; <LoginContactus /></label></p>
                             </Col>
-
                           </Row>
                         </div>
                       </Card>

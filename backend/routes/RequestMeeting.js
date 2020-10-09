@@ -235,4 +235,18 @@ router.route("/cancelMeeting/:id").post(function (req, res) {
   });
 });
 
-module.exports = router;
+//get pending meeting to a supervisor
+//SupervisorNotificaion.js
+router.get('/getPending/:id', (req, res) => {
+  RequsetMeeting
+    .find({ supervisor: req.params.id , state : 'pending'})
+    .exec()
+    .then(result => {
+      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    })
+    .catch(error => {
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
+    })
+})
+
+module.exports = router

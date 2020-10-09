@@ -26,6 +26,7 @@ var storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }).single('submissionFile');
+
 router.post("/add", async (req, res) => {
 
      try {
@@ -93,6 +94,15 @@ router.post("/add", async (req, res) => {
           console.log(err);
      }
 })
+
+router.get("/submissionFile/:filename", function (req, res) {
+     const filename = req.params.filename;
+
+     console.log("Ashan",filename)
+     res.sendFile(
+       path.join(__dirname, "../local_storage/project_submissions/" + filename)
+     );
+   });
 
 router.post('/getSubmission', async (req, res) => {
      const projectId = req.body.projectId

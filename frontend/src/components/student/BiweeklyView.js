@@ -5,7 +5,7 @@ import AttachmentIcon from '@material-ui/icons/Attachment';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from 'axios';
 
-import '../../css/students/SubmisionViewStu.scss'
+import '../../css/students/BiweeklyView.scss'
 import {
      Button,
      Container,
@@ -18,7 +18,7 @@ import {
 } from "react-bootstrap";
 const backendURI = require("../shared/BackendURI");
 
-export class SubmisionView extends Component {
+export class BiweeklyView extends Component {
 
      constructor(props) {
           super(props)
@@ -26,35 +26,33 @@ export class SubmisionView extends Component {
           this.state = {
                groupDetails: props.location.state.groupDetails,
                projectId: this.props.match.params.id,
-               submissionList: [],
+               biweeklyList: [],
           }
 
 
-          this.getSubmission = this.getSubmission.bind(this);
+          this.getBiweekly = this.getBiweekly.bind(this);
           //console.log("Ashan",this.state.groupDetails);
           //console.log('Ashan',this.state.submissionList);
 
      }
 
      //button for view upcomming submission
-     proposelView = (data) => {
-          this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
+     biweeklyView = (data) => {
+
+          this.props.history.push('/studenthome/biweeklysubmissionpanel/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {
-
-          this.getSubmission()
-
-
+          this.getBiweekly()
      }
 
      //get submision details from database
-     getSubmission() {
-          axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
+     getBiweekly() {
+          axios.get(backendURI.url + '/Biweekly/getBiweeklyLink/' + this.state.projectId)
                .then((res => {
-                    console.log("ssssssssssssss", res.data.data)
+                    console.log(res.data.data)
                     this.setState({
-                         submissionList: res.data.data
+                         biweeklyList: res.data.data
                     })
                })).catch(err => {
                     console.log(err)
@@ -63,7 +61,7 @@ export class SubmisionView extends Component {
      }
 
      render() {
-          //console.log("sss",this.state.submissionList);
+          console.log(this.state.biweeklyList)
           return (
                <React.Fragment>
                     <Navbar panel={"student"} />
@@ -71,28 +69,28 @@ export class SubmisionView extends Component {
                     <div className=" sub-style ">
                          <div className=" container-fluid  sub-background ">
                               <div className="container">
-                                   {this.state.submissionList.length > 0 && (
+                                   {this.state.biweeklyList.length > 0 && (
                                         <div>
-                                             {this.state.submissionList.map((type) => {
+                                             {this.state.biweeklyList.map((type) => {
                                                   return (
                                                        <div className=" card container" style={{ margin: "0px 0px 20px 0px" }} key={type._id}>
                                                             <div className="row">
                                                                  <div className="col-xm-1" style={{ backgroundColor: '#263238', width: 35 }}>
                                                                  </div>
                                                                  <div className="col-sm-11">
-                                                                      <h2 className="sup-tittle">{type.proposelTittle}</h2>
+                                                                      <h2 className="sup-tittle">Biweekly Report #{type.biweeklyNumber}</h2>
                                                                       <div >
 
                                                                            <span><AttachmentIcon /></span>
-                                                                           <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
-                                                                                {type.proposelTittle} Template
+                                                                           <a className="sub-link" href={"http://localhost:4000/biweekly/biweeklyAttachment/" + type.filePath}>
+                                                                                #{type.biweeklyNumber} Biweekly Template
                                                                            </a>
                                                                       </div>
                                                                       <Row>
-                                                                           <Col md={10} xs={12} >
+                                                                           <Col md={10} xs={10} >
                                                                                 <a>
                                                                                      <span><AssignmentIcon /></span>
-                                                                                     <span className="sub-content" >{type.proposelTittle} Submission (Deadline - {type.deadDate}: {type.deadTime})</span>
+                                                                                     <span className="sub-content" >{type.proposelTittle} Biweekly Submite (Deadline - {type.deadDate}: {type.deadTime})</span>
                                                                                 </a>
                                                                            </Col>
                                                                            
@@ -104,7 +102,7 @@ export class SubmisionView extends Component {
                                                                       
                                                                       <Col md={2} xs={12}>
                                                                                 <div>
-                                                                                     <Button className="viw-btn" size="sm" variant="primary"onClick={() => { this.proposelView(type) }} >Add Submission</Button>
+                                                                                     <Button className="viw-btn" size="sm" variant="primary" onClick={() => { this.biweeklyView(type) }} >Add Submission</Button>
                                                                                 </div>
                                                                            </Col>
                                                                       </Row>
@@ -129,4 +127,4 @@ export class SubmisionView extends Component {
      }
 }
 
-export default SubmisionView
+export default BiweeklyView

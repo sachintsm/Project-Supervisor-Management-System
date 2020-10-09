@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {getFromStorage} from "../../../utils/Storage";
+import {getFromStorage} from "../../utils/Storage";
 import axios from "axios";
-import StudentCard from "../../shared/StudentCard";
-import SupervisorName from "./SupervisorName";
+import StudentCard from "../shared/StudentCard";
+import SupervisorName from "./Notifications/SupervisorName";
+import { Row } from 'react-bootstrap';
 
-const backendURI = require('../../shared/BackendURI');
+const backendURI = require('../shared/BackendURI');
 
-class BiweekRequest extends Component {
+class BiweekData extends Component {
 
     constructor(props) {
         super(props);
@@ -54,30 +55,25 @@ class BiweekRequest extends Component {
     }
 
     render() {
-
+        console.log(this.state.groupDetails)
         let status = this.state.request.supervisors.map((item, index) => {
 
-            if(item!==this.state.userId){
-                return(
-                    <div key={index}>
-                        {this.state.request.status[index]==="Accepted" && <div className="mb-1" ><SupervisorName id={item}/> <span style={{color:"limegreen", border: "1.8px solid limegreen",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}} >{this.state.request.status[index]}</span> </div>}
-                        {this.state.request.status[index]==="Declined" && <div className="mb-1"><SupervisorName id={item}/> <span style={{color:"#DC3545", border: "1.8px solid #DC3545",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}} >{this.state.request.status[index]}</span> </div>}
-                        {this.state.request.status[index]==="Pending" && <div className="mb-1"><SupervisorName id={item}/> <span style={{color:"grey", border: "1.8px solid grey",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}}  >{this.state.request.status[index]}</span> </div>}
+            return(
+                <div key={index}>
+                    {this.state.request.status[index]==="Accepted" && <div className="mb-1" ><SupervisorName id={item}/> <span style={{color:"limegreen", border: "1.8px solid limegreen",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}} >{this.state.request.status[index]}</span> </div>}
+                    {this.state.request.status[index]==="Declined" && <div className="mb-1"><SupervisorName id={item}/> <span style={{color:"#DC3545", border: "1.8px solid #DC3545",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}} >{this.state.request.status[index]}</span> </div>}
+                    {this.state.request.status[index]==="Pending" && <div className="mb-1"><SupervisorName id={item}/> <span style={{color:"grey", border: "1.8px solid grey",padding:"0px 4px",borderRadius:"8px", fontSize: "13px"}}  >{this.state.request.status[index]}</span> </div>}
 
-                    </div>
-                )
-            }
-            else{
-                return(null)
-            }
+                </div>
+            )
         })
 
 
-            return (
+        return (
+
             <div>
                 {!this.state.loading1 && !this.state.loading2 && (
                     <div>
-                        <h5>Biweekly #{this.state.request.biweeklyNumber} Report Request</h5>
                         <div className="mb-1">Project : {this.state.projectDetails.projectYear} - {this.state.projectDetails.projectType} - {this.state.projectDetails.academicYear}</div>
                         <div className="mb-1">Group : {this.state.groupDetails.groupName} ( G{this.state.groupDetails.groupId} )</div>
                         <div className="mb-1">Group Members : {this.state.groupDetails.groupMembers.map(index=>{
@@ -87,13 +83,14 @@ class BiweekRequest extends Component {
                             <a className="crd_atchmnt" href={backendURI.url+"/biweeksubmissions/getsubmission/" + this.state.request.files[this.state.length]}>
                                 {this.state.request.originalFileName}
                             </a></div>
-                        <div className="mb-1" style={{fontWeight:"bold"}}>Other Supervisor Approvals</div>
+                        <div className="mb-1" style={{fontWeight:"bold"}}>Supervisor Approvals</div>
                         {status}
                     </div>
                 )}
             </div>
         );
+
     }
 }
 
-export default BiweekRequest;
+export default BiweekData;

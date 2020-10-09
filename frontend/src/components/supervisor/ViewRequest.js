@@ -29,7 +29,7 @@ const Pending = React.memo( props =>(
         </ButtonToolbar>
         </td>
         <td><ButtonToolbar>
-        <Button type="submit" variant="danger"  value="Mod" className="btn btn-info" onClick={() => props.sendReject(props.req._id)} >Reject</Button> 
+        <Button type="submit" variant="danger"  value="Mod" className="btn btn-info" onClick={() => props.sendReject(props.req._id,props.req.projectId)} >Reject</Button> 
         </ButtonToolbar>
         </td>
     </tr>
@@ -51,6 +51,16 @@ const Reject = React.memo( props =>(
         <td>{props.req.projectYear} {props.req.projectType} {props.req.academicYear}</td>
         <td>{props.req.groupId}</td>
         <td>{props.req.description}</td>
+    </tr>
+)
+);
+
+const NoData = React.memo( props =>(
+
+    <tr>
+        <td></td>
+        <td>No Requests</td>
+        <td></td>
     </tr>
 )
 );
@@ -188,7 +198,10 @@ export default class ViewRequest extends Component {
             ]
         })
     }
-    reqSendReject(req){
+    reqSendReject(req,proId){
+        console.log(proId);
+        const userData = getFromStorage('auth-id');
+        const id = req;
         confirmAlert({
             title: 'Confirm to submit',
             message: 'Are you sure to reject this group?',
@@ -199,8 +212,10 @@ export default class ViewRequest extends Component {
                         const obj = {
                             req_id: req,
                             state:'reject',
+                            projId:proId,
+                            supId:userData.id
                         };
-                        axios.post(backendURI.url + "/users/updateReqState/" +req, obj)
+                        axios.post(backendURI.url + "/users/updateReqState/" +id, obj)
                                     .then(res => {
                                         
                                         console.log(res.data)
@@ -236,7 +251,7 @@ export default class ViewRequest extends Component {
         })
     }
     PendingList() {
-        
+        let k = false;
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
@@ -244,17 +259,26 @@ export default class ViewRequest extends Component {
             }
         );
 
-
+            for(let i =0 ; i<filteredReq.length; i++){
+                if(filteredReq[i].state==='read'){
+                    k=true;
+                }
+            }
+            if(k === true){
         return filteredReq.map((currentReq, i) => {
             console.log(i);
-            if (currentReq.state === 'read') {
+            if (currentReq.state === 'read' || currentReq.state === 'pending') {
                 return <Pending sendAccept={this.reqSendAccept} sendReject={this.reqSendReject} req={currentReq} key={i} />;
             }
         })
+    }
+    else{
+        return <NoData/>
+    }
 
     }
     AcceptList() {
-        
+        let k = false;
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
@@ -262,16 +286,25 @@ export default class ViewRequest extends Component {
             }
         );
 
+        for(let i =0 ; i<filteredReq.length; i++){
+            if(filteredReq[i].state==='accept'){
+                k=true;
+            }
+        }
+        if(k === true){
         return filteredReq.map((currentReq, i) => {
             console.log(i);
             if (currentReq.state === 'accept') {
                 return <Accept  req={currentReq} key={i} />;
             }
         })
+    }else{
+        return <NoData/>
+    }
 
     }
     RejectList() {
-        
+        let k = false;
         let filteredReq = this.state.reqS.filter(
             (currentReq) => {
                 console.log(currentReq);
@@ -279,12 +312,21 @@ export default class ViewRequest extends Component {
             }
         );
 
+        for(let i =0 ; i<filteredReq.length; i++){
+            if(filteredReq[i].state==='reject'){
+                k=true;
+            }
+        }
+        if(k === true){
         return filteredReq.map((currentReq, i) => {
             console.log(i);
             if (currentReq.state === 'reject') {
                 return <Reject  req={currentReq} key={i} />;
             }
         })
+    }else{
+        return <NoData/>
+    }
 
     }
 
@@ -302,12 +344,12 @@ export default class ViewRequest extends Component {
                     />
                         <Col md={12} xs="12" className="main-div">
                             <Tabs className="tab" defaultActiveKey="pending" id="uncontrolled-tab-example" style={{ marginTop: "40px" }}>
-                                <Tab eventKey="pending" title="Pending">
-                                     <div className="container-fluid">
+                                <Tab eventKey="pending" title="Pending Requests">
+                                     <div className="container-fluid" style={{ backgroundColor: "white"}}>
                                         <div className="row">
-                                            <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                            <div className="col-md-12" style={{ backgroundColor: "white", minHeight: "1000px" }}>
                                                 <div className="container">
-                                                    <div className="row" style={{ marginTop: "20px" }}>
+                                                    <div className="row" style={{ marginTop: "2px" }}>
                                                         <div className="card">
                                                             <div>
                                                                 <form>
@@ -339,12 +381,12 @@ export default class ViewRequest extends Component {
                                         </div>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="accept" title="Accepted">
-                                    <div className="container-fluid">
+                                <Tab eventKey="accept" title="Accepted Requests">
+                                    <div className="container-fluid" style={{ backgroundColor: "white"}}>
                                         <div className="row">
-                                                <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                                <div className="col-md-12" style={{ backgroundColor: "white", minHeight: "1000px" }}>
                                                     <div className="container">
-                                                        <div className="row" style={{ marginTop: "20px" }}>
+                                                        <div className="row" style={{ marginTop: "2px" }}>
                                                             <div className="card">
                                                                 <div>
                                                                     <form>
@@ -374,12 +416,12 @@ export default class ViewRequest extends Component {
                                         </div>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="reject" title="Rejected">
-                                    <div className="container-fluid">
+                                <Tab eventKey="reject" title="Rejected Requests">
+                                    <div className="container-fluid" style={{ backgroundColor: "white"}}>
                                         <div className="row">
-                                                <div className="col-md-12" style={{ backgroundColor: "#f8f9fd", minHeight: "1000px" }}>
+                                                <div className="col-md-12" style={{ backgroundColor: "white", minHeight: "1000px" }}>
                                                     <div className="container">
-                                                        <div className="row" style={{ marginTop: "20px" }}>
+                                                        <div className="row" style={{ marginTop: "2px" }}>
                                                             <div className="card">
                                                                 <div>
                                                                     <form>

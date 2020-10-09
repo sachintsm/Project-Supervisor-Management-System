@@ -21,7 +21,11 @@
      font-size: 1.3em;
      margin-bottom: 20px;
 }
-
+.viw-btn{
+     //-right: 1px;
+     margin-left:45%;
+     margin-bottom: 5px;
+}
 
 @media screen and (max-width: 500px) {
 .page_style{
@@ -45,6 +49,11 @@
      font-family: roboto, sans;
      font-size: 1em;
      margin-bottom: 15px;
+}
+.viw-btn{
+     //-right: 1px;
+     margin-left:55%;
+     margin-bottom: 5px;
 }
 
 
