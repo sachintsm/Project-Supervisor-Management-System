@@ -47,6 +47,20 @@ router.post('/add', async (req, res) => {
         })
 })
 
+//? get all the groups
+router.get('/get/', (req, res) => {
+    const projectId = req.params.projectId
+    CreateGroups
+        .find()
+        .exec()
+        .then(data => {
+            res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+        })
+        .catch(err => {
+            res.send({ state: false, msg: err.message })
+        })
+})
+
 //? get all the groups on spesific project
 router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
