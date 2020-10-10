@@ -100,7 +100,7 @@ router.post("/add", async (req, res) => {
 router.get("/submissionFile/:filename", function (req, res) {
      const filename = req.params.filename;
 
-     console.log("Ashan",filename)
+     //console.log("Ashan",filename)
      res.sendFile(
        path.join(__dirname, "../local_storage/project_submissions/" + filename)
      );
@@ -124,7 +124,7 @@ router.post('/get', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      const groupId = req.body.groupId
-     console.log("Ashan",req.body)
+    // console.log("Ashan",req.body)
      Submission
           .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()
