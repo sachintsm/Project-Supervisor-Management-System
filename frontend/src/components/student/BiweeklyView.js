@@ -50,7 +50,7 @@ export class BiweeklyView extends Component {
      getBiweekly() {
           axios.get(backendURI.url + '/Biweekly/getBiweeklyLink/' + this.state.projectId)
                .then((res => {
-                    console.log(res.data.data)
+                   // console.log(res.data.data)
                     this.setState({
                          biweeklyList: res.data.data
                     })
@@ -61,7 +61,7 @@ export class BiweeklyView extends Component {
      }
 
      render() {
-          console.log(this.state.biweeklyList)
+         // console.log(this.state.biweeklyList)
           return (
                <React.Fragment>
                     <Navbar panel={"student"} />

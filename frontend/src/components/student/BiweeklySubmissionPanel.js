@@ -27,7 +27,6 @@ class SubmitPanal extends Component {
 
      constructor(props) {
           super(props)
-
           this.state = {
                groupDetails: this.props.location.state.groupDetails,
                groupId: this.props.location.state.groupDetails._id,
@@ -44,39 +43,58 @@ class SubmitPanal extends Component {
                fileLimit: this.props.location.state.submissionDetails.setFileLimit,
                name: '',
                files: '',
-               status: false,
+               states: false,
                supervisors: [],
                open: false,
                biweeklyDetails: [],
+
+               
+             
+               
           }
+         //let length = this.state.biweeklyDetails.files.length-1
+
+          //console.log(this.state.length)
 
           this.onSubmit = this.onSubmit.bind(this)
+         
      }
 
      componentDidMount() {
 
-
           const dt = {
                projectId: this.state.projectId,
-               submissionId: this.state.submissionId
+               submissionId: this.state.submissionId,
+               groupId: this.state.groupId
           }
-
           axios.post(backendURI.url + '/biweeksubmissions/getBiweekly', dt)
-               .then(res => {
-                    console.log(res.data.data)
-                    this.setState({ biweeklyDetails: res.data.data })
+          .then((res => {
+
+               this.setState({
+                    biweeklyDetails : res.data.data
+
                })
+              // console.log(res.data.data)
+               if(res.data.data.length>0){
+                    this.setState({
+                         states : true
+                    })
+               }
 
-          //console.log("Ashan",this.state.biweeklyDetails)
-
-
+             })).catch(err => {
+                console.log(err)
+           })
      }
+
+
 
      handleClose() {
           this.setState({
                open: false
           });
      }
+
+
 
      async handleSave(files) {
           //Saving files to state for further use and closing Modal.
@@ -93,10 +111,11 @@ class SubmitPanal extends Component {
                //console.log("sachin");
                const formData = new FormData();
 
+
                formData.append("date", dateString)
                formData.append("time", timeString)
                formData.append("userId", userId)
-               formData.append("submissionId", this.state.submissionId)
+               formData.append("biweeklyId", this.state.biweeklyId)
                formData.append("projectId", this.state.projectId)
                formData.append("groupId", this.state.groupId)
                formData.append("submissionsFile", files[i])
@@ -104,12 +123,10 @@ class SubmitPanal extends Component {
                formData.append("groupname", this.state.groupName)
                formData.append("groupmember", this.state.groupMembers)
 
+
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {
-                         // console.log(res);
-                         this.setState({
-                              status: true,
-                         });
+                        console.log(res)
                     })
           }
      }
@@ -132,7 +149,6 @@ class SubmitPanal extends Component {
           const headers = {
                'auth-token': getFromStorage('auth-token').token,
           }
-
           const obj = {
                userId: userId,
                projectId: this.state.projectId,
@@ -140,8 +156,6 @@ class SubmitPanal extends Component {
                name: this.state.name,
                supervisors: this.state.groupDetails.supervisors,
           }
-
-
           axios.post(backendURI.url + '/submission/addSubmission', obj, { headers: headers })
                .then((res) => {
                     console.log(res.data.data)
@@ -150,30 +164,89 @@ class SubmitPanal extends Component {
                })
      }
 
+     status() {
+          if(this.state.states===true){
+               return(
+                    <p style={{color:"Green"}}>: Submited</p>
+               )
+          }else{
+               return(
+                    <p style={{color:"Red"}}>: No Attempt</p>
+               )
+          }
+
+     }
+
+
+     filsename(){
+       return(
+               <div >
+               {this.state.biweeklyDetails.map((type) => {
+
+                   return(
+                        <div key={type._id}>
+                        <p>: {type.originalFileName}</p>
+                        </div>
+                   )
+               })}
+               </div>
+               )
+     }
+
+
 
 
      render() {
-          if (this.status == false) {
-
                return (
                     <React.Fragment>
                          <Navbar panel={"student"} />
-
+                         <div></div>
                          <div className="sub_style">
                               <div className="container-fluid sub_background" style={{ backgroundColor: '#f5f5f5' }}>
                                    <div className="container">
-
                                         <p className="sub_tittle">Biweekly #{this.state.biweeklyNumber} Submission <small> ( DeadLine - {this.state.deadDate} : {this.state.deadTime} ) </small></p>
-
                                         <hr></hr>
-
                                         <p className="sub_status">Submission Status</p>
-
                                         <div className='card sub_crd'>
-                                             <p>Due Date    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;<small>{this.state.deadDate} : {this.state.deadTime}</small></p>
-                                             <p>Description &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : {this.state.biweeklyDiscription}</p>
-                                             <p>Status      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: </p>
-                                             <p>File Submission :</p>
+                                              
+                                        <Row>
+                                             <Col md="2">
+                                             <p>Due Date</p>
+                                             </Col>
+                                             <Col md="10">
+                                             <p> : {this.state.deadDate} : {this.state.deadTime}</p>
+                                             </Col>
+                                        </Row>
+
+                                        <Row>
+                                             <Col md="2">
+                                             <p>Description </p>
+                                             </Col>
+
+                                             <Col md="10">
+                                             <p> : {this.state.biweeklyDiscription}</p>
+                                             </Col>
+                                        </Row>
+
+                                        <Row>
+                                             <Col md="2">
+                                             <p>Status</p>
+                                             </Col>
+
+                                             <Col md="10">
+                                             <p>{this.status()}</p>
+                                             </Col>
+                                        </Row>
+
+                                        <Row>
+                                             <Col md="2">
+                                             <p>File Submission</p>
+                                             </Col>
+
+                                             <Col>
+                                             <p>{this.filsename()}</p>
+                                             </Col>
+                                        </Row>  
                                         </div>
                                    </div>
                               </div>
@@ -198,62 +271,11 @@ class SubmitPanal extends Component {
                                    </div>
                               </div>
                          </div>
-
                          <Footer />
                     </React.Fragment>
-               )
-
-          } else {
-               return (
-                    <React.Fragment>
-                         <Navbar panel={"student"} />
-                         {this.status == true}
-                         <div className="sub_style">
-                              <div className="container-fluid sub_background" style={{ backgroundColor: '#f5f5f5' }}>
-                                   <div className="container">
-
-                                        <p className="sub_tittle">Biweekly #{this.state.biweeklyNumber} Submission <small> ( DeadLine - {this.state.deadDate} : {this.state.deadTime} ) </small></p>
-
-                                        <hr></hr>
-
-                                        <p className="sub_status">Submission Status</p>
-
-                                        <div className='card sub_crd'>
-                                             <p>Due Date    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;<small>{this.state.deadDate} : {this.state.deadTime}</small></p>
-                                             <p>Description &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : {this.state.biweeklyDiscription}</p>
-                                             <p>Status      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Your Group All </p>
-                                             <p>File Submission :</p>
-                                        </div>
-                                   </div>
-                              </div>
-
-
-                              <div className="container-fluid sub_backgrounds" style={{ backgroundColor: '#f5f5f5' }}>
-                                   <div className="container">
-                                        <div>
-                                             <Button size='sm' className="sub_btn1" onClick={this.handleOpen.bind(this)}>Add Submission</Button>
-                                        </div>
-                                        <DropzoneDialog
-                                             open={this.state.open}
-                                             onSave={this.handleSave.bind(this)}
-                                             acceptedFiles={['image/jpeg', 'image/png', 'image/bmp', 'image/JPG', '.pdf', '.zip', '.rar', '.txt']}
-                                             showPreviews={true}
-                                             maxFileSize={this.state.fileSize}
-                                             onClose={this.handleClose.bind(this)}
-                                             filesLimit={this.state.fileLimit}
-                                             fullWidth={true}
-                                        />
-
-                                   </div>
-                              </div>
-                         </div>
-
-                         <Footer />
-                    </React.Fragment>
-
                )
           }
      }
-}
+
 
 export default SubmitPanal

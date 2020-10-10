@@ -31,6 +31,7 @@ class SubmitPanal extends Component {
           this.state = {
                groupDetails: this.props.location.state.groupDetails,
                groupNo:this.props.location.state.groupDetails.groupId,
+               groupId: this.props.location.state.groupDetails._id,
                groupName:this.props.location.state.groupDetails.groupName,
                groupMembers : this.props.location.state.groupDetails.groupMembers,
                projectId: this.props.location.state.projectId,
@@ -44,36 +45,39 @@ class SubmitPanal extends Component {
                name: '',
                files: '',
                open: false,
+               states:false,
+               submissionDetails:[],
           }
 
           this.onSubmit = this.onSubmit.bind(this)
-          // console.log(this.props)
-
-
-          console.log(this.state.groupDetails)
-          console.log(this.state.groupDetails.groupId)
+         
 
      }
 
      componentDidMount() {
 
-          // var date = new Date();
-          //const dateString = date.toLocaleDateString()
-          const dateString = dateFormat(now, "yyyy-mm-dd");
-          //const setDate =Math.ceil((dateString - this.state.deadDate)/(1000 * 60 * 60 * 24))
+          const dt = {
+               projectId: this.state.projectId,
+               submissionId: this.state.submissionId,
+               groupId: this.state.groupId
+          }
+          axios.post(backendURI.url + '/submission/get', dt)
+          .then((res => {
 
-          // let timeDiff = Math.abs(dateString - this.state.deadDate);
-          // let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          // console.log(this.state.deadDate)
-          // console.log(diffDays)
+               this.setState({
+                    submissionDetails : res.data.data
 
-          // const date1 = new Date('7/13/2010');
-          // const date2 = new Date('12/15/2015');
-          // const diffTime = Math.abs(date2 - date1);
-          // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          // console.log(diffTime + " milliseconds");
-          // console.log(diffDays + " days");
-         // console.log(this.props)
+               })
+              
+               if(res.data.data.length>0){
+                    this.setState({
+                         states : true
+                    })
+               }
+
+             })).catch(err => {
+                console.log(err)
+           })
      }
      handleClose() {
           this.setState({
@@ -91,12 +95,13 @@ class SubmitPanal extends Component {
 
           console.log(userId);
           for (let i = 0; i < files.length; i++) {
-               console.log("sachin");
+               
                const formData = new FormData();
 
                formData.append("userId", userId)
                formData.append("submissionId", this.state.submissionId)
                formData.append("projectId", this.state.projectId)
+               formData.append("groupId", this.state.groupId)
                formData.append("submissionFile", files[i])
                formData.append("groupno", this.state.groupNo)
                formData.append("groupname", this.state.groupName)
@@ -104,7 +109,7 @@ class SubmitPanal extends Component {
 
                await axios.post(backendURI.url + '/submission/add', formData)
                     .then(res => {
-                         console.log(res);
+                       
                     })
 
           }
@@ -138,11 +143,42 @@ class SubmitPanal extends Component {
 
           axios.post(backendURI.url + '/submission/addSubmission', obj, { headers: headers })
                .then((res) => {
-                    console.log(res.data.data)
+                   // console.log(res.data.data)
                }).catch((err) => {
                     console.log(err)
                })
      }
+
+     status() {
+          if(this.state.states===true){
+               return(
+                    <p style={{color:"Green"}}>: Submited</p>
+               )
+          }else{
+               return(
+                    <p style={{color:"Red"}}>: No Attempt</p>
+               )
+          }
+
+     }
+
+     
+     filsename(){
+          return(
+                  <div >
+                  {this.state.submissionDetails.map((type) => {
+   
+                      return(
+                           <div key={type._id}>
+                           <p>: {type.originalFileName}</p>
+                           </div>
+                      )
+                  })}
+                  </div>
+                  )
+        }
+
+
 
      render() {
           return (
@@ -160,9 +196,44 @@ class SubmitPanal extends Component {
                                    <p className="sub_status">Submission Status</p>
 
                                    <div className='card sub_crd'>
-                                        <p>Due Date    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;<small>{this.state.deadDate} : {this.state.deadTime}</small></p>
-                                        <p>Status      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  : {this.state.proposelDiscription}</p> 
-                                        <p>File Submission :</p> 
+                                   <Row>
+                                   <Col md="2">
+                                   <p>Due Date</p>
+                                   </Col>
+                                   <Col md="10">
+                                   <p> : {this.state.deadDate} : {this.state.deadTime}</p>
+                                   </Col>
+                              </Row>
+
+                              <Row>
+                                   <Col md="2">
+                                   <p>Description </p>
+                                   </Col>
+
+                                   <Col md="10">
+                                   <p> : {this.state.proposelDiscription}</p>
+                                   </Col>
+                              </Row>
+
+                              <Row>
+                                   <Col md="2">
+                                   <p>Status</p>
+                                   </Col>
+
+                                   <Col md="10">
+                                   <p>{this.status()}</p>
+                                   </Col>
+                              </Row>
+
+                              <Row>
+                                   <Col md="2">
+                                   <p>File Submission</p>
+                                   </Col>
+
+                                   <Col>
+                                   <p>{this.filsename()}</p>
+                                   </Col>
+                              </Row>  
                                    </div>
                               </div>
                          </div>
