@@ -88,7 +88,7 @@ class NoticeView extends Component {
   componentDidMount = async () => {
 
     this.userType = localStorage.getItem("user-level");
-    console.log(this.userType)
+    //console.log(this.userType)
     const userId = getFromStorage('auth-id').id;
 
     if (this.userType === 'coordinator' || this.userType === 'supervisor') {
@@ -209,7 +209,7 @@ class NoticeView extends Component {
 
                               <div className="card-body">
                               <h6 className="crd_notice_content">{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                                 </a>
                               </div>
@@ -249,7 +249,7 @@ class NoticeView extends Component {
 
                                 <div className="card-body">
                                   <h6 className="crd_notice_content">{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                                  <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>
@@ -303,7 +303,7 @@ class NoticeView extends Component {
 
                               <div className="card-body">
                                 <h6 className="crd_notice_content">{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                             </a>
                               </div>
@@ -340,7 +340,7 @@ class NoticeView extends Component {
 
                                 <div className="card-body">
                                   <h6 className="crd_notice_content">{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                                  <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>
@@ -392,7 +392,7 @@ class NoticeView extends Component {
 
                           <div className="card-body">
                             <h6 className="crd_notice_content">{types.notice}</h6>
-                            <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                            <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.filePath}>
                               Attachment
                                   </a>
                           </div>
@@ -440,7 +440,7 @@ class NoticeView extends Component {
 
                               <div className="card-body">
                                 <h6 className="crd_notice_content">{types.notice}</h6>
-                                <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.noticeAttachment}>
+                                <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.noticeAttachment}>
                                   Attachment
                             </a>
                               </div>
@@ -479,7 +479,7 @@ class NoticeView extends Component {
 
                                 <div className="card-body">
                                   <h6 className="crd_notice_content">{types.notice}</h6>
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                                  <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.filePath}>
                                     Attachment
                                   </a>
                                 </div>

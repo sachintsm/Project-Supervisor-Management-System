@@ -775,7 +775,7 @@ class Notice extends Component {
 
                                   <div className="card-body">
                                     <h6 className="crd_notice_content">{type.notice}</h6>
-                                    <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + type.filePath}>
+                                    <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + type.filePath}>
                                       Attachment
                                 </a>
                                   </div>
@@ -1025,7 +1025,7 @@ class Notice extends Component {
 
                                   <div className="card-body">
                                     <h6 className="crd_notice_content">{types.notice}</h6>
-                                    <a className="crd_atchmnt" href={"http://localhost:4000/notice/noticeAttachment/" + types.filePath}>
+                                    <a className="crd_atchmnt" href={backendURI.url+"/notice/noticeAttachment/" + types.filePath}>
                                       Attachment
                                 </a>
                                   </div>
