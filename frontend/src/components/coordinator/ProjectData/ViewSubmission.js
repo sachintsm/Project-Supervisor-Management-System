@@ -46,7 +46,7 @@ class ViewSubmission extends Component {
                     this.setState({ submissionDetails: res.data.data })
                })
 
-          console.log(this.state.submissionDetails)
+          //console.log(this.state.submissionDetails)
 
           await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
                .then(res => {
@@ -91,7 +91,7 @@ class ViewSubmission extends Component {
                                                             <td className="table-body">G{item.groupno}</td>
                                                             <td className="table-body">{item.groupname}</td>
                                                             <td className="table-body">{item.groupmember}</td>
-                                                            <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionFile/" + item.files[0]}>
+                                                            <td className="table-body"><a className="crd_atchmnt" href={backendURI.url+"/submission/submissionFile/" + item.files[0]}>
                                                                  File Attachment
                                                 </a></td>
 
