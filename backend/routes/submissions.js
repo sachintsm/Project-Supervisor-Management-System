@@ -52,8 +52,10 @@ router.post("/add", async (req, res) => {
                          userId: req.body.userId,
                          projectId: req.body.projectId,
                          submissionId: req.body.submissionId,
+                         groupId: req.body.groupId,
                          date_ob: req.body.date_ob,
                          files: filePath,
+                         originalFileName: req.file.originalname,
                          groupno: req.body.groupno,
                          groupname: req.body.groupname,
                          groupmember: req.body.groupmember,
@@ -118,6 +120,24 @@ router.post('/getSubmission', async (req, res) => {
                res.send({ state: false, msg: err.message })
           })
 })
+router.post('/get', async (req, res) => {
+     const projectId = req.body.projectId
+     const submissionId = req.body.submissionId
+     const groupId = req.body.groupId
+     console.log("Ashan",req.body)
+     Submission
+          .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
+          .exec()
+          .then(data => {
+               res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
+          })
+          .catch(err => {
+               res.send({ state: false, msg: err.message })
+          })
+})
+
+
+
 
 
 module.exports = router;

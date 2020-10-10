@@ -5,6 +5,8 @@ var SubmissionSchema = Schema({
      userId : {type:String},
      projectId : {type:String},
      submissionId : {type:String},
+     groupId: { type: String},
+     originalFileName: {type: String},
      files : [{type:String}],
      date : { type: String },
      groupno:{type:String},

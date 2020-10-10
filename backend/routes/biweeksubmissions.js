@@ -85,7 +85,7 @@ router.post("/add", async (req, res) => {
                          deadTime: biweekly.deadTime
                     })
 
-                    console.log(newSubmission)
+                   // console.log(newSubmission)
 
 
 
@@ -202,7 +202,7 @@ router.post('/getBiweekly', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      const groupId = req.body.groupId
-     console.log(req.body)
+     //console.log(req.body)
      BiweekSubmissions
           .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()
@@ -218,7 +218,7 @@ router.post('/getBiweekly', async (req, res) => {
 //Get submission attchment from database
 router.get("/getsubmission/:filename", function (req, res) {
      const filename = req.params.filename;
-     console.log(filename)
+     //console.log(filename)
      res.sendFile(
           path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
      );
