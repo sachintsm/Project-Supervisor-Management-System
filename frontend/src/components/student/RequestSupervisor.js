@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Table, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Row, Col } from "reactstrap";
+import { Col } from "reactstrap";
 import axios from 'axios';
 import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
@@ -13,7 +13,6 @@ import Snackpop from "../shared/Snackpop";
 import '../../css/students/ReqSupervisor.scss';
 
 const backendURI = require('../shared/BackendURI');
-
 
 function ProjectModal(props) {
     const { hide,re,...rest } = props

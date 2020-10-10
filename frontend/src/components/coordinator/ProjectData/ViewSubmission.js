@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap'
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
 import axios from 'axios';
-import { getFromStorage } from '../../../utils/Storage';
 import "../../../css/coordinator/SubmissionView.scss";
 
 
@@ -23,18 +22,14 @@ class ViewSubmission extends Component {
                submissionId: this.props.location.state.submissionData._id,
                projectName: "",
                groupData: [],
-              // length : this.props.location.state.submissionData.files.length-1
 
           }
 
-          //console.log("Ashan", this.props.location.state.submissionData.files);
      }
 
      componentDidMount = async () => {
 
           this.userType = localStorage.getItem("user-level");
-          //console.log(this.userType)
-          const userId = getFromStorage('auth-id').id;
 
           const dt = {
                projectId: this.state.projectId,
@@ -46,7 +41,6 @@ class ViewSubmission extends Component {
                     this.setState({ submissionDetails: res.data.data })
                })
 
-          console.log(this.state.submissionDetails)
 
           await axios.get(backendURI.url + '/projects/getProjectName/' + this.state.projectId)
                .then(res => {
@@ -61,9 +55,7 @@ class ViewSubmission extends Component {
                          groupData: res.data.data
                     })
                })
-          // console.log("AShan",this.state.groupData)
-
-          //console.log(this.state.submissionDetails);
+        
      }
 
      render() {

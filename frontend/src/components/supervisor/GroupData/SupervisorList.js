@@ -3,7 +3,6 @@ import axios from 'axios';
 import { getFromStorage } from "../../../utils/Storage";
 import { Row, Col } from "reactstrap";
 import '../../../css/coordinator/GroupData.scss';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../../shared/BackendURI');
@@ -32,7 +31,6 @@ class StudentList extends Component {
         this.setState({ snackbaropen: false });
     };
     componentDidMount = async () => {
-        console.log(this.props.obj);
         
         this.setState({
             supervisorList: []
@@ -46,7 +44,6 @@ class StudentList extends Component {
             if (res) {
                 
                 if (res.data.data !== undefined) {
-                    // console.log(res.data.data)
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
 
@@ -72,7 +69,6 @@ class StudentList extends Component {
                             _id: this.props.id,
                             index: id
                         }
-                        console.log(this.props.obj)
                         axios.post(backendURI.url + '/createGroups/removeSupervisorIndex', data)
                             .then(res => {
                                 if (res.data.state === false) {
@@ -88,7 +84,7 @@ class StudentList extends Component {
                                         snackbarmsg: res.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    // window.location.reload()
+                                    window.location.reload()
                                 }
                             })
 

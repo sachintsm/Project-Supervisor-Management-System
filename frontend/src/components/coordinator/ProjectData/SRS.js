@@ -9,10 +9,8 @@ import '../../../css/coordinator/proposel.scss';
 
 import {
   Button,
-  Container,
   Col,
   Row,
-  FormControl,
   FormGroup,
 } from "react-bootstrap";
 

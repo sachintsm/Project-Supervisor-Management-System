@@ -3,7 +3,6 @@ import axios from 'axios';
 import { getFromStorage } from "../../../utils/Storage";
 import { Row, Col } from "reactstrap";
 import '../../../css/coordinator/GroupData.scss';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
 
@@ -43,7 +42,6 @@ class StudentList extends Component {
         }
         await axios.get(backendURI.url + '/users/studentList/' + this.props.obj, { headers: headers })
             .then(res => {
-                // console.log(res)
                 if (res.data.data) {
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName

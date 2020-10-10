@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import axios from 'axios'
-import { verifyAuth } from "../../../utils/Authentication";
 import { getFromStorage } from "../../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -19,14 +18,11 @@ import '../../../css/coordinator/proposel.scss';
 
 import {
   Button,
-  Container,
   Col,
   Row,
   FormGroup,
-  FormControl,
-  Card
-
 } from "react-bootstrap";
+
 const backendURI = require("../../shared/BackendURI");
 
 class Submission extends Component {
@@ -44,11 +40,10 @@ class Submission extends Component {
     this.getProposel = this.getProposel.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
 
-    //console.log("Ashan",this.props.match.params.id);
 
     this.state = {
-      userTypes:'',
-      userId:'',
+      userTypes: '',
+      userId: '',
       componentType: 'add',
       tittle: "Create New Submision",
       projectId: this.props.match.params.id,
@@ -66,11 +61,11 @@ class Submission extends Component {
       proId: "",
 
 
-      proposelTittleError : '',
-      proposelDescriptionError:'',
-      deadDateError:'',
-      deadTimeError:'',
-      proposelAttachmentError:'',
+      proposelTittleError: '',
+      proposelDescriptionError: '',
+      deadDateError: '',
+      deadTimeError: '',
+      proposelAttachmentError: '',
 
 
 
@@ -136,11 +131,9 @@ class Submission extends Component {
   getProposel() {
     axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
       .then((res => {
-        // console.log("ssssssssssssss", res.data.data)
         this.setState({
           propselList: res.data.data
         })
-        //console.log("sss",this.state.propselList);
       })).catch(err => {
         console.log(err)
       })
@@ -186,150 +179,147 @@ class Submission extends Component {
   validate = () => {
     let isError = false;
     const errors = {
-      proposelTittleError : '',
-      proposelDescriptionError:'',
-      deadDateError:'',
-      deadTimeError:'',
-      proposelAttachmentError:'',
+      proposelTittleError: '',
+      proposelDescriptionError: '',
+      deadDateError: '',
+      deadTimeError: '',
+      proposelAttachmentError: '',
 
     }
-  
-      if (this.state.proposelTittle.length < 1) {
-        isError = true;
-        errors.proposelTittleError = 'Proposel Tittle required *'
-      }
-      if (this.state.proposelDiscription.length < 1) {
-        isError = true;
-        errors.proposelDescriptionError = 'Proposel Description required *'
-      }
-      if (this.state.deadDate.length < 1) {
-        isError = true;
-        errors.deadDateError = 'DeadLine Date required *'
-      }
-      if (this.state.deadTime.length < 1) {
-        isError = true;
-        errors.deadTimeError = 'DeadLine Time required *'
-      }
+
+    if (this.state.proposelTittle.length < 1) {
+      isError = true;
+      errors.proposelTittleError = 'Proposel Tittle required *'
+    }
+    if (this.state.proposelDiscription.length < 1) {
+      isError = true;
+      errors.proposelDescriptionError = 'Proposel Description required *'
+    }
+    if (this.state.deadDate.length < 1) {
+      isError = true;
+      errors.deadDateError = 'DeadLine Date required *'
+    }
+    if (this.state.deadTime.length < 1) {
+      isError = true;
+      errors.deadTimeError = 'DeadLine Time required *'
+    }
 
 
-      this.setState({
-        ...this.state,
-        ...errors
-      })
-      return isError;
+    this.setState({
+      ...this.state,
+      ...errors
+    })
+    return isError;
   }
 
   onSubmit(e) {
     e.preventDefault();
-      const err = this.validate();
-      if (!err) {
-        this.setState({
-          proposelTittleError : '',
-          proposelDescriptionError:'',
-          deadDateError:'',
-          deadTimeError:'',
-          proposelAttachmentError:'',
-        })
-      
-    confirmAlert({
-      title: 'Confirm to submit',
-      message: "Are you sure?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: async () => {
+    const err = this.validate();
+    if (!err) {
+      this.setState({
+        proposelTittleError: '',
+        proposelDescriptionError: '',
+        deadDateError: '',
+        deadTimeError: '',
+        proposelAttachmentError: '',
+      })
 
-            const headers = {
-              'auth-token': getFromStorage('auth-token').token,
-            }
+      confirmAlert({
+        title: 'Confirm to submit',
+        message: "Are you sure?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: async () => {
 
-            var date = new Date();
-            const dateString = date.toLocaleDateString()
-            const timeString = date.toLocaleTimeString()
+              const headers = {
+                'auth-token': getFromStorage('auth-token').token,
+              }
 
-            const userType = localStorage.getItem("user-level");
-            const userId = getFromStorage('auth-id').id;
+              var date = new Date();
+              const dateString = date.toLocaleDateString()
+              const timeString = date.toLocaleTimeString()
 
-            const formData = new FormData();
-            formData.append("userId", userId);
-            formData.append("userType", userType);
-            formData.append("date", dateString);
-            formData.append("time", timeString);
-            formData.append("projectId", this.state.projectId);
-            formData.append("proposelTittle", this.state.proposelTittle);
-            formData.append("proposelDiscription", this.state.proposelDiscription);
-            formData.append("deadDate", this.state.deadDate);
-            formData.append("deadTime", this.state.deadTime);
-            formData.append("proposelAttachment", this.state.proposelAttachment);
-            //formData.append("file", this.state.proposelAttachment);
-            formData.append("toLateSubmision", this.state.toLateSubmision);
-            formData.append("submssionFileSize", this.state.submssionFileSize);
-            formData.append("setFileLimit", this.state.setFileLimit);
+              const userType = localStorage.getItem("user-level");
+              const userId = getFromStorage('auth-id').id;
 
-            if (this.state.componentType === 'add') {
-              axios
-                .post(backendURI.url + "/proposel/addProposel", formData, { headers: headers })
-                .then((res) => {
-                  this.setState({
-                    succesAlert: true,
+              const formData = new FormData();
+              formData.append("userId", userId);
+              formData.append("userType", userType);
+              formData.append("date", dateString);
+              formData.append("time", timeString);
+              formData.append("projectId", this.state.projectId);
+              formData.append("proposelTittle", this.state.proposelTittle);
+              formData.append("proposelDiscription", this.state.proposelDiscription);
+              formData.append("deadDate", this.state.deadDate);
+              formData.append("deadTime", this.state.deadTime);
+              formData.append("proposelAttachment", this.state.proposelAttachment);
+              //formData.append("file", this.state.proposelAttachment);
+              formData.append("toLateSubmision", this.state.toLateSubmision);
+              formData.append("submssionFileSize", this.state.submssionFileSize);
+              formData.append("setFileLimit", this.state.setFileLimit);
+
+              if (this.state.componentType === 'add') {
+                axios
+                  .post(backendURI.url + "/proposel/addProposel", formData, { headers: headers })
+                  .then((res) => {
+                    this.setState({
+                      succesAlert: true,
+                    });
+                    //window.location.reload();
+                    this.getProposel();
+                  })
+                  .catch((error) => {
+                    this.setState({
+                      snackbaropen: true,
+                      snackbarmsg: error,
+                    });
+                    console.log(error);
                   });
-                  //window.location.reload();
-                  this.getProposel();
-                })
-                .catch((error) => {
-                  this.setState({
-                    snackbaropen: true,
-                    snackbarmsg: error,
-                  });
-                  console.log(error);
+
+                this.setState({
+                  proposelTittle: "",
+                  proposelDiscription: "",
+                  deadDate: "",
+                  deadTime: "",
+                  proposelAttachment: "",
+                  toLateSubmision: false,
+                  submssionFileSize: "",
+                  setFileLimit: ""
+
+
                 });
 
-              this.setState({
-                proposelTittle: "",
-                proposelDiscription: "",
-                deadDate: "",
-                deadTime: "",
-                proposelAttachment: "",
-                toLateSubmision: false,
-                submssionFileSize:"",
-                setFileLimit:""
+              } if (this.state.componentType === 'edit') {
 
+                axios.post(backendURI.url + "/proposel/updateProposel/" + this.state.proId, formData, { headers: headers })
+                  .then(res => {
 
-              });
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                window.location.reload(false);
 
-            } if (this.state.componentType === 'edit') {
-
-              axios.post(backendURI.url + "/proposel/updateProposel/" + this.state.proId, formData, { headers: headers })
-                .then(res => {
-
-                }).catch(err => {
-                  console.log(err)
+                this.setState({
+                  editAlert: true,
                 })
-              window.location.reload(false);
 
-              this.setState({
-                editAlert: true,
-              })
+              }
 
             }
+          },
+          {
+            label: "No",
+            onClick: () => { },
+          },
+        ],
+      });
 
-          }
-        },
-        {
-          label: "No",
-          onClick: () => { },
-        },
-      ],
-    });
-  
-  }
+    }
   }
 
 
   onEditHandler = (type) => {
-
-    console.log(type.file);
-
     this.setState({
       componentType: 'edit',
       tittle: 'Edit Submision',
@@ -365,17 +355,13 @@ class Submission extends Component {
       deadTime: "",
       proposelAttachment: "",
       toLateSubmision: false,
-      // selectedStaffList: []
     })
   }
 
-  // othersubmission(data) {
-  //   this.props.history.push('/coordinatorhome/projectdata/othersubmission/' + data._id);
-  //   }
+
   viewSubmission(data) {
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewsubmission/' + this.state.projectId, { submissionData: data });
-     // console.log("ashan")
     } catch (error) {
       console.log(error)
     }
@@ -446,7 +432,7 @@ class Submission extends Component {
                               <div >
                                 <p className="pcrd_discription">{type.proposelDiscription}</p>
                                 <p className="dead_date">Dead Line:{type.deadDate} : {type.deadTime}</p>
-                              
+
                               </div>
                               <Row>
 
@@ -490,8 +476,8 @@ class Submission extends Component {
                           <div className="form-group pro-form">
                             <label >Submission Tittle :</label>
                             <input type="text" className="form-control" id="exampleInputProposel" placeholder="Ex:- Project Proposal / Concept Paper / SRS"
-                            errortext={this.proposelTittleError}
-                            name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
+                              errortext={this.proposelTittleError}
+                              name="proposelTittle" value={this.state.proposelTittle} onChange={this.onChangeProposelTittle} />
                             <p className="reg-error">{this.state.proposelTittleError}</p>
                           </div>
 
@@ -499,7 +485,7 @@ class Submission extends Component {
                             <label >Submission Description :</label>
                             <textarea type="text" className="form-control" id="exampleInputProposel" placeholder="Discription"
                               name="proposelDescription" errortext={this.state.proposelDescriptionError} value={this.state.proposelDiscription} onChange={this.onChangeproposelDiscription} />
-                              <p className="reg-error">{this.state.proposelDescriptionError}</p>
+                            <p className="reg-error">{this.state.proposelDescriptionError}</p>
                           </div>
 
                           <Row >
@@ -507,8 +493,8 @@ class Submission extends Component {
                               <div className="form-group pro-form">
                                 <label >Dead Line Date :</label>
                                 <input type="date" data-format="mm/dd/YYYY" className="form-control" id="exampleInputDate" name="deadDate"
-                                  value={this.state.deadDate} onChange={this.onChangeDate} errortext={this.state.deadDateError}/>
-                                  <p className="reg-error">{this.state.deadDateError}</p>
+                                  value={this.state.deadDate} onChange={this.onChangeDate} errortext={this.state.deadDateError} />
+                                <p className="reg-error">{this.state.deadDateError}</p>
                               </div>
                             </Col>
 
@@ -517,7 +503,7 @@ class Submission extends Component {
                                 <label >Dead Line Time :</label>
                                 <input type="time" className="form-control" id="exampleInputTime" name="deadTime"
                                   value={this.state.deadTime} onChange={this.onChangeTime} errortext={this.state.deadTimeError} />
-                                  <p className="reg-error">{this.state.deadTimeError}</p>
+                                <p className="reg-error">{this.state.deadTimeError}</p>
                               </div>
                             </Col>
 

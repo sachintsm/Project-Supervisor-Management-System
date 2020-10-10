@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap'
 import Card from "@material-ui/core/Card";
 import '../../css/supervisor/SupervisorHome.scss'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import { Link } from 'react-router-dom';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import { withRouter } from "react-router-dom";
 
 class groupList extends Component {
@@ -15,7 +14,6 @@ class groupList extends Component {
 
         }
         this.openGroup = this.openGroup.bind(this)
-        console.log(this.state.groupData);
     }
 
     openGroup(id) {
@@ -29,7 +27,6 @@ class groupList extends Component {
                 if (item.progress >= 75) {
                     return (
                         <Col md={4} xs={12} sm={6} key={item._id}>
-                            {/* <Link to={`/supervisorhome/groupData/${item._id}`}> */}
                             <Card className='sh-proj-card' onClick={() =>this.openGroup(item._id)}  >
                                 <div className="container" >
                                     <Row className="shpc-topic-div">

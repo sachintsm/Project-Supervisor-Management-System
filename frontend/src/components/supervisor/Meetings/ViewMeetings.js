@@ -108,11 +108,7 @@ class ViewMeetings extends Component {
 
       this.props.history.push("/");
     }
-
-    const headers = {
-      "auth-token": getFromStorage("auth-token").token,
-    };
-
+    
     const userId = getFromStorage("auth-id").id;
 
     this.setState({

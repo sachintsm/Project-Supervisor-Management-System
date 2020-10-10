@@ -162,7 +162,6 @@ export default class registration extends Component {
                       })
                   })
                   .catch(err => {
-                    console.log(err)
                     this.setState({
                       snackbaropen: true,
                       snackbarmsg: err,
@@ -308,7 +307,6 @@ export default class registration extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log("sachin mthumala")
     const err = this.validate();  //?calling validation function
 
     if (!err) {
@@ -389,7 +387,6 @@ export default class registration extends Component {
                     snackbarmsg: error,
                     snackbarcolor: 'error',
                   })
-                  console.log('error', error)
                 });
             }
           },
@@ -411,7 +408,6 @@ export default class registration extends Component {
 
     //? loading csv file data into csvData array ...
     const handleForce = data => {
-      console.log(data);
       this.setState({
         csvData: data
       })

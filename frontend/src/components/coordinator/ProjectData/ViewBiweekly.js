@@ -3,7 +3,7 @@ import {getFromStorage} from "../../../utils/Storage";
 import axios from "axios";
 import Navbar from "../../shared/Navbar";
 import BiweekData from "./BiweekData";
-import { Container,Table } from 'react-bootstrap';
+import {Table } from 'react-bootstrap';
 import Footer from "../../shared/Footer";
 
 const backendURI = require('../../shared/BackendURI');
