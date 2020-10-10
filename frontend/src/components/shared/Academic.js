@@ -28,7 +28,6 @@ function CenteredModal(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h5></h5>
                 <form >
                     <Row>
                         <Col md={3} xs="12">
@@ -180,7 +179,7 @@ export default class Academic extends Component {
                         axios.post(backendURI.url + "/users/setLimit", obj)
                             .then(res => {
 
-                                if (res.data.state == true) {
+                                if (res.data.state === true) {
                                     this.setState({
                                         snackbaropen: true,
                                         snackbarmsg: res.data.msg,
@@ -235,6 +234,7 @@ export default class Academic extends Component {
                     dis={this.state.dis} stat={this.state.show} desHan={this.handleChange} update={this.changePro}
                     in={this.IncrementItem} de={this.DecreaseItem} descrip={this.state.descript} />;
             }
+            return null
         })
     }
     async componentDidMount() {
@@ -324,7 +324,6 @@ export default class Academic extends Component {
                             <div className="row" style={{ marginTop: "20px" }}>
                                 <div className="card">
                                     <div>
-                                        <h3 className="sp_head"></h3>
                                         <form>
                                             <div className="form-group" style={{ marginTop: "50px", marginLeft: "40px", marginRight: "40px" }} >
                                                 <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search  here" onChange={this.handleSearch} />

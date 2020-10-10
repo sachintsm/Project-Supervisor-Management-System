@@ -12,7 +12,7 @@ export default class footer extends Component {
               <div className="row">
               </div>
 
-              <img style={{ width: '17rem' }} src={require('../../assets/logo/Project Logo white.png')} />
+              <img style={{ width: '17rem' }} alt="" src={require('../../assets/logo/Project Logo white.png')} />
 
             </div>
 

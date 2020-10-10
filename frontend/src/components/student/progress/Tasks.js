@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Row, Col, Card, Spinner } from 'react-bootstrap';
-import {Input,Label, Button, Modal, ModalHeader, ModalBody, } from 'reactstrap';
+import { Input, Label, Button, Modal, ModalHeader, ModalBody, } from 'reactstrap';
 import "../../../css/students/progress/Tasks.scss"
 import Footer from "../../shared/Footer";
-import {IconContext} from "react-icons";
+import { IconContext } from "react-icons";
 import axios from 'axios'
-import {AiOutlineFileAdd} from "react-icons/ai";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import Slider from '@material-ui/core/Slider';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import Navbar from "../../shared/Navbar";
-import {getFromStorage} from "../../../utils/Storage";
+import { getFromStorage } from "../../../utils/Storage";
 import TaskCard from "./TaskCard";
 import { withRouter } from "react-router-dom";
 import TotalProgressCard from "./TotalProgressCard";
@@ -21,9 +21,9 @@ import { confirmAlert } from 'react-confirm-alert';
 
 const backendURI = require('../../shared/BackendURI');
 const muiTheme = createMuiTheme({
-    overrides:{
+    overrides: {
         MuiSlider: {
-            thumb:{
+            thumb: {
                 color: "#000",
             },
             track: {
@@ -39,16 +39,16 @@ const muiTheme = createMuiTheme({
     }
 });
 const marks = [
-    { value: 1, label: '1',  },
-    { value: 2, label: '2',  },
-    { value: 3, label: '3',  },
-    { value: 4, label: '4',  },
-    { value: 5, label: '5',  },
-    { value: 6, label: '6',  },
-    { value: 7, label: '7',  },
-    { value: 8, label: '8',  },
-    { value: 9, label: '9',  },
-    { value: 10, label: '10',  },
+    { value: 1, label: '1', },
+    { value: 2, label: '2', },
+    { value: 3, label: '3', },
+    { value: 4, label: '4', },
+    { value: 5, label: '5', },
+    { value: 6, label: '6', },
+    { value: 7, label: '7', },
+    { value: 8, label: '8', },
+    { value: 9, label: '9', },
+    { value: 10, label: '10', },
 ];
 
 const useStylesBootstrap = makeStyles((theme) => ({
@@ -95,7 +95,7 @@ class Tasks extends Component {
             'auth-token': getFromStorage('auth-token').token,
         }
         const groupId = this.state.groupDetails._id;
-        axios.get(backendURI.url+'/progress/gettasks/'+groupId,{headers:headers}).then(res=>{
+        axios.get(backendURI.url + '/progress/gettasks/' + groupId, { headers: headers }).then(res => {
             this.setState({
                 currentTasks: res.data,
                 loading: false
@@ -108,8 +108,7 @@ class Tasks extends Component {
             'auth-token': getFromStorage('auth-token').token,
         }
         const groupId = this.state.groupDetails._id;
-        console.log(groupId)
-        axios.get(backendURI.url+'/progress/getprojectprogressupdates/'+groupId,{headers:headers}).then(res=>{
+        axios.get(backendURI.url + '/progress/getprojectprogressupdates/' + groupId, { headers: headers }).then(res => {
             this.setState({
                 progressUpdates: res.data,
                 updateLoading: false
@@ -128,21 +127,21 @@ class Tasks extends Component {
             modal: !this.state.modal,
         });
     };
-    taskWeightHandler=(event,value) => {
+    taskWeightHandler = (event, value) => {
         this.setState({
             taskWeight: value
         })
     }
 
-    onChangeTitle = (e) =>{
+    onChangeTitle = (e) => {
         this.setState({
             taskTitle: e.target.value
         })
     }
 
-    onSubmit=(e)=>{
+    onSubmit = (e) => {
         e.preventDefault();
-        if(this.state.taskTitle){
+        if (this.state.taskTitle) {
 
 
             this.setState({ modal: false });
@@ -158,7 +157,7 @@ class Tasks extends Component {
                                 taskTitleError: false
                             })
 
-                            const object={
+                            const object = {
                                 taskTitle: this.state.taskTitle,
                                 taskWeight: this.state.taskWeight,
                                 groupId: this.state.groupDetails._id,
@@ -166,9 +165,9 @@ class Tasks extends Component {
                                 totalProgress: 0,
                             }
                             const headers = {
-                                'auth-token':getFromStorage('auth-token').token,
+                                'auth-token': getFromStorage('auth-token').token,
                             }
-                            axios.post(backendURI.url+'/progress/addtask',object,{headers:headers}).then(res=>{
+                            axios.post(backendURI.url + '/progress/addtask', object, { headers: headers }).then(res => {
 
                             })
 
@@ -185,7 +184,7 @@ class Tasks extends Component {
                 ]
             })
         }
-        else{
+        else {
             this.setState({
                 taskTitleError: true
             })
@@ -205,40 +204,40 @@ class Tasks extends Component {
                             {!this.state.groupDetails.groupName && <h2 className="project-task-title">Progress ( Group {this.state.groupDetails.groupId}  )</h2>}
 
                         </div>
-                        {this.state.currentTasks.length>0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails}/></Row>}
+                        {this.state.currentTasks.length > 0 && <Row><TotalProgressCard groupDetails={this.state.groupDetails} /></Row>}
 
-                        {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="sp   inner"/></div>}
+                        {this.state.loading && <div className="spinner-div"><Spinner animation="border" className="sp   inner" /></div>}
 
-                        {this.state.currentTasks.length==0 && !this.state.loading && <h6 className="no-task-text">* No Tasks to Show</h6>}
+                        {this.state.currentTasks.length === 0 && !this.state.loading && <h6 className="no-task-text">* No Tasks to Show</h6>}
                         <Row>
-                            {this.state.currentTasks.map(item=>{
-                                return(
+                            {this.state.currentTasks.map(item => {
+                                return (
                                     <Col className="task-card-col" key={item._id} lg={3} md={4} xs={12} sm={12}>
-                                        <TaskCard task={item} groupDetails={this.state.groupDetails} projectDetails={this.state.project}/>
+                                        <TaskCard task={item} groupDetails={this.state.groupDetails} projectDetails={this.state.project} />
                                     </Col>
                                 )
                             })}
-                            {!this.state.loading && this.state.project.projectState &&  this.state.userLevel==="student" &&
-                            <Col lg={3} md={3} xs={12} sm={12}>
+                            {!this.state.loading && this.state.project.projectState && this.state.userLevel === "student" &&
+                                <Col lg={3} md={3} xs={12} sm={12}>
 
-                                <BootstrapTooltip title="Add New Task"  placement="bottom">
-                                    <Card className="btn-card" onClick={()=>{this.openModal()}}>
-                                        <IconContext.Provider value={{ className: 'btn-icon', size:"2em"}}>
-                                            <div>
-                                                {/*<AiOutlineAppstoreAdd />*/}
-                                                <AiOutlineFileAdd />
+                                    <BootstrapTooltip title="Add New Task" placement="bottom">
+                                        <Card className="btn-card" onClick={() => { this.openModal() }}>
+                                            <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                                <div>
+                                                    {/*<AiOutlineAppstoreAdd />*/}
+                                                    <AiOutlineFileAdd />
 
-                                            </div>
-                                        </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
-                                </BootstrapTooltip>
-                            </Col>}
+                                                </div>
+                                            </IconContext.Provider><span className="btn-title">Add New Task</span></Card>
+                                    </BootstrapTooltip>
+                                </Col>}
                         </Row>
                     </div>
-                    {this.state.progressUpdates.length>0 && (
+                    {this.state.progressUpdates.length > 0 && (
                         <div className="progress-update-div">
                             <Card className="progress-update-card">
                                 <h3 className="title">Progress Update History</h3>
-                                {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates}/>}
+                                {!this.state.updateLoading && <ProgressUpdates taskTitleShow={true} usernameShow={true} progressUpdates={this.state.progressUpdates} />}
 
                             </Card>
                         </div>
@@ -256,13 +255,13 @@ class Tasks extends Component {
 
                                     <div className="form-group title-form-group">
                                         <Label for="avatar">Task Title</Label>
-                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} placeholder="Eg :- Login Page / User Registrations"/>
+                                        <Input type="text" className="form-control" name="task-title" onChange={this.onChangeTitle} placeholder="Eg :- Login Page / User Registrations" />
                                         {this.state.taskTitleError && !this.state.taskTitle ? <span className="title-error">Please Enter a Task Title</span> : <span>&nbsp;</span>}
                                     </div>
 
                                     <div className="form-group">
                                         <Label for="avatar">Task Weight ( 1-10 )
-                                            <BootstrapTooltip title="Define an approximate weight for the Task. Give higher weight for complex tasks and lower weight for simple tasks. Total Progress will be calculated according to the Task Weights"  placement="right">
+                                            <BootstrapTooltip title="Define an approximate weight for the Task. Give higher weight for complex tasks and lower weight for simple tasks. Total Progress will be calculated according to the Task Weights" placement="right">
                                                 <span className="question-span">&#9432;</span>
                                             </BootstrapTooltip>
                                         </Label>
@@ -270,7 +269,7 @@ class Tasks extends Component {
                                         <ThemeProvider theme={muiTheme}>
 
                                             <Slider defaultValue={1} onChange={this.taskWeightHandler} aria-labelledby="discrete-slider"
-                                                    valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks}/>
+                                                valueLabelDisplay="auto" step={1} min={1} max={10} marks={marks} />
                                         </ThemeProvider>
                                     </div>
                                     <div className="form-group">
@@ -282,7 +281,7 @@ class Tasks extends Component {
                     </ModalBody>
                 </Modal>
 
-                <Footer/>
+                <Footer />
             </React.Fragment>
         );
     }
