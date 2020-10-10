@@ -99,7 +99,7 @@ router.get("/proposelAttachment/:filename", function (req, res) {
 router.get('/getSubmisionLink/:_id', async (req, res) => {
 
   projectId = req.params._id
-  console.log(projectId)
+ //file console.log(projectId)
 
   proposel.find({ projectId: projectId })
     .sort({ date: -1 } && { time: -1 })
@@ -149,7 +149,7 @@ router.delete("/proposelAttachment/:filename", function (req, res) {
 
 router.post('/updateProposel/:_id', (req, res) => {  // update methord 
   const proId = req.params._id;
-  console.log(proId)
+  //console.log(proId)
   try {
     //const proId = req.params._id;
 
@@ -191,7 +191,7 @@ router.post('/updateProposel/:_id', (req, res) => {  // update methord
       )
         .exec()
         .then(data => {
-          console.log('Proposel update successe.')
+          //console.log('Proposel update successe.')
           res.json({ state: true, msg: 'Proposel update success..' });
         })
         .catch(error => {

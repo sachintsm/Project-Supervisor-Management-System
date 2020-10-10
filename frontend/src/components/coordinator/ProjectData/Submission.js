@@ -642,7 +642,7 @@ class Submission extends Component {
                                 </div>
 
                                 <div className="fille_attach">
-                                  <a className="crd_atchmnt" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
+                                  <a className="crd_atchmnt" href={backendURI.url+"/proposel/proposelAttachment/" + type.filePath}>
                                     Attachment
               </a>
                                 </div>

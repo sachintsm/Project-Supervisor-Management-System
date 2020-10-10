@@ -80,10 +80,10 @@ class ViewSubmission extends Component {
                                              {this.state.submissionDetails.map((item) => {
                                                   return (
                                                        <tr className="as-table-row" key={item._id}>
-                                                            <td className="table-body">{item.groupno}</td>
+                                                            <td className="table-body">G{item.groupno}</td>
                                                             <td className="table-body">{item.groupname}</td>
                                                             <td className="table-body">{item.groupmember}</td>
-                                                            <td className="table-body"><a className="crd_atchmnt" href={"http://localhost:4000/submission/submissionFile/" + item.files[0]}>
+                                                            <td className="table-body"><a className="crd_atchmnt" href={backendURI.url+"/submission/submissionFile/" + item.files[0]}>
                                                                  File Attachment
                                                 </a></td>
 

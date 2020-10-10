@@ -75,7 +75,7 @@ export class SubmisionView extends Component {
                                                                       <div >
 
                                                                            <span><AttachmentIcon /></span>
-                                                                           <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
+                                                                           <a className="sub-link" href={backendURI.url+"/proposel/proposelAttachment/" + type.filePath}>
                                                                                 {type.proposelTittle} Template
                                                                            </a>
                                                                       </div>
