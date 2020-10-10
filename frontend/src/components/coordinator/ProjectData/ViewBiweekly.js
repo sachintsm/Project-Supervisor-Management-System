@@ -28,7 +28,6 @@ export class ViewBiweekly extends Component {
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
         }
-        const userId = getFromStorage("auth-id").id
 
         axios.get(backendURI.url+"/biweeksubmissions/getbiweeklinksubmissions/"+this.state.biweeklyData._id, {headers: headers}).then(res=>{
             this.setState({

@@ -215,16 +215,16 @@ export default class navbar extends Component {
             <MDBNavbarBrand>
 
               {this.state.userLevel === "admin" &&
-                <Nav.Link className="navlink-icon" href='/adminhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/adminhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "student" &&
-                <Nav.Link className="navlink-icon" href='/studenthome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/studenthome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "supervisor" &&
-                <Nav.Link className="navlink-icon" href='/supervisorhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/supervisorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "coordinator" &&
-                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={this.toggleCollapse} />

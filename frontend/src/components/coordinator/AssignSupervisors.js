@@ -140,7 +140,6 @@ class AssignSupervisors extends Component {
             return null;
         })
 
-        console.log(selectedStaff)
 
 
         if (this.state.projectId === '') {
@@ -351,7 +350,7 @@ class AssignSupervisors extends Component {
     }
     //? open the gropuData window
     groupDataHandler(data) {
-        if (this.state.mouseState == false) {
+        if (this.state.mouseState === false) {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }

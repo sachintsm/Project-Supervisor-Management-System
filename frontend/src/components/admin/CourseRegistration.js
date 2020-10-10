@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap'
 import Navbar from '../shared/Navbar'
 import Snackpop from "../shared/Snackpop"
 import Footer from "../shared/Footer"
@@ -76,14 +75,12 @@ class CourseRegistration extends Component {
                     {
                         label: 'Yes',
                         onClick: () => {
-                            console.log(this.state.courseCode);
                             const headers = {
                                 'auth-token': getFromStorage('auth-token').token,
                             }
 
                             axios.post(backendURI.url + '/courseTypes/add', data, { headers: headers })
                                 .then(res => {
-                                    console.log(res);
 
                                     if (res.data.state === true) {
                                         this.setState({
@@ -153,7 +150,6 @@ class CourseRegistration extends Component {
 
                         await axios.delete(backendURI.url + '/courseTypes/' + id, { headers: headers })
                             .then(res => {
-                                console.log(res);
 
                                 if (res.data.state === true) {
                                     this.setState({

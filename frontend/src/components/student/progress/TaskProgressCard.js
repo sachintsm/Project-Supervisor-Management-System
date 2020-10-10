@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import axios from 'axios'
-import {getFromStorage} from "../../../utils/Storage";
-import { Row, Col, Card, Container, ProgressBar  } from 'react-bootstrap';
+import { Row, Col, Card, Container  } from 'react-bootstrap';
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
-import Slider from "@material-ui/core/Slider";
 import "../../../css/students/progress/TotalProgressCard.scss"
 import IndividualTotalProgress from "./IndividualTotalProgress";
-const backendURI = require('../../shared/BackendURI');
 
 class TaskProgressCard extends Component {
     constructor(props) {

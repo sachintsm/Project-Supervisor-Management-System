@@ -1,32 +1,15 @@
 import React, { Component } from 'react'
-// import Card from "@material-ui/core/Card";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import CardContent from "@material-ui/core/CardContent";
-// import Typography from "@material-ui/core/Typography";
-// import Snackbar from "@material-ui/core/Snackbar";
 import { getFromStorage } from '../../utils/Storage';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "../../css/shared/Notice.css";
-
-
-
 import axios from "axios";
-
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import UserNameList from '../shared/UserNameList'
-
-
 import {
-  Button,
-  Container,
-  Col,
   Row,
-  FormControl,
-  FormGroup,
 } from "react-bootstrap";
-import { red } from '@material-ui/core/colors';
 
 const backendURI = require("./BackendURI");
 
@@ -88,7 +71,6 @@ class NoticeView extends Component {
   componentDidMount = async () => {
 
     this.userType = localStorage.getItem("user-level");
-    //console.log(this.userType)
     const userId = getFromStorage('auth-id').id;
 
     if (this.userType === 'coordinator' || this.userType === 'supervisor') {
@@ -122,7 +104,6 @@ class NoticeView extends Component {
             this.setState({
               noticeListBlock: [...this.state.noticeListBlock, block]
             })
-            // console.log("aaa",this.state.noticeListBlock)
           })
 
       }
@@ -157,7 +138,6 @@ class NoticeView extends Component {
             this.setState({
               studentNoticeListBlock: [...this.state.studentNoticeListBlock, block]
             })
-            //console.log("sss",this.state.studentNoticeListBlock)
           })
 
       }
@@ -166,7 +146,6 @@ class NoticeView extends Component {
 
     await axios.get(backendURI.url + '/notice/getAdminNotice')
       .then(res => {
-        //console.log(res.data)
         this.setState({
           allNoticeList: res.data
         })
@@ -257,6 +236,7 @@ class NoticeView extends Component {
                           
                           );
                         }
+                        return null;
                       })}
                     </div>
                   )}
@@ -348,6 +328,7 @@ class NoticeView extends Component {
                             
                           );
                         }
+                        return null
                       })}
                     </div>
 
@@ -487,6 +468,7 @@ class NoticeView extends Component {
                           
                           );
                         }
+                        return null
                       })}
                     </div>
 

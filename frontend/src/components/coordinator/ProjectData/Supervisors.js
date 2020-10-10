@@ -190,7 +190,7 @@ class Supervisors extends Component {
         if (this.state.supervisorIdList.length === 0) {
             noProject = <p className="no-projects">No active supervisors...</p>
         }
-        const { dataDiv, spinnerDiv , mouseState} = this.state;
+        const { dataDiv, spinnerDiv } = this.state;
         return (
             <React.Fragment>
                 <Snackpop

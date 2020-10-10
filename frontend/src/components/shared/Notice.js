@@ -19,11 +19,6 @@ import {
   Row,
   FormControl,
   FormGroup,
-  Dropdown,
-  DropdownButton,
-  ButtonGroup,
-
-
 } from "react-bootstrap";
 
 const backendURI = require("./BackendURI");
@@ -107,7 +102,6 @@ class Notice extends Component {
 
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
-    //console.log(this.userTypes)
 
 
 
@@ -115,7 +109,6 @@ class Notice extends Component {
 
   getNoticeListCordinator = async () => {
     this.userType = localStorage.getItem("user-level");
-   //console.log(this.userType)
 
     const userId = getFromStorage('auth-id').id;
 
@@ -146,7 +139,6 @@ class Notice extends Component {
           this.setState({
             noticeListBlock: [...this.state.noticeListBlock, block]
           })
-          //console.log(this.state.noticeListBlock)
         })
 
     }
@@ -180,7 +172,6 @@ class Notice extends Component {
     //? load all the active project names from
     axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
       .then((res => {
-       // console.log("project List", res.data.data)
         this.setState({
           activeProjects: res.data.data
 
@@ -290,7 +281,6 @@ class Notice extends Component {
   // when press add notice button call this function then save data in database
   onSubmit(e) {
     e.preventDefault();
-   // console.log(this.userTypes)
 
     if (this.userTypes === "coordinator") {
       const err = this.validate();
@@ -327,8 +317,6 @@ class Notice extends Component {
 
                 const userId = getFromStorage('auth-id').id;
 
-                console.log(userType)
-                console.log(userId)
 
                 const formData = new FormData();
 
@@ -356,14 +344,12 @@ class Notice extends Component {
                     this.getNoticeList();
                     this.getProjectDetails();
 
-                    // console.log(res.data);
                   })
                   .catch((error) => {
                     this.setState({
                       snackbaropen: true,
                       snackbarmsg: error,
                     });
-                    console.log(error);
                   });
 
 
@@ -412,11 +398,8 @@ class Notice extends Component {
                 const dateString = date.toLocaleDateString()
                 const timeString = date.toLocaleTimeString()
             
-
                 const userType = localStorage.getItem("user-level");
                 const userId = getFromStorage('auth-id').id;
-
-               // console.log(userType)
 
                 const formData = new FormData();
 
@@ -443,7 +426,6 @@ class Notice extends Component {
                     this.getNoticeList();
                     this.getProjectDetails();
 
-                    // console.log(res.data);
                   })
                   .catch((error) => {
                     this.setState({
@@ -481,7 +463,6 @@ class Notice extends Component {
 
   onDeleteHandler = (id, filePath) => {
 
-    // console.log(filePath);
     confirmAlert({
       title: "Delete Notice",
       message: "Are you sure?",

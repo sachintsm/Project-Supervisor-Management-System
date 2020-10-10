@@ -31,7 +31,9 @@ export default class navbarGuest extends Component {
         <div className="navbar-css">
           <MDBNavbar color='special-color-dark' dark expand='md' className='navbar'   >
             <MDBNavbarBrand>
-              <Nav.Link className="navlink-icon" href='#'><img href='#' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+              <Nav.Link className="navlink-icon" href=''>
+                <img href='#' style={{ width: '12rem' }} alt="" src={require('../../assets/logo/Project Logo white.png')} />
+              </Nav.Link>
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={this.toggleCollapse} />
             <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
