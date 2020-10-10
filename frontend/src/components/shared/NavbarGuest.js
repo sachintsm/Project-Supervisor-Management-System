@@ -8,20 +8,8 @@ import {
 
 } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Nav , Badge} from 'react-bootstrap';
-import {makeStyles} from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
+import { Nav } from 'react-bootstrap';
 
-const useStylesBootstrap1 = makeStyles((theme) => ({
-  arrow: {
-    color: "#263238",
-  },
-  tooltip: {
-    backgroundColor: "#263238",
-    fontSize: "14px",
-    color: '#CCC'
-  },
-}));
 
 export default class navbarGuest extends Component {
   constructor(props) {

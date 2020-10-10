@@ -52,7 +52,6 @@ class AssignSupervisors extends Component {
             checkboxes: []
 
         };
-        // this.setSelected = this.setSelected.bind(this);
         this.addSupervisors = this.addSupervisors.bind(this)
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.searchGroups = this.searchGroups.bind(this);
@@ -62,11 +61,7 @@ class AssignSupervisors extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    // setSelected(obj) {
-    //     this.setState({
-    //         selectedStaffList: obj,
-    //     });
-    // }
+ 
     async componentDidMount() {
         const authState = await verifyAuth();
 
@@ -99,7 +94,6 @@ class AssignSupervisors extends Component {
                 }
             })
             .then((a) => {
-                console.log(this.state.staffList);
                 this.state.staffList.map((user) => {
                     const option = {
                         label: user.firstName + ' ' + user.lastName,
@@ -122,6 +116,7 @@ class AssignSupervisors extends Component {
             })
             .catch((err) => {
                 console.log(err);
+                return null;
             });
     }
 
@@ -142,6 +137,7 @@ class AssignSupervisors extends Component {
             if (item.added) {
                 selectedStaff.push(item)
             }
+            return null;
         })
 
         console.log(selectedStaff)

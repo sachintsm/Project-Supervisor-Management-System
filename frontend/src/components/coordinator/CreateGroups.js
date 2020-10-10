@@ -33,12 +33,10 @@ export default class CreateGroups extends Component {
 
             csvData: [],
 
-            // groupId: '',
             projectId: '',
             grpMembers: [],
 
             selectProjectError: '',
-            // groupIdError: '',
         };
     }
 
@@ -66,11 +64,6 @@ export default class CreateGroups extends Component {
                 })
             }))
     }
-    // onChangeGroupId = (e) => {
-    //     this.setState({
-    //         groupId: e.target.value
-    //     })
-    // }
 
     //? Bulk user registration function reading csv file
     fileUpload = (e) => {
@@ -108,12 +101,10 @@ export default class CreateGroups extends Component {
                                 this.state.grpMembers = []
                                 while (this.state.csvData[i][j] != null) {
                                     this.state.grpMembers.push(this.state.csvData[i][j])
-                                    console.log(this.state.csvData[i][j]);
                                     j++;    
                                 }
                                 var data = {
                                     projectId: this.state.projectId,
-                                    // groupId: this.state.csvData[i][0],
                                     groupMembers: this.state.grpMembers
                                 }
 
@@ -170,7 +161,6 @@ export default class CreateGroups extends Component {
     //? select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
-        console.log(val)
         this.setState({
             projectId: val
         })
@@ -201,7 +191,6 @@ export default class CreateGroups extends Component {
     onSubmit(e) {
         e.preventDefault();
         const err = this.validate();  //?calling validation function
-        console.log(this.state.grpMembers, "$$$$")
 
         if (!err) {
             this.setState({
@@ -238,7 +227,6 @@ export default class CreateGroups extends Component {
                             fetch(backendURI.url + "/createGroups/add", requestOptions)
                                 .then(response => response.json())
                                 .then(json => {
-                                    console.log(json.state)
                                     if (json.state === true) {
                                         this.setState({
                                             snackbaropen: true,
@@ -288,7 +276,7 @@ export default class CreateGroups extends Component {
     }
     handleDelete = (index) => {
         this.state.grpMembers.splice(index, 1);
-        console.log(this.state.grpMembers, "$$$$");
+        // console.log(this.state.grpMembers, "$$$$");
         this.setState({ grpMembers: this.state.grpMembers })
     }
 
@@ -297,7 +285,6 @@ export default class CreateGroups extends Component {
     render() {
         //? loading csv file data into csvData array ...
         const handleForce = data => {
-            console.log(data);
             this.setState({
                 csvData: data
             })

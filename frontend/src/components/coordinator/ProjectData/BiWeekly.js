@@ -11,7 +11,6 @@ import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
 
 import axios from 'axios'
-import { verifyAuth } from "../../../utils/Authentication";
 import { getFromStorage } from "../../../utils/Storage";
 import { confirmAlert } from "react-confirm-alert";
 
@@ -19,10 +18,8 @@ import '../../../css/coordinator/Biweekly.scss';
 
 import {
   Button,
-  Container,
   Col,
   Row,
-  FormControl,
   FormGroup,
 } from "react-bootstrap";
 
@@ -39,9 +36,7 @@ export default class BiWeekly extends Component {
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
-    //this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.getBiweekly = this.getBiweekly.bind(this);
-    //this.onDeleteHandler = this.onDeleteHandler.bind(this);
 
     this.state = {
 
@@ -124,11 +119,9 @@ export default class BiWeekly extends Component {
   getBiweekly() {
     axios.get(backendURI.url + '/biweekly/getBiweeklyLink/' + this.state.projectId)
       .then((res => {
-        // console.log("ssssssssssssss", res.data.data)
         this.setState({
           biweeklylList: res.data.data
         })
-        //console.log("sss",this.state.propselList);
       })).catch(err => {
         console.log(err)
       })
@@ -279,8 +272,6 @@ export default class BiWeekly extends Component {
   
   onEditHandler = (type) => {
 
-    console.log(type.file);
-
     this.setState({
       componentType: 'edit',
       tittle: 'Edit Biweekly Report',
@@ -360,7 +351,6 @@ export default class BiWeekly extends Component {
   }
 
   viewBiweekly(data) {
-    console.log(data)
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewbiweekly/' + this.state.projectId, { biweeklyData: data });
     } catch (error) {

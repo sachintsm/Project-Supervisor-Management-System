@@ -24,8 +24,6 @@ export default class Profilepic extends Component {
         else {
             axios.get(backendURI.url + '/users/get/' + userData.id)
                 .then(response => {
-                    console.log(response);
-                    console.log(response.data.data[0].imageName);
                     this.setState({
                         mulImage: response.data.data[0].imageName,
                         username: response.data.data[0].firstName
@@ -81,7 +79,6 @@ export default class Profilepic extends Component {
                             const userData = getFromStorage('auth-id')
                             let formData = new FormData();
                             formData.append('profileImage', this.state.form.file);
-                            console.log(formData);
                             axios.post(backendURI.url + '/users/uploadmulter/' + userData.id, formData)
                                 .then((response) => {
                                     this.setState({
@@ -90,7 +87,6 @@ export default class Profilepic extends Component {
                                         snackbarcolor: 'success',
                                     })
                                     window.location.reload(false);
-                                    console.log(response);
                                 }).catch((error) => {
                                     this.setState({
                                         snackbaropen: true,
@@ -114,7 +110,6 @@ export default class Profilepic extends Component {
         }
     }
     onChangeP(e) {
-        console.log(e.target.files[0].name);
         this.setState({
             multerImage: e.target.files[0].name
         });

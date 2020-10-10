@@ -58,13 +58,11 @@ class GroupData extends Component {
         this.setState({ snackbaropen: false });
     };
     setSelected(obj) {
-        console.log(obj)
         this.setState({
             selectedStaffList: obj,
         });
     }
     componentDidMount = async () => {
-        console.log(this.props);
         const authState = await verifyAuth();
         this.setState({
             authState: authState,
@@ -84,7 +82,6 @@ class GroupData extends Component {
                     loading: true
                 })
             })
-            console.log(this.props.location.state.projectId);
         await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.location.state.projectId, { headers: headers })
             .then(res => {
                 this.setState({

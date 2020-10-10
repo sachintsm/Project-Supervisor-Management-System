@@ -68,7 +68,6 @@ class CoordinatorHome extends Component {
       for (let i = 0; i < this.state.activeProject.length; i++) {
         await axios.get(backendURI.url + '/createGroups/groupCount/' + this.state.activeProject[i]._id)
           .then(res => {
-            // console.log(res);
             //! get date from mongo object id
             let timestamp = this.state.activeProject[i]._id.toString().substring(0, 8)
             let date = new Date(parseInt(timestamp, 16) * 1000)
@@ -99,7 +98,6 @@ class CoordinatorHome extends Component {
       for (let i = 0; i < this.state.endProject.length; i++) {
         await axios.get(backendURI.url + '/createGroups/groupCount/' + this.state.endProject[i]._id)
           .then(res => {
-            // console.log(res);
 
             //! get date from mongo object id
             let timestamp = this.state.endProject[i]._id.toString().substring(0, 8)
@@ -144,7 +142,6 @@ class CoordinatorHome extends Component {
           })
             .then(res => res.json())
             .then(json => {
-              console.log(json);
 
               if (json.state === true) {
                 this.setState({

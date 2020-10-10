@@ -13,10 +13,8 @@ import SupervisorList from './SupervisorList';
 import ProjectTotalProgress from '../../coordinator/GroupData/ProjectTotalProgress';
 import { TiGroup } from 'react-icons/ti';
 import { FaChartLine } from 'react-icons/fa';
-import { FiUploadCloud } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import {BsFileEarmarkText} from "react-icons/bs";
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -58,19 +56,12 @@ class GroupData extends Component {
         this.setState({ snackbaropen: false });
     };
     setSelected(obj) {
-        console.log(obj)
         this.setState({
             selectedStaffList: obj,
         });
     }
     componentDidMount = async () => {
         const authState = await verifyAuth();
-
-
-        // this.setState({
-        //     projectId : this.props.location.projectId
-        // })
-        // console.log(this.props.location.state.projectId)
 
         this.setState({
             authState: authState,
@@ -83,7 +74,6 @@ class GroupData extends Component {
         }
         await axios.get(backendURI.url + '/createGroups/getGroupData/' + this.props.match.params.id, { headers: headers })
             .then(res => {
-                // console.log(res)
                 this.setState({
                     groupData: res.data.data,
                     groupMembers: res.data.data.groupMembers,
@@ -210,7 +200,6 @@ class GroupData extends Component {
 
     async onSubmitAddSupervisor(e) {
         e.preventDefault();
-        // const err = this.validate();  //?calling validation function
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,

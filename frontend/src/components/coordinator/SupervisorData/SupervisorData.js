@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import '../../../css/coordinator/SupervisorData.scss'
 import axios from 'axios';
-import { getFromStorage } from '../../../utils/Storage';
 import Footer from '../../shared/Footer'
 import Snackpop from "../../shared/Snackpop";
 import { verifyAuth } from "../../../utils/Authentication";
@@ -53,10 +52,7 @@ class SupervisorData extends Component {
         if (!authState) {  //!check user is logged in or not if not re-directed to the login form
             this.props.history.push("/");
         }
-        console.log(this.props.location.state.projectId)
-        const headers = {
-            'auth-token': getFromStorage('auth-token').token,
-        }
+
         await axios.get(backendURI.url + '/users/getUserName/' + this.props.match.params.id)
             .then(res => {
                 var superName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
@@ -72,8 +68,6 @@ class SupervisorData extends Component {
         //? load all the active project names from
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
-                // console.log(res.data.data);
-
                 this.setState({
 
                     activeProjects: res.data.data,
@@ -118,7 +112,7 @@ class SupervisorData extends Component {
             })
     }
     onClickGroup(data) {
-        this.props.history.push('/coordinatorhome/groupData/' + data, {  projectId: this.props.location.state.projectId });
+        this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.props.location.state.projectId });
     }
 
     render() {

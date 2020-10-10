@@ -14,8 +14,6 @@ import Academic from './Academic';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from './Snackpop';
 
-
-
 const backendURI = require("./BackendURI");
 
 export default class Profile extends Component {
@@ -32,16 +30,10 @@ export default class Profile extends Component {
         else {
             axios.get(backendURI.url + '/users/get/' + userData.id)
                 .then(response => {
-                    console.log(response);
-                    console.log(response.data);
-                    console.log(response.data.data[0].email);
-                    console.log(response.data.data[0].isStudent);
-
-
+            
                     var dateString = response.data.data[0].birthday;
                     dateString = new Date(dateString).toUTCString();
                     dateString = dateString.split(' ').slice(0, 4).join(' ');
-                    console.log(dateString);
 
                     this.setState({
                         users: response.data.data,
@@ -166,7 +158,6 @@ export default class Profile extends Component {
     onSubmit(e) {
         e.preventDefault();
         const userData = getFromStorage('auth-id');
-        console.log(userData.id);
         const isValid = this.validate();
         if (isValid) {
             confirmAlert({
@@ -180,13 +171,11 @@ export default class Profile extends Component {
                                 email: this.state.email,
                                 mobile: this.state.mobile
                             };
-                            console.log(obj);
                             this.setState({
                                 emailError: '',
                                 mobileError: ''
                             });
                             axios.post(backendURI.url + '/users/update/' + userData.id, obj).then(res => {
-                                console.log(res.data);
                                 if (res.data.state === true) {
                                     this.setState({
                                         snackbaropen: true,
