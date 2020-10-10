@@ -416,7 +416,7 @@ class Notice extends Component {
                 const userType = localStorage.getItem("user-level");
                 const userId = getFromStorage('auth-id').id;
 
-                console.log(userType)
+               // console.log(userType)
 
                 const formData = new FormData();
 
