@@ -9,6 +9,7 @@ import "../../../css/supervisor/GivePresentationFeedback.scss"
 import {getFromStorage} from "../../../utils/Storage";
 import Snackpop from "../../shared/Snackpop";
 import { confirmAlert } from 'react-confirm-alert';
+import ViewPresentationFeedback from "./ViewPresentationFeedback";
 
 class GivePresentationFeedback extends Component {
 
@@ -33,7 +34,11 @@ class GivePresentationFeedback extends Component {
     }
 
     getProjects = async () => {
-        await axios.get(BackendURI.url+"/projects/").then(res=> {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+
+        await axios.get(BackendURI.url+"/projects/",{ headers: headers }).then(res=> {
             this.setState({
                 projects: res.data,
                 loading1: false
@@ -80,6 +85,8 @@ class GivePresentationFeedback extends Component {
                             axios.post(BackendURI.url+"/presentationfeedback/add",data,{headers: headers}).then(res=> {
                                 this.setState({
                                     successAlert: true
+                                },()=> {
+                                    window.location.reload(false);
                                 })
 
                             })
@@ -180,23 +187,23 @@ class GivePresentationFeedback extends Component {
                     {/*</div>*/}
                     <div className="give-presentation-feedback">
                         <Container>
-                            <div className="heading-div">
-                                <h3 className="heading">Give Presentation Feedbacks</h3>
-                            </div>
 
                             <Card className="card-1">
+                                <div className="heading-div">
+                                    <h3 className="heading">Give Presentation Feedbacks</h3>
+                                </div>
                                 {!this.state.loading1 && !this.state.loading2 && (
                                     <div>
                                         <div className="form-group pg-dropdown-select">
                                             <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange}>
-                                                <option  disabled selected>Select the project</option>
+                                                <option  disabled selected value="">Select the project</option>
                                                 {this.state.projects.length>0 && projectList}
                                             </select>
                                         </div>
 
                                         <div className="form-group pg-dropdown-select">
                                             <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange2}>
-                                                <option  disabled selected>Select the Group</option>
+                                                <option  disabled selected value="">Select the Group</option>
                                                 {this.state.groupList.length>0 && groupList}
                                             </select>
                                         </div>
@@ -204,7 +211,7 @@ class GivePresentationFeedback extends Component {
 
                                         <div className="form-group pg-dropdown-select">
                                             <select className="form-control pg-dropdown-select" id="dropdown" onChange={this.handleDropdownChange3}>
-                                                <option  disabled selected>Select Presentation</option>
+                                                <option  disabled selected value="">Select Presentation</option>
                                                 <option key={"Preliminary"} value={"Preliminary"}>Preliminary</option>
                                                 <option key={"Interim"} value={"Interim"}>Interim</option>
                                                 <option key={"Finals"} value={"Finals"}>Finals</option>
@@ -225,6 +232,8 @@ class GivePresentationFeedback extends Component {
                             </Card>
 
                         </Container>
+
+                        <ViewPresentationFeedback/>
                     </div>
                 <Footer/>
             </React.Fragment>
