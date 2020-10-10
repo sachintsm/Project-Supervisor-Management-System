@@ -93,7 +93,7 @@ class SubmitPanal extends Component {
           });
           const userId = getFromStorage("auth-id").id;
 
-          console.log(userId);
+          //console.log(userId);
           for (let i = 0; i < files.length; i++) {
                
                const formData = new FormData();

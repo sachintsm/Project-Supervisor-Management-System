@@ -52,7 +52,7 @@ export class SubmisionView extends Component {
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    console.log("ssssssssssssss", res.data.data)
+                    //console.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })
@@ -84,7 +84,7 @@ export class SubmisionView extends Component {
                                                                       <div >
 
                                                                            <span><AttachmentIcon /></span>
-                                                                           <a className="sub-link" href={"http://localhost:4000/proposel/proposelAttachment/" + type.filePath}>
+                                                                           <a className="sub-link" href={backendURI.url+"/proposel/proposelAttachment/" + type.filePath}>
                                                                                 {type.proposelTittle} Template
                                                                            </a>
                                                                       </div>
