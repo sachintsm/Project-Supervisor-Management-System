@@ -31,7 +31,7 @@ export default class IndividualTotalProgress extends Component {
                 let studentProgress = parseFloat(res.data)
                 if (res.data !== 'NaN') {
 
-                    if (studentProgress != 0) {
+                    if (studentProgress !== 0) {
                         studentProgress = studentProgress * 100 / this.state.totalProgress
                     }
 
@@ -47,7 +47,7 @@ export default class IndividualTotalProgress extends Component {
         if (this.state.parentComponent === "taskprogress") {
             axios.post(backendURI.url + '/progress/getstudenttaskprogress/' + this.state.member, { taskId: this.state.taskDetails._id }, { headers: headers }).then(res => {
                 let studentProgress = parseFloat(res.data)
-                if (studentProgress == 0) {
+                if (studentProgress === 0) {
 
                 }
                 else {
@@ -66,7 +66,6 @@ export default class IndividualTotalProgress extends Component {
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
                     const index = res.data.data.indexNumber
-                    const reg = res.data.data.regNumber
 
 
                     this.setState({

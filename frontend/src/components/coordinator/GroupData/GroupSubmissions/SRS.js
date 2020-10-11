@@ -13,7 +13,6 @@ class SRS extends Component {
         }
     }
     render() {
-        console.log(this.state.groupId);
         return (
 
             <div style={{ backgroundColor: "#f8f8f8" }}>

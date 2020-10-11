@@ -63,7 +63,6 @@ class Supervisors extends Component {
             finalBlockArray: [],
             projectId: this.props.match.params.id
         })
-        console.log(this.state.projectId)
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
@@ -71,8 +70,6 @@ class Supervisors extends Component {
         //? project supervisor Id list
         await axios.get(backendURI.url + '/projects/getSupervisors/' + this.props.match.params.id, { headers: headers })
             .then(async res => {
-                console.log(res);
-
                 this.setState({
                     projectName: res.data.data.projectYear + " " + res.data.data.projectType + " " + res.data.data.academicYear,
                     supervisorIdList: res.data.data.supervisorList
@@ -117,12 +114,11 @@ class Supervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        if(this.state.mouseState == false){
+        if(this.state.mouseState === false){
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
     async deleteSupervisor(data, groups) {
-        console.log(this.state.mouseState);
 
         const projectId = this.state.projectId;
         const userId = data;
@@ -148,14 +144,11 @@ class Supervisors extends Component {
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
-                    console.log(dt)
                     // //? remove supervisor from the project supervisor list
                     await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
                         .then(res => {
-                            console.log(res)
                         })
                     for (let j = 0; j < array1.length; j++) {
-                        console.log(array1.length)
                         data = {
                             projectId: projectId,
                             supervisor: userId,
@@ -197,7 +190,7 @@ class Supervisors extends Component {
         if (this.state.supervisorIdList.length === 0) {
             noProject = <p className="no-projects">No active supervisors...</p>
         }
-        const { dataDiv, spinnerDiv , mouseState} = this.state;
+        const { dataDiv, spinnerDiv } = this.state;
         return (
             <React.Fragment>
                 <Snackpop

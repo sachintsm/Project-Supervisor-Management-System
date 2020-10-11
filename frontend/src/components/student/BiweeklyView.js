@@ -8,13 +8,8 @@ import axios from 'axios';
 import '../../css/students/BiweeklyView.scss'
 import {
      Button,
-     Container,
      Col,
      Row,
-     FormGroup,
-     FormControl,
-
-
 } from "react-bootstrap";
 const backendURI = require("../shared/BackendURI");
 
@@ -28,8 +23,6 @@ export class BiweeklyView extends Component {
                projectId: this.props.match.params.id,
                biweeklyList: [],
           }
-
-
           this.getBiweekly = this.getBiweekly.bind(this);
          
 
@@ -49,7 +42,6 @@ export class BiweeklyView extends Component {
      getBiweekly() {
           axios.get(backendURI.url + '/Biweekly/getBiweeklyLink/' + this.state.projectId)
                .then((res => {
-                   // console.log(res.data.data)
                     this.setState({
                          biweeklyList: res.data.data
                     })
@@ -60,7 +52,6 @@ export class BiweeklyView extends Component {
      }
 
      render() {
-         // console.log(this.state.biweeklyList)
           return (
                <React.Fragment>
                     <Navbar panel={"student"} />

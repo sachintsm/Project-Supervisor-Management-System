@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { Row, Col } from 'reactstrap'
 import '../../css/shared/index.scss';
 
 const backendURI = require('../shared/BackendURI');
@@ -25,10 +24,8 @@ export default class Index extends Component {
 
 
         });
-        console.log(this.props.id);
         axios.get(backendURI.url + '/indexInfo/' + this.props.id)
             .then(res => {
-                console.log(res);
                 this.setState({
                     firstName: res.data.firstName,
                     lastName: res.data.lastName,
@@ -38,7 +35,6 @@ export default class Index extends Component {
                     jobDescription: res.data.jobDescription,
                     educationalQualifications: res.data.educationalQualifications,
                 })
-                console.log(res.data);
             })
 
     };

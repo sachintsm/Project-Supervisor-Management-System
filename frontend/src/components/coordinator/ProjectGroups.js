@@ -70,7 +70,6 @@ class ProjectGroups extends Component {
         //? load all the active project names from
         axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
             .then((res => {
-                console.log("ddddd", res.data.data)
                 this.setState({
                     activeProjects: res.data.data
                 })
@@ -122,7 +121,10 @@ class ProjectGroups extends Component {
                     array2,
                     array1
                 )
-                this.state.groupDataBlock.push(block)
+                // this.state.groupDataBlock.push(block)
+                this.setState({
+                    groupDataBlock: [...this.state.groupDataBlock, block]
+                })
             } else {
                 var array3 = [];
                 for (let k = 0; k < this.state.groupData[i].groupMembers.length; k++) {
@@ -136,7 +138,10 @@ class ProjectGroups extends Component {
                     array3,
                     ''
                 )
-                this.state.groupDataBlock.push(blockA)
+                this.setState({
+                    groupDataBlock: [...this.state.groupDataBlock, blockA]
+                })
+                // this.state.groupDataBlock.push(blockA)
             }
         }
         this.setState({ dataDiv: true, spinnerDiv: false });
@@ -145,7 +150,7 @@ class ProjectGroups extends Component {
 
     //? opent the gropuData window
     groupDataHandler(data) {
-        if (this.state.mouseState == false) {
+        if (this.state.mouseState === false) {
             this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId, pId: this.state.projectId });
         }
     }
@@ -184,7 +189,6 @@ class ProjectGroups extends Component {
                             }
                         })
                         .catch(err => {
-                            console.log(err)
                             this.setState({
                                 snackbaropen: true,
                                 snackbarmsg: err,

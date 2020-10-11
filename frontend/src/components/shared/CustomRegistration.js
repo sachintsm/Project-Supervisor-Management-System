@@ -1,17 +1,11 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/admin/Registration.scss";
-import { verifyAuth } from "../../utils/Authentication";
-import Navbar from "./Navbar";
-import { getFromStorage } from '../../utils/Storage';
 import Footer from './Footer';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "./Snackpop";
-import { Link } from 'react-router-dom'
-import axios from 'axios'
 import NavbarGuest from './NavbarGuest';
 
 const backendURI = require('./BackendURI');
@@ -127,7 +121,7 @@ export default class CustomRegistration extends Component {
       isError = true;
       errors.confirmPasswordError = 'Password should be longer than 8 characters!'
     }
-    if (this.state.form.password != this.state.form.confirmPassword) {
+    if (this.state.form.password !== this.state.form.confirmPassword) {
       isError = true;
       errors.confirmPasswordError = "Password does not match *";
     }

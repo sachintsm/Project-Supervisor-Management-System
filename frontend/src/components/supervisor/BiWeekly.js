@@ -30,10 +30,8 @@ class BiWeekly extends Component {
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
         }
-        const userId = getFromStorage("auth-id").id
 
         axios.get(backendURI.url+"/biweeksubmissions/getgroupsubmissions/"+this.state.groupDetails._id, {headers: headers}).then(res=>{
-            console.log(res.data)
             this.setState({
                 biWeekRequests: res.data,
                 loading: false
@@ -58,8 +56,6 @@ class BiWeekly extends Component {
     }
 
     render() {
-
-        // console.log(this.state)
 
         return (
             <div className="biweekly-supervisor">

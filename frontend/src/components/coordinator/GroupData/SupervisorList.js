@@ -43,7 +43,6 @@ class StudentList extends Component {
             if (res) {
                 
                 if (res.data.data !== undefined) {
-                    // console.log(res.data.data)
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
 
@@ -69,7 +68,6 @@ class StudentList extends Component {
                             _id: this.props.id,
                             index: id
                         }
-                        console.log(this.props.obj)
                         axios.post(backendURI.url + '/createGroups/removeSupervisorIndex', data)
                             .then(res => {
                                 if (res.data.state === false) {

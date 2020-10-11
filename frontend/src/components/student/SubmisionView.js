@@ -8,13 +8,8 @@ import axios from 'axios';
 import '../../css/students/SubmisionViewStu.scss'
 import {
      Button,
-     Container,
      Col,
      Row,
-     FormGroup,
-     FormControl,
-
-
 } from "react-bootstrap";
 const backendURI = require("../shared/BackendURI");
 
@@ -31,8 +26,6 @@ export class SubmisionView extends Component {
 
 
           this.getSubmission = this.getSubmission.bind(this);
-          //console.log("Ashan",this.state.groupDetails);
-          //console.log('Ashan',this.state.submissionList);
 
      }
 
@@ -52,7 +45,6 @@ export class SubmisionView extends Component {
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
-                    //console.log("ssssssssssssss", res.data.data)
                     this.setState({
                          submissionList: res.data.data
                     })
@@ -63,7 +55,6 @@ export class SubmisionView extends Component {
      }
 
      render() {
-          //console.log("sss",this.state.submissionList);
           return (
                <React.Fragment>
                     <Navbar panel={"student"} />

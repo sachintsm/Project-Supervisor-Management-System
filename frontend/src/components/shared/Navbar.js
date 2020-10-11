@@ -80,18 +80,12 @@ export default class navbar extends Component {
     this.setState({
       logout: true,
     });
-    // this.context.router.push('/');
-    // window.location.reload(false);
-
-    // let history = useHistory();
-    // history.push('/');
   }
   readRequest() {
     const userData = getFromStorage('auth-id')
     var ob = [];
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
       .then(response => {
-        console.log(response.data.data2);
         ob = response.data.data2
 
         for (var i = 0; i < ob.length; i++) {
@@ -109,29 +103,23 @@ export default class navbar extends Component {
   }
   async componentDidMount() {
 
-    if (this.state.userLevel == "student") {
+    if (this.state.userLevel === "student") {
       this.getStudentNotificationCount()
     }
-    if (this.state.userLevel == "coordinator") {
+    if (this.state.userLevel === "coordinator") {
       this.getCoordinatorNotificationCount()
     }
-    if (this.state.userLevel == "supervisor") {
+    if (this.state.userLevel === "supervisor") {
       this.getSupervisorNotificationCount()
     }
 
     const userData = getFromStorage('auth-id')
-    const headers = {
-      'auth-token': getFromStorage('auth-token').token,
-    }
-    // const userType = getFromStorage('user-level')
-    // alert(this.state.panel);
-    // this.setState({ userType: userType })
+ 
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
       .then(response => {
 
         this.setState({
           count: response.data.data,
-          //reqId: response.data.data2
         })
       })
       .catch(error => {
@@ -161,6 +149,7 @@ export default class navbar extends Component {
             })
           }
         })
+        return null;
       })
       this.setState({
         loading: false
@@ -214,7 +203,6 @@ export default class navbar extends Component {
   }
 
   render() {
-    // console.log(this.state.userLevel)
     if (this.state.logout) {
       return <Redirect to='/' push={true} />;
     }
@@ -227,16 +215,16 @@ export default class navbar extends Component {
             <MDBNavbarBrand>
 
               {this.state.userLevel === "admin" &&
-                <Nav.Link className="navlink-icon" href='/adminhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/adminhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "student" &&
-                <Nav.Link className="navlink-icon" href='/studenthome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/studenthome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "supervisor" &&
-                <Nav.Link className="navlink-icon" href='/supervisorhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/supervisorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
               {this.state.userLevel === "coordinator" &&
-                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={this.toggleCollapse} />
