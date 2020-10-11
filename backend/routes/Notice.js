@@ -97,7 +97,7 @@ router.post("/addNotice", verify, async (req, res) => {
 router.get("/viewNotice", (req, res, next) => {
 
   Notice.find()
-    .sort({ date: -1 })
+    .sort({date:-1 }&&{time:-1})
     .select("noticeTittle notice date time filePath userType toCordinator toStudent toSupervisor projectId userId ")
     .exec()
     .then((docs) => {
