@@ -279,7 +279,7 @@ export default class BiWeekly extends Component {
   
   onEditHandler = (type) => {
 
-    console.log(type.file);
+    //console.log(type.file);
 
     this.setState({
       componentType: 'edit',
@@ -360,7 +360,7 @@ export default class BiWeekly extends Component {
   }
 
   viewBiweekly(data) {
-    console.log(data)
+   // console.log(data)
     try {
       this.props.history.push('/coordinatorhome/projectdata/viewbiweekly/' + this.state.projectId, { biweeklyData: data });
     } catch (error) {
@@ -629,7 +629,7 @@ export default class BiWeekly extends Component {
                                   </div>
   
                                   <div className="fille_attach">
-                                    <a className="crd_atchmnt" href={"http://localhost:4000/proposel/biweeklyAttachment/" + type.filePath}>
+                                    <a className="crd_atchmnt" href={backendURI.url + "/proposel/biweeklyAttachment/" + type.filePath}>
                                       Attachment
                                     </a>
                                   </div>

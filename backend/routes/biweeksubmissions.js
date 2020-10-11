@@ -45,7 +45,7 @@ router.post("/add", async (req, res) => {
                     date_ob.getHours() +
                     date_ob.getMinutes();
 
-               console.log(req.file)
+              // console.log(req.file)
 
                if (req.file) {
                     var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
@@ -64,7 +64,7 @@ router.post("/add", async (req, res) => {
                          status.push("Pending")
                     })
 
-                    console.log(req.body.submissionId)
+                  //  console.log(req.body.submissionId)
                     const biweekly = await BiweeklyLink.findOne({ _id: req.body.submissionId })
 
                     const newSubmission = new BiweekSubmissions({

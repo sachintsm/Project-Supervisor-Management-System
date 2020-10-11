@@ -126,7 +126,7 @@ class SubmitPanal extends Component {
 
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {
-                        console.log(res)
+                       // console.log(res)
                     })
           }
      }
@@ -158,7 +158,7 @@ class SubmitPanal extends Component {
           }
           axios.post(backendURI.url + '/submission/addSubmission', obj, { headers: headers })
                .then((res) => {
-                    console.log(res.data.data)
+                    //console.log(res.data.data)
                }).catch((err) => {
                     console.log(err)
                })

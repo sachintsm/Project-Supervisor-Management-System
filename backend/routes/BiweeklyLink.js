@@ -93,7 +93,7 @@ router.get("/biweeklyAttachment/:filename", function (req, res) {
 
 router.get('/getBiweeklyLink/:_id', async (req, res) => {
   projectId = req.params._id
-    console.log(projectId)
+   // console.log(projectId)
   biweekly.find({ projectId: projectId })
     .sort({ date: -1 } && { time: -1 })
     .then(data => {
@@ -137,7 +137,7 @@ router.delete("/biweeklyAttachment/:filename", function (req, res) {
 
 router.post('/updateBiweekly/:_id', (req, res) => {  // update methord 
   const proId = req.params._id;
-  console.log(proId)
+  ///console.log(proId)
   try {
     req.body.toLateSubmision = false;
 
@@ -179,11 +179,11 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
       )
         .exec()
         .then(data => {
-          console.log('Proposel update successe.')
+         // console.log('Proposel update successe.')
           res.json({ state: true, msg: 'Proposel update success..' });
         })
         .catch(error => {
-          console.log('Proposel update unsuccessfull..')
+         // console.log('Proposel update unsuccessfull..')
           res.json({ state: false, msg: 'Peoposel update unsuccess..' });
         })
     });

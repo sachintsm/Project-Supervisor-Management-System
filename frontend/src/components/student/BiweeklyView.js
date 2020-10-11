@@ -31,8 +31,7 @@ export class BiweeklyView extends Component {
 
 
           this.getBiweekly = this.getBiweekly.bind(this);
-          //console.log("Ashan",this.state.groupDetails);
-          //console.log('Ashan',this.state.submissionList);
+         
 
      }
 
@@ -82,7 +81,7 @@ export class BiweeklyView extends Component {
                                                                       <div >
 
                                                                            <span><AttachmentIcon /></span>
-                                                                           <a className="sub-link" href={"http://localhost:4000/biweekly/biweeklyAttachment/" + type.filePath}>
+                                                                           <a className="sub-link" href={backendURI.url +"/biweekly/biweeklyAttachment/" + type.filePath}>
                                                                                 #{type.biweeklyNumber} Biweekly Template
                                                                            </a>
                                                                       </div>
