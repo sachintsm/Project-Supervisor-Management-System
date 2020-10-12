@@ -297,7 +297,7 @@ export default class navbar extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       <MDBDropdownItem href='/adminhome/projecttypes'>Project Types</MDBDropdownItem>
-                      <MDBDropdownItem href='/adminhome/createproject'>Create Project</MDBDropdownItem>
+                      <MDBDropdownItem href='/adminhome/createproject'>Projects</MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 )}
