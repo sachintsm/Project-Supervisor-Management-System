@@ -271,7 +271,7 @@ router.post('/login', async function (req, res) {
 
 router.get('/stafflist', async (req, res, next) => {
   try {
-    const results = await Staff.find({ isStudent: false, isDeleted: false, isAdmin: false });
+    const results = await Staff.find({ isStaff: true, isDeleted: false, });
     res.send(results);
   } catch (error) {
     console.log(error);
