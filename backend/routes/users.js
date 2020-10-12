@@ -76,13 +76,13 @@ router.post("/register", verify, async function (req, res) {
       student = false
       staff = false
     }
-    
+
     else if (req.body.userType === 'Staff') {
       staff = true
       admin = false
       student = false
     }
-    
+
     else if (req.body.userType === 'Student') {
       student = true
       staff = false
@@ -114,6 +114,7 @@ router.post("/register", verify, async function (req, res) {
       isSupervisor: false,
       isCoordinator: false,
       isDeleted: false,
+      noProject : 0
     });
 
     bcrypt.genSalt(
@@ -154,6 +155,16 @@ router.post("/register", verify, async function (req, res) {
 
 //? bulk user registration funtion
 router.post('/bulkRegister', async (req, res, next) => {
+  
+  console.log(req.body);
+  // checking if the userId is already in the database
+  const userEmailExists = await User.findOne({ email: req.body.email });
+  if (userEmailExists) return res.json({ state: false, msg: "This email already in use..!" })
+
+  // checking if the NIC is already in the database 
+  const userNicExists = await User.findOne({ nic: req.body.nic.toLowerCase() });
+  if (userNicExists) return res.json({ state: false, msg: "This NIC already in use..!" })
+
 
   var student
   var admin
@@ -1032,15 +1043,13 @@ router.post('/uploadmulter/:id', async function (req, res) {
       })
 
     })
+    console.log(p);
     if (p === '') {
-      // console.log('No Image to delete');
-
+      console.log('No Image to delete');
     }
     else {
       fs.unlink(path.join(__dirname, '../local_storage/profile_Images/' + p), function (err) {
         if (err) throw err;
-        // if no error, file has been deleted successfully
-        // console.log('File deleted!');
       });
     }
   }
@@ -1193,7 +1202,6 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
 //get user by id
 
 router.get('/getUser/:id', async (req, res) => {
-
   const userid = req.params.id;
   await User.find({ _id: userid })
     .select('firstName lastName imageName')

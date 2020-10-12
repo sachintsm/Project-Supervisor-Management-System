@@ -148,18 +148,27 @@ export default class registration extends Component {
                 })
                   .then(res => res.json())
                   .then(async json => {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: json.msg,
-                      snackbarcolor: 'success',
-                    })
-
-                    //send email notification to the clients
-                    const email = await userRagistrationEmail(this.state.csvData[i][2], this.state.csvData[i][0], this.state.csvData[i][1])
-                    axios.post(backendURI.url + '/mail/sendmail', email)
-                      .then(res => {
-                        console.log(res);
+                    if (json.state === false) {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'error',
                       })
+                    }
+                    else {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'success',
+                      })
+                      //send email notification to the clients
+                      const email = await userRagistrationEmail(this.state.csvData[i][2], this.state.csvData[i][0], this.state.csvData[i][1])
+                      axios.post(backendURI.url + '/mail/sendmail', email)
+                        .then(res => {
+                          console.log(res);
+                        })
+                    }
+
                   })
                   .catch(err => {
                     this.setState({
@@ -408,6 +417,7 @@ export default class registration extends Component {
 
     //? loading csv file data into csvData array ...
     const handleForce = data => {
+      console.log(data);
       this.setState({
         csvData: data
       })
@@ -596,7 +606,7 @@ export default class registration extends Component {
                                 <label className="text-label">Usertype : </label>
                                 <div className="form-group">
                                   <select className="form-control" id="dropdown" value={form.userType} onChange={this.handleDropdownChange}>
-                                    <option>Select User Type</option>
+                                    <option>User Type</option>
                                     <option value="Student">Student</option>
                                     <option value="Staff">Staff</option>
                                     <option value="Admin">Administrator</option>

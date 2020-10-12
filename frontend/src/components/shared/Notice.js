@@ -682,7 +682,7 @@ class Notice extends Component {
                               />
                             }
                             label={
-                              <span style={{ fontSize: "12px" }}>Studentd</span>
+                              <span style={{ fontSize: "12px" }}>Students</span>
                             }
                           />
                         </Col>
@@ -925,7 +925,7 @@ class Notice extends Component {
                               />
                             }
                             label={
-                              <span style={{ fontSize: "12px" }}>Studentd</span>
+                              <span style={{ fontSize: "12px" }}>Students</span>
                             }
                           />
 
