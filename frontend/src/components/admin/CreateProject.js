@@ -298,12 +298,6 @@ class CreateProject extends Component {
       buttons: [
 
         {
-          label: 'No',
-          onClick: () => {
-
-          }
-        },
-        {
           label: 'Yes',
           onClick: async () => {
 
@@ -313,6 +307,12 @@ class CreateProject extends Component {
             axios.patch(backendURI.url + '/projects/delete/' + id, { headers: headers }).then(res => {
               this.getProjectList()
             }).catch(err => console.log(err))
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {
+
           }
         },
       ]

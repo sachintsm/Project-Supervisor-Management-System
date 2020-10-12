@@ -81,8 +81,16 @@ router.patch("/:id", async (req, res, next) => {
       coordinatorList: idList,
       studentList: req.body.studentList
     };
+
+
+    idList.map(async item=> {
+      console.log(item)
+      await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
+    })
+
     const result = await Projects.findByIdAndUpdate(id, update, { new: true })
     res.send(result)
+
   } catch (err) {
     console.log(err)
   }
@@ -118,6 +126,13 @@ router.patch("/projecttype/:id", async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const project = new Projects(req.body);
+
+    const coordinatorList = req.body.coordinatorList;
+
+    coordinatorList.map(async item=> {
+      await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
+    })
+
     project.isDeleted = false;
     project.projectState = true;
     const result = await project.save();

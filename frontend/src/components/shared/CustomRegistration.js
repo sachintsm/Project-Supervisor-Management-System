@@ -7,6 +7,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Snackpop from "./Snackpop";
 import NavbarGuest from './NavbarGuest';
+import { userRagistrationEmail } from './emailTemplates';
+import axios from 'axios';
 
 const backendURI = require('./BackendURI');
 
@@ -199,15 +201,19 @@ export default class CustomRegistration extends Component {
 
                 fetch(backendURI.url + "/users/customregistration", requestOptions)
                   .then((res) => res.json())
-                  .then((json) => {
+                  .then(async json => {
                     if (json.state === true) {
                       this.setState({
                         snackbaropen: true,
                         snackbarmsg: json.msg,
                         snackbarcolor: 'success',
                       })
+                      const email = await userRagistrationEmail(this.state.form.email, this.state.form.firstName, this.state.form.lastName)
+                      axios.post(backendURI.url + '/mail/sendmail', email)
+                        .then(res => {
+                          console.log(res);
+                        })
                       this.props.history.push('/');
-
                     }
                     else {
                       this.setState({

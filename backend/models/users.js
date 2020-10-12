@@ -22,7 +22,8 @@ var userSchema = mongoose.Schema({
   courseType :{ type: String},
   educationalQualifications : { type: String },
   jobDescription : { type: String},
-  isGuest : { type: Boolean}
+  isGuest : { type: Boolean},
+  noProject : { type: String},
 });
 
 const Users = (module.exports = mongoose.model('Users', userSchema));
