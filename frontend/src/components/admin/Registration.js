@@ -148,18 +148,27 @@ export default class registration extends Component {
                 })
                   .then(res => res.json())
                   .then(async json => {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: json.msg,
-                      snackbarcolor: 'success',
-                    })
+                    if (json.state === false) {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'error',
+                      })
+                    }
+                    else {
+                      this.setState({
+                        snackbaropen: true,
+                        snackbarmsg: json.msg,
+                        snackbarcolor: 'success',
+                      })
+                    }
 
                     //send email notification to the clients
                     const email = await userRagistrationEmail(this.state.csvData[i][2], this.state.csvData[i][0], this.state.csvData[i][1])
-                    axios.post(backendURI.url + '/mail/sendmail', email)
-                      .then(res => {
-                        console.log(res);
-                      })
+                    // axios.post(backendURI.url + '/mail/sendmail', email)
+                    //   .then(res => {
+                    //     console.log(res);
+                    //   })
                   })
                   .catch(err => {
                     this.setState({
@@ -408,6 +417,7 @@ export default class registration extends Component {
 
     //? loading csv file data into csvData array ...
     const handleForce = data => {
+      console.log(data);
       this.setState({
         csvData: data
       })
