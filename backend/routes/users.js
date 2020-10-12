@@ -114,6 +114,7 @@ router.post("/register", verify, async function (req, res) {
       isSupervisor: false,
       isCoordinator: false,
       isDeleted: false,
+      noProject : 0
     });
 
     bcrypt.genSalt(
@@ -1201,7 +1202,6 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
 //get user by id
 
 router.get('/getUser/:id', async (req, res) => {
-
   const userid = req.params.id;
   await User.find({ _id: userid })
     .select('firstName lastName imageName')

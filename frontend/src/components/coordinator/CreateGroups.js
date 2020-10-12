@@ -118,13 +118,14 @@ export default class CreateGroups extends Component {
                                 })
                                     .then(res => res.json())
                                     .then(json => {
+                                        console.log(json);
                                         if (json.state === true) {
                                             this.setState({
                                                 snackbaropen: true,
                                                 snackbarmsg: json.msg,
                                                 snackbarcolor: 'success',
                                             })
-                                            window.location.reload();
+                                            // window.location.reload();
                                         }
                                         else {
                                             this.setState({
@@ -285,6 +286,7 @@ export default class CreateGroups extends Component {
     render() {
         //? loading csv file data into csvData array ...
         const handleForce = data => {
+            console.log(data);
             this.setState({
                 csvData: data
             })
