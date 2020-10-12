@@ -21,9 +21,7 @@ class MessagesContainer extends Component {
     }
 
     async componentDidMount() {
-        console.log(this.props.messages.userId);
-        console.log(this.props.userData[0]);
-
+      
         const userId = getFromStorage('auth-id').id
         this.setState({
             userId: userId,

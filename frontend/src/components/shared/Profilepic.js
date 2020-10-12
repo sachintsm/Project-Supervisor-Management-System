@@ -81,19 +81,20 @@ export default class Profilepic extends Component {
                             formData.append('profileImage', this.state.form.file);
                             axios.post(backendURI.url + '/users/uploadmulter/' + userData.id, formData)
                                 .then((response) => {
+                                    console.log(response);
                                     this.setState({
                                         snackbaropen: true,
                                         snackbarmsg: response.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    window.location.reload(false);
+                                    // window.location.reload(false);
                                 }).catch((error) => {
                                     this.setState({
                                         snackbaropen: true,
-                                        snackbarmsg: error.data.msg,
+                                        snackbarmsg: "Uploading Error!",
                                         snackbarcolor: 'error',
                                     })
-                                    window.location.reload(false);
+                                    // window.location.reload(false);
                                 });
 
                         }

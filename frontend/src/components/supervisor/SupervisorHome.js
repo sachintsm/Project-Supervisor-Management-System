@@ -53,7 +53,7 @@ class SupervisorHome extends Component {
       userId: '',
 
       finalBlock: [],
-      emptyMessage : '',
+      emptyMessage: '',
     }
 
   }
@@ -83,9 +83,9 @@ class SupervisorHome extends Component {
     //! get active project the this supervosor In
     await axios.get(backendURI.url + '/projects/getAllActiveProjectDataS/' + this.state.userId)
       .then(async res => {
-        if(res.data.data.length == 0){
+        if (res.data.data.length == 0) {
           this.setState({
-            emptyMessage : 'No active projects!'
+            emptyMessage: 'No active projects!'
           })
         }
         this.setState({ activeProjects: res.data.data })
@@ -121,7 +121,7 @@ class SupervisorHome extends Component {
                   for (let j = 0; j < this.state.activeProject[i].supervisors.length; j++) {
                     await axios.get(backendURI.url + '/users/getUser/' + this.state.activeProject[i].supervisors[j])
                       .then(res => {
-                        // console.log(res);
+                        console.log(res);
                         var newSupervisor = res.data.data.firstName + ' ' + res.data.data.lastName + ", "
                         array1.push(newSupervisor);
                       })
@@ -195,19 +195,22 @@ class SupervisorHome extends Component {
             {/* <p className="sd-topic">{this.state.superName}</p> */}
           </div>
           <div className="container">
-            <p style={{ textalign: "left", color: " #6d6d6d" , marginTop : "100px",textAlign: "center", marginBottom : "-100px"}}>{this.state.emptyMessage}</p>
+            <p style={{ textalign: "left", color: " #6d6d6d", marginTop: "100px", textAlign: "center", marginBottom: "-100px" }}>{this.state.emptyMessage}</p>
             <Row className="card-row-sh">
               {spinnerDiv1 && (
                 <div className="spinner">
                   <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
                 </div>
               )}
+
               {this.state.finalBlock.map((item) => {
                 return (
                   <Col md={12} xs={12} sm={12} key={item.projId}>
                     <Row>
                       <Col md={12} xs={12} sm={12}>
-                        <p className="sh-project-name-hs">{item.projName}</p>
+                        {item.groupDataBlock.length != 0 &&
+                          <p className="sh-project-name-hs">{item.projName}</p>
+                        }
                       </Col>
                     </Row>
 

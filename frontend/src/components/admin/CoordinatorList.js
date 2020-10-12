@@ -22,7 +22,8 @@ class CoordinatorList extends Component {
 
     componentDidMount() {
 
-        this.getCoordinatorList()
+       this.getCoordinatorList(); 
+       
     }
 
     getCoordinatorList() {
