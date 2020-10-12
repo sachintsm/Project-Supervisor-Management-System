@@ -267,7 +267,7 @@ export default class navbar extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       <MDBDropdownItem href='/coordinatorhome/createGroups'>Create Groups</MDBDropdownItem>
-                      <MDBDropdownItem href='/coordinatorhome/projectGroups'>Project Groups Data</MDBDropdownItem>
+                      <MDBDropdownItem href='/coordinatorhome/projectGroups'>View Groups</MDBDropdownItem>
                       <MDBDropdownItem href='/coordinatorhome/assignSupervisors'>Assign Supervisors</MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
