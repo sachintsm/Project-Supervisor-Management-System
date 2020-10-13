@@ -61,7 +61,7 @@ class AssignSupervisors extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
- 
+
     async componentDidMount() {
         const authState = await verifyAuth();
 
@@ -85,7 +85,7 @@ class AssignSupervisors extends Component {
             }))
 
         //? load staff members
-        await axios.get(backendURI.url + '/users/stafflist', { headers: headers })
+        await axios.get(backendURI.url + '/users/stafflistwithguest', { headers: headers })
             .then((result) => {
                 if (result.data.length > 0) {
                     this.setState({
@@ -104,7 +104,6 @@ class AssignSupervisors extends Component {
                         educationalQualifications: user.educationalQualifications,
                         isStaff: user.isStaff,
                         isGuest: user.isGuest,
-
                     };
                     this.setState({
                         staffOptionList: [...this.state.staffOptionList, option],
@@ -445,14 +444,14 @@ class AssignSupervisors extends Component {
                         status={this.state.snackbaropen}
                         closeAlert={this.closeAlert}
                     />
-                     {spinnerDiv1 && (
+                    {spinnerDiv1 && (
                         <div className="spinner">
                             <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                         </div>
                     )}
                     <div className="container">
                         <Card className="task-card-gd">
-                            <Card.Header className="gd-card-header">Selected Supervisors List</Card.Header>
+                            <Card.Header className="gd-card-header">Current Supervisors</Card.Header>
                             <Card.Body className="gd-card-body">
                                 <Row >
                                     <Col md="10" xs="12">
@@ -509,7 +508,7 @@ class AssignSupervisors extends Component {
 
                     <div className="container">
                         <Card className="task-card-gd">
-                            <Card.Header className="gd-card-header">Assign Supervisors</Card.Header>
+                            <Card.Header className="gd-card-header">Assign New Supervisors</Card.Header>
                             <Card.Body className="gd-card-body">
                                 <Row >
                                     <Col md="12" xs="12">
@@ -553,9 +552,9 @@ class AssignSupervisors extends Component {
                         </Card>
                     </div>
 
-                   
+
                     {/* /***************************************************************************************************************************** */}
-                    
+
                 </div >
                 <Footer />
             </div>

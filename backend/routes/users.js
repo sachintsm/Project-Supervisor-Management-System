@@ -114,7 +114,7 @@ router.post("/register", verify, async function (req, res) {
       isSupervisor: false,
       isCoordinator: false,
       isDeleted: false,
-      noProject : 0
+      noProject: 0
     });
 
     bcrypt.genSalt(
@@ -155,7 +155,7 @@ router.post("/register", verify, async function (req, res) {
 
 //? bulk user registration funtion
 router.post('/bulkRegister', async (req, res, next) => {
-  
+
   console.log(req.body);
   // checking if the userId is already in the database
   const userEmailExists = await User.findOne({ email: req.body.email });
@@ -289,6 +289,14 @@ router.get('/stafflist', async (req, res, next) => {
   }
 });
 
+router.get('/stafflistwithguest', async (req, res, next) => {
+  try {
+    const results = await Staff.find({ isAdmin: false, isDeleted: false, isStudent: false });
+    res.send(results);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 router.get('/stafflist/:id', async (req, res, next) => {
   try {
