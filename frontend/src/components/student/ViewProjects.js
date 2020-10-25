@@ -35,6 +35,7 @@ class ViewProjects extends Component {
         }
         const studentId = getFromStorage("auth-id")
         axios.get(backendURI.url+'/projects/studentprojects/'+studentId.id,{headers: headers}).then(result=>{
+            console.log(result.data)
             if(result.data.length>0){
                 result.data.map(item=>{
                   if(item.projectState){
@@ -84,7 +85,7 @@ class ViewProjects extends Component {
                             </div>
                         </div>
                         <div className="card card-div ended-card">
-                            <h3 className="title">Ended Projects</h3>
+                            <h3 className="title">Completed Projects</h3>
                             <div className="project-list-div">
 
                                 {this.state.loading &&

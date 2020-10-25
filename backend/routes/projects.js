@@ -185,6 +185,7 @@ router.get('/studentprojects/:studentId',async(req, res, next) => {
           projectIdList.push(projectList[i].projectId)
         }
         const projects = await Projects.find({ _id: projectIdList });
+        console.log(projectIdList)
         res.send(projects)
       }
       else {

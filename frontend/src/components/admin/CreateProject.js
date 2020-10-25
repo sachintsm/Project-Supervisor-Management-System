@@ -761,7 +761,7 @@ class CreateProject extends Component {
                             {this.state.projects.map((project) => {
                               return (<tr key={project._id}>
                                 <td style={{ verticalAlign: 'middle' }}>{project.projectYear}</td>
-                                <td style={{ verticalAlign: 'middle' }}>{project.projectType}</td>
+                                <td style={{ verticalAlign: 'middle' }}>{project.projectType} {project.projectSu}</td>
                                 <td style={{ verticalAlign: 'middle' }}>{project.academicYear ? project.academicYear : '-'}</td>
                                 <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project} /></td>
                                 {project.projectState && <td style={{ verticalAlign: 'middle', color: 'green' }}>Active</td>}
