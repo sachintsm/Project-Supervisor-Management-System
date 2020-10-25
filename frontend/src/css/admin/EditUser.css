@@ -25,7 +25,7 @@
 }
 
 .btn-length {
-  width: 100%;
+  width: 100% !important;
 }
 
 .head_topic {

@@ -22,9 +22,11 @@ class ViewMailBox extends Component {
     console.log(localStorage)
     return (
       <React.Fragment>
-        <Navbar panel={"admin"} />
-        <MailBox/>
-        <Footer />
+        <div style={{"backgroundColor": "#F5F5F5"}}>
+          <Navbar panel={"admin"} />
+          <MailBox/>
+          <Footer />
+        </div>
       </React.Fragment>
     );
   }
