@@ -74,7 +74,7 @@ export default class MailBox extends Component {
 
   render() {   
       return (
-        <React.Fragment> 
+        <React.Fragment >
         
         <Snackpop
         msg={"Deleted Successfully.."}
