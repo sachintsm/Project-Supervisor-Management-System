@@ -8,8 +8,6 @@ const jwt = require('jsonwebtoken');
 const socket = require('socket.io');
 const app = express();
 
-// global.CronJob = require('./cron.js'); 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -66,7 +64,6 @@ const progress = require('./routes/progress');
 const groupChat = require('./routes/groupChat');
 const courseTypes = require('./routes/courseTypes');
 const indexInfo = require('./routes/IndexInfo');
-const customReg = require('./routes/customReg');
 const proposel = require('./routes/proposel');
 const submission = require('./routes/submissions');
 const biweekly = require('./routes/BiweeklyLink');
