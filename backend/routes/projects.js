@@ -261,7 +261,7 @@ router.post('/deletesupervisorGroup', verify, async (req, res) => {
 router.get('/getAllActiveProjectData/:id', async (req, res) => {
   const coId = req.params.id
   await Projects
-    .find({ coordinatorList: coId, projectState: true })
+    .find({ coordinatorList: coId, projectState: true, isDeleted: false })
     .exec()
     .then(data => {
       res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
@@ -280,7 +280,7 @@ router.get('/getAllEndProjectData/:id', async (req, res) => {
   const year = dt.getFullYear()
 
   await Projects
-    .find({ coordinatorList: coId, projectState: false, projectYear: { $gte: year - 2 } })
+    .find({ coordinatorList: coId, projectState: false, isDeleted: false, projectYear: { $gte: year - 2 } })
     .exec()
     .then(data => {
       res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });

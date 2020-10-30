@@ -30,7 +30,7 @@ class CreateProject extends Component {
 
     this.state = {
       componentType: 'add',
-      title: 'Assign Coordinators & Students',
+      title: 'Create Course',
       projects: [],
       selectedTypeIndex: 0,
       academicYear: '',
@@ -358,7 +358,7 @@ class CreateProject extends Component {
 
     this.setState({
       componentType: 'edit',
-      title: 'Edit Project',
+      title: 'Edit Course',
       type: project.projectType,
       year: project.projectYear,
       academicYear: project.academicYear,
@@ -371,7 +371,7 @@ class CreateProject extends Component {
 
     this.setState({
       componentType: "add",
-      title: 'Assign Coordinators & Students',
+      title: 'Create Course',
       selectedTypeIndex: 0,
       selectedStaffList: []
     })
@@ -447,7 +447,7 @@ class CreateProject extends Component {
     return (
       <React.Fragment>
         <Snackpop
-          msg={'Project Created Successfully'}
+          msg={'Course Created Successfully'}
           color={'success'}
           time={3000}
           status={this.state.successAlert}
@@ -492,7 +492,7 @@ class CreateProject extends Component {
                       <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
-                            Year of the Project
+                            Course Year
                             </p>
                         </Row>
                         <Row>
@@ -516,7 +516,7 @@ class CreateProject extends Component {
                       <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
-                            Project Type
+                            Course Type
                             </p>
                         </Row>
 
@@ -596,7 +596,7 @@ class CreateProject extends Component {
                     <Row style={{ paddingLeft: '30px', marginTop: '20px' }}>
                       <Row>
                         <p className="cp-text">
-                          Assign Coordinators into the Project
+                          Assign Coordinators into the Course
                           </p>
                       </Row>
                       <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
@@ -616,7 +616,7 @@ class CreateProject extends Component {
 
                       <Row style={{ paddingLeft: '15px', }}>
                         <p className="cp-text">
-                          Assign Students into the Project
+                          Assign Students into the Course
                           </p>
                       </Row>
                       {this.state.componentType === "add" &&
@@ -727,7 +727,7 @@ class CreateProject extends Component {
                           style={{ width: '100%' }}
                         >
                           {this.state.componentType === 'add' &&
-                            'Assign Now'}
+                            'Create Now'}
                           {this.state.componentType === 'edit' &&
                             'Save Now'}
                         </Button>
@@ -742,7 +742,7 @@ class CreateProject extends Component {
                   {this.state.projects.length > 0 && this.state.componentType === "add" && (
 
                     <div className="card card-2 create-project">
-                      <h3>Current Projects</h3>
+                      <h3>Current Courses</h3>
 
 
                       <div>
