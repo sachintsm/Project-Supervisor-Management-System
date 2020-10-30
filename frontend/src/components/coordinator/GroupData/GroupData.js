@@ -372,7 +372,7 @@ class GroupData extends Component {
 
                                 </Col>
                             </Row>
-                            {/* <div className="container">
+                            <div className="container">
 
                                 <Row style={{ marginTop: "-70px" }}>
                                     <Card className="task-card-gd">
@@ -426,7 +426,7 @@ class GroupData extends Component {
                                     </Card>
                                 </Row>
 
-                            </div> */}
+                            </div>
 
                         </div>
 

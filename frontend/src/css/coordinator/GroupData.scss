@@ -13,6 +13,10 @@
     color: #444444;
     font-weight: 500;
 }
+.stu-index-data{
+    margin-top: 5px;
+    display : inline-block;
+}
 .gd-reg-email {
     margin-bottom: 20px;
     margin-top: -15px;
@@ -69,7 +73,13 @@
     cursor: pointer;
     transition: 0.5s;
 }
-
+.sl-topic{
+    color: #3b3b3b;
+    font-size: 25px;
+    text-align: center;
+    font-weight: 500;
+    margin-top:10px;
+}
 /***********************************************************************************/
 
 .task-card-gd {
@@ -158,5 +168,9 @@
     .gd-add-div {
         margin-top: -10px;
         margin-bottom: 20px;
+    }
+    .stu-index-data{
+        margin-top: 5px;
+        display : inline-block;
     }
 }

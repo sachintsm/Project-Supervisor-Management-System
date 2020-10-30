@@ -15,12 +15,13 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 const backendURI = require('../shared/BackendURI');
 
 class groupDataBlock {
-    constructor(_id, groupId, projectId, groupMembers, supervisors) {
+    constructor(_id, groupId, projectId, groupEmail,groupMembers, supervisors) {
         this._id = _id;
         this.groupId = groupId;
         this.projectId = projectId;
         this.groupMembers = groupMembers;
         this.supervisors = supervisors;
+        this.groupEmail = groupEmail;
     }
 }
 class ProjectGroups extends Component {
@@ -118,6 +119,7 @@ class ProjectGroups extends Component {
                     this.state.groupData[i]._id,
                     this.state.groupData[i].groupId,
                     this.state.groupData[i].projectId,
+                    this.state.groupData[i].groupEmail,
                     array2,
                     array1
                 )
@@ -135,6 +137,7 @@ class ProjectGroups extends Component {
                     this.state.groupData[i]._id,
                     this.state.groupData[i].groupId,
                     this.state.groupData[i].projectId,
+                    this.state.groupData[i].groupEmail,
                     array3,
                     ''
                 )
@@ -262,7 +265,8 @@ class ProjectGroups extends Component {
 
                                         <thead>
                                             <tr>
-                                                <th className="table-head">Group</th>
+                                                <th className="table-head">No.</th>
+                                                <th className="table-head">Email</th>
                                                 <th className="table-head">Members' Ids</th>
                                                 <th className="table-head">Supervisors</th>
                                                 <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
@@ -272,9 +276,10 @@ class ProjectGroups extends Component {
                                             {this.state.groupDataBlock.map((item) => {
                                                 return (
                                                     <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                        <td className="table-body">{item.groupId}</td>
-                                                        <td className="table-body">{item.groupMembers}</td>
-                                                        <td className="table-body">{item.supervisors}</td>
+                                                        <td className="table-body tbl-item">{item.groupId}</td>
+                                                        <td className="table-body tbl-item">{item.groupEmail}</td>
+                                                        <td className="table-body tbl-item">{item.groupMembers}</td>
+                                                        <td className="table-body tbl-item">{item.supervisors}</td>
                                                         <td style={{ textAlign: 'center' }}>
                                                             <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
                                                                 <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} />
