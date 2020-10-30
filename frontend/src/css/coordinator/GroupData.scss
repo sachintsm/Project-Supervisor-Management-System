@@ -13,7 +13,13 @@
     color: #444444;
     font-weight: 500;
 }
-
+.gd-reg-email {
+    margin-bottom: 20px;
+    margin-top: -15px;
+    font-size: 15px;
+    color: #747474;
+    font-weight: 500;
+}
 .gd-topic {
     font-size: 23px;
     color: #444444;
@@ -136,6 +142,12 @@
         padding-top: 20px;
         font-size: 25px;
         color: #444444;
+        font-weight: 500;
+    }
+    .gd-reg-email {
+        margin-bottom: 20px;
+        font-size: 15px;
+        color: #747474;
         font-weight: 500;
     }
     .gd-del-btn {
