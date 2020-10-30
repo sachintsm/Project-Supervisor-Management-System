@@ -292,7 +292,8 @@ class GroupData extends Component {
 
                     <div className="gd-card">
                         <div className="container">
-                            <p className="gd-reg-head">Group - {this.state.groupData.groupId}</p>
+                            <p className="gd-reg-head">Group - {this.state.groupData.groupId} ( {this.state.groupData.groupName} )</p>
+                            <p className="gd-reg-email">{this.state.groupData.groupEmail}</p>
                         </div>
                         <div className="container" style={{ marginTop: "0px" }}>
                             {this.state.loading === true &&
@@ -371,7 +372,7 @@ class GroupData extends Component {
 
                                 </Col>
                             </Row>
-                            {/* <div className="container">
+                            <div className="container">
 
                                 <Row style={{ marginTop: "-70px" }}>
                                     <Card className="task-card-gd">
@@ -425,7 +426,7 @@ class GroupData extends Component {
                                     </Card>
                                 </Row>
 
-                            </div> */}
+                            </div>
 
                         </div>
 
