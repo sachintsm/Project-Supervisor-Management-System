@@ -29,7 +29,7 @@ export default class BiWeekly extends Component {
 
   constructor(props) {
     super(props)
-
+    
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangebiweeklyDiscription = this.onChangebiweeklyDiscription.bind(this);
     this.onChangebiweeklyNumber = this.onChangebiweeklyNumber.bind(this);
@@ -37,6 +37,7 @@ export default class BiWeekly extends Component {
     this.onChangeTime = this.onChangeTime.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
     this.getBiweekly = this.getBiweekly.bind(this);
+    this.getBiweeklyNumber = this.getBiweeklyNumber.bind(this);
 
     this.state = {
 
@@ -56,6 +57,7 @@ export default class BiWeekly extends Component {
       setFileLimit: 1,
       biweeklylList: [],
       proId: "",
+     // biweeklyNumber :"",
 
     
       byweeklyId: "",
@@ -111,10 +113,11 @@ export default class BiWeekly extends Component {
   componentDidMount() {
     this.userTypes = localStorage.getItem("user-level");
     this.userId = localStorage.getItem("auth-id");
-
     this.getBiweekly();
-
+    this.getBiweeklyNumber()
   }
+
+
 
   getBiweekly() {
     axios.get(backendURI.url + '/biweekly/getBiweeklyLink/' + this.state.projectId)
@@ -123,6 +126,19 @@ export default class BiWeekly extends Component {
           biweeklylList: res.data.data
         })
       })).catch(err => {
+        console.log(err)
+      })
+  }
+
+  getBiweeklyNumber(){
+    axios.get(backendURI.url + '/biweekly/getBiweeklyNumber/'+this.state.projectId)
+      .then((res=>{
+        //console.log("Ashan",res.data.data)
+        this.setState({
+          biweeklyNumber:res.data.data
+        })
+        
+      })).catch(err=>{
         console.log(err)
       })
   }
@@ -268,6 +284,8 @@ export default class BiWeekly extends Component {
   
   }
   }
+
+  
 
   
   onEditHandler = (type) => {
@@ -456,7 +474,7 @@ export default class BiWeekly extends Component {
   
                             <div className="form-group pro-form">
                               <label >Biweekly No :</label>
-                              <input type="number" className="form-control" id="exampleInputBiweekly" placeholder="Select biweekly no"
+                              <input readOnly type="number" className="form-control" id="exampleInputBiweekly"
                               errortext={this.state.biweeklyNumberError}
                               name="biweeklyNumber" value={this.state.biweeklyNumber} onChange={this.onChangebiweeklyNumber} />
                               <p className="reg-error">{this.state.biweeklyNumberError}</p>

@@ -192,6 +192,25 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
   }
 });
 
+router.get('/getBiweeklyNumber/:id',(req, res) => {
+  try {
+       var data 
+       const projectId = req.params.id;
+       const result=[];
+       biweekly.find({projectId: projectId}).then(res=>{
+        for(let i in res ){
+          result.push(res[i])
+        }
+          this.data = result.length+1;
+       })
+       res.send({state:true,data:this.data,msg:"succeded"})
+  } catch (error) {
+       console.log(error)
+      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+  }
+})
+
+
 
 
 module.exports = router;
