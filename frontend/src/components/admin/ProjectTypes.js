@@ -46,7 +46,7 @@ class ProjectTypes extends Component {
       warnAlert: false,
       editAlert: false,
       componentType: 'add',
-      title: 'Add New Project Type',
+      title: 'Add New Course Type',
       isAcademicYear: true,
       isFirstYear: false,
       isSecondYear: false,
@@ -155,7 +155,9 @@ class ProjectTypes extends Component {
   goBack() {
     this.setState({
       componentType: "add",
-      title: 'Add New Project Type',
+      title: 'Add New Course Type',
+      projectType1: "",
+      projectType2: ""
     })
   }
 
@@ -199,7 +201,14 @@ class ProjectTypes extends Component {
       projectType1: type.projectType1,
       projectType2: type.projectType2,
       id: type._id,
-    }, () => { window.scrollTo(0, 0) })
+    }, () => {
+      window.scrollTo(0, 0)
+      if(!type.projectType2){
+        this.setState({
+          projectType2: ""
+        })
+      }
+    })
   }
 
   closeAlert = () => {
@@ -230,7 +239,7 @@ class ProjectTypes extends Component {
         />
 
         <Snackpop
-          msg={'Please define a Project Type Name'}
+          msg={'Please define a Course Type Name'}
           color={'error'}
           time={3000}
           status={this.state.warnAlert}
@@ -425,14 +434,14 @@ class ProjectTypes extends Component {
                 {this.state.projectTypeList.length > 0 && this.state.componentType === "add" && (
 
                   <div className="card card-div-2">
-                    <h3 className='title2'>Project Categories</h3>
+                    <h3 className='title2'>Current Course Types</h3>
 
 
                     <div>
                       <Table hover style={{ marginTop: 20 }} >
                         <thead>
                           <tr>
-                            <th className="table-heading">Project Type</th>
+                            <th className="table-heading">Course Type</th>
                             <th className="table-heading">Academic Years</th>
                             <th className="table-heading" style={{ width: '20%', }}>Operations</th>
                           </tr>

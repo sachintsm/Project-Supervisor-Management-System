@@ -30,7 +30,7 @@ class CreateProject extends Component {
 
     this.state = {
       componentType: 'add',
-      title: 'Assign Coordinators & Students',
+      title: 'Create Course',
       projects: [],
       selectedTypeIndex: 0,
       academicYear: '',
@@ -44,7 +44,10 @@ class CreateProject extends Component {
       successAlert: false,
       warnAlert: false,
       typeWarnAlert: false,
-      newIndex: ""
+      alreadyExistsAlert: false,
+      studentNotExistAlert: false,
+      newIndex: "",
+      studentErrorMsg: ""
     };
   }
   //   const [selected, setSelected] = useState([]);
@@ -96,8 +99,8 @@ class CreateProject extends Component {
   onCreateProject() {
 
     confirmAlert({
-      title: 'Projects',
-      message: 'Are you sure?',
+      title: 'Course',
+      message: 'Confirm to create Course?',
       buttons: [
         {
           label: 'Yes',
@@ -124,10 +127,50 @@ class CreateProject extends Component {
               if (this.state.componentType === 'add') {
 
                 axios.post(backendURI.url + '/projects', project, { headers: headers }).then(result => {
-                  this.setState({
-                    successAlert: true
-                  })
-                  this.getProjectList()
+
+                  if(result.data==="Exists"){
+
+
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+
+
+                    // if students are not existing
+                    if(result.data.emptyStudents && result.data.emptyStudents.length>0){
+
+                      let emptyStudents = result.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      this.setState({
+                        successAlert: true
+                      })
+                      this.getProjectList()
+                    }
+
+
+                  }
+
+
                 }).catch(err => {
                   console.log(err)
                 })
@@ -136,15 +179,49 @@ class CreateProject extends Component {
               if (this.state.componentType === 'edit') {
 
                 axios.patch(backendURI.url + '/projects/' + this.state.id, this.state, { headers: headers }).then(res => {
+
+                  if(res.data==="Exists"){
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+
+                    // if students are not existing
+                    if(res.data.emptyStudents && res.data.emptyStudents.length>0){
+
+                      let emptyStudents = res.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      window.location.reload(false);
+
+                      this.setState({
+                        editAlert: true,
+                      })
+                    }
+
+                  }
                 }).catch(err => {
                   console.log(err)
                 })
 
-                window.location.reload(false);
-
-                this.setState({
-                  editAlert: true,
-                })
               }
 
             }
@@ -294,7 +371,7 @@ class CreateProject extends Component {
   onDeleteHandler = (id) => {
     confirmAlert({
       title: 'Delete Project',
-      message: 'This will delete the entire project. Are you sure?',
+      message: 'This will delete the entire course. Are you sure?',
       buttons: [
 
         {
@@ -340,6 +417,7 @@ class CreateProject extends Component {
         'auth-token': getFromStorage('auth-token').token,
       }
       axios.get(backendURI.url + '/users/stafflist/' + id, { headers: headers }).then(res => {
+
         // console.log(res)
         if (res.data) {
           const name = res.data.firstName + " " + res.data.lastName
@@ -358,7 +436,7 @@ class CreateProject extends Component {
 
     this.setState({
       componentType: 'edit',
-      title: 'Edit Project',
+      title: 'Edit Course',
       type: project.projectType,
       year: project.projectYear,
       academicYear: project.academicYear,
@@ -371,7 +449,7 @@ class CreateProject extends Component {
 
     this.setState({
       componentType: "add",
-      title: 'Assign Coordinators & Students',
+      title: 'Create Course',
       selectedTypeIndex: 0,
       selectedStaffList: []
     })
@@ -382,11 +460,15 @@ class CreateProject extends Component {
       successAlert: false,
       editAlert: false,
       warnAlert: false,
-      typeWarnAlert: false
+      typeWarnAlert: false,
+      alreadyExistsAlert: false,
+      studentNotExistAlert: false
     });
   };
 
   handleForce = data => {
+
+    console.log(data)
     let studenList = []
     data.map(row => {
       if (row[0] !== "") {
@@ -447,7 +529,7 @@ class CreateProject extends Component {
     return (
       <React.Fragment>
         <Snackpop
-          msg={'Project Created Successfully'}
+          msg={'Course Created Successfully'}
           color={'success'}
           time={3000}
           status={this.state.successAlert}
@@ -477,6 +559,24 @@ class CreateProject extends Component {
           status={this.state.typeWarnAlert}
           closeAlert={this.closeAlert}
         />
+
+        <Snackpop
+            msg={'Course Already Exists'}
+            color={'error'}
+            time={20000}
+            status={this.state.alreadyExistsAlert}
+            closeAlert={this.closeAlert}
+        />
+
+
+        <Snackpop
+            msg={this.state.studentErrorMsg}
+            color={'error'}
+            time={3000}
+            status={this.state.studentNotExistAlert}
+            closeAlert={this.closeAlert}
+        />
+
         <Navbar panel={'admin'} />
         <div className="create-project-main">
 
@@ -492,7 +592,7 @@ class CreateProject extends Component {
                       <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
-                            Year of the Project
+                            Course Year
                             </p>
                         </Row>
                         <Row>
@@ -516,7 +616,7 @@ class CreateProject extends Component {
                       <Col lg="4" md="4" sm="6" xs="6">
                         <Row>
                           <p className="cp-text">
-                            Project Type
+                            Course Type
                             </p>
                         </Row>
 
@@ -596,7 +696,7 @@ class CreateProject extends Component {
                     <Row style={{ paddingLeft: '30px', marginTop: '20px' }}>
                       <Row>
                         <p className="cp-text">
-                          Assign Coordinators into the Project
+                          Assign Coordinators into the Course
                           </p>
                       </Row>
                       <Col md={12} sm={12} lg={12} xs={12} className="multiselect-col">
@@ -616,7 +716,7 @@ class CreateProject extends Component {
 
                       <Row style={{ paddingLeft: '15px', }}>
                         <p className="cp-text">
-                          Assign Students into the Project
+                          Assign Students into the Course
                           </p>
                       </Row>
                       {this.state.componentType === "add" &&
@@ -727,7 +827,7 @@ class CreateProject extends Component {
                           style={{ width: '100%' }}
                         >
                           {this.state.componentType === 'add' &&
-                            'Assign Now'}
+                            'Create Now'}
                           {this.state.componentType === 'edit' &&
                             'Save Now'}
                         </Button>
@@ -742,7 +842,7 @@ class CreateProject extends Component {
                   {this.state.projects.length > 0 && this.state.componentType === "add" && (
 
                     <div className="card card-2 create-project">
-                      <h3>Current Projects</h3>
+                      <h3>Current Courses</h3>
 
 
                       <div>
@@ -761,7 +861,7 @@ class CreateProject extends Component {
                             {this.state.projects.map((project) => {
                               return (<tr key={project._id}>
                                 <td style={{ verticalAlign: 'middle' }}>{project.projectYear}</td>
-                                <td style={{ verticalAlign: 'middle' }}>{project.projectType}</td>
+                                <td style={{ verticalAlign: 'middle' }}>{project.projectType} {project.projectSu}</td>
                                 <td style={{ verticalAlign: 'middle' }}>{project.academicYear ? project.academicYear : '-'}</td>
                                 <td style={{ verticalAlign: 'middle' }}><CoordinatorList idList={project} /></td>
                                 {project.projectState && <td style={{ verticalAlign: 'middle', color: 'green' }}>Active</td>}

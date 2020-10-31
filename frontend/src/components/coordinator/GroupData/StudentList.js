@@ -6,7 +6,7 @@ import '../../../css/coordinator/GroupData.scss';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
 import Snackpop from "../../shared/Snackpop";
-
+import Index from "../../shared/Index";
 const backendURI = require('../../shared/BackendURI');
 
 class studentBlock {
@@ -113,10 +113,11 @@ class StudentList extends Component {
                 />
                 {this.state.studentList.map((user, index) => {
                     return (
-                        <div key={user.id} className="sd-sl-card-student"> 
+                        <div key={user.id} className="sd-sl-card-student">
                             <Row >
                                 <Col md="3" xs="6">
-                                    <p className="sl-text">{user.index}</p>
+                                    <span className="stu-index-data">  <Index id={user.id} index={user.index} /></span>
+                                    {/* <p className="sl-text">{user.index}</p> */}
                                 </Col>
                                 <Col md="3" xs="6">
                                     <p className="sl-text">{user.reg}</p>

@@ -11,16 +11,16 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import axios from 'axios';
 import { Table, Spinner } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const backendURI = require('../../shared/BackendURI');
 
 class groupDataBlock {
-    constructor(_id, groupId, projectId, groupMembers, supervisors) {
+    constructor(_id, groupId, projectId, groupMembers, groupEmail, supervisors) {
         this._id = _id;
         this.groupId = groupId;
         this.projectId = projectId;
         this.groupMembers = groupMembers;
+        this.groupEmail = groupEmail;
         this.supervisors = supervisors;
     }
 }
@@ -100,6 +100,7 @@ export default class Groups extends Component {
                         this.state.groupData[i].groupId,
                         this.state.groupData[i].projectId,
                         array2,
+                        this.state.groupData[i].groupEmail,
                         array1
                     )
                     this.setState({ groupDataBlock: [...this.state.groupDataBlock, block] })
@@ -115,6 +116,7 @@ export default class Groups extends Component {
                         this.state.groupData[i].groupId,
                         this.state.groupData[i].projectId,
                         array3,
+                        this.state.groupData[i].groupEmail,
                         ''
                     )
                     this.setState({ groupDataBlock: [...this.state.groupDataBlock, blockA] })
@@ -209,37 +211,42 @@ export default class Groups extends Component {
                         </div>
                     )}
                     {dataDiv && (
-                        <div className="container">
-                            <p className="pg-details-head">Project Groups</p>
+                        <div className="card">
+                            <div className="container">
+                                <p className="pg-details-head">Project Groups</p>
 
-                            {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                            <Table hover className="pg-table" >
+                                {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
+                                <Table hover className="pg-table" >
 
-                                <thead>
-                                    <tr>
-                                        <th className="table-head">Group</th>
-                                        <th className="table-head">Members' Ids</th>
-                                        <th className="table-head">Supervisors</th>
-                                        <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.groupDataBlock.map((item) => {
-                                        return (
-                                            <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                <td className="table-body">{item.groupId}</td>
-                                                <td className="table-body">{item.groupMembers}</td>
-                                                <td className="table-body">{item.supervisors}</td>
-                                                <td style={{ textAlign: 'center' }}>
-                                                    <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
-                                                        <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} />
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
+                                    <thead>
+                                        <tr>
+                                            <th className="table-head">No.</th>
+                                            <th className="table-head">Email</th>
+                                            <th className="table-head">Members' Ids</th>
+                                            <th className="table-head">Supervisors</th>
+                                            <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.groupDataBlock.map((item) => {
+                                            return (
+
+                                                <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
+                                                    <td className="table-body tbl-item">{item.groupId}</td>
+                                                    <td className="table-body tbl-item">{item.groupEmail}</td>
+                                                    <td className="table-body tbl-item">{item.groupMembers}</td>
+                                                    <td className="table-body tbl-item">{item.supervisors}</td>
+                                                    <td style={{ textAlign: 'center' }}>
+                                                        <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
+                                                            <DeleteForeverIcon className="del-btn" fontSize="default" onClick={() => this.deleteGroup(item._id)} />
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                            </div>
                         </div>
                     )}
                 </div>

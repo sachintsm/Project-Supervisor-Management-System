@@ -71,8 +71,6 @@ export default class ViewUsers extends Component {
             snackbarcolor: '',
 
             authState: '',
-            snackbaropen: false,
-            snackbarmsg: '',
             firstName: '',
             lastName: '',
             email: '',
@@ -274,7 +272,7 @@ export default class ViewUsers extends Component {
                             <Sidebar />
                         </div> */}
                         <div className="col-md-12" style={{ minHeight: "1000px" }}>
-                            <div className="container">
+                            <div className="container-fluid" style={{"padding": "0px 160px"}}>
 
                                 <Tabs defaultActiveKey="staff" id="uncontrolled-tab-example" style={{ marginTop: "20px" }}>
 
@@ -289,7 +287,7 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="text" value={this.state.search} placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="container">
+                                                    <div className="container-fluid">
                                                         <div className=" vu-table">
 
                                                             <Table hover className="vu-table-hover" >
@@ -325,7 +323,7 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="container">
+                                                    <div className="container-fluid">
                                                         <div className=" vu-table">
                                                             <Table hover  className="vu-table-hover" >
                                                                 <thead>
@@ -360,7 +358,7 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="container">
+                                                    <div className="container-fluid">
                                                         <div className=" vu-table">
                                                             <Table hover  className="vu-table-hover">
                                                                 <thead>
@@ -397,7 +395,7 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="container">
+                                                    <div className="container-fluid">
                                                         <div className=" vu-table">
                                                             <Table hover  className="vu-table-hover">
                                                                 <thead>
@@ -433,7 +431,7 @@ export default class ViewUsers extends Component {
                                                             <input className="form-control" type="Id" name="Id" id="Id" placeholder="Search Name Here" onChange={this.handleSearch} />
                                                         </div>
                                                     </form>
-                                                    <div className="container">
+                                                    <div className="container-fluid">
                                                         <div className=" vu-table">
                                                             <Table hover  className="vu-table-hover">
                                                                 <thead>

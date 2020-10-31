@@ -5,6 +5,7 @@ import { Row, Col } from "reactstrap";
 import '../../../css/coordinator/GroupData.scss';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { confirmAlert } from 'react-confirm-alert';
+import SupervisorDetails from '../SupervisorDetails';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -31,7 +32,7 @@ class StudentList extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
-    componentDidMount = async () => {        
+    componentDidMount = async () => {
         this.setState({
             supervisorList: []
         })
@@ -41,7 +42,7 @@ class StudentList extends Component {
 
         await axios.get(backendURI.url + '/users/supervisorList/' + this.props.obj, { headers: headers }).then(res => {
             if (res) {
-                
+
                 if (res.data.data !== undefined) {
                     const _id = res.data.data._id
                     const name = res.data.data.firstName + " " + res.data.data.lastName
@@ -108,7 +109,9 @@ class StudentList extends Component {
                         <div key={user.id} className="sl-card-super">
                             <Row >
                                 <Col md="10" xs="10">
-                                    <p className="sl-text">{user.name}</p>
+                                    <span className="stu-index-data">  <SupervisorDetails id={user.id} name={user.name} /> </span>
+
+                                    {/* <p className="sl-text">{user.name}</p> */}
                                 </Col>
                                 <Col md="2" xs="2">
                                     <DeleteForeverIcon className="gd-del-btn" onClick={() => this.delete(user.id)} />

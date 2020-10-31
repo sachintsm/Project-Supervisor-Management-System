@@ -317,7 +317,7 @@ class EditUser extends Component {
                               <input
                                 type="submit"
                                 value="Update User"
-                                className="btn btn-primary btn-length"
+                                className="btn btn-info btn-length"
                               />
                             </div>
                           </form>
@@ -348,7 +348,7 @@ class EditUser extends Component {
                             <input
                               type="submit"
                               value="Reset password"
-                              className="btn btn-primary btn-length"
+                              className="btn btn-danger btn-length"
                               onClick={() =>
                                 this.ResetUserPassword(this.state.id)
                               }

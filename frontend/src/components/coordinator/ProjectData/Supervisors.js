@@ -40,7 +40,7 @@ class Supervisors extends Component {
             supervisorIdList: [],
             finalBlockArray: [],
 
-            mouseState : false,
+            mouseState: false,
         }
     }
     closeAlert = () => {
@@ -114,7 +114,7 @@ class Supervisors extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        if(this.state.mouseState === false){
+        if (this.state.mouseState === false) {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
         }
     }
@@ -212,8 +212,11 @@ class Supervisors extends Component {
                         </div>
                     )}
                     {dataDiv && (
-                        <div>
-                            <Table hover className="as-table" >
+                        <div className="card container">
+                            <div>
+                                <p className="sl-topic">Supervisor List</p>
+                            </div>
+                            <Table hover className="as-table">
                                 <thead>
                                     <tr>
                                         <th className="table-head">Supervisor</th>
@@ -227,12 +230,12 @@ class Supervisors extends Component {
                                         return (
                                             <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
 
-                                                <td className="table-body">{item.name}</td>
-                                                <td className="table-body">{item.groups}</td>
-                                                <td className="table-body">{item.length}</td>
-                                                <td className="table-body">
-                                                    
-                                                    <span onMouseEnter={() => this.setState({mouseState : true})} onMouseLeave={() => this.setState({mouseState : false})}>
+                                                <td className="table-body tbl-row-data">{item.name}</td>
+                                                <td className="table-body tbl-row-data">{item.groups}</td>
+                                                <td className="table-body tbl-row-data">{item.length}</td>
+                                                <td className="table-body tbl-row-data">
+
+                                                    <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
                                                         <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
                                                     </span>
                                                 </td>

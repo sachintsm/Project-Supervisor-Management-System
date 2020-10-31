@@ -36,7 +36,7 @@ export function meetingRequestConfirmEmail(email, groupNumber,date,time) {
                     <h1 style="color:#1A3A94; text-align:center; font-weight:bold;">E-supervision</h1>
                     </div>
                     <h3>Dear group ${groupNumber},</h3>
-                    <p>Your requested meeting has been accepted.You can have the meeting on ${date} ${time}.</p>
+                    <p>Your requested meeting has been accepted.You can have the meeting on ${date} at ${time}.</p>
                 `
     }
     return mail;

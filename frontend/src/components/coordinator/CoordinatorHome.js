@@ -291,7 +291,7 @@ class CoordinatorHome extends Component {
             )
           })}
           <div className="ch-topic-div">
-            <p className="ch-topic">End Projects</p>
+            <p className="ch-topic">Completed Projects</p>
           </div>
 
           {noEndProjects}

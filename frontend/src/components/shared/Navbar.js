@@ -214,17 +214,17 @@ export default class navbar extends Component {
           <MDBNavbar color='special-color-dark' dark expand='md' className='navbar'   >
             <MDBNavbarBrand>
 
-              {this.state.userLevel === "admin" &&
+              {this.state.panel === "admin" &&
                 <Nav.Link className="navlink-icon" href='/adminhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
-              {this.state.userLevel === "student" &&
-                <Nav.Link className="navlink-icon" href='/studenthome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+              {this.state.panel === "student" &&
+                <Nav.Link className="navlink-icon" href='/studenthome'><img alt="" href='/studenthome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
-              {this.state.userLevel === "supervisor" &&
-                <Nav.Link className="navlink-icon" href='/supervisorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+              {this.state.panel === "supervisor" &&
+                <Nav.Link className="navlink-icon" href='/supervisorhome'><img alt="" href='/supervisorhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
-              {this.state.userLevel === "coordinator" &&
-                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img alt="" href='/adminhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
+              {this.state.panel === "coordinator" &&
+                <Nav.Link className="navlink-icon" href='/coordinatorhome'><img alt="" href='/coordinatorhome' style={{ width: '12rem' }} src={require('../../assets/logo/Project Logo white.png')} /></Nav.Link>
               }
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={this.toggleCollapse} />
@@ -232,16 +232,16 @@ export default class navbar extends Component {
               <MDBNavbarNav className='navbar-nav' right>
                 {/*<MDBNavItem className="mr-4 userType"> {this.state.userLevel} *</MDBNavItem>*/}
                 <MDBNavItem className="mr-4">
-                  {this.state.userLevel === "admin" &&
+                  {this.state.panel === "admin" &&
                     <Nav.Link href='/adminhome'>Home</Nav.Link>
                   }
-                  {this.state.userLevel === "student" &&
+                  {this.state.panel === "student" &&
                     <Nav.Link href='/studenthome'>Home</Nav.Link>
                   }
-                  {this.state.userLevel === "supervisor" &&
+                  {this.state.panel === "supervisor" &&
                     <Nav.Link href='/supervisorhome'>Home</Nav.Link>
                   }
-                  {this.state.userLevel === "coordinator" &&
+                  {this.state.panel === "coordinator" &&
                     <Nav.Link href='/coordinatorhome'>Home</Nav.Link>
                   }
                 </MDBNavItem>
@@ -267,7 +267,7 @@ export default class navbar extends Component {
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       <MDBDropdownItem href='/coordinatorhome/createGroups'>Create Groups</MDBDropdownItem>
-                      <MDBDropdownItem href='/coordinatorhome/projectGroups'>Project Groups Data</MDBDropdownItem>
+                      <MDBDropdownItem href='/coordinatorhome/projectGroups'>View Groups</MDBDropdownItem>
                       <MDBDropdownItem href='/coordinatorhome/assignSupervisors'>Assign Supervisors</MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
@@ -293,11 +293,11 @@ export default class navbar extends Component {
 
                   <MDBDropdown className="mr-4">
                     <MDBDropdownToggle nav caret>
-                      <span className='mr-2'>Projects</span>
+                      <span className='mr-2'>Courses</span>
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
-                      <MDBDropdownItem href='/adminhome/projecttypes'>Project Types</MDBDropdownItem>
-                      <MDBDropdownItem href='/adminhome/createproject'>Create Project</MDBDropdownItem>
+                      <MDBDropdownItem href='/adminhome/projecttypes'>Course Types</MDBDropdownItem>
+                      <MDBDropdownItem href='/adminhome/createproject'>Create Course</MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
                 )}

@@ -379,7 +379,7 @@ export default class CreateGroups extends Component {
                                                 </div>
                                             </div>
                                         </Tab>
-                                        <Tab eventKey="single" title="Registration">
+                                        <Tab eventKey="single" title="Single Registration">
                                             <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
                                                 <Row>
                                                     <Col>
