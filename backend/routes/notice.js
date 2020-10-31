@@ -177,6 +177,8 @@ router.get('/getNotice/:id', async (req, res) => {
   try {
     const coId = req.params.id
     const result1 = await Projects.find({ coordinatorList: coId, projectState: true }).select('_id')
+
+    console.log(result1)
     let idList = []
     for (let i in result1) {
       idList.push(result1[i]._id)
