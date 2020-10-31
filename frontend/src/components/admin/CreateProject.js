@@ -44,7 +44,10 @@ class CreateProject extends Component {
       successAlert: false,
       warnAlert: false,
       typeWarnAlert: false,
-      newIndex: ""
+      alreadyExistsAlert: false,
+      studentNotExistAlert: false,
+      newIndex: "",
+      studentErrorMsg: ""
     };
   }
   //   const [selected, setSelected] = useState([]);
@@ -96,8 +99,8 @@ class CreateProject extends Component {
   onCreateProject() {
 
     confirmAlert({
-      title: 'Projects',
-      message: 'Are you sure?',
+      title: 'Course',
+      message: 'Confirm to create Course?',
       buttons: [
         {
           label: 'Yes',
@@ -124,10 +127,50 @@ class CreateProject extends Component {
               if (this.state.componentType === 'add') {
 
                 axios.post(backendURI.url + '/projects', project, { headers: headers }).then(result => {
-                  this.setState({
-                    successAlert: true
-                  })
-                  this.getProjectList()
+
+                  if(result.data==="Exists"){
+
+
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+
+
+                    // if students are not existing
+                    if(result.data.emptyStudents && result.data.emptyStudents.length>0){
+
+                      let emptyStudents = result.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      this.setState({
+                        successAlert: true
+                      })
+                      this.getProjectList()
+                    }
+
+
+                  }
+
+
                 }).catch(err => {
                   console.log(err)
                 })
@@ -136,15 +179,49 @@ class CreateProject extends Component {
               if (this.state.componentType === 'edit') {
 
                 axios.patch(backendURI.url + '/projects/' + this.state.id, this.state, { headers: headers }).then(res => {
+
+                  if(res.data==="Exists"){
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+
+                    // if students are not existing
+                    if(res.data.emptyStudents && res.data.emptyStudents.length>0){
+
+                      let emptyStudents = res.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      window.location.reload(false);
+
+                      this.setState({
+                        editAlert: true,
+                      })
+                    }
+
+                  }
                 }).catch(err => {
                   console.log(err)
                 })
 
-                window.location.reload(false);
-
-                this.setState({
-                  editAlert: true,
-                })
               }
 
             }
@@ -294,7 +371,7 @@ class CreateProject extends Component {
   onDeleteHandler = (id) => {
     confirmAlert({
       title: 'Delete Project',
-      message: 'This will delete the entire project. Are you sure?',
+      message: 'This will delete the entire course. Are you sure?',
       buttons: [
 
         {
@@ -340,6 +417,7 @@ class CreateProject extends Component {
         'auth-token': getFromStorage('auth-token').token,
       }
       axios.get(backendURI.url + '/users/stafflist/' + id, { headers: headers }).then(res => {
+
         // console.log(res)
         if (res.data) {
           const name = res.data.firstName + " " + res.data.lastName
@@ -382,11 +460,15 @@ class CreateProject extends Component {
       successAlert: false,
       editAlert: false,
       warnAlert: false,
-      typeWarnAlert: false
+      typeWarnAlert: false,
+      alreadyExistsAlert: false,
+      studentNotExistAlert: false
     });
   };
 
   handleForce = data => {
+
+    console.log(data)
     let studenList = []
     data.map(row => {
       if (row[0] !== "") {
@@ -477,6 +559,24 @@ class CreateProject extends Component {
           status={this.state.typeWarnAlert}
           closeAlert={this.closeAlert}
         />
+
+        <Snackpop
+            msg={'Course Already Exists'}
+            color={'error'}
+            time={20000}
+            status={this.state.alreadyExistsAlert}
+            closeAlert={this.closeAlert}
+        />
+
+
+        <Snackpop
+            msg={this.state.studentErrorMsg}
+            color={'error'}
+            time={3000}
+            status={this.state.studentNotExistAlert}
+            closeAlert={this.closeAlert}
+        />
+
         <Navbar panel={'admin'} />
         <div className="create-project-main">
 
