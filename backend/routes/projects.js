@@ -54,6 +54,64 @@ router.patch("/projecttype/delete/:id", async (req, res, next) => {
   }
 })
 
+
+//Insert new Project API
+router.post('/', async (req, res, next) => {
+  try {
+    const project = new Projects(req.body);
+    const studentList = project.studentList
+
+    let emptyStudents = []
+
+
+    const isProjectExist = await Projects.find({projectYear: project.projectYear, projectType: project.projectType, academicYear: project.academicYear, isDeleted:false})
+
+    // if the project is already existing in the system
+    if(isProjectExist.length>0){
+      res.send("Exists")
+    }
+
+    // if the project is not existing in the system
+    else{
+
+      const studentPromises = studentList.map( async index => {
+        let student = await User.findOne({indexNumber: index})
+        if(student==null){
+          emptyStudents.push(index)
+        }
+      })
+
+      const list = await Promise.all(studentPromises)
+
+
+      // if there are students not registered with the system
+      if(emptyStudents.length>0){
+        res.send({ emptyStudents: emptyStudents });
+      }
+
+      // if all students are registered
+      else{
+
+        const coordinatorList = req.body.coordinatorList;
+
+        coordinatorList.map(async item=> {
+          await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
+        })
+
+        project.isDeleted = false;
+        project.projectState = true;
+        const result = await project.save();
+        res.send(result);
+      }
+
+    }
+
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
+
 //Delete Project API
 router.patch("/delete/:id", async (req, res, next) => {
   try {
@@ -90,14 +148,40 @@ router.patch("/:id", async (req, res, next) => {
       res.send("Exists")
     }
     else{
-      console.log("not exists")
-      idList.map(async item=> {
-        console.log(item)
-        await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
+
+      const studentList = update.studentList
+      let emptyStudents = []
+
+      const studentPromises = studentList.map( async index => {
+        let student = await User.findOne({indexNumber: index})
+        if(student==null){
+          emptyStudents.push(index)
+        }
       })
 
-      const result = await Projects.findByIdAndUpdate(id, update, { new: true })
-      res.send(result)
+      const list = await Promise.all(studentPromises)
+
+
+      // if there are students not registered with the system
+      if(emptyStudents.length>0){
+        console.log(emptyStudents)
+        res.send({ emptyStudents: emptyStudents });
+      }
+
+      // if all students are registered
+      else{
+
+        console.log("not exists")
+        idList.map(async item=> {
+          console.log(item)
+          await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
+        })
+
+        const result = await Projects.findByIdAndUpdate(id, update, { new: true })
+        res.send(result)
+      }
+
+
     }
 
   } catch (err) {
@@ -130,36 +214,6 @@ router.patch("/projecttype/:id", async (req, res, next) => {
 })
 
 
-//Insert new Project API
-router.post('/', async (req, res, next) => {
-  try {
-    const project = new Projects(req.body);
-
-    const isProjectExist = await Projects.find({projectYear: project.projectYear, projectType: project.projectType, academicYear: project.academicYear, isDeleted:false})
-
-    if(isProjectExist.length>0){
-      console.log("exists")
-      res.send("Exists")
-    }
-    else{
-      const coordinatorList = req.body.coordinatorList;
-
-      coordinatorList.map(async item=> {
-        await User.findByIdAndUpdate(item, { isCoordinator: true }, { new: true })
-      })
-
-      project.isDeleted = false;
-      project.projectState = true;
-      console.log("hello")
-      const result = await project.save();
-      res.send(result);
-    }
-
-  }
-  catch (err) {
-    console.log(err)
-  }
-})
 
 // ?get all the active projects fot coordinator
 router.get('/active&projects/:coordinatorId', (req, res) => {

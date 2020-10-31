@@ -45,7 +45,9 @@ class CreateProject extends Component {
       warnAlert: false,
       typeWarnAlert: false,
       alreadyExistsAlert: false,
-      newIndex: ""
+      studentNotExistAlert: false,
+      newIndex: "",
+      studentErrorMsg: ""
     };
   }
   //   const [selected, setSelected] = useState([]);
@@ -125,19 +127,49 @@ class CreateProject extends Component {
               if (this.state.componentType === 'add') {
 
                 axios.post(backendURI.url + '/projects', project, { headers: headers }).then(result => {
-                  console.log(result.data)
+
                   if(result.data==="Exists"){
+
+
                     this.setState({
                       alreadyExistsAlert: true
                     })
                   }
                   else{
-                    console.log("not exists")
-                    this.setState({
-                      successAlert: true
-                    })
-                    this.getProjectList()
+
+
+                    // if students are not existing
+                    if(result.data.emptyStudents && result.data.emptyStudents.length>0){
+
+                      let emptyStudents = result.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      this.setState({
+                        successAlert: true
+                      })
+                      this.getProjectList()
+                    }
+
+
                   }
+
 
                 }).catch(err => {
                   console.log(err)
@@ -155,11 +187,36 @@ class CreateProject extends Component {
                   }
                   else{
 
-                    window.location.reload(false);
+                    // if students are not existing
+                    if(res.data.emptyStudents && res.data.emptyStudents.length>0){
 
-                    this.setState({
-                      editAlert: true,
-                    })
+                      let emptyStudents = res.data.emptyStudents
+                      // studentErrorMsg
+
+                      let errorMsg = ""
+                      emptyStudents.map(index=> {
+                        errorMsg = errorMsg + index +", "
+                      })
+
+                      errorMsg = errorMsg + "students are not registered with the system"
+                      this.setState({
+                        studentErrorMsg: errorMsg
+                      },()=> {
+                        this.setState({
+                          studentNotExistAlert:true
+                        })
+                      })
+
+                    }
+                    else{
+
+                      window.location.reload(false);
+
+                      this.setState({
+                        editAlert: true,
+                      })
+                    }
+
                   }
                 }).catch(err => {
                   console.log(err)
@@ -404,11 +461,14 @@ class CreateProject extends Component {
       editAlert: false,
       warnAlert: false,
       typeWarnAlert: false,
-      alreadyExistsAlert: false
+      alreadyExistsAlert: false,
+      studentNotExistAlert: false
     });
   };
 
   handleForce = data => {
+
+    console.log(data)
     let studenList = []
     data.map(row => {
       if (row[0] !== "") {
@@ -503,8 +563,17 @@ class CreateProject extends Component {
         <Snackpop
             msg={'Course Already Exists'}
             color={'error'}
-            time={3000}
+            time={20000}
             status={this.state.alreadyExistsAlert}
+            closeAlert={this.closeAlert}
+        />
+
+
+        <Snackpop
+            msg={this.state.studentErrorMsg}
+            color={'error'}
+            time={3000}
+            status={this.state.studentNotExistAlert}
             closeAlert={this.closeAlert}
         />
 
