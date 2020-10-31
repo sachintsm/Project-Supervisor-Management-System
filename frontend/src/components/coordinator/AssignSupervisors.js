@@ -487,10 +487,10 @@ class AssignSupervisors extends Component {
                                                 {this.state.finalBlockArray.map((item) => {
                                                     return (
                                                         <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
-                                                            <td className="table-body">{item.name}</td>
-                                                            <td className="table-body">{item.groups}</td>
-                                                            <td className="table-body">{item.length}</td>
-                                                            <td className="table-body">
+                                                            <td className="table-body tbl-row-data">{item.name}</td>
+                                                            <td className="table-body tbl-row-data">{item.groups}</td>
+                                                            <td className="table-body tbl-row-data">{item.length}</td>
+                                                            <td className="table-body tbl-row-data">
                                                                 <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
                                                                     <DeleteForeverIcon className="del-btn" onClick={() => this.deleteSupervisor(item.id, item.groups)} />
                                                                 </span>
@@ -531,14 +531,6 @@ class AssignSupervisors extends Component {
                                     </div>
                                     <div className="container" style={{ width: "100%" }}>
                                         {list}
-                                        {/* {this.state.staffOptionList.map(data => {
-                                            return (
-                                                <div key={data.value} >
-                                                    <StaffList data={data} state={data.added} />
-                                                </div>
-
-                                            )
-                                        })} */}
                                     </div>
                                 </Row >
 
