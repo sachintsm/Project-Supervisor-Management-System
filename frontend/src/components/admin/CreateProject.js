@@ -44,6 +44,7 @@ class CreateProject extends Component {
       successAlert: false,
       warnAlert: false,
       typeWarnAlert: false,
+      alreadyExistsAlert: false,
       newIndex: ""
     };
   }
@@ -96,8 +97,8 @@ class CreateProject extends Component {
   onCreateProject() {
 
     confirmAlert({
-      title: 'Projects',
-      message: 'Are you sure?',
+      title: 'Course',
+      message: 'Confirm to create Course?',
       buttons: [
         {
           label: 'Yes',
@@ -124,10 +125,20 @@ class CreateProject extends Component {
               if (this.state.componentType === 'add') {
 
                 axios.post(backendURI.url + '/projects', project, { headers: headers }).then(result => {
-                  this.setState({
-                    successAlert: true
-                  })
-                  this.getProjectList()
+                  console.log(result.data)
+                  if(result.data==="Exists"){
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+                    console.log("not exists")
+                    this.setState({
+                      successAlert: true
+                    })
+                    this.getProjectList()
+                  }
+
                 }).catch(err => {
                   console.log(err)
                 })
@@ -136,15 +147,24 @@ class CreateProject extends Component {
               if (this.state.componentType === 'edit') {
 
                 axios.patch(backendURI.url + '/projects/' + this.state.id, this.state, { headers: headers }).then(res => {
+
+                  if(res.data==="Exists"){
+                    this.setState({
+                      alreadyExistsAlert: true
+                    })
+                  }
+                  else{
+
+                    window.location.reload(false);
+
+                    this.setState({
+                      editAlert: true,
+                    })
+                  }
                 }).catch(err => {
                   console.log(err)
                 })
 
-                window.location.reload(false);
-
-                this.setState({
-                  editAlert: true,
-                })
               }
 
             }
@@ -294,7 +314,7 @@ class CreateProject extends Component {
   onDeleteHandler = (id) => {
     confirmAlert({
       title: 'Delete Project',
-      message: 'This will delete the entire project. Are you sure?',
+      message: 'This will delete the entire course. Are you sure?',
       buttons: [
 
         {
@@ -340,6 +360,7 @@ class CreateProject extends Component {
         'auth-token': getFromStorage('auth-token').token,
       }
       axios.get(backendURI.url + '/users/stafflist/' + id, { headers: headers }).then(res => {
+
         // console.log(res)
         if (res.data) {
           const name = res.data.firstName + " " + res.data.lastName
@@ -382,7 +403,8 @@ class CreateProject extends Component {
       successAlert: false,
       editAlert: false,
       warnAlert: false,
-      typeWarnAlert: false
+      typeWarnAlert: false,
+      alreadyExistsAlert: false
     });
   };
 
@@ -477,6 +499,15 @@ class CreateProject extends Component {
           status={this.state.typeWarnAlert}
           closeAlert={this.closeAlert}
         />
+
+        <Snackpop
+            msg={'Course Already Exists'}
+            color={'error'}
+            time={3000}
+            status={this.state.alreadyExistsAlert}
+            closeAlert={this.closeAlert}
+        />
+
         <Navbar panel={'admin'} />
         <div className="create-project-main">
 
