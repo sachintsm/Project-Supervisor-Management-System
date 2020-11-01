@@ -18,6 +18,7 @@ import {
      FormGroup,
      FormControl,
 } from "react-bootstrap";
+import ViewComments from "../supervisor/Notifications/ViewComments";
 
 const backendURI = require("../shared/BackendURI");
 var dateFormat = require('dateformat');
@@ -47,8 +48,8 @@ class SubmitPanal extends Component {
                supervisors: [],
                open: false,
                biweeklyDetails: [],
-
-               
+               loading3: false,
+               comments: []
              
                
           }
@@ -61,7 +62,6 @@ class SubmitPanal extends Component {
      }
 
      componentDidMount() {
-
           const dt = {
                projectId: this.state.projectId,
                submissionId: this.state.submissionId,
@@ -73,6 +73,8 @@ class SubmitPanal extends Component {
                this.setState({
                     biweeklyDetails : res.data.data
 
+               },()=>{
+                    this.getComments()
                })
               // console.log(res.data.data)
                if(res.data.data.length>0){
@@ -87,6 +89,30 @@ class SubmitPanal extends Component {
      }
 
 
+     getComments = () => {
+
+          console.log(this.state.biweeklyDetails[0]._id)
+          const headers = {
+               'auth-token':getFromStorage('auth-token').token,
+          }
+
+          axios.get(backendURI.url+'/biweekcomments/getcomments/'+this.state.biweeklyDetails[0]._id,{headers: headers}).then(res=>{
+               console.log(res.data)
+               this.setState({
+                    comments: res.data,
+                    loading3: false
+               })
+          })
+     }
+
+     callBackFunction = () => {
+          this.setState({
+               loading3: true,
+               deleteAlert: true
+          },()=> {
+               this.getComments()
+          })
+     }
 
      handleClose() {
           this.setState({
@@ -198,6 +224,8 @@ class SubmitPanal extends Component {
 
 
      render() {
+
+
                return (
                     <React.Fragment>
                          <Navbar panel={"student"} />
@@ -253,7 +281,7 @@ class SubmitPanal extends Component {
                               </div>
 
 
-                              <div className="container-fluid sub_backgrounds" style={{ backgroundColor: '#f5f5f5' }}>
+                              <div className="container-fluid sub_backgrounds padding-bottom" style={{ backgroundColor: '#f5f5f5' }}>
                                    <div className="container">
                                         <div>
                                              <Button size='sm' className="sub_btn1" onClick={this.handleOpen.bind(this)}>Add Submission</Button>
@@ -269,9 +297,17 @@ class SubmitPanal extends Component {
                                              fullWidth={true}
                                         />
 
+                                        {!this.state.loading3 && this.state.comments.length>0 && <p className="sub_status">Comments</p>}
+                                        {!this.state.loading3 && this.state.comments.length>0 && this.state.comments.map((comment,key)=> {
+                                             return <ViewComments comment={comment} key={key} callBack={this.callBackFunction}/>
+
+                                        })}
+
+
                                    </div>
                               </div>
                          </div>
+
                          <Footer />
                     </React.Fragment>
                )
