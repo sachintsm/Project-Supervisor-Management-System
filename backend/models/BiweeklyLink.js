@@ -14,6 +14,7 @@ var biweekly = Schema({
      deadTime : {type : String},
      filePath: { type: String },
      file : {type:String},
+     isDeleted: {type: Boolean},
      toLateSubmision:{type: Boolean},
      submssionFileSize: { type:String},
      setFileLimit: { type:String}

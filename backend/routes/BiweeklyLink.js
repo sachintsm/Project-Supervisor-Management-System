@@ -62,6 +62,7 @@ router.post("/addBiweekly", async (req, res) => {
         deadTime: req.body.deadTime,
         filePath: filePath,
         //file: req.file.originalname,
+        isDeleted : 'false',
         toLateSubmision: tolateSub, 
         submssionFileSize: req.body.submssionFileSize*1000000,
         setFileLimit: req.body.setFileLimit,
@@ -86,6 +87,7 @@ router.post("/addBiweekly", async (req, res) => {
 
 router.get("/biweeklyAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
+  console.log(filename)
   res.sendFile(
     path.join(__dirname, "../local_storage/biweekly_Attachment/" + filename)
   );
@@ -94,7 +96,7 @@ router.get("/biweeklyAttachment/:filename", function (req, res) {
 router.get('/getBiweeklyLink/:_id', async (req, res) => {
   projectId = req.params._id
    // console.log(projectId)
-  biweekly.find({ projectId: projectId })
+  biweekly.find({ projectId: projectId , isDeleted:false})
     .sort({ date: -1 } && { time: -1 })
     .then(data => {
       res.send({ state: true, data: data, msg: "data transfer successfully.." })
@@ -103,37 +105,49 @@ router.get('/getBiweeklyLink/:_id', async (req, res) => {
     })
 })
 
-router.delete('/deleteBiweekly/:_id', verify, async (req, res) => {
-  const proID = req.params._id;
-  biweekly.remove({ _id: proID })
-    .then((result) => {
-      res.status(200).json({
-        message: "Deleted Successfully..",
-      });
-    }).catch((error) => {
-      res.status(500).json({
-        message: "Deleted Unsuccessfully..",
-      });
-    })
+// router.delete('/deleteBiweekly/:_id', verify, async (req, res) => {
+//   const proID = req.params._id;
+//   biweekly.remove({ _id: proID })
+//     .then((result) => {
+//       res.status(200).json({
+//         message: "Deleted Successfully..",
+//       });
+//     }).catch((error) => {
+//       res.status(500).json({
+//         message: "Deleted Unsuccessfully..",
+//       });
+//     })
+// })
+
+router.patch("/deleteBiweekly/:_id", async (req, res, next) => {
+  
+  try {
+    const proID = req.params._id;
+    console.log(proID)
+    const result = await biweekly.findByIdAndUpdate(proID, { isDeleted: true }, { new: true })
+    res.send(result)
+  } catch (err) {
+    console.log(err)
+  }
 })
 
-router.delete("/biweeklyAttachment/:filename", function (req, res) {
-  const filename = req.params.filename;
-  // console.log('djankv' , filename)
-  const path = 'local_storage/biweekly_Attachment/' + filename;
-  try {
-    fs.unlinkSync(path)
-    res.status(200).json({
-      message: 'Delete the file successfully..!'
-    })
-    //file removed
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      msg: 'deleted unsuccessful..'
-    });
-  }
-});
+// router.delete("/biweeklyAttachment/:filename", function (req, res) {
+//   const filename = req.params.filename;
+//   // console.log('djankv' , filename)
+//   const path = 'local_storage/biweekly_Attachment/' + filename;
+//   try {
+//     fs.unlinkSync(path)
+//     res.status(200).json({
+//       message: 'Delete the file successfully..!'
+//     })
+//     //file removed
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//       msg: 'deleted unsuccessful..'
+//     });
+//   }
+// });
 
 router.post('/updateBiweekly/:_id', (req, res) => {  // update methord 
   const proId = req.params._id;
@@ -167,6 +181,7 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
           deadDate: req.body.deadDate,
           deadTime: req.body.deadTime,
           filePath: filePath,
+          isDeleted:'false',
           //file: req.file.originalname,
           toLateSubmision: tolateSub, 
           submssionFileSize: req.body.submssionFileSize*1000000,
@@ -195,7 +210,7 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
 router.get('/getBiweeklyNumber/:id',async (req, res) => {
   try {
        const projectId = req.params.id;
-       const biweeklyLinks = await biweekly.find({projectId: projectId})
+       const biweeklyLinks = await biweekly.find({projectId: projectId , isDeleted:false})
        let data = biweeklyLinks.length + 1
        res.send({state:true,data:data,msg:"Data Transfering successfull..!"})
   } catch (error) {

@@ -79,7 +79,7 @@ router.post("/add", async (req, res) => {
                          files: filePath,
                          supervisors: supervisors,
                          status: status,
-                        biweeklyNumber: biweekly.biweeklyNumber,
+                         biweeklyNumber: biweekly.biweeklyNumber,
                          //biweeklyDiscription: biweekly.biweeklyDescription,
                          deadDate: biweekly.deadDate,
                          deadTime: biweekly.deadTime

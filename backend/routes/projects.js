@@ -44,8 +44,6 @@ router.get('/projecttype', verify, async (req, res, next) => {
 //Delete project category
 router.patch("/projecttype/delete/:id", async (req, res, next) => {
   try {
-
-
     const id = req.params.id;
     const result = await ProjectType.findByIdAndUpdate(id, { isDeleted: true }, { new: true })
     res.send(result)
