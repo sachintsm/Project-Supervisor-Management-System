@@ -131,6 +131,7 @@ export default class BiWeekly extends Component {
   }
 
   getBiweeklyNumber(){
+    console.log("getting buweekly number...")
     axios.get(backendURI.url + '/biweekly/getBiweeklyNumber/'+this.state.projectId)
       .then((res=>{
         console.log("Ashan",res.data.data)
