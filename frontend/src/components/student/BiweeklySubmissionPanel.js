@@ -121,7 +121,10 @@ class SubmitPanal extends Component {
                formData.append("submissionsFile", files[i])
                formData.append("groupno", this.state.groupNo)
                formData.append("groupname", this.state.groupName)
+               formData.append("submissionId",this.state.submissionId)
                formData.append("biweeklyNumber",this.state.biweeklyNumber)
+               formData.append("deadDate",this.state.deadDate)
+               formData.append("deadTime",this.state.deadTime)
                formData.append("groupmember", this.state.groupMembers)
 
 

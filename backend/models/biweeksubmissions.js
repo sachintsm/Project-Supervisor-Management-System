@@ -12,10 +12,10 @@ var biweeksubmissions = Schema({
     originalFileName: {type: String},
     status : [{type:String}],
     supervisors : [{type:String}],
-    biweeklyNumber : {type: String},
-    biweeklyDiscription : {type: String},
-    deadDate : {type: String},
-    deadTime : {type: String},
+   biweeklyNumber : {type: String},
+   // biweeklyDiscription : {type: String},
+   deadDate : {type: String},
+   deadTime : {type: String},
 
 });
 
