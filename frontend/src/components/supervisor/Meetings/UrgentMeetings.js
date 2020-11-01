@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Label, Button, Modal, ModalHeader, ModalBody, Row, Col } from 'reactstrap';
+import { Input, Label, Button, Modal, ModalHeader, ModalBody, Row, Col, } from 'reactstrap';
 import axios from 'axios';
 import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
@@ -21,9 +21,12 @@ class UrgentMeeting extends Component {
       groupNumber: this.props.groupNumber,
       date: new Date(),
       meetingTime: '',
+      link:'',
     }
     this.createMeeting = this.createMeeting.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
+    this.onLinkChange = this.onLinkChange.bind(this);
+
 
   }
 
@@ -32,7 +35,7 @@ class UrgentMeeting extends Component {
   };
   toggle = () => {
     this.setState({
-      modal: !this.statemodal,
+      modal: !this.state.modal,
     });
   };
   onChangeDate = date => {
@@ -43,10 +46,14 @@ class UrgentMeeting extends Component {
 
   onChange = e => {
     this.setState({
-      purpose: e.target.value
+      purpose: e.target.value,
     });
   };
 
+  onLinkChange(e) {
+    this.setState({  link : e.target.value })
+
+  }
 
   onTimeChange(e) {
     this.setState({ meetingTime: e.target.value })
@@ -69,6 +76,7 @@ class UrgentMeeting extends Component {
         purpose: this.state.purpose,
         date: this.state.date,
         time: this.state.meetingTime,
+        link: this.state.link,
         supervisor: getFromStorage('auth-id').id,
         groupId: this.state.groupId,
         groupNumber: this.state.groupNumber
@@ -144,6 +152,10 @@ class UrgentMeeting extends Component {
                       </div>
                     </Col>
                   </Row>
+                  <div className="form-group">
+                    <Label for="avatar">Link</Label>
+                    <Input a type="textarea" className="form-control" name="link" onChange={this.onLinkChange} />
+                  </div>
                   <div className="form-group">
                     <Button className="btn btn-info" type="submit" block>Create Meeting</Button>
                   </div>
