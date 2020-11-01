@@ -133,7 +133,7 @@ export default class BiWeekly extends Component {
   getBiweeklyNumber(){
     axios.get(backendURI.url + '/biweekly/getBiweeklyNumber/'+this.state.projectId)
       .then((res=>{
-        //console.log("Ashan",res.data.data)
+        console.log("Ashan",res.data.data)
         this.setState({
           biweeklyNumber:res.data.data
         })

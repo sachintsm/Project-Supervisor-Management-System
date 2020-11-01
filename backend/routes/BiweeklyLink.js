@@ -196,13 +196,11 @@ router.get('/getBiweeklyNumber/:id',(req, res) => {
   try {
        var data 
        const projectId = req.params.id;
-       const result=[];
+       console.log(projectId)
        biweekly.find({projectId: projectId}).then(res=>{
-        for(let i in res ){
-          result.push(res[i])
-        }
-          this.data = result.length+1;
+         this.data = res.length +1;
        })
+       console.log(this.data)
        res.send({state:true,data:this.data,msg:"succeded"})
   } catch (error) {
        console.log(error)
