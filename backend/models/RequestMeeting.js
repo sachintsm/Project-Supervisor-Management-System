@@ -6,6 +6,7 @@ var requestMeetingSchema = mongoose.Schema({
     groupId: { type: String },
     groupNumber: { type: String },
     purpose: { type: String },
+    link: { type: String },
     date: { type: String },
     time: { type: String },
     supervisor: { type: String },

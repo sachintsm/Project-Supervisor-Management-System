@@ -54,7 +54,7 @@ class SubmitPanal extends Component {
           }
          //let length = this.state.biweeklyDetails.files.length-1
 
-          //console.log(this.state.length)
+          console.log(this.state.biweeklyNumber)
 
           this.onSubmit = this.onSubmit.bind(this)
          
@@ -121,6 +121,7 @@ class SubmitPanal extends Component {
                formData.append("submissionsFile", files[i])
                formData.append("groupno", this.state.groupNo)
                formData.append("groupname", this.state.groupName)
+               formData.append("biweeklyNumber",this.state.biweeklyNumber)
                formData.append("groupmember", this.state.groupMembers)
 
 

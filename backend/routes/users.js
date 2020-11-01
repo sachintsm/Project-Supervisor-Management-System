@@ -515,7 +515,12 @@ router.post('/getLimit/:id', async (req, res) => {
     .exec()
     .then(data => {
       console.log(data);
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+      if(data != 0 ){
+        res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+        }else{
+          console.log('no data');
+         // res.json({ state: true, msg: "Data Transfer Successfully..!", data: 1 });
+        }
 
     })
     .catch(error => {
