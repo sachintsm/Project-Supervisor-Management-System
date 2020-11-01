@@ -51,4 +51,24 @@ router.patch('/edit/:id',async(req,res,next)=>{
     }
 })
 
+//get individul group submission feedbacks
+//? GroupPresentation.js - Coordinator
+router.get('/getGroupFeedback/:groupId', verify, async (req, res) => {
+    const id = req.params.groupId;
+    try{ 
+        PresentationFeedback.find({groupId: id})
+        .exec()
+        .then(data => {
+            res.json({ state : true, msg : 'Success',data : data})
+        })
+        .catch(err =>{
+            res.json({ state : false, msg: err.message})
+        })
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+})  
+
 module.exports = router

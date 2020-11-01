@@ -29,10 +29,10 @@ import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
 import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission';
 import ViewBiweekly from './components/coordinator/ProjectData/ViewBiweekly';
-import SRS from './components/coordinator/ProjectData/SRS';
+// import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
-import GroupSRS from './components/coordinator/GroupData/GroupSubmissions/SRS';
+import GroupPresentation from './components/coordinator/GroupData/GroupSubmissions/GroupPresentation';
 import GroupProposal from './components/coordinator/GroupData/GroupSubmissions/Proposal';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
@@ -106,12 +106,12 @@ function App() {
           <Route path='/coordinatorhome/projectdata/viewbiweekly/:id' component={ViewBiweekly}></Route>
           
 
-          <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
+          {/* <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route> */}
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
           <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
           <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
-          <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
+          <Route path='/coordinatorhome/gdata/presentation/:id' component={GroupPresentation}></Route>
           <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
           <Route path='/coordinatorhome/notifications' component={CoordinatorNotifications}></Route>
 
