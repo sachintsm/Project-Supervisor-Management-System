@@ -195,10 +195,8 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
 router.get('/getBiweeklyNumber/:id',async (req, res) => {
   try {
        const projectId = req.params.id;
-       console.log(projectId)
        const biweeklyLinks = await biweekly.find({projectId: projectId})
        let data = biweeklyLinks.length + 1
-       console.log(data)
        res.send({state:true,data:data,msg:"succeded"})
   } catch (error) {
        console.log(error)
