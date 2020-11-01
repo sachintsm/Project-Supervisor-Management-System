@@ -85,7 +85,7 @@ router.post("/add", async (req, res) => {
                          deadTime: biweekly.deadTime
                     })
 
-                   // console.log(newSubmission)
+                   console.log(newSubmission)
 
 
 
