@@ -202,6 +202,10 @@ class SupervisorNotifications extends Component {
         })
     }
 
+    addComment = (item) => {
+        this.props.history.push('/supervisorhome/notifications/biweekcomments/'+item._id,)
+    }
+
     closeAlert = () => {
         this.setState({
             acceptedAlert: false,
@@ -245,7 +249,7 @@ class SupervisorNotifications extends Component {
 
                             <div className="card card-div">
 
-                                {this.state.biWeekRequests.length === 0 && <div style={{ textAlign: "center", padding: "20px 0px" }}>No Any Notifications</div>}
+                                {this.state.biWeekRequests.length === 0 && this.state.reqMeetBlock.length==0 && <div style={{ textAlign: "center", padding: "20px 0px" }}>No Any Notifications</div>}
 
                                 {this.state.loading2 && this.state.reqMeetBlock.map((item, key) => {
                                     return (
@@ -281,12 +285,12 @@ class SupervisorNotifications extends Component {
                                         <Card.Body className="card-body">
                                             <Row className="details-row">
                                                 <Col>
-                                                    <h5>New Biweekly Report Request</h5>
                                                     <BiweekRequest details={item} />
 
                                                 </Col>
                                                 <Col lg={3} md={3} className="btn-col-2">
-                                                    <Button className="btn btn-info my-btn1" onClick={() => this.acceptRequest(item)}>Accept Report</Button>
+                                                    <Button variant="outline-info" className="my-btn1" onClick={()=> {this.addComment(item)}}>Comments</Button>
+                                                    <Button className="btn btn-info my-btn1 mt-3" onClick={() => this.acceptRequest(item)}>Accept Report</Button>
                                                     <Button className="btn btn-danger my-btn1 mt-3" onClick={() => this.declineRequest(item)} >Decline Report</Button>
                                                 </Col>
                                             </Row>
