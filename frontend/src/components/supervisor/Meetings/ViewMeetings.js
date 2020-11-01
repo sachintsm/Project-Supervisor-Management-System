@@ -48,6 +48,8 @@ const MeetConfirmed = React.memo((props) => (
     <td className="table-body">{props.meetconfirmed.purpose}</td>
     <td className="table-body">{props.meetconfirmed.date.substring(0, 10)}</td>
     <td className="table-body">{props.meetconfirmed.time}</td>
+    <td className="table-body">{props.meetconfirmed.link}</td>
+
   </tr>
 ));
 
@@ -69,6 +71,7 @@ class ViewMeetings extends Component {
       purpose: "",
 
       time: "",
+      link: "",
 
       supervisor: "",
 
@@ -225,7 +228,11 @@ class ViewMeetings extends Component {
     });
   }
 
+  
+
   render() {
+
+    
     return (
       <React.Fragment>
         <Navbar panel={"supervisor"} />
@@ -314,6 +321,8 @@ class ViewMeetings extends Component {
                                     <th>Date</th>
 
                                     <th>Time</th>
+                                    <th>Link</th>
+
                                   </tr>
                                 </thead>
 
@@ -352,6 +361,8 @@ class ViewMeetings extends Component {
 
                                     <th>Time</th>
 
+                                    <th>Link</th>
+
                                     <th>Action</th>
                                   </tr>
                                 </thead>
@@ -367,6 +378,8 @@ class ViewMeetings extends Component {
                                         <td>{data.date.substring(0, 10)}</td>
 
                                         <td>{data.time}</td>
+                                        <td><a href="#link">{data.link}</a></td>
+
 
                                         <td>
                                           <button
