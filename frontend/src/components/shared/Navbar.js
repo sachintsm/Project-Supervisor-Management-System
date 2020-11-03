@@ -114,7 +114,7 @@ export default class navbar extends Component {
     }
 
     const userData = getFromStorage('auth-id')
- 
+
     axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
       .then(response => {
 
@@ -247,6 +247,11 @@ export default class navbar extends Component {
                 </MDBNavItem>
 
                 {/* =============================== Coordinator Panel================================ */}
+                <MDBNavItem className="mr-4">
+                  {this.state.panel === "coordinator" &&
+                    <Nav.Link href='/coordinatorhome/presentationfeedback'>Presentation Feedback</Nav.Link>
+                  }
+                </MDBNavItem>
                 {this.state.panel === 'coordinator' && (
                   <MDBDropdown>
                     <MDBDropdownToggle nav caret>
@@ -344,11 +349,11 @@ export default class navbar extends Component {
                 )}
 
                 {this.state.panel === 'supervisor' && (
-                    <MDBNavItem className="mr-4">
-                      <Nav.Link className="padding-zero" href='/supervisorhome/givepresentationfeedback'>
-                        Presentation Feedback
+                  <MDBNavItem className="mr-4">
+                    <Nav.Link className="padding-zero" href='/supervisorhome/givepresentationfeedback'>
+                      Presentation Feedback
                       </Nav.Link>
-                    </MDBNavItem>
+                  </MDBNavItem>
 
                 )}
 
