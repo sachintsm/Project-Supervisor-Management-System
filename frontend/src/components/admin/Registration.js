@@ -65,6 +65,8 @@ export default class registration extends Component {
       startDate: new Date(),
 
       courses: [],
+
+      failedRegistration: [],
     };
   }
 
@@ -149,6 +151,10 @@ export default class registration extends Component {
                   .then(res => res.json())
                   .then(async json => {
                     if (json.state === false) {
+                      console.log(data);
+                      this.setState({
+                        failedRegistration: [...this.state.failedRegistration, data]
+                      })
                       this.setState({
                         snackbaropen: true,
                         snackbarmsg: json.msg,
@@ -163,7 +169,7 @@ export default class registration extends Component {
                       })
                       //send email notification to the clients
                       const email = await userRagistrationEmail(this.state.csvData[i][2], this.state.csvData[i][0], this.state.csvData[i][1])
-                      axios.post(backendURI.url + '/mail/sendmail', email)
+                      await axios.post(backendURI.url + '/mail/sendmail', email)
                         .then(res => {
                           console.log(res);
                         })
@@ -181,6 +187,7 @@ export default class registration extends Component {
               this.setState({
                 spinnerDiv: false
               })
+              console.log(this.state.failedRegistration);
             }
           },
           {
@@ -445,10 +452,7 @@ export default class registration extends Component {
               />
             </Col>
             <Col md="8" xs="12" className="main-div">
-
-
               <div>
-
                 <div >
                   <p className="reg-head">User Registration</p>
 
@@ -467,13 +471,9 @@ export default class registration extends Component {
                           className='image2'
                         />
 
-
-
-
                         <div className="form-group reg-csv-topic">
                           <label className="text-label">Choose CSV File : </label>
                         </div>
-
 
                         <div className="container ">
                           <Row className="req-csvbtn">
@@ -484,6 +484,27 @@ export default class registration extends Component {
                               inputStyle={{ color: 'grey' }}
                             />
                           </Row>
+                        </div>
+                        <div style={{ marginBottom: "20px" }}>
+
+                          {this.state.failedRegistration.length != 0 && (
+                            <p className="reg-error-title">Following users does not registered to the system..!</p>
+                          )}
+
+                          {this.state.failedRegistration.map(data => {
+                            return (
+                              <div className="row">
+                                <Col md="2" className="reg-error-msg">{data.firstName}</Col>
+                                <Col md="2" className="reg-error-msg">{data.lastName}</Col>
+                                <Col md="2" className="reg-error-msg">{data.nic}</Col>
+                                <Col md="2" className="reg-error-msg">{data.email}</Col>
+                                <Col md="2" className="reg-error-msg">{data.userType}</Col>
+                                <Col md="2" className="reg-error-msg">{data.mobileNumber}</Col>
+                              </div>
+                            )
+                          })
+                          }
+
                         </div>
                         {spinnerDiv && (
                           <div className="spinner">
@@ -498,8 +519,8 @@ export default class registration extends Component {
                           >Register Now </button>
                         </div>
 
-                      </div>
 
+                      </div>
                     </Tab>
                     <Tab eventKey="single" title="Single" className="reg-tab-text">
                       <div className="container">
@@ -674,9 +695,6 @@ export default class registration extends Component {
                             </Col>
                           </Row>
 
-
-
-
                           <div className="form-group">
                             <button
                               className="btn btn-info my-4 " style={{ width: "100%" }}
@@ -686,8 +704,6 @@ export default class registration extends Component {
                         </form>
                       </div>
                     </Tab>
-
-
 
                   </Tabs>
 
