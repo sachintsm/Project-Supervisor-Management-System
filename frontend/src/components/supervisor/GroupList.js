@@ -17,7 +17,7 @@ class groupList extends Component {
     }
 
     openGroup(id) {
-        this.props.history.push('/supervisorhome/groupData/' + id, {projectId : ''})
+        this.props.history.push('/supervisorhome/groupData/' + id, { projectId: '' })
     }
 
     render() {
@@ -27,7 +27,7 @@ class groupList extends Component {
                 if (item.progress >= 75) {
                     return (
                         <Col md={4} xs={12} sm={6} key={item._id}>
-                            <Card className='sh-proj-card' onClick={() =>this.openGroup(item._id)}  >
+                            <Card className='sh-proj-card' onClick={() => this.openGroup(item._id)}  >
                                 <div className="container" >
                                     <Row className="shpc-topic-div">
                                         <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
@@ -57,7 +57,17 @@ class groupList extends Component {
                                     <Row>
                                         <p className="shpc-list">{item.supervisors}</p>
                                     </Row>
+                                    {item.groupEmail != "" && (
+                                        <div>
 
+                                            <Row>
+                                                <p className="shpc-head">Email</p>
+                                            </Row>
+                                            <Row>
+                                                <p className="shpc-list">{item.groupEmail}</p>
+                                            </Row>
+                                        </div>
+                                    )}
                                 </div>
                             </Card>
                             {/* </Link> */}
@@ -68,39 +78,49 @@ class groupList extends Component {
                     return (
                         <Col md={4} xs={12} sm={6} key={item._id}>
                             {/* <Link to={`/supervisorhome/groupData/${item._id}`}> */}
-                                <Card className='sh-proj-card' onClick={() =>this.openGroup(item._id)} >
-                                    <div className="container" >
-                                        <Row className="shpc-topic-div">
-                                            <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
-                                        </Row>
+                            <Card className='sh-proj-card' onClick={() => this.openGroup(item._id)} >
+                                <div className="container" >
+                                    <Row className="shpc-topic-div">
+                                        <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
+                                    </Row>
 
-                                        <Row style={{ width: '70%', margin: "auto" }}>
-                                            <Col md={12} sm={12} xs={12} className="shpc-progress">
-                                                <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
-                                                    path: {
-                                                        stroke: `#fbc02d`
-                                                    },
-                                                    text: {
-                                                        fill: '#fbc02d'
-                                                    }
-                                                }} />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-head">Group Members</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-list">{item.groupMembers}</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-head">Supervisors</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-list">{item.supervisors}</p>
-                                        </Row>
+                                    <Row style={{ width: '70%', margin: "auto" }}>
+                                        <Col md={12} sm={12} xs={12} className="shpc-progress">
+                                            <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
+                                                path: {
+                                                    stroke: `#fbc02d`
+                                                },
+                                                text: {
+                                                    fill: '#fbc02d'
+                                                }
+                                            }} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-head">Group Members</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-list">{item.groupMembers}</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-head">Supervisors</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-list">{item.supervisors}</p>
+                                    </Row>
+                                    {item.groupEmail != "" && (
+                                        <div>
 
-                                    </div>
-                                </Card>
+                                            <Row>
+                                                <p className="shpc-head">Email</p>
+                                            </Row>
+                                            <Row>
+                                                <p className="shpc-list">{item.groupEmail}</p>
+                                            </Row>
+                                        </div>
+                                    )}
+                                </div>
+                            </Card>
                             {/* </Link> */}
                         </Col>
                     )
@@ -110,39 +130,49 @@ class groupList extends Component {
 
                         <Col md={4} xs={12} sm={6} key={item._id}>
                             {/* <Link to={`/supervisorhome/groupData/${item._id}`}> */}
-                                <Card className='sh-proj-card' onClick={() =>this.openGroup(item._id)} >
-                                    <div className="container" >
-                                        <Row className="shpc-topic-div">
-                                            <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
-                                        </Row>
+                            <Card className='sh-proj-card' onClick={() => this.openGroup(item._id)} >
+                                <div className="container" >
+                                    <Row className="shpc-topic-div">
+                                        <p className="shpc-topic">{item.groupId}  {item.groupName}</p>
+                                    </Row>
 
-                                        <Row style={{ width: '70%', margin: "auto" }}>
-                                            <Col md={12} sm={12} xs={12} className="shpc-progress">
-                                                <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
-                                                    path: {
-                                                        stroke: `#e53935`
-                                                    },
-                                                    text: {
-                                                        fill: '#e53935'
-                                                    }
-                                                }} />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-head">Group Members</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-list">{item.groupMembers}</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-head">Supervisors</p>
-                                        </Row>
-                                        <Row>
-                                            <p className="shpc-list">{item.supervisors}</p>
-                                        </Row>
+                                    <Row style={{ width: '70%', margin: "auto" }}>
+                                        <Col md={12} sm={12} xs={12} className="shpc-progress">
+                                            <CircularProgressbar value={item.progress} text={`${item.progress.toFixed(2)}%`} styles={{
+                                                path: {
+                                                    stroke: `#e53935`
+                                                },
+                                                text: {
+                                                    fill: '#e53935'
+                                                }
+                                            }} />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-head">Group Members</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-list">{item.groupMembers}</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-head">Supervisors</p>
+                                    </Row>
+                                    <Row>
+                                        <p className="shpc-list">{item.supervisors}</p>
+                                    </Row>
+                                    {item.groupEmail != "" && (
+                                        <div>
 
-                                    </div>
-                                </Card>
+                                            <Row>
+                                                <p className="shpc-head">Email</p>
+                                            </Row>
+                                            <Row>
+                                                <p className="shpc-list">{item.groupEmail}</p>
+                                            </Row>
+                                        </div>
+                                    )}
+                                </div>
+                            </Card>
                             {/* </Link> */}
                         </Col>
                     )

@@ -202,7 +202,7 @@ class PresentationFeedback extends Component {
                                         </div>
                                     </Col>
                                     <Col md="2" xs="12">
-                                        <button className="btn btn-info pg-btn" style={{ width: '100%' }} onClick={this.searchGroups}>Search</button>
+                                        <button className="btn btn-info pg-btn" onClick={this.searchGroups}>Search</button>
                                     </Col>
                                 </Row>
                             </div>
@@ -211,29 +211,36 @@ class PresentationFeedback extends Component {
                                     <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                                 </div>
                             )}
-                            { dataDiv && (
+                            {dataDiv && (
                                 <div className="container">
                                     <p className="pg-details-head">Presentation Feedbacks</p>
-                                    <Row>
-                                        <Col md="1">
-                                            <label className="tble-head">No</label>
-                                        </Col>
-                                        <Col md="2">
-                                            <label className="tble-head">Supervisor</label>
-                                        </Col>
-                                        <Col md="9">
-                                            <label className="tble-head">Feedback</label>
-                                        </Col>
-                                    </Row>
+                                    {this.state.finalBlock.length != 0 && (
+                                        <div>
 
+                                            <Row>
+                                                <Col md="1">
+                                                    <label className="tble-head">No</label>
+                                                </Col>
+                                                <Col md="2">
+                                                    <label className="tble-head">Supervisor</label>
+                                                </Col>
+                                                <Col md="9">
+                                                    <label className="tble-head">Feedback</label>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    )}
                                     <hr />
+
+                                    {this.state.finalBlock.length === 0 && (
+                                        <img className="pf-image" src={require("../../assets/images/empty_data_set.jpg")} />
+
+                                    )}
                                     <div>
-                                        {this.state.finalBlock.length === 0 && (
-                                            <label className="tble-row-nodata" >Data not availabel ..!</label>
-                                        )}
+
                                         {this.state.finalBlock.map(data => {
                                             return (
-                                                <Row style={{marginBottom:"20px"}}>
+                                                <Row style={{ marginBottom: "20px" }}>
                                                     <Col md="1">
                                                         <label className="tble-row">{data.groupNumber}</label>
                                                     </Col>
@@ -251,7 +258,7 @@ class PresentationFeedback extends Component {
                                                             )
                                                         })}
                                                     </Col>
-                                                    
+
 
                                                 </Row>
                                             )
@@ -267,7 +274,7 @@ class PresentationFeedback extends Component {
 
                 <Footer />
 
-            </div>
+            </div >
         );
     }
 }

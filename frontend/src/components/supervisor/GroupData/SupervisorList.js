@@ -4,6 +4,7 @@ import { getFromStorage } from "../../../utils/Storage";
 import { Row, Col } from "reactstrap";
 import '../../../css/coordinator/GroupData.scss';
 import { confirmAlert } from 'react-confirm-alert';
+import SupervisorDetails from '../../coordinator/SupervisorDetails';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -31,7 +32,7 @@ class StudentList extends Component {
         this.setState({ snackbaropen: false });
     };
     componentDidMount = async () => {
-        
+
         this.setState({
             supervisorList: []
         })
@@ -40,20 +41,20 @@ class StudentList extends Component {
         }
 
         await axios.get(backendURI.url + '/users/supervisorList/' + this.props.obj, { headers: headers })
-        .then(res => {
-            if (res) {
-                
-                if (res.data.data !== undefined) {
-                    const _id = res.data.data._id
-                    const name = res.data.data.firstName + " " + res.data.data.lastName
+            .then(res => {
+                if (res) {
 
-                    let block = new supervisorBlock(_id, name)
-                    this.setState({
-                        supervisorList: [...this.state.supervisorList, block]
-                    })
+                    if (res.data.data !== undefined) {
+                        const _id = res.data.data._id
+                        const name = res.data.data.firstName + " " + res.data.data.lastName
+
+                        let block = new supervisorBlock(_id, name)
+                        this.setState({
+                            supervisorList: [...this.state.supervisorList, block]
+                        })
+                    }
                 }
-            }
-        })
+            })
     }
 
     delete(data) {
@@ -109,7 +110,8 @@ class StudentList extends Component {
                         <div key={user.id} className="sl-card-super">
                             <Row >
                                 <Col md="12" xs="12">
-                                    <p className="sl-text">{user.name}</p>
+                                    <span className="stu-index-data">  <SupervisorDetails id={user.id} name={user.name} /> </span>
+
                                 </Col>
 
                             </Row>

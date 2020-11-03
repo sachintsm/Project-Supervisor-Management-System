@@ -272,8 +272,8 @@ class GroupData extends Component {
         this.props.history.push('/supervisorhome/viewMeetings', { groupDetails: this.state.groupData })
     }
 
-    viewProgress = (project) => {
-        this.props.history.push('/supervisorhome/viewProgress', { groupDetails: this.state.groupData })
+    viewFeedback = (project) => {
+        this.props.history.push('/supervisorhome/presentation/'+ this.state.groupData._id , { groupDetails: this.state.groupData })
     }
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupData._id, { groupDetails: this.state.groupData })
@@ -303,7 +303,7 @@ class GroupData extends Component {
                                 < ProjectTotalProgress groupDetails={this.state.groupData} id={this.props.match.params.id} />
                             }
                         </div>
-                        <div className="container">
+                        <div className="container" style={{ marginTop: "-40px" }}>
                             <Row>
                                 <Col md="8" xs="12">
                                     <Card className="total-progress-card">
@@ -332,7 +332,7 @@ class GroupData extends Component {
 
 
                             </Row>
-                            <Row className="btn-row1">
+                            <Row className="btn-row1"  style={{ marginTop: "-70px" }}>
                                 <Col lg={4} md={4} xs={4} sm={12} className="btn-card-col1">
                                     <Card className="btn-card1" onClick={() => this.viewChat(this.state.project)}>
                                         <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
@@ -353,12 +353,12 @@ class GroupData extends Component {
                                         </IconContext.Provider><span className="btn-title1">Meetings</span></Card>
                                 </Col>
                                 <Col lg={4} md={4} xs={6} sm={12} className="btn-card-col1">
-                                    <Card className="btn-card1" onClick={() => { this.viewProgress(this.state.project) }}>
+                                    <Card className="btn-card1" onClick={() => { this.viewFeedback(this.state.project) }}>
                                         <IconContext.Provider value={{ className: 'btn-icon1', size: "2em" }}>
                                             <div>
                                                 <FaChartLine />
                                             </div>
-                                        </IconContext.Provider><span className="btn-title1">Progress</span></Card>
+                                        </IconContext.Provider><span className="btn-title1">Presentation Feedback</span></Card>
                                 </Col>
                                 
                             </Row>
