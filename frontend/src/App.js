@@ -34,6 +34,7 @@ import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
 import GroupPresentation from './components/coordinator/GroupData/GroupSubmissions/GroupPresentation';
 import GroupProposal from './components/coordinator/GroupData/GroupSubmissions/Proposal';
+import PresentationFeedback from './components/coordinator/PresentationFeedback';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
@@ -106,7 +107,7 @@ function App() {
           <Route path='/coordinatorhome/projectdata/viewbiweekly/:id' component={ViewBiweekly}></Route>
           
 
-          {/* <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route> */}
+          <Route path='/coordinatorhome/presentationfeedback' component={PresentationFeedback}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
           <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
