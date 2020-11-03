@@ -70,6 +70,7 @@ const biweekly = require('./routes/BiweeklyLink');
 const mail = require('./mail');
 const biweeksubmissions = require('./routes/biweeksubmissions');
 const presentationfeedback = require('./routes/presentationFeedback');
+const biweekcomments = require('./routes/biweekcomments');
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });
@@ -91,6 +92,7 @@ app.use('/biweekly',biweekly);
 app.use('/mail', mail);
 app.use('/biweeksubmissions', biweeksubmissions);
 app.use('/presentationfeedback', presentationfeedback);
+app.use('/biweekcomments', biweekcomments);
 
 const PORT = process.env.PORT || 4000;
 let server = app.listen(PORT, function () {
