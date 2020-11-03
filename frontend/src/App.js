@@ -57,6 +57,7 @@ import SubmisionView from "./components/student/SubmisionView";
 import SubmisionPanel from "./components/student/SubmitPanal";
 import BiweeklyView from "./components/student/BiweeklyView";
 import BiweeklySubmissionPanel from "./components/student/BiweeklySubmissionPanel";
+import GroupPresentationStudent from "./components/student/PresentaionFeedback";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -108,7 +109,7 @@ function App() {
           <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
           <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
           <Route path='/coordinatorhome/projectdata/viewbiweekly/:id' component={ViewBiweekly}></Route>
-          
+
 
           <Route path='/coordinatorhome/presentationfeedback' component={PresentationFeedback}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
@@ -150,8 +151,8 @@ function App() {
           <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
           <Route exact path='/studenthome/submisionview/submisionpanal/:id' component={SubmisionPanel}></Route>
           <Route exact path='/studenthome/biweeklyview/:id' component={BiweeklyView}></Route>
-          <Route exact path='/studenthome/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
-
+          <Route exact path='/studenthome/biweeklysubmissionpanel/:id' component={BiweeklySubmissionPanel}></Route>
+          <Route exact path='/studenthome/viewFeedback' component={GroupPresentationStudent}></Route>
 
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>

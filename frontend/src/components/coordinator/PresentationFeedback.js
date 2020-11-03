@@ -6,9 +6,7 @@ import { Row, Col } from "reactstrap";
 import { getFromStorage } from '../../utils/Storage';
 import Footer from '../shared/Footer'
 import axios from 'axios';
-import { Table, Spinner } from 'react-bootstrap'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { confirmAlert } from 'react-confirm-alert';
+import { Spinner } from 'react-bootstrap'
 import Snackpop from "../shared/Snackpop";
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
