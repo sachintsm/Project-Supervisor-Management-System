@@ -1,8 +1,9 @@
 .pf-fullpage{
 
-    .pg-container-div {
+    .pf-container-div {
         min-height: 350px;
         margin-bottom: 40px;
+        min-height:400px;
     }
     .pg-dropdown-select {
         margin-top: 20px;
@@ -37,6 +38,35 @@
         width: 100%;
         margin-top: 20px;
     }
+
+    .tble-head{
+        font-size: 20px;
+        font-weight: bold;
+        color: #444444;
+
+    }
+    .tble-row{
+        font-weight: 600;
+        font-size: 15px;
+        color: #5a5a5a;
+        text-align: justify;
+    }
+    .tble-rowf{
+        font-weight: 500;
+        font-size: 15px;
+        color: #575757;
+        text-align: justify;
+    }
+
+    .tble-row-nodata{
+        font-weight: 600;
+        font-size: 15px;
+        color: #ff4949;
+        text-align: center;
+        margin:auto;
+        margin-bottom: 30px;
+    }
+
     
     /* On screens that are 600px or less, set the background color to olive */
     

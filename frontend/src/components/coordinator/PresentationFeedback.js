@@ -14,6 +14,22 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const backendURI = require('../shared/BackendURI');
 
+class UserBlock {
+    constructor(userId, userName, feedback) {
+        this.userId = userId;
+        this.userName = userName;
+        this.feedback = feedback;
+    }
+}
+
+class PresentationFeedbackBlock {
+    constructor(groupId, groupNumber, feedbacks) {
+        this.groupId = groupId;
+        this.groupNumber = groupNumber
+        this.feedbacks = feedbacks
+    }
+}
+
 class PresentationFeedback extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +47,10 @@ class PresentationFeedback extends Component {
 
             dataDiv: false,
             spinnerDiv: false,
+
+            userBlock: [],
+            finalBlock: [],
+
         }
         this.searchGroups = this.searchGroups.bind(this);
     }
@@ -75,7 +95,7 @@ class PresentationFeedback extends Component {
     async searchGroups() {
         this.setState({
             spinnerDiv: true,
-            groupDataBlock: []
+            finalBlock: []
         })
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
@@ -90,25 +110,47 @@ class PresentationFeedback extends Component {
 
         await axios.post(backendURI.url + '/presentationFeedback/getProjectFeedback', data, { headers: headers })
             .then(res => {
-                console.log(res.data.data);
+                // console.log(res.data.data);
 
                 this.setState({ allFeedback: res.data.data })
             })
 
-        var finalArray = [];
 
         for (let i = 0; i < this.state.allFeedback.length; i++) {
-            var userArray = []
-            var feedbackArray = []
+            this.setState({
+                userBlock: []
+            })
             for (let j = i; j < this.state.allFeedback.length; j++) {
                 if (this.state.allFeedback[i].groupId === this.state.allFeedback[j].groupId) {
-                    // console.log(this.state.allFeedback[i].groupId);
-                    userArray.push(this.state.allFeedback[j].userId)
-                    feedbackArray.push(this.state.allFeedback[j].feedback)
-                }
+                    var fullName = ''
+                    await axios.get(backendURI.url + '/users/getUser/' + this.state.allFeedback[j].userId)
+                        .then(res => {
+                            fullName = res.data.data.firstName + ' ' + res.data.data.lastName;
+                        })
 
+                    const ublock = new UserBlock(
+                        this.state.allFeedback[j].userId,
+                        fullName,
+                        this.state.allFeedback[j].feedback);
+
+                    this.setState({ userBlock: [...this.state.userBlock, ublock] })
+                }
             }
-            console.log(feedbackArray);
+            const found = this.state.finalBlock.some(el => el.groupId === this.state.allFeedback[i].groupId);
+            if (!found) {
+                var groupNumber = ''
+                await axios.get(backendURI.url + '/createGroups//getGroupData/' + this.state.allFeedback[i].groupId, { headers: headers })
+                    .then(res => {
+                        groupNumber = res.data.data.groupId
+                    })
+
+                const pfblock = new PresentationFeedbackBlock(this.state.allFeedback[i].groupId, groupNumber, this.state.userBlock)
+                this.setState({ finalBlock: [...this.state.finalBlock, pfblock] })
+            }
+        }
+
+        for (let x = 0; x < this.state.finalBlock.length; x++) {
+            console.log(this.state.finalBlock[x]);
         }
 
         this.setState({ dataDiv: true, spinnerDiv: false });
@@ -125,7 +167,7 @@ class PresentationFeedback extends Component {
         return (
             <div className="pf-fullpage">
                 <Navbar panel={"coordinator"} />
-                <div className="container pg-container-div">
+                <div className="container pf-container-div">
                     <Snackpop
                         msg={this.state.snackbarmsg}
                         color={this.state.snackbarcolor}
@@ -138,7 +180,7 @@ class PresentationFeedback extends Component {
                         <div className="container">
                             <div className="container">
 
-                                <p className="pg-reg-head">Project Group Details</p>
+                                <p className="pg-reg-head">Project Groups Presentation Feedbacks </p>
 
                                 <Row >
                                     <Col md="5" xs="12">
@@ -169,33 +211,54 @@ class PresentationFeedback extends Component {
                                     <Spinner style={{ marginBottom: "10px", marginTop: "-20px" }} animation="border" variant="info" />
                                 </div>
                             )}
-                            {dataDiv && (
+                            { dataDiv && (
                                 <div className="container">
                                     <p className="pg-details-head">Presentation Feedbacks</p>
+                                    <Row>
+                                        <Col md="1">
+                                            <label className="tble-head">No</label>
+                                        </Col>
+                                        <Col md="2">
+                                            <label className="tble-head">Supervisor</label>
+                                        </Col>
+                                        <Col md="9">
+                                            <label className="tble-head">Feedback</label>
+                                        </Col>
+                                    </Row>
 
-                                    {/* <table className="table table-striped" style={{ marginTop: 20 }} > */}
-                                    <Table hover className="pg-table project-groups" >
+                                    <hr />
+                                    <div>
+                                        {this.state.finalBlock.length === 0 && (
+                                            <label className="tble-row-nodata" >Data not availabel ..!</label>
+                                        )}
+                                        {this.state.finalBlock.map(data => {
+                                            return (
+                                                <Row style={{marginBottom:"20px"}}>
+                                                    <Col md="1">
+                                                        <label className="tble-row">{data.groupNumber}</label>
+                                                    </Col>
+                                                    <Col md="11">
+                                                        {data.feedbacks.map(item => {
+                                                            return (
+                                                                <Row>
+                                                                    <Col md="2">
+                                                                        <label className="tble-row">{item.userName}</label>
+                                                                    </Col>
+                                                                    <Col md="10">
+                                                                        <label className="tble-rowf">{item.feedback}</label>
+                                                                    </Col>
+                                                                </Row>
+                                                            )
+                                                        })}
+                                                    </Col>
+                                                    
 
-                                        <thead>
-                                            <tr>
-                                                <th className="table-head">No.</th>
-                                                <th className="table-head">Supervisor</th>
-                                                <th className="table-head">Feedback</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.state.groupDataBlock.map((item) => {
-                                                return (
-                                                    <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
-                                                        <td className="table-body tbl-item">{item.groupId}</td>
-                                                        <td className="table-body tbl-item">{item.groupEmail}</td>
-                                                        <td className="table-body tbl-item">{item.groupMembers}</td>
+                                                </Row>
+                                            )
+                                        })}
 
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </Table>
+                                    </div>
+
                                 </div>
                             )}
                         </div>
