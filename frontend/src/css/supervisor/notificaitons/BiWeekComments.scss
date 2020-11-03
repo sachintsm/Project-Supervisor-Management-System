@@ -1,0 +1,40 @@
+.biWeekComments{
+  min-height: 660px;
+  background-color: #F5F5F5;
+  padding-bottom: 30px;
+
+  .div-container{
+
+  }
+
+  .title-div{
+    text-align: center;
+    padding-top: 30px;
+  }
+
+  .card-div{
+  }
+
+  .comments-card{
+    padding: 40px 50px;
+  }
+
+  .comments.div{
+    margin-top: 30px;
+    //padding: 40px 50px;
+  }
+
+  .sub-title1{
+    margin-bottom: 20px !important;
+  }
+
+  .sub-title2{
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .no-comments{
+    color: grey;
+  }
+
+}

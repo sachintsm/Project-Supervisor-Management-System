@@ -66,6 +66,7 @@ import FormGroups from "./components/student/formgroups/FormGroups";
 import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
 import SupervisorNotifications from "./components/supervisor/Notifications/SupervisorNotifications";
 import GivePresentationFeedback from "./components/supervisor/PresentationFeedback/GivePresentationFeedback";
+import BiWeekComments from "./components/supervisor/Notifications/BiWeekComments";
 
 require('dotenv').config();
 
@@ -126,10 +127,14 @@ function App() {
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
-          <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
+
+         
           <Route path='/supervisorhome/biweeklyview' component={SupervisorBiWeeklyView}></Route>
-          <Route path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
           <Route path='/supervisorhome/presentation/:id' component={GroupPresentationSupervisor}></Route>
+          <Route exact path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
+          <Route exact path='/supervisorhome/notifications/biweekcomments/:id' component={BiWeekComments}></Route>
+          <Route exact path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
+
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>

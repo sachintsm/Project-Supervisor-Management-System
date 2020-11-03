@@ -203,7 +203,7 @@ class SupervisorNotifications extends Component {
     }
 
     addComment = (item) => {
-        this.props.history.push('/supervisorhome/notifications/biweekcomments/'+item._id,)
+        this.props.history.push('/supervisorhome/notifications/biweekcomments/'+item._id,{biWeekDetails: item})
     }
 
     closeAlert = () => {
