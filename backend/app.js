@@ -67,9 +67,9 @@ const indexInfo = require('./routes/IndexInfo');
 const proposel = require('./routes/proposel');
 const submission = require('./routes/submissions');
 const biweekly = require('./routes/BiweeklyLink');
-const mail = require('./mail')
-const biweeksubmissions = require('./routes/biweeksubmissions')
-const presentationfeedback = require('./routes/presentationFeedback')
+const mail = require('./mail');
+const biweeksubmissions = require('./routes/biweeksubmissions');
+const presentationfeedback = require('./routes/presentationFeedback');
 
 //routing path in routers
 app.get('/', function (req, res) { res.send('Hello world') });

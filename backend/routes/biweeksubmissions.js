@@ -85,7 +85,7 @@ router.post("/add", async (req, res) => {
                          deadTime: biweekly.deadTime
                     })
 
-                   // console.log(newSubmission)
+                   console.log(newSubmission)
 
 
 
@@ -198,11 +198,12 @@ router.patch("/updateRequest/:reqId", async (req, res, next) => {
      }
 })
 
+
 router.post('/getBiweekly', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      const groupId = req.body.groupId
-     //console.log(req.body)
+     console.log(req.body)
      BiweekSubmissions
           .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()
@@ -213,6 +214,7 @@ router.post('/getBiweekly', async (req, res) => {
                res.send({ state: false, msg: err.message })
           })
 })
+
 
 
 //Get submission attchment from database
