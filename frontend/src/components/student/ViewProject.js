@@ -22,7 +22,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 const backendURI = require('../shared/BackendURI');
 
 
-class ViewProject extends Component {v
+class ViewProject extends Component {
+    v
     constructor(props) {
         super(props);
         this.state = {
@@ -53,8 +54,8 @@ class ViewProject extends Component {v
     }
 
 
-    requestSup(item){
-        this.props.history.push('/studenthome/viewproject/requestsupervisor',{projectDetails:item});
+    requestSup(item) {
+        this.props.history.push('/studenthome/viewproject/requestsupervisor', { projectDetails: item });
     }
 
 
@@ -92,8 +93,11 @@ class ViewProject extends Component {v
         this.props.history.push('/studenthome/biweeklyview/' + project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
 
-    viewMeetings = (project) => {        
+    viewMeetings = (project) => {
         this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
+    }
+    presentationFeedbackView = (project) => {
+        this.props.history.push('/studenthome/viewFeedback', { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     render() {
         return (
@@ -101,16 +105,16 @@ class ViewProject extends Component {v
 
                 <Navbar panel={"student"} />
                 <div className="container-fluid open-project open-project-background-color">
-                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers} groupDetails={this.state.groupDetails}/>}
+                    {!this.state.loading2 && <ProjectDetailsCard2 project={this.state.project} indexNumbers={this.state.indexNumbers} groupDetails={this.state.groupDetails} />}
 
                     <Row className="btn-row">
-                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={()=>this.requestSup(this.state.project)}>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={() => this.requestSup(this.state.project)}>
                             <Card className="btn-card">
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <IoIosPersonAdd />
                                     </div>
-                                </IconContext.Provider><span className="btn-title" onClick={()=>this.requestSup(this.state.project)}>Request Supervisors</span></Card>
+                                </IconContext.Provider><span className="btn-title" onClick={() => this.requestSup(this.state.project)}>Request Supervisors</span></Card>
                         </Col>
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col" onClick={() => this.viewChat(this.state.project)}>
                             <Card className="btn-card">
@@ -130,7 +134,7 @@ class ViewProject extends Component {v
                         </Col>
                         {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
-                            <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
+                            <Card className="btn-card" onClick={() => { this.submisionView(this.state.project) }} >
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <FiUploadCloud />
@@ -146,12 +150,23 @@ class ViewProject extends Component {v
                                 </IconContext.Provider><span className="btn-title">Progress</span></Card>
                         </Col>
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
-                            <Card className="btn-card" onClick={() => { this.biweeklyView(this.state.project)}} >
+                            <Card className="btn-card" onClick={() => { this.biweeklyView(this.state.project) }} >
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                     <div>
                                         <BsFileEarmarkText />
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Biweekly Reports</span></Card>
+                        </Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
+
+                        </Col>
+                        <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
+                            <Card className="btn-card" onClick={() => { this.presentationFeedbackView(this.state.project) }} >
+                                <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
+                                    <div>
+                                        <BsFileEarmarkText />
+                                    </div>
+                                </IconContext.Provider><span className="btn-title">Presentaion Feedbacks</span></Card>
                         </Col>
                         {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
 
