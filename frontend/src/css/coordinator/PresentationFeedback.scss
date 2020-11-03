@@ -1,9 +1,8 @@
-.pf-fullpage{
-
+.pf-fullpage {
     .pf-container-div {
         min-height: 350px;
         margin-bottom: 40px;
-        min-height:400px;
+        min-height: 400px;
     }
     .pg-dropdown-select {
         margin-top: 20px;
@@ -16,7 +15,7 @@
         font-size: 2em;
         margin-top: 40px;
     }
-    .pg-search-card{
+    .pg-search-card {
         margin-top: 50px;
     }
     .pg-details-head {
@@ -39,62 +38,83 @@
         margin-top: 20px;
     }
 
-    .tble-head{
-        font-size: 20px;
-        font-weight: bold;
+    .tble-head {
+        font-size: 18px;
+        font-weight: 700;
         color: #444444;
-
     }
-    .tble-row{
+    .tble-row {
         font-weight: 600;
         font-size: 15px;
         color: #5a5a5a;
         text-align: justify;
     }
-    .tble-rowf{
+    .tble-rowf {
         font-weight: 500;
         font-size: 15px;
         color: #575757;
         text-align: justify;
     }
 
-    .tble-row-nodata{
+    .tble-row-nodata {
         font-weight: 600;
         font-size: 15px;
         color: #ff4949;
         text-align: center;
-        margin:auto;
+        margin: auto;
         margin-bottom: 30px;
     }
+    .pf-image {
+        display: block;
+        margin: auto;
+        width: 50%;
+    }
 
-    
     /* On screens that are 600px or less, set the background color to olive */
-    
+
     @media screen and (max-width: 500px) {
+      
         .pg-dropdown-select {
             width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
         }
         .pg-btn {
-            width: 100%;
+            width: 93.5%;
             margin-top: -20px;
             margin-bottom: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
-        .pg-reg-head{
-            font-size: 30px;
+        .pg-reg-head {
+            font-size: 20px;
             padding-top: 20px;
             text-align: center;
         }
-        
-        .pg-table{
+
+        .pg-table {
             width: 100%;
             margin-top: 20px;
         }
-        .project-groups{
-            
-            td:nth-of-type(1):before { content: "Group : "; }
-            td:nth-of-type(2):before { content: "Members' Ids : "; }
-            td:nth-of-type(3):before { content: "Supervisors : "; }
-            td:nth-of-type(4):before { content: ""; }
+        .project-groups {
+            td:nth-of-type(1):before {
+                content: "Group : ";
+            }
+            td:nth-of-type(2):before {
+                content: "Members' Ids : ";
+            }
+            td:nth-of-type(3):before {
+                content: "Supervisors : ";
+            }
+            td:nth-of-type(4):before {
+                content: "";
+            }
         }
+        .pf-image {
+            display: block;
+            margin: auto;
+            width: 100%;
+        }
+        
     }
 }

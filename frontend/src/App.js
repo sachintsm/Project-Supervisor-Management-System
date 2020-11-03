@@ -42,6 +42,8 @@ import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeeting
 import ViewProgressSupervisor from './components/supervisor/Progress/ViewProgress';
 import ViewRequest from './components/supervisor/ViewRequest';
 import SupervisorBiWeeklyView from './components/supervisor/BiWeekly';
+import GroupPresentationSupervisor from './components/supervisor/GroupData/GroupPresentation';
+
 
 import NoticeView from './components/shared/NoticeView';
 
@@ -127,6 +129,7 @@ function App() {
           <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
           <Route path='/supervisorhome/biweeklyview' component={SupervisorBiWeeklyView}></Route>
           <Route path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
+          <Route path='/supervisorhome/presentation/:id' component={GroupPresentationSupervisor}></Route>
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>

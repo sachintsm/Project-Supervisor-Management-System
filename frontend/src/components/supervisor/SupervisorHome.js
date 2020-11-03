@@ -13,11 +13,12 @@ import GroupList from "./GroupList";
 const backendURI = require('../shared/BackendURI');
 
 class groupDataBlock {
-  constructor(_id, groupId, groupName, projectId, groupMembers, supervisors, progress) {
+  constructor(_id, groupId, groupName, projectId,groupEmail, groupMembers, supervisors, progress) {
     this._id = _id;
     this.groupId = groupId;
     this.groupName = groupName;
     this.projectId = projectId;
+    this.groupEmail = groupEmail;
     this.groupMembers = groupMembers;
     this.supervisors = supervisors;
     this.progress = progress;
@@ -103,7 +104,7 @@ class SupervisorHome extends Component {
           //? load all the active project names from
           await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
-              // console.log(res.data.data);
+
               this.setState({
                 activeProject: res.data.data,
               })
@@ -121,7 +122,6 @@ class SupervisorHome extends Component {
                   for (let j = 0; j < this.state.activeProject[i].supervisors.length; j++) {
                     await axios.get(backendURI.url + '/users/getUser/' + this.state.activeProject[i].supervisors[j])
                       .then(res => {
-                        console.log(res);
                         var newSupervisor = res.data.data.firstName + ' ' + res.data.data.lastName + ", "
                         array1.push(newSupervisor);
                       })
@@ -139,6 +139,7 @@ class SupervisorHome extends Component {
                     this.state.activeProject[i].groupId,
                     this.state.activeProject[i].groupName,
                     this.state.activeProject[i].projectId,
+                    this.state.activeProject[i].groupEmail,
                     array2,
                     array1,
                     progress

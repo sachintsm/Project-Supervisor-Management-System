@@ -221,8 +221,8 @@ export default class Groups extends Component {
                                     <thead>
                                         <tr>
                                             <th className="table-head">No.</th>
-                                            <th className="table-head">Email</th>
                                             <th className="table-head">Members' Ids</th>
+                                            <th className="table-head">Email</th>
                                             <th className="table-head">Supervisors</th>
                                             <th className="table-head" style={{ textAlign: 'center' }}>Actions</th>
                                         </tr>
@@ -233,8 +233,8 @@ export default class Groups extends Component {
 
                                                 <tr className="pg-table-row" key={item.groupId} onClick={() => this.groupDataHandler(item._id)}>
                                                     <td className="table-body tbl-item">{item.groupId}</td>
-                                                    <td className="table-body tbl-item">{item.groupEmail}</td>
                                                     <td className="table-body tbl-item">{item.groupMembers}</td>
+                                                    <td className="table-body tbl-item">{item.groupEmail}</td>
                                                     <td className="table-body tbl-item">{item.supervisors}</td>
                                                     <td style={{ textAlign: 'center' }}>
                                                         <span onMouseEnter={() => this.setState({ mouseState: true })} onMouseLeave={() => this.setState({ mouseState: false })}>
