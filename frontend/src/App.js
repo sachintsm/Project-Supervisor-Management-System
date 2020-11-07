@@ -68,6 +68,7 @@ import CoordinatorNotifications from "./components/coordinator/Notifications/Coo
 import SupervisorNotifications from "./components/supervisor/Notifications/SupervisorNotifications";
 import GivePresentationFeedback from "./components/supervisor/PresentationFeedback/GivePresentationFeedback";
 import BiWeekComments from "./components/supervisor/Notifications/BiWeekComments";
+import IndividualMarks from "./components/supervisor/Notifications/IndividualMarks";
 
 require('dotenv').config();
 
@@ -134,6 +135,7 @@ function App() {
           <Route path='/supervisorhome/presentation/:id' component={GroupPresentationSupervisor}></Route>
           <Route exact path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
           <Route exact path='/supervisorhome/notifications/biweekcomments/:id' component={BiWeekComments}></Route>
+          <Route exact path='/supervisorhome/notifications/individualmarks/:id' component={IndividualMarks}></Route>
           <Route exact path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
 
 

@@ -74,7 +74,7 @@ export default class Index extends Component {
                         <div className="container index-data">
                             <Row className="data-div">
                                 <Col md={4}>
-                                    <img src={("http://localhost:4000/users/profileImage/" + this.state.image)} className="image"></img><br />
+                                    <img src={(backendURI.url+"/users/profileImage/" + this.state.image)} className="image"></img><br />
                                 </Col>
                                 <Col md={8} >
 
