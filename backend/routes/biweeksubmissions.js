@@ -245,7 +245,6 @@ router.get("/individualmarks/:biweekId", async (req, res)=> {
      try{
           const id = req.params.biweekId;
           const result = await IndividualMarks.findOne({biweekId: id})
-          console.log(result)
           res.send(result)
      }
      catch (e) {
