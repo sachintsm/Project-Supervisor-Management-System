@@ -327,6 +327,25 @@ router.get('/studentList/:id', async (req, res, next) => {
   }
 });
 
+router.get('/studentDetails/:id', async (req, res, next) => {
+
+  try {
+    const id = req.params.id;
+    User
+        .find({ isStudent: true, isDeleted: false, indexNumber: id })
+        .select()
+        .exec()
+        .then(data => {
+          res.json({ state: true, data: data[0], msg: 'Data successfully sent..!' })
+        })
+        .catch(err => {
+          res.send({ state: false, msg: err.message })
+        })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //? get supervisor name
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {

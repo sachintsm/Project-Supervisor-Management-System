@@ -5,7 +5,6 @@ import Footer from "../../shared/Footer"
 import "../../../css/supervisor/notificaitons/BiWeekComments.scss"
 import {getFromStorage} from "../../../utils/Storage";
 import axios from "axios";
-import {confirmAlert} from "react-confirm-alert";
 import BackendURI from "../../shared/BackendURI";
 import Snackpop from "../../shared/Snackpop";
 import ViewComments from "./ViewComments";
