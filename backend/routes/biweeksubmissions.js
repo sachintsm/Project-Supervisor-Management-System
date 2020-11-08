@@ -204,7 +204,7 @@ router.post('/getBiweekly', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      const groupId = req.body.groupId
-     console.log(req.body)
+     //console.log(req.body)
      BiweekSubmissions
           .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()
@@ -251,5 +251,22 @@ router.get("/individualmarks/:biweekId", async (req, res)=> {
 
      }
 });
+
+router.delete('/deletebiweekly/:id' , async (req,res)=>{
+     console.log("dnsldk")
+     try {
+          const s_id = req.params.id;
+
+          console.log("Ashan",s_id);
+          BiweekSubmissions.remove({ _id: s_id})
+          .exec()
+          .then((result) => {
+           res.status(200).json({message: "Deleted Successfully.."});
+    })
+          
+     } catch (error) {
+          
+     }
+})
 
 module.exports = router;

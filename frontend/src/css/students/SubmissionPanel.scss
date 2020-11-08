@@ -50,6 +50,18 @@ margin-top: 25px;
   border-radius: 15px;
 
 }
+.icon-span{
+  //float: right;
+  cursor: pointer;
+  color: red !important;
+  font-size: 14px;
+  display: flex;
+  //align-items: center;
+}
+.icon-span:hover{
+  transform: scale(1.1);
+  //transition-duration: 0.5s;
+}
 
 @media screen and (max-width: 500px) {
 
