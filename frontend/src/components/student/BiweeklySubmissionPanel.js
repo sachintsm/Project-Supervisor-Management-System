@@ -7,6 +7,9 @@ import { getFromStorage } from "../../utils/Storage";
 import { DropzoneArea } from 'material-ui-dropzone';
 import { DropzoneDialog } from 'material-ui-dropzone';
 import '../../css/students/SubmissionPanel.scss'
+import { confirmAlert } from "react-confirm-alert";
+import Snackpop from "../shared/Snackpop";
+import { RiDeleteBin2Line } from 'react-icons/ri';
 
 
 
@@ -55,13 +58,18 @@ class SubmitPanal extends Component {
           }
          //let length = this.state.biweeklyDetails.files.length-1
 
-          console.log(this.state.biweeklyNumber)
+          //console.log(this.state.biweeklyNumber)
 
           this.onSubmit = this.onSubmit.bind(this)
          
      }
 
      componentDidMount() {
+          this.getBiweeklySubmissionDetails()
+          
+     }
+
+     getBiweeklySubmissionDetails(){
           const dt = {
                projectId: this.state.projectId,
                submissionId: this.state.submissionId,
@@ -74,9 +82,9 @@ class SubmitPanal extends Component {
                     biweeklyDetails : res.data.data
 
                },()=>{
-                    this.getComments()
+                   // this.getComments()
                })
-              // console.log(res.data.data)
+               console.log(res.data.data)
                if(res.data.data.length>0){
                     this.setState({
                          states : true
@@ -86,12 +94,13 @@ class SubmitPanal extends Component {
              })).catch(err => {
                 console.log(err)
            })
+
      }
 
 
      getComments = () => {
 
-          console.log(this.state.biweeklyDetails[0]._id)
+         // console.log("Ashan",this.state.biweeklyDetails[0]._id)
           const headers = {
                'auth-token':getFromStorage('auth-token').token,
           }
@@ -147,21 +156,34 @@ class SubmitPanal extends Component {
                formData.append("submissionsFile", files[i])
                formData.append("groupno", this.state.groupNo)
                formData.append("groupname", this.state.groupName)
+               formData.append("submissionId",this.state.submissionId)
                formData.append("biweeklyNumber",this.state.biweeklyNumber)
+               formData.append("deadDate",this.state.deadDate)
+               formData.append("deadTime",this.state.deadTime)
                formData.append("groupmember", this.state.groupMembers)
 
 
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {
+                         this.getBiweeklySubmissionDetails();
                        // console.log(res)
                     })
           }
      }
 
      handleOpen() {
+
+          if(this.state.states===true){
+
+               return(
+                alert("You Allready Submited..")
+               )
+
+          }else{
           this.setState({
                open: true,
           });
+     }
      }
 
      onChangename = (e) => {
@@ -212,7 +234,7 @@ class SubmitPanal extends Component {
 
                    return(
                         <div key={type._id}>
-                        <p>: {type.originalFileName}</p>
+                        <p>{type.originalFileName}&nbsp;&nbsp;<RiDeleteBin2Line/></p>
                         </div>
                    )
                })}
@@ -220,14 +242,80 @@ class SubmitPanal extends Component {
                )
      }
 
+     deleteFile(){
 
+          //console.log(this.state.biweeklyDetails[0]._id)
 
+          confirmAlert({
+               title: "Delete File",
+               message: "Are you sure?",
+               buttons: [
+                 {
+                   label: "Yes",
+                   onClick: async () => {
+         
+                     const headers = {
+                       'auth-token': getFromStorage('auth-token').token,
+                     }
+                     axios.delete(backendURI.url + '/biweeksubmissions/deletebiweekly/' +this.state.biweeklyDetails[0]._id ,{ headers: headers })
+                       .then((res) => {
+                         this.setState({
+                           deleteSuccesAlert: true,
+                         });
+                         window.location.reload();
+                         //this.getNoticeList();
+                         //this.getProjectDetails();
+                       })
+                       .catch((err) => {
+                         console.log(err);
+                       });
+         
+                   },
+                 },
+                 {
+                   label: "No",
+                   onClick: () => { },
+                 },
+               ],
+             });
+           };
+         
+           closeAlert = () => {
+               this.setState({
+                 succesAlert: false,
+                 deleteSuccesAlert: false,
+               });
+             };
 
      render() {
 
 
                return (
+                    
                     <React.Fragment>
+                          <Snackpop
+                          msg={"Successfully Added"}
+                          color={"success"}
+                          time={2000}
+                          status={this.state.succesAlert}
+                          closeAlert={this.closeAlert}
+                         />
+                         <Snackpop
+                          msg={"Deleted Successfully.."}
+                          color={"success"}
+                          time={2000}
+                          status={this.state.deleteSuccesAlert}
+                          closeAlert={this.closeAlert}
+                         />
+                          <Snackpop
+                          msg={"You Allready Submited.."}
+                          color={"danger"}
+                          time={2000}
+                          status={this.state.deleteSuccesAlert}
+                          closeAlert={this.closeAlert}
+                         />
+
+
                          <Navbar panel={"student"} />
                          <div></div>
                          <div className="sub_style">
@@ -269,11 +357,11 @@ class SubmitPanal extends Component {
 
                                         <Row>
                                              <Col md="2">
-                                             <p>File Submission</p>
+                                             <p>File Submission  : </p>
                                              </Col>
 
                                              <Col>
-                                             <p>{this.filsename()}</p>
+                                             <Button className="icon-span" variant="link" onClick={() => { this.deleteFile() }} >{this.filsename()}</Button>
                                              </Col>
                                         </Row>  
                                         </div>

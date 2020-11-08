@@ -61,7 +61,6 @@ export default class BiWeekly extends Component {
 
     
       byweeklyId: "",
-      
       biweeklyNumberError : '',
       biweeklyDiscriptionError:'',
       deadDateError:'',
@@ -338,7 +337,7 @@ export default class BiWeekly extends Component {
               'auth-token': getFromStorage('auth-token').token,
             }
             axios
-              .delete(backendURI.url + "/biweekly/deleteBiweekly/" + id, { headers: headers })
+              .patch(backendURI.url + "/biweekly/deleteBiweekly/" + id, { headers: headers })
               .then((res) => {
                 this.setState({
                   deleteSuccesAlert: true,
@@ -638,7 +637,7 @@ export default class BiWeekly extends Component {
                                   </div>
   
                                   <div className="fille_attach">
-                                    <a className="crd_atchmnt" href={backendURI.url + "/proposel/biweeklyAttachment/" + type.filePath}>
+                                    <a className="crd_atchmnt" href={backendURI.url + "/biweekly/biweeklyAttachment/" + type.filePath}>
                                       Attachment
                                     </a>
                                   </div>
