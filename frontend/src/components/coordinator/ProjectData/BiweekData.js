@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {getFromStorage} from "../../../utils/Storage";
 import axios from "axios";
 import SupervisorName from "./SupervisorName";
+import { Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
 
 const backendURI = require('../../shared/BackendURI');
 
@@ -13,14 +14,17 @@ class BiweekData extends Component {
             request: this.props.details,
             loading1: true,
             loading2: true,
+            loading3: true,
             userId: getFromStorage('auth-id').id,
-            length: this.props.details.files.length - 1
+            length: this.props.details.files.length - 1,
+            modal: false
         }
     }
 
     componentDidMount() {
         this.getGroupDetails()
         this.getProjectDetails()
+        this.getIndividualMarks()
     }
 
 
@@ -52,8 +56,43 @@ class BiweekData extends Component {
         })
     }
 
-    render() {
+    getIndividualMarks = () => {
+        console.log("getting individual marks...")
+        console.log(this.state.request._id)
+        const headers = {
+            'auth-token':getFromStorage('auth-token').token,
+        }
 
+        axios.get(backendURI.url+'/biweeksubmissions/individualmarks/'+this.state.request._id,{headers: headers}).then(res=>{
+            if(res.data){
+                this.setState({
+                    individualMarks: res.data,
+                    existing: true,
+                    loading3: false
+                })
+            }
+            else{
+                this.setState({
+                    exists: false,
+                    loading3: false
+                })
+            }
+        })
+    }
+
+    openModal = () => {
+        this.setState({
+            modal: true
+        })
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal,
+        });
+    };
+
+    render() {
         let status = this.state.request.supervisors.map((item, index) => {
 
             return(
@@ -81,8 +120,38 @@ class BiweekData extends Component {
                                 {this.state.request.originalFileName}
                             </a>
                         </td>
+                        <td>
+                            {!this.state.loading3 && this.state.existing && this.state.individualMarks.studentList.length>0 && this.state.individualMarks.studentList.map((item,key)=> {
+                                return (
+                                    <div key={key} style={{"fontSize":"11px"}}>
+                                        <span>{item} - </span>
+                                        <span>{this.state.individualMarks.individualMarks[key]} Marks</span>
+                                    </div>
+                                )
+                            })}
+                            {!this.state.loading3 && !this.state.existing && (<p>Marks are not submitted yet</p>)}
+                            {/* <Button onClick={()=>this.openModal()}>View Marks</Button> */}
+                        </td>
                     </tr>
                 )}
+
+                {/* <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Individual marks</ModalHeader>
+                    <ModalBody>
+                        <div className="container">
+                            <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
+                                {!this.state.loading3 && this.state.existing && this.state.individualMarks.studentList.length>0 && this.state.individualMarks.studentList.map((item,key)=> {
+                                    return (
+                                        <div key={key}>
+                                            <span>{item} - </span>
+                                            <span>{this.state.individualMarks.individualMarks[key]}</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </ModalBody>
+                </Modal> */}
             </React.Fragment>
 
         );

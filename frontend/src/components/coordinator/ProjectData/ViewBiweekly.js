@@ -14,7 +14,7 @@ export class ViewBiweekly extends Component {
           super(props)
 
           this.state = {
-              biweeklyData: this.props.history.location.state.biweeklyData,
+              biweeklyData: props.location.state.biweeklyData,
               loading: true
           }
      }
@@ -41,7 +41,7 @@ export class ViewBiweekly extends Component {
         return (
             <div className="biweekly-supervisor">
                 <Navbar panel={"coordinator"} />
-                    <div style={{"min-height": "680px","padding": "0px 80px"}}>
+                    <div style={{"minHeight": "680px","padding": "0px 80px"}}>
 
                         <div className="title-div margin-top-30">
                             <h3 className="title">Biweekly Report {this.state.biweeklyData.biweeklyNumber} (Submissions)</h3>
@@ -57,6 +57,7 @@ export class ViewBiweekly extends Component {
                                 <th >Submitted Time</th>
                                 <th >Supervisor Approvals</th>
                                 <th >Attachment</th>
+                                <th >Individual Marks</th>
                             </tr>
                             </thead>
                             <tbody>
