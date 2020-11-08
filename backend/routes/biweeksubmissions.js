@@ -6,6 +6,7 @@ const User = require('../models/users');
 const BiweekSubmissions = require('../models/biweeksubmissions');
 const CreateGroups = require('../models/createGroups');
 const BiweeklyLink = require("../models/BiweeklyLink");
+const IndividualMarks = require("../models/individualmarks");
 const multer = require("multer")
 
 var path = require("path");
@@ -224,6 +225,31 @@ router.get("/getsubmission/:filename", function (req, res) {
      res.sendFile(
           path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
      );
+});
+
+// submit individual marks
+router.post('/individualmarks/', async (req, res) => {
+     try{
+
+          const type = new IndividualMarks(req.body);
+          const result = await type.save();
+          res.send(result);
+     }
+     catch (e) {
+          console.log(e)
+     }
+})
+
+//Get individual marks
+router.get("/individualmarks/:biweekId", async (req, res)=> {
+     try{
+          const id = req.params.biweekId;
+          const result = await IndividualMarks.findOne({biweekId: id})
+          res.send(result)
+     }
+     catch (e) {
+
+     }
 });
 
 module.exports = router;

@@ -127,41 +127,10 @@ class SupervisorNotifications extends Component {
     }
 
     acceptRequest = (item) => {
-        confirmAlert({
-            title: 'Biweekly Report',
-            message: 'Are you sure you want to accept this report?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: async () => {
-
-                        const headers = {
-                            'auth-token': getFromStorage('auth-token').token,
-                        }
-
-                        item.supervisors.map((supervisor, index) => {
-                            if (supervisor === this.state.userId) {
-                                item.status[index] = "Accepted"
-                            }
-                        })
 
 
-                        axios.patch(backendURI.url + "/biweeksubmissions/updateRequest/" + item._id, item, { headers: headers }).then(res => {
-                            this.getBiweekRequests()
-                            this.setState({
-                                acceptedAlert: true
-                            })
-                        })
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
+        this.props.history.push('/supervisorhome/notifications/individualmarks/'+item._id,{biWeekDetails: item})
 
-                    }
-                }
-            ]
-        })
     }
 
     declineRequest = (item) => {
@@ -203,13 +172,18 @@ class SupervisorNotifications extends Component {
     }
 
     addComment = (item) => {
-        this.props.history.push('/supervisorhome/notifications/biweekcomments/'+item._id,)
+        this.props.history.push('/supervisorhome/notifications/biweekcomments/'+item._id,{biWeekDetails: item})
     }
 
     closeAlert = () => {
         this.setState({
             acceptedAlert: false,
             declinedAlert: false,
+        });
+    };
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal,
         });
     };
 
@@ -305,7 +279,6 @@ class SupervisorNotifications extends Component {
                         )}
                     </Container>
                 </div>
-
 
                 <Footer />
             </React.Fragment>

@@ -52,7 +52,7 @@ class GroupData extends Component {
         this.onSubmitAddSupervisor = this.onSubmitAddSupervisor.bind(this)
         this.openBiweekly = this.openBiweekly.bind(this)
         this.openProposal = this.openProposal.bind(this)
-        this.openSrs = this.openSrs.bind(this)
+        this.openPresentation = this.openPresentation.bind(this)
     }
     closeAlert = () => {
         this.setState({ snackbaropen: false });
@@ -274,8 +274,8 @@ class GroupData extends Component {
     openProposal(){
         this.props.history.push('/coordinatorhome/gdata/proposal/'+ this.state.groupId)
     }
-    openSrs(){
-        this.props.history.push('/coordinatorhome/gdata/srs/'+ this.state.groupId)
+    openPresentation(){
+        this.props.history.push('/coordinatorhome/gdata/presentation/'+ this.state.groupId, {projectId : this.state.projectId})
     }
     render() {
         return (
@@ -380,13 +380,13 @@ class GroupData extends Component {
                                         <Card.Body className="gd-card-body">
                                             <Row style={{ marginBottom: "-50px" }}>
                                                 <Col xs={12} mg={4} md={4}>
-                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }} onClick={()=>this.openSrs()}>
+                                                    <Card body inverse className="cd-sub-card-unit" style={{ marginTop: "-0px" }} onClick={()=>this.openPresentation()}>
                                                         <Row>
                                                             <Col xs={2} mg={2} md={2}>
                                                                 <DescriptionIcon fontSize="large" />
                                                             </Col>
                                                             <Col xs={8} mg={8} md={8}>
-                                                                <label className="text-sub-gd">SRS Document</label>
+                                                                <label className="text-sub-gd">Presentation Feedbacks</label>
                                                             </Col>
                                                         </Row>
                                                     </Card>
@@ -401,7 +401,7 @@ class GroupData extends Component {
                                                                 <AssignmentIcon fontSize="large" />
                                                             </Col>
                                                             <Col xs={8} mg={8} md={8}>
-                                                                <label className="text-sub-gd">Project Proposal</label>
+                                                                <label className="text-sub-gd">Documnets Submissions</label>
                                                             </Col>
                                                         </Row>
                                                     </Card>

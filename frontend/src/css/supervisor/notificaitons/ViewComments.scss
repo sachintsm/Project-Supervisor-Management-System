@@ -1,0 +1,37 @@
+.view-comments{
+  background-color: #FCFCFC !important;
+  padding: 15px 30px !important;
+  margin: 15px 0px !important;
+
+  .date-time{
+    font-size: 12px;
+  }
+
+  .author{
+    font-size: 14px;
+  }
+
+  .delete-button-col{
+    display:flex;
+    flex-direction: column;
+  }
+
+  .delete-span{
+    float: right;
+    font-size: 26px;
+    flex:1 1 auto;
+    color: palevioletred;
+  }
+  .delete-span:hover{
+    color: red;
+    transform: scale(1.45);
+    transition-duration: 0.5s;
+    cursor: pointer;
+  }
+
+}
+
+.view-comments:hover{
+  background-color: white !important;
+  //cursor: pointer;
+}

@@ -327,6 +327,25 @@ router.get('/studentList/:id', async (req, res, next) => {
   }
 });
 
+router.get('/studentDetails/:id', async (req, res, next) => {
+
+  try {
+    const id = req.params.id;
+    User
+        .find({ isStudent: true, isDeleted: false, indexNumber: id })
+        .select()
+        .exec()
+        .then(data => {
+          res.json({ state: true, data: data[0], msg: 'Data successfully sent..!' })
+        })
+        .catch(err => {
+          res.send({ state: false, msg: err.message })
+        })
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //? get supervisor name
 router.get('/supervisorList/:id', async (req, res, next) => {
   try {
@@ -515,7 +534,12 @@ router.post('/getLimit/:id', async (req, res) => {
     .exec()
     .then(data => {
       console.log(data);
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+      if(data != 0 ){
+        res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
+        }else{
+          console.log('no data');
+         // res.json({ state: true, msg: "Data Transfer Successfully..!", data: 1 });
+        }
 
     })
     .catch(error => {

@@ -15,6 +15,8 @@ router.post("/add", (req, res) => {
     date: req.body.date,
 
     time: req.body.time,
+    link: req.body.link,
+
 
     supervisor: req.body.supervisor,
 
@@ -107,6 +109,8 @@ router.post("/updateMeet/:id", function (req, res) {
         date: req.body.date,
 
         time: req.body.time,
+        link: req.body.link,
+
 
         state: "confirmed",
       },
@@ -139,6 +143,7 @@ router.post("/urgentMeeting", (req, res) => {
     date: req.body.date,
 
     time: req.body.time,
+    link: req.body.link,
 
     supervisor: req.body.supervisor,
 
@@ -239,7 +244,7 @@ router.route("/cancelMeeting/:id").post(function (req, res) {
 //SupervisorNotificaion.js
 router.get('/getPending/:id', (req, res) => {
   RequsetMeeting
-    .find({ supervisor: req.params.id , state : 'pending'})
+    .find({ supervisor: req.params.id, state: 'pending' })
     .exec()
     .then(result => {
       res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });

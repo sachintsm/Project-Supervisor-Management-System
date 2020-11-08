@@ -29,11 +29,12 @@ import Groups from './components/coordinator/ProjectData/Groups';
 import Submission from './components/coordinator/ProjectData/Submission';
 import ViewSubmission from './components/coordinator/ProjectData/ViewSubmission';
 import ViewBiweekly from './components/coordinator/ProjectData/ViewBiweekly';
-import SRS from './components/coordinator/ProjectData/SRS';
+// import SRS from './components/coordinator/ProjectData/SRS';
 import Supervisors from './components/coordinator/ProjectData/Supervisors';
 import GroupBiWeekly from './components/coordinator/GroupData/GroupSubmissions/BiWeekly';
-import GroupSRS from './components/coordinator/GroupData/GroupSubmissions/SRS';
+import GroupPresentation from './components/coordinator/GroupData/GroupSubmissions/GroupPresentation';
 import GroupProposal from './components/coordinator/GroupData/GroupSubmissions/Proposal';
+import PresentationFeedback from './components/coordinator/PresentationFeedback';
 
 import SupervisorHome from './components/supervisor/SupervisorHome';
 import GroupDataSupervisor from './components/supervisor/GroupData/GroupData';
@@ -41,6 +42,8 @@ import ViewMeetingsSupervisor from './components/supervisor/Meetings/ViewMeeting
 import ViewProgressSupervisor from './components/supervisor/Progress/ViewProgress';
 import ViewRequest from './components/supervisor/ViewRequest';
 import SupervisorBiWeeklyView from './components/supervisor/BiWeekly';
+import GroupPresentationSupervisor from './components/supervisor/GroupData/GroupPresentation';
+
 
 import NoticeView from './components/shared/NoticeView';
 
@@ -54,6 +57,7 @@ import SubmisionView from "./components/student/SubmisionView";
 import SubmisionPanel from "./components/student/SubmitPanal";
 import BiweeklyView from "./components/student/BiweeklyView";
 import BiweeklySubmissionPanel from "./components/student/BiweeklySubmissionPanel";
+import GroupPresentationStudent from "./components/student/PresentaionFeedback";
 
 import Notice from './components/shared/Notice'
 import GroupChat from "./components/shared/GroupChat/GroupChat";
@@ -63,6 +67,8 @@ import FormGroups from "./components/student/formgroups/FormGroups";
 import CoordinatorNotifications from "./components/coordinator/Notifications/CoordinatorNotifications";
 import SupervisorNotifications from "./components/supervisor/Notifications/SupervisorNotifications";
 import GivePresentationFeedback from "./components/supervisor/PresentationFeedback/GivePresentationFeedback";
+import BiWeekComments from "./components/supervisor/Notifications/BiWeekComments";
+import IndividualMarks from "./components/supervisor/Notifications/IndividualMarks";
 
 require('dotenv').config();
 
@@ -104,14 +110,14 @@ function App() {
           <Route path='/coordinatorhome/projectdata/submission/:id' component={Submission}></Route>
           <Route path='/coordinatorhome/projectdata/viewsubmission/:id' component={ViewSubmission}></Route>
           <Route path='/coordinatorhome/projectdata/viewbiweekly/:id' component={ViewBiweekly}></Route>
-          
 
-          <Route path='/coordinatorhome/projectdata/SRS/:id' component={SRS}></Route>
+
+          <Route path='/coordinatorhome/presentationfeedback' component={PresentationFeedback}></Route>
           <Route path='/coordinatorhome/projectdata/Supervisors/:id' component={Supervisors}></Route>
 
           <Route path='/coordinatorhome/groupData/:id' component={GroupData}  ></Route>
           <Route path='/coordinatorhome/gdata/proposal/:id' component={GroupProposal}></Route>
-          <Route path='/coordinatorhome/gdata/srs/:id' component={GroupSRS}></Route>
+          <Route path='/coordinatorhome/gdata/presentation/:id' component={GroupPresentation}></Route>
           <Route path='/coordinatorhome/gdata/biweekly/:id' component={GroupBiWeekly}></Route>
           <Route path='/coordinatorhome/notifications' component={CoordinatorNotifications}></Route>
 
@@ -123,9 +129,15 @@ function App() {
 
           <Route exact path='/shared/noticeView' component={NoticeView}></Route>
           <Route exact path='/supervisorhome/viewRequest' component={ViewRequest}></Route>
-          <Route path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
+
+         
           <Route path='/supervisorhome/biweeklyview' component={SupervisorBiWeeklyView}></Route>
-          <Route path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
+          <Route path='/supervisorhome/presentation/:id' component={GroupPresentationSupervisor}></Route>
+          <Route exact path='/supervisorhome/notifications' component={SupervisorNotifications}></Route>
+          <Route exact path='/supervisorhome/notifications/biweekcomments/:id' component={BiWeekComments}></Route>
+          <Route exact path='/supervisorhome/notifications/individualmarks/:id' component={IndividualMarks}></Route>
+          <Route exact path='/supervisorhome/givepresentationfeedback' component={GivePresentationFeedback}></Route>
+
 
           {/* =================== Student Routes ============================== */}
           <Route exact path='/studenthome' component={StudentHome}></Route>
@@ -141,8 +153,8 @@ function App() {
           <Route exact path='/studenthome/submisionview/:id' component={SubmisionView}></Route>
           <Route exact path='/studenthome/submisionview/submisionpanal/:id' component={SubmisionPanel}></Route>
           <Route exact path='/studenthome/biweeklyview/:id' component={BiweeklyView}></Route>
-          <Route exact path='/studenthome/biweeklysubmissionpanel/:id'component={BiweeklySubmissionPanel}></Route>
-
+          <Route exact path='/studenthome/biweeklysubmissionpanel/:id' component={BiweeklySubmissionPanel}></Route>
+          <Route exact path='/studenthome/viewFeedback' component={GroupPresentationStudent}></Route>
 
 
           <Route path='/studenthome/chat/:id' component={GroupChat}></Route>

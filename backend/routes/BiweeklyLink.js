@@ -219,7 +219,4 @@ router.get('/getBiweeklyNumber/:id',async (req, res) => {
   }
 })
 
-
-
-
 module.exports = router;
