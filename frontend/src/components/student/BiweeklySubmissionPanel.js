@@ -82,7 +82,7 @@ class SubmitPanal extends Component {
                     biweeklyDetails : res.data.data
 
                },()=>{
-               // this.getComments()
+               this.getComments()
                })
                console.log("Ashan",this.state.biweeklyDetails[0].date)
                if(res.data.data.length>0){
