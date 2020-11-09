@@ -58,7 +58,7 @@ class SubmitPanal extends Component {
           }
          //let length = this.state.biweeklyDetails.files.length-1
 
-          //console.log(this.state.biweeklyNumber)
+       
 
           this.onSubmit = this.onSubmit.bind(this)
          
@@ -82,9 +82,9 @@ class SubmitPanal extends Component {
                     biweeklyDetails : res.data.data
 
                },()=>{
-                   // this.getComments()
+               // this.getComments()
                })
-               console.log(res.data.data)
+               console.log("Ashan",this.state.biweeklyDetails[0].date)
                if(res.data.data.length>0){
                     this.setState({
                          states : true
@@ -99,14 +99,12 @@ class SubmitPanal extends Component {
 
 
      getComments = () => {
-
-         // console.log("Ashan",this.state.biweeklyDetails[0]._id)
           const headers = {
                'auth-token':getFromStorage('auth-token').token,
           }
 
           axios.get(backendURI.url+'/biweekcomments/getcomments/'+this.state.biweeklyDetails[0]._id,{headers: headers}).then(res=>{
-               console.log(res.data)
+              // console.log(res.data)
                this.setState({
                     comments: res.data,
                     loading3: false
@@ -145,7 +143,6 @@ class SubmitPanal extends Component {
           for (let i = 0; i < files.length; i++) {
                //console.log("sachin");
                const formData = new FormData();
-
 
                formData.append("date", dateString)
                formData.append("time", timeString)
@@ -216,11 +213,11 @@ class SubmitPanal extends Component {
      status() {
           if(this.state.states===true){
                return(
-                    <p style={{color:"Green"}}>: Submited</p>
+                    <p style={{color:"Green"}}> Submited</p>
                )
           }else{
                return(
-                    <p style={{color:"Red"}}>: No Attempt</p>
+                    <p style={{color:"Red"}}> No Attempt</p>
                )
           }
 
@@ -228,10 +225,10 @@ class SubmitPanal extends Component {
 
 
      filsename(){
+          
        return(
                <div >
                {this.state.biweeklyDetails.map((type) => {
-
                    return(
                         <div key={type._id}>
                         <p>{type.originalFileName}&nbsp;&nbsp;<RiDeleteBin2Line/></p>
@@ -240,6 +237,31 @@ class SubmitPanal extends Component {
                })}
                </div>
                )
+          }
+     
+
+     lastmodify(){
+          if(this.state.states===true){
+          return(
+               <div>
+                    {this.state.biweeklyDetails.map((type) =>{
+                         return(
+                              <div key={type._id}>
+                                  <span className="date-time">{type.date} &nbsp;  {type.time}</span> 
+                              </div>
+                         )
+
+                    })}
+               </div>
+          )
+               }
+               else{
+                    return(
+                    <div>
+                         <p>-</p>
+                    </div>
+                    )
+               }
      }
 
      deleteFile(){
@@ -331,7 +353,7 @@ class SubmitPanal extends Component {
                                              <p>Due Date</p>
                                              </Col>
                                              <Col md="10">
-                                             <p> : {this.state.deadDate} : {this.state.deadTime}</p>
+                                             <p>  {this.state.deadDate} : {this.state.deadTime}</p>
                                              </Col>
                                         </Row>
 
@@ -341,7 +363,7 @@ class SubmitPanal extends Component {
                                              </Col>
 
                                              <Col md="10">
-                                             <p> : {this.state.biweeklyDiscription}</p>
+                                             <p>  {this.state.biweeklyDiscription}</p>
                                              </Col>
                                         </Row>
 
@@ -357,11 +379,21 @@ class SubmitPanal extends Component {
 
                                         <Row>
                                              <Col md="2">
-                                             <p>File Submission  : </p>
+                                             <p>Last modified</p>
+                                             </Col>
+                                             <Col md="10">
+                                             <p>{this.lastmodify()}</p>
+                                             </Col>
+
+                                        </Row>
+
+                                        <Row>
+                                             <Col md="2">
+                                             <p>File Submissions </p>
                                              </Col>
 
                                              <Col>
-                                             <Button className="icon-span" variant="link" onClick={() => { this.deleteFile() }} >{this.filsename()}</Button>
+                                             <spam className="icon-span" variant="link" onClick={() => { this.deleteFile() }} >{this.filsename()}</spam>
                                              </Col>
                                         </Row>  
                                         </div>
