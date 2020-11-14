@@ -20,14 +20,6 @@ class RequestSupervisor extends Component {
 
     render() {
 
-        // let supervisorDetails = () => {
-        //     let supervisorList = this.state.projectDetails.supervisorList
-        //     supervisorList.length>0 && supervisorList.map(id=>{
-        //         this.getSupervisorDetails(id)
-        //         console.log(this.state.supervisorDetails)
-        //     })
-        // }
-
         return (
             <React.Fragment>
                 <Navbar panel={"student"} />
@@ -49,6 +41,7 @@ class RequestSupervisor extends Component {
                                     })}
                                     </tbody>
                                 </Table>
+                                {this.state.projectDetails.supervisorList.length===0 && <p>No any Supervisors</p>}
                             </Tab>
                             <Tab eventKey="status" title="Requests History">
                             </Tab>

@@ -11,17 +11,11 @@ router.post('/checklimit/', verify, async (req, res, next) => {
     try {
         const userId = req.body.data.userId;
         const projectId = req.body.data.projectId;
-
         const personalLimitResult = await ProjectLimits.findOne({projectId: projectId, supervisorId: userId}).select('noProjects');
         const personalLimit = personalLimitResult.noProjects
-
         const currentProjectsResult = await CreateGroups.find({projectId:projectId, supervisors: userId})
         const currentLimit = currentProjectsResult.length
-
-        console.log(personalLimit+"-"+currentLimit)
-
         let result = false
-
         if(personalLimit-currentLimit>0){
             result = true
         }
@@ -31,6 +25,35 @@ router.post('/checklimit/', verify, async (req, res, next) => {
         console.log(err)
     }
 })
+
+
+router.get('/getcurrentprojectlist/:id', verify, async (req, res, next) => {
+    try{
+        const userId = req.params.id;
+        const groups = await CreateGroups.find({supervisors: userId})
+        let projectIdList = []
+        groups.map(item=> {
+            if(!projectIdList.includes(item.projectId)){
+                projectIdList.push(item.projectId)
+            }
+        })
+        let projectCount = []
+        projectIdList.map(id=> {
+            let count = 0
+            groups.map(group=>{
+                if(group.projectId===id){
+                    count = count+1;
+                }
+            })
+            projectCount.push(count)
+        })
+        res.send({projectIdList:projectIdList, projectCount:projectCount})
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
 
 
 module.exports = router;

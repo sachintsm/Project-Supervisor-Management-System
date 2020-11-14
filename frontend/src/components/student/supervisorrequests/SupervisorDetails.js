@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {getFromStorage} from "../../../utils/Storage";
 import axios from "axios";
-import {Button,} from "react-bootstrap";
+import {Button, Tab, Table,} from "react-bootstrap";
 import "../../../css/students/supervisorrequests/SupervisorDetails.scss"
+import {Input, Label, Modal, ModalBody, ModalHeader} from "reactstrap";
+import ProjectDetails from "./ProjectDetails";
 const backendURI = require('../../shared/BackendURI');
 
 class SupervisorDetails extends Component {
@@ -12,13 +14,16 @@ class SupervisorDetails extends Component {
         this.state = {
             index : this.props.index,
             projectDetails : this.props.projectDetails,
-            loading: true
+            loading: true,
+            loading2: true,
+            modal: false
         }
     }
 
     componentDidMount() {
         this.getSupervisorDetails()
         this.checkLimit()
+        this.getCurrentProjects()
     }
 
     getSupervisorDetails = () => {
@@ -26,10 +31,22 @@ class SupervisorDetails extends Component {
             'auth-token': getFromStorage('auth-token').token,
         }
         axios.get(backendURI.url + '/users/getSupervisorEmail/' + this.state.index, { headers: headers }).then(res => {
-            // console.log(res.data.data)
             this.setState({
                 supervisorDetails: res.data.data[0],
                 loading:false
+            })
+        })
+    }
+
+    getCurrentProjects = () => {
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        axios.get(backendURI.url + '/supervisorrequests/getcurrentprojectlist/' + this.state.index,{ headers: headers }).then(res => {
+            this.setState({
+                projectIdList : res.data.projectIdList,
+                projectCount : res.data.projectCount,
+                loading2: false
             })
         })
     }
@@ -51,6 +68,18 @@ class SupervisorDetails extends Component {
         })
     }
 
+    openModal = () => {
+        this.setState({
+            modal: true
+        })
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal,
+        });
+    };
+
     render() {
         return (
             <tr className="supervisor-details">
@@ -62,14 +91,35 @@ class SupervisorDetails extends Component {
                 </td>
                 <td>
                     {!this.state.loading &&
-                        <Button variant='info' onClick={this.onCreateProject} style={{ width: '70%' }} > View Projects </Button>}
+                        <Button variant='info'  onClick={this.openModal} style={{ width: '70%' }} > View Projects </Button>}
                 </td>
                 <td>
                     {!this.state.loading && this.state.limitAvailability &&
-                        <Button variant='info' onClick={this.onCreateProject} style={{ width: '70%' }} > Send Request </Button>}
+                        <Button variant='info' style={{ width: '70%' }} > Send Request </Button>}
                     {!this.state.loading && !this.state.limitAvailability &&
                         <Button className="disabled-button" disabled variant="outline-danger" style={{ width: '70%' }} > Limit Reached </Button>}
                 </td>
+
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Current Projects</ModalHeader>
+                    <ModalBody>
+
+                        <Table >
+                            <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {!this.state.loading2 && this.state.projectIdList && this.state.projectIdList.length>0 && this.state.projectIdList.map((projectId,key)=>{
+                                    return <ProjectDetails key={key} projectId={projectId} count={this.state.projectCount[key]}/>
+                                })}
+                            </tbody>
+                        </Table>
+                        {!this.state.loading2 && this.state.projectIdList.length===0 && <span style={{"paddingLeft": "15px"}}>No any projects</span>}
+                    </ModalBody>
+                </Modal>
 
             </tr>
         );
