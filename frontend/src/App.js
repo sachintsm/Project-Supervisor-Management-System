@@ -50,7 +50,7 @@ import NoticeView from './components/shared/NoticeView';
 import StudentHome from './components/student/StudentHome';
 import ViewProjects from "./components/student/ViewProjects";
 import ViewProject from "./components/student/ViewProject";
-import RequestSupervisor from "./components/student/RequestSupervisor";
+import RequestSupervisor from "./components/student/supervisorrequests/RequestSupervisor";
 import Tasks from "./components/student/progress/Tasks";
 import ViewMeeting from "./components/student/ViewMeeting";
 import SubmisionView from "./components/student/SubmisionView";

@@ -103,13 +103,18 @@ class SubmitPanal extends Component {
                'auth-token':getFromStorage('auth-token').token,
           }
 
-          axios.get(backendURI.url+'/biweekcomments/getcomments/'+this.state.biweeklyDetails[0]._id,{headers: headers}).then(res=>{
-              // console.log(res.data)
-               this.setState({
-                    comments: res.data,
-                    loading3: false
+          console.log(this.state.biweeklyDetails)
+
+          if(this.state.biweeklyDetails[0]){
+
+               axios.get(backendURI.url+'/biweekcomments/getcomments/'+this.state.biweeklyDetails[0]._id,{headers: headers}).then(res=>{
+                    // console.log(res.data)
+                    this.setState({
+                         comments: res.data,
+                         loading3: false
+                    })
                })
-          })
+          }
      }
 
      callBackFunction = () => {
