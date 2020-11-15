@@ -54,9 +54,6 @@ class ViewProject extends Component {
     }
 
 
-    requestSup(item) {
-        this.props.history.push('/studenthome/viewproject/requestsupervisor', { projectDetails: item });
-    }
 
 
     getGroupId = () => {
@@ -77,6 +74,10 @@ class ViewProject extends Component {
                 })
             }
         )
+    }
+
+    requestSup(item) {
+        this.props.history.push('/studenthome/viewproject/requestsupervisor', { projectDetails: item, groupDetails: this.state.groupDetails });
     }
 
     viewProgress = (project) => {

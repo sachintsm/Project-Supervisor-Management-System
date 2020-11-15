@@ -5,6 +5,7 @@ import {Button, Tab, Table,} from "react-bootstrap";
 import "../../../css/students/supervisorrequests/SupervisorDetails.scss"
 import {Input, Label, Modal, ModalBody, ModalHeader} from "reactstrap";
 import ProjectDetails from "./ProjectDetails";
+import Snackpop from "../../shared/Snackpop";
 const backendURI = require('../../shared/BackendURI');
 
 class SupervisorDetails extends Component {
@@ -16,7 +17,10 @@ class SupervisorDetails extends Component {
             projectDetails : this.props.projectDetails,
             loading: true,
             loading2: true,
-            modal: false
+            modal: false,
+            modal2 : false,
+            emptyInputAlert : false,
+            description: ""
         }
     }
 
@@ -73,6 +77,11 @@ class SupervisorDetails extends Component {
             modal: true
         })
     }
+    openModal2 = () => {
+        this.setState({
+            modal2: true
+        })
+    }
 
     toggle = () => {
         this.setState({
@@ -80,10 +89,49 @@ class SupervisorDetails extends Component {
         });
     };
 
+    toggle2 = () => {
+        this.setState({
+            modal2: !this.state.modal2,
+        });
+    };
+
+    closeAlert = () => {
+        this.setState({
+            emptyInputAlert: false,
+        });
+    };
+
+    handleDescriptionChange = (e) => {
+        const description = e.target.value
+        console.log(description)
+        this.setState({
+            description: description
+        })
+    }
+
+    sendRequest = () => {
+        if(this.state.description===""){
+            this.setState({emptyInputAlert: true})
+        }
+        else{
+
+        }
+
+    }
+
     render() {
         return (
+
             <tr className="supervisor-details">
                 <td>
+                    <Snackpop
+                        msg={'Please enter a Description'}
+                        color={'error'}
+                        time={3000}
+                        status={this.state.emptyInputAlert}
+                        closeAlert={this.closeAlert}
+                    />
+
                     {!this.state.loading && <span>{this.state.supervisorDetails.firstName} {this.state.supervisorDetails.lastName}</span>}
                 </td>
                 <td>
@@ -95,7 +143,7 @@ class SupervisorDetails extends Component {
                 </td>
                 <td>
                     {!this.state.loading && this.state.limitAvailability &&
-                        <Button variant='info' style={{ width: '70%' }} > Send Request </Button>}
+                        <Button variant='info' style={{ width: '70%' }} onClick={this.openModal2} > Send Request </Button>}
                     {!this.state.loading && !this.state.limitAvailability &&
                         <Button className="disabled-button" disabled variant="outline-danger" style={{ width: '70%' }} > Limit Reached </Button>}
                 </td>
@@ -118,6 +166,19 @@ class SupervisorDetails extends Component {
                             </tbody>
                         </Table>
                         {!this.state.loading2 && this.state.projectIdList.length===0 && <span style={{"paddingLeft": "15px"}}>No any projects</span>}
+                    </ModalBody>
+                </Modal>
+
+
+
+                <Modal isOpen={this.state.modal2} toggle={this.toggle2}>
+                    <ModalHeader toggle={this.toggle2}>Send Request</ModalHeader>
+                    <ModalBody>
+                        <label>Project Description</label>
+                        <Input type="textarea" className="text-area" placeholder="Enter description of your Project" onChange={this.handleDescriptionChange}></Input>
+                        <div className="send-request-btn">
+                            <Button variant='info' style={{ width: '100%', marginTop: "20px" }} onClick={this.sendRequest} > Send Request </Button>
+                        </div>
                     </ModalBody>
                 </Modal>
 
