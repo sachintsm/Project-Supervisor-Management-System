@@ -204,7 +204,7 @@ router.post('/getBiweekly', async (req, res) => {
      const projectId = req.body.projectId
      const submissionId = req.body.submissionId
      const groupId = req.body.groupId
-     //console.log(req.body)
+     console.log(groupId)
      BiweekSubmissions
           .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
           .exec()

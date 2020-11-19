@@ -34,6 +34,8 @@ class ViewProject extends Component {
             groupDetails: []
         }
         this.getGroupId()
+
+        console.log(this.state.groupDetails)
     }
 
     componentDidMount() {
@@ -82,7 +84,6 @@ class ViewProject extends Component {
     viewProgress = (project) => {
         this.props.history.push('/studenthome/viewproject/progresstasks', { projectDetails: this.state.project, groupDetails: this.state.groupDetails })
     }
-
     viewChat = (project) => {
         this.props.history.push('/studenthome/chat/' + this.state.groupDetails._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
@@ -90,9 +91,8 @@ class ViewProject extends Component {
         this.props.history.push('/studenthome/submisionview/' + this.state.project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
     }
     biweeklyView = (project) => {
-        this.props.history.push('/studenthome/biweeklyview/' + project._id, { projectDetails: project, groupDetails: this.state.groupDetails })
+        this.props.history.push('/studenthome/biweeklyview/' + project._id, {projectDetails: project, groupDetails: this.state.groupDetails})
     }
-
     viewMeetings = (project) => {
         this.props.history.push('/student/viewMeeting', { projectDetails: project, groupDetails: this.state.groupDetails })
     }

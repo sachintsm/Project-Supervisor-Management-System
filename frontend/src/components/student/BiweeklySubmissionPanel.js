@@ -58,7 +58,7 @@ class SubmitPanal extends Component {
           }
          //let length = this.state.biweeklyDetails.files.length-1
 
-       
+       console.log(this.props)
 
           this.onSubmit = this.onSubmit.bind(this)
          
@@ -82,9 +82,10 @@ class SubmitPanal extends Component {
                     biweeklyDetails : res.data.data
 
                },()=>{
-               this.getComments()
+               //this.getComments()
+          
                })
-               console.log("Ashan",this.state.biweeklyDetails[0].date)
+               console.log("Ashan",this.state.biweeklyDetails)
                if(res.data.data.length>0){
                     this.setState({
                          states : true
