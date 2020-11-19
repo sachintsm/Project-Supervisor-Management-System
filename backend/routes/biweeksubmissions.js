@@ -77,7 +77,7 @@ router.post("/add", async (req, res) => {
                          groupId: req.body.groupId,
                          date_ob: req.body.date_ob,
                          originalFileName: req.file.originalname,
-                         files: filePath,
+                         filePath: filePath,
                          supervisors: supervisors,
                          status: status,
                          biweeklyNumber: biweekly.biweeklyNumber,
@@ -158,6 +158,15 @@ router.get("/getsubmissions/:id", async (req, res) => {
           console.log(e)
      }
 })
+
+router.get("/biweeklyAttachment/:filename", function (req, res) {
+
+     const filename = req.params.filename;
+     console.log(filename)
+     res.sendFile(
+       path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
+     );
+   });
 
 //get biweek submissions by groupId
 router.get("/getgroupsubmissions/:id",async(req,res) => {

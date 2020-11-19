@@ -9,6 +9,7 @@ var biweeksubmissions = Schema({
     submissionId: {type: String},
     groupId: {type: String},
     files : [{type:String}],
+    filePath: { type: String },
     originalFileName: {type: String},
     status : [{type:String}],
     supervisors : [{type:String}],
