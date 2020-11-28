@@ -24,7 +24,7 @@ export class BiweeklyView extends Component {
                biweeklyList: [],
           }
           this.getBiweekly = this.getBiweekly.bind(this);
-         
+         //console.log(this.props)
 
      }
 

@@ -9,7 +9,9 @@ import { DropzoneDialog } from 'material-ui-dropzone';
 import '../../css/students/SubmissionPanel.scss'
 import { confirmAlert } from "react-confirm-alert";
 import Snackpop from "../shared/Snackpop";
-import { RiDeleteBin2Line } from 'react-icons/ri';
+import { RiDeleteBin2Line , RiEyeLine} from 'react-icons/ri';
+
+import {VisibilityIcon} from '@material-ui/icons/Visibility';
 
 
 
@@ -58,14 +60,17 @@ class SubmitPanal extends Component {
           }
          //let length = this.state.biweeklyDetails.files.length-1
 
-       
+
 
           this.onSubmit = this.onSubmit.bind(this)
          
      }
 
+     
+
      componentDidMount() {
           this.getBiweeklySubmissionDetails()
+          
           
      }
 
@@ -78,13 +83,15 @@ class SubmitPanal extends Component {
           axios.post(backendURI.url + '/biweeksubmissions/getBiweekly', dt)
           .then((res => {
 
+              // console.log(res.data.data)
+
                this.setState({
                     biweeklyDetails : res.data.data
 
                },()=>{
-               this.getComments()
+               //this.getComments()
+          
                })
-               console.log("Ashan",this.state.biweeklyDetails[0].date)
                if(res.data.data.length>0){
                     this.setState({
                          states : true
@@ -176,10 +183,9 @@ class SubmitPanal extends Component {
      handleOpen() {
 
           if(this.state.states===true){
-
-               return(
-                alert("You Allready Submited..")
-               )
+               this.setState({
+                    checkSuccesAlert: true,
+                  });
 
           }else{
           this.setState({
@@ -230,18 +236,23 @@ class SubmitPanal extends Component {
 
 
      filsename(){
-          
+          if(this.state.states===true){
        return(
                <div >
                {this.state.biweeklyDetails.map((type) => {
                    return(
                         <div key={type._id}>
-                        <p>{type.originalFileName}&nbsp;&nbsp;<RiDeleteBin2Line/></p>
+                        <p><a className="sub-link" href={backendURI.url +"/biweeksubmissions/biweeklyAttachment/"+type.filePath}>{type.originalFileName}</a>&nbsp;&nbsp;<RiDeleteBin2Line/></p>
                         </div>
-                   )
-               })}
+                   )})}
                </div>
-               )
+               )}else{
+                    return(
+                         <div>
+                         <p>-</p>
+                    </div>
+                    )
+               }
           }
      
 
@@ -254,25 +265,18 @@ class SubmitPanal extends Component {
                               <div key={type._id}>
                                   <span className="date-time">{type.date} &nbsp;  {type.time}</span> 
                               </div>
-                         )
-
-                    })}
+                         )})}
                </div>
-          )
-               }
+               )}
                else{
                     return(
                     <div>
                          <p>-</p>
                     </div>
-                    )
-               }
+                    )}
      }
 
      deleteFile(){
-
-          //console.log(this.state.biweeklyDetails[0]._id)
-
           confirmAlert({
                title: "Delete File",
                message: "Are you sure?",
@@ -311,6 +315,7 @@ class SubmitPanal extends Component {
                this.setState({
                  succesAlert: false,
                  deleteSuccesAlert: false,
+                 checkSuccesAlert:false,
                });
              };
 
@@ -334,11 +339,12 @@ class SubmitPanal extends Component {
                           status={this.state.deleteSuccesAlert}
                           closeAlert={this.closeAlert}
                          />
+
                           <Snackpop
                           msg={"You Allready Submited.."}
-                          color={"danger"}
+                          color={"warning"}
                           time={2000}
-                          status={this.state.deleteSuccesAlert}
+                          status={this.state.checkSuccesAlert}
                           closeAlert={this.closeAlert}
                          />
 
