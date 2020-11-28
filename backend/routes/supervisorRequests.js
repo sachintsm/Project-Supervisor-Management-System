@@ -12,15 +12,26 @@ router.post('/checklimit/', verify, async (req, res, next) => {
     try {
         const userId = req.body.data.userId;
         const projectId = req.body.data.projectId;
+        const groupId = req.body.data.groupId
+
+        // Checking for the supervising limit
         const personalLimitResult = await ProjectLimits.findOne({projectId: projectId, supervisorId: userId}).select('noProjects');
         const personalLimit = personalLimitResult.noProjects
         const currentProjectsResult = await CreateGroups.find({projectId:projectId, supervisors: userId})
         const currentLimit = currentProjectsResult.length
-        let result = false
+        let result1 = false
         if(personalLimit-currentLimit>0){
-            result = true
+            result1 = true
         }
-        res.send({isAvailable:result})
+
+        // Checking whether already requested
+        const previousRequests = await supervisorRequests.find({supervisorId:userId, groupId:groupId})
+        let result2 = false
+        if(previousRequests.length>0){
+            result2 = true
+        }
+
+        res.send({isAvailable:result1, alreadyRequested: result2})
     }
     catch (err) {
         console.log(err)
