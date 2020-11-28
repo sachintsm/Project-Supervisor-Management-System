@@ -119,7 +119,6 @@ class SubmitPanal extends Component {
                          comments: res.data,
                          loading3: false
                     })
-
                })
           }
      }
