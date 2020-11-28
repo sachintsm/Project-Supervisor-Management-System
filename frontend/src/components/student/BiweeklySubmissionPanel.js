@@ -110,7 +110,6 @@ class SubmitPanal extends Component {
                'auth-token':getFromStorage('auth-token').token,
           }
 
-          console.log(this.state.biweeklyDetails)
 
           if(this.state.biweeklyDetails[0]){
 
