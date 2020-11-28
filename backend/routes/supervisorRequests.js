@@ -5,6 +5,7 @@ const Users = require('../models/users');
 const Projects = require('../models/projects');
 const ProjectLimits = require('../models/setProjectLimit');
 const CreateGroups = require('../models/createGroups');
+const supervisorRequests = require('../models/supervisorrequests');
 
 // check supervisor limit availability
 router.post('/checklimit/', verify, async (req, res, next) => {
@@ -48,6 +49,17 @@ router.get('/getcurrentprojectlist/:id', verify, async (req, res, next) => {
             projectCount.push(count)
         })
         res.send({projectIdList:projectIdList, projectCount:projectCount})
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/addnewrequest', verify, async (req, res, next) => {
+    try{
+        const request = new supervisorRequests(req.body)
+        const result = await request.save()
+        res.send(result)
     }
     catch (err) {
         console.log(err)

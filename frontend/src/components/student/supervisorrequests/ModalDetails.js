@@ -6,15 +6,18 @@ import "../../../css/students/supervisorrequests/SupervisorDetails.scss"
 import {Input, Label, Modal, ModalBody, ModalHeader} from "reactstrap";
 import ProjectDetails from "./ProjectDetails";
 import Snackpop from "../../shared/Snackpop";
+import { confirmAlert } from 'react-confirm-alert';
+
 const backendURI = require('../../shared/BackendURI');
 
-class SupervisorDetails extends Component {
+class ModalDetails extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             index : this.props.index,
             projectDetails : this.props.projectDetails,
+            groupDetails : this.props.groupDetails,
             loading: true,
             loading2: true,
             modal: false,
@@ -77,6 +80,7 @@ class SupervisorDetails extends Component {
             modal: true
         })
     }
+
     openModal2 = () => {
         this.setState({
             modal2: true
@@ -110,11 +114,54 @@ class SupervisorDetails extends Component {
     }
 
     sendRequest = () => {
+
         if(this.state.description===""){
             this.setState({emptyInputAlert: true})
         }
         else{
+            this.toggle2()
 
+            confirmAlert({
+                title: 'Send Request',
+                message: 'Are you sure you want to request this supervisor?',
+                buttons: [
+                    {
+                        label: 'Yes',
+                        onClick: async () => {
+
+                            const date = new Date()
+                            const dateString = date.toLocaleDateString()
+                            const timeString = date.toLocaleTimeString()
+                            const data = {
+                                groupId : this.state.groupDetails._id,
+                                projectId : this.state.projectDetails._id,
+                                supervisorId : this.state.supervisorDetails._id,
+                                description: this.state.description,
+                                state : "pending",
+                                timestamp: new Date(),
+                                date: dateString,
+                                time: timeString
+                            }
+                
+                            const headers = {
+                                'auth-token': getFromStorage('auth-token').token,
+                            }
+                            axios.post(backendURI.url + "/supervisorrequests/addnewrequest", data, {headers: headers}).then(result=> {
+                
+                            }).catch(err => {
+                                console.log(err)
+                            })
+
+                        }
+                    },
+                    {
+                        label: 'No',
+                        onClick: () => {
+
+                        }
+                    }
+                ]
+            })
         }
 
     }
@@ -187,4 +234,4 @@ class SupervisorDetails extends Component {
     }
 }
 
-export default SupervisorDetails;
+export default ModalDetails;
