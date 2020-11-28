@@ -13,7 +13,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Navbar from '../../shared/Navbar';
 import Footer from '../../shared/Footer';
 
-
 import '../../../css/coordinator/proposel.scss';
 
 import {
@@ -60,15 +59,11 @@ class Submission extends Component {
       propselList: [],
       proId: "",
 
-
       proposelTittleError: '',
       proposelDescriptionError: '',
       deadDateError: '',
       deadTimeError: '',
       proposelAttachmentError: '',
-
-
-
 
     }
   }
@@ -286,7 +281,6 @@ class Submission extends Component {
                   toLateSubmision: false,
                   submssionFileSize: "",
                   setFileLimit: ""
-
 
                 });
 
