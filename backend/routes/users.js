@@ -5,7 +5,6 @@ const Staff = require('../models/staff');
 const CreateGroups = require('../models/createGroups');
 const Img = require('../models/profileImage');
 const UserSession = require('../models/userSession');
-const Request = require('../models/request');
 const Projects = require('../models/projects');
 const Limits = require('../models/setProjectLimit');
 const bcrypt = require('bcryptjs');
@@ -506,23 +505,7 @@ router.get('/getSupProAca/:id', async (req, res) => {
     })
 
 });
-//////////////////////////////////////request////////////////////////////////////////////////////////////////////
-//////////////get request list for supervisor panel
-router.get('/getSupReq/:id', async (req, res) => {
-  let id = req.params.id;
-  Request
-    .find({ supId: id })
-    .exec()
-    .then(data => {
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: data });
 
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-
-});
 ////// get maximum projects of supervisor in user profile
 router.post('/getLimit/:id', async (req, res) => {
   let id = req.params.id;
@@ -836,63 +819,8 @@ router.get('/getSup/:id', async (req, res) => {
     })
 
 })
-//////////count request notifications//////
-router.get('/countNotifyReq/:id', async (req, res) => {
 
-  const id = req.params.id;
 
-  Request
-    .find({ supId: id })
-    .exec()
-    .then(data => {
-      // console.log(data);
-      // console.log(data.length);
-      var count;
-      var arr1 = [];
-      if (data !== 0) {
-        count = 0;
-        for (var i = 0; i < data.length; i++) {
-          if ((data[i].state == 'pending')) {
-            count = count + 1;
-            arr1.push(data[i]);
-            // console.log(arr1)
-          }
-        }
-        res.json({ state: true, data: count, data2: arr1 });
-      }
-      else {
-        count = 0;
-        res.json({ state: false, data: count });
-
-      }
-    })
-    .catch(error => {
-      console.log(error)
-      res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-
-})
-///////read request by supervisor
-router.post('/readRequest/:id', function (req, res) {
-  console.log('devmi');
-  let id = req.params.id;
-  console.log(id);
-  console.log('hey');
-  Request.findById({ _id: id }, function (err, request) {
-    if (err)
-      res.status(404).send("data is not found");
-    else {
-      request.state = 'read';
-      request.save().then(request => {
-        // console.log(request);
-        res.json({ state: true, msg: 'Read Request' });
-      })
-        .catch(err => {
-          res.status(400).send("Unable to Read Request");
-        });
-    }
-  });
-});
 /////////////get request status for students
 router.get('/getReqStatus/:id', async (req, res) => {
   let id = req.params.id;
@@ -1136,6 +1064,7 @@ router.post('/reset/:id', function (req, res) {
     });
   });
 })
+
 // set no of projects by supervisor using profile
 router.post('/setLimit', async (req, res) => {
 
@@ -1232,7 +1161,6 @@ router.post("/getgroupmembers/:id", async (req, res, next) => {
 
 
 //get user by id
-
 router.get('/getUser/:id', async (req, res) => {
   const userid = req.params.id;
   await User.find({ _id: userid })
@@ -1248,7 +1176,6 @@ router.get('/getUser/:id', async (req, res) => {
 })
 
 //get supervisor email
-
 router.get('/getSupervisorEmail/:id', async (req, res) => {
 
   const userid = req.params.id;

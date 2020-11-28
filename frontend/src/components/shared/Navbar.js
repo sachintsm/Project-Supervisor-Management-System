@@ -113,18 +113,18 @@ export default class navbar extends Component {
       this.getSupervisorNotificationCount()
     }
 
-    const userData = getFromStorage('auth-id')
-
-    axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
-      .then(response => {
-
-        this.setState({
-          count: response.data.data,
-        })
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // const userData = getFromStorage('auth-id')
+    //
+    // axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
+    //   .then(response => {
+    //
+    //     this.setState({
+    //       count: response.data.data,
+    //     })
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
   }
 
   getStudentNotificationCount = () => {
