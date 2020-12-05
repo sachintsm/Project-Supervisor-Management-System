@@ -54,6 +54,7 @@ class BiweekData extends Component {
         })
     }
 
+    
     render() {
         console.log(this.state.groupDetails)
         let status = this.state.request.supervisors.map((item, index) => {

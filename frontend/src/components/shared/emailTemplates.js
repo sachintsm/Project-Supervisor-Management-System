@@ -42,7 +42,6 @@ export function meetingRequestConfirmEmail(email, groupNumber,date,time) {
     return mail;
 }
 
-
 export function meetingRequestEmail(email, groupNumber,purpose,supervisorFname,supervisorLname) {
     const mail = {
         to: email,

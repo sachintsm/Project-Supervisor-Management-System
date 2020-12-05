@@ -54,14 +54,17 @@ class GroupData extends Component {
         this.openProposal = this.openProposal.bind(this)
         this.openSrs = this.openSrs.bind(this)
     }
+
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
+
     setSelected(obj) {
         this.setState({
             selectedStaffList: obj,
         });
     }
+
     componentDidMount = async () => {
         const authState = await verifyAuth();
         this.setState({
@@ -199,7 +202,6 @@ class GroupData extends Component {
 
     async onSubmitAddSupervisor(e) {
         e.preventDefault();
-        // const err = this.validate();  //?calling validation function
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,

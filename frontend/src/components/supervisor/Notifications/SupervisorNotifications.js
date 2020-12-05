@@ -25,8 +25,6 @@ class reqMeetBlock {
 }
 
 
-
-
 class SupervisorNotifications extends Component {
 
     constructor(props) {
@@ -293,17 +291,11 @@ class SupervisorNotifications extends Component {
                                         </Card.Body>
                                     </Card>
                                 })}
-
-
-
-
                             </div>
                         )}
                     </Container>
                 </div>
-
-
-                <Footer />
+                 <Footer />
             </React.Fragment>
         );
     }

@@ -184,6 +184,7 @@ class AssignSupervisors extends Component {
                                             snackbarmsg: res.data.msg,
                                             snackbarcolor: 'success',
                                         })
+
                                         //? set isSupervisor -> true
                                         await axios.get(backendURI.url + '/users/updateSupervisor/' + selectedStaff[i].value)
                                             .then(res => {
@@ -292,7 +293,7 @@ class AssignSupervisors extends Component {
             projectId: projectId,
             supervisor: userId
         }
-        //? gett the groups that one supercviser supervised
+        //? get the groups that one supercviser supervised
         await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
             .then(res => {
                 for (let j = 0; j < res.data.data.length; j++) {

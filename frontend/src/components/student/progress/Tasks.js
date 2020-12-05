@@ -224,7 +224,6 @@ class Tasks extends Component {
                                         <Card className="btn-card" onClick={() => { this.openModal() }}>
                                             <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
                                                 <div>
-                                                    {/*<AiOutlineAppstoreAdd />*/}
                                                     <AiOutlineFileAdd />
 
                                                 </div>

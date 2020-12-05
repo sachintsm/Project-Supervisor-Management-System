@@ -6,6 +6,7 @@ import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import Slider from "@material-ui/core/Slider";
 import "../../../css/students/progress/TotalProgressCard.scss"
 import IndividualTotalProgress from "./IndividualTotalProgress";
+
 const backendURI = require('../../shared/BackendURI');
 
 class TotalProgressCard extends Component {

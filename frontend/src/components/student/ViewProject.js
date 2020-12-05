@@ -128,7 +128,6 @@ class ViewProject extends Component {v
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Meetings</span></Card>
                         </Col>
-                        {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
                         <Col lg={4} md={4} xs={6} sm={6} className="btn-card-col">
                             <Card className="btn-card" onClick={() => { this.submisionView(this.state.project)}} >
                                 <IconContext.Provider value={{ className: 'btn-icon', size: "2em" }}>
@@ -153,7 +152,6 @@ class ViewProject extends Component {v
                                     </div>
                                 </IconContext.Provider><span className="btn-title">Biweekly Reports</span></Card>
                         </Col>
-                        {/*<Col lg={3} md={3} xs={1} sm={1} className="btn-card-col"></Col>*/}
 
                     </Row>
                 </div>

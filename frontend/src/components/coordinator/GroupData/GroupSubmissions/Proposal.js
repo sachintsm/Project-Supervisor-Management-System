@@ -60,7 +60,7 @@ class Proposal extends Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <Footer />
+            <Footer />
             </div>
         );
     }

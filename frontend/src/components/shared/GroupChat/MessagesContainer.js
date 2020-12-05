@@ -56,11 +56,9 @@ class MessagesContainer extends Component {
                                 <Col md={5} xs={2}>
                                 </Col>
                                 <Col className="mc-chat-card-me" md={6} xs={8}>
-                                    {/* <p className="mc-chat-username-me" style={{ textAlign: "right" }}>You</p> */}
                                     <p className="mc-chat-content-me" style={{ textAlign: "right" }}>{message.message}</p>
                                 </Col>
                                 <Col md={1} xs={2}>
-                                    {/* <AccountCircleIcon style={{ fontSize: "35px" }} className="chat-propic" /> */}
                                     <img className="mc-image" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
                                 </Col>
                             </Row>
@@ -73,7 +71,6 @@ class MessagesContainer extends Component {
                             <Row>
                                 <Col md={1} xs={2}>
 
-                                    {/* <AccountCircleIcon style={{ fontSize: "35px" }} className="chat-propic" /> */}
                                     <img className="mc-image-other" src={("http://localhost:4000/users/profileImage/" + message.profileImage)} />
 
                                 </Col>

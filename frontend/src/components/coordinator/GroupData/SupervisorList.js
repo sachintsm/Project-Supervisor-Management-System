@@ -29,9 +29,11 @@ class StudentList extends Component {
         }
 
     }
+
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
+    
     componentDidMount = async () => {
         this.setState({
             supervisorList: []
@@ -110,8 +112,6 @@ class StudentList extends Component {
                             <Row >
                                 <Col md="10" xs="10">
                                     <span className="stu-index-data">  <SupervisorDetails id={user.id} name={user.name} /> </span>
-
-                                    {/* <p className="sl-text">{user.name}</p> */}
                                 </Col>
                                 <Col md="2" xs="2">
                                     <DeleteForeverIcon className="gd-del-btn" onClick={() => this.delete(user.id)} />

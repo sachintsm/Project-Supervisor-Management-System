@@ -78,7 +78,6 @@ class IndividualTotalProgress extends Component {
     render() {
         return (
             <div className="individual-total-progress">
-                {/*{this.state.loading && <div className="spinner-div"><Spinner animation="border" className="spinner"/></div>}*/}
                 <div>
                     {this.state.name} ({this.state.index})
                     <Row>

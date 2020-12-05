@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-
 import IconButton from "@material-ui/core/IconButton";
-
 import Snackpop from "../shared/Snackpop";
 import axios from "axios";
-
 import Navbar from "../shared/Navbar";
-
 import "../../css/admin/EditUser.css";
-
 import Footer from "../shared/Footer";
 import { passwordResetEmail } from "../shared/emailTemplates";
 import { confirmAlert } from "react-confirm-alert";
@@ -33,37 +28,22 @@ class EditUser extends Component {
 
     this.state = {
       authState: "",
-
       snackbaropen: false,
-
       snackbarmsg: "",
-
       snackbarcolor: "",
-
+      
       id: "",
-
       firstName: "",
-
       lastName: "",
-
       email: "",
-
       birthday: "",
-
       nic: "",
-
       mobile: "",
-
       isStudent: "",
-
       isAdmin: "",
-
       isStaff: "",
-
       isSupervisor: "",
-
       isCoordinator: "",
-
       isDeleted: "",
     };
 

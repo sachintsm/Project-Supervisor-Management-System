@@ -308,6 +308,7 @@ export default class Academic extends Component {
 
 
     }
+    
     render() {
         return (
             <div className="container-fluid">

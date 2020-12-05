@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row ,Col} from 'reactstrap';
 import SendIcon from '@material-ui/icons/Send';
+
 class InputContainer extends Component {
 
     constructor(props) {
@@ -27,6 +28,7 @@ class InputContainer extends Component {
             content: '',
         })
     }
+    
     render() {
         return (
             <div className="container"> 
