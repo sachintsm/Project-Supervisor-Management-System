@@ -67,7 +67,7 @@ class GroupData extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState || !localStorage.getItem("isCoordinator")) { //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) { //!check wether the user is logged in, if not re-direct to the login form
             this.props.history.push("/");
         }
         const headers = {
@@ -133,7 +133,7 @@ class GroupData extends Component {
     async onSubmitAddStudent(e) {
         e.preventDefault();
 
-        const err = this.validate();  //?calling validation function
+        const err = this.validate();  //calling  the validation function
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
@@ -199,7 +199,7 @@ class GroupData extends Component {
 
     async onSubmitAddSupervisor(e) {
         e.preventDefault();
-        // const err = this.validate();  //?calling validation function
+        
 
         const headers = {
             'auth-token': getFromStorage('auth-token').token,

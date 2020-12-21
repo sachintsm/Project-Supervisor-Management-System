@@ -87,7 +87,7 @@ class GroupNotification extends Component {
         })
 
     }
-
+//Accept a request
     acceptRequest = (item) => {
 
         confirmAlert({
@@ -115,6 +115,7 @@ class GroupNotification extends Component {
 
     }
 
+    //Decline a request
     declineRequest = (item) => {
 
         confirmAlert({
@@ -142,7 +143,7 @@ class GroupNotification extends Component {
         })
 
     }
-
+//Update a request
     updateRequest = (item, state) => {
         const headers = {
             'auth-token':getFromStorage('auth-token').token,
@@ -232,7 +233,7 @@ class GroupNotification extends Component {
                                     </Card>
                                 })}
 
-                                {/*Group Form Notifications*/}
+                                {/* Group Form Notifications */}
                                 {this.state.projects.map((item,key)=>{
                                     return <Card className="notification-card" key={key}>
                                         <Card.Body className="card-body">

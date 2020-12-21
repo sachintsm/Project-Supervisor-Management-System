@@ -23,7 +23,7 @@ class Proposal extends Component {
                             <span className="prop-sub-title">This is the proposal submission title</span>
                             <Row className="prop-sub-row">
                                 <Col md={2}>
-                                    <p className="prop-sub-date">Submission dead line </p>
+                                    <p className="prop-sub-date">Submission deadline </p>
                                 </Col>
                                 <Col md={1}>
                                     <p className="prop-sub-date">: </p>

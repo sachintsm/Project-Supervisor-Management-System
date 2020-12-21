@@ -20,7 +20,7 @@ class RequestInfo extends Component {
         this.getProjectDetails()
     }
 
-    getProjectDetails = () => {
+     getProjectDetails = () => {
 
         const headers = {
             'auth-token':getFromStorage('auth-token').token,

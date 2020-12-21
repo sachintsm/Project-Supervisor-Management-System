@@ -58,12 +58,12 @@ class ProjectDetailsCard extends Component {
             }
         )
     }
-
+//Get the total progress of a project
     getTotalProgress = () =>{
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-        // console.log(this.stat.groupDetails.groupId)
+        
     }
 
     openProject(item){

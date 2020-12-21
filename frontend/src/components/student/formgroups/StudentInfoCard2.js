@@ -79,5 +79,4 @@ class StudentInfoCard extends Component {
         );
     }
 }
-
 export default StudentInfoCard;

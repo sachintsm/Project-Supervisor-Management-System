@@ -16,6 +16,7 @@ class RequestDetails extends Component {
         }
     }
 
+   //Get teh details of a project 
     componentDidMount() {
         this.getProjectDetails()
     }

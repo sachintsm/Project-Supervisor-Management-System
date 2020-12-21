@@ -49,7 +49,7 @@ class SupervisorData extends Component {
             authState: authState,
             groupDataBlock: []
         });
-        if (!authState) {  //!check user is logged in or not if not re-directed to the login form
+        if (!authState) {  //check wether the user is logged in ,if not re-direct to the login form
             this.props.history.push("/");
         }
 
@@ -65,7 +65,7 @@ class SupervisorData extends Component {
             supervisorId: this.props.match.params.id
         }
 
-        //? load all the active project names from
+        // load all the active project names from
         await axios.post(backendURI.url + '/createGroups/active&groups/', data)
             .then(async res => {
                 this.setState({
@@ -117,7 +117,7 @@ class SupervisorData extends Component {
 
     render() {
 
-        const { spinnerDiv1, groupDataBlock } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { spinnerDiv1, groupDataBlock } = this.state;   //load the projects to the dropdown menu of the coordinator
 
         let noProject;
         if (this.state.activeProjects.length === 0) {

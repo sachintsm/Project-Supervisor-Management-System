@@ -10,11 +10,9 @@ import { verifyAuth } from "../../utils/Authentication";
 import { getFromStorage } from "../../utils/Storage";
 import Snackpop from "../shared/Snackpop";
 
-
-
 const backendURI = require("../shared/BackendURI");
 
-export default class MailBox extends Component {
+ class MailBox extends Component {
 
   constructor(props) {
     super(props)
@@ -27,10 +25,10 @@ export default class MailBox extends Component {
         this.setState({ MessageList: res.data })
       }) 
   }
-
+  
+  //Delete a message
   onDeleteHandler = (id) => {
 
-   // console.log("jkdfndsn")
     confirmAlert({
       title: "Delete Mail",
       message: "Are you sure?",
@@ -100,25 +98,15 @@ export default class MailBox extends Component {
                           </Col>
                           <Col xs="1">
                                 <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(message._id)} />
-                                
-                              {/*{!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green' }}>Read</td>}*/}
-                              {/* {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>} */}
-                              </Col>
+                          </Col>
+                        </Row>
 
-                            </Row>
-
-                        
-                        {/* <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
-                          {message.data}</small>
-                        </h6> */}
-
+                      
                         <CardContent style={{ paddingTop: "2px", fontWeight: "300" }}>
                           {message.message}<br/>
                           {message.contactNumber}<br/>
                           {message.email}
-                          {/* {message.messageState && <td style={{ verticalAlign: 'middle' , color: 'green'}}>Read</td>}
-                              {!message.messageState && <td style={{ verticalAlign: 'middle' , color: 'red' }}>Unread</td>} */}
-                         </CardContent>
+                        </CardContent>
                         <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
                          </small>
                         </h6>                      
@@ -132,3 +120,4 @@ export default class MailBox extends Component {
       )  
   }
 }
+export default MailBox;

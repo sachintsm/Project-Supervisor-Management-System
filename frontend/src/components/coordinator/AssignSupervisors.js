@@ -68,7 +68,7 @@ class AssignSupervisors extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState || !localStorage.getItem("isCoordinator")) {  //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) { //check wether the user is logged in, if not re-direct to the login form
             this.props.history.push("/");
         }
 
@@ -76,7 +76,7 @@ class AssignSupervisors extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
-        //? load all the active project names from
+        //load all the active project names from
         axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
             .then((res => {
                 this.setState({
@@ -84,7 +84,7 @@ class AssignSupervisors extends Component {
                 })
             }))
 
-        //? load staff members
+        //load staff members
         await axios.get(backendURI.url + '/users/stafflistwithguest', { headers: headers })
             .then((result) => {
                 if (result.data.length > 0) {
@@ -119,7 +119,7 @@ class AssignSupervisors extends Component {
             });
     }
 
-    //? select project drop down change
+    //select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
         this.setState({
@@ -127,7 +127,7 @@ class AssignSupervisors extends Component {
         })
     }
 
-    //? assing supervisors to the projects
+    //assing supervisors to the projects
     addSupervisors() {
 
         let selectedStaff = []
@@ -168,7 +168,7 @@ class AssignSupervisors extends Component {
                                 supervisors: selectedStaff[i].value
                             }
 
-                            //? add supervisors array at project document
+                            //add supervisors array at project document
                             await axios.post(backendURI.url + '/projects/addSupervisor', data, { headers: headers })
                                 .then(async res => {
                                     if (res.data.state === false) {
@@ -184,7 +184,7 @@ class AssignSupervisors extends Component {
                                             snackbarmsg: res.data.msg,
                                             snackbarcolor: 'success',
                                         })
-                                        //? set isSupervisor -> true
+                                        //set isSupervisor -> true
                                         await axios.get(backendURI.url + '/users/updateSupervisor/' + selectedStaff[i].value)
                                             .then(res => {
                                                 if (res.data.state === false) {
@@ -240,7 +240,7 @@ class AssignSupervisors extends Component {
                 'auth-token': getFromStorage('auth-token').token,
             }
 
-            //? project supervisor Id list
+            //project supervisor Id list
             await axios.get(backendURI.url + '/projects/getSupervisors/' + this.state.projectId, { headers: headers })
                 .then(res => {
                     this.setState({
@@ -292,7 +292,7 @@ class AssignSupervisors extends Component {
             projectId: projectId,
             supervisor: userId
         }
-        //? gett the groups that one supercviser supervised
+        //get the groups that belongs to one supervisor 
         await axios.post(backendURI.url + '/createGroups/getsupervisorGroup', dt)
             .then(res => {
                 for (let j = 0; j < res.data.data.length; j++) {
@@ -306,7 +306,8 @@ class AssignSupervisors extends Component {
             buttons: [{
                 label: 'Yes',
                 onClick: async () => {
-                    // //? remove supervisor from the project supervisor list
+
+                //remove a supervisor from the project supervisor list
                     await axios.post(backendURI.url + '/projects/deletesupervisorGroup', dt, { headers: headers })
                         .then(res => {
                         })
@@ -317,7 +318,7 @@ class AssignSupervisors extends Component {
                             groupId: array1[j]
                         }
 
-                        //? remove supervisor from the Specific groups
+                        //remove a supervisor from the Specific groups
                         await axios.post(backendURI.url + '/createGroups/remove-supervisor', data, { headers: headers })
                             .then(res => {
                                 if (res.data.state === false) {
@@ -347,7 +348,7 @@ class AssignSupervisors extends Component {
             }]
         })
     }
-    //? open the gropuData window
+    //open the gropuData window
     groupDataHandler(data) {
         if (this.state.mouseState === false) {
             this.props.history.push('/coordinatorhome/supervisorData/' + data, { projectId: this.state.projectId });
@@ -394,7 +395,7 @@ class AssignSupervisors extends Component {
 
 
     render() {
-        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2, staffOptionList } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { activeProjects, dataDiv, spinnerDiv1, spinnerDiv2, staffOptionList } = this.state;   //load the projects to the dropdown menu of the coordinator
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (
@@ -416,7 +417,6 @@ class AssignSupervisors extends Component {
                             )}
                         </Col>
                         <Col md={3}>
-                            {/* {item.label} */}
                             <SupervisorDetails id={item.value} name={item.label} />
                         </Col>
                         <Col md={7}>

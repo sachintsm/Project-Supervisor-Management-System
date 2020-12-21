@@ -43,7 +43,6 @@ class StudentInfoCard extends Component {
                         <span>{this.state.index} </span>
                         <span className="span-item">{this.state.name}  </span>
                         <span className="span-item">{this.state.reg} </span>
-                        {/*<span className="icon-span"><Icon className="add-icon">add_circle_outline</Icon></span>*/}
                         <span className="icon-span" onClick={()=>this.props.selectStudent(this.state.index)}><IoIosAddCircleOutline/></span>
                     </Card.Body>
                 </Card>

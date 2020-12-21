@@ -25,28 +25,28 @@ export default class RequestMeeting extends Component {
       item: this.props.project,
       group: this.props.group,
       snackbaropen: false,
-      snackbarmsg: "",
-      snackbarcolor: "",
-      groupId: "",
-      purpose: "",
-      time: "",
-      supervisor: "",
-      supervisorEmail: "",
-      supervisorFname: "",
-      supervisorLname: "",
-      super: "",
+      snackbarmsg: '',
+      snackbarcolor: '',
+      groupId: '',
+      purpose: '',
+      time: '',
+      supervisor: '',
+      supervisorEmail: '',
+      supervisorFname: '',
+      supervisorLname: '',
+      super: '',
       supervisorN: [],
       superOptionList: [],
-      selectValue: "",
+      selectValue: '',
       state: "pending",
-      purposeError: "",
-      dateError: "",
-      timeError: "",
-      supervisorError: "",
+      purposeError: '',
+      dateError: '',
+      timeError: '',
+      supervisorError: '',
       groupDetails: [],
       activeList: [],
       endedList: [],
-      project: "",
+      project: '',
 
       date: new Date(),
     };
@@ -113,7 +113,7 @@ export default class RequestMeeting extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    //?calling validation function
+    //calling the validation function
     const obj = {
       groupId: this.state.group._id,
       groupNumber: this.state.group.groupId,

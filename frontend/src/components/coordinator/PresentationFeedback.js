@@ -59,13 +59,13 @@ class PresentationFeedback extends Component {
         this.setState({
             authState: authState,
         });
-        if (!authState || !localStorage.getItem("isCoordinator")) { //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator")) { //check wether the user is logged in ,if not re-direct to the login form
             this.props.history.push("/");
         }
 
         const coId = JSON.parse(localStorage.getItem("auth-id"))
 
-        //? load all the active project names from
+        //load all the active project names from
         axios.get(backendURI.url + '/projects/active&projects/' + coId.id)
             .then((res => {
                 this.setState({
@@ -74,7 +74,7 @@ class PresentationFeedback extends Component {
             }))
     }
 
-    //? select project drop down change
+    //select project drop down change
     handleDropdownChange = (e) => {
         const val = e.target.value
         this.setState({
@@ -108,8 +108,7 @@ class PresentationFeedback extends Component {
 
         await axios.post(backendURI.url + '/presentationFeedback/getProjectFeedback', data, { headers: headers })
             .then(res => {
-                // console.log(res.data.data);
-
+                
                 this.setState({ allFeedback: res.data.data })
             })
 
@@ -155,7 +154,7 @@ class PresentationFeedback extends Component {
     }
 
     render() {
-        const { activeProjects, dataDiv, spinnerDiv } = this.state;   // ?load projects to dropdown menu this coordinator
+        const { activeProjects, dataDiv, spinnerDiv } = this.state;   //load the projects to the dropdown menu of the coordinator
         let activeProjectsList = activeProjects.length > 0
             && activeProjects.map((item, i) => {
                 return (

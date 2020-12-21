@@ -41,6 +41,7 @@ class CoordinatorNotifications extends Component {
         })
     }
 
+//Accept a request
     acceptRequest = (item) => {
 
         confirmAlert({
@@ -89,6 +90,7 @@ class CoordinatorNotifications extends Component {
 
     }
 
+//Decline a request
     declineRequest = (item) => {
 
         confirmAlert({
@@ -172,7 +174,7 @@ class CoordinatorNotifications extends Component {
 
                                 {this.state.groupRequests.length===0 && <div style={{textAlign: "center", padding: "20px 0px"}}>No Any Notifications</div>}
 
-                                {/*Group Requests Notifications*/}
+                                {/*Group Request Notifications*/}
                                 {this.state.groupRequests.map((item,key)=>{
                                     return <Card className="notification-card" key={key}>
                                         <Card.Body className="card-body">

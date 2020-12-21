@@ -70,7 +70,7 @@ class FormGroups extends Component {
 
         })
     }
-
+//Get the index number of the students
     getUserIndex = () => {
         const userId = getFromStorage("auth-id").id
         const headers = {
@@ -86,6 +86,7 @@ class FormGroups extends Component {
         })
     }
 
+    //Get the project details from
     getProjectDetails = () => {
         const headers = {
             'auth-token':getFromStorage('auth-token').token,

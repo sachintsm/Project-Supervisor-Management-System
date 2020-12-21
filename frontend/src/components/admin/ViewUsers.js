@@ -60,7 +60,7 @@ const Students = React.memo(props => (
 
 
 
-export default class ViewUsers extends Component {
+ class ViewUsers extends Component {
 
     constructor(props) {
         super(props);
@@ -100,7 +100,7 @@ export default class ViewUsers extends Component {
     async componentDidMount() {
         const authState = await verifyAuth();
         this.setState({ authState: authState });
-        if (!authState || !localStorage.getItem("isAdmin"))
+        if (!authState || !localStorage.getItem("isAdmin"))//check wether the user is logged in,if not re-directed to the login form
             this.props.history.push("/");
 
         axios.get(backendURI.url + "/users/get")
@@ -211,7 +211,7 @@ export default class ViewUsers extends Component {
 
     }
 
-
+//Delete users data
     deleteUser(data) {
         confirmAlert({
             title: 'Confirm to submit',
@@ -268,9 +268,6 @@ export default class ViewUsers extends Component {
                     {/* ************************************************************************************************************************************************************************** */}
 
                     <div className="row">
-                        {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
-                            <Sidebar />
-                        </div> */}
                         <div className="col-md-12" style={{ minHeight: "1000px" }}>
                             <div className="container-fluid" style={{"padding": "0px 160px"}}>
 
@@ -469,3 +466,4 @@ export default class ViewUsers extends Component {
         )
     }
 }
+export default ViewUsers;

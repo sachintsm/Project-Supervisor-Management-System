@@ -5,7 +5,7 @@ import '../../css/shared/index.scss';
 
 const backendURI = require('../shared/BackendURI');
 
-export default class Index extends Component {
+ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = { MessageList: {} };
@@ -24,7 +24,7 @@ export default class Index extends Component {
 
 
         });
-        axios.get(backendURI.url + '/indexInfo/' + this.props.id)
+        axios.get(backendURI.url + '/indexInfo/' + this.props.id)//Get the detais of the supervisors
             .then(res => {
                 this.setState({
                     firstName: res.data.firstName,
@@ -76,3 +76,4 @@ export default class Index extends Component {
         )
     }
 }
+export default Index;

@@ -40,7 +40,7 @@ class GroupPresentation extends Component {
             authState: authState,
         });
 
-        if (!authState || !localStorage.getItem("isCoordinator") || !localStorage.getItem("isSupervisor")) { //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isCoordinator") || !localStorage.getItem("isSupervisor")) { //check wether the user is logged in, if not re-direct to the login form
             this.props.history.push("/");
         }
         const headers = {
@@ -48,16 +48,16 @@ class GroupPresentation extends Component {
         }
         await axios.get(backendURI.url + '/presentationFeedback/getGroupFeedback/' + this.state.groupId, { headers: headers })
             .then(async res => {
-                // console.log(res.data.data);
+                
                 this.setState({ feedbacks: res.data.data })
 
                 for (let i = 0; i < this.state.feedbacks.length; i++) {
-                    // console.log(this.state.feedbacks[i].presentationName);
+                    
                     var fullName = '';
                     var image = '';
                     await axios.get(backendURI.url + '/users/getUser/' + this.state.feedbacks[i].userId)
                         .then(res => {
-                            // console.log(res.data.data);
+                            
                             fullName = res.data.data.firstName + ' ' + res.data.data.lastName;
                             image = res.data.data.imageName;
                         })
@@ -178,10 +178,7 @@ class GroupPresentation extends Component {
                         <Card className="submission-card">
                             <Card.Header className="gd-card-header">Other Presentation Feedbacks</Card.Header>
                             <Card.Body className="gd-card-body">
-                                {/* {this.state.Others.length === 0 && (
-                                <p className="no-data-msg">No Data Available...!</p>
-                            )} */}
-                                {this.state.Others.length === 0 && this.state.Others.map(item => {
+                            {this.state.Others.length === 0 && this.state.Others.map(item => {
                                     return (
                                         <div className="container">
                                             <Row className="prop-sub-row">

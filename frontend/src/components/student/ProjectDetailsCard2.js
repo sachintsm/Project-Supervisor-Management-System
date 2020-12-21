@@ -67,7 +67,7 @@ class ProjectDetailsCard extends Component {
         this.getStudentDetails()
     }
 
-
+// Get teh particular group
     getGroup  = () => {
         const userId = getFromStorage("auth-id").id;
         const project ={
@@ -108,6 +108,7 @@ class ProjectDetailsCard extends Component {
         )
     }
 
+//Get the details of the students
     getStudentDetails = async (indexesArray) => {
 
         this.setState({
@@ -262,10 +263,6 @@ class ProjectDetailsCard extends Component {
                                             </span>
                                 </BootstrapTooltip1>
                             </Card.Header>
-
-
-                            {/*{this.state.groupDetails.groupName && <Card.Header className="card-header">{this.state.groupDetails.groupName} ( Group {this.state.groupDetails.groupId} ) </Card.Header>}*/}
-                            {/*{!this.state.groupDetails.groupName && <Card.Header className="card-header2">Project Name Not Defined ( Group {this.state.groupDetails.groupId} )</Card.Header>}*/}
                             <Card.Body className="card-body">
                                 <Row>
                                     <Col md={3} lg={3} xs={12} sm={12} className="circular-progressbar-col">
@@ -305,7 +302,7 @@ class ProjectDetailsCard extends Component {
                                         <Row  className="details-row">
                                             <Col lg={3} md={4} sm={6} xs={6} className=""><span className="bold-text">Group Members</span></Col>
                                             <Col lg={9} md={8} sm={6} xs={6}><span className="normal-text">
-                                                {/*{this.state.loading && <Spinner animation="border" className="spinner" />}*/}
+                                                
                                                 {   this.state.studentList.map((user, index) => {
                                                     return (
                                                         <div key={index} >
