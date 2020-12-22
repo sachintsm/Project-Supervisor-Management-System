@@ -9,7 +9,8 @@ import Snackpop from './Snackpop';
 
 
 const backendURI = require("./BackendURI");
-export default class Profilepic extends Component {
+
+ class Profilepic extends Component {
 
 
     async componentDidMount() {
@@ -87,14 +88,14 @@ export default class Profilepic extends Component {
                                         snackbarmsg: response.data.msg,
                                         snackbarcolor: 'success',
                                     })
-                                    // window.location.reload(false);
+                                    
                                 }).catch((error) => {
                                     this.setState({
                                         snackbaropen: true,
                                         snackbarmsg: "Uploading Error!",
                                         snackbarcolor: 'error',
                                     })
-                                    // window.location.reload(false);
+                                    
                                 });
 
                         }
@@ -145,8 +146,6 @@ export default class Profilepic extends Component {
                     <div className="card-body1">
                         <div className="form-group1">
                             <form onSubmit={this.onFormSubmit}>
-                                {/* <input type="file" className="myImage" name="Image" onChange={this.onChangeP} /> */}
-                                {/* File input */}
                                 <Row>
                                     <Col md={12} xs="12">
                                         <div className="input-group">
@@ -176,3 +175,4 @@ export default class Profilepic extends Component {
     }
 }
 
+export default Profilepic;

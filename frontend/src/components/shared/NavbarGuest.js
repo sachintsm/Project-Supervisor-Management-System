@@ -11,7 +11,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 
 
-export default class navbarGuest extends Component {
+ class navbarGuest extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,3 +44,4 @@ export default class navbarGuest extends Component {
     );
   }
 }
+export default navbarGuest;

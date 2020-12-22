@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 const backendURI = require("../shared/BackendURI");
 
-export class BiweeklyView extends Component {
+class BiweeklyView extends Component {
 
      constructor(props) {
           super(props)
@@ -24,11 +24,11 @@ export class BiweeklyView extends Component {
                biweeklyList: [],
           }
           this.getBiweekly = this.getBiweekly.bind(this);
-         //console.log(this.props)
+         
 
      }
 
-     //button for view upcomming submission
+     //button to view upcomming submissions
      biweeklyView = (data) => {
 
           this.props.history.push('/studenthome/biweeklysubmissionpanel/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
@@ -38,7 +38,7 @@ export class BiweeklyView extends Component {
           this.getBiweekly()
      }
 
-     //get submision details from database
+     //get submision details from the database
      getBiweekly() {
           axios.get(backendURI.url + '/Biweekly/getBiweeklyLink/' + this.state.projectId)
                .then((res => {
@@ -117,4 +117,4 @@ export class BiweeklyView extends Component {
      }
 }
 
-export default BiweeklyView
+export default BiweeklyView;

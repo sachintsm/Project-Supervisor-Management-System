@@ -29,19 +29,16 @@ export class SubmisionView extends Component {
 
      }
 
-     //button for view upcomming submission
+     //button to view upcomming submissions
      proposelView = (data) => {
           this.props.history.push('/studenthome/submisionview/submisionpanal/' + data._id, { projectId: this.state.projectId, submissionDetails: data, groupDetails: this.state.groupDetails })
      }
 
      componentDidMount() {
-
-          this.getSubmission()
-
-
+        this.getSubmission()
      }
 
-     //get submision details from database
+     //get submision details from the database
      getSubmission() {
           axios.get(backendURI.url + '/proposel/getSubmisionLink/' + this.state.projectId)
                .then((res => {
@@ -120,4 +117,4 @@ export class SubmisionView extends Component {
      }
 }
 
-export default SubmisionView
+export default SubmisionView;

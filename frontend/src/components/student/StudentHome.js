@@ -10,7 +10,7 @@ class StudentHome extends Component {
 
     const authState = await verifyAuth();
     this.setState({ authState: authState });
-    if (!authState || !localStorage.getItem("isStudent"))
+    if (!authState || !localStorage.getItem("isStudent"))//check wether the user is logged in, if not re-direct to the login form
       this.props.history.push("/");
   };
   render() {

@@ -14,7 +14,7 @@ import Snackpop from "../shared/Snackpop";
 
 const backendURI = require("./BackendURI");
 
-export default class Contactus extends Component {
+ class Contactus extends Component {
 
     constructor(props) {
         super(props);
@@ -93,7 +93,7 @@ export default class Contactus extends Component {
 
     onSubmit(e) {
         e.preventDefault()
-        const err = this.validate();  //?calling validation function
+        const err = this.validate();  //?calling the validation function
 
         if (!err) {
             this.setState({
@@ -222,3 +222,4 @@ export default class Contactus extends Component {
     }
 }
 
+export default Contactus;

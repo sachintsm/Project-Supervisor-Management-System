@@ -58,10 +58,7 @@ class SubmitPanal extends Component {
              
                
           }
-         //let length = this.state.biweeklyDetails.files.length-1
-
-
-
+         
           this.onSubmit = this.onSubmit.bind(this)
          
      }
@@ -70,8 +67,6 @@ class SubmitPanal extends Component {
 
      componentDidMount() {
           this.getBiweeklySubmissionDetails()
-          
-          
      }
 
      getBiweeklySubmissionDetails(){
@@ -83,14 +78,11 @@ class SubmitPanal extends Component {
           axios.post(backendURI.url + '/biweeksubmissions/getBiweekly', dt)
           .then((res => {
 
-              // console.log(res.data.data)
-
                this.setState({
                     biweeklyDetails : res.data.data
 
                },()=>{
-               //this.getComments()
-          
+               
                })
                if(res.data.data.length>0){
                     this.setState({
@@ -152,7 +144,6 @@ class SubmitPanal extends Component {
           const timeString = date.toLocaleTimeString()
 
           for (let i = 0; i < files.length; i++) {
-               //console.log("sachin");
                const formData = new FormData();
 
                formData.append("date", dateString)
@@ -174,8 +165,7 @@ class SubmitPanal extends Component {
                await axios.post(backendURI.url + '/biweeksubmissions/add', formData)
                     .then(res => {
                          this.getBiweeklySubmissionDetails();
-                       // console.log(res)
-                    })
+                       })
           }
      }
 
@@ -214,8 +204,7 @@ class SubmitPanal extends Component {
           }
           axios.post(backendURI.url + '/submission/addSubmission', obj, { headers: headers })
                .then((res) => {
-                    //console.log(res.data.data)
-               }).catch((err) => {
+                    }).catch((err) => {
                     console.log(err)
                })
      }
@@ -275,6 +264,7 @@ class SubmitPanal extends Component {
                     )}
      }
 
+     //Delete a file
      deleteFile(){
           confirmAlert({
                title: "Delete File",
@@ -293,8 +283,7 @@ class SubmitPanal extends Component {
                            deleteSuccesAlert: true,
                          });
                          window.location.reload();
-                         //this.getNoticeList();
-                         //this.getProjectDetails();
+                         
                        })
                        .catch((err) => {
                          console.log(err);
@@ -445,4 +434,4 @@ class SubmitPanal extends Component {
      }
 
 
-export default SubmitPanal
+export default SubmitPanal;

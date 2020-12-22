@@ -36,11 +36,12 @@ class BiWeekly extends Component {
                 biWeekRequests: res.data,
                 loading: false
             },()=> {
-                // this.getProjectDetails()
+                
             })
         })
     }
 
+    //Get project details from
     getProjectDetails = () => {
 
         const headers = {

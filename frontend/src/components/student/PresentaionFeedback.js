@@ -42,7 +42,7 @@ class PresentationFeedback extends Component {
             authState: authState,
         });
 
-        if (!authState || !localStorage.getItem("isStudent")) { //!check user is logged in or not if not re-directed to the login form
+        if (!authState || !localStorage.getItem("isStudent")) { //!check wether the user is logged in, if not re-direct to the login form
             this.props.history.push("/");
         }
         const headers = {
@@ -50,16 +50,14 @@ class PresentationFeedback extends Component {
         }
         await axios.get(backendURI.url + '/presentationFeedback/getGroupFeedback/' + this.state.groupId, { headers: headers })
             .then(async res => {
-                // console.log(res.data.data);
+                
                 this.setState({ feedbacks: res.data.data })
 
                 for (let i = 0; i < this.state.feedbacks.length; i++) {
-                    // console.log(this.state.feedbacks[i].presentationName);
                     var fullName = '';
                     var image = '';
                     await axios.get(backendURI.url + '/users/getUser/' + this.state.feedbacks[i].userId)
                         .then(res => {
-                            // console.log(res.data.data);
                             fullName = res.data.data.firstName + ' ' + res.data.data.lastName;
                             image = res.data.data.imageName;
                         })
@@ -118,7 +116,6 @@ class PresentationFeedback extends Component {
                     <label className="title-pf">Presentation Feedbacks</label>
                     <div className="row">
                         {this.state.feedbacks.length == 0 && (
-                            // <p style={{ textAlign: 'center', marginTop: "50px" }}>Data not available..!</p>
                             <img style={{ textAlign: 'center', margin:"auto"}}src={require("../../assets/images/empty_data_set.jpg")} />
                         )}
                     </div>
@@ -186,9 +183,6 @@ class PresentationFeedback extends Component {
                         <Card className="submission-card">
                             <Card.Header className="gd-card-header">Other Presentation Feedbacks</Card.Header>
                             <Card.Body className="gd-card-body">
-                                {/* {this.state.Others.length === 0 && (
-                                <p className="no-data-msg">No Data Available...!</p>
-                            )} */}
                                 {this.state.Others.length === 0 && this.state.Others.map(item => {
                                     return (
                                         <div className="container">

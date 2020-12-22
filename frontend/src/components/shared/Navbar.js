@@ -42,7 +42,7 @@ function BootstrapTooltip1(props) {
   return <Tooltip arrow classes={classes} {...props} />;
 }
 
-export default class navbar extends Component {
+ class navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,18 +113,6 @@ export default class navbar extends Component {
       this.getSupervisorNotificationCount()
     }
 
-    // const userData = getFromStorage('auth-id')
-    //
-    // axios.get(backendURI.url + '/users/countNotifyReq/' + userData.id)
-    //   .then(response => {
-    //
-    //     this.setState({
-    //       count: response.data.data,
-    //     })
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
   }
 
   getStudentNotificationCount = () => {
@@ -230,7 +218,6 @@ export default class navbar extends Component {
             <MDBNavbarToggler onClick={this.toggleCollapse} />
             <MDBCollapse id='navbarCollapse3' isOpen={this.state.isOpen} navbar>
               <MDBNavbarNav className='navbar-nav' right>
-                {/*<MDBNavItem className="mr-4 userType"> {this.state.userLevel} *</MDBNavItem>*/}
                 <MDBNavItem className="mr-4">
                   {this.state.panel === "admin" &&
                     <Nav.Link href='/adminhome'>Home</Nav.Link>
@@ -330,14 +317,6 @@ export default class navbar extends Component {
                   </MDBNavItem>
                 )}
 
-
-                {/* // <MDBNavItem className="mr-4">
-                //   <Nav.Link  className="padding-zero"   href='/shared/notice'>
-                //     Notices
-                //   </Nav.Link>
-                // </MDBNavItem>
-               */}
-
                 {/* ============================ Supervisor Panel ============================================= */}
                 {this.state.panel === 'supervisor' && (
                   <MDBNavItem className="mr-4">
@@ -362,15 +341,12 @@ export default class navbar extends Component {
                   <MDBNavItem className="mr-4" >
                     <Nav.Link className="padding-zero" href='/supervisorhome/viewRequest' onClick={this.readRequest}>
                       Group Requests
-                      {/* {(this.state.count !== 0) ? (
-                            <span className="badge">{this.state.count}</span>) : null
-                        }*/}
                       <span className="icon">{this.state.count > 0 && <Badge style={{ verticalAlign: "top" }} variant="danger">{this.state.count}</Badge>}</span>
                     </Nav.Link>
                   </MDBNavItem>
 
                 )}
-                {/*==============================================================================================*/}
+                
 
                 {/* =============================  Student Panel  ============================================ */}
 
@@ -385,18 +361,7 @@ export default class navbar extends Component {
 
                 {/* ========================================================================= */}
 
-                {/* =============================  Student Panel  ============================================ */}
-
-                {/* {this.state.panel === 'student' && (
-
-                <MDBNavItem className="mr-4">
-                  <Nav.Link className="padding-zero" href='/student/viewMeeting'>Meetings</Nav.Link>
-
-                </MDBNavItem>
-              )} */}
-
-                {/* ========================================================================= */}
-
+                
                 <MDBNavItem className="mr-3">
                   {this.state.panel === 'student' && (
                     <BootstrapTooltip1 title="Notifications" placement="bottom">
@@ -437,8 +402,6 @@ export default class navbar extends Component {
                             }}
                           >
                             <div>
-                              {/*<Icon style={{ fontSize:20 }}>settings</Icon>*/}
-                              {/*&nbsp; &nbsp; &nbsp;*/}
                               <span>Settings</span>
                             </div>
                           </IconContext.Provider>
@@ -483,3 +446,4 @@ export default class navbar extends Component {
     );
   }
 }
+export default navbar;

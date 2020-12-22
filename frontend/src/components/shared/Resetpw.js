@@ -8,7 +8,7 @@ import Snackpop from './Snackpop';
 
 const backendURI = require("./BackendURI");
 
-export default class Resetpw extends Component {
+ class Resetpw extends Component {
 
     constructor(props) {
         super(props);
@@ -218,3 +218,4 @@ render() {
         )
     }
 }
+export default Resetpw;

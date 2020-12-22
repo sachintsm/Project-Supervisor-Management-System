@@ -15,7 +15,7 @@ import { meetingRequestEmail } from "../shared/emailTemplates";
 
 const backendURI = require("../shared/BackendURI");
 
-export default class RequestMeeting extends Component {
+ class RequestMeeting extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -242,3 +242,4 @@ export default class RequestMeeting extends Component {
     );
   }
 }
+export default RequestMeeting;

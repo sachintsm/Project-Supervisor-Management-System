@@ -6,7 +6,7 @@ import '../../css/shared/index.scss';
 
 const backendURI = require("./BackendURI");
 
-export default class Index extends Component {
+ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = { MessageList: {} };
@@ -136,3 +136,4 @@ export default class Index extends Component {
         )
     }
 }
+export default Index;
