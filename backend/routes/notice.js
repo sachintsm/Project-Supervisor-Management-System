@@ -12,13 +12,13 @@ const verify = require('../authentication');
 const notice = require("../models/notice");
 
 
-//  notification attachment saving destination folder
+//saving the notification attachment in the destination folder
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "local_storage/notice_Attachment/");
   },
 
-  // file name create like this
+  // file name creation
   filename: function (req, file, cb) {
     let ts = Date.now();
     let date_ob = new Date(ts);
@@ -35,20 +35,13 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("noticeAttachment");
 
-// Notice data send to database and save
+//send Notice data to the database and save them
 router.post("/addNotice", verify, async (req, res) => {
   try {
 
     req.body.toCordinator = false;
     req.body.toSupervisor = false;
     req.body.toStudent = false;
-
-
-    // if (
-    //   !(req.body.toCordinator || req.body.toSupervisor || req.body.toStudent)
-    // ) {
-    //   req.body.toViewType = false;
-    // }
 
     upload(req, res, (err) => {
       let ts = Date.now();
@@ -73,7 +66,6 @@ router.post("/addNotice", verify, async (req, res) => {
         date: req.body.date,
         time: req.body.time,
         filePath: filePath,
-        //toViewType: req.body.toViewType,
         toCordinator: req.body.toCordinator,
         toSupervisor: req.body.toSupervisor,
         toStudent: req.body.toStudent,
@@ -82,10 +74,10 @@ router.post("/addNotice", verify, async (req, res) => {
       newNotice
         .save()
         .then((result) => {
-          res.json({ state: true, msg: "Data inserted successful.." });
+          res.json({ state: true, msg: "Data insertion successful.." });
         })
         .catch((error) => {
-          res.json({ state: false, msg: "Data inserting Unsuccessfull.." });
+          res.json({ state: false, msg: "Data insertion Unsuccessfull.." });
         });
     });
   } catch (err) {
@@ -93,7 +85,7 @@ router.post("/addNotice", verify, async (req, res) => {
   }
 });
 
-// all notice get from database without filter
+//get all the notices from the database without filtering
 router.get("/viewNotice", (req, res, next) => {
 
   Notice.find()
@@ -111,7 +103,7 @@ router.get("/viewNotice", (req, res, next) => {
     });
 });
 
-//Get notice attchment from database
+//Get notice attchment from the database
 router.get("/noticeAttachment/:filename", function (req, res) {
   const filename = req.params.filename;
   res.sendFile(
@@ -119,7 +111,7 @@ router.get("/noticeAttachment/:filename", function (req, res) {
   );
 });
 
-//delte notice from database
+//delete notices from the database
 router.delete("/delteNotice/:_id", verify, async (req, res) => {
   const id = req.params._id;
 
@@ -137,7 +129,7 @@ router.delete("/delteNotice/:_id", verify, async (req, res) => {
     });
 });
 
-//FilleAttachment Delete from Localstorage
+//Delete the FilleAttachment from Localstorage
 
 router.delete("/noticeAttachment/:filename", (req, res) => {
   const filename = req.params.filename;
@@ -155,15 +147,13 @@ router.delete("/noticeAttachment/:filename", (req, res) => {
   }
 });
 
-//when admin create notice it notice must show only him so get those notices this rout
-
 router.get('/NoticeView/:userId', (req, res) => {
   const userId = req.params.userId;
   Notice
     .find({ userId: userId })
     .sort({date:-1 }&&{time:-1})
     .then(data => {
-      res.send({ state: true, data:data, msg: 'Data Transfer Success..!' })
+      res.send({ state: true, data:data, msg: 'Data Transfer Successful..!' })
     })
     .catch(err => {
       res.send({ state: false, msg: err.message })
@@ -172,7 +162,7 @@ router.get('/NoticeView/:userId', (req, res) => {
 })
 
 
-// only get project id true notices
+//get only the project id true notices
 router.get('/getNotice/:id', async (req, res) => {
   try {
     const coId = req.params.id
@@ -196,7 +186,7 @@ router.get('/getNotice/:id', async (req, res) => {
   }
 })
 
-//acoordinator publish notice it delete  can him that notice get this function
+// if a coordinator publish a notice it can be  deleted by him 
 router.get('/cogetNotice/:id', async (req, res) => {
   try {
     const coId = req.params.id
@@ -218,8 +208,7 @@ router.get('/cogetNotice/:id', async (req, res) => {
   }
 })
 
-
-// get project name from project collection
+// get project names from the project collection
 router.get('/getProjectName/:id', async (req, res) => {
   const poId = req.params.id
   await Projects
@@ -234,7 +223,7 @@ router.get('/getProjectName/:id', async (req, res) => {
     })
 })
 
-// get admin published notices
+// get the notices published by the admin
 router.get("/getAdminNotice", (req, res, next) => {
 
   Notice.find({userType :'admin'})

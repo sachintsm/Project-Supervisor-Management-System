@@ -12,9 +12,10 @@ const multer = require("multer")
 var path = require("path");
 const fs = require("fs");
 
+//Saving the user profile pictures in the destination folder
 var storage = multer.diskStorage({
      destination: function (req, file, cb) {
-          cb(null, 'local_storage/biweeklystu_submissions/'); //user profile pictures saving destination folder
+          cb(null, 'local_storage/biweeklystu_submissions/'); 
      },
      filename: function (req, file, cb) {
           let ts = Date.now();
@@ -27,7 +28,7 @@ var storage = multer.diskStorage({
                date_ob.getHours() +
                date_ob.getMinutes();
 
-          cb(null, 'PROJECT_BI_SUBMISSION -' + time + file.originalname); //set the file neme
+          cb(null, 'PROJECT_BI_SUBMISSION -' + time + file.originalname); //set the file name
      },
 });
 
@@ -46,16 +47,11 @@ router.post("/add", async (req, res) => {
                     date_ob.getHours() +
                     date_ob.getMinutes();
 
-              // console.log(req.file)
-
                if (req.file) {
                     var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
                }
-
-
                const existing = await BiweekSubmissions.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
                if (!existing) {
-
 
                     const data = await CreateGroups.findOne({ _id: req.body.groupId }).select('supervisors')
                     let status = []
@@ -65,7 +61,6 @@ router.post("/add", async (req, res) => {
                          status.push("Pending")
                     })
 
-                  //  console.log(req.body.submissionId)
                     const biweekly = await BiweeklyLink.findOne({ _id: req.body.submissionId })
 
                     const newSubmission = new BiweekSubmissions({
@@ -81,22 +76,17 @@ router.post("/add", async (req, res) => {
                          supervisors: supervisors,
                          status: status,
                          biweeklyNumber: biweekly.biweeklyNumber,
-                         //biweeklyDiscription: biweekly.biweeklyDescription,
                          deadDate: biweekly.deadDate,
                          deadTime: biweekly.deadTime
                     })
 
-                   //console.log(newSubmission)
-
-
-
                     newSubmission
                          .save()
                          .then((resulst) => {
-                              res.json({ state: true, msg: "Data inserted successful.." });
+                              res.json({ state: true, msg: "Data insertion successful.." });
                          })
                          .catch((err) => {
-                              res.json({ state: false, msg: "Data inserted unsuccessful.." })
+                              res.json({ state: false, msg: "Data insertion unsuccessful.." })
                               console.log(err)
                          })
                }
@@ -113,14 +103,13 @@ router.post("/add", async (req, res) => {
                          )
                          .exec()
                          .then((resulst) => {
-                              res.json({ state: true, msg: "Data inserted successful.." });
+                              res.json({ state: true, msg: "Data insertion successful.." });
                          })
                          .catch((err) => {
-                              res.json({ state: false, msg: "Data inserted unsuccessful.." })
+                              res.json({ state: false, msg: "Data insertion unsuccessful.." })
                               console.log(err)
                          })
-
-               }
+                }
           })
 
      } catch (err) {
@@ -128,7 +117,7 @@ router.post("/add", async (req, res) => {
      }
 })
 
-//get biweek submissions by supervisorId
+//get biweekly submissions by supervisorId
 router.get("/getsubmissions/:id", async (req, res) => {
      try {
           const userId = req.params.id
@@ -137,7 +126,6 @@ router.get("/getsubmissions/:id", async (req, res) => {
           groups.map(item => {
                groupIdList.push(item._id)
           })
-
           const allSubmissions = await BiweekSubmissions.find({ groupId: groupIdList, supervisors: userId })
 
           let result = []
@@ -168,7 +156,7 @@ router.get("/biweeklyAttachment/:filename", function (req, res) {
      );
    });
 
-//get biweek submissions by groupId
+//get biweekly submissions by groupId
 router.get("/getgroupsubmissions/:id",async(req,res) => {
     try{
         const groupId = req.params.id
@@ -182,7 +170,7 @@ router.get("/getgroupsubmissions/:id",async(req,res) => {
     }
 })
 
-//get biweek submissions by submission link id
+//get biweekly submissions by submission link id
 router.get("/getbiweeklinksubmissions/:id",async(req,res) => {
      try{
           const linkId = req.params.id

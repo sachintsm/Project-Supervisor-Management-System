@@ -29,7 +29,6 @@ router.post('/add', (req, res) => {
       contactNumber: req.body.contactNumber,
       email: req.body.email,
       message: req.body.message,
-    //   messageState : true
     })
 
     newContactUs.save()
@@ -42,8 +41,7 @@ router.post('/add', (req, res) => {
         })
 })
 
-// mail delete
-
+//Delete mail
 router.delete('/Mail_delete/:_id', async (req,res) =>{
 
     const mail_id = req.params._id;
@@ -57,10 +55,9 @@ router.delete('/Mail_delete/:_id', async (req,res) =>{
       })
       .catch((error) => {
         res.status(500).json({
-          massage: "Deleted Unsuccessfull",
+          massage: "Deleting Unsuccessfull",
         });
       });
 
 });
-
-module.exports = router
+module.exports = router;

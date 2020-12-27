@@ -12,7 +12,7 @@ var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "local_storage/biweekly_Attachment/");
   },
-  // file name create like this
+  // file name is created
   filename: function (req, file, cb) {
     let ts = Date.now();
     let date_ob = new Date(ts);
@@ -30,7 +30,6 @@ const upload = multer({ storage: storage }).single("biweeklyAttachment");
 
 router.post("/addBiweekly", async (req, res) => {
 
-  // console.log("file name : " , req.file.originalname)
 
   try {
 
@@ -61,7 +60,6 @@ router.post("/addBiweekly", async (req, res) => {
         deadDate: req.body.deadDate,
         deadTime: req.body.deadTime,
         filePath: filePath,
-        //file: req.file.originalname,
         isDeleted : 'false',
         toLateSubmision: tolateSub, 
         submssionFileSize: req.body.submssionFileSize*1000000,
@@ -72,8 +70,7 @@ router.post("/addBiweekly", async (req, res) => {
    .save()
    .then((resulst) =>{
      res.json({ state: true, msg: "Data inserted successful.." });
-     // console.log(resulst)
-
+     
    })
    .catch((err) =>{
         res.json({state : false , msg : "Data inserted unsuccessful.."})
@@ -95,8 +92,7 @@ router.get("/biweeklyAttachment/:filename", function (req, res) {
 
 router.get('/getBiweeklyLink/:_id', async (req, res) => {
   projectId = req.params._id
-   // console.log(projectId)
-  biweekly.find({ projectId: projectId , isDeleted:false})
+   biweekly.find({ projectId: projectId , isDeleted:false})
     .sort({ date: -1 } && { time: -1 })
     .then(data => {
       res.send({ state: true, data: data, msg: "data transfer successfully.." })
@@ -105,19 +101,6 @@ router.get('/getBiweeklyLink/:_id', async (req, res) => {
     })
 })
 
-// router.delete('/deleteBiweekly/:_id', verify, async (req, res) => {
-//   const proID = req.params._id;
-//   biweekly.remove({ _id: proID })
-//     .then((result) => {
-//       res.status(200).json({
-//         message: "Deleted Successfully..",
-//       });
-//     }).catch((error) => {
-//       res.status(500).json({
-//         message: "Deleted Unsuccessfully..",
-//       });
-//     })
-// })
 
 router.patch("/deleteBiweekly/:_id", async (req, res, next) => {
   
@@ -131,27 +114,10 @@ router.patch("/deleteBiweekly/:_id", async (req, res, next) => {
   }
 })
 
-// router.delete("/biweeklyAttachment/:filename", function (req, res) {
-//   const filename = req.params.filename;
-//   // console.log('djankv' , filename)
-//   const path = 'local_storage/biweekly_Attachment/' + filename;
-//   try {
-//     fs.unlinkSync(path)
-//     res.status(200).json({
-//       message: 'Delete the file successfully..!'
-//     })
-//     //file removed
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({
-//       msg: 'deleted unsuccessful..'
-//     });
-//   }
-// });
-
-router.post('/updateBiweekly/:_id', (req, res) => {  // update methord 
+// update method
+router.post('/updateBiweekly/:_id', (req, res) => {   
   const proId = req.params._id;
-  ///console.log(proId)
+  
   try {
     req.body.toLateSubmision = false;
 
@@ -182,23 +148,21 @@ router.post('/updateBiweekly/:_id', (req, res) => {  // update methord
           deadTime: req.body.deadTime,
           filePath: filePath,
           isDeleted:'false',
-          //file: req.file.originalname,
           toLateSubmision: tolateSub, 
           submssionFileSize: req.body.submssionFileSize*1000000,
           setFileLimit: req.body.setFileLimit,
 
       }
-      // console.log("Id",proId);
-
+      
       biweekly.update({ _id: proId }, { $set: input }
       )
         .exec()
         .then(data => {
-         // console.log('Proposel update successe.')
+         // console.log('Proposal update success.')
           res.json({ state: true, msg: 'Proposel update success..' });
         })
         .catch(error => {
-         // console.log('Proposel update unsuccessfull..')
+         // console.log('Proposal update unsuccessfull..')
           res.json({ state: false, msg: 'Peoposel update unsuccess..' });
         })
     });

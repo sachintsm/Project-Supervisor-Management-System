@@ -24,8 +24,6 @@ router.post('/', verify, async (req, res) => {
             groupId: req.body.groupId,
             messages: [{
                 userId: req.body.userId,
-                // profileImage: req.body.profileImage,
-                // userName: req.body.sender,
                 message: req.body.content
             }]
         })
@@ -33,10 +31,8 @@ router.post('/', verify, async (req, res) => {
             .then(data => {
                 res.json({
                     groupId: req.body.groupId,
-                    // userName: req.body.sender,
                     userId: req.body.userId,
                     message: req.body.content,
-                    // profileImage: req.body.profileImage
                 })
             })
             .catch(err => {
@@ -50,9 +46,7 @@ router.post('/', verify, async (req, res) => {
                 {
                     $push: {
                         messages: {
-                            // profileImage: req.body.profileImage,
                             userId: req.body.userId,
-                            // userName: req.body.sender,
                             message: req.body.content
                         }
                     }
@@ -62,10 +56,8 @@ router.post('/', verify, async (req, res) => {
             .then(data => {
                 res.json({
                     groupId: req.body.groupId,
-                    // userName: req.body.sender,
                     userId: req.body.userId,
                     message: req.body.content,
-                    // profileImage: req.body.profileImage
                 })
             })
             .catch(err => {
@@ -74,4 +66,4 @@ router.post('/', verify, async (req, res) => {
     }
 })
 
-module.exports = router
+module.exports = router;
