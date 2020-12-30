@@ -69,8 +69,25 @@ router.get('/getcurrentprojectlist/:id', verify, async (req, res, next) => {
 router.post('/addnewrequest', verify, async (req, res, next) => {
     try{
         const request = new supervisorRequests(req.body)
+        request.status = "pending"
         const result = await request.save()
         res.send(result)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/getavailablesupervisorlist/:groupId', verify, async (req, res, next) => {
+    try{
+        const groupId = req.params.groupId;
+        const allSupervisorList = req.body.data;
+
+        const result1 = await CreateGroups.findOne({groupId: groupId})
+        const currentSupervisorList = result1.supervisors
+        const availableSupervisorList = allSupervisorList.filter(item=>! currentSupervisorList.includes(item))
+
+        res.send(availableSupervisorList)
     }
     catch (err) {
         console.log(err)

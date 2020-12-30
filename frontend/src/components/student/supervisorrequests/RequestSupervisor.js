@@ -15,8 +15,27 @@ class RequestSupervisor extends Component {
 
         this.state = {
             projectDetails: props.location.state.projectDetails,
-            groupDetails: props.location.state.groupDetails
+            groupDetails: props.location.state.groupDetails,
+            loading: true
         }
+
+        this.getAvailableSupervisorList()
+
+    }
+
+    getAvailableSupervisorList = () => {
+
+        const headers = {
+            'auth-token': getFromStorage('auth-token').token,
+        }
+        axios.post(backendURI.url + '/supervisorrequests/getavailablesupervisorlist/' + this.state.groupDetails.groupId,   {data: this.state.projectDetails.supervisorList},{ headers: headers }).then(res => {
+            console.log(typeof res.data)
+            console.log(res.data)
+            this.setState({
+                availableSupervisorList : res.data,
+                loading: false
+            })
+        })
     }
 
     render() {
@@ -37,12 +56,12 @@ class RequestSupervisor extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {this.state.projectDetails.supervisorList.length>0 && this.state.projectDetails.supervisorList.map((index,key)=> {
+                                    {!this.state.loading && this.state.availableSupervisorList.length>0 && this.state.availableSupervisorList.map((index,key)=> {
                                         return <SupervisorDetails key={key} index={index} projectDetails={this.state.projectDetails} groupDetails={this.state.groupDetails}/>
                                     })}
                                     </tbody>
                                 </Table>
-                                {this.state.projectDetails.supervisorList.length===0 && <p>No any Supervisors</p>}
+                                {!this.state.loading && this.state.availableSupervisorList.length===0 && <p>No any Supervisors</p>}
                             </Tab>
                             <Tab eventKey="status" title="Requests History">
                             </Tab>
