@@ -15,6 +15,7 @@ class RequestSupervisor extends Component {
 
         this.state = {
             projectDetails: props.location.state.projectDetails,
+            groupDetails: props.location.state.groupDetails
         }
     }
 
@@ -37,7 +38,7 @@ class RequestSupervisor extends Component {
                                     </thead>
                                     <tbody>
                                     {this.state.projectDetails.supervisorList.length>0 && this.state.projectDetails.supervisorList.map((index,key)=> {
-                                        return <SupervisorDetails key={key} index={index} projectDetails={this.state.projectDetails}/>
+                                        return <SupervisorDetails key={key} index={index} projectDetails={this.state.projectDetails} groupDetails={this.state.groupDetails}/>
                                     })}
                                     </tbody>
                                 </Table>

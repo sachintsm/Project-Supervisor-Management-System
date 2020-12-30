@@ -5,21 +5,33 @@ const Users = require('../models/users');
 const Projects = require('../models/projects');
 const ProjectLimits = require('../models/setProjectLimit');
 const CreateGroups = require('../models/createGroups');
+const supervisorRequests = require('../models/supervisorrequests');
 
 // check supervisor limit availability
 router.post('/checklimit/', verify, async (req, res, next) => {
     try {
         const userId = req.body.data.userId;
         const projectId = req.body.data.projectId;
+        const groupId = req.body.data.groupId
+
+        // Checking for the supervising limit
         const personalLimitResult = await ProjectLimits.findOne({projectId: projectId, supervisorId: userId}).select('noProjects');
         const personalLimit = personalLimitResult.noProjects
         const currentProjectsResult = await CreateGroups.find({projectId:projectId, supervisors: userId})
         const currentLimit = currentProjectsResult.length
-        let result = false
+        let result1 = false
         if(personalLimit-currentLimit>0){
-            result = true
+            result1 = true
         }
-        res.send({isAvailable:result})
+
+        // Checking whether already requested
+        const previousRequests = await supervisorRequests.find({supervisorId:userId, groupId:groupId})
+        let result2 = false
+        if(previousRequests.length>0){
+            result2 = true
+        }
+
+        res.send({isAvailable:result1, alreadyRequested: result2})
     }
     catch (err) {
         console.log(err)
@@ -48,6 +60,17 @@ router.get('/getcurrentprojectlist/:id', verify, async (req, res, next) => {
             projectCount.push(count)
         })
         res.send({projectIdList:projectIdList, projectCount:projectCount})
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/addnewrequest', verify, async (req, res, next) => {
+    try{
+        const request = new supervisorRequests(req.body)
+        const result = await request.save()
+        res.send(result)
     }
     catch (err) {
         console.log(err)
