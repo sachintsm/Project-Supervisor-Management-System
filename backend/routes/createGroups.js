@@ -6,7 +6,7 @@ const verify = require('../authentication');
 const Projects = require('../models/projects');
 const GroupRequests = require('../models/grouprequests');
 
-// ?create new group
+//create a new group
 router.post('/add', async (req, res) => {
     const maxNumber = await CreateGroups
         .find({ projectId: req.body.projectId })
@@ -17,7 +17,7 @@ router.post('/add', async (req, res) => {
         maxId = 0;
     }
     else {
-        var dataArray = new Array();     //all data push to this array
+        var dataArray = new Array(); //all data is pushed to this array
         for (var i = 0; i < maxNumber.length; i++) {
             dataArray.push(maxNumber[i].groupId) //push data to the dataArray
         }
@@ -28,8 +28,6 @@ router.post('/add', async (req, res) => {
         }
         maxId = getMaxOfArray(dataArray)
     }
-
-    //data object
     const newGroup = new CreateGroups({
         groupId: maxId + 1,
         projectId: req.body.projectId,
@@ -43,11 +41,11 @@ router.post('/add', async (req, res) => {
         })
         .catch(error => {
             console.log(error)
-            res.json({ state: false, msg: "Data Inserting Unsuccessfull..!" });
+            res.json({ state: false, msg: "Data Insertion Unsuccessfull..!" });
         })
 })
 
-//? get all the groups
+//get all the groups
 router.get('/get/', (req, res) => {
     const projectId = req.params.projectId
     CreateGroups
@@ -61,7 +59,7 @@ router.get('/get/', (req, res) => {
         })
 })
 
-//? get all the groups on spesific project
+//get all the groups on spesific project
 router.get('/get/:projectId', (req, res) => {
     const projectId = req.params.projectId
     CreateGroups
@@ -75,7 +73,7 @@ router.get('/get/:projectId', (req, res) => {
         })
 })
 
-//? delete a group by idList
+//delete a group by idList
 router.delete('/delete/:id', verify, async (req, res) => {
     const id = req.params.id
 
@@ -90,7 +88,7 @@ router.delete('/delete/:id', verify, async (req, res) => {
         })
 })
 
-//? get group data by id
+//get group data by id
 router.get('/getGroupData/:id', verify, (req, res) => {
     const id = req.params.id;
 
@@ -105,7 +103,7 @@ router.get('/getGroupData/:id', verify, (req, res) => {
         })
 })
 
-//? add student index to a group
+//add student index to a group
 router.post('/addStudentIndex', async (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -127,7 +125,7 @@ router.post('/addStudentIndex', async (req, res) => {
             })
     }
 })
-//? add supervisor index to a group
+//add supervisor index to a group
 router.post('/addSupervisorIndex', verify, async (req, res) => {
     console.log(req.body)
     const id = req.body._id
@@ -152,8 +150,7 @@ router.post('/addSupervisorIndex', verify, async (req, res) => {
 })
 
 
-//? delete index from the groupMembers
-//? (GroupData.js)
+//delete index from the groupMembers
 router.post('/removeStudentIndex', async (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -173,8 +170,7 @@ router.post('/removeStudentIndex', async (req, res) => {
 
 })
 
-//? delete supervisor from the project
-//? (GroupData.js)
+//delete supervisor from the project
 router.post('/removeSupervisorIndex', (req, res) => {
     const id = req.body._id
     const index = req.body.index
@@ -193,8 +189,8 @@ router.post('/removeSupervisorIndex', (req, res) => {
 })
 
 
-//? get projects for spesific supervisor
-//? (AssignSupervisor.js)
+//get projects for spesific supervisor
+//(AssignSupervisor.js)
 router.post('/getsupervisorGroup', async (req, res) => {
     const projectId = req.body.projectId
     const supervisor = req.body.supervisor
@@ -209,8 +205,8 @@ router.post('/getsupervisorGroup', async (req, res) => {
         })
 })
 
-//? remove supervisor from the all the groups with respect to the one project
-//? (AssignSupervisor.js)
+//remove supervisor from the all the groups with respect to the one project
+//(AssignSupervisor.js)
 router.post('/remove-supervisor', verify, async (req, res) => {
     const projectId = req.body.projectId
     const supervisorId = req.body.supervisor
@@ -229,7 +225,7 @@ router.post('/remove-supervisor', verify, async (req, res) => {
         })
 })
 
-//? get one supervisor active all projects
+//get all the active projects of a supervisor
 router.post('/active&groups', async (req, res) => {
     const supervisorId = req.body.supervisorId
     const projectId = req.body.projectId
@@ -244,8 +240,8 @@ router.post('/active&groups', async (req, res) => {
         })
 })
 
-//? get all group count for a project
-//? (CoodinatorHome.js)
+//get the group count for a project
+//(CoodinatorHome.js)
 router.get('/groupCount/:id', async (req, res) => {
     const projectId = req.params.id
     await CreateGroups
@@ -447,5 +443,3 @@ router.get('/requestemail/:id', (req,res)=>{
 module.exports = router
 
 
-// 5ebd7e83293b6456109d67fc
-// 5eb286484db10d32e0233c78

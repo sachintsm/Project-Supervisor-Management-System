@@ -4,7 +4,7 @@ const CourseTypes = require('../models/courseTypes')
 const verify = require('../authentication');
 const { json } = require('express');
 
-//? add new course type
+//add new course type
 router.post('/add', verify,async (req, res) => {
     // checking if the course code is already in the database
     const codeExists = await CourseTypes.findOne({ courseCode: req.body.courseCode.toUpperCase() });
@@ -25,7 +25,7 @@ router.post('/add', verify,async (req, res) => {
         })
 })
 
-//? get all the course details
+//get all the course details
 router.get('/get', (req, res) => {
     CourseTypes
         .find()
