@@ -15,16 +15,13 @@ var dbOptions = {
     autoBackup: true,
     removeOldBackup: false,
     keepLastDaysBackup: 2,
-    autoBackupPath: backupDirPath // i.e. /var/database-backup/
+    autoBackupPath: backupDirPath 
 };
-
-
 
 // return stringDate as a date object.
 exports.stringToDate = dateString => {
     // console.log(dateString);
     return new Date(dateString);
-
 };
 
 // Check if variable is empty or not.
@@ -47,11 +44,10 @@ exports.empty = mixedVar => {
 
 // Auto backup function
 exports.dbAutoBackUp = () => {
-    // check for auto backup is enabled or disabled
+    // check whether the auto backup is enabled or disabled
     if (dbOptions.autoBackup == true) {
         let date = new Date();
         // console.log(date);
-        
         let beforeDate, oldBackupDir, oldBackupPath;
 
         // Current date
@@ -65,7 +61,7 @@ exports.dbAutoBackUp = () => {
         
         // New backup path for current backup process
         let newBackupPath = dbOptions.autoBackupPath + '-mongodump-' + newBackupDir;
-        // check for remove old backup after keeping # of days given in configuration
+        // check to remove old backup after keeping # of days given in configuration
         if (dbOptions.removeOldBackup == true) {
             beforeDate = _.clone(currentDate);
             // Substract number of days to keep backup and remove old backup
@@ -94,7 +90,7 @@ exports.dbAutoBackUp = () => {
             
             // console.log(cmd);
             if (this.empty(error)) {
-                // check for remove old backup after keeping # of days given in configuration.
+                // check to remove old backup after keeping # of days given in configuration.
                 if (dbOptions.removeOldBackup == true) {
                     if (fs.existsSync(oldBackupPath)) {
                         exec('rm -rf ' + oldBackupPath, err => { });

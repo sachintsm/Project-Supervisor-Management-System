@@ -4,9 +4,7 @@ const router = express.Router();
 
 router.post('/sendmail', async (req, res) => {
 
-  // console.log(req.body);
-
-  var transporter = nodemailer.createTransport({
+ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: '3rdyeargroupproject0@gmail.com',
