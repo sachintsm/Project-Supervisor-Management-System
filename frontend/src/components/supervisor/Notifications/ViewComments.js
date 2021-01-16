@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Card, Row, Col,} from 'react-bootstrap';
+import {Card, Row, Col,} from 'react-bootstrap';
 import "../../../css/supervisor/notificaitons/ViewComments.scss"
 import SupervisorName from "../PresentationFeedback/SupervisorName";
 import {getFromStorage} from "../../../utils/Storage";
@@ -7,7 +7,7 @@ import {AiFillDelete} from "react-icons/ai";
 import {makeStyles} from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
-import Snackpop from "../../shared/Snackpop";
+
 
 const backendURI = require('../../shared/BackendURI');
 

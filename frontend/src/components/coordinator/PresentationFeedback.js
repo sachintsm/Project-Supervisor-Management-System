@@ -211,7 +211,7 @@ class PresentationFeedback extends Component {
                             {dataDiv && (
                                 <div className="container">
                                     <p className="pg-details-head">Presentation Feedbacks</p>
-                                    {this.state.finalBlock.length != 0 && (
+                                    {this.state.finalBlock.length !== 0 && (
                                         <div>
 
                                             <Row>
@@ -230,7 +230,7 @@ class PresentationFeedback extends Component {
                                     <hr />
 
                                     {this.state.finalBlock.length === 0 && (
-                                        <img className="pf-image" src={require("../../assets/images/empty_data_set.jpg")} />
+                                        <img className="pf-image" src={require("../../assets/images/empty_data_set.jpg")} alt="" />
 
                                     )}
                                     <div>

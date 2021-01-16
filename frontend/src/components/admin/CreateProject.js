@@ -146,7 +146,8 @@ class CreateProject extends Component {
 
                       let errorMsg = ""
                       emptyStudents.map(index=> {
-                        errorMsg = errorMsg + index +", "
+                        errorMsg = errorMsg + index +", ";
+                        return errorMsg;
                       })
 
                       errorMsg = errorMsg + "students are not registered with the system"
@@ -195,7 +196,8 @@ class CreateProject extends Component {
 
                       let errorMsg = ""
                       emptyStudents.map(index=> {
-                        errorMsg = errorMsg + index +", "
+                        errorMsg = errorMsg + index +", ";
+                        return errorMsg;
                       })
 
                       errorMsg = errorMsg + "students are not registered with the system"

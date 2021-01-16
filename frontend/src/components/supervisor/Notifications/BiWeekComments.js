@@ -188,7 +188,7 @@ class BiWeekComments extends Component {
                                 <div className="add-comment-div">
                                     <h6 className="sub-title1">Add New Comment</h6>
                                     <Row>
-                                        <Col lg={10} md={9} xs={6} xs={6}>
+                                        <Col lg={10} md={9} xs={6}>
                                             <FormControl
                                                 type='text'
                                                 className="placeholder-text"
@@ -197,7 +197,7 @@ class BiWeekComments extends Component {
                                                 onChange={this.commentHandler}
                                             ></FormControl>
                                         </Col>
-                                        <Col lg={2} md={3} xs={6} xs={6}>
+                                        <Col lg={2} md={3} xs={6}>
                                             <Button variant="info" style={{"width": "100%"}} onClick={()=>this.addComment()}>Add Comment</Button>
                                         </Col>
                                     </Row>

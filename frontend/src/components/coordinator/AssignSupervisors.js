@@ -372,6 +372,7 @@ class AssignSupervisors extends Component {
                 this.setState({
                     staffOptionList: newList
                 })
+                return item.added;
             })
         })
 

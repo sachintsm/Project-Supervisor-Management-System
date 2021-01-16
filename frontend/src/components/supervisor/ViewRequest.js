@@ -270,6 +270,7 @@ export default class ViewRequest extends Component {
             if (currentReq.state === 'read' || currentReq.state === 'pending') {
                 return <Pending sendAccept={this.reqSendAccept} sendReject={this.reqSendReject} req={currentReq} key={i} />;
             }
+            return null;
         })
     }
     else{

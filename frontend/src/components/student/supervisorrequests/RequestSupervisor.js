@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import { Table, Modal, Button, ButtonToolbar, Tabs, Tab } from 'react-bootstrap';
+import { Table, Tabs, Tab } from 'react-bootstrap';
 import Navbar from "../../shared/Navbar";
 import Footer from "../../shared/Footer";
 import "../../../css/students/supervisorrequests/RequestSupervisor.scss"
-import {getFromStorage} from "../../../utils/Storage";
-import axios from "axios";
+
 import SupervisorDetails from "./SupervisorDetails";
-const backendURI = require('../../shared/BackendURI');
 
 class RequestSupervisor extends Component {
 
