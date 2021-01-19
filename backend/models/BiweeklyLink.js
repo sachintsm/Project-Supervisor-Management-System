@@ -17,7 +17,6 @@ var biweekly = Schema({
      toLateSubmision:{type: Boolean},
      submssionFileSize: { type:String},
      setFileLimit: { type:String}
-
 });
 
 const BiweeklyLink = mongoose.model('biweeekly', biweekly);

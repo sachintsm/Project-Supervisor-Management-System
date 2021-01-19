@@ -16,7 +16,6 @@ var biweeksubmissions = Schema({
     biweeklyDiscription : {type: String},
     deadDate : {type: String},
     deadTime : {type: String},
-
 });
 
 const BiweekSubmissions = mongoose.model('biweeksubmissions', biweeksubmissions);

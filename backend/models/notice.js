@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.schema;
 
 var noticeSchema = mongoose.Schema({
-  
   userType:{ type: String},
   userId:{ type: String },
   projectId:{type:String},

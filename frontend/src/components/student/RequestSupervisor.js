@@ -274,7 +274,7 @@ export default class Profile extends Component {
             let filteredStatus = this.state.reqSt.filter(
                 (currentStatus) => {
                     console.log(currentStatus.state);
-                    return currentStatus. projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                    return currentStatus.projectType.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
                 }
             );
     
@@ -297,7 +297,7 @@ export default class Profile extends Component {
                     .then(res => {
                         
                         console.log(res.data)
-                        if(res.data.state==true){
+                        if(res.data.state===true){
                             this.setState({
                                 sId:sup
                             })
@@ -329,7 +329,7 @@ export default class Profile extends Component {
         axios.get(backendURI.url + "/users/getSupPro/"+sup)
                     .then(res => {
                         console.log(res.data.data);
-                        if(res.data.state==true){
+                        if(res.data.state===true){
                             this.setState({
                                 pro:res.data.data
                             })
@@ -379,7 +379,7 @@ export default class Profile extends Component {
                     .then(res => {
                         
                         console.log(res.data)
-                        if(res.data.state==true){
+                        if(res.data.state===true){
                             this.setState({
                                 snackbaropen: true,
                                 snackbarmsg: res.data.msg,

@@ -7,7 +7,6 @@ var presentationFeedback = Schema({
     groupId: {type: String},
     presentationName: {type: String},
     feedback: {type: String},
-
 });
 
 const PresentationFeedback = mongoose.model('presentationFeedback', presentationFeedback);
