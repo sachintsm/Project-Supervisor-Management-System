@@ -1,31 +1,17 @@
 import React, { Component } from "react";
-
 import { verifyAuth } from "../../../utils/Authentication";
-
 import Navbar from "../../shared/Navbar";
-
 import Footer from "../../shared/Footer";
-
 import "react-circular-progressbar/dist/styles.css";
-
 import axios from "axios";
-
 import { getFromStorage } from "../../../utils/Storage";
-
 import Snackpop from "../../shared/Snackpop";
-
 import Tab from "react-bootstrap/Tab";
-
 import Tabs from "react-bootstrap/Tabs";
-
 import { Table } from "react-bootstrap";
-
 import ConfirmMeetings from "./ConfirmMeetings";
-
 import "../../../css/supervisor/Meeting.scss";
-
 import UrgentMeeting from "./UrgentMeetings";
-
 import { confirmAlert } from "react-confirm-alert";
 
 const backendURI = require("../../shared/BackendURI");
@@ -59,32 +45,21 @@ class ViewMeetings extends Component {
 
     this.state = {
       snackbaropen: false,
-
       snackbarmsg: "",
-
       snackbarcolor: "",
 
       groupId: this.props.location.state.groupDetails._id,
-
       groupNumber: this.props.location.state.groupDetails.groupId,
-
       purpose: "",
-
       time: "",
       link: "",
 
       supervisor: "",
-
       super: "",
-
       supervisorN: [],
-
       superOptionList: [],
-
       selectValue: "",
-
       meetings: [],
-
       urgentMeetings: [],
     };
 
@@ -245,15 +220,6 @@ class ViewMeetings extends Component {
           {/* ************************************************************************************************************************************************************************** */}
 
           <div className="row">
-            {/* <div className="col-md-2" style={{ backgroundColor: "#1c2431" }}>
-
- 
-
-                            <Sidebar />
-
- 
-
-                        </div> */}
 
             <div className="col-md-12" style={{ minHeight: "600px" }}>
               <div className="container">

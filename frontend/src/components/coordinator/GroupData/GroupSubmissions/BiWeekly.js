@@ -62,7 +62,7 @@ class BiWeekly extends Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <Footer />
+            <Footer />
             </div>
         );
     }

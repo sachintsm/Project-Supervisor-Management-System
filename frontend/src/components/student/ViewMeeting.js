@@ -8,6 +8,7 @@ import ViewMeetBlock from "./ViewMeetBlock";
 import ViewUrgentBlock from "./ViewUrgentBlock";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+
 const backendURI = require("../shared/BackendURI");
 
 class meetBlock {
@@ -135,6 +136,7 @@ class ViewMeeting extends Component {
       viewMeetDiv: true,
     });
   };
+
 
   render() {
     const { viewMeetDiv, loading, loading2 } = this.state;

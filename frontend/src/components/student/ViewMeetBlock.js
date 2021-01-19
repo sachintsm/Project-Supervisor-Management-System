@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Col } from "reactstrap";
+import { Card } from "react-bootstrap";
 import "../../css/students/ViewMeeting.scss";
 import { Table } from "react-bootstrap";
 

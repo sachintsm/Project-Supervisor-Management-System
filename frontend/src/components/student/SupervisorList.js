@@ -18,7 +18,6 @@ class CoordinatorList extends Component {
 
     }
 
-
     componentDidMount() {
 
         this.getSupervisorList()

@@ -108,7 +108,6 @@ class UrgentMeeting extends Component {
   }
 
 
-
   render() {
     return (
       <div className="ug-meetings">

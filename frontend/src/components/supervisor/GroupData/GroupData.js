@@ -44,7 +44,6 @@ class GroupData extends Component {
             addStudentIndexError: '',
             addSupervisorIndexError: '',
 
-            // projectId : '',
         }
 
         this.onChangeAddStudentIndex = this.onChangeAddStudentIndex.bind(this)

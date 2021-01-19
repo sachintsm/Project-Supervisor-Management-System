@@ -81,7 +81,6 @@ app.use("/notice", notice);
 app.use('/createGroups', createGroups);
 app.use("/contactUs", contactUs);
 app.use("/indexInfo", indexInfo);
-// app.use("/customReg", customReg);
 app.use("/requestMeeting", requestMeeting);
 app.use("/progress", progress);
 app.use("/groupChat", groupChat);

@@ -18,6 +18,43 @@ const backendURI = require("./BackendURI");
 
 export default class Profile extends Component {
 
+    constructor(props) {
+        super(props);
+        this.onChangeFirstName = this.onChangeFirstName.bind(this);
+        this.onChangeLastName = this.onChangeLastName.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+        this.onChangeNic = this.onChangeNic.bind(this);
+        this.onChangeMobile = this.onChangeMobile.bind(this);
+        this.onChangeBirthday = this.onChangeBirthday.bind(this);
+        this.onChangeIndex = this.onChangeIndex.bind(this);
+        this.onChangeReg = this.onChangeReg.bind(this)
+        this.onSubmit = this.onSubmit.bind(this);
+
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            nic: '',
+            mobile: '',
+            birthday: '',
+            indexNum: '',
+            regNum: '',
+            student: false,
+            admin: false,
+            supervisor: false,
+            coordinator: false,
+            emailError: '',
+            mobileError: '',
+            snackbaropen: false,
+            snackbarmsg: '',
+            snackbarcolor: '',
+
+        }
+    }
+    closeAlert = () => {
+        this.setState({ snackbaropen: false });
+    };
+
     async componentDidMount() {
         const authState = await verifyAuth();
         const userData = getFromStorage('auth-id')
@@ -43,10 +80,10 @@ export default class Profile extends Component {
                         nic: response.data.data[0].nic,
                         mobile: response.data.data[0].mobile,
                         birthday: dateString,
-                        stu: response.data.data[0].isStudent,
+                        student: response.data.data[0].isStudent,
                         admin: response.data.data[0].isAdmin,
-                        sup: response.data.data[0].isSupervisor,
-                        cor: response.data.data[0].isCoordinator,
+                        supervisor: response.data.data[0].isSupervisor,
+                        coordinator: response.data.data[0].isCoordinator,
                         indexNum: response.data.data[0].indexNumber,
                         regNum: response.data.data[0].regNumber
                     })
@@ -57,42 +94,8 @@ export default class Profile extends Component {
         }
 
     }
-    constructor(props) {
-        super(props);
-        this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangeLastName = this.onChangeLastName.bind(this);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangeNic = this.onChangeNic.bind(this);
-        this.onChangeMobile = this.onChangeMobile.bind(this);
-        this.onChangeBirthday = this.onChangeBirthday.bind(this);
-        this.onChangeIndex = this.onChangeIndex.bind(this);
-        this.onChangeReg = this.onChangeReg.bind(this)
-        this.onSubmit = this.onSubmit.bind(this);
 
-        this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
-            nic: '',
-            mobile: '',
-            birthday: '',
-            indexNum: '',
-            regNum: '',
-            stu: false,
-            admin: false,
-            sup: false,
-            cor: false,
-            emailError: '',
-            mobileError: '',
-            snackbaropen: false,
-            snackbarmsg: '',
-            snackbarcolor: '',
 
-        }
-    }
-    closeAlert = () => {
-        this.setState({ snackbaropen: false });
-    };
     onChangeFirstName(e) {
         this.setState({
             firstName: e.target.value

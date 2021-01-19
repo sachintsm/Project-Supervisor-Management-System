@@ -24,7 +24,7 @@ class TaskProgressCard extends Component {
         })
     }
 
-
+    
     render() {
         return (
             <Container>

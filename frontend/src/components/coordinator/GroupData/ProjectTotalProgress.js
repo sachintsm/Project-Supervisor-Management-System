@@ -21,6 +21,7 @@ class ProjectTotalProgress extends Component {
             projectId: props.location.state.projectId,
             project: [],
         }
+
         this.getTotalProgress()
         this.individualProgressTask = this.individualProgressTask.bind(this);
     }
@@ -29,6 +30,7 @@ class ProjectTotalProgress extends Component {
         const headers = {
             'auth-token': getFromStorage('auth-token').token,
         }
+        
         axios.get(backendURI.url + '/progress/gettotalprogress/' + this.state.groupId, { headers: headers }).then(res => {
             let totalProgress = 0;
             if (res.data !== 'NaN') {

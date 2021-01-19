@@ -178,10 +178,7 @@ export default class CreateGroups extends Component {
             isError = true;
             errors.selectProjectError = 'Please select a project *'
         }
-        // if (this.state.groupId.length === 0) {
-        //     isError = true;
-        //     errors.groupIdError = 'Please specify group ID *'
-        // }
+        
         this.setState({
             ...this.state,
             ...errors
@@ -392,16 +389,7 @@ export default class CreateGroups extends Component {
                                                         </div>
                                                     </Col>
                                                 </Row>
-                                                {/* <Row>
-                                                    <Col>
-                                                        <div className="form-group">
-                                                            <input className="form-control" type="text" name="groupId" placeholder="Enter group id ..."
-                                                                onChange={this.onChangeGroupId} />
-
-                                                            <p className="reg-error">{this.state.groupIdError}</p>
-                                                        </div>
-                                                    </Col>
-                                                </Row> */}
+                            
 
                                                 <label className="text-label">Group Member Index: </label>
                                                 {

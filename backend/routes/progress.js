@@ -7,7 +7,6 @@ const ProgressTasks = require('../models/progresstasks');
 const User = require('../models/users');
 const ProgressUpdates = require('../models/progressupdates');
 
-
 //add project tasks
 router.post('/addtask', verify, async (req, res, next) => {
     try {
@@ -121,7 +120,6 @@ router.post('/getstudenttotalprogress/:studentIndex', async(req,res,next) =>{
                     let individualProgress = tasks[i].studentProgress[j]; // individual progress of the student
                     let taskTotalProgress = tasks[i].totalProgress; // task total progress
                     let individualContribution = individualProgress * tasks[i].taskWeight ;  // calculating individual contribution
-                    // let individualContribution = individualProgress*taskTotalProgress/100.00 * tasks[i].taskWeight ;  // calculating individual contribution
                     progress = progress + individualContribution;
                     totalWeight = totalWeight + tasks[i].taskWeight;
                 }

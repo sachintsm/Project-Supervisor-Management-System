@@ -127,7 +127,7 @@ export default class Groups extends Component {
     }
     //? opent the gropuData window
     groupDataHandler(data) {
-        if (this.state.mouseState == false) {
+        if (this.state.mouseState === false) {
             this.props.history.push('/coordinatorhome/groupData/' + data, { projectId: this.state.projectId });
         }
     }
@@ -185,7 +185,7 @@ export default class Groups extends Component {
     }
 
     render() {
-        const { spinnerDiv, dataDiv, mouseState } = this.state;
+        const { spinnerDiv, dataDiv} = this.state;
         let noProject;
         if (this.state.groupData.length === 0) {
             noProject = <p className="no-projects">No active groups...</p>

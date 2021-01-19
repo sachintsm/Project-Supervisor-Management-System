@@ -5,7 +5,6 @@ import '../css/admin/Login.css';
 import { setInStorage } from '../utils/Storage';
 import { toast } from 'react-toastify';
 import Snackpop from "./shared/Snackpop";
-import CustomRegistration from "./shared/CustomRegistration.js";
 import { Col, Row } from 'reactstrap'
 import {
   Button,

@@ -13,7 +13,6 @@ import { Card } from 'react-bootstrap';
 
 const backendURI = require('../BackendURI');
 
-
 class GroupChat extends Component {
 
     constructor(props) {
@@ -99,17 +98,10 @@ class GroupChat extends Component {
 
     handleSubmit = async (sender, content) => {
         const userId = getFromStorage('auth-id').id
-        // var profileImage = ''
-        // await axios.get(backendURI.url + '/users/getUserImage/' + userId)
-        //     .then(res => {
-        //         // console.log(res.data.data[0].imageName);
-        //         profileImage = res.data.data[0].imageName
-        //     })
+        
         let reqBody = {
             userId: userId,
-            // profileImage: profileImage,
             groupId: this.props.location.state.groupDetails._id,
-            // sender: this.state.userName,
             content: content
         }
         const headers = {
@@ -134,7 +126,6 @@ class GroupChat extends Component {
                             Chat Room
                         </Card.Header>
                         <Card.Body className="gd-card-body messages-container" 
-                       // style={{ overflow-y: 'auto', display: 'flex', flexDirection: 'column'}}
                         >
                             {
                                 this.state.dataDiv && this.state.messages.map(data => {

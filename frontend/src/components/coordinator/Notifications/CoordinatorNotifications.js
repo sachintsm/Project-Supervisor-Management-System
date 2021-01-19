@@ -5,7 +5,6 @@ import {getFromStorage} from "../../../utils/Storage";
 import { Row, Col, Card,Spinner, Container, Button } from 'react-bootstrap';
 import axios from "axios";
 import Snackpop from "../../shared/Snackpop";
-import RequestInfo from "../../student/formgroups/RequestInfo";
 import RequestDetails from "./RequestDetails";
 import { confirmAlert } from 'react-confirm-alert';
 

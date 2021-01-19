@@ -24,6 +24,7 @@ const marks = [
     { value: 9, label: '9', },
     { value: 10, label: '10', },
 ];
+
 const useStylesBootstrap1 = makeStyles((theme) => ({
     arrow: {
         color: "white",
@@ -34,6 +35,7 @@ const useStylesBootstrap1 = makeStyles((theme) => ({
         color: 'red'
     },
 }));
+
 function BootstrapTooltip1(props) {
     const classes = useStylesBootstrap1();
     return <Tooltip arrow classes={classes} {...props} />;

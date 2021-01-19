@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-
 import axios from "axios";
-
 import "react-confirm-alert/src/react-confirm-alert.css";
-
 import {
   Input,
   Label,
@@ -12,17 +9,11 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-
 import { Row, Col } from "reactstrap";
-
 import DatePicker from "react-datepicker";
-
 import { getFromStorage } from "../../../utils/Storage";
-
 import { verifyAuth } from "../../../utils/Authentication";
-
 import { meetingRequestConfirmEmail } from "../../shared/emailTemplates";
-
 import Snackpop from "../../shared/Snackpop";
 
 const backendURI = require("../../shared/BackendURI");
@@ -37,32 +28,21 @@ export default class ConfirmMeeting extends Component {
 
     this.state = {
       snackbaropen: false,
-
       snackbarmsg: "",
-
       snackbarcolor: "",
 
       item: this.props.project,
-
       group: this.props.group,
-
       groupId: "",
-
       groupEmail: "",
       groupNumber: "",
 
       purpose: "",
-
       supervisor: "",
-
       super: "",
-
       meetId: this.props.data,
-
       project: "",
-
       date: new Date(),
-
       time: "",
       link:"",
     };

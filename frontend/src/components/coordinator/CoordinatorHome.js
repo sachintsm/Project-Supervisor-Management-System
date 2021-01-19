@@ -266,7 +266,6 @@ class CoordinatorHome extends Component {
                   <Row className="container">
                     <Col md={10}>
                       <Row>
-
                         <Col md={3}>
                           <Button className="btn ch-btn-btn" onClick={() => this.supervisors(data._id)}>Supervisors</Button>
                         </Col>

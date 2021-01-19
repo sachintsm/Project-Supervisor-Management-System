@@ -96,8 +96,6 @@ export default class IndividualTotalProgress extends Component {
                         </Col>
                     </Row>
                 </div>
-
-
             </div>
         );
     }

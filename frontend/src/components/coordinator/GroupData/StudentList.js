@@ -34,6 +34,7 @@ class StudentList extends Component {
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
+
     componentDidMount = async () => {
         this.setState({
             studentList: []
@@ -58,6 +59,7 @@ class StudentList extends Component {
                 }
             })
     }
+    
     delete(data) {
         let index = data
         confirmAlert({

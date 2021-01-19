@@ -54,14 +54,17 @@ class GroupData extends Component {
         this.openProposal = this.openProposal.bind(this)
         this.openPresentation = this.openPresentation.bind(this)
     }
+
     closeAlert = () => {
         this.setState({ snackbaropen: false });
     };
+
     setSelected(obj) {
         this.setState({
             selectedStaffList: obj,
         });
     }
+
     componentDidMount = async () => {
         const authState = await verifyAuth();
         this.setState({
