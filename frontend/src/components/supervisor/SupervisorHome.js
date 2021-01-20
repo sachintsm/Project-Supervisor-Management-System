@@ -1,19 +1,28 @@
 import React, { Component } from "react";
 import { verifyAuth } from "../../utils/Authentication";
 import Navbar from "../shared/Navbar";
-import '../../css/supervisor/SupervisorHome.scss'
+import "../../css/supervisor/SupervisorHome.scss";
 import Footer from "../shared/Footer";
-import 'react-circular-progressbar/dist/styles.css';
-import axios from 'axios';
-import { getFromStorage } from '../../utils/Storage';
+import "react-circular-progressbar/dist/styles.css";
+import axios from "axios";
+import { getFromStorage } from "../../utils/Storage";
 import Snackpop from "../shared/Snackpop";
-import { Row, Col } from 'reactstrap';
-import { Spinner } from 'react-bootstrap'
+import { Row, Col } from "reactstrap";
+import { Spinner } from "react-bootstrap";
 import GroupList from "./GroupList";
-const backendURI = require('../shared/BackendURI');
+const backendURI = require("../shared/BackendURI");
 
 class groupDataBlock {
-  constructor(_id, groupId, groupName, projectId,groupEmail, groupMembers, supervisors, progress) {
+  constructor(
+    _id,
+    groupId,
+    groupName,
+    projectId,
+    groupEmail,
+    groupMembers,
+    supervisors,
+    progress
+  ) {
     this._id = _id;
     this.groupId = groupId;
     this.groupName = groupName;
@@ -22,7 +31,6 @@ class groupDataBlock {
     this.groupMembers = groupMembers;
     this.supervisors = supervisors;
     this.progress = progress;
-
   }
 }
 class finalBlock {
@@ -33,107 +41,135 @@ class finalBlock {
   }
 }
 class SupervisorHome extends Component {
-
   constructor(props) {
-    localStorage.setItem("user-level", "supervisor")
+    localStorage.setItem("user-level", "supervisor");
     super(props);
     this.state = {
       snackbaropen: false,
-      snackbarmsg: '',
-      snackbarcolor: '',
+      snackbarmsg: "",
+      snackbarcolor: "",
 
-      authState: '',
+      authState: "",
       activeProjects: [],
       proId: "",
       groupDataBlock: [],
       activeProject: [],
 
-      superName: '',
+      superName: "",
       spinnerDiv1: true,
 
-      userId: '',
+      userId: "",
 
       finalBlock: [],
-      emptyMessage: '',
-    }
-
+      emptyMessage: "",
+    };
   }
 
   componentDidMount = async () => {
-    localStorage.setItem("user-level", "supervisor")
+    localStorage.setItem("user-level", "supervisor");
 
     const authState = await verifyAuth();
 
     this.setState({
       authState: authState,
       groupDataBlock: [],
-      finalBlock: []
+      finalBlock: [],
     });
-    if (!authState) {  //!check user is logged in or not if not re-directed to the login form
+    if (!authState) {
+      //!check user is logged in or not if not re-directed to the login form
       this.props.history.push("/");
     }
 
-    const headers = {
-      'auth-token': getFromStorage('auth-token').token,
-    }
-    const userId = getFromStorage('auth-id').id
+    const userId = getFromStorage("auth-id").id;
     this.setState({
       userId: userId,
-    })
+    });
 
     //! get active project the this supervosor In
-    await axios.get(backendURI.url + '/projects/getAllActiveProjectDataS/' + this.state.userId)
-      .then(async res => {
-        if (res.data.data.length == 0) {
+    await axios
+      .get(
+        backendURI.url +
+          "/projects/getAllActiveProjectDataS/" +
+          this.state.userId
+      )
+      .then(async (res) => {
+        if (res.data.data.length === 0) {
           this.setState({
-            emptyMessage: 'No active projects!'
-          })
+            emptyMessage: "No active projects!",
+          });
         }
-        this.setState({ activeProjects: res.data.data })
+        this.setState({ activeProjects: res.data.data });
         for (let i = 0; i < this.state.activeProjects.length; i++) {
-
           //! project name
-          var projId = this.state.activeProjects[i]._id
-          var projName = this.state.activeProjects[i].projectYear + " " + this.state.activeProjects[i].projectType + " " + this.state.activeProjects[i].academicYear
+          var projId = this.state.activeProjects[i]._id;
+          var projName =
+            this.state.activeProjects[i].projectYear +
+            " " +
+            this.state.activeProjects[i].projectType +
+            " " +
+            this.state.activeProjects[i].academicYear;
 
           const data = {
             projectId: projId,
-            supervisorId: this.state.userId
-          }
+            supervisorId: this.state.userId,
+          };
 
           //? load all the active project names from
-          await axios.post(backendURI.url + '/createGroups/active&groups/', data)
-            .then(async res => {
-
+          await axios
+            .post(backendURI.url + "/createGroups/active&groups/", data)
+            .then(async (res) => {
               this.setState({
                 activeProject: res.data.data,
-              })
+              });
 
               for (let i = 0; i < this.state.activeProject.length; i++) {
                 if (this.state.activeProject[i].supervisors.length !== 0) {
-                  var array1 = []; //supervisor data
+                  let array1 = []; //supervisor data
                   var array2 = []; //student data
 
-                  for (let k = 0; k < this.state.activeProject[i].groupMembers.length; k++) {
-                    var newMember = this.state.activeProject[i].groupMembers[k] + ', '
-                    array2.push(newMember)
+                  for (
+                    let k = 0;
+                    k < this.state.activeProject[i].groupMembers.length;
+                    k++
+                  ) {
+                    var newMember =
+                      this.state.activeProject[i].groupMembers[k] + ", ";
+                    array2.push(newMember);
                   }
 
-                  for (let j = 0; j < this.state.activeProject[i].supervisors.length; j++) {
-                    await axios.get(backendURI.url + '/users/getUser/' + this.state.activeProject[i].supervisors[j])
-                      .then(res => {
-                        var newSupervisor = res.data.data.firstName + ' ' + res.data.data.lastName + ", "
+                  for (
+                    let j = 0;
+                    j < this.state.activeProject[i].supervisors.length;
+                    j++
+                  ) {
+                    await axios
+                      .get(
+                        backendURI.url +
+                          "/users/getUser/" +
+                          this.state.activeProject[i].supervisors[j]
+                      )
+                      .then((res) => {
+                        var newSupervisor =
+                          res.data.data.firstName +
+                          " " +
+                          res.data.data.lastName +
+                          ", ";
                         array1.push(newSupervisor);
-                      })
+                      });
                   }
 
-                  var progress = 0;
-                  await axios.get(backendURI.url + '/progress/gettotalprogress/' + this.state.activeProject[i]._id)
-                    .then(res => {
-                      if (res.data !== 'NaN') {
-                        progress = res.data
+                  let progress = 0;
+                  await axios
+                    .get(
+                      backendURI.url +
+                        "/progress/gettotalprogress/" +
+                        this.state.activeProject[i]._id
+                    )
+                    .then((res) => {
+                      if (res.data !== "NaN") {
+                        progress = res.data;
                       }
-                    })
+                    });
                   var block = new groupDataBlock(
                     this.state.activeProject[i]._id,
                     this.state.activeProject[i].groupId,
@@ -143,44 +179,48 @@ class SupervisorHome extends Component {
                     array2,
                     array1,
                     progress
-                  )
+                  );
 
                   this.setState({
                     groupDataBlock: [...this.state.groupDataBlock, block],
-                    spinnerDiv1: false
-                  })
+                    spinnerDiv1: false,
+                  });
                 }
               }
-            })
+            });
 
-          var block2 = new finalBlock(projId, projName, this.state.groupDataBlock)
+          var block2 = new finalBlock(
+            projId,
+            projName,
+            this.state.groupDataBlock
+          );
           this.setState({
             finalBlock: [...this.state.finalBlock, block2],
-            groupDataBlock: []
-          })
-
+            groupDataBlock: [],
+          });
         }
-      })
+      });
 
+    await axios
+      .get(
+        backendURI.url + "/projects/getAllEndProjectData/" + this.state.userId
+      )
+      .then((res) => {
+        this.setState({ endProjects: res.data.data });
+      });
 
-    await axios.get(backendURI.url + '/projects/getAllEndProjectData/' + this.state.userId)
-      .then(res => {
-        this.setState({ endProjects: res.data.data })
-
-      })
-
-    await axios.get(backendURI.url + '/users/getUserName/' + this.state.userId)
-      .then(res => {
-        var superName = res.data.data[0].firstName + ' ' + res.data.data[0].lastName;
+    await axios
+      .get(backendURI.url + "/users/getUserName/" + this.state.userId)
+      .then((res) => {
+        var superName =
+          res.data.data[0].firstName + " " + res.data.data[0].lastName;
         this.setState({
-          superName: superName
-        })
-      })
-
-  }
+          superName: superName,
+        });
+      });
+  };
   render() {
-
-    const { spinnerDiv1 } = this.state;   // ?load projects to dropdown menu this coordinator
+    const { spinnerDiv1 } = this.state; // ?load projects to dropdown menu this coordinator
     return (
       <div className="sh-fullpage">
         <Navbar panel={"supervisor"} />
@@ -192,15 +232,27 @@ class SupervisorHome extends Component {
             status={this.state.snackbaropen}
             closeAlert={this.closeAlert}
           />
-          <div>
-            {/* <p className="sd-topic">{this.state.superName}</p> */}
-          </div>
+          <div>{/* <p className="sd-topic">{this.state.superName}</p> */}</div>
           <div className="container">
-            <p style={{ textalign: "left", color: " #6d6d6d", marginTop: "100px", textAlign: "center", marginBottom: "-100px" }}>{this.state.emptyMessage}</p>
+            <p
+              style={{
+                textalign: "left",
+                color: " #6d6d6d",
+                marginTop: "100px",
+                textAlign: "center",
+                marginBottom: "-100px",
+              }}
+            >
+              {this.state.emptyMessage}
+            </p>
             <Row className="card-row-sh">
               {spinnerDiv1 && (
                 <div className="spinner">
-                  <Spinner style={{ marginBottom: "20px" }} animation="border" variant="info" />
+                  <Spinner
+                    style={{ marginBottom: "20px" }}
+                    animation="border"
+                    variant="info"
+                  />
                 </div>
               )}
 
@@ -209,15 +261,15 @@ class SupervisorHome extends Component {
                   <Col md={12} xs={12} sm={12} key={item.projId}>
                     <Row>
                       <Col md={12} xs={12} sm={12}>
-                        {item.groupDataBlock.length != 0 &&
+                        {item.groupDataBlock.length !== 0 && (
                           <p className="sh-project-name-hs">{item.projName}</p>
-                        }
+                        )}
                       </Col>
                     </Row>
 
                     <GroupList data={item.groupDataBlock} />
                   </Col>
-                )
+                );
               })}
             </Row>
           </div>

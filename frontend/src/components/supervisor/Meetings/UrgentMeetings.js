@@ -1,33 +1,38 @@
-import React, { Component } from 'react';
-import { Input, Label, Button, Modal, ModalHeader, ModalBody, Row, Col, } from 'reactstrap';
-import axios from 'axios';
+import React, { Component } from "react";
+import {
+  Input,
+  Label,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Row,
+  Col,
+} from "reactstrap";
+import axios from "axios";
 import Snackpop from "../../shared/Snackpop";
 import DatePicker from "react-datepicker";
-import TimeInput from 'material-ui-time-picker';
-import '../../../css/supervisor/Meeting.scss';
-import { getFromStorage } from '../../../utils/Storage';
+import "../../../css/supervisor/Meeting.scss";
+import { getFromStorage } from "../../../utils/Storage";
 
-const backendURI = require('../../shared/BackendURI');
+const backendURI = require("../../shared/BackendURI");
 
 class UrgentMeeting extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       snackbaropen: false,
-      snackbarmsg: '',
-      snackbarcolor: '',
+      snackbarmsg: "",
+      snackbarcolor: "",
       groupId: this.props.groupId,
       groupNumber: this.props.groupNumber,
       date: new Date(),
-      meetingTime: '',
-      link:'',
-    }
+      meetingTime: "",
+      link: "",
+    };
     this.createMeeting = this.createMeeting.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onLinkChange = this.onLinkChange.bind(this);
-
-
   }
 
   closeAlert = () => {
@@ -38,75 +43,71 @@ class UrgentMeeting extends Component {
       modal: !this.state.modal,
     });
   };
-  onChangeDate = date => {
-    this.setState(prevState => ({
-      date: date
-    }))
-  }
+  onChangeDate = (date) => {
+    this.setState((prevState) => ({
+      date: date,
+    }));
+  };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({
       purpose: e.target.value,
     });
   };
 
   onLinkChange(e) {
-    this.setState({  link : e.target.value })
-
+    this.setState({ link: e.target.value });
   }
 
   onTimeChange(e) {
-    this.setState({ meetingTime: e.target.value })
+    this.setState({ meetingTime: e.target.value });
     console.log(this.state.meetingTime);
-
   }
 
   createMeeting(e) {
     e.preventDefault();
-    if (this.state.meetingTime == '') {
+    if (this.state.meetingTime === "") {
       this.setState({
         snackbaropen: true,
         snackbarmsg: "Please set the time!",
-        snackbarcolor: 'error',
-      })
-    }
-
-    else {
+        snackbarcolor: "error",
+      });
+    } else {
       const obj = {
         purpose: this.state.purpose,
         date: this.state.date,
         time: this.state.meetingTime,
         link: this.state.link,
-        supervisor: getFromStorage('auth-id').id,
+        supervisor: getFromStorage("auth-id").id,
         groupId: this.state.groupId,
-        groupNumber: this.state.groupNumber
-      }
+        groupNumber: this.state.groupNumber,
+      };
       const headers = {
-        'auth-token': getFromStorage('auth-token').token,
-      }
+        "auth-token": getFromStorage("auth-token").token,
+      };
 
-      axios.post(backendURI.url + '/requestMeeting/urgentMeeting', obj, { headers: headers })
-        .then(res => {
+      axios
+        .post(backendURI.url + "/requestMeeting/urgentMeeting", obj, {
+          headers: headers,
+        })
+        .then((res) => {
           if (res.data.state === true) {
             this.setState({
               snackbaropen: true,
               snackbarmsg: res.data.msg,
-              snackbarcolor: 'success',
-            })
+              snackbarcolor: "success",
+            });
             window.location.reload(false);
-          }
-
-          else {
+          } else {
             this.setState({
               snackbaropen: true,
               snackbarmsg: res.data.msg,
-              snackbarcolor: 'error',
-            })
+              snackbarcolor: "error",
+            });
           }
-        })
+        });
     }
   }
-
 
   render() {
     return (
@@ -118,17 +119,24 @@ class UrgentMeeting extends Component {
           status={this.state.snackbaropen}
           closeAlert={this.closeAlert}
         />
-        <button className="btn btn-info urgentMeeting" onClick={this.toggle}>New Urgent Meeting</button>
+        <button className="btn btn-info urgentMeeting" onClick={this.toggle}>
+          New Urgent Meeting
+        </button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>New Urgent Meeting</ModalHeader>
           <ModalBody>
             <div className="container">
-              <div className="row">
-              </div><div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
+              <div className="row"></div>
+              <div style={{ width: "100%", margin: "auto", marginTop: "20px" }}>
                 <form onSubmit={this.createMeeting}>
                   <div className="form-group">
                     <Label for="avatar">Purpose</Label>
-                    <Input type="textarea" className="form-control" name="purpose" onChange={this.onChange} />
+                    <Input
+                      type="textarea"
+                      className="form-control"
+                      name="purpose"
+                      onChange={this.onChange}
+                    />
                   </div>
                   <Row>
                     <Col>
@@ -147,16 +155,29 @@ class UrgentMeeting extends Component {
                     <Col>
                       <div className="form-group">
                         <label className="text-label">Time </label>
-                        <input className="form-control" type="time" name="time" onChange={this.onTimeChange}></input>
+                        <input
+                          className="form-control"
+                          type="time"
+                          name="time"
+                          onChange={this.onTimeChange}
+                        ></input>
                       </div>
                     </Col>
                   </Row>
                   <div className="form-group">
                     <Label for="avatar">Link</Label>
-                    <Input a type="textarea" className="form-control" name="link" onChange={this.onLinkChange} />
+                    <Input
+                      a
+                      type="textarea"
+                      className="form-control"
+                      name="link"
+                      onChange={this.onLinkChange}
+                    />
                   </div>
                   <div className="form-group">
-                    <Button className="btn btn-info" type="submit" block>Create Meeting</Button>
+                    <Button className="btn btn-info" type="submit" block>
+                      Create Meeting
+                    </Button>
                   </div>
                 </form>
               </div>
@@ -166,10 +187,6 @@ class UrgentMeeting extends Component {
       </div>
     );
   }
-
 }
 
-
-
 export default UrgentMeeting;
-
