@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import { Form } from 'reactstrap';
-import '../css/admin/Login.css';
-import { setInStorage } from '../utils/Storage';
-import { toast } from 'react-toastify';
+import React, { Component } from "react";
+import Card from "@material-ui/core/Card";
+import { Form } from "reactstrap";
+import "../css/admin/Login.css";
+import { setInStorage } from "../utils/Storage";
+import { toast } from "react-toastify";
 import Snackpop from "./shared/Snackpop";
-import { Col, Row } from 'reactstrap'
+import { Col, Row } from "reactstrap";
 import {
   Button,
   FormControl,
   FormGroup,
   FormLabel,
   InputGroup,
-} from 'react-bootstrap';
-import { FiMail, FiLock } from 'react-icons/fi';
-import LoginContactus from './shared/LogninContactus';
+} from "react-bootstrap";
+import { FiMail, FiLock } from "react-icons/fi";
+import LoginContactus from "./shared/LogninContactus";
 import { Animated } from "react-animated-css";
 
-const backendURI = require('./shared/BackendURI');
+const backendURI = require("./shared/BackendURI");
 
 export default class login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      token: '',
-      signUpError: '',
-      signInError: '',
-      masterError: '',
-      email: '',
-      password: '',
+      token: "",
+      signUpError: "",
+      signInError: "",
+      masterError: "",
+      email: "",
+      password: "",
       loginError: false,
       emailChange: false,
       passwordChange: false,
@@ -45,7 +45,7 @@ export default class login extends Component {
   onChangeEmail(e) {
     this.setState({
       email: e.target.value,
-      emailChange: true
+      emailChange: true,
     });
   }
 
@@ -58,7 +58,7 @@ export default class login extends Component {
   onChangePassword(e) {
     this.setState({
       password: e.target.value,
-      passwordChange: true
+      passwordChange: true,
     });
   }
   closeAlert = () => {
@@ -68,14 +68,13 @@ export default class login extends Component {
   };
 
   onSignIn(e) {
-
     e.preventDefault();
     const { email, password } = this.state;
 
-    fetch(backendURI.url + '/users/login', {
-      method: 'POST',
+    fetch(backendURI.url + "/users/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: email,
@@ -85,39 +84,39 @@ export default class login extends Component {
       .then((res) => res.json())
       .then((json) => {
         if (json.state) {
-          setInStorage('auth-token', { token: json.token });
-          setInStorage('auth-id', { id: json.userId });
+          setInStorage("auth-token", { token: json.token });
+          setInStorage("auth-id", { id: json.userId });
           this.setState({
             signInError: json.msg,
-            password: '',
-            userId: '',
+            password: "",
+            userId: "",
             token: json.token,
           });
           if (json.isAdmin) {
-            localStorage.setItem("user-level", "admin")
-            setInStorage('isAdmin', true);
+            localStorage.setItem("user-level", "admin");
+            setInStorage("isAdmin", true);
           }
           if (json.isStudent) {
-            localStorage.setItem("user-level", "student")
-            setInStorage('isStudent', true);
+            localStorage.setItem("user-level", "student");
+            setInStorage("isStudent", true);
           }
           if (json.isSupervisor) {
-            localStorage.setItem("user-level", "supervisor")
-            setInStorage('isSupervisor', true);
+            localStorage.setItem("user-level", "supervisor");
+            setInStorage("isSupervisor", true);
           }
           if (json.isCoordinator) {
-            localStorage.setItem("user-level", "coordinator")
-            setInStorage('isCoordinator', true);
+            localStorage.setItem("user-level", "coordinator");
+            setInStorage("isCoordinator", true);
           }
 
           if (json.isAdmin) {
-            this.props.history.push('/adminhome');
+            this.props.history.push("/adminhome");
           } else if (json.isCoordinator) {
-            this.props.history.push('/coordinatorhome');
+            this.props.history.push("/coordinatorhome");
           } else if (json.isSupervisor) {
-            this.props.history.push('/supervisorhome');
+            this.props.history.push("/supervisorhome");
           } else if (json.isStudent) {
-            this.props.history.push('/studenthome');
+            this.props.history.push("/studenthome");
           }
         } else {
           this.setState({
@@ -135,34 +134,40 @@ export default class login extends Component {
   componentDidMount() {
     this.setState({
       spinnerDiv: true,
-      loginDiv: false
-    })
-
+      loginDiv: false,
+    });
 
     setTimeout(() => {
       this.setState({
         spinnerDiv: false,
-        loginDiv: true
-      })
+        loginDiv: true,
+      });
     }, 2000);
   }
 
   onRegister = () => {
-    this.props.history.push('/customregistration');
-  }
+    this.props.history.push("/customregistration");
+  };
 
   render() {
-    const { spinnerDiv, loginDiv } = this.state
+    const { spinnerDiv, loginDiv } = this.state;
     return (
       <div>
-
         {spinnerDiv && (
-          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true} animationInDuration={1000}>
+          <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+            animationInDuration={1000}
+          >
             <div>
               <div className="logo-div">
                 <div className="row">
-                  <img alt='background' src={require('../assets/logo/Project Logo.png')} className='white-logo' />
-
+                  <img
+                    alt="background"
+                    src={require("../assets/logo/Project Logo.png")}
+                    className="white-logo"
+                  />
                 </div>
                 <div className="row">
                   <div className="spinner-loading">
@@ -170,25 +175,29 @@ export default class login extends Component {
                     <div className="double-bounce2"></div>
                   </div>
                 </div>
-
               </div>
             </div>
           </Animated>
         )}
 
-
         {loginDiv && (
-          <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true} animationInDuration={2000} >
+          <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+            animationInDuration={2000}
+          >
             <div>
               <div
-                className='container-fluid login-page'
+                className="container-fluid login-page"
                 style={{
-                  backgroundImage: `url(${require('../assets/backgrounds/b1.jpg')})`,
-                }}></div>
+                  backgroundImage: `url(${require("../assets/backgrounds/b1.jpg")})`,
+                }}
+              ></div>
 
-              < Snackpop
-                msg={'Invalid Credentials'}
-                color={'error'}
+              <Snackpop
+                msg={"Invalid Credentials"}
+                color={"error"}
                 time={3000}
                 status={this.state.loginError}
                 closeAlert={this.closeAlert}
@@ -196,32 +205,53 @@ export default class login extends Component {
               />
 
               {/*<ToastContainer hideProgressBar={true} transition={Slide} />*/}
-              <div data-testid="login" className='row login-panel vertical-center login-card-div'>
-                <div className='container abc'>
+              <div
+                data-testid="login"
+                className="row login-panel vertical-center login-card-div"
+              >
+                <div className="container abc">
                   <Row>
                     <Col md={2} lg={3} xs={0} sm={0}></Col>
                     <Col md={8} lg={6} xs={12} sm={12}>
-                      <Card className='login-card'>
-                        <div style={{ textAlign: 'center' }}>
-                          <img alt='background' src={require('../assets/logo/Project Logo.png')} className='logo' />
+                      <Card className="login-card">
+                        <div style={{ textAlign: "center" }}>
+                          <img
+                            alt="background"
+                            src={require("../assets/logo/Project Logo.png")}
+                            className="logo"
+                          />
                         </div>
                         <Form onSubmit={this.onSignIn}>
                           <FormGroup className="form-group-1">
                             <FormLabel className="cp-text">Email</FormLabel>
-                            <InputGroup className='mb-3'>
+                            <InputGroup className="mb-3">
                               <InputGroup.Prepend className="email-icon">
-                                <InputGroup.Text id='basic-addon1'>
-                                  <FiMail className="email-icon2" size='1.5rem'></FiMail>
+                                <InputGroup.Text id="basic-addon1">
+                                  <FiMail
+                                    className="email-icon2"
+                                    size="1.5rem"
+                                  ></FiMail>
                                 </InputGroup.Text>
                               </InputGroup.Prepend>
 
                               <FormControl
                                 className="email-formcontrol"
-                                style={{ borderColor: this.state.emailChange ? this.state.email === '' ? 'red' : null : null }}
-                                type='email'
+                                style={{
+                                  borderColor: this.state.emailChange
+                                    ? this.state.email === ""
+                                      ? "red"
+                                      : null
+                                    : null,
+                                }}
+                                type="email"
                                 onChange={this.onChangeEmail}
-                                aria-describedby='basic-addon1'
-                                placeholder={this.state.emailChange && this.state.email === '' ? "Please enter an Email" : null}
+                                aria-describedby="basic-addon1"
+                                placeholder={
+                                  this.state.emailChange &&
+                                  this.state.email === ""
+                                    ? "Please enter an Email"
+                                    : null
+                                }
                               />
                             </InputGroup>
                           </FormGroup>
@@ -229,44 +259,76 @@ export default class login extends Component {
                           <FormGroup className="form-group-2">
                             <FormLabel className="cp-text">Password</FormLabel>
 
-                            <InputGroup className='mb-3'>
+                            <InputGroup className="mb-3">
                               <InputGroup.Prepend className="login-password-icon">
-                                <InputGroup.Text id='basic-addon1'>
-                                  <FiLock size='1.5rem' className="password-icon2"></FiLock>
+                                <InputGroup.Text id="basic-addon1">
+                                  <FiLock
+                                    size="1.5rem"
+                                    className="password-icon2"
+                                  ></FiLock>
                                 </InputGroup.Text>
                               </InputGroup.Prepend>
                               <FormControl
                                 className="password-formcontrol"
-                                style={{ borderColor: this.state.passwordChange ? this.state.password === '' ? 'red' : null : null }}
-                                type='password'
+                                style={{
+                                  borderColor: this.state.passwordChange
+                                    ? this.state.password === ""
+                                      ? "red"
+                                      : null
+                                    : null,
+                                }}
+                                type="password"
                                 onChange={this.onChangePassword}
-                                placeholder={this.state.passwordChange && this.state.password === '' ? "Please enter a Password" : null}
+                                placeholder={
+                                  this.state.passwordChange &&
+                                  this.state.password === ""
+                                    ? "Please enter a Password"
+                                    : null
+                                }
                               />
                             </InputGroup>
                           </FormGroup>
-                          <div className='row btn-div'>
-                            <Button type="submit" className="login-btn" variant='primary'>Login </Button>
+                          <div className="row btn-div">
+                            <Button
+                              type="submit"
+                              className="login-btn"
+                              variant="primary"
+                            >
+                              Login{" "}
+                            </Button>
                           </div>
                         </Form>
                         <div>
                           <Row className="lg-problem">
                             <Col lg={12} md={12} xs={12} sm={12}>
-                              <p className="lg-problem-text">Don't have an account?
-                              <label className="lg-problem-admin" onClick={this.onRegister}> &nbsp;Sign Up Now</label>
+                              <p className="lg-problem-text">
+                                Don't have an account?
+                                <label
+                                  className="lg-problem-admin"
+                                  onClick={this.onRegister}
+                                >
+                                  {" "}
+                                  &nbsp;Sign Up Now
+                                </label>
                               </p>
                             </Col>
-
                           </Row>
                         </div>
                         <div>
                           <Row className="lg-problem">
                             <Col lg={12} md={12} xs={12} sm={12}>
-
-                              <p className="lg-problem-text" style={{ marginTop: "-40px", marginBottom: "-50px" }}>
-                                <a>
-                                  Problem with login?
-                                </a>
-                                <label className="lg-problem-admin">&nbsp; <LoginContactus /></label></p>
+                              <p
+                                className="lg-problem-text"
+                                style={{
+                                  marginTop: "-40px",
+                                  marginBottom: "-50px",
+                                }}
+                              >
+                                <a href="#0">Problem with login?</a>
+                                <label className="lg-problem-admin">
+                                  &nbsp; <LoginContactus />
+                                </label>
+                              </p>
                             </Col>
                           </Row>
                         </div>
@@ -274,13 +336,11 @@ export default class login extends Component {
                     </Col>
                     <Col md={2} lg={3} xs={0} sm={0}></Col>
                   </Row>
-
                 </div>
               </div>
             </div>
           </Animated>
         )}
-
       </div>
     );
   }

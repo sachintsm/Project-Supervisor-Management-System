@@ -1,105 +1,70 @@
-import React, { Component } from 'react';
-import { Col } from 'reactstrap'
-import { Card } from "react-bootstrap";
-import '../../css/students/ViewMeeting.scss';
-import { Table } from 'react-bootstrap'
+import React, { Component } from "react";
+import "../../css/students/ViewMeeting.scss";
+import { Table } from "react-bootstrap";
 
- class viewUrgentBlock extends Component {
+class viewUrgentBlock extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
+    this.state = {
+      meetData: this.props.data,
+    };
+  }
 
-        super(props);
+  render() {
+    const { meetData } = this.state;
 
-        this.state = {
+    return (
+      <div style={{ marginTop: "20px" }}>
+        <Table hover className="as-table">
+          <thead>
+            <tr>
+              <th className="table-head">Supervisor</th>
 
-            meetData: this.props.data
+              <th className="table-head">Date</th>
 
-        }
-    }
+              <th className="table-head">Time</th>
 
-    render() {
+              <th className="table-head">Purpose</th>
+            </tr>
+          </thead>
 
-        const { meetData } = this.state;
+          <tbody>
+            {meetData.length > 0 &&
+              meetData.map((item, i) => {
+                return (
+                  <tr
+                    className="as-table-row"
+                    key={item.id}
+                    onClick={() => this.groupDataHandler(item.id)}
+                  >
+                    <td className="table-body">{item.supervisor}</td>
 
-        return (
+                    <td className="table-body">{item.date.substring(0, 10)}</td>
 
- 
+                    <td className="table-body">{item.time}</td>
 
-            <div style={{ marginTop: "20px" }}>
+                    <td className="table-body">{item.purpose}</td>
 
-                <Table hover className="as-table"  >
+                    {item.state === "pending" && (
+                      <td className="table-body" style={{ color: "orange" }}>
+                        {item.state}
+                      </td>
+                    )}
 
-                    <thead>
-
-                        <tr>
-
-                            <th className="table-head">Supervisor</th>
-
-                            <th className="table-head">Date</th>
-
-                            <th className="table-head">Time</th>
-
-                            <th className="table-head">Purpose</th>
-
-
- 
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {meetData.length > 0
-
-                            && meetData.map((item, i) => {
-
-                                return (
-
-                                    <tr className="as-table-row" key={item.id} onClick={() => this.groupDataHandler(item.id)}>
-
-                                        <td className="table-body">{item.supervisor}</td>
-
-                                        <td className="table-body">{item.date.substring(0, 10)}</td>
-
-                                        <td className="table-body">{item.time}</td>
-
-                                        <td className="table-body">{item.purpose}</td>
-
-                                        {item.state === 'pending' &&
-
-                                            <td className="table-body" style={{color : 'orange'}}>{item.state}</td>
-
- 
-
-                                        }
-
-                                         {item.state === 'confirmed' &&
-
-                                            <td className="table-body" style={{color : 'green'}}>{item.state}</td>
-
-                                        }
-
- 
-
-                                    </tr>
-
-                                )
-
-                            })}
-
-                    </tbody>
-
-                </Table>
-
-            </div>
-
-        )
-
-    }
-
+                    {item.state === "confirmed" && (
+                      <td className="table-body" style={{ color: "green" }}>
+                        {item.state}
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </div>
+    );
+  }
 }
-
- 
 
 export default viewUrgentBlock;

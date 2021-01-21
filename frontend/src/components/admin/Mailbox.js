@@ -1,34 +1,31 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
-import Navbar from '../shared/Navbar';
+
 import CardContent from "@material-ui/core/CardContent";
 import axios from "axios";
-import {Container, Col, Row} from "react-bootstrap";
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { Container, Col, Row } from "react-bootstrap";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { confirmAlert } from "react-confirm-alert";
-import { verifyAuth } from "../../utils/Authentication";
+
 import { getFromStorage } from "../../utils/Storage";
 import Snackpop from "../shared/Snackpop";
 
 const backendURI = require("../shared/BackendURI");
 
- class MailBox extends Component {
-
+class MailBox extends Component {
   constructor(props) {
-    super(props)
-    this.state = {MessageList: []}
+    super(props);
+    this.state = { MessageList: [] };
   }
 
   componentDidMount = async () => {
-    await axios.get(backendURI.url + '/contactUs')
-      .then(res => {
-        this.setState({ MessageList: res.data })
-      }) 
-  }
-  
+    await axios.get(backendURI.url + "/contactUs").then((res) => {
+      this.setState({ MessageList: res.data });
+    });
+  };
+
   //Delete a message
   onDeleteHandler = (id) => {
-
     confirmAlert({
       title: "Delete Mail",
       message: "Are you sure?",
@@ -36,12 +33,13 @@ const backendURI = require("../shared/BackendURI");
         {
           label: "Yes",
           onClick: async () => {
-
             const headers = {
-              'auth-token': getFromStorage('auth-token').token,
-            }
+              "auth-token": getFromStorage("auth-token").token,
+            };
             axios
-              .delete(backendURI.url + "/contactUs/mail_delete/" + id, { headers: headers })
+              .delete(backendURI.url + "/contactUs/mail_delete/" + id, {
+                headers: headers,
+              })
               .then((res) => {
                 this.setState({
                   deleteSuccesAlert: true,
@@ -51,13 +49,13 @@ const backendURI = require("../shared/BackendURI");
               .catch((err) => {
                 console.log(err);
               });
-          }
+          },
         },
         {
           label: "No",
-          onClick: () => { },
+          onClick: () => {},
         },
-     ],
+      ],
     });
   };
 
@@ -68,56 +66,71 @@ const backendURI = require("../shared/BackendURI");
     });
   };
 
-
-
-  render() {   
-      return (
-        <React.Fragment >
-        
+  render() {
+    return (
+      <React.Fragment>
         <Snackpop
-        msg={"Deleted Successfully.."}
-        color={"success"}
-        time={2000}
-        status={this.state.deleteSuccesAlert}
-        closeAlert={this.closeAlert}
-      />
+          msg={"Deleted Successfully.."}
+          color={"success"}
+          time={2000}
+          status={this.state.deleteSuccesAlert}
+          closeAlert={this.closeAlert}
+        />
 
-
-          <Container>
-              <div style={{ marginTop: "20px" }}>
-                <h3>Mail Box </h3>
-                <div>
-                  {this.state.MessageList.map(message => {
-                    return (
-                      <Card style={{ marginTop: "20px", marginBottom: "10px" }} key={message._id}>
-                        <Row>
-                          <Col xs="11">
-                            <CardContent style={{ paddingBottom: "2px" }}>
-                              <h6>{message.firstName} {message.lastName}</h6>
-                              </CardContent>
-                          </Col>
-                          <Col xs="1">
-                                <DeleteForeverIcon style={{marginTop:"5px"}} className="del-btn" fontSize="large"  onClick={() => this.onDeleteHandler(message._id)} />
-                          </Col>
-                        </Row>
-
-                      
-                        <CardContent style={{ paddingTop: "2px", fontWeight: "300" }}>
-                          {message.message}<br/>
-                          {message.contactNumber}<br/>
-                          {message.email}
+        <Container>
+          <div style={{ marginTop: "20px" }}>
+            <h3>Mail Box </h3>
+            <div>
+              {this.state.MessageList.map((message) => {
+                return (
+                  <Card
+                    style={{ marginTop: "20px", marginBottom: "10px" }}
+                    key={message._id}
+                  >
+                    <Row>
+                      <Col xs="11">
+                        <CardContent style={{ paddingBottom: "2px" }}>
+                          <h6>
+                            {message.firstName} {message.lastName}
+                          </h6>
                         </CardContent>
-                        <h6 style={{ color: "#6d6d6d", paddingLeft: "13px", fontSize: "2" }}><small>
-                         </small>
-                        </h6>                      
-                      </Card>
-                    );
-                  })}              
-                </div>
-              </div>
-          </Container>        
-        </React.Fragment>
-      )  
+                      </Col>
+                      <Col xs="1">
+                        <DeleteForeverIcon
+                          style={{ marginTop: "5px" }}
+                          className="del-btn"
+                          fontSize="large"
+                          onClick={() => this.onDeleteHandler(message._id)}
+                        />
+                      </Col>
+                    </Row>
+
+                    <CardContent
+                      style={{ paddingTop: "2px", fontWeight: "300" }}
+                    >
+                      {message.message}
+                      <br />
+                      {message.contactNumber}
+                      <br />
+                      {message.email}
+                    </CardContent>
+                    <h6
+                      style={{
+                        color: "#6d6d6d",
+                        paddingLeft: "13px",
+                        fontSize: "2",
+                      }}
+                    >
+                      <small></small>
+                    </h6>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </Container>
+      </React.Fragment>
+    );
   }
 }
 export default MailBox;

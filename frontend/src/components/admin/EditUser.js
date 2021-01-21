@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import IconButton from "@material-ui/core/IconButton";
 import Snackpop from "../shared/Snackpop";
 import axios from "axios";
 import Navbar from "../shared/Navbar";
@@ -8,15 +7,6 @@ import Footer from "../shared/Footer";
 import { passwordResetEmail } from "../shared/emailTemplates";
 import { confirmAlert } from "react-confirm-alert";
 import { verifyAuth } from "../../utils/Authentication";
-
-import {
-  Button,
-  Container,
-  Col,
-  Row,
-  FormControl,
-  Table,
-} from "react-bootstrap";
 
 const backendURI = require("../shared/BackendURI");
 
@@ -31,7 +21,7 @@ class EditUser extends Component {
       snackbaropen: false,
       snackbarmsg: "",
       snackbarcolor: "",
-      
+
       id: "",
       firstName: "",
       lastName: "",
@@ -53,7 +43,6 @@ class EditUser extends Component {
 
     this.ResetUserPassword = this.ResetUserPassword.bind(this);
   }
-
 
   closeAlert = () => {
     this.setState({ snackbaropen: false });
@@ -89,7 +78,7 @@ class EditUser extends Component {
   }
 
   onChange = (e) => {
-    e.persist = () => { };
+    e.persist = () => {};
     let store = this.state;
     store[e.target.name] = e.target.value;
     this.setState(store);
@@ -115,12 +104,14 @@ class EditUser extends Component {
         {
           label: "Yes",
           onClick: () => {
-
-            axios.post(
-                backendURI.url + "/users/updateUser/" + this.props.match.params.id,
+            axios
+              .post(
+                backendURI.url +
+                  "/users/updateUser/" +
+                  this.props.match.params.id,
                 obj
               )
-              .then(res => {
+              .then((res) => {
                 console.log(res.data.state);
                 if (res.data.state === true) {
                   this.setState({
@@ -137,15 +128,14 @@ class EditUser extends Component {
                 }
               });
 
-           // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
-           
-           
-           window.location.reload();
+            // this.props.history.push('/users/editprofile/' + this.props.match.params.id);
+
+            window.location.reload();
           },
         },
         {
           label: "No",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
@@ -159,28 +149,29 @@ class EditUser extends Component {
         {
           label: "Yes",
           onClick: () => {
-            axios.post(backendURI.url + "/users/updatePasswordA/" + data)
+            axios
+              .post(backendURI.url + "/users/updatePasswordA/" + data)
               .then(async (res) => {
                 // console.log(res.data));
 
                 if (res.data.state === true) {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: res.data.msg,
-                      snackbarcolor: "success",
-                    });
-                  } else {
-                    this.setState({
-                      snackbaropen: true,
-                      snackbarmsg: res.data.msg,
-                      snackbarcolor: "error",
-                    });
-                  }
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "success",
+                  });
+                } else {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "error",
+                  });
+                }
 
                 const email = await passwordResetEmail(
                   this.state.email,
                   this.state.firstName,
-                  this.state.lastName,
+                  this.state.lastName
                 );
                 axios
                   .post(backendURI.url + "/mail/sendmail", email)
@@ -190,12 +181,12 @@ class EditUser extends Component {
 
                 // this.props.history.push('adminhome/viewusers/');
                 window.location.reload();
-              })
+              });
           },
         },
         {
           label: "No",
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
@@ -207,7 +198,7 @@ class EditUser extends Component {
         <Navbar panel={"admin"} />
 
         <div className="container-fluid">
-        <Snackpop
+          <Snackpop
             msg={this.state.snackbarmsg}
             color={this.state.snackbarcolor}
             time={4000}
