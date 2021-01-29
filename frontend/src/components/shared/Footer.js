@@ -9,24 +9,32 @@ export default class footer extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-3" style={{ marginTop: " 30px" }}>
-              <div className="row">
-              </div>
+              <div className="row"></div>
 
-              <img style={{ width: '17rem' }} alt="" src={require('../../assets/logo/Project Logo white.png')} />
-
+              <img
+                style={{ width: "17rem" }}
+                alt=""
+                src={require("../../assets/logo/Project Logo white.png")}
+              />
             </div>
 
             <div className="col-md-6" style={{ marginTop: " 30px" }}>
               <p className="companey-name">About</p>
-              <p className="footer-text"><b>E Supervision</b> is an IT project supervision platform designed specifically for universities,
-              that will help improve the effectiveness of the procedures of projects undertaken by the students.
+              <p className="footer-text">
+                <b>E Supervision</b> is an IT project supervision platform
+                designed specifically for universities, that will help improve
+                the effectiveness of the procedures of projects undertaken by
+                the students.
               </p>
               <p className="footer-text">
-                To aid the students in successfully completing assigned projects, universities often assign supervisors,
-                mainly lecturers from the academic staff. E Supervision will take the supervising process to the next level,
-                providing access to both parties to collaborate anytime. Keeping track of the progress, approving or reviewing
-                submissions, student-supervisor meetings, will be a whole lot easier and efficient than ever before.
-                    </p>
+                To aid the students in successfully completing assigned
+                projects, universities often assign supervisors, mainly
+                lecturers from the academic staff. E Supervision will take the
+                supervising process to the next level, providing access to both
+                parties to collaborate anytime. Keeping track of the progress,
+                approving or reviewing submissions, student-supervisor meetings,
+                will be a whole lot easier and efficient than ever before.
+              </p>
             </div>
 
             <div className="col-md-3" style={{ marginTop: " 30px" }}>
@@ -42,9 +50,7 @@ export default class footer extends Component {
         </div>
         <div className="container">
           <p className="copyright">
-            Copyright &copy; 2020 e-Supervision Team.
-            All rights reserved
-            &reg;.
+            Copyright &copy; 2020 e-Supervision Team. All rights reserved &reg;.
           </p>
         </div>
       </div>

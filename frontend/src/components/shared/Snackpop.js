@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import React, { Component } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 class Snackpop extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Snackpop extends Component {
   }
 
   Alert(props) {
-    return <MuiAlert elevation={6} variant='filled' {...props} />;
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   render() {

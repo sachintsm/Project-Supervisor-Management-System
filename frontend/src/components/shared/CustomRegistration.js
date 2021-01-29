@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Row, Col } from "reactstrap";
 import "../../css/admin/Registration.scss";
-import Footer from './Footer';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import Footer from "./Footer";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import Snackpop from "./Snackpop";
-import NavbarGuest from './NavbarGuest';
-import { userRagistrationEmail } from './emailTemplates';
-import axios from 'axios';
+import NavbarGuest from "./NavbarGuest";
+import { userRagistrationEmail } from "./emailTemplates";
+import axios from "axios";
 
-const backendURI = require('./BackendURI');
+const backendURI = require("./BackendURI");
 
 export default class CustomRegistration extends Component {
   constructor(props) {
@@ -21,34 +21,32 @@ export default class CustomRegistration extends Component {
 
     this.state = {
       snackbaropen: false,
-      snackbarmsg: '',
-      snackbarcolor: '',
+      snackbarmsg: "",
+      snackbarcolor: "",
       form: {
-        firstName: '',
-        lastName: '',
-        userType: '',
-        email: '',
-        nic: '',
-        mobileNumber: '',
-        password: '',
-        confirmPassword: '',
-        educationalQualifications: '',
-        jobDescription: '',
-
+        firstName: "",
+        lastName: "",
+        userType: "",
+        email: "",
+        nic: "",
+        mobileNumber: "",
+        password: "",
+        confirmPassword: "",
+        educationalQualifications: "",
+        jobDescription: "",
       },
 
       //!decalaring error state variables
-      firstNameError: '',
-      lastNameError: '',
-      userTypeError: '',
-      emailError: '',
-      nicError: '',
-      mobileNumberError: '',
-      passwordError: '',
-      confirmPasswordError: '',
-      educationalQualificationsError: '',
-      jobDescriptionError: '',
-
+      firstNameError: "",
+      lastNameError: "",
+      userTypeError: "",
+      emailError: "",
+      nicError: "",
+      mobileNumberError: "",
+      passwordError: "",
+      confirmPasswordError: "",
+      educationalQualificationsError: "",
+      jobDescriptionError: "",
     };
   }
 
@@ -57,71 +55,71 @@ export default class CustomRegistration extends Component {
   };
 
   onChange = (e) => {
-    e.persist = () => { };
+    e.persist = () => {};
     let store = this.state;
     store.form[e.target.name] = e.target.value;
     this.setState(store);
   };
 
-  //? image file onchange 
+  //? image file onchange
   handleImageChange = (e) => {
-    const Val = e.target.files[0]
+    const Val = e.target.files[0];
     this.setState({
-      imgName: Val.name
-    })
-    this.setState(prevState => ({
+      imgName: Val.name,
+    });
+    this.setState((prevState) => ({
       form: {
         ...prevState.form,
-        file: Val
-      }
-    }))
-  }
+        file: Val,
+      },
+    }));
+  };
 
   //? validation function
   validate = () => {
     let isError = false;
     const errors = {
-      firstNameError: '',
-      lastNameError: '',
-      userTypeError: '',
-      emailError: '',
-      nicError: '',
-      mobileNumberError: '',
-      passwordError: '',
-      confirmPasswordError: '',
-      educationalQualificationsError: '',
-      jobDescriptionError: '',
-
+      firstNameError: "",
+      lastNameError: "",
+      userTypeError: "",
+      emailError: "",
+      nicError: "",
+      mobileNumberError: "",
+      passwordError: "",
+      confirmPasswordError: "",
+      educationalQualificationsError: "",
+      jobDescriptionError: "",
     };
 
     if (this.state.form.firstName.length < 1) {
       isError = true;
-      errors.firstNameError = 'First name required *'
+      errors.firstNameError = "First name required *";
     }
     if (this.state.form.lastName.length < 1) {
       isError = true;
-      errors.lastNameError = 'Last name required *'
+      errors.lastNameError = "Last name required *";
     }
-    if (this.state.form.email.indexOf('@') === -1) {
+    if (this.state.form.email.indexOf("@") === -1) {
       isError = true;
-      errors.emailError = 'Invalied email address!'
+      errors.emailError = "Invalied email address!";
     }
 
     if (this.state.form.nic.length === 0 || this.state.form.nic.length > 12) {
       isError = true;
-      errors.nicError = 'Invalid NIC number!'
+      errors.nicError = "Invalid NIC number!";
     }
     if (this.state.form.mobileNumber.length !== 10) {
       isError = true;
-      errors.mobileNumberError = 'Invalied mobile number!'
+      errors.mobileNumberError = "Invalied mobile number!";
     }
     if (this.state.form.password.length < 8) {
       isError = true;
-      errors.passwordError = 'Password should be longer than 8 characters!'
+      errors.passwordError = "Password should be longer than 8 characters!";
     }
     if (this.state.form.confirmPassword.length < 8) {
       isError = true;
-      errors.confirmPasswordError = 'Password should be longer than 8 characters!'
+      errors.confirmPasswordError =
+        "Password should be longer than 8 characters!";
     }
     if (this.state.form.password !== this.state.form.confirmPassword) {
       isError = true;
@@ -129,132 +127,137 @@ export default class CustomRegistration extends Component {
     }
     if (this.state.form.educationalQualifications.length < 1) {
       isError = true;
-      errors.educationalQualificationsError = 'Educational qualifications required *'
+      errors.educationalQualificationsError =
+        "Educational qualifications required *";
     }
     if (this.state.form.jobDescription.length < 1) {
       isError = true;
-      errors.jobDescriptionError = 'Job description is required *'
+      errors.jobDescriptionError = "Job description is required *";
     }
-
 
     this.setState({
       ...this.state,
-      ...errors
-    })
-    return isError;  //! is not error return state 'false'
-  }
+      ...errors,
+    });
+    return isError; //! is not error return state 'false'
+  };
 
   onSubmit(e) {
     e.preventDefault();
-    const err = this.validate();  //?calling validation function
+    const err = this.validate(); //?calling validation function
 
     if (!err) {
       this.setState({
-        firstNameError: '',
-        lastNameError: '',
-        emailError: '',
-        nicError: '',
-        mobileNumberError: '',
-        passwordError: '',
-        confirmPasswordError: '',
-        educationalQualificationsError: '',
-        jobDescriptionError: '',
-      })
+        firstNameError: "",
+        lastNameError: "",
+        emailError: "",
+        nicError: "",
+        mobileNumberError: "",
+        passwordError: "",
+        confirmPasswordError: "",
+        educationalQualificationsError: "",
+        jobDescriptionError: "",
+      });
 
       confirmAlert({
-        title: 'Confirm to submit',
-        message: 'Are you sure to do this.',
+        title: "Confirm to submit",
+        message: "Are you sure to do this.",
         buttons: [
           {
-            label: 'Yes',
+            label: "Yes",
             onClick: () => {
-
               if (this.state.form.file == null) {
                 this.setState({
                   snackbaropen: true,
                   snackbarmsg: "Please select a profile image!",
-                  snackbarcolor: 'error',
-                })
-              }
-              else {
-
-
+                  snackbarcolor: "error",
+                });
+              } else {
                 const formData = new FormData();
 
-                formData.append('profileImage', this.state.form.file);
-                formData.append('firstName', this.state.form.firstName);
-                formData.append('lastName', this.state.form.lastName);
-                formData.append('nic', this.state.form.nic);
-                formData.append('email', this.state.form.email);
-                formData.append('mobileNumber', this.state.form.mobileNumber);
-                formData.append('password', this.state.form.password);
-                formData.append('educationalQualifications', this.state.form.educationalQualifications);
-                formData.append('jobDescription', this.state.form.jobDescription);
+                formData.append("profileImage", this.state.form.file);
+                formData.append("firstName", this.state.form.firstName);
+                formData.append("lastName", this.state.form.lastName);
+                formData.append("nic", this.state.form.nic);
+                formData.append("email", this.state.form.email);
+                formData.append("mobileNumber", this.state.form.mobileNumber);
+                formData.append("password", this.state.form.password);
+                formData.append(
+                  "educationalQualifications",
+                  this.state.form.educationalQualifications
+                );
+                formData.append(
+                  "jobDescription",
+                  this.state.form.jobDescription
+                );
                 var myHeaders = new Headers();
 
                 var requestOptions = {
-                  method: 'POST',
+                  method: "POST",
                   headers: myHeaders,
                   body: formData,
-                  redirect: 'follow'
+                  redirect: "follow",
                 };
 
-                fetch(backendURI.url + "/users/customregistration", requestOptions)
+                fetch(
+                  backendURI.url + "/users/customregistration",
+                  requestOptions
+                )
                   .then((res) => res.json())
-                  .then(async json => {
+                  .then(async (json) => {
                     if (json.state === true) {
                       this.setState({
                         snackbaropen: true,
                         snackbarmsg: json.msg,
-                        snackbarcolor: 'success',
-                      })
-                      const email = await userRagistrationEmail(this.state.form.email, this.state.form.firstName, this.state.form.lastName)
-                      axios.post(backendURI.url + '/mail/sendmail', email)
-                        .then(res => {
+                        snackbarcolor: "success",
+                      });
+                      const email = await userRagistrationEmail(
+                        this.state.form.email,
+                        this.state.form.firstName,
+                        this.state.form.lastName
+                      );
+                      axios
+                        .post(backendURI.url + "/mail/sendmail", email)
+                        .then((res) => {
                           console.log(res);
-                        })
-                      this.props.history.push('/');
-                    }
-                    else {
+                        });
+                      this.props.history.push("/");
+                    } else {
                       this.setState({
                         snackbaropen: true,
                         snackbarmsg: json.msg,
-                        snackbarcolor: 'error',
-                      })
+                        snackbarcolor: "error",
+                      });
                     }
                   })
-                  .catch(error => {
+                  .catch((error) => {
                     this.setState({
                       snackbaropen: true,
                       snackbarmsg: error,
-                      snackbarcolor: 'error',
-                    })
-                    console.log('error', error)
+                      snackbarcolor: "error",
+                    });
+                    console.log("error", error);
                   });
               }
-            }
+            },
           },
           {
-            label: 'No',
-            onClick: () => {
-
-            }
-          }
-        ]
-      })
+            label: "No",
+            onClick: () => {},
+          },
+        ],
+      });
     }
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   render() {
-
     const { form } = this.state;
 
     return (
       <div>
         <NavbarGuest />
         <div className="container-fluid ">
-
           <Snackpop
             msg={this.state.snackbarmsg}
             color={this.state.snackbarcolor}
@@ -266,8 +269,9 @@ export default class CustomRegistration extends Component {
             <div>
               <div className="container">
                 <p className="reg-head">External Supervisor Registration</p>
-                <div style={{ width: "95%", margin: "auto", marginTop: "50px" }}>
-                </div>
+                <div
+                  style={{ width: "95%", margin: "auto", marginTop: "50px" }}
+                ></div>
                 <div className="container">
                   <form onSubmit={this.onSubmit}>
                     <Row style={{ marginTop: "20px" }}>
@@ -282,7 +286,9 @@ export default class CustomRegistration extends Component {
                             onChange={this.onChange}
                             errortext={form.firstNameError}
                           ></input>
-                          <p className="reg-error">{this.state.firstNameError}</p>
+                          <p className="reg-error">
+                            {this.state.firstNameError}
+                          </p>
                         </div>
                       </Col>
                       <Col md={6} xs="12">
@@ -293,18 +299,19 @@ export default class CustomRegistration extends Component {
                             className="form-control"
                             name="lastName"
                             value={form.lastName}
-
                             onChange={this.onChange}
                           ></input>
-                          <p className="reg-error">{this.state.lastNameError}</p>
-
+                          <p className="reg-error">
+                            {this.state.lastNameError}
+                          </p>
                         </div>
                       </Col>
                     </Row>
 
-
                     <div className="form-group">
-                      <label className="text-label">Choose Profile Image : </label>
+                      <label className="text-label">
+                        Choose Profile Image :{" "}
+                      </label>
                     </div>
                     <Row className="input-div">
                       <Col>
@@ -320,13 +327,18 @@ export default class CustomRegistration extends Component {
                               id="inputGroupFile01"
                               onChange={this.handleImageChange}
                             />
-                            <label className="custom-file-label" htmlFor="inputGroupFile01">{this.state.imgName}</label>
+                            <label
+                              className="custom-file-label"
+                              htmlFor="inputGroupFile01"
+                            >
+                              {this.state.imgName}
+                            </label>
                           </div>
                         </div>
                       </Col>
                     </Row>
 
-                    <Row style={{ marginTop: "20px" }} >
+                    <Row style={{ marginTop: "20px" }}>
                       <Col md={4} xs="12">
                         <div className="form-group">
                           <label className="text-label">E-mail : </label>
@@ -338,7 +350,6 @@ export default class CustomRegistration extends Component {
                             onChange={this.onChange}
                           ></input>
                           <p className="reg-error">{this.state.emailError}</p>
-
                         </div>
                       </Col>
                       <Col md={4} xs="12">
@@ -352,22 +363,26 @@ export default class CustomRegistration extends Component {
                             onChange={this.onChange}
                           ></input>
                           <p className="reg-error">{this.state.nicError}</p>
-
                         </div>
                       </Col>
                       <Col md={4} xs="12">
                         <div className="form-group">
                           <label className="text-label">Mobile Number : </label>
-                          <input type="number" className="form-control" name="mobileNumber" onChange={this.onChange}
+                          <input
+                            type="number"
+                            className="form-control"
+                            name="mobileNumber"
+                            onChange={this.onChange}
                             value={form.mobileNumber}
                           ></input>
-                          <p className="reg-error">{this.state.mobileNumberError}</p>
-
+                          <p className="reg-error">
+                            {this.state.mobileNumberError}
+                          </p>
                         </div>
                       </Col>
                     </Row>
 
-                    <Row style={{ marginTop: "20px" }} >
+                    <Row style={{ marginTop: "20px" }}>
                       <Col md={4} xs="12">
                         <div className="form-group">
                           <label className="text-label">Password : </label>
@@ -378,14 +393,17 @@ export default class CustomRegistration extends Component {
                             value={form.password}
                             onChange={this.onChange}
                           ></input>
-                          <p className="reg-error">{this.state.passwordError}</p>
-
+                          <p className="reg-error">
+                            {this.state.passwordError}
+                          </p>
                         </div>
                       </Col>
 
                       <Col md={4} xs="12">
                         <div className="form-group">
-                          <label className="text-label">Confirm Password : </label>
+                          <label className="text-label">
+                            Confirm Password :{" "}
+                          </label>
                           <input
                             type="password"
                             className="form-control"
@@ -393,8 +411,9 @@ export default class CustomRegistration extends Component {
                             value={form.confirmPassword}
                             onChange={this.onChange}
                           ></input>
-                          <p className="reg-error">{this.state.confirmPasswordError}</p>
-
+                          <p className="reg-error">
+                            {this.state.confirmPasswordError}
+                          </p>
                         </div>
                       </Col>
                     </Row>
@@ -402,7 +421,9 @@ export default class CustomRegistration extends Component {
                     <Row>
                       <Col md={12} xs="12">
                         <div className="form-group">
-                          <label className="text-label">Educational Qualifications : </label>
+                          <label className="text-label">
+                            Educational Qualifications :{" "}
+                          </label>
                           <textarea
                             type="text"
                             className="form-control"
@@ -410,8 +431,9 @@ export default class CustomRegistration extends Component {
                             onChange={this.onChange}
                             name="educationalQualifications"
                           ></textarea>
-                          <p className="reg-error">{this.state.educationalQualificationsError}</p>
-
+                          <p className="reg-error">
+                            {this.state.educationalQualificationsError}
+                          </p>
                         </div>
                       </Col>
                     </Row>
@@ -419,7 +441,9 @@ export default class CustomRegistration extends Component {
                     <Row>
                       <Col md={12} xs="18">
                         <div className="form-group">
-                          <label className="text-label">Job Description : </label>
+                          <label className="text-label">
+                            Job Description :{" "}
+                          </label>
                           <textarea
                             type="text"
                             className="form-control"
@@ -428,26 +452,30 @@ export default class CustomRegistration extends Component {
                             onChange={this.onChange}
                             name="jobDescription"
                           ></textarea>
-                          <p className="reg-error">{this.state.jobDescriptionError}</p>
+                          <p className="reg-error">
+                            {this.state.jobDescriptionError}
+                          </p>
                         </div>
                       </Col>
                     </Row>
 
                     <div className="form-group">
                       <button
-                        className="btn btn-info my-4 " style={{ width: "100%" }}
+                        className="btn btn-info my-4 "
+                        style={{ width: "100%" }}
                         type="submit"
-                      >Register Now </button>
+                      >
+                        Register Now{" "}
+                      </button>
                     </div>
                   </form>
                 </div>
-
               </div>
             </div>
           </Col>
         </div>
         <Footer />
       </div>
-    )
+    );
   }
 }
