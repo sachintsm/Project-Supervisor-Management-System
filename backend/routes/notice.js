@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const Notice = require("../models/notice");
-const Projects = require('../models/projects');
+const Projects = require("../models/projects");
 const createGroups = require("../models/createGroups");
-const User = require('../models/users');
+const User = require("../models/users");
 
 const multer = require("multer");
 var path = require("path");
 const fs = require("fs");
-const verify = require('../authentication');
+const verify = require("../authentication");
 const notice = require("../models/notice");
-
 
 //saving the notification attachment in the destination folder
 var storage = multer.diskStorage({
@@ -38,7 +37,6 @@ const upload = multer({ storage: storage }).single("noticeAttachment");
 //send Notice data to the database and save them
 router.post("/addNotice", verify, async (req, res) => {
   try {
-
     req.body.toCordinator = false;
     req.body.toSupervisor = false;
     req.body.toStudent = false;
@@ -87,10 +85,11 @@ router.post("/addNotice", verify, async (req, res) => {
 
 //get all the notices from the database without filtering
 router.get("/viewNotice", (req, res, next) => {
-
   Notice.find()
-    .sort({date:-1 }&&{time:-1})
-    .select("noticeTittle notice date time filePath userType toCordinator toStudent toSupervisor projectId userId ")
+    .sort({ date: -1 } && { time: -1 })
+    .select(
+      "noticeTittle notice date time filePath userType toCordinator toStudent toSupervisor projectId userId "
+    )
     .exec()
     .then((docs) => {
       res.status(200).json(docs);
@@ -147,87 +146,99 @@ router.delete("/noticeAttachment/:filename", (req, res) => {
   }
 });
 
-router.get('/NoticeView/:userId', (req, res) => {
+router.get("/NoticeView/:userId", (req, res) => {
   const userId = req.params.userId;
-  Notice
-    .find({ userId: userId })
-    .sort({date:-1 }&&{time:-1})
-    .then(data => {
-      res.send({ state: true, data:data, msg: 'Data Transfer Successful..!' })
+  Notice.find({ userId: userId })
+    .sort({ date: -1 } && { time: -1 })
+    .then((data) => {
+      res.send({ state: true, data: data, msg: "Data Transfer Successful..!" });
     })
-    .catch(err => {
-      res.send({ state: false, msg: err.message })
-      console.log(err)
-    })
-})
-
+    .catch((err) => {
+      res.send({ state: false, msg: err.message });
+      console.log(err);
+    });
+});
 
 //get only the project id true notices
-router.get('/getNotice/:id', async (req, res) => {
+router.get("/getNotice/:id", async (req, res) => {
   try {
-    const coId = req.params.id
-    const result1 = await Projects.find({ coordinatorList: coId, projectState: true }).select('_id')
+    const coId = req.params.id;
+    const result1 = await Projects.find({
+      coordinatorList: coId,
+      projectState: true,
+    }).select("_id");
 
-    console.log(result1)
-    let idList = []
+    console.log(result1);
+    let idList = [];
     for (let i in result1) {
-      idList.push(result1[i]._id)
+      idList.push(result1[i]._id);
     }
 
     const result2 = await Notice.find({ projectId: idList })
-    .sort({date:-1 }&&{time:-1})
-   .then(data => {
-    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-  })
-
+      .sort({ date: -1 } && { time: -1 })
+      .then((data) => {
+        res.json({
+          state: true,
+          msg: "Data Transfered Successfully..!",
+          data: data,
+        });
+      });
   } catch (error) {
-    console.log(error)
-    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+    console.log(error);
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
   }
-})
+});
 
-// if a coordinator publish a notice it can be  deleted by him 
-router.get('/cogetNotice/:id', async (req, res) => {
+// if a coordinator publish a notice it can be  deleted by him
+router.get("/cogetNotice/:id", async (req, res) => {
   try {
-    const coId = req.params.id
-    const result1 = await Projects.find({ coordinatorList: coId, projectState: true }).select('_id')
-    let idList = []
+    const coId = req.params.id;
+    const result1 = await Projects.find({
+      coordinatorList: coId,
+      projectState: true,
+    }).select("_id");
+    let idList = [];
     for (let i in result1) {
-      idList.push(result1[i]._id)
+      idList.push(result1[i]._id);
     }
 
-    const result2 = await Notice.find({ projectId: idList , userId :coId})
-    .sort({date:-1 }&&{time:-1})
-   .then(data => {
-    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-  })
-
+    const result2 = await Notice.find({ projectId: idList, userId: coId })
+      .sort({ date: -1 } && { time: -1 })
+      .then((data) => {
+        res.json({
+          state: true,
+          msg: "Data Transfered Successfully..!",
+          data: data,
+        });
+      });
   } catch (error) {
-    console.log(error)
-    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+    console.log(error);
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
   }
-})
+});
 
 // get project names from the project collection
-router.get('/getProjectName/:id', async (req, res) => {
-  const poId = req.params.id
-  await Projects
-    .find({ _id: poId,  projectState: true })
+router.get("/getProjectName/:id", async (req, res) => {
+  const poId = req.params.id;
+  await Projects.find({ _id: poId, projectState: true })
     .exec()
-    .then(data => {
-      res.json({ state: true, msg: "Data Transfered Successfully..!", data: data[0] });
+    .then((data) => {
+      res.json({
+        state: true,
+        msg: "Data Transfered Successfully..!",
+        data: data[0],
+      });
     })
-    .catch(error => {
-      console.log(error)
+    .catch((error) => {
+      console.log(error);
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-})
+    });
+});
 
 // get the notices published by the admin
 router.get("/getAdminNotice", (req, res, next) => {
-
-  Notice.find({userType :'admin'})
-    .sort({date:-1 }&&{time:-1})
+  Notice.find({ userType: "admin" })
+    .sort({ date: -1 } && { time: -1 })
     .exec()
     .then((docs) => {
       res.status(200).json(docs);
@@ -240,31 +251,36 @@ router.get("/getAdminNotice", (req, res, next) => {
     });
 });
 
-//get notice by student 
- 
-router.get("/getNoticeByStudent/:id" , async (req,res)=>{
+//get notice by student
 
+router.get("/getNoticeByStudent/:id", async (req, res) => {
   try {
-    const sId = req.params.id
-    const result1 = await User.findOne({_id:sId , isStudent :true}).select('indexNumber')
-   
+    const sId = req.params.id;
+    const result1 = await User.findOne({ _id: sId, isStudent: true }).select(
+      "indexNumber"
+    );
 
-    const result2 = await createGroups.find({groupMembers : result1.indexNumber , groupState:true}).select('projectId')
-    let idList = []
-    for(let i in result2){
-      idList.push(result2[i].projectId)
+    const result2 = await createGroups
+      .find({ groupMembers: result1.indexNumber, groupState: true })
+      .select("projectId");
+    let idList = [];
+    for (let i in result2) {
+      idList.push(result2[i].projectId);
     }
 
     const result3 = await Notice.find({ projectId: idList })
-    .sort({date:-1 }&&{time:-1})
-   .then(data => {
-    res.json({ state: true, msg: "Data Transfered Successfully..!", data: data });
-  })
+      .sort({ date: -1 } && { time: -1 })
+      .then((data) => {
+        res.json({
+          state: true,
+          msg: "Data Transfered Successfully..!",
+          data: data,
+        });
+      });
   } catch (error) {
-    console.log(error)
-    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" })
+    console.log(error);
+    res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
   }
-
-})
+});
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.schema;
 
 var staffSchema = mongoose.Schema({
@@ -18,4 +18,4 @@ var staffSchema = mongoose.Schema({
   isGuest: { type: Boolean },
 });
 
-const Staff = (module.exports = mongoose.model('users', staffSchema));
+const Staff = (module.exports = mongoose.model("users", staffSchema));

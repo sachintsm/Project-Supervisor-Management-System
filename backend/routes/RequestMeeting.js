@@ -9,17 +9,11 @@ router.post("/add", (req, res) => {
     groupId: req.body.groupId,
 
     groupNumber: req.body.groupNumber,
-
     purpose: req.body.purpose,
-
     date: req.body.date,
-
     time: req.body.time,
     link: req.body.link,
-
-
     supervisor: req.body.supervisor,
-
     state: req.body.state,
   });
 
@@ -110,7 +104,6 @@ router.post("/updateMeet/:id", function (req, res) {
 
         time: req.body.time,
         link: req.body.link,
-
 
         state: "confirmed",
       },
@@ -242,16 +235,19 @@ router.route("/cancelMeeting/:id").post(function (req, res) {
 
 //get pending meeting to a supervisor
 //SupervisorNotificaion.js
-router.get('/getPending/:id', (req, res) => {
-  RequsetMeeting
-    .find({ supervisor: req.params.id, state: 'pending' })
+router.get("/getPending/:id", (req, res) => {
+  RequsetMeeting.find({ supervisor: req.params.id, state: "pending" })
     .exec()
-    .then(result => {
-      res.json({ state: true, msg: "Data Transfer Successfully..!", data: result });
+    .then((result) => {
+      res.json({
+        state: true,
+        msg: "Data Transfer Successfully..!",
+        data: result,
+      });
     })
-    .catch(error => {
+    .catch((error) => {
       res.json({ state: false, msg: "Data Transfering Unsuccessfull..!" });
-    })
-})
+    });
+});
 
-module.exports = router
+module.exports = router;

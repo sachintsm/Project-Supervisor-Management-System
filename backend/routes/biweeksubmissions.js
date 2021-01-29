@@ -1,269 +1,267 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const verify = require('../authentication');
-const Projects = require('../models/projects');
-const User = require('../models/users');
-const BiweekSubmissions = require('../models/biweeksubmissions');
-const CreateGroups = require('../models/createGroups');
+const verify = require("../authentication");
+const Projects = require("../models/projects");
+const User = require("../models/users");
+const BiweekSubmissions = require("../models/biweeksubmissions");
+const CreateGroups = require("../models/createGroups");
 const BiweeklyLink = require("../models/BiweeklyLink");
 const IndividualMarks = require("../models/individualmarks");
-const multer = require("multer")
+const multer = require("multer");
 
 var path = require("path");
 const fs = require("fs");
 
 //Saving the user profile pictures in the destination folder
 var storage = multer.diskStorage({
-     destination: function (req, file, cb) {
-          cb(null, 'local_storage/biweeklystu_submissions/'); 
-     },
-     filename: function (req, file, cb) {
-          let ts = Date.now();
-          let date_ob = new Date(ts);
-          const time =
-               date_ob.getDate() +
-               date_ob.getMonth() +
-               1 +
-               date_ob.getFullYear() +
-               date_ob.getHours() +
-               date_ob.getMinutes();
+  destination: function (req, file, cb) {
+    cb(null, "local_storage/biweeklystu_submissions/");
+  },
+  filename: function (req, file, cb) {
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    const time =
+      date_ob.getDate() +
+      date_ob.getMonth() +
+      1 +
+      date_ob.getFullYear() +
+      date_ob.getHours() +
+      date_ob.getMinutes();
 
-          cb(null, 'PROJECT_BI_SUBMISSION -' + time + file.originalname); //set the file name
-     },
+    cb(null, "PROJECT_BI_SUBMISSION -" + time + file.originalname); //set the file name
+  },
 });
 
-const upload = multer({ storage: storage }).single('submissionsFile');
+const upload = multer({ storage: storage }).single("submissionsFile");
 router.post("/add", async (req, res) => {
+  try {
+    upload(req, res, async (err) => {
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      const time =
+        date_ob.getDate() +
+        date_ob.getMonth() +
+        1 +
+        date_ob.getFullYear() +
+        date_ob.getHours() +
+        date_ob.getMinutes();
 
-     try {
-          upload(req, res, async (err,) => {
-               let ts = Date.now();
-               let date_ob = new Date(ts);
-               const time =
-                    date_ob.getDate() +
-                    date_ob.getMonth() +
-                    1 +
-                    date_ob.getFullYear() +
-                    date_ob.getHours() +
-                    date_ob.getMinutes();
+      if (req.file) {
+        var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
+      }
+      const existing = await BiweekSubmissions.findOne({
+        userId: req.body.userId,
+        submissionId: req.body.submissionId,
+      });
+      if (!existing) {
+        const data = await CreateGroups.findOne({
+          _id: req.body.groupId,
+        }).select("supervisors");
+        let status = [];
+        let supervisors = [];
+        data.supervisors.map((item) => {
+          supervisors.push(item);
+          status.push("Pending");
+        });
 
-               if (req.file) {
-                    var filePath = "PROJECT_BI_SUBMISSION -" + time + req.file.originalname;
-               }
-               const existing = await BiweekSubmissions.findOne({ userId: req.body.userId, submissionId: req.body.submissionId });
-               if (!existing) {
+        const biweekly = await BiweeklyLink.findOne({
+          _id: req.body.submissionId,
+        });
 
-                    const data = await CreateGroups.findOne({ _id: req.body.groupId }).select('supervisors')
-                    let status = []
-                    let supervisors = []
-                    data.supervisors.map(item => {
-                         supervisors.push(item)
-                         status.push("Pending")
-                    })
+        const newSubmission = new BiweekSubmissions({
+          date: req.body.date,
+          time: req.body.time,
+          userId: req.body.userId,
+          projectId: req.body.projectId,
+          submissionId: req.body.submissionId,
+          groupId: req.body.groupId,
+          date_ob: req.body.date_ob,
+          originalFileName: req.file.originalname,
+          filePath: filePath,
+          supervisors: supervisors,
+          status: status,
+          biweeklyNumber: biweekly.biweeklyNumber,
+          deadDate: biweekly.deadDate,
+          deadTime: biweekly.deadTime,
+        });
 
-                    const biweekly = await BiweeklyLink.findOne({ _id: req.body.submissionId })
-
-                    const newSubmission = new BiweekSubmissions({
-                         date: req.body.date,
-                         time: req.body.time,
-                         userId: req.body.userId,
-                         projectId: req.body.projectId,
-                         submissionId: req.body.submissionId,
-                         groupId: req.body.groupId,
-                         date_ob: req.body.date_ob,
-                         originalFileName: req.file.originalname,
-                         filePath: filePath,
-                         supervisors: supervisors,
-                         status: status,
-                         biweeklyNumber: biweekly.biweeklyNumber,
-                         deadDate: biweekly.deadDate,
-                         deadTime: biweekly.deadTime
-                    })
-
-                    newSubmission
-                         .save()
-                         .then((resulst) => {
-                              res.json({ state: true, msg: "Data insertion successful.." });
-                         })
-                         .catch((err) => {
-                              res.json({ state: false, msg: "Data insertion unsuccessful.." })
-                              console.log(err)
-                         })
-               }
-               else {
-                    BiweekSubmissions
-                         .find({ userId: req.body.userId, submissionId: req.body.submissionId })
-                         .updateOne(
-                              {
-                                   $push: {
-                                        files: filePath,
-                                   },
-                                   originalFileName: req.file.originalname,
-                              }
-                         )
-                         .exec()
-                         .then((resulst) => {
-                              res.json({ state: true, msg: "Data insertion successful.." });
-                         })
-                         .catch((err) => {
-                              res.json({ state: false, msg: "Data insertion unsuccessful.." })
-                              console.log(err)
-                         })
-                }
+        newSubmission
+          .save()
+          .then((resulst) => {
+            res.json({ state: true, msg: "Data insertion successful.." });
           })
-
-     } catch (err) {
-          console.log(err);
-     }
-})
+          .catch((err) => {
+            res.json({ state: false, msg: "Data insertion unsuccessful.." });
+            console.log(err);
+          });
+      } else {
+        BiweekSubmissions.find({
+          userId: req.body.userId,
+          submissionId: req.body.submissionId,
+        })
+          .updateOne({
+            $push: {
+              files: filePath,
+            },
+            originalFileName: req.file.originalname,
+          })
+          .exec()
+          .then((resulst) => {
+            res.json({ state: true, msg: "Data insertion successful.." });
+          })
+          .catch((err) => {
+            res.json({ state: false, msg: "Data insertion unsuccessful.." });
+            console.log(err);
+          });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 //get biweekly submissions by supervisorId
 router.get("/getsubmissions/:id", async (req, res) => {
-     try {
-          const userId = req.params.id
-          const groups = await CreateGroups.find({ supervisors: userId, groupState: true }).select("_id")
-          let groupIdList = []
-          groups.map(item => {
-               groupIdList.push(item._id)
-          })
-          const allSubmissions = await BiweekSubmissions.find({ groupId: groupIdList, supervisors: userId })
+  try {
+    const userId = req.params.id;
+    const groups = await CreateGroups.find({
+      supervisors: userId,
+      groupState: true,
+    }).select("_id");
+    let groupIdList = [];
+    groups.map((item) => {
+      groupIdList.push(item._id);
+    });
+    const allSubmissions = await BiweekSubmissions.find({
+      groupId: groupIdList,
+      supervisors: userId,
+    });
 
-          let result = []
+    let result = [];
 
-          allSubmissions.map(item => {
-               for (index in item.supervisors) {
-                    if (item.supervisors[index] === userId) {
-                         if (item.status[index] === "Pending") {
-                              result.push(item)
-                         }
-                    }
-               }
-
-          })
-          res.send(result)
-     }
-     catch (e) {
-          console.log(e)
-     }
-})
+    allSubmissions.map((item) => {
+      for (index in item.supervisors) {
+        if (item.supervisors[index] === userId) {
+          if (item.status[index] === "Pending") {
+            result.push(item);
+          }
+        }
+      }
+    });
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 router.get("/biweeklyAttachment/:filename", function (req, res) {
-
-     const filename = req.params.filename;
-     console.log(filename)
-     res.sendFile(
-       path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
-     );
-   });
+  const filename = req.params.filename;
+  console.log(filename);
+  res.sendFile(
+    path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
+  );
+});
 
 //get biweekly submissions by groupId
-router.get("/getgroupsubmissions/:id",async(req,res) => {
-    try{
-        const groupId = req.params.id
+router.get("/getgroupsubmissions/:id", async (req, res) => {
+  try {
+    const groupId = req.params.id;
 
-        const result = await BiweekSubmissions.find({groupId: groupId})
+    const result = await BiweekSubmissions.find({ groupId: groupId });
 
-        res.send(result)
-    }
-    catch(e){
-        console.log(e)
-    }
-})
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 //get biweekly submissions by submission link id
-router.get("/getbiweeklinksubmissions/:id",async(req,res) => {
-     try{
-          const linkId = req.params.id
+router.get("/getbiweeklinksubmissions/:id", async (req, res) => {
+  try {
+    const linkId = req.params.id;
 
-          const result = await BiweekSubmissions.find({submissionId: linkId})
+    const result = await BiweekSubmissions.find({ submissionId: linkId });
 
-          res.send(result)
-     }
-     catch(e){
-          console.log(e)
-     }
-})
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 //update submission request
 router.patch("/updateRequest/:reqId", async (req, res, next) => {
-     try {
-          const id = req.params.reqId;
-          const update = req.body;
-          const result = await BiweekSubmissions.findByIdAndUpdate(id, update, { new: true })
-          res.send(result)
-     } catch (err) {
-          console.log(err)
-     }
-})
+  try {
+    const id = req.params.reqId;
+    const update = req.body;
+    const result = await BiweekSubmissions.findByIdAndUpdate(id, update, {
+      new: true,
+    });
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-
-router.post('/getBiweekly', async (req, res) => {
-     const projectId = req.body.projectId
-     const submissionId = req.body.submissionId
-     const groupId = req.body.groupId
-     console.log(groupId)
-     BiweekSubmissions
-          .find({ projectId: projectId, submissionId: submissionId ,groupId: groupId})
-          .exec()
-          .then(data => {
-               res.json({ state: true, data: data, msg: 'Data successfully sent..!' })
-          })
-          .catch(err => {
-               res.send({ state: false, msg: err.message })
-          })
-})
-
-
+router.post("/getBiweekly", async (req, res) => {
+  const projectId = req.body.projectId;
+  const submissionId = req.body.submissionId;
+  const groupId = req.body.groupId;
+  console.log(groupId);
+  BiweekSubmissions.find({
+    projectId: projectId,
+    submissionId: submissionId,
+    groupId: groupId,
+  })
+    .exec()
+    .then((data) => {
+      res.json({ state: true, data: data, msg: "Data successfully sent..!" });
+    })
+    .catch((err) => {
+      res.send({ state: false, msg: err.message });
+    });
+});
 
 //Get submission attchment from database
 router.get("/getsubmission/:filename", function (req, res) {
-     const filename = req.params.filename;
-     //console.log(filename)
-     res.sendFile(
-          path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
-     );
+  const filename = req.params.filename;
+  //console.log(filename)
+  res.sendFile(
+    path.join(__dirname, "../local_storage/biweeklystu_submissions/" + filename)
+  );
 });
 
 // submit individual marks
-router.post('/individualmarks/', async (req, res) => {
-     try{
-
-          const type = new IndividualMarks(req.body);
-          const result = await type.save();
-          res.send(result);
-     }
-     catch (e) {
-          console.log(e)
-     }
-})
-
-//Get individual marks
-router.get("/individualmarks/:biweekId", async (req, res)=> {
-     try{
-          const id = req.params.biweekId;
-          const result = await IndividualMarks.findOne({biweekId: id})
-          res.send(result)
-     }
-     catch (e) {
-
-     }
+router.post("/individualmarks/", async (req, res) => {
+  try {
+    const type = new IndividualMarks(req.body);
+    const result = await type.save();
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
-router.delete('/deletebiweekly/:id' , async (req,res)=>{
-     console.log("dnsldk")
-     try {
-          const s_id = req.params.id;
+//Get individual marks
+router.get("/individualmarks/:biweekId", async (req, res) => {
+  try {
+    const id = req.params.biweekId;
+    const result = await IndividualMarks.findOne({ biweekId: id });
+    res.send(result);
+  } catch (e) {}
+});
 
-          console.log("Ashan",s_id);
-          BiweekSubmissions.remove({ _id: s_id})
-          .exec()
-          .then((result) => {
-           res.status(200).json({message: "Deleted Successfully.."});
-    })
-          
-     } catch (error) {
-          
-     }
-})
+router.delete("/deletebiweekly/:id", async (req, res) => {
+  console.log("dnsldk");
+  try {
+    const s_id = req.params.id;
+
+    console.log("Ashan", s_id);
+    BiweekSubmissions.remove({ _id: s_id })
+      .exec()
+      .then((result) => {
+        res.status(200).json({ message: "Deleted Successfully.." });
+      });
+  } catch (error) {}
+});
 
 module.exports = router;

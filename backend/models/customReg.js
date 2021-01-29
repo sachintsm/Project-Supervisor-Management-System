@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.schema;
 
 var customRegSchema = mongoose.Schema({
@@ -9,12 +9,15 @@ var customRegSchema = mongoose.Schema({
   birthday: { type: String },
   nic: { type: String },
   mobile: { type: String },
-  indexNumber: { type:String},
-  regNumber: { type:String },
+  indexNumber: { type: String },
+  regNumber: { type: String },
   isDeleted: { type: Boolean },
   userLevel: { type: String },
   isSupervisor: { type: Boolean },
   imageName: { type: String },
 });
 
-const customReg = (module.exports = mongoose.model('customReg', customRegSchema));
+const customReg = (module.exports = mongoose.model(
+  "customReg",
+  customRegSchema
+));

@@ -1,6 +1,12 @@
-var CronJob = require('cron').CronJob;
-var Cron = require('./mongodb_backup.js');
+var CronJob = require("cron").CronJob;
+var Cron = require("./mongodb_backup.js");
 
-new CronJob('*/5 * * * * *', function () {
+new CronJob(
+  "*/5 * * * * *",
+  function () {
     Cron.dbAutoBackUp();
-}, null, true, 'America/New_York');
+  },
+  null,
+  true,
+  "America/New_York"
+);

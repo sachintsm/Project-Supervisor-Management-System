@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
-const Schema  = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 var individualmarks = Schema({
-    biweekId: {type: String},
-    biweekLinkId: {type: String},
-    studentList: [{type: String}],
-    individualMarks: [{type: String}],
+  biweekId: { type: String },
+  biweekLinkId: { type: String },
+  studentList: [{ type: String }],
+  individualMarks: [{ type: String }],
 });
 
-const IndividualMarks = mongoose.model('individualmarks', individualmarks);
+const IndividualMarks = mongoose.model("individualmarks", individualmarks);
 
 module.exports = IndividualMarks;
-

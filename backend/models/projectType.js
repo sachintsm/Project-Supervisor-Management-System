@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -11,9 +11,9 @@ const projectType = new Schema({
   isSecondYear: { type: Boolean },
   isThirdYear: { type: Boolean },
   isFourthYear: { type: Boolean },
-  isDeleted: { type: Boolean }
+  isDeleted: { type: Boolean },
 });
 
-const ProjectType = mongoose.model('projectType', projectType);
+const ProjectType = mongoose.model("projectType", projectType);
 
 module.exports = ProjectType;
