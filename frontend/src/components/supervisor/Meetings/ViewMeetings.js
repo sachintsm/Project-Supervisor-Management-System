@@ -35,7 +35,6 @@ const MeetConfirmed = React.memo((props) => (
     <td className="table-body">{props.meetconfirmed.date.substring(0, 10)}</td>
     <td className="table-body">{props.meetconfirmed.time}</td>
     <td className="table-body">{props.meetconfirmed.link}</td>
-
   </tr>
 ));
 
@@ -86,7 +85,7 @@ class ViewMeetings extends Component {
 
       this.props.history.push("/");
     }
-    
+
     const userId = getFromStorage("auth-id").id;
 
     this.setState({
@@ -193,17 +192,13 @@ class ViewMeetings extends Component {
         {
           label: "No",
 
-          onClick: () => { },
+          onClick: () => {},
         },
       ],
     });
   }
 
-  
-
   render() {
-
-    
     return (
       <React.Fragment>
         <Navbar panel={"supervisor"} />
@@ -220,7 +215,6 @@ class ViewMeetings extends Component {
           {/* ************************************************************************************************************************************************************************** */}
 
           <div className="row">
-
             <div className="col-md-12" style={{ minHeight: "600px" }}>
               <div className="container">
                 <Tabs
@@ -284,7 +278,6 @@ class ViewMeetings extends Component {
 
                                     <th>Time</th>
                                     <th>Link</th>
-
                                   </tr>
                                 </thead>
 
@@ -340,8 +333,9 @@ class ViewMeetings extends Component {
                                         <td>{data.date.substring(0, 10)}</td>
 
                                         <td>{data.time}</td>
-                                        <td><a href="#link">{data.link}</a></td>
-
+                                        <td>
+                                          <a href="#link">{data.link}</a>
+                                        </td>
 
                                         <td>
                                           <button

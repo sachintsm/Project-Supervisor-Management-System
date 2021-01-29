@@ -1,47 +1,45 @@
-.task-card{
+.task-card {
   margin: 0px 0px 20px 0px;
-  .card-header{
+  .card-header {
     background-color: #263238;
     color: white;
     font-size: 18px;
   }
-  .circular-progress-div{
+  .circular-progress-div {
     padding: 5% 30% 8% 30%;
     text-align: center;
   }
-  .delete-span{
+  .delete-span {
     float: right;
     font-size: 26px;
     display: flex;
     align-items: center;
   }
-  .delete-span:hover{
+  .delete-span:hover {
     color: red;
     transform: scale(1.45);
     transition-duration: 0.5s;
   }
-  @media only screen and  (max-width: 1024px) {
-    .card-header{
+  @media only screen and (max-width: 1024px) {
+    .card-header {
       font-size: 15px !important;
     }
-
   }
-  @media only screen and  (max-width: 600px) {
-    .circular-progress-div{
+  @media only screen and (max-width: 600px) {
+    .circular-progress-div {
       padding: 0% 30% 0% 30%;
       text-align: center;
     }
-
+  }
 }
+.task-card:hover {
+  border: 1.5px solid #263238;
+  //margin-bottom: 1px;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+  //.card-body{
+  //  background-color: #263238;
+  //  color: white;
+  //}
 }
-.task-card:hover{
-    border: 1.5px solid #263238;
-    //margin-bottom: 1px;
-    cursor: pointer;
-    transform: scale(1.05);
-     transition-duration: 0.5s;
-   //.card-body{
-   //  background-color: #263238;
-   //  color: white;
-   //}
- }

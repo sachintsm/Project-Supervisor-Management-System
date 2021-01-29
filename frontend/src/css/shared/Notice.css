@@ -1,53 +1,45 @@
-.notice-background{
-
+.notice-background {
   background-color: #f5f5f5 !important;
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.create-noticecreate-background{
-
+.create-noticecreate-background {
   background-color: #f5f5f5 !important;
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.admin-notice-background{
-
+.admin-notice-background {
   background-color: #f5f5f5 !important;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
-
 
 .topic {
-    font-weight: 600;
-    padding-top: 50px;
-    font-weight: 300;
-    text-align: center;
-  }
+  font-weight: 600;
+  padding-top: 50px;
+  font-weight: 300;
+  text-align: center;
+}
 
+.btn_style {
+  width: 50px;
+  margin-left: 10%;
+}
 
-.btn_style{
-width:50px;
-margin-left: 10%;
-  }
-
- 
 /* .container-fluid-di {
     background-color: #f5f5f5;
     width: 60%;
 } */
-.tb-style{
+.tb-style {
   color: #263238;
   /* padding-bottom:50px; */
 }
 
-
 /* NoticeView */
 
-.crd_notice-tittle-div{
+.crd_notice-tittle-div {
   background-color: #263238;
   height: 26px;
 }
@@ -57,59 +49,55 @@ margin-left: 10%;
   margin-bottom: 20px;
 } */
 
-.crd_notice-name{
-    margin-left :14px;
-    margin-top: 5px;
-    color: 	#FFFFFF;
-    font-family: roboto, sans;
-    font-size: 16px;
-    font-weight: 500;
+.crd_notice-name {
+  margin-left: 14px;
+  margin-top: 5px;
+  color: #ffffff;
+  font-family: roboto, sans;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-.crd_projects-name{ 
+.crd_projects-name {
   margin-top: 8px;
-  color: 	#FFFFFF;
+  color: #ffffff;
   font-family: roboto, sans;
   font-size: 12px;
   font-weight: 400;
 }
-.crd_notice-name-project{
+.crd_notice-name-project {
   margin-top: 8px;
-  color:#080808;
+  color: #080808;
   font-family: roboto, sans;
   font-size: 16px;
   font-weight: 400;
 }
-.crd_date{
+.crd_date {
   font-size: 12px;
-  margin-left :14px;
+  margin-left: 14px;
   font-weight: 350;
   font-family: roboto, sans;
-  color: 	#FFFFFF;
-
+  color: #ffffff;
 }
-.crd_user-name-div{
-  background-color:  #263238;
+.crd_user-name-div {
+  background-color: #263238;
   height: 20px;
 }
 
-.crd_notice-date{
-  font-size:12px;
-  margin-top:1px;
+.crd_notice-date {
+  font-size: 12px;
+  margin-top: 1px;
   font-weight: 350;
   font-family: roboto, sans;
-  color: 	#FFFFFF;
-
-
+  color: #ffffff;
 }
 
-.crd_notice_content{
-  font-weight:380;
+.crd_notice_content {
+  font-weight: 380;
   font-family: roboto, sans;
 }
-.crd_btn-row{
-  text-align:right;
-  
+.crd_btn-row {
+  text-align: right;
 }
 
 .delete-btn {
@@ -123,63 +111,58 @@ margin-left: 10%;
   cursor: pointer;
 }
 
-.reg-error{
+.reg-error {
   color: red;
   font-size: 10px;
 }
 
-
 @media screen and (max-width: 500px) {
-
-  .crd_notice-tittle-div{
+  .crd_notice-tittle-div {
     background-color: #263238;
-    height:35px;
+    height: 35px;
   }
 
-  .crd_user-name-div{
-    background-color:  #263238;
+  .crd_user-name-div {
+    background-color: #263238;
     height: 20px;
   }
 
-  .crd_date{
-  font-size:8px;
-  margin-left :14px;
-  font-weight: 350;
-  font-family: roboto, sans;
-  color: 	#FFFFFF;
-}
-.crd_notice-name{
-  margin-left :16px;
-  margin-top: 5px;
-  color: 	#FFFFFF;
-  font-family: roboto, sans;
-  font-size: 8px;
-  font-weight: 500;
-}
+  .crd_date {
+    font-size: 8px;
+    margin-left: 14px;
+    font-weight: 350;
+    font-family: roboto, sans;
+    color: #ffffff;
+  }
+  .crd_notice-name {
+    margin-left: 16px;
+    margin-top: 5px;
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 8px;
+    font-weight: 500;
+  }
 
-.crd_projects-name{
-  
-  margin-top: 8px;
-  color: 	#FFFFFF;
-  font-family: roboto, sans;
-  font-size: 6px;
-  font-weight: 400;
-}
-.crd_notice-name-project{
-  margin-top: 8px;
-  color: 	#FFFFFF;
-  font-family: roboto, sans;
-  font-size: 13px;
-  font-weight: 400;
-}
+  .crd_projects-name {
+    margin-top: 8px;
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 6px;
+    font-weight: 400;
+  }
+  .crd_notice-name-project {
+    margin-top: 8px;
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 13px;
+    font-weight: 400;
+  }
 
-.crd_notice-date{
-  font-size:8px;
-  margin-top:6px;
-  font-weight: 350;
-  font-family: roboto, sans;
-  color: 	#FFFFFF;
-
-}
-
+  .crd_notice-date {
+    font-size: 8px;
+    margin-top: 6px;
+    font-weight: 350;
+    font-family: roboto, sans;
+    color: #ffffff;
+  }
 }

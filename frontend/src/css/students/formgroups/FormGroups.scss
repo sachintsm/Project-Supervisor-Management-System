@@ -1,67 +1,63 @@
-.form-groups-css{
+.form-groups-css {
   min-height: 700px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   padding: 30px 0px;
 
-  .project-detail-card-div{
+  .project-detail-card-div {
     padding: 0% 30%;
   }
 
-  .project-detail-card{
+  .project-detail-card {
     margin: 0px;
   }
 
-  .main-title{
+  .main-title {
     text-align: center;
     margin-bottom: 20px;
   }
 
-  .title{
+  .title {
     margin-bottom: 20px;
     text-align: center;
   }
 
-  .group-form-card-div{
-  }
-
-  .group-form-card{
+  .group-form-card {
     padding: 20px 30px;
   }
 
-  .btn-div{
+  .btn-div {
     text-align: center;
     margin: 10px 0px 20px 0px;
   }
 
-  .my-btn1{
+  .my-btn1 {
     width: 40%;
   }
 
-  .border-span{
-    border-bottom: 1px solid #CCC;
+  .border-span {
+    border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
     margin-bottom: 20px;
   }
 
-  .error-div{
+  .error-div {
     color: red;
     text-align: center;
     margin-bottom: 20px;
   }
 
-  .form-control-div{
+  .form-control-div {
     padding: 10px 10%;
     margin-bottom: 20px;
   }
 
-  .spinner{
+  .spinner {
     align-content: center !important;
   }
 
-  @media only screen and  (max-width: 767px){
-    .project-detail-card-body{
+  @media only screen and (max-width: 767px) {
+    .project-detail-card-body {
       padding: 0% 4%;
     }
   }
-
 }

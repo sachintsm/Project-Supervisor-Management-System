@@ -1,85 +1,85 @@
 .user-registration {
-    .reg-image {
-        margin-top: 100px;
-        width: 100%;
-        margin-bottom: 100px;
-    }
+  .reg-image {
+    margin-top: 100px;
+    width: 100%;
+    margin-bottom: 100px;
+  }
 
-    .image2 {
-        width: 100%;
-        margin-bottom: 100px;
-    }
+  .image2 {
+    width: 100%;
+    margin-bottom: 100px;
+  }
 
-    .reg-head {
-        margin-left: 20px;
-        margin-top: 30px;
-        font-size: 30px;
-        color: #3a3a3a;
-        font-weight: 500;
-    }
+  .reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+  }
 
-    .tab {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: left;
-        margin-top: 50px;
-    }
+  .tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+  }
 
-    .main-div {
-        height: 100%;
-    }
+  .main-div {
+    height: 100%;
+  }
 
-    .text-label {
-        color: #6d6d6d;
-    }
+  .text-label {
+    color: #6d6d6d;
+  }
 
-    .input-div {
-        margin-top: -15px;
-    }
+  .input-div {
+    margin-top: -15px;
+  }
 
-    .csv-input {
-        padding: 10px;
-        display: block;
-        margin: 15px auto;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+  .csv-input {
+    padding: 10px;
+    display: block;
+    margin: 15px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 
-    .reg-csv-topic {
-        margin-top: -70px;
-    }
+  .reg-csv-topic {
+    margin-top: -70px;
+  }
 
-    .reg-error {
-        color: red;
-        font-size: 10px;
-    }
-    .spinner {
-        margin: auto;
-    }
-    .reg-error-title {
-        font-size: 18px;
-        font-weight: 500;
-        color: rgb(192, 0, 0);
-        text-align: center;
-        margin-bottom: 10px;
-    }
-    .reg-error-msg {
-        font-size: 15px;
-        font-weight: 400;
-        color: rgb(189, 0, 0);
-    }
+  .reg-error {
+    color: red;
+    font-size: 10px;
+  }
+  .spinner {
+    margin: auto;
+  }
+  .reg-error-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(192, 0, 0);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .reg-error-msg {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(189, 0, 0);
+  }
 }
 
 .user-registration {
-    .spinner {
-        margin: auto;
+  .spinner {
+    margin: auto;
+  }
+  @media screen and (max-width: 500px) {
+    .image-div {
+      display: none;
     }
-    @media screen and (max-width: 500px) {
-        .image-div {
-            display: none;
-        }
-        .reg-head {
-            padding-top: 20px;
-        }
+    .reg-head {
+      padding-top: 20px;
     }
+  }
 }

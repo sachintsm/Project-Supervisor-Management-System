@@ -1,6 +1,6 @@
-.footer-div{
-    padding-bottom: 10px;
-    background-color: #263238;
+.footer-div {
+  padding-bottom: 10px;
+  background-color: #263238;
 }
 
 .companey-name {
@@ -25,10 +25,10 @@ hr {
   font-size: 14px;
   color: #eaf3ff;
   text-align: center;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
-.footer-text{
-  color : #eaf3ff;
+.footer-text {
+  color: #eaf3ff;
   font-size: 13px;
   text-align: justify;
 }

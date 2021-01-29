@@ -1,150 +1,150 @@
 .messages-container {
-    height: 65vh;
-    background-color: rgb(252, 252, 252);
+  height: 65vh;
+  background-color: rgb(252, 252, 252);
 }
 .messages-container::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .messages-container::-webkit-scrollbar-track {
-    background: rgb(243, 243, 242); /* color of the tracking area */
+  background: rgb(243, 243, 242); /* color of the tracking area */
 }
 .messages-container::-webkit-scrollbar-thumb {
-    background-color: rgb(212, 212, 212); /* color of the scroll thumb */
-    border-radius: 10px; /* roundness of the scroll thumb */
+  background-color: rgb(212, 212, 212); /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
 }
 
 .mc-chat-card {
-    background-color: rgb(226, 226, 226);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    margin-left: -20px;
+  background-color: rgb(226, 226, 226);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: -20px;
 }
 .mc-chat-card-me {
-    background-color: #263238a1;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+  background-color: #263238a1;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 .mc-chat-username {
-    color: #444444;
-    font-size: 15px;
-    font-weight: 500;
-    margin-top: 10px;
-    margin-bottom: -0px;
-    font-family: roboto, sans;
+  color: #444444;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: -0px;
+  font-family: roboto, sans;
 }
 
 .mc-chat-content {
-    font-family: cursive;
-    color: #646464;
-    margin-bottom: 5px;
+  font-family: cursive;
+  color: #646464;
+  margin-bottom: 5px;
 }
 .mc-chat-content-me {
-    margin-top: 8px;
-    margin-bottom: 5px;
-    font-family: cursive;
-    color: #ffffff;
+  margin-top: 8px;
+  margin-bottom: 5px;
+  font-family: cursive;
+  color: #ffffff;
 }
 
 /**************************************************************/
 .chat-send-btn {
-    width: 100%;
-    margin-left: -30px;
-    margin-top: -5px;
+  width: 100%;
+  margin-left: -30px;
+  margin-top: -5px;
 }
 
 .chat-input-row {
-    width: 107%;
+  width: 107%;
 }
 
 .send-icon:hover {
-    color: #151b1f;
-    transition: 0.5s;
+  color: #151b1f;
+  transition: 0.5s;
 }
 
 .container-main-div {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .chat-propic {
-    color: #acacac;
+  color: #acacac;
 }
 
 .chat-topic-div {
-    height: 70px;
-    width: 100%;
-    margin-top: 30px;
-    background-color: #263238;
+  height: 70px;
+  width: 100%;
+  margin-top: 30px;
+  background-color: #263238;
 }
 
 .chat-topic {
-    font-size: 28px;
-    font-weight: 500;
-    color: #fff;
-    margin: auto;
+  font-size: 28px;
+  font-weight: 500;
+  color: #fff;
+  margin: auto;
 }
 .x {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .mc-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
 }
 .mc-image-other {
-    width: 40px;
-    height: 40px;
-    border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
 }
 
 .task-card-cb {
-    .card-header {
-        background-color: #263238;
-        color: white;
-        font-size: 18px;
-    }
-    .circular-progress-div {
-        padding: 5% 30% 8% 30%;
-        text-align: center;
-    }
-    .delete-span {
-        float: right;
-        font-size: 26px;
-        display: flex;
-        align-items: center;
-    }
-    .delete-span:hover {
-        color: red;
-        transform: scale(1.45);
-    }
-    .gd-card-body {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        overscroll-behavior-y: contain;
-    }
+  .card-header {
+    background-color: #263238;
+    color: white;
+    font-size: 18px;
+  }
+  .circular-progress-div {
+    padding: 5% 30% 8% 30%;
+    text-align: center;
+  }
+  .delete-span {
+    float: right;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+  }
+  .delete-span:hover {
+    color: red;
+    transform: scale(1.45);
+  }
+  .gd-card-body {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    overscroll-behavior-y: contain;
+  }
 }
 
 @media only screen and (max-width: 500px) {
-    .chat-propic {
-        width: 70%;
-        font-size: 40px;
-    }
-    .chat-send-btn {
-        width: 80%;
-    }
+  .chat-propic {
+    width: 70%;
+    font-size: 40px;
+  }
+  .chat-send-btn {
+    width: 80%;
+  }
 
-    .mc-image {
-        width: 120%;
-        margin: 0 auto;
-        border-radius: 100px;
-    }
-    .mc-image-other {
-        width: 120%;
-        margin-left: -20px;
-        border-radius: 100;
-    }
+  .mc-image {
+    width: 120%;
+    margin: 0 auto;
+    border-radius: 100px;
+  }
+  .mc-image-other {
+    width: 120%;
+    margin-left: -20px;
+    border-radius: 100;
+  }
 }

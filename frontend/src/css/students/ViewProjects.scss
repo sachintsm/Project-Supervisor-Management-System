@@ -1,32 +1,31 @@
-
-.view-project-background-color{
+.view-project-background-color {
   background-color: #f5f5f5;
   padding-top: 50px;
   padding-bottom: 50px;
 }
-.view-projects{
-  .zero-padding{
+.view-projects {
+  .zero-padding {
     padding: 0px !important;
   }
-  .title{
+  .title {
     padding-left: 20px;
   }
-  .zero-margin{
+  .zero-margin {
     margin: 0px !important;
   }
-  .container-fluid{
+  .container-fluid {
     padding: 0px 0px !important;
   }
-  .spinner{
-     align-content: center !important;
-   }
-  .card-div{
+  .spinner {
+    align-content: center !important;
+  }
+  .card-div {
     padding: 3%;
   }
-  .current-card{
+  .current-card {
     margin-top: 0px !important;
   }
-  .ended-card{
+  .ended-card {
     margin-bottom: 0px !important;
   }
   .dot {
@@ -37,85 +36,74 @@
     display: inline-block;
     vertical-align: top;
   }
-  .project-list-div{
+  .project-list-div {
     padding: 20px 0px 0px 0px;
   }
-  .projects-card{
-  }
-  .projects-card:hover{
-   }
-  .no-project{
+  .no-project {
     color: red;
     padding-left: 20px;
   }
-  .bold-text{
+  .bold-text {
     font-weight: bold;
   }
-  .normal-text{
+  .normal-text {
     font-weight: normal;
   }
   .p {
     background-color: red !important;
   }
-
-
-
 }
 
-@media only screen and  (max-width: 767px){
-
-  .view-project-background-color{
+@media only screen and (max-width: 767px) {
+  .view-project-background-color {
     background-color: #f5f5f5;
     padding: 30px 5px !important;
   }
 
-  .projects-card{
+  .projects-card {
     background-color: #f5f5f5 !important;
   }
-  .projects-card:hover{
-       background-color: white !important;
+  .projects-card:hover {
+    background-color: white !important;
   }
-  .container{
+  .container {
     padding: 0px 0px !important;
   }
-  .view-projects{
-    padding: 20px  0px!important;
+  .view-projects {
+    padding: 20px 0px !important;
 
-    .text{
+    .text {
       font-size: 12px !important;
     }
-    .title{
+    .title {
       padding-left: 10px;
       font-size: 20px !important;
     }
-    .card-div{
+    .card-div {
       padding: 4% 2%;
     }
-    .item-div{
+    .item-div {
       padding: 0px 4px;
-
     }
-    .project-list-div{
+    .project-list-div {
       padding: 0px 10px;
     }
-    .bold-text{
+    .bold-text {
       font-size: 12px !important;
     }
-    .normal-text{
+    .normal-text {
       font-size: 12px !important;
     }
-    .current-card{
-      margin-bottom: 20px!important;
-
+    .current-card {
+      margin-bottom: 20px !important;
     }
-    .ended-card{
+    .ended-card {
       margin-top: 0px !important;
       margin-bottom: 0px !important;
     }
-    .no-project{
+    .no-project {
       font-size: 12px !important;
       font-size: 12px !important;
     }
   }
-
 }

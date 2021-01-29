@@ -1,298 +1,297 @@
 @media (max-width: 480px) {
-    .profilepic {
-        display: block;
-        width: 300px;
-        border : 1px solid rgb(211, 211, 211);
-    }
+  .profilepic {
+    display: block;
+    width: 300px;
+    border: 1px solid rgb(211, 211, 211);
+  }
 }
 @media (min-width: 320px) and (max-width: 480px) {
-    .form-group {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .password-icon {
-        cursor: pointer;
-        float: right;
-        margin-top: 15px;
-        margin-left: -18px;
-    }
-    .input-container {
-        display: flex;
-    }
-    .card-body {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .profilepic {
-        display: block;
-        width: 300px;
-        border : 1px solid rgb(211, 211, 211);
-    }
-    .tab {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: left;
-        margin-top: 50px;
-    }
-    .main-div {
-        height: 100%;
-    }
-    .reg-head {
-        margin-left: 20px;
-        margin-top: 30px;
-        font-size: 30px;
-        color: #3a3a3a;
-        font-weight: 500;
-    }
-    .form-group1 {
-        width: 90%;
-    }
-    .testimonial-card {
-        width: 350px;
-        height: 100px;
-        margin-top: 50px;
-
-    }
-    .card-body1 {
-        height: 100%;
-        width: 100%;
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .testimonial-card1 {
-        width: 350px;
-        height: 129px;
-    }
-    .card1 {
-        width: 210px;
-    }
-    .card2 {
-        width: 220px;
-        margin-top: 50px;
-    }
-    .card3 {
-        width: 200px;
-    }
-    .myImage {
-        width: 97px;
-    }
-    .card-title {
-        font-size: small;
-        padding-left: 10px;
-    }
+  .form-group {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .password-icon {
+    cursor: pointer;
+    float: right;
+    margin-top: 15px;
+    margin-left: -18px;
+  }
+  .input-container {
+    display: flex;
+  }
+  .card-body {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .profilepic {
+    display: block;
+    width: 300px;
+    border: 1px solid rgb(211, 211, 211);
+  }
+  .tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+  }
+  .main-div {
+    height: 100%;
+  }
+  .reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+  }
+  .form-group1 {
+    width: 90%;
+  }
+  .testimonial-card {
+    width: 350px;
+    height: 100px;
+    margin-top: 50px;
+  }
+  .card-body1 {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .testimonial-card1 {
+    width: 350px;
+    height: 129px;
+  }
+  .card1 {
+    width: 210px;
+  }
+  .card2 {
+    width: 220px;
+    margin-top: 50px;
+  }
+  .card3 {
+    width: 200px;
+  }
+  .myImage {
+    width: 97px;
+  }
+  .card-title {
+    font-size: small;
+    padding-left: 10px;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 1024px) {
-    .form-group {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .form-group1 {
-        width: 90%;
-    }
-    .input-container {
-        display: flex;
-    }
-    .password-icon {
-        cursor: pointer;
-        float: right;
-        margin-top: 15px;
-        margin-left: -25px;
-    }
-    .card-body {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .profilepic {
-        display: block;
-        width: 300px;
-        border : 1px solid rgb(211, 211, 211);
-    }
-    .tab {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: left;
-        margin-top: 50px;
-    }
-    .main-div {
-        height: 100%;
-    }
-    .reg-head {
-        margin-left: 20px;
-        margin-top: 30px;
-        font-size: 30px;
-        color: #3a3a3a;
-        font-weight: 500;
-    }
-    .testimonial-card {
-        width: 310px;
-        height: 230px;
-        margin-top: 50px;
-    }
-    .card-body1 {
-        height: 200px;
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-        /* width: 10px; */
-    }
-    .card-body2 {
-        margin: 0 auto;
-        float: none;
-        margin-top: 50px;
-    }
-    .testimonial-card1 {
-        width: 240px;
-        height: 130px;
-    }
-    .card1 {
-        width: 100%;
-    }
-    .card2 {
-        width: 100%;
-        margin-top: 50px;
-    }
-    .card3 {
-        width: 100%;
-    }
+  .form-group {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .form-group1 {
+    width: 90%;
+  }
+  .input-container {
+    display: flex;
+  }
+  .password-icon {
+    cursor: pointer;
+    float: right;
+    margin-top: 15px;
+    margin-left: -25px;
+  }
+  .card-body {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .profilepic {
+    display: block;
+    width: 300px;
+    border: 1px solid rgb(211, 211, 211);
+  }
+  .tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+  }
+  .main-div {
+    height: 100%;
+  }
+  .reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+  }
+  .testimonial-card {
+    width: 310px;
+    height: 230px;
+    margin-top: 50px;
+  }
+  .card-body1 {
+    height: 200px;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+    /* width: 10px; */
+  }
+  .card-body2 {
+    margin: 0 auto;
+    float: none;
+    margin-top: 50px;
+  }
+  .testimonial-card1 {
+    width: 240px;
+    height: 130px;
+  }
+  .card1 {
+    width: 100%;
+  }
+  .card2 {
+    width: 100%;
+    margin-top: 50px;
+  }
+  .card3 {
+    width: 100%;
+  }
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-    .form-group {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .input-container {
-        display: flex;
-    }
-    .password-icon {
-        cursor: pointer;
-        float: right;
-        margin-top: 15px;
-        margin-left: -25px;
-    }
-    .card-body {
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .card-body2 {
-        margin: 0 auto;
-        float: none;
-        margin-top: 50px;
-    }
-    .profilepic {
-        display: block;
-        width: 300px;
-        border : 1px solid rgb(211, 211, 211);
-    }
-    .tab {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: left;
-        margin-top: 50px;
-    }
-    .main-div {
-        height: 100%;
-    }
-    .reg-head {
-        margin-left: 20px;
-        margin-top: 30px;
-        font-size: 30px;
-        color: #3a3a3a;
-        font-weight: 500;
-    }
-    .testimonial-card {
-        width: 400px;
-        height: 290px;
-    }
-    .card-body1 {
-        height: 200px;
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .testimonial-card1 {
-        width: 320px;
-        height: 130px;
-    }
-    .card1 {
-        width: 650px;
-    }
-    .card2 {
-        width: 100%;
-        margin-top: 50px;
-    }
-    .card3 {
-        width: 550px;
-    }
+  .form-group {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .input-container {
+    display: flex;
+  }
+  .password-icon {
+    cursor: pointer;
+    float: right;
+    margin-top: 15px;
+    margin-left: -25px;
+  }
+  .card-body {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .card-body2 {
+    margin: 0 auto;
+    float: none;
+    margin-top: 50px;
+  }
+  .profilepic {
+    display: block;
+    width: 300px;
+    border: 1px solid rgb(211, 211, 211);
+  }
+  .tab {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: left;
+    margin-top: 50px;
+  }
+  .main-div {
+    height: 100%;
+  }
+  .reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+  }
+  .testimonial-card {
+    width: 400px;
+    height: 290px;
+  }
+  .card-body1 {
+    height: 200px;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .testimonial-card1 {
+    width: 320px;
+    height: 130px;
+  }
+  .card1 {
+    width: 650px;
+  }
+  .card2 {
+    width: 100%;
+    margin-top: 50px;
+  }
+  .card3 {
+    width: 550px;
+  }
 }
 @media (min-width: 1281px) and (max-width: 1580px) {
-    .card2 {
-        width: 100%;
-        margin-top: 50px;
-    }
-    .card-body2 {
-        margin: 0 auto;
-        float: none;
-        width: 100%;
-        margin-top: 50px;
-    }
-    .password-icon {
-        cursor: pointer;
-        float: right;
-        margin-top: -28px;
-        margin-right: 8px;
-    }
-    .testimonial-card {
-        margin-top: 50px;
-        display : block;
-        width: 240px;
-        height: 443px;
-    }
-    .card-body1 {
-        height: 120px;
-        margin: 0 auto;
-        float: none;
-        margin-bottom: 10px;
-    }
-    .profilepic {
-        display: block;
-        width: 280px;
-        border : 1px solid rgb(211, 211, 211);
-    }
-    .reg-head {
-        margin-left: 20px;
-        margin-top: 30px;
-        font-size: 30px;
-        color: #3a3a3a;
-        font-weight: 500;
-    }
+  .card2 {
+    width: 100%;
+    margin-top: 50px;
+  }
+  .card-body2 {
+    margin: 0 auto;
+    float: none;
+    width: 100%;
+    margin-top: 50px;
+  }
+  .password-icon {
+    cursor: pointer;
+    float: right;
+    margin-top: -28px;
+    margin-right: 8px;
+  }
+  .testimonial-card {
+    margin-top: 50px;
+    display: block;
+    width: 240px;
+    height: 443px;
+  }
+  .card-body1 {
+    height: 120px;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .profilepic {
+    display: block;
+    width: 280px;
+    border: 1px solid rgb(211, 211, 211);
+  }
+  .reg-head {
+    margin-left: 20px;
+    margin-top: 30px;
+    font-size: 30px;
+    color: #3a3a3a;
+    font-weight: 500;
+  }
 }
 
 @media (min-width: 1580px) {
-    .profilepic {
-        display: block;
-        width: 300px;
-        border : 1px solid rgb(211, 211, 211);
-    }
-    .password-icon {
-        cursor: pointer;
-        float: right;
-        margin-top: -28px;
-        margin-right: 8px;
-    }
+  .profilepic {
+    display: block;
+    width: 300px;
+    border: 1px solid rgb(211, 211, 211);
+  }
+  .password-icon {
+    cursor: pointer;
+    float: right;
+    margin-top: -28px;
+    margin-right: 8px;
+  }
 
-    .testimonial-card {
-        margin-top: 50px;
+  .testimonial-card {
+    margin-top: 50px;
 
-        width: 250px;
-        height: 350px;
-    }
+    width: 250px;
+    height: 350px;
+  }
 }

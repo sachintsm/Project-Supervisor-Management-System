@@ -137,7 +137,6 @@ class ViewMeeting extends Component {
     });
   };
 
-
   render() {
     const { viewMeetDiv, loading, loading2 } = this.state;
     return (

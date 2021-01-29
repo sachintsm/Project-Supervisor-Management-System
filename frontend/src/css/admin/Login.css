@@ -1,126 +1,126 @@
 .login-page {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-position: 100% 100%;
-    z-index: -1;
-    -webkit-filter: blur(5px);
-    -moz-filter: blur(5px);
-    -o-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
-    transform: scale(1.1);
-    display: block;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-position: 100% 100%;
+  z-index: -1;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  transform: scale(1.1);
+  display: block;
 }
 
 .title-div {
-    text-align: center;
+  text-align: center;
 }
 
 .z-index-2 {
-    position: fixed;
-    z-index: 2;
+  position: fixed;
+  z-index: 2;
 }
 
 .vertical-center {
-    padding-top: 100px;
+  padding-top: 100px;
 }
 
 .abc {
-    /*flex: 1 1 auto;*/
+  /*flex: 1 1 auto;*/
 }
 
 .login-card {
-    flex: 1 1 auto;
-    width: 100% !important;
-    margin: auto;
-    padding: 5% 10% 8% 10%;
+  flex: 1 1 auto;
+  width: 100% !important;
+  margin: auto;
+  padding: 5% 10% 8% 10%;
 }
 
 .login-card-div {
-    vertical-align: middle;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
+  vertical-align: middle;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .forgot-password-btn {
-    margin: auto;
-    font-size: 15px;
+  margin: auto;
+  font-size: 15px;
 }
 
 .logo {
-    /*padding-top: 20px !important;*/
-    text-align: center;
-    align-items: center;
-    width: 80%;
-    margin-bottom: 40px;
-    margin-top: 40px;
+  /*padding-top: 20px !important;*/
+  text-align: center;
+  align-items: center;
+  width: 80%;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 .btn-div {
-    margin-top: 40px;
-    padding: 0px 14px;
-    margin-bottom: 20px !important;
+  margin-top: 40px;
+  padding: 0px 14px;
+  margin-bottom: 20px !important;
 }
 
 .btnOne {
-    background-color: rgb(29, 38, 54);
-    border: 4px solid;
-    border-radius: 4px;
-    width: 95%;
-    margin: auto;
+  background-color: rgb(29, 38, 54);
+  border: 4px solid;
+  border-radius: 4px;
+  width: 95%;
+  margin: auto;
 }
 
 .btnOne:hover {
-    background-color: #26323865;
-    cursor: pointer;
+  background-color: #26323865;
+  cursor: pointer;
 }
 
 .btnTwo {
-    background-color: #1c2331;
-    /* height: 45px; */
-    width: 95%;
-    border-radius: 4px;
-    margin: auto;
-    margin: auto;
+  background-color: #1c2331;
+  /* height: 45px; */
+  width: 95%;
+  border-radius: 4px;
+  margin: auto;
+  margin: auto;
 }
 
 .btnTwo:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .login-btn {
-    width: 100%;
-    cursor: pointer;
+  width: 100%;
+  cursor: pointer;
 }
 
 .lg-problem {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .lg-problem-text {
-    color: rgb(112, 112, 112);
-    font-size: 12px;
-    font-weight: 400;
+  color: rgb(112, 112, 112);
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .lg-problem-admin {
-    color: rgb(3, 155, 201);
-    font-size: 12px;
-    cursor: pointer;
-    font-weight: 500;
-    /* margin-left: -40px; */
+  color: rgb(3, 155, 201);
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  /* margin-left: -40px; */
 }
 
 .white-logo {
-    width: 20%;
-    position: fixed;
-    top: 40%;
-    left: 40%;
+  width: 20%;
+  position: fixed;
+  top: 40%;
+  left: 40%;
 }
 
 /* .spinnerX {
@@ -132,147 +132,150 @@
 } */
 
 .spinner-loading {
-    width: 0%;
-    position: fixed;
-    top: 51%;
-    left: 49%;
-    color: rgb(1, 34, 94);
-    width: 40px;
-    height: 40px;
+  width: 0%;
+  position: fixed;
+  top: 51%;
+  left: 49%;
+  color: rgb(1, 34, 94);
+  width: 40px;
+  height: 40px;
 }
 
-.double-bounce1, .double-bounce2 {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: rgb(1, 34, 94);
-    opacity: 0.6;
-    position: absolute;
-    top: 0;
-    left: 0;
-    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-    animation: sk-bounce 2.0s infinite ease-in-out;
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgb(1, 34, 94);
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
 }
 
 .double-bounce2 {
-    -webkit-animation-delay: -1.0s;
-    animation-delay: -1.0s;
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
 }
 
 @-webkit-keyframes sk-bounce {
-    0%, 100% {
-        -webkit-transform: scale(0.0)
-    }
-    50% {
-        -webkit-transform: scale(1.0)
-    }
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+  }
 }
 
 @keyframes sk-bounce {
-    0%, 100% {
-        transform: scale(0.0);
-        -webkit-transform: scale(0.0);
-    }
-    50% {
-        transform: scale(1.0);
-        -webkit-transform: scale(1.0);
-    }
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }
 
 @media only screen and (max-width: 1024px) {
-    .vertical-center {
-        padding-top: 30px !important;
-    }
-    .login-card-div {
-        padding: 0px 30px;
-        margin-left: 0px !important;
-        margin-right: 0px !important;
-    }
-    .login-card {
-        width: 100% !important;
-        margin: auto;
-        /*padding: 0% 8% 8% 8%;*/
-    }
-    .lg-problem {
-        margin-top: 10px;
-    }
-    .lg-problem-text {
-        color: rgb(112, 112, 112);
-        font-size: 12px;
-        font-weight: 400;
-    }
-    .lg-problem-admin {
-        color: rgb(0, 128, 167);
-        font-size: 12px;
-        cursor: pointer;
-        font-weight: 500;
-        /* margin-left: -40px; */
-    }
+  .vertical-center {
+    padding-top: 30px !important;
+  }
+  .login-card-div {
+    padding: 0px 30px;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  .login-card {
+    width: 100% !important;
+    margin: auto;
+    /*padding: 0% 8% 8% 8%;*/
+  }
+  .lg-problem {
+    margin-top: 10px;
+  }
+  .lg-problem-text {
+    color: rgb(112, 112, 112);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .lg-problem-admin {
+    color: rgb(0, 128, 167);
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    /* margin-left: -40px; */
+  }
 }
 
 @media only screen and (max-width: 767px) {
-    .logo {
-        padding-top: 15px !important;
-        text-align: center;
-        align-items: center;
-        width: 90%;
-        margin-bottom: 40px;
-    }
-    .login-card {
-        width: 90% !important;
-        margin: auto;
-        padding: 0% 8% 8% 8%;
-    }
-    .title {
-        font-size: 25px !important;
-    }
-    .email-icon {
-        font-size: 12px !important;
-        height: 39.7px !important;
-    }
-    .email-icon2 {
-        width: 20px;
-    }
-    .email-formcontrol {
-        font-size: 17px !important;
-    }
-    .password-icon {
-        font-size: 12px !important;
-        height: 39.7px !important;
-    }
-    .password-icon2 {
-        width: 20px;
-    }
-    .password-formcontrol {
-        font-size: 17px !important;
-    }
-    .btn-div {
-        margin-top: 30px;
-    }
-    .form-group-1 {
-        margin-bottom: 0px !important;
-    }
-    .form-group-2 {
-        margin-bottom: 0px !important;
-    }
-    .login-btn {
-        font-size: 17px !important;
-        width: 100%;
-        cursor: pointer;
-    }
-    .lg-problem {
-        margin-top: 10px;
-    }
-    .lg-problem-text {
-        color: rgb(112, 112, 112);
-        font-size: 12px;
-        font-weight: 400;
-    }
-    .lg-problem-admin {
-        color: rgb(0, 177, 177);
-        font-size: 12px;
-        cursor: pointer;
-        font-weight: 500;
-        /* margin-left: -35px; */
-    }
+  .logo {
+    padding-top: 15px !important;
+    text-align: center;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 40px;
+  }
+  .login-card {
+    width: 90% !important;
+    margin: auto;
+    padding: 0% 8% 8% 8%;
+  }
+  .title {
+    font-size: 25px !important;
+  }
+  .email-icon {
+    font-size: 12px !important;
+    height: 39.7px !important;
+  }
+  .email-icon2 {
+    width: 20px;
+  }
+  .email-formcontrol {
+    font-size: 17px !important;
+  }
+  .password-icon {
+    font-size: 12px !important;
+    height: 39.7px !important;
+  }
+  .password-icon2 {
+    width: 20px;
+  }
+  .password-formcontrol {
+    font-size: 17px !important;
+  }
+  .btn-div {
+    margin-top: 30px;
+  }
+  .form-group-1 {
+    margin-bottom: 0px !important;
+  }
+  .form-group-2 {
+    margin-bottom: 0px !important;
+  }
+  .login-btn {
+    font-size: 17px !important;
+    width: 100%;
+    cursor: pointer;
+  }
+  .lg-problem {
+    margin-top: 10px;
+  }
+  .lg-problem-text {
+    color: rgb(112, 112, 112);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .lg-problem-admin {
+    color: rgb(0, 177, 177);
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    /* margin-left: -35px; */
+  }
 }

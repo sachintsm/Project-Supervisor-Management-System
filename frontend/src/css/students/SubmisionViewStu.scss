@@ -1,116 +1,98 @@
-.sub-style{
+.sub-style {
+  .sub-background {
+    background-color: #f5f5f5 !important;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    min-height: 450px;
+  }
 
-.sub-background{
-     background-color:#f5f5f5 !important;
-     padding-top: 20px;
-     padding-bottom: 10px;
-     min-height: 450px;
-     
-}
-
-.sup-tittle{
-color: #4b4b4b;    
-margin-top: 5px;
-font-style: normal;
-font-variant-caps: normal;
-font-weight: 400;;
-font-stretch: normal;
-font-size: 108%;
-line-height: 1.231;
-font-family:Verdana,Arial,Helvetica,sans-serif;
-font-size-adjust: none;
-font-kerning: auto;
-font-optical-sizing: auto;
-
-}
-
-
- .sub-link{
-     color:#2D5F87;   
-     text-decoration: underline;
-     font-size: .95em;
-     font-family: Verdana,Arial,Helvetica,sans-serif;
-     margin-left: 20px;
-     line-height: 2em;
- }
- .sub-link:hover {
-     color: #D42F52;
- }
-
- .sub-content{
-    color:#2D5F87;   
-    font-size: .95em;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
-    margin-left: 20px;
-    line-height: 2em;
- }
-.btn-sub{
-    margin-bottom: 10;
-    width: "100%";
-    text-align: "right";
-    margin-left: "60px";
-}
-
-
-
-
- @media screen and (max-width: 500px) {
-
-    .sub-background{
-        background-color:#f5f5f5 !important;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        min-height:100px;
-        
-   }
-
-   .sup-tittle{
+  .sup-tittle {
     color: #4b4b4b;
     margin-top: 5px;
     font-style: normal;
     font-variant-caps: normal;
-    font-weight: 400;;
+    font-weight: 400;
     font-stretch: normal;
-    font-size: 100%;
+    font-size: 108%;
     line-height: 1.231;
-    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size-adjust: none;
     font-kerning: auto;
     font-optical-sizing: auto;
-   
+  }
+
+  .sub-link {
+    color: #2d5f87;
+    text-decoration: underline;
+    font-size: 0.95em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-left: 20px;
+    line-height: 2em;
+  }
+  .sub-link:hover {
+    color: #d42f52;
+  }
+
+  .sub-content {
+    color: #2d5f87;
+    font-size: 0.95em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-left: 20px;
+    line-height: 2em;
+  }
+  .btn-sub {
+    margin-bottom: 10;
+    width: "100%";
+    text-align: "right";
+    margin-left: "60px";
+  }
+
+  @media screen and (max-width: 500px) {
+    .sub-background {
+      background-color: #f5f5f5 !important;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      min-height: 100px;
     }
 
-    .sub-content{
-        color:#2D5F87;   
-        font-size: .7em;
-        font-family: Verdana,Arial,Helvetica,sans-serif;
-        margin-left: 5px;
-        line-height: 1em;
-     }
-     .sub-link{
-        color:#2D5F87;   
-        text-decoration: underline;
-        font-size: .7em;
-        font-family: Verdana,Arial,Helvetica,sans-serif;
-        margin-left: 5px;
-        line-height: 1em;
+    .sup-tittle {
+      color: #4b4b4b;
+      margin-top: 5px;
+      font-style: normal;
+      font-variant-caps: normal;
+      font-weight: 400;
+      font-stretch: normal;
+      font-size: 100%;
+      line-height: 1.231;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size-adjust: none;
+      font-kerning: auto;
+      font-optical-sizing: auto;
     }
 
-    .btn-sub{
-        margin-bottom: 10px;
-        width: 90%;
-        text-align: "center";
-        //margin-left: 5px;
-        margin-right: 5px;
-        align-self: center;
+    .sub-content {
+      color: #2d5f87;
+      font-size: 0.7em;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      margin-left: 5px;
+      line-height: 1em;
     }
-    
- }
+    .sub-link {
+      color: #2d5f87;
+      text-decoration: underline;
+      font-size: 0.7em;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      margin-left: 5px;
+      line-height: 1em;
+    }
 
-
-
-
-
-
-
+    .btn-sub {
+      margin-bottom: 10px;
+      width: 90%;
+      text-align: "center";
+      //margin-left: 5px;
+      margin-right: 5px;
+      align-self: center;
+    }
+  }
 }

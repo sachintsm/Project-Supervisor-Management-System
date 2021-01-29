@@ -2,25 +2,24 @@
   background-color: #f5f5f5;
 }
 
-
 .cp-text {
   color: rgb(129, 129, 129);
 }
 .card-div-1 {
   margin: auto;
   margin-top: 50px !important;
-  margin-bottom: 50px  !important;
+  margin-bottom: 50px !important;
   width: 70%;
   padding: 30px 60px;
 }
 
-.mt-30{
+.mt-30 {
   margin-top: 30px;
 }
 
 .card-div-2 {
   margin: auto;
-  margin-bottom: 50px  !important;
+  margin-bottom: 50px !important;
   width: 90%;
   padding: 30px 60px;
 }
@@ -29,7 +28,7 @@
   vertical-align: middle;
 }
 
-.text-align-center{
+.text-align-center {
   text-align: center;
 }
 
@@ -45,16 +44,16 @@
   font-size: 5px;
 }
 
-.td-font-14{
-  font-size:14px
+.td-font-14 {
+  font-size: 14px;
 }
 
-.table-row:hover{
-  background-color:#F5F5F5;
+.table-row:hover {
+  background-color: #f5f5f5;
   cursor: pointer;
 }
 
-.col-padding-5{
+.col-padding-5 {
   padding: 0px 5px !important;
 }
 
@@ -62,68 +61,64 @@
   .card-div-1 {
     margin: auto;
     margin-top: 20px !important;
-    margin-bottom: 20px  !important;
+    margin-bottom: 20px !important;
     width: 80%;
     padding: 30px 60px;
   }
 
-  .title{
+  .title {
     font-size: 24px;
   }
-
 }
 
 @media only screen and (max-width: 600px) {
-
-
-
   .card-div-1 {
     margin: auto;
     margin-top: 20px !important;
-    margin-bottom: 20px  !important;
+    margin-bottom: 20px !important;
     width: 100%;
     padding: 20px 30px;
   }
 
   .card-div-2 {
     margin: auto;
-    margin-bottom: 20px  !important;
+    margin-bottom: 20px !important;
     width: 100%;
     padding: 20px 0px;
   }
 
   .form-control-label {
     font-size: 5px;
-    padding: 0px 15px !important
+    padding: 0px 15px !important;
   }
 
-  .title{
+  .title {
     font-size: 20px;
   }
-  .title2{
+  .title2 {
     font-size: 20px;
-    padding: 0px 30px
+    padding: 0px 30px;
   }
 
-  .cp-text{
+  .cp-text {
     font-size: 14px;
   }
 
-  .placeholder-text{
+  .placeholder-text {
     width: 100%;
-    font-size: 14px !important
+    font-size: 14px !important;
   }
 
-  .mt-30{
+  .mt-30 {
     margin-top: 15px;
   }
-  .middle{
+  .middle {
     text-align: center;
   }
-  .table-heading{
+  .table-heading {
     font-size: 13px;
   }
-  .operation-column{
+  .operation-column {
     width: 35%;
   }
 }
@@ -132,48 +127,45 @@
   .card-div-1 {
     margin: auto;
     margin-top: 20px !important;
-    margin-bottom: 20px  !important;
+    margin-bottom: 20px !important;
     width: 100%;
     padding: 20px 20px;
   }
 
-
   .card-div-2 {
     margin: auto;
-    margin-bottom: 20px  !important;
+    margin-bottom: 20px !important;
     width: 100%;
     padding: 20px 0px;
   }
   .form-control-label {
     font-size: 5px;
-    padding: 0px 15px !important
+    padding: 0px 15px !important;
   }
-  .title{
+  .title {
     font-size: 17px;
   }
-  .title2{
-     font-size: 20px;
-     padding: 0px 20px
-   }
-  .cp-text{
+  .title2 {
+    font-size: 20px;
+    padding: 0px 20px;
+  }
+  .cp-text {
     font-size: 12px;
   }
-  .placeholder-text{
+  .placeholder-text {
     width: 100%;
-    font-size: 12px !important
+    font-size: 12px !important;
   }
-  .mt-30{
+  .mt-30 {
     margin-top: 5px;
   }
-  .middle{
+  .middle {
     text-align: center;
   }
-  .table-heading{
+  .table-heading {
     font-size: 10px;
   }
-  .operation-column{
+  .operation-column {
     width: 35%;
   }
 }
-
-

@@ -1,75 +1,73 @@
-.project-details-card-div2{
-  .project-details-card{
+.project-details-card-div2 {
+  .project-details-card {
     margin: 0px 0px;
   }
-  .error-text{
-    color: red
+  .error-text {
+    color: red;
   }
-  .spinner2{
+  .spinner2 {
     margin: 30px 0px;
     height: 50px;
     width: 50px;
     font-size: 20px;
   }
-  .card-header{
+  .card-header {
     background-color: #263238;
     color: white;
     font-size: 19px;
   }
-  .edit-span{
+  .edit-span {
     float: right;
     font-size: 26px;
     display: flex;
     align-items: center;
   }
-  .edit-span:hover{
+  .edit-span:hover {
     cursor: pointer;
     transform: scale(1.25);
     transition-duration: 0.5s;
   }
-  .card-header2{
-    color: #BBB
+  .card-header2 {
+    color: #bbb;
   }
-  .card-body{
-    background-color: #FBFBFB;
+  .card-body {
+    background-color: #fbfbfb;
     padding: 15px 0px;
   }
-  .circular-progressbar-col{
+  .circular-progressbar-col {
     padding: 0px 60px 10px 50px;
-    display:flex;
+    display: flex;
     flex-direction: column;
   }
-  .my-progress-bar{
-    flex:1 1 auto;
+  .my-progress-bar {
+    flex: 1 1 auto;
   }
-  .details-col{
-    display:flex;
+  .details-col {
+    display: flex;
     flex-direction: column;
-    .details-row{
-      flex:1 1 auto;
+    .details-row {
+      flex: 1 1 auto;
       padding-bottom: 3px;
     }
   }
-
-
 }
-@media only screen and  (max-width: 1024px){
-  .zero-padding{
-    padding: 0px 0px !important
+@media only screen and (max-width: 1024px) {
+  .zero-padding {
+    padding: 0px 0px !important;
   }
 }
-@media only screen and  (max-width: 767px){
-  .project-details-card-div2{
+@media only screen and (max-width: 767px) {
+  .project-details-card-div2 {
     padding: 10px 0px !important;
-    .details-col{
+    .details-col {
       padding: 0px 30px;
     }
-    .circular-progressbar-col{
+    .circular-progressbar-col {
       padding: 0px 80px 20px 80px;
-      display:flex;
+      display: flex;
       flex-direction: column;
     }
-    .card-body{
+    .card-body {
       padding-bottom: 00px !important;
     }
   }

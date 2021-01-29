@@ -12,10 +12,9 @@ import {
 import Snackpop from "../shared/Snackpop";
 import { meetingRequestEmail } from "../shared/emailTemplates";
 
-
 const backendURI = require("../shared/BackendURI");
 
- class RequestMeeting extends Component {
+class RequestMeeting extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -25,28 +24,28 @@ const backendURI = require("../shared/BackendURI");
       item: this.props.project,
       group: this.props.group,
       snackbaropen: false,
-      snackbarmsg: '',
-      snackbarcolor: '',
-      groupId: '',
-      purpose: '',
-      time: '',
-      supervisor: '',
-      supervisorEmail: '',
-      supervisorFname: '',
-      supervisorLname: '',
-      super: '',
+      snackbarmsg: "",
+      snackbarcolor: "",
+      groupId: "",
+      purpose: "",
+      time: "",
+      supervisor: "",
+      supervisorEmail: "",
+      supervisorFname: "",
+      supervisorLname: "",
+      super: "",
       supervisorN: [],
       superOptionList: [],
-      selectValue: '',
+      selectValue: "",
       state: "pending",
-      purposeError: '',
-      dateError: '',
-      timeError: '',
-      supervisorError: '',
+      purposeError: "",
+      dateError: "",
+      timeError: "",
+      supervisorError: "",
       groupDetails: [],
       activeList: [],
       endedList: [],
-      project: '',
+      project: "",
 
       date: new Date(),
     };
@@ -59,11 +58,10 @@ const backendURI = require("../shared/BackendURI");
       await axios
         .get(
           backendURI.url +
-          "/users/getUserName/" +
-          this.state.group.supervisors[j]
+            "/users/getUserName/" +
+            this.state.group.supervisors[j]
         )
         .then((result) => {
-
           this.setState({
             supervisorN: [...this.state.supervisorN, result.data.data[0]],
           });
@@ -72,7 +70,6 @@ const backendURI = require("../shared/BackendURI");
           console.log(err);
         });
     }
-
   };
 
   closeAlert = () => {
@@ -98,12 +95,13 @@ const backendURI = require("../shared/BackendURI");
     this.setState({
       supervisor: e.target.value,
     });
-    await axios.get(backendURI.url + '/users/getSupervisorEmail/' + e.target.value)
-      .then(res => {
+    await axios
+      .get(backendURI.url + "/users/getSupervisorEmail/" + e.target.value)
+      .then((res) => {
         this.setState({
           supervisorEmail: res.data.data[0].email,
           supervisorFname: res.data.data[0].firstName,
-          supervisorLname: res.data.data[0].lastName
+          supervisorLname: res.data.data[0].lastName,
         });
       })
       .catch(function (error) {
@@ -154,14 +152,12 @@ const backendURI = require("../shared/BackendURI");
       modal: false,
     });
 
-
     const email = await meetingRequestEmail(
       this.state.supervisorEmail,
       this.state.group.groupId,
       this.state.purpose,
       this.state.supervisorFname,
-      this.state.supervisorLname,
-
+      this.state.supervisorLname
     );
 
     axios

@@ -44,16 +44,13 @@ export default class ConfirmMeeting extends Component {
       project: "",
       date: new Date(),
       time: "",
-      link:"",
+      link: "",
     };
 
     this.onSubmit = this.onSubmit.bind(this);
 
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onLinkChange = this.onLinkChange.bind(this);
-
-
-    
   }
 
   closeAlert = () => {
@@ -94,7 +91,6 @@ export default class ConfirmMeeting extends Component {
 
           groupId: response.data.data[0].groupId,
           groupNumber: response.data.data[0].groupNumber,
-
         });
       })
 
@@ -134,7 +130,6 @@ export default class ConfirmMeeting extends Component {
 
   onLinkChange(e) {
     this.setState({ link: e.target.value });
-
   }
 
   async onSubmit(e) {
@@ -178,9 +173,7 @@ export default class ConfirmMeeting extends Component {
         }
       });
 
-
     const email = await meetingRequestConfirmEmail(
-
       this.state.groupEmail,
       this.state.groupNumber,
       this.state.date,
@@ -278,7 +271,12 @@ export default class ConfirmMeeting extends Component {
                     </Row>
                     <div className="form-group">
                       <Label for="avatar">Link</Label>
-                      <Input type="textarea" className="form-control" name="link" onChange={this.onLinkChange} />
+                      <Input
+                        type="textarea"
+                        className="form-control"
+                        name="link"
+                        onChange={this.onLinkChange}
+                      />
                     </div>
 
                     <div className="form-group">

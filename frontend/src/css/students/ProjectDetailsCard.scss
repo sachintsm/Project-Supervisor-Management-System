@@ -1,55 +1,53 @@
-.my-project-details-card-div{
+.my-project-details-card-div {
   margin-bottom: 15px;
   padding: 0px 20px;
-  .project-details-card{
-    margin: 0px 0px
+  .project-details-card {
+    margin: 0px 0px;
   }
-  .project-details-card:hover{
+  .project-details-card:hover {
     border: 1.5px solid #263238;
     //margin-bottom: 1px;
     cursor: pointer;
     transform: scale(1.01);
     transition-duration: 0.5s;
   }
-  .card-header{
+  .card-header {
     background-color: #263238;
     color: white;
     font-size: 19px;
   }
-  .card-header2{
+  .card-header2 {
     background-color: #263238;
-    color: #BBB;
+    color: #bbb;
     font-size: 19px;
   }
-  .card-body{
-    background-color: #FBFBFB;
+  .card-body {
+    background-color: #fbfbfb;
     padding: 40px 25px 40px 0px;
   }
-  .circular-progressbar-col{
+  .circular-progressbar-col {
     padding: 0px 50px 6px 50px;
-    display:flex;
+    display: flex;
     flex-direction: column;
   }
-  .my-progress-bar{
-    flex:1 1 auto;
+  .my-progress-bar {
+    flex: 1 1 auto;
   }
-  .details-col{
-    display:flex;
+  .details-col {
+    display: flex;
     flex-direction: column;
-    .details-row{
-      flex:1 1 auto;
+    .details-row {
+      flex: 1 1 auto;
     }
   }
-
-
 }
-@media only screen and  (max-width: 767px){
-  .my-project-details-card-div{
+@media only screen and (max-width: 767px) {
+  .my-project-details-card-div {
     padding: 0px 8px;
-    .details-col{
+    .details-col {
       padding: 0px 40px;
     }
-    .card-body{
+    .card-body {
       padding-bottom: 20px !important;
     }
   }

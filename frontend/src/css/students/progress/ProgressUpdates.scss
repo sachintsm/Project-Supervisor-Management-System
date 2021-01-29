@@ -1,99 +1,92 @@
-.update-card-history-div{
-  padding: 0px 20px ;
-  .update-history-card{
+.update-card-history-div {
+  padding: 0px 20px;
+  .update-history-card {
     margin: 10px 0px;
     padding: 5px 15px;
   }
-  .description{
+  .description {
     //font-weight: bold;
     color: black;
     font-size: 17px;
   }
-  .update-history-card:hover{
-    background-color: #F5F5F5;
+  .update-history-card:hover {
+    background-color: #f5f5f5;
     transition-duration: 0.5s;
   }
-  .positive-progress{
+  .positive-progress {
     font-size: 30px;
-    color: #27d600 ;
+    color: #27d600;
   }
-  .negative-progress{
+  .negative-progress {
     font-size: 30px;
     color: red;
   }
-  .neutral-progress{
+  .neutral-progress {
     font-size: 30px;
   }
-  .task-title{
+  .task-title {
     font-size: 14px;
     color: #666;
   }
-  .task-title-span{
+  .task-title-span {
     background-color: #263238;
     color: white;
     padding: 5px 10px;
     border-radius: 10px;
   }
-  .name{
+  .name {
     font-size: 13px;
-    color: #666
+    color: #666;
   }
-  .progress-change-col{
+  .progress-change-col {
     padding-top: 0px !important;
     text-align: center;
   }
-
-
-
 }
 
-@media only screen and  (max-width: 1024px) {
-  .progress-update-div{
+@media only screen and (max-width: 1024px) {
+  .progress-update-div {
     padding: 0px 0px !important;
   }
-
 }
 
-@media only screen and  (max-width: 768px) {
-  .update-card-history-div{
+@media only screen and (max-width: 768px) {
+  .update-card-history-div {
     padding: 0px 0px;
-    .progress-change-col{
+    .progress-change-col {
       padding: 10px 0px 0px;
     }
   }
 }
-@media only screen and  (max-width: 600px) {
-  .update-card-history-div{
-    .description{
+@media only screen and (max-width: 600px) {
+  .update-card-history-div {
+    .description {
       font-size: 16px;
     }
-    .positive-progress{
+    .positive-progress {
       font-size: 20px;
-      color: #27d600 ;
+      color: #27d600;
     }
-    .negative-progress{
+    .negative-progress {
       font-size: 20px;
       color: red;
     }
-    .neutral-progress{
+    .neutral-progress {
       font-size: 20px;
     }
-    .task-title{
+    .task-title {
       font-size: 13px;
-      color: #666
+      color: #666;
     }
-    .name{
+    .name {
       font-size: 12px;
-      color: #666
+      color: #666;
     }
-    .progress-change-col{
+    .progress-change-col {
       padding-top: 10px !important;
       text-align: center;
     }
   }
-
 }
-@media only screen and  (max-width: 400px) {
-
-
+@media only screen and (max-width: 400px) {
 }

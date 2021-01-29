@@ -1,275 +1,284 @@
-.create-project-main{
-    min-height: 600px;
+.create-project-main {
+  min-height: 600px;
 
+  .container-fluid-di {
+    background-color: #f5f5f5;
+    width: 100%;
+  }
+
+  .csv-image {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 0px 0px !important;
+    text-align: center;
+  }
+
+  .csv-reader-div {
+    padding: 30px 40px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+
+  .img-col {
+    text-align: center;
+  }
+  .cp-text {
+    color: rgb(129, 129, 129);
+  }
+  .cp-text2 {
+    color: rgb(129, 129, 129);
+    padding-left: 100px;
+  }
+  .cp-head {
+    color: rgb(71, 71, 71);
+    margin-top: 30px;
+  }
+
+  .card-1 {
+    margin: auto;
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+    width: 80%;
+    padding-top: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 30px;
+  }
+
+  .card-2 {
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px !important;
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 30px;
+  }
+
+  .cp-coordinator {
+    margin-top: 0px;
+    width: 95%;
+    /*margin-left: -30px;*/
+  }
+
+  .multiselect-col {
+    width: 100% !important;
+  }
+
+  .cp-btn {
+    width: 50%;
+    margin: auto;
+  }
+
+  .table-row:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+
+  .edit-btn {
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+  }
+
+  .edit-btn:hover {
+    color: #17a2b8;
+    cursor: pointer;
+  }
+
+  .del-btn {
+    color: rgb(83, 83, 83);
+    padding-right: 5px;
+  }
+
+  .del-btn:hover {
+    color: rgb(214, 0, 0);
+    cursor: pointer;
+  }
+
+  .index-list-row {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+  }
+  .index-card-col {
+    padding: 10px 10px !important;
+  }
+  .index-card {
+    background-color: #f9f9f9;
+    padding: 1px 5px;
+    margin: 0px 0px !important;
+  }
+  .index-card-body {
+    padding: 4px 5px !important;
+    text-align: start;
+    margin: 0px !important;
+  }
+  .index-delete-icon {
+    font-size: 24px;
+    color: indianred;
+    float: right;
+    display: flex;
+    align-items: center;
+  }
+  .index-delete-icon:hover {
+    color: red;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 767px) {
     .container-fluid-di {
-        background-color: #f5f5f5;
-        width: 100%;
-    }
-
-    .csv-image{
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 0px 0px !important;
-        text-align: center;
-    }
-
-    .csv-reader-div{
-        padding: 30px 40px;
-        border: 1px solid #DDD;
-        border-radius: 10px;
-    }
-
-    .img-col{
-        text-align: center;
-    }
-    .cp-text {
-        color: rgb(129, 129, 129);
+      background-color: #f5f5f5;
+      width: 100% !important;
     }
     .cp-text2 {
-        color: rgb(129, 129, 129);
-        padding-left: 100px;
+      color: rgb(129, 129, 129);
+      color: rgb(129, 129, 129);
+      padding-left: 40px;
     }
-    .cp-head{
-        color: rgb(71, 71, 71);
-        margin-top: 30px;
+    .full-width {
+      width: 95% !important;
     }
-
+    .zero-margin {
+      margin: 0px 0px !important;
+    }
+    .zero-padding {
+      padding: 0px 0px !important;
+    }
     .card-1 {
-        margin: auto;
-        margin-top: 50px !important;
-        margin-bottom: 50px  !important;
-        width: 80%;
-        padding-top: 30px;
-        padding-left: 60px;
-        padding-right: 60px;
-        padding-bottom: 30px;
+      margin: auto;
+      margin-top: 20px !important;
+      margin-bottom: 20px !important;
+      width: 100% !important;
+      padding: 20px 30px !important;
+    }
+    .csv-reader-div {
+      padding: 30px 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
     }
 
     .card-2 {
-        margin: auto;
-        margin-top: 50px;
-        margin-bottom: 50px !important;
-        width: 100%;
-        padding-top: 30px;
-        padding-left: 60px;
-        padding-right: 60px;
-        padding-bottom: 30px;
+      margin: auto;
+      margin-bottom: 20px !important;
+      width: 100%;
+      padding: 20px 30px !important;
     }
 
-    .cp-coordinator{
-        margin-top: 0px;
-        width : 95%;
-        /*margin-left: -30px;*/
+    .form-control-label {
+      font-size: 5px;
+      padding: 0px 15px !important;
     }
 
-    .multiselect-col{
-        width: 100% !important;
+    .title {
+      font-size: 20px;
+    }
+    .title2 {
+      font-size: 20px;
+      padding: 0px 30px;
+    }
+    .cp-coordinator {
+      margin-top: 0px;
+      width: 91%;
+      /*margin-left: -30px;*/
+    }
+    .cp-text {
+      font-size: 14px;
+      margin: 0px 0px 5px !important;
     }
 
-    .cp-btn{
-        width: 50%;
-        margin: auto;
+    .cp-text2 {
+      margin-top: 20px !important;
+    }
+    .placeholder-text {
+      width: 100%;
+      font-size: 14px !important;
     }
 
-    .table-row:hover{
-        background-color:#F5F5F5;
-        cursor: pointer;
+    .mt-30 {
+      margin-top: 15px;
+    }
+    .middle {
+      text-align: center;
+    }
+    .table-heading {
+      font-size: 13px;
+    }
+    .operation-column {
+      width: 35%;
     }
 
+    .create-project {
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        font-size: 13px;
+      }
 
-    .edit-btn{
-        color: rgb(83, 83, 83);
-        padding-right: 5px;
-    }
+      /* Hide table headers (but not display: none;, for accessibility) */
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
 
-    .edit-btn:hover{
-        color:#17A2B8;
-        cursor: pointer;
-    }
+      tr {
+        border: 1.1px solid #555;
+        border-radius: 10px;
+        padding: 3% 5%;
+        margin-bottom: 10px;
+      }
 
-
-    .del-btn{
-        color: rgb(83, 83, 83);
-        padding-right: 5px;
-    }
-
-    .del-btn:hover{
-        color: rgb(214, 0, 0);
-        cursor: pointer;
-    }
-
-    .index-list-row{
-        padding-left: 30px;
-        padding-right: 30px;
-        padding-top: 20px;
-    }
-    .index-card-col{
-        padding: 10px 10px !important;
-    }
-    .index-card{
-        background-color: #F9F9F9;
-        padding: 1px 5px;
-        margin: 0px 0px !important
-    }
-    .index-card-body{
-        padding: 4px 5px !important;
-        text-align: start;
+      p {
         margin: 0px !important;
+      }
+
+      td {
+        /* Behave  like a "row" */
+        /*border-bottom: 1px solid #eee;*/
+        position: relative;
+        padding: 0px !important;
+        padding-left: 50%;
+      }
+
+      td:before {
+        /*position: relative;*/
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        color: black;
+        font-weight: bold;
+      }
+
+      td:nth-of-type(1):before {
+        content: "Project Year";
+      }
+      td:nth-of-type(2):before {
+        content: "Project Type";
+      }
+      td:nth-of-type(3):before {
+        content: "Academic Year";
+      }
+      td:nth-of-type(4):before {
+        content: "Coordinators";
+      }
+      td:nth-of-type(5):before {
+        content: "State";
+      }
     }
-    .index-delete-icon{
-        font-size: 24px;
-        color: indianred;
-        float: right;
-        display: flex;
-        align-items: center;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .csv-reader-div {
+      padding: 30px 8px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
     }
-    .index-delete-icon:hover{
-        color: red;
-        cursor: pointer;
-    }
-
-    @media only screen and  (max-width: 767px) {
-        .container-fluid-di {
-            background-color: #f5f5f5;
-            width: 100% !important;
-        }
-        .cp-text2 {
-            color: rgb(129, 129, 129);
-            color: rgb(129, 129, 129);
-            padding-left: 40px;
-        }
-        .full-width{
-            width: 95% !important;
-        }
-        .zero-margin{
-            margin: 0px 0px !important;
-        }
-        .zero-padding{
-            padding: 0px 0px !important;
-        }
-        .card-1 {
-            margin: auto;
-            margin-top: 20px !important;
-            margin-bottom: 20px  !important;
-            width: 100% !important;
-            padding: 20px 30px  !important;
-        }
-        .csv-reader-div{
-            padding: 30px 20px;
-            border: 1px solid #DDD;
-            border-radius: 10px;
-        }
-
-        .card-2 {
-            margin: auto;
-            margin-bottom: 20px  !important;
-            width: 100%;
-            padding: 20px 30px  !important;
-        }
-
-        .form-control-label {
-            font-size: 5px;
-            padding: 0px 15px !important
-        }
-
-        .title{
-            font-size: 20px;
-        }
-        .title2{
-            font-size: 20px;
-            padding: 0px 30px
-        }
-        .cp-coordinator{
-            margin-top: 0px;
-            width : 91%;
-            /*margin-left: -30px;*/
-        }
-        .cp-text{
-            font-size: 14px;
-            margin: 0px 0px 5px !important;
-        }
-
-        .cp-text2{
-            margin-top: 20px !important;
-        }
-        .placeholder-text{
-            width: 100%;
-            font-size: 14px !important
-        }
-
-        .mt-30{
-            margin-top: 15px;
-        }
-        .middle{
-            text-align: center;
-        }
-        .table-heading{
-            font-size: 13px;
-        }
-        .operation-column{
-            width: 35%;
-        }
-
-        .create-project{
-            table, thead, tbody, th, td, tr {
-                display: block;
-                font-size: 13px;
-            }
-
-            /* Hide table headers (but not display: none;, for accessibility) */
-            thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-
-            tr {
-                border: 1.1px solid #555;
-                border-radius: 10px;
-                padding: 3% 5%;
-                margin-bottom: 10px;
-            }
-
-            p{
-                margin: 0px !important;
-            }
-
-            td {
-                /* Behave  like a "row" */
-                /*border-bottom: 1px solid #eee;*/
-                position: relative;
-                padding: 0px !important;
-                padding-left: 50%;
-            }
-
-            td:before {
-                /*position: relative;*/
-                top: 6px;
-                left: 6px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                color: black;
-                font-weight: bold;
-            }
-
-            td:nth-of-type(1):before { content: "Project Year"; }
-            td:nth-of-type(2):before { content: "Project Type"; }
-            td:nth-of-type(3):before { content: "Academic Year"; }
-            td:nth-of-type(4):before { content: "Coordinators"; }
-            td:nth-of-type(5):before { content: "State"; }
-        }
-
-    }
-
-
-    @media only screen and  (max-width: 767px) {
-
-        .csv-reader-div{
-            padding: 30px 8px;
-            border: 1px solid #DDD;
-            border-radius: 10px;
-        }
-    }
-
+  }
 }

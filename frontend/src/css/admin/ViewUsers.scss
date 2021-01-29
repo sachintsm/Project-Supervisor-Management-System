@@ -1,124 +1,125 @@
-.card{
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width:100%;
+.card {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 100%;
 }
 
-.sp_table{
-    margin-left: 30px;
-    margin-right: 30px;
+.sp_table {
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
-
-.sp_head{
-    margin-left: 30px;
-    margin-top: 30px;
-
+.sp_head {
+  margin-left: 30px;
+  margin-top: 30px;
 }
 
-.btn-info{
-    height: 40px;
-    width: 100px;
-    background-color: blue;
+.btn-info {
+  height: 40px;
+  width: 100px;
+  background-color: blue;
 }
 
-.tit{
-   color: #263238;
+.tit {
+  color: #263238;
 }
-.del-btn{
-    color: rgb(83, 83, 83);
-    padding-right: 5px;
-}
-
-.del-btn:hover{
-    color: rgb(214, 0, 0);
-    transition: 0.5s;
-    cursor: pointer;
-}
-.edit-btn{
-    color: rgb(83, 83, 83);
-    padding-right: 5px;
+.del-btn {
+  color: rgb(83, 83, 83);
+  padding-right: 5px;
 }
 
-.edit-btn:hover{
-    color:#17A2B8;
-    transition: 0.5s;
-    cursor: pointer;
+.del-btn:hover {
+  color: rgb(214, 0, 0);
+  transition: 0.5s;
+  cursor: pointer;
+}
+.edit-btn {
+  color: rgb(83, 83, 83);
+  padding-right: 5px;
 }
 
-.vu-table{
-    margin: 22px;
+.edit-btn:hover {
+  color: #17a2b8;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
-.vu-search-box{
-    margin: auto;
-    margin-top: 30px;
-    width: 93%;
+.vu-table {
+  margin: 22px;
+}
+
+.vu-search-box {
+  margin: auto;
+  margin-top: 30px;
+  width: 93%;
 }
 /* On screens that are 600px or less, set the background color to olive */
 
 @media screen and (max-width: 500px) {
-    .vu-search-box{
-        width: 90%;
+  .vu-search-box {
+    width: 90%;
+  }
+  .vu-table {
+    margin: 0px;
+  }
+  .vu-table-hover {
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+      font-size: 13px;
     }
-    .vu-table{
-        margin: 0px;
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
     }
-    .vu-table-hover {
-        table, thead, tbody, th, td, tr {
-            display: block;
-            font-size: 13px;
-        }
-        /* Hide table headers (but not display: none;, for accessibility) */
-        thead tr {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-        }
-        tr {
-            border: 1px solid rgb(212, 212, 212);
-            border-radius: 3px;
-            padding: 3% 5%;
-            margin-bottom : 10px;
-        }
-        p {
-            margin: 0px !important;
-        }
-        td {
-            /* Behave  like a "row" */
-            /*border-bottom: 1px solid #eee;*/
-            position: relative;
-            padding: 0px !important;
-            padding-left: 50%;
-        }
-        td:before {
-            /*position: relative;*/
-            top: 6px;
-            left: 6px;
-            width: 45%;
-            padding-right: 10px;
-            white-space: nowrap;
-            color: rgb(49, 49, 49);
-            font-weight: bold;
-        }
-        
-        td:nth-of-type(1):before {
-            content: "Name";
-        }
-        td:nth-of-type(2):before {
-            content: "Email";
-        }
-        td:nth-of-type(3):before {
-            content: "Nic";
-        }
-        td:nth-of-type(4):before {
-            content: "Mobile";
-        }
-        td:nth-of-type(5):before {
-            content: "Action";
-        }
-        
-        
+    tr {
+      border: 1px solid rgb(212, 212, 212);
+      border-radius: 3px;
+      padding: 3% 5%;
+      margin-bottom: 10px;
     }
+    p {
+      margin: 0px !important;
+    }
+    td {
+      /* Behave  like a "row" */
+      /*border-bottom: 1px solid #eee;*/
+      position: relative;
+      padding: 0px !important;
+      padding-left: 50%;
+    }
+    td:before {
+      /*position: relative;*/
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      color: rgb(49, 49, 49);
+      font-weight: bold;
+    }
+
+    td:nth-of-type(1):before {
+      content: "Name";
+    }
+    td:nth-of-type(2):before {
+      content: "Email";
+    }
+    td:nth-of-type(3):before {
+      content: "Nic";
+    }
+    td:nth-of-type(4):before {
+      content: "Mobile";
+    }
+    td:nth-of-type(5):before {
+      content: "Action";
+    }
+  }
 }

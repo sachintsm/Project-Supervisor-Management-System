@@ -1,128 +1,134 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 import { getFromStorage } from "../../../utils/Storage";
 import { Row, Col } from "reactstrap";
-import '../../../css/coordinator/GroupData.scss';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { confirmAlert } from 'react-confirm-alert';
-import SupervisorDetails from '../SupervisorDetails';
+import "../../../css/coordinator/GroupData.scss";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import { confirmAlert } from "react-confirm-alert";
+import SupervisorDetails from "../SupervisorDetails";
 
-const backendURI = require('../../shared/BackendURI');
+const backendURI = require("../../shared/BackendURI");
 
 class supervisorBlock {
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-    }
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
+  }
 }
 
 class StudentList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      supervisorList: [],
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            supervisorList: [],
-
-            snackbaropen: false,
-            snackbarmsg: '',
-            snackbarcolor: '',
-        }
-
-    }
-
-    closeAlert = () => {
-        this.setState({ snackbaropen: false });
+      snackbaropen: false,
+      snackbarmsg: "",
+      snackbarcolor: "",
     };
-    
-    componentDidMount = async () => {
-        this.setState({
-            supervisorList: []
-        })
-        const headers = {
-            'auth-token': getFromStorage('auth-token').token,
+  }
+
+  closeAlert = () => {
+    this.setState({ snackbaropen: false });
+  };
+
+  componentDidMount = async () => {
+    this.setState({
+      supervisorList: [],
+    });
+    const headers = {
+      "auth-token": getFromStorage("auth-token").token,
+    };
+
+    await axios
+      .get(backendURI.url + "/users/supervisorList/" + this.props.obj, {
+        headers: headers,
+      })
+      .then((res) => {
+        if (res) {
+          if (res.data.data !== undefined) {
+            const _id = res.data.data._id;
+            const name = res.data.data.firstName + " " + res.data.data.lastName;
+
+            let block = new supervisorBlock(_id, name);
+            this.setState({
+              supervisorList: [...this.state.supervisorList, block],
+            });
+          }
         }
+      });
+  };
 
-        await axios.get(backendURI.url + '/users/supervisorList/' + this.props.obj, { headers: headers }).then(res => {
-            if (res) {
-
-                if (res.data.data !== undefined) {
-                    const _id = res.data.data._id
-                    const name = res.data.data.firstName + " " + res.data.data.lastName
-
-                    let block = new supervisorBlock(_id, name)
-                    this.setState({
-                        supervisorList: [...this.state.supervisorList, block]
-                    })
+  delete(data) {
+    let id = data;
+    confirmAlert({
+      title: "Confirm to delete",
+      message: "Are you sure to remove this supervisor from the group?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            const data = {
+              _id: this.props.id,
+              index: id,
+            };
+            axios
+              .post(
+                backendURI.url + "/createGroups/removeSupervisorIndex",
+                data
+              )
+              .then((res) => {
+                if (res.data.state === false) {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "error",
+                  });
+                } else {
+                  this.setState({
+                    snackbaropen: true,
+                    snackbarmsg: res.data.msg,
+                    snackbarcolor: "success",
+                  });
+                  window.location.reload();
                 }
-            }
-        })
-    }
+              });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {},
+        },
+      ],
+    });
+  }
 
-    delete(data) {
-        let id = data
-        confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure to remove this supervisor from the group?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: async () => {
-                        const data = {
-                            _id: this.props.id,
-                            index: id
-                        }
-                        axios.post(backendURI.url + '/createGroups/removeSupervisorIndex', data)
-                            .then(res => {
-                                if (res.data.state === false) {
-                                    this.setState({
-                                        snackbaropen: true,
-                                        snackbarmsg: res.data.msg,
-                                        snackbarcolor: 'error',
-                                    })
-                                }
-                                else {
-                                    this.setState({
-                                        snackbaropen: true,
-                                        snackbarmsg: res.data.msg,
-                                        snackbarcolor: 'success',
-                                    })
-                                    window.location.reload()
-                                }
-                            })
-
-
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-
-                    }
-                }
-            ]
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.supervisorList.map((user) => {
-                    return (
-                        <div key={user.id} className="sl-card-super">
-                            <Row >
-                                <Col md="10" xs="10">
-                                    <span className="stu-index-data">  <SupervisorDetails id={user.id} name={user.name} /> </span>
-                                </Col>
-                                <Col md="2" xs="2">
-                                    <DeleteForeverIcon className="gd-del-btn" onClick={() => this.delete(user.id)} />
-                                </Col>
-                            </Row>
-                        </div>
-                    )
-                })}
+  render() {
+    return (
+      <div>
+        {this.state.supervisorList.map((user) => {
+          return (
+            <div key={user.id} className="sl-card-super">
+              <Row>
+                <Col md="10" xs="10">
+                  <span className="stu-index-data">
+                    {" "}
+                    <SupervisorDetails id={user.id} name={user.name} />{" "}
+                  </span>
+                </Col>
+                <Col md="2" xs="2">
+                  <DeleteForeverIcon
+                    className="gd-del-btn"
+                    onClick={() => this.delete(user.id)}
+                  />
+                </Col>
+              </Row>
             </div>
-        );
-    }
+          );
+        })}
+      </div>
+    );
+  }
 }
 
 export default StudentList;

@@ -1,176 +1,176 @@
 .gd-fullpage {
-    background-color: #f8f8f8;
-    min-height: 730px;
+  background-color: #f8f8f8;
+  min-height: 730px;
 }
 .gd-card {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .gd-reg-head {
-    /* margin-left: 20px; */
-    margin-top: 20px;
-    font-size: 30px;
-    color: #444444;
-    font-weight: 500;
+  /* margin-left: 20px; */
+  margin-top: 20px;
+  font-size: 30px;
+  color: #444444;
+  font-weight: 500;
 }
-.stu-index-data{
-    margin-top: 5px;
-    display : inline-block;
+.stu-index-data {
+  margin-top: 5px;
+  display: inline-block;
 }
 .gd-reg-email {
-    margin-bottom: 20px;
-    margin-top: -15px;
-    font-size: 15px;
-    color: #747474;
-    font-weight: 500;
+  margin-bottom: 20px;
+  margin-top: -15px;
+  font-size: 15px;
+  color: #747474;
+  font-weight: 500;
 }
 .gd-topic {
-    font-size: 23px;
-    color: #444444;
-    font-weight: 500;
-    margin-bottom: 50px;
+  font-size: 23px;
+  color: #444444;
+  font-weight: 500;
+  margin-bottom: 50px;
 }
 
 .gd-del-btn {
-    color: #5e5e5e;
-    margin-right: 10px;
-    margin-left: -10px;
-    margin-top: 7px;
+  color: #5e5e5e;
+  margin-right: 10px;
+  margin-left: -10px;
+  margin-top: 7px;
 }
 .gd-del-btn:hover {
-    color: #a02828;
-    font-size: 25px;
-    transition: 0.5s;
+  color: #a02828;
+  font-size: 25px;
+  transition: 0.5s;
 }
 
 /*************************Student List ****************/
 
 .sl-text {
-    font-size: 16px;
-    padding-top: 5px;
-    padding-left: 10px;
-    color: #5e5e5e;
+  font-size: 16px;
+  padding-top: 5px;
+  padding-left: 10px;
+  color: #5e5e5e;
 }
 
 .sd-sl-card-student {
-    // margin-top: 35px;
-    height: 40px;
+  // margin-top: 35px;
+  height: 40px;
 }
 
 .sl-card-super {
-    // margin-top: -35px;
-    height: 40px;
+  // margin-top: -35px;
+  height: 40px;
 }
 
 .sd-sl-card-student:hover {
-    background-color: rgb(248, 248, 248);
-    cursor: pointer;
-    transition: 0.5s;
+  background-color: rgb(248, 248, 248);
+  cursor: pointer;
+  transition: 0.5s;
 }
 
 .sl-card-super:hover {
-    background-color: rgb(248, 248, 248);
-    cursor: pointer;
-    transition: 0.5s;
+  background-color: rgb(248, 248, 248);
+  cursor: pointer;
+  transition: 0.5s;
 }
-.sl-topic{
-    color: #3b3b3b;
-    font-size: 25px;
-    text-align: center;
-    font-weight: 500;
-    margin-top:10px;
+.sl-topic {
+  color: #3b3b3b;
+  font-size: 25px;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 10px;
 }
 /***********************************************************************************/
 
 .task-card-gd {
-    // margin-top: -50px;
-    .card-header {
-        background-color: #263238;
-        color: white;
-        font-size: 18px;
-    }
-    .circular-progress-div {
-        padding: 5% 30% 8% 30%;
-        text-align: center;
-    }
-    .delete-span {
-        float: right;
-        font-size: 26px;
-        display: flex;
-        align-items: center;
-    }
-    .delete-span:hover {
-        color: red;
-        transform: scale(1.45);
-    }
+  // margin-top: -50px;
+  .card-header {
+    background-color: #263238;
+    color: white;
+    font-size: 18px;
+  }
+  .circular-progress-div {
+    padding: 5% 30% 8% 30%;
+    text-align: center;
+  }
+  .delete-span {
+    float: right;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+  }
+  .delete-span:hover {
+    color: red;
+    transform: scale(1.45);
+  }
 }
 
 /*****************Submission part ************************************************/
 
-.text-sub-gd{
-    color: rgb(71, 71, 71);
-    font-weight: 500;
-    font-family: roboto, sans;
-    margin-top: 10px;
+.text-sub-gd {
+  color: rgb(71, 71, 71);
+  font-weight: 500;
+  font-family: roboto, sans;
+  margin-top: 10px;
 }
-.cd-sub-card-unit:hover{
-    background-color: rgb(226, 226, 226);
-    cursor: pointer;
-    transition: 0.5s;
+.cd-sub-card-unit:hover {
+  background-color: rgb(226, 226, 226);
+  cursor: pointer;
+  transition: 0.5s;
 }
 
 @media screen and (max-width: 500px) {
-    .gd-add-btn {
-        margin-bottom: 20px;
-    }
-    .sl-text {
-        font-size: 15px;
-        // padding-top: 5px;
-        padding-left: 10px;
-        color: #444444;
-    }
-    .sd-sl-card-student {
-        margin-bottom: 20px;
-        height: 90px;
-    }
-    .sl-card-super {
-        // margin-top: -35px;
-        height: 40px;
-    }
-    .gd-topic {
-        font-size: 18px;
-        color: #444444;
-        font-weight: 500;
-    }
-    .gd-topic-2 {
-        font-size: 18px;
-        color: #444444;
-        font-weight: 500;
-    }
-    .gd-reg-head {
-        margin-bottom: 20px;
-        padding-top: 20px;
-        font-size: 25px;
-        color: #444444;
-        font-weight: 500;
-    }
-    .gd-reg-email {
-        margin-bottom: 20px;
-        font-size: 15px;
-        color: #747474;
-        font-weight: 500;
-    }
-    .gd-del-btn {
-        color: #5c5c5c;
-        margin-right: 10px;
-        margin-left: -10px;
-    }
-    .gd-add-div {
-        margin-top: -10px;
-        margin-bottom: 20px;
-    }
-    .stu-index-data{
-        margin-top: 5px;
-        display : inline-block;
-    }
+  .gd-add-btn {
+    margin-bottom: 20px;
+  }
+  .sl-text {
+    font-size: 15px;
+    // padding-top: 5px;
+    padding-left: 10px;
+    color: #444444;
+  }
+  .sd-sl-card-student {
+    margin-bottom: 20px;
+    height: 90px;
+  }
+  .sl-card-super {
+    // margin-top: -35px;
+    height: 40px;
+  }
+  .gd-topic {
+    font-size: 18px;
+    color: #444444;
+    font-weight: 500;
+  }
+  .gd-topic-2 {
+    font-size: 18px;
+    color: #444444;
+    font-weight: 500;
+  }
+  .gd-reg-head {
+    margin-bottom: 20px;
+    padding-top: 20px;
+    font-size: 25px;
+    color: #444444;
+    font-weight: 500;
+  }
+  .gd-reg-email {
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #747474;
+    font-weight: 500;
+  }
+  .gd-del-btn {
+    color: #5c5c5c;
+    margin-right: 10px;
+    margin-left: -10px;
+  }
+  .gd-add-div {
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
+  .stu-index-data {
+    margin-top: 5px;
+    display: inline-block;
+  }
 }

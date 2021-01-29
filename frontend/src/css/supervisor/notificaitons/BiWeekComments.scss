@@ -1,40 +1,32 @@
-.biWeekComments{
+.biWeekComments {
   min-height: 660px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   padding-bottom: 30px;
 
-  .div-container{
-
-  }
-
-  .title-div{
+  .title-div {
     text-align: center;
     padding-top: 30px;
   }
 
-  .card-div{
-  }
-
-  .comments-card{
+  .comments-card {
     padding: 40px 50px;
   }
 
-  .comments.div{
+  .comments.div {
     margin-top: 30px;
     //padding: 40px 50px;
   }
 
-  .sub-title1{
+  .sub-title1 {
     margin-bottom: 20px !important;
   }
 
-  .sub-title2{
+  .sub-title2 {
     margin-top: 30px;
     margin-bottom: 20px;
   }
 
-  .no-comments{
+  .no-comments {
     color: grey;
   }
-
 }

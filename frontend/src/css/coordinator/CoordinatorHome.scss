@@ -1,83 +1,83 @@
 .ch-topic {
-    font-size: 28px;
-    font-family: roboto, sans;
-    font-weight: 500;
-    color: #444444;
+  font-size: 28px;
+  font-family: roboto, sans;
+  font-weight: 500;
+  color: #444444;
 }
 
 .ch-topic-div {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .ch-card-ch-div {
-    /* margin: 0px; */
-    margin-bottom: 0px;
+  /* margin: 0px; */
+  margin-bottom: 0px;
 }
 
 .ch-project-name {
-    margin-left: 20px;
-    margin-top: 20px;
-    color: #ffffff;
-    font-family: roboto, sans;
-    font-size: 24px;
-    font-weight: 500;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: #ffffff;
+  font-family: roboto, sans;
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .ch-project-name-div {
-    background-color: #17a2b8;
+  background-color: #17a2b8;
 }
 
 .ch-btn-row {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .ch-btn-btn {
-    width: 110%;
-    margin-bottom: 10px;
+  width: 110%;
+  margin-bottom: 10px;
 }
 
 .ch-project-date {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .ch-title {
-    font-size: 16px;
-    color: #747474;
-    font-family: roboto, sans;
+  font-size: 16px;
+  color: #747474;
+  font-family: roboto, sans;
 }
 
 .ch-body {
-    font-size: 16px;
-    color: #444444;
-    font-weight: bold;
-    font-family: roboto, sans;
+  font-size: 16px;
+  color: #444444;
+  font-weight: bold;
+  font-family: roboto, sans;
 }
 
 .no-projects {
-    color: #858585;
-    text-align: center;
+  color: #858585;
+  text-align: center;
 }
 
 .task-card-ch {
-    // margin-top: -50px;
-    .card-header {
-        background-color: #263238;
-        color: white;
-        font-size: 18px;
-    }
-    .circular-progress-div {
-        padding: 5% 30% 8% 30%;
-        text-align: center;
-    }
-    .delete-span {
-        float: right;
-        font-size: 26px;
-        display: flex;
-        align-items: center;
-    }
-    .delete-span:hover {
-        color: red;
-        transform: scale(1.45);
-    }
+  // margin-top: -50px;
+  .card-header {
+    background-color: #263238;
+    color: white;
+    font-size: 18px;
+  }
+  .circular-progress-div {
+    padding: 5% 30% 8% 30%;
+    text-align: center;
+  }
+  .delete-span {
+    float: right;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+  }
+  .delete-span:hover {
+    color: red;
+    transform: scale(1.45);
+  }
 }

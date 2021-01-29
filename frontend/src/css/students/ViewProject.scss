@@ -1,45 +1,45 @@
-.open-project-background-color{
+.open-project-background-color {
   background-color: #f5f5f5 !important;
   padding-top: 50px;
   padding-bottom: 50px;
 }
 
-.open-project{
-  padding:20px 100px !important;
+.open-project {
+  padding: 20px 100px !important;
 
-  .student-details-row{
-    border-bottom: 1px solid #CCC;
+  .student-details-row {
+    border-bottom: 1px solid #ccc;
   }
-  .bold-text{
+  .bold-text {
     font-weight: bold;
   }
-  .title-div{
+  .title-div {
     padding: 10px 0px;
     text-align: center;
   }
-  .normal-text{
+  .normal-text {
     font-weight: normal;
   }
-  .project-detail-card1{
+  .project-detail-card1 {
     margin-top: 10px;
     margin-left: 0px;
     padding: 5% 5% 0% 5% !important;
   }
-  .project-detail-card2{
+  .project-detail-card2 {
     margin-top: 10px;
     margin-right: 0px;
-     padding: 5% 5% 5% 5% !important;
-   }
-  .project-progress{
+    padding: 5% 5% 5% 5% !important;
+  }
+  .project-progress {
     padding: 10px 60px 30px 0px;
   }
-  .title{
+  .title {
     margin-bottom: 5%;
   }
-  .spinner{
+  .spinner {
     align-content: center;
   }
-  .table-col{
+  .table-col {
     padding-right: 0px !important;
   }
   .dot {
@@ -51,13 +51,13 @@
     display: inline-block;
     vertical-align: top;
   }
-  .group-detail-table{
+  .group-detail-table {
     text-align: center;
   }
-  .btn-card-col{
-    padding: 0% 2%
+  .btn-card-col {
+    padding: 0% 2%;
   }
-  .btn-card{
+  .btn-card {
     margin: 00px 0px 20px 0px;
     padding: 5% 10%;
     cursor: pointer;
@@ -65,19 +65,20 @@
     border-radius: 20px;
     //border: 1px solid #f5f5f5;
   }
-  .btn-card:hover{
+  .btn-card:hover {
     transition: 0.5s;
     background-color: #263238;
     color: white;
-    .btn-title{
+    .btn-title {
       //border-top: 2px solid white;
       margin-top: 10px;
       color: white;
-    }  .btn-title{
-         border-top: 1.8px solid white;
-       }
+    }
+    .btn-title {
+      border-top: 1.8px solid white;
+    }
   }
-  .btn-row{
+  .btn-row {
     padding-left: 7%;
     padding-right: 7%;
     margin-top: 20px;
@@ -86,7 +87,7 @@
     //vertical-align: middle;
     size: 2em !important;
   }
-  .btn-title{
+  .btn-title {
     align-content: center;
     vertical-align: center;
     border-top: 1.8px solid #263238;
@@ -96,84 +97,76 @@
   }
 }
 
-
-@media only screen and  (max-width: 1024px){
-
-  .open-project{
-    padding:20px 50px !important;
-    .bold-text{
+@media only screen and (max-width: 1024px) {
+  .open-project {
+    padding: 20px 50px !important;
+    .bold-text {
       font-size: 13px;
     }
-    .normal-text{
+    .normal-text {
       font-size: 13px;
     }
-    .table-col{
+    .table-col {
       padding-left: 0px !important;
     }
-    .project-progress{
+    .project-progress {
       padding: 30px 20px 20px 20px;
     }
-    .project-detail-card1{
+    .project-detail-card1 {
       padding: 5% 5% 4% 5% !important;
     }
-    .btn-title{
-      font-size: 14px ;
+    .btn-title {
+      font-size: 14px;
     }
   }
-
-
 }
 
-@media only screen and  (max-width: 768px){
-  .open-project{
-    padding:20px 20px !important;
-    .bold-text{
+@media only screen and (max-width: 768px) {
+  .open-project {
+    padding: 20px 20px !important;
+    .bold-text {
       font-size: 12px;
     }
-    .normal-text{
+    .normal-text {
       font-size: 11px;
     }
-    .project-detail-card{
+    .project-detail-card {
       padding: 3% 5% !important;
       margin: 0% 0% !important;
     }
-    .my-col{
-      padding-top: 5px!important;
-      padding-bottom: 10px!important;
+    .my-col {
+      padding-top: 5px !important;
+      padding-bottom: 10px !important;
     }
 
-    .project-progress{
+    .project-progress {
       padding: 30px 100px 20px 100px;
     }
-    .btn-title{
-      font-size: 10px ;
+    .btn-title {
+      font-size: 10px;
     }
-    .group-detail-table{
+    .group-detail-table {
       text-align: start;
       padding-left: 20px;
     }
-    .btn-card-col{
+    .btn-card-col {
       padding: 0% 1%;
     }
-    .project-detail-card1{
+    .project-detail-card1 {
       margin: 5px 2px !important;
     }
-    .project-detail-card2{
+    .project-detail-card2 {
       margin: 5px 2px !important;
     }
-    .btn-card{
+    .btn-card {
       margin-top: 15px;
       margin-bottom: 0px;
     }
   }
 }
 
-
-@media only screen and  (max-width: 768px){
-  .open-project{
+@media only screen and (max-width: 768px) {
+  .open-project {
     padding: 10px 0px !important;
-    .project-detail-card-div{
-
-    }
   }
 }

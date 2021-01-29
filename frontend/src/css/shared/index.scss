@@ -1,53 +1,53 @@
 .index-data {
-    .image {
-        width: 100% !important;
-        background-color: #37393f;
-        padding: 3%;
-        border-radius: 3%;
-    }
-    .text-name {
-        font-weight: 500;
-        font-family: roboto, sans;
-        font-size: 22px;
-        color: #494949;
-    }
-    .text {
-        color: #525252;
-        font-weight: 500;
-        font-family: roboto, sans;
-        font-size: 14px;
-    }
-    .data-div {
-        background-color: rgb(247, 247, 247);
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .text-cont {
-        margin-left: -10px;
-        font-weight: 400;
-        font-family: Georgia, "Times New Roman", Times, serif;
-    }
+  .image {
+    width: 100% !important;
+    background-color: #37393f;
+    padding: 3%;
+    border-radius: 3%;
+  }
+  .text-name {
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 22px;
+    color: #494949;
+  }
+  .text {
+    color: #525252;
+    font-weight: 500;
+    font-family: roboto, sans;
+    font-size: 14px;
+  }
+  .data-div {
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .text-cont {
+    margin-left: -10px;
+    font-weight: 400;
+    font-family: Georgia, "Times New Roman", Times, serif;
+  }
 }
 
 .supervisor-data {
-    .sup-image {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 40% !important;
-        background-color: #3d3d3d;
-        padding: 1.5%;
-        border-radius: 3%;
-    }
-    .name{
-        color: #3d3d3d;
-        font-size: 23px;
-        font-weight: bold;
-    }
-    .details{
-        color: #535353;
-        margin-top:-15px;
-        font-size: 15px;
-        font-weight: 500;
-    }
+  .sup-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40% !important;
+    background-color: #3d3d3d;
+    padding: 1.5%;
+    border-radius: 3%;
+  }
+  .name {
+    color: #3d3d3d;
+    font-size: 23px;
+    font-weight: bold;
+  }
+  .details {
+    color: #535353;
+    margin-top: -15px;
+    font-size: 15px;
+    font-weight: 500;
+  }
 }

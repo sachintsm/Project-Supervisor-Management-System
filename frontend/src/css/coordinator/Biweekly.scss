@@ -1,215 +1,200 @@
-.proposel-style{
+.proposel-style {
+  .pro-back {
+    background-color: #f5f5f5;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    min-height: 450px;
+  }
+  .pro-head {
+    //width: 100%;
+    padding-left: 1%;
+    background-color: #263238;
+  }
 
-     .pro-back{
-       background-color: #f5f5f5;
-       padding-top: 50px;
-      padding-bottom: 10px;
-       min-height: 450px;
-          
-     }
-     .pro-head{
-       //width: 100%;
-       padding-left:1%;
-       background-color: #263238;
-     }
-     
-     .pro-grp-name{
-     
-       color: #FFFFFF;
-       font-family: roboto, sans;
-       font-size: 16px;
-       font-weight: 500;
-     }
-     
-     
-     .pro-tabs{
-       font-size: 16px;
-       margin-top: "20px";
-     }
-     
-     .pro-body{
-       padding-left:1%;
-     
-     }
-     .check-box{
-       margin-top: 24px;
-      // margin-left: 1px;
-     }
-     
-     
-     
-     //link card
-     
-     .pro-link-crd{
-       width: 100%;
-     }
-     
-     .pro-link-name{
-       padding-left:2%;
-       padding-top:3%;
-       font-family: roboto, sans;
-       font-size: 24px;
-       font-weight: 500;
-       
-     }
-     .pro-btn{
-       width: 40%;
-       align-items: center;
-       margin-left: 300px;
-     }
-     .pcrd_proposel-tittle-div{
-       background-color: #263238;
-       height: 26px;
-     }
-     .pcrd_proposel-name{
-      // margin-left :12px;
-       margin-top: 5px;
-       color: 	#FFFFFF;
-       font-family: roboto, sans;
-       font-size: 16px;
-       font-weight: 500;
-     }
-     
-     .pcrd_btn-row{
-       text-align:right;
-     
-     }
-     .delete-btn{
-       color: rgb(207, 207, 207);
-       padding-right: 5px;
-     }
-     
-     .delete-btn:hover {
-       color: rgb(214, 0, 0);
-       transition: 0.5s;
-       cursor: pointer;
-     }
-     .edit-btn{
-       color: rgb(207, 207, 207);
-       padding-right: 5px;
-     }
-     
-     .edit-btn:hover {
-       color: rgb(0, 214, 64);
-       transition: 0.5s;
-       cursor: pointer;
-     }
-     
-     .pcrd_user-name-div{
-       background-color:  #263238;
-       height: 20px;
-     }
-     
-     .pcrd_date{
-       font-size: 12px;
-      // margin-left :11px;
-       font-weight: 350;
-       font-family: roboto, sans;
-       color: 	#FFFFFF;
-     
-     }
-     
-     .pcrd-style{
-       margin-bottom: 2;
-     }
-     .dead_date{
-          margin-bottom: 2px;
-          color: rgb(37, 34, 34);
-          font-family: roboto, sans;
-          font-size:14px;
-        }
-        .dead_time{
-          color: rgb(37, 34, 34);
-          margin-bottom:2px;
-          font-family: roboto, sans;
-          font-size:14px;
-        }
-        
-        .pcrd_discription{
-          margin-top: 4px;
-          margin-bottom: 4px;
-          font-family: roboto, sans;
-          font-size:14px;
-        }
-     
-     .pro-btn-card-col{
-       padding: 0% 2%
-     }
-     .pro-btn-card{
-       margin: 10px 0px;
-       padding: 5% 10%;
-       cursor: pointer;
-       text-align: center;
-       border-radius: 20px;
-       //border: 1px solid #f5f5f5;
-     }
-     .pro-btn-card:hover{
-       transition: 0.5s;
-       background-color: #263238;
-       color: white;
-       .pro-btn-title{
-         //border-top: 2px solid white;
-         margin-top: 10px;
-         color: white;
-       }  .btn-title{
-            border-top: 1.8px solid white;
-          }
-     }
-     .viw-btn{
-       margin-bottom: 5px;
-     }
-     
-     
-     .pro-btn-row{
-       padding-left: 7%;
-       padding-right: 7%;
-       margin-top: 20px;
-     }
-     
-     .pro-btn-icon {
-       //vertical-align: middle;
-       size: 2em !important;
-     }
-     .pro-btn-title{
-       align-content: center;
-       vertical-align: center;
-       border-top: 1.8px solid #263238;
-       margin-top: 10px;
-       padding-top: 10px;
-       color: #263238;
-     }
-     .smallTag{
-       color: grey;
-     }
-     @media screen and (max-width: 500px) {
-     
-       .pro-link-name{
-         padding-left:6%;
-         padding-top:1%;
-         font-family: roboto, sans;
-         font-size: 18px;
-         font-weight: 500;
-         
-       }
-     
-       .pro-form{
-         padding-left: 2%;
-         padding-right: 2%;
-       }
-     
-       .pro-tabs{
-         font-size: 12px;
-         margin-top: "20px";
-         margin-bottom:"20px" ;
-       }
-     
-       .pro-btn{
-         width: 80%;
-         align-items: center;
-         margin-left: 30px;
-       }
-       
-     
-     }
-     
-     }
+  .pro-grp-name {
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .pro-tabs {
+    font-size: 16px;
+    margin-top: "20px";
+  }
+
+  .pro-body {
+    padding-left: 1%;
+  }
+  .check-box {
+    margin-top: 24px;
+    // margin-left: 1px;
+  }
+
+  //link card
+
+  .pro-link-crd {
+    width: 100%;
+  }
+
+  .pro-link-name {
+    padding-left: 2%;
+    padding-top: 3%;
+    font-family: roboto, sans;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .pro-btn {
+    width: 40%;
+    align-items: center;
+    margin-left: 300px;
+  }
+  .pcrd_proposel-tittle-div {
+    background-color: #263238;
+    height: 26px;
+  }
+  .pcrd_proposel-name {
+    // margin-left :12px;
+    margin-top: 5px;
+    color: #ffffff;
+    font-family: roboto, sans;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .pcrd_btn-row {
+    text-align: right;
+  }
+  .delete-btn {
+    color: rgb(207, 207, 207);
+    padding-right: 5px;
+  }
+
+  .delete-btn:hover {
+    color: rgb(214, 0, 0);
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  .edit-btn {
+    color: rgb(207, 207, 207);
+    padding-right: 5px;
+  }
+
+  .edit-btn:hover {
+    color: rgb(0, 214, 64);
+    transition: 0.5s;
+    cursor: pointer;
+  }
+
+  .pcrd_user-name-div {
+    background-color: #263238;
+    height: 20px;
+  }
+
+  .pcrd_date {
+    font-size: 12px;
+    // margin-left :11px;
+    font-weight: 350;
+    font-family: roboto, sans;
+    color: #ffffff;
+  }
+
+  .pcrd-style {
+    margin-bottom: 2;
+  }
+  .dead_date {
+    margin-bottom: 2px;
+    color: rgb(37, 34, 34);
+    font-family: roboto, sans;
+    font-size: 14px;
+  }
+  .dead_time {
+    color: rgb(37, 34, 34);
+    margin-bottom: 2px;
+    font-family: roboto, sans;
+    font-size: 14px;
+  }
+
+  .pcrd_discription {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-family: roboto, sans;
+    font-size: 14px;
+  }
+
+  .pro-btn-card-col {
+    padding: 0% 2%;
+  }
+  .pro-btn-card {
+    margin: 10px 0px;
+    padding: 5% 10%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 20px;
+    //border: 1px solid #f5f5f5;
+  }
+  .pro-btn-card:hover {
+    transition: 0.5s;
+    background-color: #263238;
+    color: white;
+    .pro-btn-title {
+      //border-top: 2px solid white;
+      margin-top: 10px;
+      color: white;
+    }
+    .btn-title {
+      border-top: 1.8px solid white;
+    }
+  }
+  .viw-btn {
+    margin-bottom: 5px;
+  }
+
+  .pro-btn-row {
+    padding-left: 7%;
+    padding-right: 7%;
+    margin-top: 20px;
+  }
+
+  .pro-btn-icon {
+    //vertical-align: middle;
+    size: 2em !important;
+  }
+  .pro-btn-title {
+    align-content: center;
+    vertical-align: center;
+    border-top: 1.8px solid #263238;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #263238;
+  }
+  .smallTag {
+    color: grey;
+  }
+  @media screen and (max-width: 500px) {
+    .pro-link-name {
+      padding-left: 6%;
+      padding-top: 1%;
+      font-family: roboto, sans;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .pro-form {
+      padding-left: 2%;
+      padding-right: 2%;
+    }
+
+    .pro-tabs {
+      font-size: 12px;
+      margin-top: "20px";
+      margin-bottom: "20px";
+    }
+
+    .pro-btn {
+      width: 80%;
+      align-items: center;
+      margin-left: 30px;
+    }
+  }
+}

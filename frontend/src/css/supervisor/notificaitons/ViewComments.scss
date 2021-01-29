@@ -1,37 +1,36 @@
-.view-comments{
-  background-color: #FCFCFC !important;
+.view-comments {
+  background-color: #fcfcfc !important;
   padding: 15px 30px !important;
   margin: 15px 0px !important;
 
-  .date-time{
+  .date-time {
     font-size: 12px;
   }
 
-  .author{
+  .author {
     font-size: 14px;
   }
 
-  .delete-button-col{
-    display:flex;
+  .delete-button-col {
+    display: flex;
     flex-direction: column;
   }
 
-  .delete-span{
+  .delete-span {
     float: right;
     font-size: 26px;
-    flex:1 1 auto;
+    flex: 1 1 auto;
     color: palevioletred;
   }
-  .delete-span:hover{
+  .delete-span:hover {
     color: red;
     transform: scale(1.45);
     transition-duration: 0.5s;
     cursor: pointer;
   }
-
 }
 
-.view-comments:hover{
+.view-comments:hover {
   background-color: white !important;
   //cursor: pointer;
 }
