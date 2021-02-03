@@ -72,4 +72,40 @@ describe("Test Case 1 : Login", () => {
       );
     });
   });
+
+  it("Login Student", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get("form").find("input").first().type("sachin@gmail.com");
+    cy.get("form").find("input").last().type("950880333v");
+    cy.get("form").contains("Login").click();
+    cy.contains("Login")
+      .click()
+      .then(() => {
+        cy.url().should("eq", "http://localhost:3000/" + "studenthome");
+      });
+  });
+
+  it("Missing @ in the email", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get("form").find("input").first().type("sachingmail.com");
+    cy.get("form").find("input").last().type("950880333v");
+    cy.get("form").contains("Login").click();
+    cy.get('[type="email"]').then(($input) => {
+      expect($input[0].validationMessage).to.eq(
+        "Please include an '@' in the email address. 'sachingmail.com' is missing an '@'."
+      );
+    });
+  });
+
+  it("Login Supervisor", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get("form").find("input").first().type("nipuniwarakagoda@gmail.com");
+    cy.get("form").find("input").last().type("975732924v");
+    cy.get("form").contains("Login").click();
+    cy.contains("Login")
+      .click()
+      .then(() => {
+        cy.url().should("eq", "http://localhost:3000/" + "supervisorhome");
+      });
+  });
 });
