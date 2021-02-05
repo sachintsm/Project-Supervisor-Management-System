@@ -1,4 +1,4 @@
-describe("Test Case 3: ViewNotification", () => {
+describe("Test Case 5 : ViewProfile", () => {
   it("Login Student", () => {
     cy.visit("http://localhost:3000/");
     cy.get("form").find("input").first().type("sachin@gmail.com");
@@ -11,15 +11,12 @@ describe("Test Case 3: ViewNotification", () => {
       });
   });
 
-  it("View Notification", () => {
+  it("View Profile", () => {
     cy.visit("http://localhost:3000/studenthome");
-    cy.get("li.nav-item.mr-3")
+    cy.get("span.material-icons.MuiIcon-root")
       .click()
       .then(() => {
-        cy.url().should(
-          "eq",
-          "http://localhost:3000/studenthome/notifications"
-        );
+        cy.url().should("eq", "http://localhost:3000/profile");
       });
   });
 });
