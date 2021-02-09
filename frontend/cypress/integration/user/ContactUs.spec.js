@@ -1,4 +1,4 @@
-describe("Test Case 1 : ContactUs", () => {
+describe("Test Case 2 : ContactUs", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/");
     cy.get("form").find("input").first().type("3rdyeargroupproject0@gmail.com");
