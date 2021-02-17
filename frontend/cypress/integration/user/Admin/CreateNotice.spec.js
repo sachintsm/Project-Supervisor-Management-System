@@ -1,4 +1,16 @@
 describe("Test Case 4 : Notices", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:3000/");
+    cy.get("form").find("input").first().type("3rdyeargroupproject0@gmail.com");
+    cy.get("form").find("input").last().type("admin123");
+    cy.get("form").contains("Login").click();
+    cy.contains("Login")
+      .click()
+      .then(() => {
+        cy.url().should("eq", "http://localhost:3000/" + "adminhome");
+      });
+  });
+
   it("Login Admin", () => {
     cy.visit("http://localhost:3000/");
     cy.get("form").find("input").first().type("3rdyeargroupproject0@gmail.com");
@@ -9,19 +21,9 @@ describe("Test Case 4 : Notices", () => {
       .then(() => {
         cy.url().should("eq", "http://localhost:3000/" + "adminhome");
       });
-    //   beforeEach(() => {
-    //     cy.visit("http://localhost:3000/");
-    //     cy.get("form").find("input").first().type("3rdyeargroupproject0@gmail.com");
-    //     cy.get("form").find("input").last().type("admin123");
-    //     cy.get("form").contains("Login").click();
-    //     cy.contains("Login")
-    //       .click()
-    //       .then(() => {
-    //         cy.url().should("eq", "http://localhost:3000/" + "adminhome");
-    //       });
   });
 
-  it("Create Notice", () => {
+  it("Create and submit a Notice", () => {
     cy.visit("http://localhost:3000/adminhome");
     cy.contains("Notices").click();
     cy.contains("Create Notice")
@@ -29,25 +31,46 @@ describe("Test Case 4 : Notices", () => {
       .then(() => {
         cy.url().should("eq", "http://localhost:3000/shared/notice");
       });
+    cy.contains("Creating New Notice");
+    cy.get("input").first().type("Presentation Schedules");
+    cy.get("textarea").type("criteria for the registration");
+    cy.get('[type="checkbox"]').check();
+    cy.contains("Add Notice").click();
+    cy.contains("Confirm to submit");
+    cy.contains("Yes").click();
   });
 
-  // it("Create Notice", () => {
-  //   cy.visit("http://localhost:3000/shared/notice");
-  //   cy.contains("Creating New Notice").click();
-  //   cy.get("input[name='NoticeTittle']").type("Molly");
-  // });
+  it("Notice Title Required validation", () => {
+    cy.visit("http://localhost:3000/adminhome");
+    cy.contains("Notices").click();
+    cy.contains("Create Notice")
+      .click()
+      .then(() => {
+        cy.url().should("eq", "http://localhost:3000/shared/notice");
+      });
+    cy.contains("Creating New Notice");
+    // cy.get("input").first().type("Presentation Schedules");
+    cy.get("textarea").type("criteria for the registration");
+    cy.get('[type="checkbox"]').check();
+    cy.contains("Add Notice").click();
+    // cy.contains("Confirm to submit");
+    // cy.contains("Yes").click();
+  });
 
-  //   it("Can fill the form", () => {
-  //     cy.visit("http://localhost:3000/adminhome");
-  //     cy.contains("Notices").click();
-  //     cy.contains("Create Notice")
-  //       .click()
-  //       .then(() => {
-  //         cy.url().should("eq", "http://localhost:3000/shared/notice");
-
-  //       });
-  //     // cy.visit("http://localhost:3000/shared/notice");
-  //     cy.contains("Creating New Notice");
-
-  //     cy.get("input[name='NoticeTittle']").type("Molly");
+  it("Notice Content Required validation", () => {
+    cy.visit("http://localhost:3000/adminhome");
+    cy.contains("Notices").click();
+    cy.contains("Create Notice")
+      .click()
+      .then(() => {
+        cy.url().should("eq", "http://localhost:3000/shared/notice");
+      });
+    cy.contains("Creating New Notice");
+    cy.get("input").first().type("Presentation Schedules");
+    // cy.get("textarea").type("criteria for the registration");
+    cy.get('[type="checkbox"]').check();
+    cy.contains("Add Notice").click();
+    // cy.contains("Confirm to submit");
+    // cy.contains("Yes").click();
+  });
 });
