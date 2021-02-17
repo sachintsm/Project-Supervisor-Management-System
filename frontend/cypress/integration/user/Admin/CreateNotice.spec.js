@@ -31,6 +31,12 @@ describe("Test Case 4 : Notices", () => {
       });
   });
 
+  // it("Create Notice", () => {
+  //   cy.visit("http://localhost:3000/shared/notice");
+  //   cy.contains("Creating New Notice").click();
+  //   cy.get("input[name='NoticeTittle']").type("Molly");
+  // });
+
   //   it("Can fill the form", () => {
   //     cy.visit("http://localhost:3000/adminhome");
   //     cy.contains("Notices").click();
@@ -38,6 +44,7 @@ describe("Test Case 4 : Notices", () => {
   //       .click()
   //       .then(() => {
   //         cy.url().should("eq", "http://localhost:3000/shared/notice");
+
   //       });
   //     // cy.visit("http://localhost:3000/shared/notice");
   //     cy.contains("Creating New Notice");
