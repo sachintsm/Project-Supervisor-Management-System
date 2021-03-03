@@ -18,6 +18,13 @@ describe("Test Case 6: Courses", () => {
       .click()
       .then(() => {
         cy.url().should("eq", "http://localhost:3000/adminhome/projecttypes");
+        cy.contains("Add New Course Type");
+        cy.get("input").first().type("Undergraduate");
+        cy.get("input").last().type("CS");
+        cy.get('[type="checkbox"]').first().check();
+        cy.contains("Add Type Now").click();
+        cy.contains("Project Type");
+        cy.contains("Yes").click();
       });
   });
 });
