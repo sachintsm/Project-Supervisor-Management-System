@@ -29,7 +29,6 @@ describe("Test Case 11: Update Users", () => {
               "http://localhost:3000/editprofile/5eb7a9217ff4246104d8320f"
             );
             cy.contains("Update User");
-            // cy.get("input[name=contactNumber]").type("0758693212");
             cy.get("input").last().type("0758693212");
             cy.contains("Confirm to reset");
             cy.contains("Yes").click();
@@ -55,9 +54,6 @@ describe("Test Case 11: Update Users", () => {
               "http://localhost:3000/editprofile/5eb7a9217ff4246104d8320f"
             );
             cy.contains("Reset Password");
-            // cy.get("input[name=contactNumber]").type("0758693212");
-            // cy.get("input").last().type("0758693212");
-            // cy.contains("Confirm to reset");
             cy.contains("Reset password").click();
             cy.contains("Confirm to reset");
             cy.contains("Yes").click();
