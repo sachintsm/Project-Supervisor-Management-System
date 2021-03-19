@@ -18,6 +18,8 @@ describe("Test Case 7: CreateCourses", () => {
       .click()
       .then(() => {
         cy.url().should("eq", "http://localhost:3000/adminhome/createproject");
+        // cy.contains("Create Course");
+        // cy.get("dropdown-toggle.btn-btn-secondary").contains("2019").click();
       });
   });
 });
