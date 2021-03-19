@@ -13,7 +13,7 @@ describe("Test Case 18: Profile", () => {
 
   // it("Profile Settings", () => {
   //   cy.visit("http://localhost:3000/coordinatorhome");
-  //   cy.get("mui-64144").click();
+  //   cy.get("span.material-icons.MuiIcon-root").click();
   //   cy.contains("Settings")
   //     // .first()
   //     .click()

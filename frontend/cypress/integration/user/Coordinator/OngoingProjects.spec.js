@@ -26,14 +26,15 @@ describe("Test Case 14: OngoingProjects", () => {
 
   it("Project Details", () => {
     cy.visit("http://localhost:3000/coordinatorhome");
-    cy.contains("2020 BIT 2nd Year");
-    cy.contains("Supervisor").click();
+    cy.contains("On-going Projects");
+    cy.contains("Supervisors")
+      .click()
 
-    //   .then(() => {
-    //     cy.url().should(
-    //       "eq",
-    //       "http://localhost:3000/coordinatorhome/projectdata/Supervisors/5f15be22fc9bc73774ef3b8e"
-    //     );
-    //   });
+      .then(() => {
+        cy.url().should(
+          "eq",
+          "http://localhost:3000/coordinatorhome/projectdata/Supervisors/5f15be22fc9bc73774ef3b8e"
+        );
+      });
   });
 });
