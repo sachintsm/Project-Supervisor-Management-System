@@ -25,8 +25,9 @@ describe("Test Case 14: OngoingProjects", () => {
   //   });
 
   it("Project Details", () => {
-    cy.visit("http://localhost:3000/coordinatorhome");
+    cy.visit("http://localhost:3000/" + "coordinatorhome");
     cy.contains("On-going Projects");
+    cy.get("2020 BIT 2nd Year");
     cy.contains("Supervisors")
       .click()
 
