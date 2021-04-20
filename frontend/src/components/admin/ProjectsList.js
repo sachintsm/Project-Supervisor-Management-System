@@ -102,25 +102,6 @@ class CreateProject extends Component {
     }
   }
 
-  // componentDidUpdate() {
-  //
-  //   const headers = {
-  //     'auth-token':getFromStorage('auth-token').token,
-  //   }
-  //   axios
-  //       .get(backendURI.url + '/users/stafflist',{headers: headers})
-  //       .then((result) => {
-  //         if (result.data.length > 0) {
-  //           this.setState({
-  //             staffList: result.data.map((user) => user),
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  // }
-
   onCreateProject() {
     confirmAlert({
       title: "Projects",
@@ -462,14 +443,6 @@ class CreateProject extends Component {
   };
 
   render() {
-    // const { yearsArray } = this.state;
-    // let yearList = yearsArray.length > 0
-    //   && yearsArray.map((item, i) => {
-    //     return (
-    //       <Dropdown.Item key={i} eventKey={item}>{item}</Dropdown.Item>
-    //     )
-    //   }, this);
-
     return (
       <React.Fragment>
         <Snackpop

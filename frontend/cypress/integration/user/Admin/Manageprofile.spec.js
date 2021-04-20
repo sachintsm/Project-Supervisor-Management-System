@@ -11,12 +11,12 @@ describe("Test Case 10 : Manage Profile", () => {
       });
   });
 
-  //   it("View Profile", () => {
-  //     cy.visit("http://localhost:3000/adminhome");
-  //     cy.get("mui-38882")
-  //       .click()
-  //       .then(() => {
-  //         cy.url().should("eq", "http://localhost:3000/profile");
-  //       });
-  //   });
+  // it("View Profile", () => {
+  //   cy.visit("http://localhost:3000/adminhome");
+  //   cy.get("mui-38882")
+  //     .click()
+  //     .then(() => {
+  //       cy.url().should("eq", "http://localhost:3000/profile");
+  //     });
+  // });
 });
