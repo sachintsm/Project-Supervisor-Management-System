@@ -9,6 +9,7 @@ var supervisorRequestSchema = Schema({
     timestamp: {type: String},
     date: {type: String},
     time: {type: String},
+    status: {type: String}
 
 });
 
