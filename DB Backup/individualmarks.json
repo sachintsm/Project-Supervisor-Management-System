@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5fa6a79069c2331e903c48ef"},"studentList":["17000001","17000002","17000003","17000004"],"individualMarks":["4","3","4","2"],"biweekId":"5f9e699b6490e60f7e34fcca","biweekLinkId":"5f9e699b6490e60f7e34fcca","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5fa96699d0da4e03d4cd67bb"},"studentList":["17000001","17000002","17000003","17000004"],"individualMarks":["4","4","4","4"],"biweekId":"5f9e69d46490e60f7e34fccc","biweekLinkId":"5f9e69d46490e60f7e34fccc","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5fa96722d0da4e03d4cd67bc"},"studentList":["17000001","17000002","17000003","17000004"],"individualMarks":["5","3","3","4"],"biweekId":"5fa821a1943a8720f48124b4","biweekLinkId":"5fa821a1943a8720f48124b4","__v":{"$numberInt":"0"}}
