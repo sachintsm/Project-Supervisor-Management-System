@@ -28,7 +28,7 @@
     "mdbreact": "^4.26.1",
     "multer": "^1.4.2",
     "multiselect-react-dropdown": "^1.6.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.0",
     "react-animated-css": "^1.2.1",
